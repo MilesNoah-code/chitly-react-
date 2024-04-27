@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -7,8 +7,14 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
+
+import { GetHeader } from 'src/hooks/AxiosApiFetch';
+
+import { MEMBER_LIST, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import { users } from 'src/_mock/user';
 
@@ -20,7 +26,10 @@ import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
 import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
+import ProductSort from '../../products/product-sort';
+import ProductFilters from '../../products/product-filters';
 import { emptyRows, applyFilter, getComparator } from '../utils';
+
 
 // ----------------------------------------------------------------------
 
@@ -36,6 +45,38 @@ export default function UserPage() {
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [user, setUser] = useState([]);
+
+  const [openFilter, setOpenFilter] = useState(false);
+
+  const handleOpenFilter = () => {
+    setOpenFilter(true);
+  };
+
+  const handleCloseFilter = () => {
+    setOpenFilter(false);
+  };
+
+
+  useEffect(() => {
+    
+  }, []);
+
+  const GetMemberList = (IsValidate) => {
+    const url = REACT_APP_HOST_URL + MEMBER_LIST;
+    console.log(url);
+    fetch(url, GetHeader(localStorage.getItem('apiToken')))
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(JSON.stringify(json));
+        if (json.success) {
+          setUser(json.list);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
 
   const handleSort = (event, id) => {
     const isAsc = orderBy === id && order === 'asc';
@@ -103,14 +144,32 @@ export default function UserPage() {
           New User
         </Button>
       </Stack>
-
+      
       <Card>
-        <UserTableToolbar
-          numSelected={selected.length}
-          filterName={filterName}
-          onFilterName={handleFilterByName}
+        <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
+        <OutlinedInput
+          value={filterName}
+          onChange={handleFilterByName}
+          placeholder="Search user..."
+          startAdornment={
+            <InputAdornment position="start">
+              <Iconify
+                icon="eva:search-fill"
+                sx={{ color: 'text.disabled', width: 20, height: 20 }}
+              />
+            </InputAdornment>
+          }
         />
+        </Stack>
+        <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
+          <ProductFilters
+            openFilter={openFilter}
+            onOpenFilter={handleOpenFilter}
+            onCloseFilter={handleCloseFilter}
+          />
 
+          <ProductSort />
+        </Stack>
         <Scrollbar>
           <TableContainer sx={{ overflow: 'unset' }}>
             <Table sx={{ minWidth: 800 }}>

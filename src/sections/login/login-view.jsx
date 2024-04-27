@@ -13,10 +13,17 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import { useRouter } from 'src/routes/hooks';
 
+import { PostHeader } from 'src/hooks/AxiosApiFetch';
+
+import { isValidEmail } from 'src/utils/Validator';
+import { LOGIN_URL, REACT_APP_HOST_URL } from 'src/utils/api-constant';
+
 import { bgGradient } from 'src/theme/css';
+import { pxToRem } from 'src/theme/typography';
 
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
+
 
 // ----------------------------------------------------------------------
 
@@ -24,22 +31,113 @@ export default function LoginView() {
   const theme = useTheme();
 
   const router = useRouter();
-
   const [showPassword, setShowPassword] = useState(false);
+  const [UserName, setUserName] = useState("");
+  const [Password, setPassword] = useState("");
+  const [UsernameError, setUsernameError] = useState("");
+  const [PasswordError, setPasswordError] = useState("");
 
-  const handleClick = () => {
-    router.push('/dashboard');
+  const Params = {
+    "username": UserName,
+    "password": Password
+  }
+
+  const LoginMethod = (IsValidate) => {
+    if (IsValidate) {
+      const url = REACT_APP_HOST_URL + LOGIN_URL;
+      console.log(JSON.stringify(Params) + url);
+      fetch(url, PostHeader('', Params))
+        .then((response) => response.json())
+        .then((json) => {
+          console.log(JSON.stringify(json));
+          if (json.success) {
+            localStorage.setItem(
+              "apiToken",
+              JSON.stringify(json.apiToken)
+            );
+            localStorage.setItem(
+              "userDetails",
+              JSON.stringify(json.userDetails)
+            );
+            router.push('/dashboard');
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+  }
+
+  const HandleEmailValue = (e) => {
+    const email = e.target.value;
+    setUserName(email);
+    if (email !== "") {
+      if (isValidEmail(email)) {
+        setUsernameError("");
+      } else {
+        setUsernameError("Please enter the valid Email!");
+      }
+    } else {
+      setUsernameError("* Required");
+    }
   };
+
+  const validatePassword = (e) => {
+    const passwordVal = e.target.value;
+    setPassword(passwordVal);
+    if (passwordVal !== "") {
+      setPasswordError("");
+    } else {
+      setPasswordError("* Required");
+    }
+  };
+
+  const ValidateLoginClick = () => {
+    let IsValidate = true;
+    if (!UserName) {
+      IsValidate = false;
+      setUsernameError("* Required");
+    } else if (!isValidEmail(UserName)) {
+      IsValidate = false;
+      setUsernameError("Please enter the valid Email!");
+    } else {
+      setUsernameError("");
+    }
+    if (!Password) {
+      IsValidate = false;
+      setPasswordError("* Required");
+    } else {
+      setPasswordError("");
+    }
+    LoginMethod(IsValidate);
+  }
+
+  document.body.onkeydown = (e) => {
+    if (e.key === 'Enter') {
+      ValidateLoginClick();
+    }
+  };
+
+  const HandleClick = () => {
+    router.push('/dashboard');
+  }
 
   const renderForm = (
     <>
       <Stack spacing={3}>
-        <TextField name="email" label="Email address" />
-
+        <TextField 
+        name="email" 
+        label="Email address" 
+          value={UserName}
+          onChange={(e) => HandleEmailValue(e)}
+        />
+        <div style={{ color: '#ce0820', fontSize: pxToRem(12), marginTop: pxToRem(5) }}>{UsernameError}</div>
         <TextField
           name="password"
           label="Password"
           type={showPassword ? 'text' : 'password'}
+          value={Password}
+          onChange={(e) => validatePassword(e)}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -51,7 +149,7 @@ export default function LoginView() {
           }}
         />
       </Stack>
-
+      <div style={{ color: '#ce0820', fontSize: pxToRem(12), marginTop: pxToRem(5) }}>{PasswordError}</div>
       <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
         <Link variant="subtitle2" underline="hover">
           Forgot password?
@@ -64,7 +162,7 @@ export default function LoginView() {
         type="submit"
         variant="contained"
         color="inherit"
-        onClick={handleClick}
+        onClick={ValidateLoginClick}
       >
         Login
       </LoadingButton>

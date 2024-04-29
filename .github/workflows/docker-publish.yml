@@ -29,6 +29,9 @@ jobs:
         run: |
           CI=false npm run build
           ls
+          cd dist
+          ls
+          cd ..
           pwd
       - name: Build and Push Container
         id: get_tag_name

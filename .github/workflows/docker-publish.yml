@@ -1,0 +1,53 @@
+name: Docker
+on:
+  push:
+    branches: [Production]
+env:
+  PROJECT_ID: stutzenme
+  IMAGE_NAME: chitly-react
+  IMAGE_TAG: 2.0
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+    steps:
+      - name: Checking out code
+        uses: actions/checkout@v3
+      - name: Installing Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "19"
+          cache: 'npm'
+      - name: Installing dependencies
+        run: |
+          npm install
+          npm i react-router-dom
+          npm i axios
+      - name: Building project
+        run: |
+          CI=false npm run build
+          ls
+          pwd
+      - name: Build and Push Container
+        id: get_tag_name
+        run: |-
+          #echo ${{secrets.P12KEY}} | base64 -d > ./mmt-key.p12
+          #echo ${{secrets.KEY_FILE_IAR_GAC}} | base64 -d > ./gac-key.json
+          ls
+      - name: Setup Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.2.0
+        with:
+          project_id: ${{env.PROJECT_ID}}
+          service_account_key: ${{ secrets.GCLOUD_SERVICE_KEY }}
+          export_default_credentials: true  # Set to true to authenticate the Cloud Run action
+      - name: Authorize Docker push
+        run: gcloud auth configure-docker
+      - name: Build and Push Container
+        run: |-
+          ls
+          IMAGE_TAG=1.0.0
+          docker build -t gcr.io/${{env.PROJECT_ID}}/${{env.IMAGE_NAME}}:${IMAGE_TAG} .
+          docker push gcr.io/${{env.PROJECT_ID}}/${{env.IMAGE_NAME}}:${IMAGE_TAG}
+          echo ${IMAGE_TAG}

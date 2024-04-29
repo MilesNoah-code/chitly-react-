@@ -29,9 +29,6 @@ jobs:
         run: |
           CI=false npm run build
           ls
-          cd dist
-          ls
-          cd ..
           pwd
       - name: Build and Push Container
         id: get_tag_name
@@ -50,6 +47,9 @@ jobs:
       - name: Build and Push Container
         run: |-
           ls
+          cd dist
+          ls
+          cd ..
           IMAGE_TAG=1.0.0
           docker build -t gcr.io/${{env.PROJECT_ID}}/${{env.IMAGE_NAME}}:${IMAGE_TAG} .
           docker push gcr.io/${{env.PROJECT_ID}}/${{env.IMAGE_NAME}}:${IMAGE_TAG}

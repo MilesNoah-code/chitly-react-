@@ -15,7 +15,8 @@ RUN echo "ServerName laravel" >> /etc/apache2/apache2.conf
 RUN adduser -D admin apache -h /var/www/laravel/public
 WORKDIR /var/www/laravel
 
-COPY . /var/www/laravel/
+COPY ./dist /var/www/laravel/
+RUN ls
 #RUN mkdir /var/www/laravel/storage/framework/sessions
 #RUN mkdir /var/www/laravel/storage/framework/views
 #RUN mv gac-key.json /var/www/

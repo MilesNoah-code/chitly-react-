@@ -22,7 +22,6 @@ export default function UserTableRow({
   avatarUrl,
   company,
   role,
-  isVerified,
   status,
   handleClick,
 }) {
@@ -55,8 +54,6 @@ export default function UserTableRow({
         <TableCell>{company}</TableCell>
 
         <TableCell>{role}</TableCell>
-
-        <TableCell align="center">{isVerified ? 'Yes' : 'No'}</TableCell>
 
         <TableCell>
           <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
@@ -97,7 +94,6 @@ UserTableRow.propTypes = {
   avatarUrl: PropTypes.any,
   company: PropTypes.any,
   handleClick: PropTypes.func,
-  isVerified: PropTypes.any,
   name: PropTypes.any,
   role: PropTypes.any,
   selected: PropTypes.any,

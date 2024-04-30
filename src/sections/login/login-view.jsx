@@ -36,6 +36,7 @@ export default function LoginView() {
   const [Password, setPassword] = useState("");
   const [UsernameError, setUsernameError] = useState("");
   const [PasswordError, setPasswordError] = useState("");
+  const [Loading, setLoading] = useState(false);
 
   const Params = {
     "username": UserName,
@@ -44,12 +45,14 @@ export default function LoginView() {
 
   const LoginMethod = (IsValidate) => {
     if (IsValidate) {
+      setLoading(true);
       const url = REACT_APP_HOST_URL + LOGIN_URL;
       console.log(JSON.stringify(Params) + url);
       fetch(url, PostHeader('', Params))
         .then((response) => response.json())
         .then((json) => {
           console.log(JSON.stringify(json));
+          setLoading(false);
           if (json.success) {
             localStorage.setItem(
               "apiToken",
@@ -63,6 +66,7 @@ export default function LoginView() {
           }
         })
         .catch((error) => {
+          setLoading(false);
           console.log(error);
         })
     }
@@ -156,15 +160,17 @@ export default function LoginView() {
         </Link>
       </Stack>
 
+
       <LoadingButton
         fullWidth
         size="large"
         type="submit"
         variant="contained"
         color="inherit"
-        onClick={ValidateLoginClick}
-      >
-        Login
+        onClick={ValidateLoginClick} >
+        {Loading 
+          ? ( <img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, marginRight: '8px' }} />) 
+          : ( "Login" )}
       </LoadingButton>
     </>
   );

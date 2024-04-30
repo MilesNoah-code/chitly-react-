@@ -7,33 +7,34 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputAdornment from '@mui/material/InputAdornment';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
+
+import { useRouter } from 'src/routes/hooks';
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
 
 import { MEMBER_LIST, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import { users } from 'src/_mock/user';
+import { posts } from 'src/_mock/blog';
 
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
 import TableNoData from '../table-no-data';
+import PostSort from '../../blog/post-sort';
 import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
+import PostSearch from '../../blog/post-search';
 import TableEmptyRows from '../table-empty-rows';
-import UserTableToolbar from '../user-table-toolbar';
-import ProductSort from '../../products/product-sort';
-import ProductFilters from '../../products/product-filters';
 import { emptyRows, applyFilter, getComparator } from '../utils';
-
 
 // ----------------------------------------------------------------------
 
 export default function UserPage() {
+
+  const router = useRouter();
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -45,6 +46,8 @@ export default function UserPage() {
   const [filterName, setFilterName] = useState('');
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const UserDetail = JSON.parse(localStorage.getItem('userDetails'));
+  const Session = localStorage.getItem('apiToken');
   const [user, setUser] = useState([]);
 
   const [openFilter, setOpenFilter] = useState(false);
@@ -59,13 +62,14 @@ export default function UserPage() {
 
 
   useEffect(() => {
-    
+    GetMemberList();
   }, []);
 
-  const GetMemberList = (IsValidate) => {
-    const url = REACT_APP_HOST_URL + MEMBER_LIST;
-    console.log(url);
-    fetch(url, GetHeader(localStorage.getItem('apiToken')))
+  const GetMemberList = () => {
+    const url = REACT_APP_HOST_URL + MEMBER_LIST + UserDetail.userid;
+    console.log(url);;
+    console.log(GetHeader(Session))
+    fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
         console.log(JSON.stringify(json));
@@ -135,40 +139,29 @@ export default function UserPage() {
 
   const notFound = !dataFiltered.length && !!filterName;
 
+  const HandleAddMemberClick = () => {
+    router.push('/addMember');
+  }
+
   return (
     <Container>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">Users</Typography>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} >
+        <Typography variant="h4">Member List</Typography>
 
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-          New User
+        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddMemberClick}>
+          Add Member
         </Button>
       </Stack>
       
       <Card>
-        <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
-        <OutlinedInput
-          value={filterName}
-          onChange={handleFilterByName}
-          placeholder="Search user..."
-          startAdornment={
-            <InputAdornment position="start">
-              <Iconify
-                icon="eva:search-fill"
-                sx={{ color: 'text.disabled', width: 20, height: 20 }}
-              />
-            </InputAdornment>
-          }
-        />
-        </Stack>
-        <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
-          <ProductFilters
-            openFilter={openFilter}
-            onOpenFilter={handleOpenFilter}
-            onCloseFilter={handleCloseFilter}
+        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" justifyContent="space-between">
+          <PostSearch posts={posts} />
+          <PostSort
+            options={[
+              { value: 'active', label: 'Active' },
+              { value: 'inactive', label: 'InActive' },
+            ]}
           />
-
-          <ProductSort />
         </Stack>
         <Scrollbar>
           <TableContainer sx={{ overflow: 'unset' }}>
@@ -181,11 +174,10 @@ export default function UserPage() {
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
-                  { id: 'name', label: 'Name' },
-                  { id: 'company', label: 'Company' },
-                  { id: 'role', label: 'Role' },
-                  { id: 'isVerified', label: 'Verified', align: 'center' },
-                  { id: 'status', label: 'Status' },
+                  { id: 'Member Name', label: 'Member Name' },
+                  { id: 'Acc No', label: 'Acc No' },
+                  { id: 'Mobile Number', label: 'Mobile Number' },
+                  { id: 'Action', label: 'Action' },
                   { id: '' },
                 ]}
               />
@@ -200,7 +192,6 @@ export default function UserPage() {
                       status={row.status}
                       company={row.company}
                       avatarUrl={row.avatarUrl}
-                      isVerified={row.isVerified}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
                     />

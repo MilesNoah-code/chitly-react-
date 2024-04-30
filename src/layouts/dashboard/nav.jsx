@@ -29,6 +29,7 @@ export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
 
   const upLg = useResponsive('up', 'lg');
+  const UserDetail = JSON.parse(localStorage.getItem('userDetails'));
 
   useEffect(() => {
     if (openNav) {
@@ -50,13 +51,16 @@ export default function Nav({ openNav, onCloseNav }) {
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
       }}
     >
-      <Avatar src={account.photoURL} alt="photoURL" />
+      <Avatar src={UserDetail.photoURL} alt={UserDetail.first_name} >
+        {UserDetail.first_name[0]}
+      </Avatar>
 
-      <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">{account.displayName}</Typography>
+      <Box sx={{ ml: 2, flexDirection: 'row' }}>
+        <Typography variant="subtitle2">{(UserDetail.first_name !== null && UserDetail.first_name !== undefined) ? UserDetail.first_name : ''}</Typography>
+        <Typography variant="subtitle2">{(UserDetail.last_name !== null && UserDetail.last_name !== undefined) ? UserDetail.last_name : ''}</Typography>
 
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {account.role}
+        <Typography variant="body2" sx={{ color: 'text.secondary', display: 'none' }}>
+          {UserDetail.role_id}
         </Typography>
       </Box>
     </Box>

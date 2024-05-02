@@ -19,9 +19,9 @@ import Iconify from 'src/components/iconify';
 export default function UserTableRow({
   selected,
   name,
-  avatarUrl,
-  company,
-  role,
+  mapped_photo,
+  accno,
+  mapped_phone,
   status,
   handleClick,
 }) {
@@ -44,16 +44,16 @@ export default function UserTableRow({
 
         <TableCell component="th" scope="row" padding="none">
           <Stack direction="row" alignItems="center" spacing={2}>
-            <Avatar alt={name} src={avatarUrl} />
+            <Avatar alt={name} src={mapped_photo} >{name[0]}</Avatar>
             <Typography variant="subtitle2" noWrap>
               {name}
             </Typography>
           </Stack>
         </TableCell>
 
-        <TableCell>{company}</TableCell>
+        <TableCell>{accno}</TableCell>
 
-        <TableCell>{role}</TableCell>
+        <TableCell>{mapped_phone}</TableCell>
 
         <TableCell>
           <Label color={(status === 'banned' && 'error') || 'success'}>{status}</Label>
@@ -91,11 +91,11 @@ export default function UserTableRow({
 }
 
 UserTableRow.propTypes = {
-  avatarUrl: PropTypes.any,
-  company: PropTypes.any,
+  mapped_photo: PropTypes.any,
+  accno: PropTypes.any,
   handleClick: PropTypes.func,
   name: PropTypes.any,
-  role: PropTypes.any,
+  mapped_phone: PropTypes.any,
   selected: PropTypes.any,
   status: PropTypes.string,
 };

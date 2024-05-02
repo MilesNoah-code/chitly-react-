@@ -29,6 +29,7 @@ import UserTableHead from '../user-table-head';
 import PostSearch from '../../blog/post-search';
 import TableEmptyRows from '../table-empty-rows';
 import { emptyRows, applyFilter, getComparator } from '../utils';
+import { MenuItem, TextField } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -50,23 +51,14 @@ export default function UserPage() {
   const Session = localStorage.getItem('apiToken');
   const [user, setUser] = useState([]);
 
-  const [openFilter, setOpenFilter] = useState(false);
-
-  const handleOpenFilter = () => {
-    setOpenFilter(true);
-  };
-
-  const handleCloseFilter = () => {
-    setOpenFilter(false);
-  };
-
+  const [ActiveFilter, setActiveFilter] = useState(1);
 
   useEffect(() => {
-    GetMemberList();
+    GetMemberList(1);
   }, []);
 
-  const GetMemberList = () => {
-    const url = REACT_APP_HOST_URL + MEMBER_LIST + UserDetail.userid;
+  const GetMemberList = (isActive) => {
+    const url = REACT_APP_HOST_URL + MEMBER_LIST + isActive;
     console.log(url);;
     console.log(GetHeader(Session))
     fetch(url, GetHeader(JSON.parse(Session)))
@@ -92,7 +84,7 @@ export default function UserPage() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = users.map((n) => n.name);
+      const newSelecteds = user.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -132,7 +124,7 @@ export default function UserPage() {
   };
 
   const dataFiltered = applyFilter({
-    inputData: users,
+    inputData: user,
     comparator: getComparator(order, orderBy),
     filterName,
   });
@@ -142,6 +134,19 @@ export default function UserPage() {
   const HandleAddMemberClick = () => {
     router.push('/addMember');
   }
+
+  const options = [
+    { value: 1, label: 'Active' },
+    { value: 0, label: 'InActive' },
+  ];
+
+  const handleFilterByActive = (e) => {
+    const text = e.target.value;
+    console.log(text);
+    setPage(0);
+    setActiveFilter(text);
+    GetMemberList(text)
+  };
 
   return (
     <Container>
@@ -156,12 +161,13 @@ export default function UserPage() {
       <Card>
         <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" justifyContent="space-between">
           <PostSearch posts={posts} />
-          <PostSort
-            options={[
-              { value: 'active', label: 'Active' },
-              { value: 'inactive', label: 'InActive' },
-            ]}
-          />
+          <TextField select size="small" value={ActiveFilter} onChange={(e) => handleFilterByActive(e)}>
+            {options.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
         </Stack>
         <Scrollbar>
           <TableContainer sx={{ overflow: 'unset' }}>
@@ -169,7 +175,7 @@ export default function UserPage() {
               <UserTableHead
                 order={order}
                 orderBy={orderBy}
-                rowCount={users.length}
+                rowCount={user.length}
                 numSelected={selected.length}
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
@@ -188,10 +194,10 @@ export default function UserPage() {
                     <UserTableRow
                       key={row.id}
                       name={row.name}
-                      role={row.role}
+                      mapped_phone={row.mapped_phone}
                       status={row.status}
-                      company={row.company}
-                      avatarUrl={row.avatarUrl}
+                      accno={row.accno}
+                      mapped_photo={row.mapped_photo}
                       selected={selected.indexOf(row.name) !== -1}
                       handleClick={(event) => handleClick(event, row.name)}
                     />
@@ -199,7 +205,7 @@ export default function UserPage() {
 
                 <TableEmptyRows
                   height={77}
-                  emptyRows={emptyRows(page, rowsPerPage, users.length)}
+                  emptyRows={emptyRows(page, rowsPerPage, user.length)}
                 />
 
                 {notFound && <TableNoData query={filterName} />}
@@ -211,7 +217,7 @@ export default function UserPage() {
         <TablePagination
           page={page}
           component="div"
-          count={users.length}
+          count={user.length}
           rowsPerPage={rowsPerPage}
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}

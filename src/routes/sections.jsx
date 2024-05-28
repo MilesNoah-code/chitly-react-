@@ -41,8 +41,8 @@ export default function Router() {
         { path: 'addGroup', element: <GroupAddPage /> },
         { path: 'chitreceipt', element: <ChitReceiptPage /> },
         { path: 'addChitReceipt', element: <ChitReceiptAddPage /> },
-        { path: 'chitpayment', element: <ChitPaymentAddPage /> },
-        { path: 'addChitPayment', element: <GroupAddPage /> },
+        { path: 'chitpayment', element: <ChitPaymentPage /> },
+        { path: 'addChitPayment', element: <ChitPaymentAddPage /> },
       ],
     },{
       element: <LoginPage />,

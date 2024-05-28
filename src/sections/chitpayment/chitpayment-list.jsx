@@ -2,9 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Dialog, DialogActions, DialogTitle, } from '@mui/material';
 import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
 import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
@@ -12,17 +10,15 @@ import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import { Button, Dialog, DialogTitle, DialogActions, } from '@mui/material';
 
 import { DeleteHeader } from 'src/hooks/AxiosApiFetch';
 
-import { GROUP_DELETE, REACT_APP_HOST_URL } from 'src/utils/api-constant';
+import { REACT_APP_HOST_URL, CHIT_PAYMENT_DELETE } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
 
-import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
-
-// ----------------------------------------------------------------------
 
 export default function ChitPaymentTableRow({
   key,
@@ -43,7 +39,7 @@ export default function ChitPaymentTableRow({
 
   const GroupDeleteMethod = (id) => {
     setLoading(true);
-    const url = REACT_APP_HOST_URL + GROUP_DELETE + id;
+    const url = REACT_APP_HOST_URL + CHIT_PAYMENT_DELETE + id;
     console.log(url);
     console.log(Session);
     fetch(url, DeleteHeader(JSON.parse(Session)))
@@ -80,16 +76,9 @@ export default function ChitPaymentTableRow({
     console.log(item)
     setOpen(null);
     if (from === "view") {
-      navigate('/addGroup', {
+      navigate('/addChitPayment', {
         state: {
           screen: 'view',
-          data: item,
-        },
-      });
-    } else if (from === "edit") {
-      navigate('/addGroup', {
-        state: {
-          screen: 'edit',
           data: item,
         },
       });
@@ -142,6 +131,8 @@ export default function ChitPaymentTableRow({
           <TableCell>{item.auction_mode}</TableCell>
 
           <TableCell>{item.amount}</TableCell>
+          <TableCell>{item.amount}</TableCell>
+          <TableCell>{item.amount}</TableCell>
 
           <TableCell align="right">
             <IconButton onClick={handleOpenMenu}>
@@ -163,11 +154,6 @@ export default function ChitPaymentTableRow({
           <Iconify icon="eva:eye-fill" sx={{ mr: 2 }} />
           View
         </MenuItem>
-        <MenuItem onClick={() => HandleSelectMenu("edit")}>
-          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
-
         <MenuItem onClick={() => setConfirmAlert(true)} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
           Delete

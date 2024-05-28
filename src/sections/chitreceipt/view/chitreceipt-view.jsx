@@ -10,7 +10,13 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-import { Dialog, MenuItem, TextField, IconButton, InputAdornment } from '@mui/material';
+import { Dialog, TextField, IconButton, InputAdornment } from '@mui/material';
+import dayjs from 'dayjs';
+
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
 
@@ -32,31 +38,34 @@ export default function ChitReceiptView() {
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
-
   const [selected, setSelected] = useState([]);
-
   const [orderBy, setOrderBy] = useState('name');
-
   const [filterName, setFilterName] = useState('');
-
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const Session = localStorage.getItem('apiToken');
   const [ChitReceiptList, setChitReceiptList] = useState([]);
   const [ChitReceiptLoading, setChitReceiptLoading] = useState(true);
-  const [ActiveFilter, setActiveFilter] = useState(1);
   const [Alert, setAlert] = useState(false);
   const [AlertMessage, setAlertMessage] = useState('');
   const [AlertFrom, setAlertFrom] = useState('');
   const [ErrorAlert, setErrorAlert] = useState(false);
   const [ErrorScreen, setErrorScreen] = useState('');
+  const [FromDate, setFromDate] = useState({
+    data: null,
+    searchdata: "",
+  });
+  const [ToDate, setToDate] = useState({
+    data: null,
+    searchdata: "",
+  });
 
   useEffect(() => {
-    GetChitReceiptList(1, "");
+    GetChitReceiptList("", "", "");
   }, []);
 
-  const GetChitReceiptList = (isActive, text) => {
+  const GetChitReceiptList = (fromdate, todate, text) => {
     setChitReceiptLoading(true);
-    const url = REACT_APP_HOST_URL + CHIT_RECEIPT_LIST + isActive + "&search=" + text;
+    const url = REACT_APP_HOST_URL + CHIT_RECEIPT_LIST + fromdate + "&toDate=" + todate + "&search=" + text;
     console.log(url);
     console.log(GetHeader(Session))
     fetch(url, GetHeader(JSON.parse(Session)))
@@ -130,7 +139,7 @@ export default function ChitReceiptView() {
   const handleFilterByName = (event) => {
     setPage(0);
     setFilterName(event.target.value);
-    GetChitReceiptList(ActiveFilter, event.target.value);
+    GetChitReceiptList(FromDate.searchdata, ToDate.searchdata, event.target.value);
   };
 
   const HandleAddChitReceiptClick = () => {
@@ -142,19 +151,6 @@ export default function ChitReceiptView() {
     });
   }
 
-  const options = [
-    { value: 1, label: 'Active' },
-    { value: 0, label: 'InActive' },
-  ];
-
-  const handleFilterByActive = (e) => {
-    const text = e.target.value;
-    console.log(text);
-    setPage(0);
-    setActiveFilter(text);
-    GetChitReceiptList(text, filterName);
-  };
-
   const HandleAlertShow = () => {
     setAlert(true);
   };
@@ -162,6 +158,27 @@ export default function ChitReceiptView() {
   const HandleAlertClose = () => {
     setAlert(false);
   };
+
+  const HandleFromDateChange = (date) => {
+    const DateForSearch = date ? dayjs(date).format('YYYY-MM-DD') : "";
+    console.log('Date to search:', DateForSearch);
+    setFromDate({
+      data: date,
+      searchdata: DateForSearch
+    });
+    GetChitReceiptList(DateForSearch, ToDate.searchdata, filterName);
+  };
+
+  const HandleToDateChange = (date) => {
+    const DateForSearch = date ? dayjs(date).format('YYYY-MM-DD') : "";
+    console.log('Date to search:', DateForSearch);
+    setToDate({
+      data: date,
+      searchdata: DateForSearch
+    });
+    GetChitReceiptList(FromDate.searchdata, DateForSearch, filterName);
+  };
+
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
   return (
@@ -175,10 +192,31 @@ export default function ChitReceiptView() {
       </Stack>
       <Card>
         <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" justifyContent="space-between">
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer components={['DatePicker']} >
+              <DatePicker
+                label="From Date"
+                value={FromDate.data}
+                onChange={HandleFromDateChange}
+                disabled={ChitReceiptLoading ? true : false}
+                format="DD-MM-YYYY" />
+            </DemoContainer>
+          </LocalizationProvider>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer components={['DatePicker']}>
+              <DatePicker
+                label="To Date"
+                value={ToDate.data}
+                onChange={HandleToDateChange}
+                disabled={ChitReceiptLoading ? true : false}
+                format="DD-MM-YYYY"/>
+            </DemoContainer>
+          </LocalizationProvider>
           <TextField
             placeholder="Search..."
             value={filterName}
             onChange={(e) => handleFilterByName(e)}
+            disabled={ChitReceiptLoading ? true : false}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -190,13 +228,6 @@ export default function ChitReceiptView() {
               ),
             }}
           />
-          <TextField select size="small" value={ActiveFilter} onChange={(e) => handleFilterByActive(e)}>
-            {options.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
         </Stack>
         {ChitReceiptLoading
           ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">

@@ -8,7 +8,7 @@ export default function MemberPage() {
   return (
     <>
       <Helmet>
-        <title> User | Minimal UI </title>
+        <title> Member | Chitly </title>
       </Helmet>
 
       <MemberView />

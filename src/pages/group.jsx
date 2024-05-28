@@ -8,7 +8,7 @@ export default function GroupPage() {
   return (
     <>
       <Helmet>
-        <title> Group | Minimal UI </title>
+        <title> Group | Chitly </title>
       </Helmet>
 
       <GroupView />

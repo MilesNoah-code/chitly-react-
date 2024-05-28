@@ -8,7 +8,7 @@ export default function ChitReceiptPage() {
   return (
     <>
       <Helmet>
-        <title> Chit Receipt | Minimal UI </title>
+        <title> Chit Receipt | Chitly </title>
       </Helmet>
 
       <ChitReceiptView />

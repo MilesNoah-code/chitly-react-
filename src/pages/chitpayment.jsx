@@ -8,7 +8,7 @@ export default function ProductsPage() {
   return (
     <>
       <Helmet>
-        <title> Chit Payment | Minimal UI </title>
+        <title> Chit Payment | Chitly </title>
       </Helmet>
 
       <ChitPaymentView />

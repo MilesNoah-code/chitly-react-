@@ -7,6 +7,12 @@ import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import { TabList, TabPanel, TabContext } from '@mui/lab';
+import dayjs from 'dayjs';
+
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { Box, Tab, Radio, Stack, Button, Dialog, MenuItem, RadioGroup, IconButton, Typography, FormControlLabel } from '@mui/material';
 
 import { GetHeader, PutHeader, PostHeader, DeleteHeader, PostImageHeader } from 'src/hooks/AxiosApiFetch';
@@ -47,7 +53,8 @@ export default function AddMemberPage() {
         error: ""
     });
     const [Dob, setDob] = useState({
-        data: "",
+        data: null,
+        datesave: "",
         error: ""
     });
     const [Email, setEmail] = useState({
@@ -248,7 +255,8 @@ export default function AddMemberPage() {
                         error: ""
                     });
                     setDob({
-                        data: json.list.dob != null ? json.list.dob : "",
+                        data: json.list.dob != null ? dayjs(json.list.dob) : "",
+                        datesave: json.list.dob != null ? dayjs(json.list.dob).format('YYYY-MM-DD') : "",
                         error: ""
                     });
                     setEmail({
@@ -408,7 +416,7 @@ export default function AddMemberPage() {
         "gender": Gender.data,
         "status": screen === "add" ? "approved" : data.status,
         "branchid": 0,
-        "dob": Dob.data,
+        "dob": Dob.datesave != null ? Dob.datesave : "",
         "email": Email.data,
         "pancardno": PancardNo.data,
         "weddingdate": "",
@@ -814,6 +822,7 @@ export default function AddMemberPage() {
             setDob(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
+                datesave: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "* Required" : ""
             }));
         } else if (from === "Email"){
@@ -1589,6 +1598,19 @@ export default function AddMemberPage() {
         setProofAlert(false);
     };
 
+    const HandleDateChange = (date) => {
+        const DateForSave = dayjs(date).format('YYYY-MM-DD');
+        console.log('Date to save:', DateForSave);
+        setDob({
+            data: date,
+            datesave: DateForSave,
+            error: ""
+        });
+    };
+
+    const currentDate = dayjs();
+    const maxDate = currentDate.subtract(18, 'year');
+
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
     return (
@@ -1755,14 +1777,19 @@ export default function AddMemberPage() {
                                                 Date of Birth
                                             </Typography>
                                             <Stack direction='row' sx={{ ml: 2, }}>
-                                                <TextField
-                                                    required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
-                                                    label="DOB"
-                                                    value={Dob.data}
-                                                    onChange={(e) => MemberInfoTextValidate(e, "Dob")}
-                                                    style={{ width: 290, }} />
+                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                    <DemoContainer components={['DatePicker']} sx={{ width: 400 }}>
+                                                        <DatePicker 
+                                                            value={Dob.data}
+                                                            onChange={HandleDateChange}
+                                                            format="DD-MM-YYYY"
+                                                            maxDate={maxDate}
+                                                            renderInput={(params) => <TextField {...params} />}
+                                                            className="custom-width"
+                                                            sx={{ width: 400 }} />
+                                                    </DemoContainer>
+                                                </LocalizationProvider>
+                                               
                                                 <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Dob.error}</div>
                                             </Stack>
                                         </Stack>

@@ -24,7 +24,7 @@ export const GROUP_DELETE = "api/group/delete/";
 
 export const CHIT_RECEIPT_SAVE = "api/chitReceipt/save";
 export const CHIT_RECEIPT_DETAIL = "api/chitReceipt/detail/";
-export const CHIT_RECEIPT_LIST = "api/chitReceipt/list?id=&groupId=&installNo=&memberId=&date=&fromDate=&toDate=&status=&isActive=";
+export const CHIT_RECEIPT_LIST = "api/chitReceipt/list?fromDate=";
 export const CHIT_RECEIPT_DELETE = "api/chitReceipt/delete/";
 export const CHIT_RECEIPT_PAID_UNPAID_LIST = "api/chitReceipt/paidAndUnPaidList?id=&groupId=605&installNo=&memberId=&date=&fromDate=&toDate=&status=&isActive=";
 

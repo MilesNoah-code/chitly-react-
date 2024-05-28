@@ -4,11 +4,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
-import { Box, Stack, Button, Dialog, MenuItem, IconButton, Typography } from '@mui/material';
+import { Box, Stack, Button, Dialog, IconButton, Typography } from '@mui/material';
 
-import { GetHeader, PutHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
+import { GetHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 
-import { GROUP_SAVE, GROUP_UPDATE, REACT_APP_HOST_URL } from 'src/utils/api-constant';
+import { CHIT_RECEIPT_SAVE, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
 
@@ -18,36 +18,39 @@ export default function AddChitReceiptPage() {
     const location = useLocation();
     const { screen, data } = location.state;
     const Session = localStorage.getItem('apiToken');
-    const [GroupCode, setGroupCode] = useState({
+    const [ReceiptNo, setReceiptNo] = useState({
         data: screen === "add" ? "" : data.groupno,
         error: ""
     });
-    const [Amount, setAmount] = useState({
+    const [TicketNo, setTicketNo] = useState({
         data: screen === "add" ? "" : data.amount,
         error: ""
     });
-    const [Duration, setDuration] = useState({
+    const [AuctionMode, setAuctionMode] = useState({
         data: screen === "add" ? "" : data.duration,
         error: ""
     });
-    const [EMDue, setEMDue] = useState({
+    const [Duration, setDuration] = useState({
         data: screen === "add" ? "" : data.emdue,
         error: ""
     });
-    const [FMPRDue, setFMPRDue] = useState({
+    const [AccountNo, setAccountNo] = useState({
         data: screen === "add" ? "" : data.fmprdue,
         error: ""
     });
-    const [Dividend, setDividend] = useState({
+    const [InstFrom, setInstFrom] = useState({
+        data: screen === "add" ? "" : data.fmprdue,
+        error: ""
+    });
+    const [InstTo, setInstTo] = useState({
         data: screen === "add" ? "" : data.divident_distribute,
         error: ""
     });
-    const [AuctionMode, setAuctionMode] = useState({
-        data: screen === "add" ? "" : data.auction_mode,
+    const [Values, setValues] = useState({
+        data: screen === "add" ? "" : data.divident_distribute,
         error: ""
     });
-    
-    const AuctionModeArray = ["Weekly", "Monthly", "Monthly Twice", "Monthly Thrice"];
+
 
     const [Loading, setLoading] = useState(false);
     const [GroupListLoading, setGroupListLoading] = useState(false);
@@ -57,28 +60,28 @@ export default function AddChitReceiptPage() {
     const [ErrorAlert, setErrorAlert] = useState(false);
     const [ErrorScreen, setErrorScreen] = useState('');
     
-    const GroupInfoParams = {
-        "duration": Duration.data,
-        "groupno": GroupCode.data,
-        "amount": Amount.data,
-        "emdue": EMDue.data,
+    const ChitReceiptInfoParams = {
+        "duration": AuctionMode.data,
+        "groupno": ReceiptNo.data,
+        "amount": TicketNo.data,
+        "emdue": Duration.data,
         "auction_mode": AuctionMode.data,
         "branchid": 0,
         "branch_name": "",
-        "fmprdue": FMPRDue.data,
-        "divident_distribute": Dividend.data,
+        "fmprdue": InstFrom.data,
+        "divident_distribute": InstTo.data,
         "foreman1_id": 0,
         "foreman2_id": 0,
         "foreman3_id": 0,
     }
 
-    const GroupAddMethod = (IsValidate) => {
+    const ChitReceiptAddMethod = (IsValidate) => {
         if (IsValidate) {
             setLoading(true);
             let url = '';
             let Params = '';
-            url = REACT_APP_HOST_URL + GROUP_SAVE;
-            Params = GroupInfoParams;
+            url = REACT_APP_HOST_URL + CHIT_RECEIPT_SAVE;
+            Params = ChitReceiptInfoParams;
             console.log(JSON.stringify(Params) + url);
             console.log(Session);
             fetch(url, PostHeader(JSON.parse(Session), Params))
@@ -108,77 +111,17 @@ export default function AddChitReceiptPage() {
         }
     }
 
-    const GroupUpdateMethod = (IsValidate) => {
-        if (IsValidate) {
-            setLoading(true);
-            let url = '';
-            let Params = '';
-            url = REACT_APP_HOST_URL + GROUP_UPDATE + data.id;
-            Params = GroupInfoParams;
-            console.log(JSON.stringify(Params) + url);
-            console.log(Session);
-            fetch(url, PutHeader(JSON.parse(Session), Params))
-                .then((response) => response.json())
-                .then((json) => {
-                    console.log(JSON.stringify(json));
-                    setLoading(false);
-                    if (json.success) {
-                        setAlertMessage(json.message);
-                        setAlertFrom("success");
-                        HandleAlertShow();
-                    } else if (json.success === false) {
-                        setAlertMessage(json.message);
-                        setAlertFrom("failed");
-                        HandleAlertShow();
-                    } else {
-                        setErrorAlert(true);
-                        setErrorScreen("network");
-                    }
-                })
-                .catch((error) => {
-                    setLoading(false);
-                    setErrorAlert(true);
-                    setErrorScreen("error");
-                    console.log(error);
-                })
-        }
-    }
-
-    const GroupTextValidate = (e, from) => {
+    const ChitReceiptTextValidate = (e, from) => {
         const text = e.target.value;
         console.log(from);
-        if (from === "GroupCode"){
-            setGroupCode(prevState => ({
+        if (from === "ReceiptNo"){
+            setReceiptNo(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "* Required" : ""
             }));
-        } else if (from === "Amount"){
-            setAmount(prevState => ({
-                ...prevState,
-                data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
-            }));
-        } else if (from === "Duration"){
-            setDuration(prevState => ({
-                ...prevState,
-                data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
-            }));
-        } else if (from === "EMDue"){
-            setEMDue(prevState => ({
-                ...prevState,
-                data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
-            }));
-        } else if (from === "FMPRDue"){
-            setFMPRDue(prevState => ({
-                ...prevState,
-                data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
-            }));
-        } else if (from === "Dividend"){
-            setDividend(prevState => ({
+        } else if (from === "TicketNo"){
+            setTicketNo(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "* Required" : ""
@@ -189,79 +132,61 @@ export default function AddChitReceiptPage() {
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "* Required" : ""
             }));
+        } else if (from === "Duration"){
+            setDuration(prevState => ({
+                ...prevState,
+                data: text.trim() !== "" ? text : "",
+                error: text.trim() === "" ? "* Required" : ""
+            }));
+        } else if (from === "AccountNo") {
+            setAccountNo(prevState => ({
+                ...prevState,
+                data: text.trim() !== "" ? text : "",
+                error: text.trim() === "" ? "* Required" : ""
+            }));
+        } else if (from === "InstFrom"){
+            setInstFrom(prevState => ({
+                ...prevState,
+                data: text.trim() !== "" ? text : "",
+                error: text.trim() === "" ? "* Required" : ""
+            }));
+        } else if (from === "InstTo"){
+            setInstTo(prevState => ({
+                ...prevState,
+                data: text.trim() !== "" ? text : "",
+                error: text.trim() === "" ? "* Required" : ""
+            }));
+        } else if (from === "Values"){
+            setValues(prevState => ({
+                ...prevState,
+                data: text.trim() !== "" ? text : "",
+                error: text.trim() === "" ? "* Required" : ""
+            }));
         }
     };
 
-    const validateGroupInfo = () => {
+    const validateChitReceiptInfo = () => {
         let IsValidate = true;
-        if (!GroupCode.data) {
+        if (!ReceiptNo.data) {
             IsValidate = false;
-            setGroupCode(prevState => ({
+            setReceiptNo(prevState => ({
                 ...prevState,
                 error: "* Required"
             }));
         } else {
-            setGroupCode(prevState => ({
+            setReceiptNo(prevState => ({
                 ...prevState,
                 error: ""
             }));
         }
-        if (!Amount.data) {
+        if (!TicketNo.data) {
             IsValidate = false;
-            setAmount(prevState => ({
+            setTicketNo(prevState => ({
                 ...prevState,
                 error: "* Required"
             }));
         } else {
-            setAmount(prevState => ({
-                ...prevState,
-                error: ""
-            }));
-        }
-        if (!Duration.data) {
-            IsValidate = false;
-            setDuration(prevState => ({
-                ...prevState,
-                error: "* Required"
-            }));
-        } else {
-            setDuration(prevState => ({
-                ...prevState,
-                error: ""
-            }));
-        }
-        if (!EMDue.data) {
-            IsValidate = false;
-            setEMDue(prevState => ({
-                ...prevState,
-                error: "* Required"
-            }));
-        } else {
-            setEMDue(prevState => ({
-                ...prevState,
-                error: ""
-            }));
-        }
-        if (!FMPRDue.data) {
-            IsValidate = false;
-            setFMPRDue(prevState => ({
-                ...prevState,
-                error: "* Required"
-            }));
-        } else {
-            setFMPRDue(prevState => ({
-                ...prevState,
-                error: ""
-            }));
-        }
-        if (!Dividend.data) {
-            IsValidate = false;
-            setDividend(prevState => ({
-                ...prevState,
-                error: "* Required"
-            }));
-        } else {
-            setDividend(prevState => ({
+            setTicketNo(prevState => ({
                 ...prevState,
                 error: ""
             }));
@@ -278,12 +203,69 @@ export default function AddChitReceiptPage() {
                 error: ""
             }));
         }
-        if(screen === "add"){
-            GroupAddMethod(IsValidate);
-        }else{
-            GroupUpdateMethod(IsValidate);
+        if (!Duration.data) {
+            IsValidate = false;
+            setDuration(prevState => ({
+                ...prevState,
+                error: "* Required"
+            }));
+        } else {
+            setDuration(prevState => ({
+                ...prevState,
+                error: ""
+            }));
         }
-    
+        if (!AccountNo.data) {
+            IsValidate = false;
+            setAccountNo(prevState => ({
+                ...prevState,
+                error: "* Required"
+            }));
+        } else {
+            setAccountNo(prevState => ({
+                ...prevState,
+                error: ""
+            }));
+        }
+        if (!InstFrom.data) {
+            IsValidate = false;
+            setInstFrom(prevState => ({
+                ...prevState,
+                error: "* Required"
+            }));
+        } else {
+            setInstFrom(prevState => ({
+                ...prevState,
+                error: ""
+            }));
+        }
+        if (!InstTo.data) {
+            IsValidate = false;
+            setInstTo(prevState => ({
+                ...prevState,
+                error: "* Required"
+            }));
+        } else {
+            setInstTo(prevState => ({
+                ...prevState,
+                error: ""
+            }));
+        }
+        if (!Values.data) {
+            IsValidate = false;
+            setValues(prevState => ({
+                ...prevState,
+                error: "* Required"
+            }));
+        } else {
+            setValues(prevState => ({
+                ...prevState,
+                error: ""
+            }));
+        }
+        if(screen === "add"){
+            ChitReceiptAddMethod(IsValidate);
+        }
     }
 
     const HandleAlertShow = () => {
@@ -299,7 +281,7 @@ export default function AddChitReceiptPage() {
 
     const HandleSubmitClick = () => {
         console.log("submitclick11");
-        validateGroupInfo();
+        validateChitReceiptInfo();
     };
 
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
@@ -308,7 +290,7 @@ export default function AddChitReceiptPage() {
         <Container>
             <Card>
                 <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
-                    {screen === "add" ? "Add Group" : (screen === "view" ? "View Group" : "Edit Group")}
+                    {screen === "add" ? "Add Chit Receipt" : (screen === "view" ? "View Chit Receipt" : "Edit Chit Receipt")}
                 </Typography>
                 <Box component="form"
                     sx={{
@@ -324,102 +306,34 @@ export default function AddChitReceiptPage() {
                             <Stack direction='row' spacing={2} alignItems='center'>
                                 <Stack direction='column'>
                                     <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
-                                        Group Code
+                                        Receipt No
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 2, }}>
                                         <TextField
                                             required
                                             id="outlined-required"
                                             disabled={screen === "view" ? true : false}
-                                            label="Group Code"
-                                            value={GroupCode.data}
-                                            onChange={(e) => GroupTextValidate(e, "GroupCode")}
-                                            style={{ width: 290, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupCode.error}</div>
+                                            label="Receipt No"
+                                            value={ReceiptNo.data}
+                                            onChange={(e) => ChitReceiptTextValidate(e, "ReceiptNo")}
+                                            style={{ width: 200, }} />
+                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ReceiptNo.error}</div>
                                     </Stack>
                                 </Stack>
                                 <Stack direction='column'>
                                     <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
-                                        Amount
+                                        Ticket No
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: -3, }}>
                                         <TextField
                                             required
                                             id="outlined-required"
                                             disabled={screen === "view" ? true : false}
-                                            label="Amount"
-                                            value={Amount.data}
-                                            onChange={(e) => GroupTextValidate(e, "Amount")}
-                                            style={{ width: 290, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Amount.error}</div>
-                                    </Stack>
-                                </Stack>
-                            </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center'>
-                                <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
-                                        Duration
-                                    </Typography>
-                                    <Stack direction='row' sx={{ ml: 2, }}>
-                                        <TextField
-                                            required
-                                            id="outlined-required"
-                                            disabled={screen === "view" ? true : false}
-                                            label="Duration"
-                                            value={Duration.data}
-                                            onChange={(e) => GroupTextValidate(e, "Duration")}
-                                            style={{ width: 290, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Duration.error}</div>
-                                    </Stack>
-                                </Stack>
-                                <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
-                                        EM Due
-                                    </Typography>
-                                    <Stack direction='row' sx={{ ml: -3, }}>
-                                        <TextField
-                                            required
-                                            id="outlined-required"
-                                            disabled={screen === "view" ? true : false}
-                                            label="EM Due"
-                                            value={EMDue.data}
-                                            onChange={(e) => GroupTextValidate(e, "EMDue")}
-                                            style={{ width: 290, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{EMDue.error}</div>
-                                    </Stack>
-                                </Stack>
-                            </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center'>
-                                <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
-                                        FM. PR. Due
-                                    </Typography>
-                                    <Stack direction='row' sx={{ ml: 2, }}>
-                                        <TextField
-                                            required
-                                            id="outlined-required"
-                                            disabled={screen === "view" ? true : false}
-                                            label="FM. PR. Due"
-                                            value={FMPRDue.data}
-                                            onChange={(e) => GroupTextValidate(e, "FMPRDue")}
-                                            style={{ width: 290, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{FMPRDue.error}</div>
-                                    </Stack>
-                                </Stack>
-                                <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
-                                        Dividend
-                                    </Typography>
-                                    <Stack direction='row' sx={{ ml: -3, }}>
-                                        <TextField
-                                            required
-                                            id="outlined-required"
-                                            disabled={screen === "view" ? true : false}
-                                            label="Dividend"
-                                            value={Dividend.data}
-                                            onChange={(e) => GroupTextValidate(e, "Dividend")}
-                                            style={{ width: 290, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Dividend.error}</div>
+                                            label="Ticket No"
+                                            value={TicketNo.data}
+                                            onChange={(e) => ChitReceiptTextValidate(e, "TicketNo")}
+                                            style={{ width: 200, }} />
+                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{TicketNo.error}</div>
                                     </Stack>
                                 </Stack>
                             </Stack>
@@ -431,21 +345,95 @@ export default function AddChitReceiptPage() {
                                     <Stack direction='row' sx={{ ml: 2, }}>
                                         <TextField
                                             required
-                                            id="outlined-select-currency"
-                                            select
+                                            id="outlined-required"
                                             disabled={screen === "view" ? true : false}
-                                            label="Select"
-                                            variant="outlined"
+                                            label="Auction Mode"
                                             value={AuctionMode.data}
-                                            onChange={(e) => GroupTextValidate(e, "AuctionMode")}
-                                            style={{ width: 290, }}>
-                                            {AuctionModeArray.map((option) => (
-                                                <MenuItem key={option} value={option}>
-                                                    {option}
-                                                </MenuItem>
-                                            ))}
-                                        </TextField>
+                                            onChange={(e) => ChitReceiptTextValidate(e, "AuctionMode")}
+                                            style={{ width: 200, }} />
                                         <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{AuctionMode.error}</div>
+                                    </Stack>
+                                </Stack>
+                                <Stack direction='column'>
+                                    <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                        Duration
+                                    </Typography>
+                                    <Stack direction='row' sx={{ ml: -3, }}>
+                                        <TextField
+                                            required
+                                            id="outlined-required"
+                                            disabled={screen === "view" ? true : false}
+                                            label="Duration"
+                                            value={Duration.data}
+                                            onChange={(e) => ChitReceiptTextValidate(e, "Duration")}
+                                            style={{ width: 200, }} />
+                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Duration.error}</div>
+                                    </Stack>
+                                </Stack>
+                                <Stack direction='column'>
+                                    <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                        Account No
+                                    </Typography>
+                                    <Stack direction='row' sx={{ ml: -3, }}>
+                                        <TextField
+                                            required
+                                            id="outlined-required"
+                                            disabled={screen === "view" ? true : false}
+                                            label="Account No"
+                                            value={AccountNo.data}
+                                            onChange={(e) => ChitReceiptTextValidate(e, "AccountNo")}
+                                            style={{ width: 200, }} />
+                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{AccountNo.error}</div>
+                                    </Stack>
+                                </Stack>
+                            </Stack>
+                            <Stack direction='row' spacing={2} alignItems='center'>
+                                <Stack direction='column'>
+                                    <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                        Inst. From
+                                    </Typography>
+                                    <Stack direction='row' sx={{ ml: 2, }}>
+                                        <TextField
+                                            required
+                                            id="outlined-required"
+                                            disabled={screen === "view" ? true : false}
+                                            label="Inst. From"
+                                            value={InstFrom.data}
+                                            onChange={(e) => ChitReceiptTextValidate(e, "InstFrom")}
+                                            style={{ width: 200, }} />
+                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{InstFrom.error}</div>
+                                    </Stack>
+                                </Stack>
+                                <Stack direction='column'>
+                                    <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                        Inst. To
+                                    </Typography>
+                                    <Stack direction='row' sx={{ ml: -3, }}>
+                                        <TextField
+                                            required
+                                            id="outlined-required"
+                                            disabled={screen === "view" ? true : false}
+                                            label="Inst. To"
+                                            value={InstTo.data}
+                                            onChange={(e) => ChitReceiptTextValidate(e, "InstTo")}
+                                            style={{ width: 200, }} />
+                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{InstTo.error}</div>
+                                    </Stack>
+                                </Stack>
+                                <Stack direction='column'>
+                                    <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                        Value
+                                    </Typography>
+                                    <Stack direction='row' sx={{ ml: -3, }}>
+                                        <TextField
+                                            required
+                                            id="outlined-required"
+                                            disabled={screen === "view" ? true : false}
+                                            label="Value"
+                                            value={Values.data}
+                                            onChange={(e) => ChitReceiptTextValidate(e, "Values")}
+                                            style={{ width: 200, }} />
+                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Values.error}</div>
                                     </Stack>
                                 </Stack>
                             </Stack>

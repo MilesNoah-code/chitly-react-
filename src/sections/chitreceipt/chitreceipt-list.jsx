@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 import Stack from '@mui/material/Stack';
 import Popover from '@mui/material/Popover';
@@ -28,6 +29,7 @@ export default function ChitReceiptTableRow({
   item,
 }) {
   const [open, setOpen] = useState(null);
+  const navigate = useNavigate();
   const Session = localStorage.getItem('apiToken');
   const [ConfirmAlert, setConfirmAlert] = useState(false);
   const [Alert, setAlert] = useState(false);
@@ -66,6 +68,19 @@ export default function ChitReceiptTableRow({
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
+  };
+
+  const HandleSelectMenu = (from) => {
+    console.log(item)
+    setOpen(null);
+    if (from === "view") {
+      navigate('/addChitReceipt', {
+        state: {
+          screen: 'view',
+          data: item,
+        },
+      });
+    }
   };
 
   const HandleAlertShow = () => {
@@ -126,13 +141,17 @@ export default function ChitReceiptTableRow({
       <Popover
         open={!!open}
         anchorEl={open}
-        onClose={() => setOpen(null)}
+        onClose={() => HandleSelectMenu("close")}
         anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         PaperProps={{
           sx: { width: 140 },
         }}
       >
+        <MenuItem onClick={() => HandleSelectMenu("view")}>
+          <Iconify icon="eva:eye-fill" sx={{ mr: 2 }} />
+          View
+        </MenuItem>
         <MenuItem onClick={() => setConfirmAlert(true)} sx={{ color: 'error.main' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
           Delete

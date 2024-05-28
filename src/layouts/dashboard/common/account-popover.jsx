@@ -83,7 +83,8 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2 }}>
           <Typography variant="subtitle2" noWrap>
-            {(UserDetail.first_name !== null && UserDetail.first_name !== undefined) ? + UserDetail.first_name + ((UserDetail.last_name !== null && UserDetail.last_name !== undefined) ? (' ' + UserDetail.last_name) : '') : ''}
+            {(UserDetail.first_name !== null && UserDetail.first_name !== undefined) ? UserDetail.first_name : '' + " " 
+            + (UserDetail.last_name !== null && UserDetail.last_name !== undefined) ? UserDetail.last_name : ''}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
             {UserDetail.username}

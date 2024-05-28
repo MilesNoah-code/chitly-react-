@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 
-import { UserView } from 'src/sections/user/view';
+import { ChitPaymentView } from 'src/sections/chitpayment/view';
 
 // ----------------------------------------------------------------------
 
-export default function UserPage() {
+export default function ProductsPage() {
   return (
     <>
       <Helmet>
-        <title> User | Minimal UI </title>
+        <title> Chit Payment | Minimal UI </title>
       </Helmet>
 
-      <UserView />
+      <ChitPaymentView />
     </>
   );
 }

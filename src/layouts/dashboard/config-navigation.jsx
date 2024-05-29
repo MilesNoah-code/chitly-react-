@@ -14,38 +14,38 @@ const navConfig = [
   },
   {
     title: 'Member',
-    path: '/user',
-    icon: icon('ic_user'),
+    path: '/member',
+    icon: icon('member'),
   },
   {
     title: 'Groups',
-    path: '/products',
-    icon: icon('ic_cart'),
+    path: '/group',
+    icon: icon('group'),
   },
   {
     title: 'Group Members',
     path: '/blog',
-    icon: icon('ic_blog'),
+    icon: icon('groupmember'),
   },
   {
     title: 'Chit Estimate',
     path: '/login',
-    icon: icon('ic_lock'),
+    icon: icon('chitestimate'),
   },
   {
     title: 'Chit Auction',
     path: '/404',
-    icon: icon('ic_disabled'),
+    icon: icon('chitauction'),
   },
   {
     title: 'Chit Receipts',
-    path: '/404',
-    icon: icon('ic_disabled'),
+    path: '/chitreceipt',
+    icon: icon('chitreceipt'),
   },
   {
     title: 'Chit Payment',
-    path: '/404',
-    icon: icon('ic_disabled'),
+    path: '/chitpayment',
+    icon: icon('chitpayment'),
   }
 ];
 

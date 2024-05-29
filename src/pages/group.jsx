@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 
-import { LoginView } from 'src/sections/login';
+import { GroupView } from 'src/sections/group/view';
 
 // ----------------------------------------------------------------------
 
-export default function LoginPage() {
+export default function GroupPage() {
   return (
     <>
       <Helmet>
-        <title> Login | Chitly </title>
+        <title> Group | Chitly </title>
       </Helmet>
 
-      <LoginView />
+      <GroupView />
     </>
   );
 }

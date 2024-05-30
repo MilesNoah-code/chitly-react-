@@ -23,7 +23,7 @@ export default function TableHeader({
   };
 
   return (
-    <TableHead>
+    <TableHead >
       <TableRow>
         <TableCell padding="checkbox" style={{ display: 'none' }}>
           <Checkbox
@@ -38,7 +38,7 @@ export default function TableHeader({
             key={headCell.id}
             align={headCell.align || 'left'}
             sortDirection={orderBy === headCell.id ? order : false}
-            sx={{ width: headCell.width, minWidth: headCell.minWidth, }}
+            sx={{ width: headCell.width, minWidth: headCell.minWidth, background: '#edf4fe', color: '#1877f2' }}
           >
             <TableSortLabel
               hideSortIcon

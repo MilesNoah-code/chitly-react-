@@ -1,0 +1,15 @@
+/* MemberView.css */
+
+
+  .custom-button{
+    background-color: #edf4fe;
+   padding: 12px 15px;
+    color: #1877f2;
+    transition: background-color 0.3s ease;
+  }
+  .custom-button:hover{
+    background: rgba(24, 119, 242, 0.16);
+  }
+  .input-box{
+    width: 100%;
+  }

@@ -11,7 +11,7 @@ import { GetHeader, PutHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 import { GROUP_SAVE, GROUP_UPDATE, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
-
+import './group-add.css';
 export default function AddGroupPage() {
    
     const navigate = useNavigate();
@@ -306,11 +306,17 @@ export default function AddGroupPage() {
 
     return (
         <Container>
+        <Stack direction='row' spacing={2} alignItems='center' justifyContent={'space-between'} sx={{mt:2, mb:2}}>
+        <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
+        {screen === "add" ? "Add Group" : (screen === "view" ? "View Group" : "Edit Group")}
+    </Typography>
+    <Button variant="contained" className='custom-button'  onClick={() => navigate('/group')}>
+     Back
+    </Button>
+    </Stack>
             <Card>
-                <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
-                    {screen === "add" ? "Add Group" : (screen === "view" ? "View Group" : "Edit Group")}
-                </Typography>
-                <Box component="form"
+               
+                <Box className="con" component="form"
                     sx={{
                         '& .MuiTextField-root': { m: 2, width: '20ch', },
                     }}
@@ -320,117 +326,144 @@ export default function AddGroupPage() {
                         ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
                             <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
-                        : <Stack direction='column'>
-                            <Stack direction='row' spacing={2} alignItems='center'>
+                        : <Stack direction='column' >
+                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                            <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                    <Typography variant="subtitle1" sx={{ ml:4, mr: 2, mt: 2, mb: '0px' }}>
                                         Group Code
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: 2, }}>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
+                                        className='input-box1'
                                             required
                                             id="outlined-required"
                                             disabled={screen === "view" ? true : false}
                                             label="Group Code"
                                             value={GroupCode.data}
                                             onChange={(e) => GroupTextValidate(e, "GroupCode")}
-                                            style={{ width: 290, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupCode.error}</div>
+                                            style={{ }} />
+                                      
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupCode.error}</div>
                                 </Stack>
+                                </div>
+                                <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                    <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
                                         Amount
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: -3, }}>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
+                                        className='input-box1'
                                             required
                                             id="outlined-required"
                                             disabled={screen === "view" ? true : false}
                                             label="Amount"
                                             value={Amount.data}
                                             onChange={(e) => GroupTextValidate(e, "Amount")}
-                                            style={{ width: 290, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Amount.error}</div>
+                                            style={{  }} />
+                                       
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Amount.error}</div>
                                 </Stack>
+                                </div>
                             </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center'>
+                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                            <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                    <Typography variant="subtitle1" sx={{ ml:4, mr: 2, mt: 2, mb: '0px' }}>
                                         Duration
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: 2, }}>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
+                                        className='input-box1'
                                             required
                                             id="outlined-required"
                                             disabled={screen === "view" ? true : false}
                                             label="Duration"
                                             value={Duration.data}
                                             onChange={(e) => GroupTextValidate(e, "Duration")}
-                                            style={{ width: 290, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Duration.error}</div>
+                                            style={{  }} />
+                                      
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Duration.error}</div>
                                 </Stack>
+                                </div>
+                                <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                    <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
                                         EM Due
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: -3, }}>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
+                                        className='input-box1'
                                             required
                                             id="outlined-required"
                                             disabled={screen === "view" ? true : false}
                                             label="EM Due"
                                             value={EMDue.data}
                                             onChange={(e) => GroupTextValidate(e, "EMDue")}
-                                            style={{ width: 290, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{EMDue.error}</div>
+                                            style={{  }} />
+                                      
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{EMDue.error}</div>
                                 </Stack>
+                                </div>
                             </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center'>
+                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                            <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                    <Typography variant="subtitle1" sx={{ ml:4, mr: 2, mt: 2, mb: '0px' }}>
                                         FM. PR. Due
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: 2, }}>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
                                             required
+                                            className='input-box1'
                                             id="outlined-required"
                                             disabled={screen === "view" ? true : false}
                                             label="FM. PR. Due"
                                             value={FMPRDue.data}
                                             onChange={(e) => GroupTextValidate(e, "FMPRDue")}
-                                            style={{ width: 290, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{FMPRDue.error}</div>
+                                            style={{  }} />
+                                       
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{FMPRDue.error}</div>
                                 </Stack>
+                                </div>
+                                <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                    <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
                                         Dividend
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: -3, }}>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
                                             required
+                                            className='input-box1'
                                             id="outlined-required"
                                             disabled={screen === "view" ? true : false}
                                             label="Dividend"
                                             value={Dividend.data}
                                             onChange={(e) => GroupTextValidate(e, "Dividend")}
-                                            style={{ width: 290, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Dividend.error}</div>
+                                            style={{  }} />
+                                       
                                     </Stack>
+                                   
                                 </Stack>
+                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Dividend.error}</div>
+                                </div>
                             </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center'>
+                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                            <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                    <Typography variant="subtitle1" sx={{ ml:4, mr: 2, mt: 2, mb: '0px' }}>
                                         Auction Mode
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: 2, }}>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
                                             required
+                                            className='input-box1'
                                             id="outlined-select-currency"
                                             select
                                             disabled={screen === "view" ? true : false}
@@ -438,21 +471,23 @@ export default function AddGroupPage() {
                                             variant="outlined"
                                             value={AuctionMode.data}
                                             onChange={(e) => GroupTextValidate(e, "AuctionMode")}
-                                            style={{ width: 290, }}>
+                                            style={{  }}>
                                             {AuctionModeArray.map((option) => (
                                                 <MenuItem key={option} value={option}>
                                                     {option}
                                                 </MenuItem>
                                             ))}
                                         </TextField>
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{AuctionMode.error}</div>
+                                      
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{AuctionMode.error}</div>
                                 </Stack>
+                                </div>
                             </Stack>
                             {screen === "view"
                                 ? null
                                 :<Stack direction='column' alignItems='flex-end'>
-                                        <Button sx={{ mr: 5, mb: 3, height: 50, width: 150 }} variant="contained" color="inherit" onClick={HandleSubmitClick}>
+                                        <Button sx={{ mr: 5, mb: 3, height: 50, width: 150 }} variant="contained" className='custom-button' onClick={HandleSubmitClick}>
                                             {Loading
                                                 ? (<img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                                 : ("Submit")}
@@ -477,7 +512,7 @@ export default function AddGroupPage() {
                     {AlertFrom === "success"
                         ? <img src="../../../public/assets/icons/success_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />
                         : <img src="../../../public/assets/icons/failed_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />}
-                    <Typography gutterBottom variant='h4' mt={2} mb={5} color={AlertFrom === "success" ? "#45da81" : "#ef4444"}>
+                    <Typography gutterBottom variant='h6' className="alert-msg" mt={2} mb={5} color={AlertFrom === "success" ? "#45da81" : "#ef4444"}>
                         {AlertMessage}
                     </Typography>
                 </Stack>

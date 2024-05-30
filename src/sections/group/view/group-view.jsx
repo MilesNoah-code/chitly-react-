@@ -26,7 +26,7 @@ import TableHeader from '../../member/table-head';
 import TableNoData from '../../member/table-no-data';
 import ErrorLayout from '../../../Error/ErrorLayout';
 import TableEmptyRows from '../../member/table-empty-rows';
-
+import './group-view.css';
 export default function GroupView() {
 
   const navigate = useNavigate();
@@ -163,10 +163,10 @@ export default function GroupView() {
 
   return (
     <Container>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} >
-        <Typography variant="h4">Group List</Typography>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
+        <Typography variant="h6" sx={{color: '#637381' }}>Group List</Typography>
 
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddGroupClick}>
+        <Button variant="contained" className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddGroupClick}>
           Add Group
         </Button>
       </Stack>

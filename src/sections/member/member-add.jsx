@@ -22,6 +22,8 @@ import { MEMBER_ADD, MEMBER_VIEW, MEMBER_UPDATE, MEMBER_MEDIA_LIST, REACT_APP_HO
 
 import ErrorLayout from 'src/Error/ErrorLayout';
 
+import './member-add.css';
+import Iconify from 'src/components/iconify';
 export default function AddMemberPage() {
    
     const navigate = useNavigate();
@@ -255,7 +257,7 @@ export default function AddMemberPage() {
                         error: ""
                     });
                     setDob({
-                        data: json.list.dob != null ? dayjs(json.list.dob) : "",
+                        data: json.list.dob != null ? dayjs(json.list.dob) : null,
                         datesave: json.list.dob != null ? dayjs(json.list.dob).format('YYYY-MM-DD') : "",
                         error: ""
                     });
@@ -1607,7 +1609,9 @@ export default function AddMemberPage() {
             error: ""
         });
     };
-
+    
+   
+   
     const currentDate = dayjs();
     const maxDate = currentDate.subtract(18, 'year');
 
@@ -1615,10 +1619,17 @@ export default function AddMemberPage() {
 
     return (
         <Container>
+        <Stack direction='row' spacing={2} alignItems='center' justifyContent={'space-between'} sx={{mt:2, mb:2}}>
+        <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 2, mb: 2 }}>
+        {screen === "add" ? "Add Member" : (screen === "view" ? "View Member" : "Edit Member")}
+    </Typography>
+    <Button variant="contained" className='custom-button'  onClick={() => navigate('/member')}>
+          Back
+    </Button>
+  
+    </Stack>
             <Card>
-                <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
-                    {screen === "add" ? "Add Member" : (screen === "view" ? "View Member" : "Edit Member")}
-                </Typography>
+              
                 <Box component="form"
                     sx={{
                         '& .MuiTextField-root': { m: 2, width: '20ch', },
@@ -1632,7 +1643,7 @@ export default function AddMemberPage() {
                         : <Stack direction='column'>
                             <TabContext value={TabIndex}>
                                 {screen === "add" 
-                                    ? <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                    ? <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 , mt:3}}>
                                         Member Information
                                      </Typography>
                                     : <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -1663,16 +1674,18 @@ export default function AddMemberPage() {
                                                     Upload Photo
                                                     <VisuallyHiddenInput type="file" onChange={HandleProfileImage} />
                                                 </Button>
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ProfileImage.error}</div>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ProfileImage.error}</div>
                                             </Stack>
                                         </Stack>}
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                                 Member Name
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: 2, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box'
                                                     id="outlined-select-currency"
                                                     select
                                                     disabled={screen === "view" ? true : false}
@@ -1688,6 +1701,7 @@ export default function AddMemberPage() {
                                                     ))}
                                                 </TextField>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
@@ -1695,15 +1709,19 @@ export default function AddMemberPage() {
                                                     variant="outlined"
                                                     value={MemberName.data}
                                                     onChange={(e) => MemberInfoTextValidate(e, "MemberName")} />
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{MemberName.error || NamePrefix.error}</div>
+                                               
                                             </Stack>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{MemberName.error || NamePrefix.error}</div>
                                         </Stack>
+                                        </div>
+                                        <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
                                                 RelationShip
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: -3, }}>
+                                            <Stack direction='row'  sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box'
                                                     id="outlined-select-currency"
                                                     select
                                                     disabled={screen === "view" ? true : false}
@@ -1719,23 +1737,29 @@ export default function AddMemberPage() {
                                                     ))}
                                                 </TextField>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="Relationhsip"
                                                     value={Relationship.data}
                                                     onChange={(e) => MemberInfoTextValidate(e, "Relationship")} />
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Relationship.error || RelationPrefix.error}</div>
+                                              
                                             </Stack>
+                                            <div style={{ marginLeft: "15px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500",  }} className='req'>{Relationship.error || RelationPrefix.error}</div>
                                         </Stack>
+                                        </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                  
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                                 Gender
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: 2, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-select-currency"
                                                     select
@@ -1744,305 +1768,373 @@ export default function AddMemberPage() {
                                                     variant="outlined"
                                                     value={Gender.data}
                                                     onChange={(e) => MemberInfoTextValidate(e, "Gender")}
-                                                    style={{ width: 290, }}>
+                                                    style={{  }}>
                                                     {GenderArray.map((option) => (
                                                         <MenuItem key={option} value={option}>
                                                             {option}
                                                         </MenuItem>
                                                     ))}
                                                 </TextField>
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Gender.error}</div>
+                                             
                                             </Stack>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Gender.error}</div>
                                         </Stack>
+                                        </div>
+                                        <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
                                                 Mobile Number
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: -3, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="Mobile Number"
                                                     value={MobileNumber.data}
                                                     onChange={(e) => MemberInfoTextValidate(e, "MobileNumber")}
-                                                    style={{ width: 290, }} />
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{MobileNumber.error}</div>
+                                                    style={{  }} />
+                                               
                                             </Stack>
+                                            <div style={{ marginLeft: "15px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{MobileNumber.error}</div>
                                         </Stack>
+                                        </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                    
+                                   
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                                 Date of Birth
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: 2, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                    <DemoContainer components={['DatePicker']} sx={{ width: 400 }}>
+                                                    <DemoContainer components={['DatePicker']} sx={{ width: 525 }} className="date-pick">
                                                         <DatePicker 
+                                                        className='input-box1'
                                                             value={Dob.data}
                                                             onChange={HandleDateChange}
                                                             format="DD-MM-YYYY"
                                                             maxDate={maxDate}
                                                             renderInput={(params) => <TextField {...params} />}
-                                                            className="custom-width"
-                                                            sx={{ width: 400 }} />
+                                                          
+                                                            sx={{  }} />
                                                     </DemoContainer>
                                                 </LocalizationProvider>
                                                
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Dob.error}</div>
+                                              
                                             </Stack>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Dob.error}</div>
                                         </Stack>
+                                        </div>
+                                        <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
                                                 Email
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: -3, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="Email"
                                                     value={Email.data}
                                                     onChange={(e) => MemberInfoTextValidate(e, "Email")}
-                                                    style={{ width: 290, }} />
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Email.error}</div>
+                                                    style={{  }} />
                                             </Stack>
+                                            <div style={{ marginLeft: "15px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{Email.error}</div>
                                         </Stack>
+                                        </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                    
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                                 Whatsapp Number
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: 2, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
                                                     required
+                                                    className='input-box1'
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="Whatsapp Number"
                                                     value={WhatsappNo.data}
                                                     onChange={(e) => MemberInfoTextValidate(e, "WhatsappNo")}
-                                                    style={{ width: 290, }} />
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{WhatsappNo.error}</div>
-                                            </Stack>
+                                                    style={{  }} />
                                         </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{WhatsappNo.error}</div>
+                                        </Stack>
+                                        </div>
+                                        <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
                                                 Guardian Name
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: -3, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
                                                     required
+                                                    className='input-box1'
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="Guardian Name"
                                                     value={GuardName.data}
                                                     onChange={(e) => MemberInfoTextValidate(e, "GuardName")}
-                                                    style={{ width: 290, }} />
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GuardName.error}</div>
+                                                    style={{ }} />
                                             </Stack>
+                                            <div style={{ marginLeft: "15px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{GuardName.error}</div>
                                         </Stack>
+                                        </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <div className='box' >
                                         <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                                 Guardian Relation
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: 2, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="Guardian Relation"
                                                     value={GuardRelationship.data}
                                                     onChange={(e) => MemberInfoTextValidate(e, "GuardRelationship")}
-                                                    style={{ width: 290, }} />
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GuardRelationship.error}</div>
+                                                    style={{  }} />
                                             </Stack>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GuardRelationship.error}</div>
                                         </Stack>
+                                        </div>
+                                        <div className='box' >
                                         <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
                                                 Aadhar Number
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: -3, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="Aadhar Number"
                                                     value={AadharNo.data}
                                                     onChange={(e) => MemberInfoTextValidate(e, "AadharNo")}
-                                                    style={{ width: 290, }} />
+                                                    style={{  }} />
                                             </Stack>
-                                            <div style={{ marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{AadharNo.error}</div>
+                                            <div style={{ marginTop: "-10px", marginLeft: "15px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AadharNo.error}</div>
                                         </Stack>
+                                        </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                                 PanCard Number
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: 2, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="Pancard Number"
                                                     value={PancardNo.data}
                                                     onChange={(e) => MemberInfoTextValidate(e, "PancardNo")}
-                                                    style={{ width: 290, }} />
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{PancardNo.error}</div>
+                                                    style={{ }} />
+                                              
                                             </Stack>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{PancardNo.error}</div>
                                         </Stack>
+                                        </div>
                                     </Stack>
                                 </TabPanel>
                                 <TabPanel value="2">
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                                 Address
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: 2, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="Address"
                                                     value={Address.data}
                                                     onChange={(e) => AddressDetailsTextValidate(e, "Address")}
-                                                    style={{ width: 290, }} />
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Address.error}</div>
+                                                    style={{  }} />
+                                              
                                             </Stack>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Address.error}</div>
                                         </Stack>
+                                        </div>
+                                        <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
                                                 Area Name
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: -3, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="Area Name"
                                                     value={AreaName.data}
                                                     onChange={(e) => AddressDetailsTextValidate(e, "AreaName")}
-                                                    style={{ width: 290, }} />
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{AreaName.error}</div>
+                                                    style={{  }} />
+                                              
                                             </Stack>
+                                            <div style={{ marginLeft: "15px",  color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AreaName.error}</div>
                                         </Stack>
-                                    </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                        </div>
+                                    </Stack> 
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                                 City
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: 2, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="City"
                                                     value={City.data}
                                                     onChange={(e) => AddressDetailsTextValidate(e, "City")}
-                                                    style={{ width: 290, }} />
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{City.error}</div>
+                                                    style={{  }} />
+                                               
                                             </Stack>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{City.error}</div>
                                         </Stack>
+                                        </div>
+                                        <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
                                                 State
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: -3, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="State"
                                                     value={State.data}
                                                     onChange={(e) => AddressDetailsTextValidate(e, "State")}
-                                                    style={{ width: 290, }} />
+                                                    style={{  }} />
                                             </Stack>
-                                            <div style={{ marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{State.error}</div>
+                                            <div style={{ marginTop: "-10px", marginLeft: "15px",color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{State.error}</div>
                                         </Stack>
+                                        </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                                 Country
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: 2, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="Country"
                                                     value={Country.data}
                                                     onChange={(e) => AddressDetailsTextValidate(e, "Country")}
-                                                    style={{ width: 290, }} />
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Country.error}</div>
+                                                    style={{  }} />
+                                              
                                             </Stack>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Country.error}</div>
                                         </Stack>
+                                        </div>
                                     </Stack>
                                 </TabPanel>
                                 <TabPanel value="3">
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                              
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                                 Name on Account
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: 2, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="Name on Account"
                                                     value={NameOnAccount.data}
                                                     onChange={(e) => BankDetailsTextValidate(e, "NameOnAccount")}
-                                                    style={{ width: 290, }} />
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{NameOnAccount.error}</div>
+                                                    style={{  }} />
+                                              
                                             </Stack>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{NameOnAccount.error}</div>
                                         </Stack>
+                                        </div>
+                                        <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
                                                 Account Number
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: -3, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="Account Number"
                                                     value={AccountNumber.data}
                                                     onChange={(e) => BankDetailsTextValidate(e, "AccountNumber")}
-                                                    style={{ width: 290, }} />
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{AccountNumber.error}</div>
+                                                    style={{  }} />
+                                            
                                             </Stack>
+                                            <div style={{  marginTop: "-10px", marginLeft: "15px",color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AccountNumber.error}</div>
                                         </Stack>
+                                        </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                    
+                                    
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                                 IFSC Code
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: 2, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="IFSC Code"
                                                     value={IFSCCode.data}
                                                     onChange={(e) => BankDetailsTextValidate(e, "IFSCCode")}
-                                                    style={{ width: 290, }} />
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{IFSCCode.error}</div>
+                                                    style={{  }} />
+                                             
                                             </Stack>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{IFSCCode.error}</div>
                                         </Stack>
+                                        </div>
+                                        <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
                                                 Type of Account
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: -3, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-select-currency"
                                                     select
@@ -2051,77 +2143,95 @@ export default function AddMemberPage() {
                                                     variant="outlined"
                                                     value={TypeOfAccount.data}
                                                     onChange={(e) => BankDetailsTextValidate(e, "TypeOfAccount")}
-                                                    style={{ width: 290, }}>
+                                                    style={{  }}>
                                                     {TypeOfAccountArray.map((option) => (
                                                         <MenuItem key={option} value={option}>
                                                             {option}
                                                         </MenuItem>
                                                     ))}
                                                 </TextField>
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{TypeOfAccount.error}</div>
+                                              
                                             </Stack>
+                                            <div style={{ marginLeft: "15px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{TypeOfAccount.error}</div>
                                         </Stack>
+                                        </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                            
+                                  
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                                 Bank Name
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: 2, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="Bank Name"
                                                     value={BankName.data}
                                                     onChange={(e) => BankDetailsTextValidate(e, "BankName")}
-                                                    style={{ width: 290, }} />
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{BankName.error}</div>
+                                                    style={{ }} />
+                                            
                                             </Stack>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{BankName.error}</div>
                                         </Stack>
+                                        </div>
+                                        <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
                                                 Branch
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: -3, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="Branch"
                                                     value={Branch.data}
                                                     onChange={(e) => BankDetailsTextValidate(e, "Branch")}
-                                                    style={{ width: 290, }} />
+                                                    style={{  }} />
                                             </Stack>
-                                            <div style={{ marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Branch.error}</div>
+                                            <div style={{ marginTop: "-10px", marginLeft: "15px",color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Branch.error}</div>
                                         </Stack>
+                                        </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                    
+                                   
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                                 UPI
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: 2, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="UPI"
                                                     value={UPI.data}
                                                     onChange={(e) => BankDetailsTextValidate(e, "UPI")}
-                                                    style={{ width: 290, }} />
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{UPI.error}</div>
+                                                    style={{  }} />
+                                              
                                             </Stack>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{UPI.error}</div>
                                         </Stack>
+                                        </div>
                                     </Stack>
                                 </TabPanel>
                                 <TabPanel value="4">
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                            <Typography variant="subtitle1" sx={{ ml:3, mr: 2, mt: 2, mb: 1 }}>
                                                 Education
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: 10, }}>
+                                            <Stack direction='row' sx={{ ml:0, }} className='radio-box'>
                                                 <RadioGroup
                                                     aria-labelledby="demo-radio-buttons-group-label"
                                                     defaultValue="female"
@@ -2136,14 +2246,17 @@ export default function AddMemberPage() {
                                                     <FormControlLabel value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view" ? true : false} />
                                                     <FormControlLabel value="Doctrate" control={<Radio />} label="Doctorate" onChange={() => setEducation('Doctrate')} disabled={screen === "view" ? true : false} />
                                                 </RadioGroup>
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Education.error}</div>
+                                              
                                             </Stack>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Education.error}</div>
                                         </Stack>
+                                        </div>
+                                        <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                            <Typography variant="subtitle1" sx={{ ml:3, mr: 2, mt: 2, mb: 1 }}>
                                                 Marital Status
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: 10, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }} className='radio-box'>
                                                 <RadioGroup
                                                     aria-labelledby="demo-radio-buttons-group-label"
                                                     defaultValue="female"
@@ -2157,17 +2270,20 @@ export default function AddMemberPage() {
                                                     <FormControlLabel value="Divorced" control={<Radio />} label="Divorced" disabled={screen === "view" ? true : false} />
                                                     <FormControlLabel value="Separated" control={<Radio />} label="Separated" disabled={screen === "view" ? true : false} />
                                                 </RadioGroup>
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{MaritalStatus.error}</div>
+                                              
                                             </Stack>
+                                            <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{MaritalStatus.error}</div>
                                         </Stack>
+                                        </div>
                                     </Stack>
                                     {MaritalStatus === "Married" || MaritalStatus === "Married With Kids"
-                                        ? <Stack direction='row' spacing={2} alignItems='center'>
+                                        ? <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                        <div className='box'>
                                             <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                                <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                                     Spouse Education
                                                 </Typography>
-                                                <Stack direction='row' sx={{ ml: 10, }}>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
                                                     <RadioGroup
                                                         aria-labelledby="demo-radio-buttons-group-label"
                                                         name="radio-buttons-group"
@@ -2181,53 +2297,63 @@ export default function AddMemberPage() {
                                                         <FormControlLabel value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view" ? true : false} />
                                                         <FormControlLabel value="Doctrate" control={<Radio />} label="Doctorate" disabled={screen === "view" ? true : false} />
                                                     </RadioGroup>
-                                                    <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{SpouseEducation.error}</div>
+                                                  
                                                 </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{SpouseEducation.error}</div>
                                             </Stack>
+                                            </div>
                                          </Stack>
                                         : null }
                                     
                                 </TabPanel>
                                 <TabPanel value="5">
-                                    <Stack direction='column' spacing={2}>
-                                        {screen === "view"
-                                            ? null
-                                            : <Stack spacing={2} style={{ justifyContent: 'flex-end', }}>
-                                                <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 130, height: 30 }} onClick={() => setProofAlert(true)}>
-                                                    Choose Photo
-                                                </Button>
-                                            </Stack>}
-                                        {MediaList
-                                            .map((row) => (
-                                                <Stack direction='row' spacing={2} sx={{ mb: 3, alignItems: 'flex-end', mr: 3 }}>
-                                                    <Stack direction='column' sx={{ ml: 2, }}>
-                                                        <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
-                                                            Pancard
-                                                        </Typography>
-                                                        {row.image
-                                                            ? <Stack direction='row' sx={{ ml: 2, }}>
-                                                                <img src={row.image} alt="Selected" style={{ width: 100, height: 100, }} />
-                                                                <Button onClick={() => MemberDeleteMedia("", row.id)}>
-                                                                    <img src="../../../public/assets/icons/cancel.png" alt="Selected" style={{ width: 30, height: 30, }} />
-                                                                </Button>
-                                                            </Stack>
-                                                            : <Stack>
-                                                                <img src="../../../public/assets/icons/placeholder.png" alt="Selected" style={{ width: 100, height: 100, }} />
-                                                            </Stack>
-                                                        }
-                                                    </Stack>
-                                                </Stack>
-                                            ))}
-                                    </Stack>
-                                </TabPanel>
+    <Stack direction='column' spacing={2}>
+        {screen === "view"
+            ? null
+            : <Stack spacing={2}  style={{ justifyContent: 'flex-end' }}>
+                <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 130, height: 30 }} onClick={() => setProofAlert(true)}>
+                    Choose Photo
+                </Button>
+              </Stack>
+        }
+        <Stack direction='row' spacing={2} sx={{ mb: 3, mt:2, alignItems: 'flex-end', mr: 3 }} className='row-box'>
+            {MediaList.map((row) => (
+                <Stack direction='column' sx={{ ml: 2 }} key={row.id} className='boxing'>
+                   
+                    {row.image
+                        ? <Stack direction='row' sx={{ ml: 0 }} className='image-top'>
+                        <div className='img-box' style={{ width: 120, height: 120 }}>
+                            <img src={row.image} alt="Selected"  style={{ width: '100% ', height: '100% '}} />
+                            </div>
+                            <Button onClick={() => MemberDeleteMedia("", row.id)} className='btn-click'>
+                                <img src="../../../public/assets/icons/cancel.png" alt="Selected" style={{ width: 12, height: 12 }} />
+                            </Button>
+                          </Stack>
+                        : <Stack>
+                        <div className='img-box' style={{ width: 100, height: 100 }}>
+                            <img src="../../../public/assets/icons/placeholder.png" alt="Selected" style={{ width: '100% '}} />
+                            </div>
+                          </Stack>
+                    }
+                    <Typography variant="subtitle1" sx={{ ml: 3, mr: 2, mt: 0, mb: '-5px' }}>
+                    Pancard
+                </Typography>
+                </Stack>
+            ))}
+        </Stack>
+    </Stack>
+</TabPanel>
+
                                 <TabPanel value="6">
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                                 Current Occupation
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: 2, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                 required
                                                     id="outlined-select-currency"
                                                     select
@@ -2236,73 +2362,88 @@ export default function AddMemberPage() {
                                                     variant="outlined"
                                                     value={CurrentOccupation.data}
                                                     onChange={(e) => OccupationDetailsTextValidate(e, "CurrentOccupation")}
-                                                    style={{ width: 290, }}>
+                                                    style={{ }}>
                                                     {CurrentOccupationArray.map((option) => (
                                                         <MenuItem key={option} value={option}>
                                                             {option}
                                                         </MenuItem>
                                                     ))}
                                                 </TextField>
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{CurrentOccupation.error}</div>
+                                               
                                             </Stack>
+                                            <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{CurrentOccupation.error}</div>
                                         </Stack>
+                                        </div>
+                                        <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
                                                 Current Employer
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: -3, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="Current Employer"
                                                     value={CurrentEmployer.data}
                                                     onChange={(e) => OccupationDetailsTextValidate(e, "CurrentEmployer")}
-                                                    style={{ width: 290, }} />
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{CurrentEmployer.error}</div>
+                                                    style={{ }} />
+                                              
                                             </Stack>
+                                            <div style={{ marginLeft: "15px",  marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{CurrentEmployer.error}</div>
                                         </Stack>
+                                        </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box' >
+                                    <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                                 Years at Current Employer
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: 2, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="Years at Current Employer"
                                                     value={YearsAtCurrentEmployer.data}
                                                     onChange={(e) => OccupationDetailsTextValidate(e, "YearsAtCurrentEmployer")}
-                                                    style={{ width: 290, }} />
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{YearsAtCurrentEmployer.error}</div>
+                                                    style={{ }} />
+                                               
                                             </Stack>
+                                            <div style={{ marginLeft: "15px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{YearsAtCurrentEmployer.error}</div>
                                         </Stack>
+                                        </div>
+                                        <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
                                                 Monthly Income
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: -3, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="Monthly Income"
                                                     value={MonthlyIncome.data}
                                                     onChange={(e) => OccupationDetailsTextValidate(e, "MonthlyIncome")}
-                                                    style={{ width: 290, }} />
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{MonthlyIncome.error}</div>
+                                                    style={{  }} />
+                                              
                                             </Stack>
+                                            <div style={{ marginLeft: "15px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{MonthlyIncome.error}</div>
                                         </Stack>
+                                        </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                                 Living in Rented House/Own House
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: 5, mt: 2 }}>
+                                            <Stack direction='row' sx={{ ml: 2, mt: 2 }}>
                                                 <RadioGroup
                                                     aria-labelledby="demo-radio-buttons-group-label"
                                                     defaultValue="female"
@@ -2313,32 +2454,38 @@ export default function AddMemberPage() {
                                                     <FormControlLabel value="0" control={<Radio />} label="Rented House" disabled={screen === "view" ? true : false} />
                                                     <FormControlLabel value="1" control={<Radio />} label="Own House" disabled={screen === "view" ? true : false} />
                                                 </RadioGroup>
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{LivingIn.error}</div>
+                                              
                                             </Stack>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{LivingIn.error}</div>
                                         </Stack>
+                                        </div>
+                                        <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
                                                 Years at Current Residence
                                             </Typography>
-                                            <Stack direction='row' sx={{ ml: -3, }}>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
+                                                className='input-box1'
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view" ? true : false}
                                                     label="Years at Current Residence"
                                                     value={YearsAtCurrentResidence.data}
                                                     onChange={(e) => OccupationDetailsTextValidate(e, "YearsAtCurrentResidence")}
-                                                    style={{ width: 290, }} />
+                                                    style={{  }} />
                                             </Stack>
-                                            <div style={{ marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{YearsAtCurrentResidence.error}</div>
+                                        
                                         </Stack>
+                                        <div style={{ marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{YearsAtCurrentResidence.error}</div>
+                                        </div>
                                     </Stack>
                                 </TabPanel>
                             </TabContext>
                             {screen === "view" || TabIndex === "5"
                                 ? null
                                 :<Stack direction='column' alignItems='flex-end'>
-                                        <Button sx={{ mr: 5, mb: 3, height: 50, width: 150 }} variant="contained" color="inherit" onClick={HandleSubmitClick}>
+                                        <Button sx={{ mr: 5, mb: 3, height: 50, width: 150 }} variant="contained"  className='custom-button' onClick={HandleSubmitClick}>
                                             {Loading
                                                 ? (<img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                                 : ("Submit")}
@@ -2429,9 +2576,11 @@ export default function AddMemberPage() {
                                                 </MenuItem>
                                             ))}
                                     </TextField>
-                                    <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{KYCOtherType.error}</div>
+                                   
                                 </Stack>
+                               
                                 : null}
+                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{KYCOtherType.error}</div>
                         </Stack>
                     </Stack>
                 </Stack>

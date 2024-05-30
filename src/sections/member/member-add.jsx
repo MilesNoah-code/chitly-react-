@@ -2241,10 +2241,10 @@ export default function AddMemberPage() {
                                                     onChange={(e) => setEducation({ data: e.target.value, error: "" })}>
                                                     <FormControlLabel value="Primary" control={<Radio />} label="Primary" disabled={screen === "view" ? true : false} />
                                                     <FormControlLabel value="Secondary" control={<Radio />} label="Secondary" disabled={screen === "view" ? true : false} />
-                                                    <FormControlLabel value="Diploma" control={<Radio />} label="Diploma" disabled={screen === "view" ? true : false} />
+                                                    <FormControlLabel className="radio-control2" value="Diploma" control={<Radio />} label="Diploma" disabled={screen === "view" ? true : false} />
                                                     <FormControlLabel value="Graduate" control={<Radio />} label="Graduate" disabled={screen === "view" ? true : false} />
-                                                    <FormControlLabel value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view" ? true : false} />
-                                                    <FormControlLabel value="Doctrate" control={<Radio />} label="Doctorate" onChange={() => setEducation('Doctrate')} disabled={screen === "view" ? true : false} />
+                                                    <FormControlLabel className="radio-control" value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view" ? true : false} />
+                                                    <FormControlLabel className="radio-control1" value="Doctrate" control={<Radio />} label="Doctorate" onChange={() => setEducation('Doctrate')} disabled={screen === "view" ? true : false} />
                                                 </RadioGroup>
                                               
                                             </Stack>
@@ -2268,7 +2268,7 @@ export default function AddMemberPage() {
                                                     <FormControlLabel value="Married" control={<Radio />} label="Married" disabled={screen === "view" ? true : false} />
                                                     <FormControlLabel value="Married With Kids" control={<Radio />} label="Married with Kids" disabled={screen === "view" ? true : false} />
                                                     <FormControlLabel value="Divorced" control={<Radio />} label="Divorced" disabled={screen === "view" ? true : false} />
-                                                    <FormControlLabel value="Separated" control={<Radio />} label="Separated" disabled={screen === "view" ? true : false} />
+                                                    <FormControlLabel className="radio-control3" value="Separated" control={<Radio />} label="Separated" disabled={screen === "view" ? true : false} />
                                                 </RadioGroup>
                                               
                                             </Stack>

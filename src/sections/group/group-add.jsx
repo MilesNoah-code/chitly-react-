@@ -6,12 +6,14 @@ import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import { Box, Stack, Button, Dialog, MenuItem, IconButton, Typography } from '@mui/material';
 
-import { GetHeader, PutHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
+import { PutHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 
 import { GROUP_SAVE, GROUP_UPDATE, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
+
 import './group-add.css';
+
 export default function AddGroupPage() {
    
     const navigate = useNavigate();
@@ -46,17 +48,16 @@ export default function AddGroupPage() {
         data: screen === "add" ? "" : data.auction_mode,
         error: ""
     });
-    
+
     const AuctionModeArray = ["Weekly", "Monthly", "Monthly Twice", "Monthly Thrice"];
 
     const [Loading, setLoading] = useState(false);
-    const [GroupListLoading, setGroupListLoading] = useState(false);
     const [Alert, setAlert] = useState(false);
     const [AlertMessage, setAlertMessage] = useState('');
     const [AlertFrom, setAlertFrom] = useState('');
     const [ErrorAlert, setErrorAlert] = useState(false);
     const [ErrorScreen, setErrorScreen] = useState('');
-    
+
     const GroupInfoParams = {
         "duration": Duration.data,
         "groupno": GroupCode.data,
@@ -77,7 +78,7 @@ export default function AddGroupPage() {
             setLoading(true);
             let url = '';
             let Params = '';
-            url = REACT_APP_HOST_URL + GROUP_SAVE;
+            url = `${REACT_APP_HOST_URL}${GROUP_SAVE}`;
             Params = GroupInfoParams;
             console.log(JSON.stringify(Params) + url);
             console.log(Session);
@@ -113,7 +114,7 @@ export default function AddGroupPage() {
             setLoading(true);
             let url = '';
             let Params = '';
-            url = REACT_APP_HOST_URL + GROUP_UPDATE + data.id;
+            url = `${REACT_APP_HOST_URL}${GROUP_UPDATE}${data.id}`;
             Params = GroupInfoParams;
             console.log(JSON.stringify(Params) + url);
             console.log(Session);
@@ -304,11 +305,17 @@ export default function AddGroupPage() {
 
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
+    const screenLabel = {
+        add: "Add Group",
+        view: "View Group",
+        edit: "Edit Group",
+    };
+
     return (
         <Container>
-        <Stack direction='row' spacing={2} alignItems='center' justifyContent={'space-between'} sx={{mt:2, mb:2}}>
+        <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{mt:2, mb:2}}>
         <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
-        {screen === "add" ? "Add Group" : (screen === "view" ? "View Group" : "Edit Group")}
+                    {screenLabel[screen] || "Add Group"}
     </Typography>
     <Button variant="contained" className='custom-button'  onClick={() => navigate('/group')}>
      Back
@@ -322,11 +329,7 @@ export default function AddGroupPage() {
                     }}
                     noValidate
                     autoComplete="off">
-                    {GroupListLoading
-                        ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-                            <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
-                        </Stack>
-                        : <Stack direction='column' >
+                    <Stack direction='column' >
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                             <div className='box-grp'>
                                 <Stack direction='column'>
@@ -338,7 +341,7 @@ export default function AddGroupPage() {
                                         className='input-box1'
                                             required
                                             id="outlined-required"
-                                            disabled={screen === "view" ? true : false}
+                                            disabled={screen === "view"}
                                             label="Group Code"
                                             value={GroupCode.data}
                                             onChange={(e) => GroupTextValidate(e, "GroupCode")}
@@ -358,7 +361,7 @@ export default function AddGroupPage() {
                                         className='input-box1'
                                             required
                                             id="outlined-required"
-                                            disabled={screen === "view" ? true : false}
+                                            disabled={screen === "view"}
                                             label="Amount"
                                             value={Amount.data}
                                             onChange={(e) => GroupTextValidate(e, "Amount")}
@@ -380,7 +383,7 @@ export default function AddGroupPage() {
                                         className='input-box1'
                                             required
                                             id="outlined-required"
-                                            disabled={screen === "view" ? true : false}
+                                            disabled={screen === "view"}
                                             label="Duration"
                                             value={Duration.data}
                                             onChange={(e) => GroupTextValidate(e, "Duration")}
@@ -400,7 +403,7 @@ export default function AddGroupPage() {
                                         className='input-box1'
                                             required
                                             id="outlined-required"
-                                            disabled={screen === "view" ? true : false}
+                                            disabled={screen === "view"}
                                             label="EM Due"
                                             value={EMDue.data}
                                             onChange={(e) => GroupTextValidate(e, "EMDue")}
@@ -422,7 +425,7 @@ export default function AddGroupPage() {
                                             required
                                             className='input-box1'
                                             id="outlined-required"
-                                            disabled={screen === "view" ? true : false}
+                                            disabled={screen === "view"}
                                             label="FM. PR. Due"
                                             value={FMPRDue.data}
                                             onChange={(e) => GroupTextValidate(e, "FMPRDue")}
@@ -442,7 +445,7 @@ export default function AddGroupPage() {
                                             required
                                             className='input-box1'
                                             id="outlined-required"
-                                            disabled={screen === "view" ? true : false}
+                                            disabled={screen === "view"}
                                             label="Dividend"
                                             value={Dividend.data}
                                             onChange={(e) => GroupTextValidate(e, "Dividend")}
@@ -466,7 +469,7 @@ export default function AddGroupPage() {
                                             className='input-box1'
                                             id="outlined-select-currency"
                                             select
-                                            disabled={screen === "view" ? true : false}
+                                            disabled={screen === "view"}
                                             label="Select"
                                             variant="outlined"
                                             value={AuctionMode.data}
@@ -489,11 +492,11 @@ export default function AddGroupPage() {
                                 :<Stack direction='column' alignItems='flex-end'>
                                         <Button sx={{ mr: 5, mb: 3, height: 50, width: 150 }} variant="contained" className='custom-button' onClick={HandleSubmitClick}>
                                             {Loading
-                                                ? (<img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                                                ? (<img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                                 : ("Submit")}
                                         </Button>
                                     </Stack>}
-                        </Stack>}
+                        </Stack>
                 </Box>
             </Card>
             <Dialog

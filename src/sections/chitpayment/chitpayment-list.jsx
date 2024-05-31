@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
@@ -29,7 +30,6 @@ export default function ChitPaymentTableRow({
   const [open, setOpen] = useState(null);
   const navigate = useNavigate();
   const Session = localStorage.getItem('apiToken');
-  const [Loading, setLoading] = useState(false);
   const [ConfirmAlert, setConfirmAlert] = useState(false);
   const [Alert, setAlert] = useState(false);
   const [AlertMessage, setAlertMessage] = useState('');
@@ -38,15 +38,13 @@ export default function ChitPaymentTableRow({
   const [ErrorScreen, setErrorScreen] = useState('network');
 
   const GroupDeleteMethod = (id) => {
-    setLoading(true);
-    const url = REACT_APP_HOST_URL + CHIT_PAYMENT_DELETE + id;
+    const url = `${REACT_APP_HOST_URL}${CHIT_PAYMENT_DELETE}${id}`;
     console.log(url);
     console.log(Session);
     fetch(url, DeleteHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
         console.log(JSON.stringify(json));
-        setLoading(false);
         if (json.success) {
           setAlertMessage(json.message);
           setAlertFrom("success");
@@ -61,7 +59,6 @@ export default function ChitPaymentTableRow({
         }
       })
       .catch((error) => {
-        setLoading(false);
         setErrorAlert(true);
         setErrorScreen("error");
         console.log(error);
@@ -117,7 +114,8 @@ export default function ChitPaymentTableRow({
           <TableCell padding="checkbox" style={{ display: 'none' }}>
             <Checkbox disableRipple checked={selected} onChange={handleClick} />
           </TableCell>
-          <TableCell sx={{ ml: 2 }}>{item.id}</TableCell>
+          <TableCell sx={{ ml: 2 }}>{item.date != null && item.date !== "" ? dayjs(item.date).format('DD-MM-YYYY') : ""}</TableCell>
+          <TableCell>{item.receiptno != null && item.receiptno !== "" ? Math.round(item.receiptno) : ""}</TableCell>
           <TableCell component="th" scope="row" >
             <Stack direction="row" alignItems="center" >
               <Typography variant="subtitle2" noWrap>
@@ -125,14 +123,10 @@ export default function ChitPaymentTableRow({
               </Typography>
             </Stack>
           </TableCell>
-
-          <TableCell>{item.duration}</TableCell>
-
-          <TableCell>{item.auction_mode}</TableCell>
-
-          <TableCell>{item.amount}</TableCell>
-          <TableCell>{item.amount}</TableCell>
-          <TableCell>{item.amount}</TableCell>
+          <TableCell>{item.membername}</TableCell>
+          <TableCell>{item.tktno}</TableCell>
+          <TableCell>{item.installment_no}</TableCell>
+          <TableCell>{item.credit_value != null && item.credit_value !== "" ? Math.round(item.credit_value) : ""}</TableCell>
 
           <TableCell align="right">
             <IconButton onClick={handleOpenMenu}>

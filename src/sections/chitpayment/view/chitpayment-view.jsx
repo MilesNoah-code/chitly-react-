@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,12 +11,10 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-import { Dialog, TextField, IconButton, InputAdornment } from '@mui/material';
-import dayjs from 'dayjs';
-
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { Dialog, TextField, IconButton, InputAdornment } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
@@ -61,13 +60,14 @@ export default function ChitPaymentView() {
 
   useEffect(() => {
     GetChitPaymentList("", "", "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const GetChitPaymentList = (fromdate, todate, text) => {
     setChitPaymentLoading(true);
-    const url = REACT_APP_HOST_URL + CHIT_PAYMENT_LIST + fromdate + "&toDate=" + todate + "&search=" + text;
+    const url = `${REACT_APP_HOST_URL}${CHIT_PAYMENT_LIST}${fromdate}&toDate=${todate}&search=${text}`;
     console.log(url);
-    console.log(GetHeader(Session))
+    console.log(Session);
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
@@ -198,7 +198,7 @@ export default function ChitPaymentView() {
                 label="From Date"
                 value={FromDate.data}
                 onChange={HandleFromDateChange}
-                disabled={ChitPaymentLoading ? true : false}
+                disabled={ChitPaymentLoading}
                 format="DD-MM-YYYY" />
             </DemoContainer>
           </LocalizationProvider>
@@ -208,7 +208,7 @@ export default function ChitPaymentView() {
                 label="To Date"
                 value={ToDate.data}
                 onChange={HandleToDateChange}
-                disabled={ChitPaymentLoading ? true : false}
+                disabled={ChitPaymentLoading}
                 format="DD-MM-YYYY" />
             </DemoContainer>
           </LocalizationProvider>
@@ -216,7 +216,7 @@ export default function ChitPaymentView() {
             placeholder="Search..."
             value={filterName}
             onChange={(e) => handleFilterByName(e)}
-            disabled={ChitPaymentLoading ? true : false}
+            disabled={ChitPaymentLoading}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

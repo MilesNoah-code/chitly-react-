@@ -21,12 +21,13 @@ import Scrollbar from 'src/components/scrollbar';
 
 import { emptyRows } from 'src/sections/member/utils';
 
+import './group-view.css';
 import GroupTableRow from '../group-list';
 import TableHeader from '../../member/table-head';
 import TableNoData from '../../member/table-no-data';
 import ErrorLayout from '../../../Error/ErrorLayout';
 import TableEmptyRows from '../../member/table-empty-rows';
-import './group-view.css';
+
 export default function GroupView() {
 
   const navigate = useNavigate();
@@ -48,13 +49,14 @@ export default function GroupView() {
 
   useEffect(() => {
     GetGroupList(1, "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const GetGroupList = (isActive, text) => {
     setGroupListLoading(true);
-    const url = REACT_APP_HOST_URL + GROUP_LIST + isActive + "&search=" + text;
+    const url = `${REACT_APP_HOST_URL}${GROUP_LIST}${isActive}&search=${text}`;
     console.log(url);
-    console.log(GetHeader(Session))
+    console.log(Session)
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {

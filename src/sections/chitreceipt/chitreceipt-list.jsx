@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
@@ -39,7 +40,7 @@ export default function ChitReceiptTableRow({
   const [ErrorScreen, setErrorScreen] = useState('network');
 
   const ChitReceiptDeleteMethod = (id) => {
-    const url = REACT_APP_HOST_URL + CHIT_RECEIPT_DELETE + id;
+    const url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_DELETE}${id}`;
     console.log(url);
     console.log(Session);
     fetch(url, DeleteHeader(JSON.parse(Session)))
@@ -115,7 +116,8 @@ export default function ChitReceiptTableRow({
           <TableCell padding="checkbox" style={{ display: 'none' }}>
             <Checkbox disableRipple checked={selected} onChange={handleClick} />
           </TableCell>
-          <TableCell sx={{ ml: 2 }}>{item.id}</TableCell>
+          <TableCell sx={{ ml: 2 }}>{item.date != null && item.date !== "" ? dayjs(item.date).format('DD-MM-YYYY') : ""}</TableCell>
+          <TableCell>{item.receiptno != null && item.receiptno !== "" ? Math.round(item.receiptno) : ""}</TableCell>
           <TableCell component="th" scope="row" >
             <Stack direction="row" alignItems="center" >
               <Typography variant="subtitle2" noWrap>
@@ -123,14 +125,11 @@ export default function ChitReceiptTableRow({
               </Typography>
             </Stack>
           </TableCell>
+          <TableCell>{item.membername}</TableCell>
 
-          <TableCell>{item.duration}</TableCell>
-
-          <TableCell>{item.auction_mode}</TableCell>
-
-          <TableCell>{item.amount}</TableCell>
-          <TableCell>{item.amount}</TableCell>
-          <TableCell>{item.amount}</TableCell>
+          <TableCell>{item.tktno}</TableCell>
+          <TableCell>{item.installfrom}</TableCell>
+          <TableCell>{item.credit_value != null && item.credit_value !== "" ? Math.round(item.credit_value) : ""}</TableCell>
 
           <TableCell align="right">
             <IconButton onClick={handleOpenMenu}>

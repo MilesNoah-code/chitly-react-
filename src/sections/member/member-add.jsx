@@ -1,4 +1,4 @@
-
+import dayjs from 'dayjs';
 import styled from '@emotion/styled';
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -7,8 +7,6 @@ import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import { TabList, TabPanel, TabContext } from '@mui/lab';
-import dayjs from 'dayjs';
-
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
@@ -18,12 +16,15 @@ import { Box, Tab, Radio, Stack, Button, Dialog, MenuItem, RadioGroup, IconButto
 import { GetHeader, PutHeader, PostHeader, DeleteHeader, PostImageHeader } from 'src/hooks/AxiosApiFetch';
 
 import { isValidEmail } from 'src/utils/Validator';
-import { MEMBER_ADD, MEMBER_VIEW, MEMBER_UPDATE, MEMBER_MEDIA_LIST, REACT_APP_HOST_URL, MEMBER_ADDRESS_SAVE, MEMBER_IMAGE_UPLOAD, MEMBER_MEDIA_DELETE, MEMBER_ADDRESS_UPDATE, MEMBER_BANK_DETAIL_SAVE, MEMBER_BANK_DETAIL_UPDATE, MEMBER_EDUCATION_DETAIL_SAVE, MEMBER_OCCUPATION_DETAIL_SAVE, MEMBER_EDUCATION_DETAIL_UPDATE, MEMBER_OCCUPATION_DETAIL_UPDATE } from 'src/utils/api-constant';
+import { IMAGE_URL, MEMBER_ADD, MEMBER_VIEW, MEMBER_UPDATE, MEMBER_MEDIA_LIST, REACT_APP_HOST_URL, MEMBER_ADDRESS_SAVE, MEMBER_IMAGE_UPLOAD,
+    MEMBER_MEDIA_DELETE, MEMBER_ADDRESS_UPDATE, MEMBER_BANK_DETAIL_SAVE, MEMBER_BANK_DETAIL_UPDATE, MEMBER_EDUCATION_DETAIL_SAVE,
+    MEMBER_OCCUPATION_DETAIL_SAVE, MEMBER_EDUCATION_DETAIL_UPDATE, MEMBER_OCCUPATION_DETAIL_UPDATE,
+} from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
 
 import './member-add.css';
-import Iconify from 'src/components/iconify';
+
 export default function AddMemberPage() {
    
     const navigate = useNavigate();
@@ -216,11 +217,12 @@ export default function AddMemberPage() {
         if (screen === "view" || screen === "edit"){
             GetMemberView();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [screen]);
 
     const GetMemberView = () => {
         setMemberLoading(true);
-        const url = REACT_APP_HOST_URL + MEMBER_VIEW + data.id;
+        const url = `${REACT_APP_HOST_URL}${MEMBER_VIEW}${data.id}`;
         console.log(url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -486,20 +488,20 @@ export default function AddMemberPage() {
             let url = '';
             let Params = '';
             if(screen === "add" || TabIndex === '1'){
-                url = REACT_APP_HOST_URL + MEMBER_ADD;
+                url = `${REACT_APP_HOST_URL}${MEMBER_ADD}`;
                 Params = MemberInfoParams;
             }
             if (TabIndex === '2') {
-                url = REACT_APP_HOST_URL + MEMBER_ADDRESS_SAVE;
+                url = `${REACT_APP_HOST_URL}${MEMBER_ADDRESS_SAVE}`;
                 Params = AddressDetailParams;
             } else if (TabIndex === '3') {
-                url = REACT_APP_HOST_URL + MEMBER_BANK_DETAIL_SAVE;
+                url = `${REACT_APP_HOST_URL}${MEMBER_BANK_DETAIL_SAVE}`;
                 Params = BankDetailParams;
             } else if (TabIndex === '4') {
-                url = REACT_APP_HOST_URL + MEMBER_EDUCATION_DETAIL_SAVE;
+                url = `${REACT_APP_HOST_URL}${MEMBER_EDUCATION_DETAIL_SAVE}`;
                 Params = EducationDetailParams;
             } else if (TabIndex === '6') {
-                url = REACT_APP_HOST_URL + MEMBER_OCCUPATION_DETAIL_SAVE;
+                url = `${REACT_APP_HOST_URL}${MEMBER_OCCUPATION_DETAIL_SAVE}`;
                 Params = OccupationDetailParams;
             }
             console.log(JSON.stringify(Params) + url);
@@ -537,19 +539,19 @@ export default function AddMemberPage() {
             let url = '';
             let Params = '';
             if (TabIndex === '1') {
-                url = REACT_APP_HOST_URL + MEMBER_UPDATE + data.id;
+                url = `${REACT_APP_HOST_URL}${MEMBER_UPDATE}${data.id}`;
                 Params = MemberInfoParams;
             } else if (TabIndex === '2') {
-                url = REACT_APP_HOST_URL + MEMBER_ADDRESS_UPDATE + AddressId;
+                url = `${REACT_APP_HOST_URL}${MEMBER_ADDRESS_UPDATE}${AddressId}`;
                 Params = AddressDetailParams;
             } else if (TabIndex === '3') {
-                url = REACT_APP_HOST_URL + MEMBER_BANK_DETAIL_UPDATE + BankId;
+                url = `${REACT_APP_HOST_URL}${MEMBER_BANK_DETAIL_UPDATE}${BankId}`;
                 Params = BankDetailParams;
             } else if (TabIndex === '4') {
-                url = REACT_APP_HOST_URL + MEMBER_EDUCATION_DETAIL_UPDATE + EducationId;
+                url = `${REACT_APP_HOST_URL}${MEMBER_EDUCATION_DETAIL_UPDATE}${EducationId}`;
                 Params = EducationDetailParams;
             } else if (TabIndex === '6') {
-                url = REACT_APP_HOST_URL + MEMBER_OCCUPATION_DETAIL_UPDATE + OccupationId;
+                url = `${REACT_APP_HOST_URL}${MEMBER_OCCUPATION_DETAIL_UPDATE}${OccupationId}`;
                 Params = OccupationDetailParams;
             }
             console.log(JSON.stringify(Params) + url);
@@ -583,9 +585,9 @@ export default function AddMemberPage() {
 
     const GetMediaList = () => {
         setMediaListLoading(true);
-        const url = REACT_APP_HOST_URL + MEMBER_MEDIA_LIST;
+        const url = `${REACT_APP_HOST_URL}${MEMBER_MEDIA_LIST}`;
         console.log(url);;
-        console.log(GetHeader(Session))
+        console.log(Session)
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
@@ -628,7 +630,7 @@ export default function AddMemberPage() {
             fetch(url, PostImageHeader(JSON.parse(Session), formDataObject))
                 .then((response) => response.json())
                 .then((json) => {
-                    console.log(JSON.stringify(json));
+                    console.log(json);
                     setLoading(false);
                     if (json.success) {
                         if (imagetype === "MEMBER_PROFILE"){
@@ -674,8 +676,8 @@ export default function AddMemberPage() {
         comments: "Member"
     };
 
-    const MemberMediaSave = (imagepath) => {
-        if (imagepath != null && imagepath !== "") {
+    const MemberMediaSave = (IsValidate, imagepath) => {
+        if (IsValidate && imagepath != null && imagepath !== "") {
             setLoading(true);
             MediaSaveParams.path = imagepath;
             if (ProofType.data === "ID PROOF"){
@@ -709,8 +711,8 @@ export default function AddMemberPage() {
                     MediaSaveParams.entry_mappedtype = "ITR_FORM";
                     MediaSaveParams.entry_mappedtypeno = 130;
                 }
-            } 
-            const url = REACT_APP_HOST_URL + MEMBER_IMAGE_UPLOAD
+            }
+            const url = `${REACT_APP_HOST_URL}${MEMBER_IMAGE_UPLOAD}`;
             console.log(JSON.stringify(MediaSaveParams));
             console.log(url);
             fetch(url, PostHeader(JSON.parse(Session), MediaSaveParams))
@@ -742,7 +744,7 @@ export default function AddMemberPage() {
 
     const MemberDeleteMedia = (file, id) => {
         setLoading(true);
-        const url = REACT_APP_HOST_URL + MEMBER_MEDIA_DELETE + id;
+        const url = `${REACT_APP_HOST_URL}${MEMBER_MEDIA_DELETE}${id}`;
         console.log(url);
         console.log(Session);
         fetch(url, DeleteHeader(JSON.parse(Session)))
@@ -827,11 +829,12 @@ export default function AddMemberPage() {
                 datesave: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "* Required" : ""
             }));
-        } else if (from === "Email"){
+        } else if (from === "Email") {
+            const newError = isValidEmail(text) ? "" : "* Invalid Email";
             setEmail(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : (isValidEmail(text) ? "" : "* Invalid Email")
+                error: text.trim() === "" ? "* Required" : newError
             }));
         } else if (from === "WhatsappNo"){
             setWhatsappNo(prevState => ({
@@ -1388,7 +1391,7 @@ export default function AddMemberPage() {
                 }));
             }
         }
-        MemberMediaSave(ProofImage)
+        MemberMediaSave(IsValidate, ProofImage)
     }
 
     const OccupationDetailsTextValidate = (e, from) => {
@@ -1525,10 +1528,6 @@ export default function AddMemberPage() {
         setTabIndex(newValue);
     };
 
-    const HandleChoosePhoto = (event) => {
-        console.log("dsadas")
-    };
-
     const HandleSubmitClick = () => {
         console.log("submitclick11");
         if (screen === "add" || TabIndex === '1'){
@@ -1570,7 +1569,7 @@ export default function AddMemberPage() {
                 error: ""
             });
             MemberImageUpload(file, 'MEMBER_PROFILE');
-            /*if(ProfileImage.data !== ""){
+            /* if(ProfileImage.data !== ""){
                 MemberDeleteMedia(file, data.id);
             }else{
                 setProfileImage({
@@ -1578,7 +1577,7 @@ export default function AddMemberPage() {
                     error: ""
                 });
                 MemberImageUpload(filePath, 'MEMBER_PROFILE');
-            }*/
+            } */
         }
     };
 
@@ -1609,19 +1608,23 @@ export default function AddMemberPage() {
             error: ""
         });
     };
-    
-   
-   
+
     const currentDate = dayjs();
     const maxDate = currentDate.subtract(18, 'year');
 
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
+    const screenLabel = {
+        add: "Add Member",
+        view: "View Member",
+        edit: "Edit Member",
+    };
+
     return (
         <Container>
-        <Stack direction='row' spacing={2} alignItems='center' justifyContent={'space-between'} sx={{mt:2, mb:2}}>
+        <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{mt:2, mb:2}}>
         <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 2, mb: 2 }}>
-        {screen === "add" ? "Add Member" : (screen === "view" ? "View Member" : "Edit Member")}
+                    {screenLabel[screen] || "Add Member"}
     </Typography>
     <Button variant="contained" className='custom-button'  onClick={() => navigate('/member')}>
           Back
@@ -1664,7 +1667,7 @@ export default function AddMemberPage() {
                                             <Stack direction='column' sx={{ ml: 2, }}>
                                                 {ProfileImage.data !== ""
                                                     ? <div>
-                                                        <img src={"https://storage.googleapis.com/stgasset.iar.net.in/" + ProfileImage.data} alt="Selected" style={{ width: 100, height: 100, }} />
+                                                        <img src={IMAGE_URL + ProfileImage.data} alt="Selected" style={{ width: 100, height: 100, }} />
                                                     </div>
                                                     : <div>
                                                         <img src="../../../public/assets/icons/placeholder.png" alt="Selected" style={{ width: 100, height: 100, }} />
@@ -1688,8 +1691,7 @@ export default function AddMemberPage() {
                                                 className='input-box'
                                                     id="outlined-select-currency"
                                                     select
-                                                    disabled={screen === "view" ? true : false}
-                                                    
+                                                    disabled={screen === "view"}
                                                     variant="outlined"
                                                     value={NamePrefix.data}
                                                     onChange={(e) => MemberInfoTextValidate(e, "NamePrefix")}
@@ -1704,7 +1706,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Member Name"
                                                     variant="outlined"
                                                     value={MemberName.data}
@@ -1724,7 +1726,7 @@ export default function AddMemberPage() {
                                                 className='input-box'
                                                     id="outlined-select-currency"
                                                     select
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label=""
                                                     variant="outlined"
                                                     value={RelationPrefix.data}
@@ -1740,7 +1742,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Relationhsip"
                                                     value={Relationship.data}
                                                     onChange={(e) => MemberInfoTextValidate(e, "Relationship")} />
@@ -1763,7 +1765,7 @@ export default function AddMemberPage() {
                                                     required
                                                     id="outlined-select-currency"
                                                     select
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Select"
                                                     variant="outlined"
                                                     value={Gender.data}
@@ -1790,7 +1792,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Mobile Number"
                                                     value={MobileNumber.data}
                                                     onChange={(e) => MemberInfoTextValidate(e, "MobileNumber")}
@@ -1839,7 +1841,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Email"
                                                     value={Email.data}
                                                     onChange={(e) => MemberInfoTextValidate(e, "Email")}
@@ -1861,7 +1863,7 @@ export default function AddMemberPage() {
                                                     required
                                                     className='input-box1'
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Whatsapp Number"
                                                     value={WhatsappNo.data}
                                                     onChange={(e) => MemberInfoTextValidate(e, "WhatsappNo")}
@@ -1880,7 +1882,7 @@ export default function AddMemberPage() {
                                                     required
                                                     className='input-box1'
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Guardian Name"
                                                     value={GuardName.data}
                                                     onChange={(e) => MemberInfoTextValidate(e, "GuardName")}
@@ -1901,7 +1903,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Guardian Relation"
                                                     value={GuardRelationship.data}
                                                     onChange={(e) => MemberInfoTextValidate(e, "GuardRelationship")}
@@ -1920,7 +1922,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Aadhar Number"
                                                     value={AadharNo.data}
                                                     onChange={(e) => MemberInfoTextValidate(e, "AadharNo")}
@@ -1941,7 +1943,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Pancard Number"
                                                     value={PancardNo.data}
                                                     onChange={(e) => MemberInfoTextValidate(e, "PancardNo")}
@@ -1965,7 +1967,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Address"
                                                     value={Address.data}
                                                     onChange={(e) => AddressDetailsTextValidate(e, "Address")}
@@ -1985,7 +1987,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Area Name"
                                                     value={AreaName.data}
                                                     onChange={(e) => AddressDetailsTextValidate(e, "AreaName")}
@@ -2007,7 +2009,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="City"
                                                     value={City.data}
                                                     onChange={(e) => AddressDetailsTextValidate(e, "City")}
@@ -2027,7 +2029,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="State"
                                                     value={State.data}
                                                     onChange={(e) => AddressDetailsTextValidate(e, "State")}
@@ -2048,7 +2050,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Country"
                                                     value={Country.data}
                                                     onChange={(e) => AddressDetailsTextValidate(e, "Country")}
@@ -2073,7 +2075,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Name on Account"
                                                     value={NameOnAccount.data}
                                                     onChange={(e) => BankDetailsTextValidate(e, "NameOnAccount")}
@@ -2093,7 +2095,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Account Number"
                                                     value={AccountNumber.data}
                                                     onChange={(e) => BankDetailsTextValidate(e, "AccountNumber")}
@@ -2117,7 +2119,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="IFSC Code"
                                                     value={IFSCCode.data}
                                                     onChange={(e) => BankDetailsTextValidate(e, "IFSCCode")}
@@ -2138,7 +2140,7 @@ export default function AddMemberPage() {
                                                     required
                                                     id="outlined-select-currency"
                                                     select
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Select"
                                                     variant="outlined"
                                                     value={TypeOfAccount.data}
@@ -2169,7 +2171,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Bank Name"
                                                     value={BankName.data}
                                                     onChange={(e) => BankDetailsTextValidate(e, "BankName")}
@@ -2189,7 +2191,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Branch"
                                                     value={Branch.data}
                                                     onChange={(e) => BankDetailsTextValidate(e, "Branch")}
@@ -2212,7 +2214,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="UPI"
                                                     value={UPI.data}
                                                     onChange={(e) => BankDetailsTextValidate(e, "UPI")}
@@ -2239,12 +2241,12 @@ export default function AddMemberPage() {
                                                     row 
                                                     value={Education.data}
                                                     onChange={(e) => setEducation({ data: e.target.value, error: "" })}>
-                                                    <FormControlLabel value="Primary" control={<Radio />} label="Primary" disabled={screen === "view" ? true : false} />
-                                                    <FormControlLabel value="Secondary" control={<Radio />} label="Secondary" disabled={screen === "view" ? true : false} />
-                                                    <FormControlLabel className="radio-control2" value="Diploma" control={<Radio />} label="Diploma" disabled={screen === "view" ? true : false} />
-                                                    <FormControlLabel value="Graduate" control={<Radio />} label="Graduate" disabled={screen === "view" ? true : false} />
-                                                    <FormControlLabel className="radio-control" value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view" ? true : false} />
-                                                    <FormControlLabel className="radio-control1" value="Doctrate" control={<Radio />} label="Doctorate" onChange={() => setEducation('Doctrate')} disabled={screen === "view" ? true : false} />
+                                                    <FormControlLabel value="Primary" control={<Radio />} label="Primary" disabled={screen === "view"} />
+                                                    <FormControlLabel value="Secondary" control={<Radio />} label="Secondary" disabled={screen === "view"} />
+                                                    <FormControlLabel className="radio-control2" value="Diploma" control={<Radio />} label="Diploma" disabled={screen === "view"} />
+                                                    <FormControlLabel value="Graduate" control={<Radio />} label="Graduate" disabled={screen === "view"} />
+                                                    <FormControlLabel className="radio-control" value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view"} />
+                                                    <FormControlLabel className="radio-control1" value="Doctrate" control={<Radio />} label="Doctorate" onChange={() => setEducation('Doctrate')} disabled={screen === "view"} />
                                                 </RadioGroup>
                                               
                                             </Stack>
@@ -2264,11 +2266,11 @@ export default function AddMemberPage() {
                                                     row 
                                                     value={MaritalStatus.data}
                                                     onChange={(e) => setMaritalStatus({ data: e.target.value, error: "" })}>
-                                                    <FormControlLabel value="Single" control={<Radio />} label="Single" disabled={screen === "view" ? true : false} />
-                                                    <FormControlLabel value="Married" control={<Radio />} label="Married" disabled={screen === "view" ? true : false} />
-                                                    <FormControlLabel value="Married With Kids" control={<Radio />} label="Married with Kids" disabled={screen === "view" ? true : false} />
-                                                    <FormControlLabel value="Divorced" control={<Radio />} label="Divorced" disabled={screen === "view" ? true : false} />
-                                                    <FormControlLabel className="radio-control3" value="Separated" control={<Radio />} label="Separated" disabled={screen === "view" ? true : false} />
+                                                    <FormControlLabel value="Single" control={<Radio />} label="Single" disabled={screen === "view"} />
+                                                    <FormControlLabel value="Married" control={<Radio />} label="Married" disabled={screen === "view"} />
+                                                    <FormControlLabel value="Married With Kids" control={<Radio />} label="Married with Kids" disabled={screen === "view"} />
+                                                    <FormControlLabel value="Divorced" control={<Radio />} label="Divorced" disabled={screen === "view"} />
+                                                    <FormControlLabel className="radio-control3" value="Separated" control={<Radio />} label="Separated" disabled={screen === "view"} />
                                                 </RadioGroup>
                                               
                                             </Stack>
@@ -2276,7 +2278,7 @@ export default function AddMemberPage() {
                                         </Stack>
                                         </div>
                                     </Stack>
-                                    {MaritalStatus === "Married" || MaritalStatus === "Married With Kids"
+                                    {MaritalStatus.data === "Married" || MaritalStatus.data === "Married With Kids"
                                         ? <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                         <div className='box'>
                                             <Stack direction='column'>
@@ -2290,12 +2292,12 @@ export default function AddMemberPage() {
                                                         row
                                                         value={SpouseEducation.data}
                                                         onChange={(e) => setSpouseEducation({ data: e.target.value, error: "" })}>
-                                                        <FormControlLabel value="Primary" control={<Radio />} label="Primary" disabled={screen === "view" ? true : false} />
-                                                        <FormControlLabel value="Secondary" control={<Radio />} label="Secondary" disabled={screen === "view" ? true : false} />
-                                                        <FormControlLabel value="Diploma" control={<Radio />} label="Diploma" disabled={screen === "view" ? true : false} />
-                                                        <FormControlLabel value="Graduate" control={<Radio />} label="Graduate" disabled={screen === "view" ? true : false} />
-                                                        <FormControlLabel value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view" ? true : false} />
-                                                        <FormControlLabel value="Doctrate" control={<Radio />} label="Doctorate" disabled={screen === "view" ? true : false} />
+                                                        <FormControlLabel value="Primary" control={<Radio />} label="Primary" disabled={screen === "view"} />
+                                                        <FormControlLabel value="Secondary" control={<Radio />} label="Secondary" disabled={screen === "view"} />
+                                                        <FormControlLabel value="Diploma" control={<Radio />} label="Diploma" disabled={screen === "view"} />
+                                                        <FormControlLabel value="Graduate" control={<Radio />} label="Graduate" disabled={screen === "view"} />
+                                                        <FormControlLabel value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view"} />
+                                                        <FormControlLabel value="Doctrate" control={<Radio />} label="Doctorate" disabled={screen === "view"} />
                                                     </RadioGroup>
                                                   
                                                 </Stack>
@@ -2357,7 +2359,7 @@ export default function AddMemberPage() {
                                                 required
                                                     id="outlined-select-currency"
                                                     select
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Select"
                                                     variant="outlined"
                                                     value={CurrentOccupation.data}
@@ -2384,7 +2386,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Current Employer"
                                                     value={CurrentEmployer.data}
                                                     onChange={(e) => OccupationDetailsTextValidate(e, "CurrentEmployer")}
@@ -2406,7 +2408,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Years at Current Employer"
                                                     value={YearsAtCurrentEmployer.data}
                                                     onChange={(e) => OccupationDetailsTextValidate(e, "YearsAtCurrentEmployer")}
@@ -2426,7 +2428,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Monthly Income"
                                                     value={MonthlyIncome.data}
                                                     onChange={(e) => OccupationDetailsTextValidate(e, "MonthlyIncome")}
@@ -2451,8 +2453,8 @@ export default function AddMemberPage() {
                                                     row 
                                                     value={LivingIn.data}
                                                     onChange={(e) => setLivingIn({ data: e.target.value, error: "" })}>
-                                                    <FormControlLabel value="0" control={<Radio />} label="Rented House" disabled={screen === "view" ? true : false} />
-                                                    <FormControlLabel value="1" control={<Radio />} label="Own House" disabled={screen === "view" ? true : false} />
+                                                    <FormControlLabel value="0" control={<Radio />} label="Rented House" disabled={screen === "view"} />
+                                                    <FormControlLabel value="1" control={<Radio />} label="Own House" disabled={screen === "view"} />
                                                 </RadioGroup>
                                               
                                             </Stack>
@@ -2469,7 +2471,7 @@ export default function AddMemberPage() {
                                                 className='input-box1'
                                                     required
                                                     id="outlined-required"
-                                                    disabled={screen === "view" ? true : false}
+                                                    disabled={screen === "view"}
                                                     label="Years at Current Residence"
                                                     value={YearsAtCurrentResidence.data}
                                                     onChange={(e) => OccupationDetailsTextValidate(e, "YearsAtCurrentResidence")}
@@ -2487,7 +2489,7 @@ export default function AddMemberPage() {
                                 :<Stack direction='column' alignItems='flex-end'>
                                         <Button sx={{ mr: 5, mb: 3, height: 50, width: 150 }} variant="contained"  className='custom-button' onClick={HandleSubmitClick}>
                                             {Loading
-                                                ? (<img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                                                ? (<img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                                 : ("Submit")}
                                         </Button>
                                     </Stack>}
@@ -2546,8 +2548,11 @@ export default function AddMemberPage() {
                                     select
                                     variant="outlined"
                                     value={ProofType.data}
-                                    onChange={(e) => {setProofType({data: e.target.value , error: ""}); 
-                                        setKYCOtherType({ data: e.target.value === "KYC" ? KYCArray[0] : e.target.value === "OTHERS" ? OtherArray[0] : "", error: ""})}}
+                                    onChange={(e) => {
+                                        setProofType({ data: e.target.value, error: "" });
+                                        const KYCOtherTypeData = e.target.value === "OTHERS" ? OtherArray[0] : "";
+                                        setKYCOtherType({ data: e.target.value === "KYC" ? KYCArray[0] : KYCOtherTypeData, error: "" })
+                                    }}
                                     style={{ width: 150, color: 'black', }} >
                                     {ProofArray.map((option) => (
                                         <MenuItem key={option} value={option}>

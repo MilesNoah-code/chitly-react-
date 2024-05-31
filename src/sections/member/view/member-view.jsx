@@ -19,13 +19,14 @@ import { MEMBER_LIST, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
+import './member-view.css';
 import TableHeader from '../table-head';
 import TableNoData from '../table-no-data';
 import MemberTableRow from '../member-list';
 import TableEmptyRows from '../table-empty-rows';
 import ErrorLayout from '../../../Error/ErrorLayout';
 import { emptyRows, applyFilter, getComparator } from '../utils';
-import './member-view.css';
+
 export default function MemberView() {
 
   const navigate = useNavigate();
@@ -47,13 +48,14 @@ export default function MemberView() {
 
   useEffect(() => {
     GetMemberList(1, "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const GetMemberList = (isActive, text) => {
     setMemberListLoading(true);
-    const url = REACT_APP_HOST_URL + MEMBER_LIST + isActive;
+    const url = `${REACT_APP_HOST_URL}${MEMBER_LIST}${isActive}&search=${text}`;
     console.log(url);
-    console.log(GetHeader(Session))
+    console.log(Session)
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {

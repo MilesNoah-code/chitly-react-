@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { Box, Stack, Button, Typography } from '@mui/material';
 
@@ -39,3 +40,7 @@ const ErrorLayout = ({ screen }) => {
 };
 
 export default ErrorLayout;
+
+ErrorLayout.propTypes = {
+  screen: PropTypes.any,
+};

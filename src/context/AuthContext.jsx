@@ -1,14 +1,14 @@
-import React, { createContext } from "react";
-import { useReducer } from "react";
-let isAuthToken = JSON.parse(localStorage.getItem("apiToken"));
+import React, { useReducer, createContext } from "react";
+
+const isAuthToken = JSON.parse(localStorage.getItem("apiToken"));
 
 const AuthContext = createContext({
-  isLogin: isAuthToken ? true : false,
+  isLogin: isAuthToken,
   authLogin: () => {},
   authLogout: () => {},
 });
 const initialValue = {
-  isLogin: isAuthToken ? true : false,
+  isLogin: isAuthToken,
 };
 
 const authReducer = (state, action) => {

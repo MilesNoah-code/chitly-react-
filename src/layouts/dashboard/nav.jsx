@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -13,9 +14,10 @@ import ListItemButton from '@mui/material/ListItemButton';
 import { usePathname } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 
+import { PostHeader } from 'src/hooks/AxiosApiFetch';
 import { useResponsive } from 'src/hooks/use-responsive';
 
-import { account } from 'src/_mock/account';
+import { LOGOUT_URL, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
@@ -23,13 +25,32 @@ import Scrollbar from 'src/components/scrollbar';
 import { NAV } from './config-layout';
 import navConfig from './config-navigation';
 
-// ----------------------------------------------------------------------
-
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
 
   const upLg = useResponsive('up', 'lg');
   const UserDetail = JSON.parse(localStorage.getItem('userDetails'));
+  const Session = localStorage.getItem('apiToken');
+  const navigate = useNavigate();
+
+  const LogOutMethod = () => {
+    const url = `${REACT_APP_HOST_URL}${LOGOUT_URL}`;
+    console.log(JSON.parse(Session));
+    console.log(url);
+    fetch(url, PostHeader(JSON.parse(Session), ''))
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(JSON.stringify(json));
+        if (json.success) {
+          localStorage.removeItem("apiToken");
+          localStorage.removeItem("userDetails");
+          navigate('/login');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
 
   useEffect(() => {
     if (openNav) {
@@ -79,10 +100,10 @@ export default function Nav({ openNav, onCloseNav }) {
       <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
 
         <Button
-          href="https://material-ui.com/store/items/minimal-dashboard/"
           target="_blank"
           variant="contained"
           color="inherit"
+          onClick={LogOutMethod}
         >
           Logout
         </Button>

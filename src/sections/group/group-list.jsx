@@ -37,7 +37,7 @@ export default function GroupTableRow({
   const [ErrorScreen, setErrorScreen] = useState('network');
 
   const GroupDeleteMethod = (id) => {
-    const url = REACT_APP_HOST_URL + GROUP_DELETE + id;
+    const url = `${REACT_APP_HOST_URL}${GROUP_DELETE}${id}`;
     console.log(url);
     console.log(Session);
     fetch(url, DeleteHeader(JSON.parse(Session)))

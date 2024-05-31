@@ -68,6 +68,10 @@ flex-wrap: wrap;
   margin-left: 15px;
   margin-right: 15px;
 }
+.dialog .MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  font-size: 13px !important;
+  padding: 9.5px 14px !important; 
+}
   @media screen and (max-width: 768px) {
     .stack-box{
         flex-direction: column !important;

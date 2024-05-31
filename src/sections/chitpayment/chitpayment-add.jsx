@@ -94,7 +94,7 @@ export default function AddChitPaymentPage() {
     const [SelectUnPaidGroup, setSelectUnPaidGroup] = useState([]);
     const [filterGroupCode, setfilterGroupCode] = useState('');
     const [rowsPerPage, setRowsPerPage] = useState(15);
-    const [LedgerListAlert, setLedgerListAlert] = useState(true);
+    const [LedgerListAlert, setLedgerListAlert] = useState(false);
     const [LedgerListLoading, setLedgerListLoading] = useState(true);
     const [LedgerList, setLedgerList] = useState([]);
     const [LedgerTotalCount, setLedgerTotalCount] = useState(0);
@@ -989,10 +989,10 @@ export default function AddChitPaymentPage() {
                 aria-describedby="alert-dialog-description" >
                 <Card sx={{ maxWidth: '800px' }}>
                     <Stack sx={{ height: '100%', maxHeight: '100vh', overflow: 'hidden' }}>
-                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 5, mt: 3 }}>
+                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 5, mt: 2 }}>
                             Account Ledger
                         </Typography>
-                        <Stack mt={2} ml={2} mr={1} direction="row" alignItems="center">
+                        <Stack mt={1} ml={2} mr={1} direction="row" alignItems="center">
                             <TextField
                                 placeholder="Ledger Name..."
                                 value={LedgerFilterName}
@@ -1016,7 +1016,7 @@ export default function AddChitPaymentPage() {
                                 <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17 }} />
                             </IconButton>
                         </Stack>
-                        <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 2 }}>
+                        <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 1 }}>
                             <Scrollbar>
                                 {LedgerListLoading ? (
                                     <Stack mt={10} sx={{ alignItems: 'center' }}>
@@ -1030,10 +1030,10 @@ export default function AddChitPaymentPage() {
                                             <Stack
                                                 key={index}
                                                 direction="column"
-                                                sx={{ mt: 1 }}
+                                                sx={{ mt: 0.5 }}
                                                 onClick={(event) => HandleLedgerClick(event, row)}
                                             >
-                                                <Typography variant="subtitle1" sx={{ ml: 4, mr: 5, mb: 0.5 }}>
+                                                <Typography sx={{ ml: 4, mr: 5, mb: 0.5, fontSize: 11 }}>
                                                     {row.ledgername}
                                                 </Typography>
                                                 <Divider sx={{ flexGrow: 1 }} />

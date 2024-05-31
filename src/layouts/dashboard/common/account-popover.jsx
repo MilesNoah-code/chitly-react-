@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -9,7 +10,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
-// ----------------------------------------------------------------------
+import { PostHeader } from 'src/hooks/AxiosApiFetch';
+
+import { LOGOUT_URL, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 const MENU_OPTIONS = [
   {
@@ -34,10 +37,36 @@ export default function AccountPopover() {
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
+  const Session = localStorage.getItem('apiToken');
+  const navigate = useNavigate();
 
   const handleClose = () => {
     setOpen(null);
   };
+
+  const LogOutMethod = () => {
+    setOpen(null);
+    const url = `${REACT_APP_HOST_URL}${LOGOUT_URL}`;
+    console.log(url);
+    console.log(JSON.parse(Session))
+    fetch(url, PostHeader(JSON.parse(Session), ''))
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(JSON.stringify(json));
+        if (json.success) {
+          localStorage.removeItem("apiToken");
+          localStorage.removeItem( "userDetails");
+          navigate('/login');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+
+  const firstName = UserDetail.first_name !== null && UserDetail.first_name !== undefined ? UserDetail.first_name : '';
+  const lastName = UserDetail.last_name !== null && UserDetail.last_name !== undefined ? UserDetail.last_name : '';
+  const fullName = `${firstName} ${lastName}`.trim();
 
   return (
     <>
@@ -83,8 +112,7 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2 }}>
           <Typography variant="subtitle2" noWrap>
-            {(UserDetail.first_name !== null && UserDetail.first_name !== undefined) ? UserDetail.first_name : '' + " " 
-            + (UserDetail.last_name !== null && UserDetail.last_name !== undefined) ? UserDetail.last_name : ''}
+            {fullName}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
             {UserDetail.username}
@@ -104,7 +132,7 @@ export default function AccountPopover() {
         <MenuItem
           disableRipple
           disableTouchRipple
-          onClick={handleClose}
+          onClick={LogOutMethod}
           sx={{ typography: 'body2', color: 'error.main', py: 1.5 }}
         >
           Logout

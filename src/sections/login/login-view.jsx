@@ -46,7 +46,7 @@ export default function LoginView() {
   const LoginMethod = (IsValidate) => {
     if (IsValidate) {
       setLoading(true);
-      const url = REACT_APP_HOST_URL + LOGIN_URL;
+      const url = `${REACT_APP_HOST_URL}${LOGIN_URL}`;
       console.log(JSON.stringify(Params) + url);
       fetch(url, PostHeader('', Params))
         .then((response) => response.json())
@@ -121,10 +121,6 @@ export default function LoginView() {
       ValidateLoginClick();
     }
   };
-
-  const HandleClick = () => {
-    router.push('/dashboard');
-  }
 
   const renderForm = (
     <>

@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,12 +11,10 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-import { Dialog, TextField, IconButton, InputAdornment } from '@mui/material';
-import dayjs from 'dayjs';
-
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { Dialog, TextField, IconButton, InputAdornment } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
@@ -27,12 +26,13 @@ import Scrollbar from 'src/components/scrollbar';
 
 import { emptyRows } from 'src/sections/member/utils';
 
+import './chitreceipt-view.css';
 import TableHeader from '../../member/table-head';
 import TableNoData from '../../member/table-no-data';
 import ErrorLayout from '../../../Error/ErrorLayout';
 import ChitReceiptTableRow from '../chitreceipt-list';
 import TableEmptyRows from '../../member/table-empty-rows';
-import './chitreceipt-view.css';
+
 export default function ChitReceiptView() {
 
   const navigate = useNavigate();
@@ -61,13 +61,14 @@ export default function ChitReceiptView() {
 
   useEffect(() => {
     GetChitReceiptList("", "", "");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const GetChitReceiptList = (fromdate, todate, text) => {
     setChitReceiptLoading(true);
-    const url = REACT_APP_HOST_URL + CHIT_RECEIPT_LIST + fromdate + "&toDate=" + todate + "&search=" + text;
+    const url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_LIST}${fromdate}&toDate=${todate}&search=${text}`;
     console.log(url);
-    console.log(GetHeader(Session))
+    console.log(Session)
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
@@ -198,7 +199,7 @@ export default function ChitReceiptView() {
                 label="From Date"
                 value={FromDate.data}
                 onChange={HandleFromDateChange}
-                disabled={ChitReceiptLoading ? true : false}
+                disabled={ChitReceiptLoading}
                 format="DD-MM-YYYY" />
             </DemoContainer>
           </LocalizationProvider>
@@ -208,7 +209,7 @@ export default function ChitReceiptView() {
                 label="To Date"
                 value={ToDate.data}
                 onChange={HandleToDateChange}
-                disabled={ChitReceiptLoading ? true : false}
+                disabled={ChitReceiptLoading}
                 format="DD-MM-YYYY"/>
             </DemoContainer>
           </LocalizationProvider>
@@ -216,7 +217,6 @@ export default function ChitReceiptView() {
             placeholder="Search..."
             value={filterName}
             onChange={(e) => handleFilterByName(e)}
-            disabled={ChitReceiptLoading ? true : false}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">

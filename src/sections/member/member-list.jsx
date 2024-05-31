@@ -15,7 +15,7 @@ import { Button, Dialog, DialogTitle, DialogActions, } from '@mui/material';
 
 import { DeleteHeader } from 'src/hooks/AxiosApiFetch';
 
-import { MEMBER_DELETE, REACT_APP_HOST_URL } from 'src/utils/api-constant';
+import { IMAGE_URL, MEMBER_DELETE, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
 
@@ -39,7 +39,7 @@ export default function MemberTableRow({
   const [ErrorScreen, setErrorScreen] = useState('network');
 
   const MemberDeleteMethod = (id) => {
-    const url = REACT_APP_HOST_URL + MEMBER_DELETE + id;
+    const url = `${REACT_APP_HOST_URL}${MEMBER_DELETE}${id}`;
     console.log(url);
     console.log(Session);
     fetch(url, DeleteHeader(JSON.parse(Session)))
@@ -125,7 +125,7 @@ export default function MemberTableRow({
 
           <TableCell component="th" scope="row" >
             <Stack direction="row" alignItems="center" spacing={2} marginLeft={2}>
-              <Avatar alt={item.name} src={item.mapped_photo} >{item.name[0]}</Avatar>
+              <Avatar alt={item.name} src={IMAGE_URL + item.mapped_photo} >{item.name[0]}</Avatar>
               <Typography variant="subtitle2" noWrap>
                 {item.name}
               </Typography>

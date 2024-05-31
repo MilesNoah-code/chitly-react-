@@ -24,9 +24,9 @@ export const GROUP_DELETE = "api/group/delete/";
 
 export const CHIT_RECEIPT_SAVE = "api/chitReceipt/save";
 export const CHIT_RECEIPT_DETAIL = "api/chitReceipt/detail/";
-export const CHIT_RECEIPT_LIST = "api/chitReceipt/list?fromDate=";
+export const CHIT_RECEIPT_LIST = "api/chitReceipt/list?isActive=1&fromDate=";
 export const CHIT_RECEIPT_DELETE = "api/chitReceipt/delete/";
-export const CHIT_RECEIPT_PAID_UNPAID_LIST = "api/chitReceipt/paidAndUnPaidList?id=&groupId=605&installNo=&memberId=&date=&fromDate=&toDate=&status=&isActive=";
+export const CHIT_RECEIPT_PAID_UNPAID_LIST = "api/chitReceipt/paidAndUnPaidList?groupId=";
 
 export const CHIT_PAYMENT_SAVE = "api/chitPayment/save";
 export const CHIT_PAYMENT_DETAIL = "api/chitPayment/detail/";
@@ -34,3 +34,10 @@ export const CHIT_PAYMENT_CHIT_PARAMETERS = "api/chitPayment/getChitParameters?g
 export const CHIT_PAYMENT_UPDATE_PARTICULAR = "api/chitPayment/updateParticular/";
 export const CHIT_PAYMENT_LIST = "api/chitPayment/list?id=&groupId=&installmentNo=&memberId=&date=&fromDate=&toDate=&status=&isActive=&start=&limit=&ticketNo=&receiptNo=&status=";
 export const CHIT_PAYMENT_DELETE = "api/chitPayment/delete/";
+export const CHIT_PAYMENT_UNPAID_GROUP_LIST = "api/chitPayment/unpaidWinnersGroupList?groupId="
+
+export const LOGOUT_URL = "api/logout";
+export const CHIT_RECEPT_PENDING_GROUP_LIST = "api/group/pendngGroupList?groupno=";
+export const IMAGE_URL = "https://storage.googleapis.com/stgasset.iar.net.in/";
+export const CHIT_GET_RECEIPT_NUMBER = "api/chitReceipt/lastGenReceiptNoOfGroup?groupId=";
+export const CHIT_PAYMENT_LEDGER_LIST = "/api/ledger/find?ledgerName="

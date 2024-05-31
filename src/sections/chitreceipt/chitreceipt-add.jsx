@@ -288,11 +288,17 @@ export default function AddChitReceiptPage() {
 
     return (
         <Container>
-            <Card>
-                <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
+        <Stack direction='row' spacing={2} alignItems='center' justifyContent={'space-between'} sx={{mt:2, mb:2}}>
+        <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
                     {screen === "add" ? "Add Chit Receipt" : (screen === "view" ? "View Chit Receipt" : "Edit Chit Receipt")}
                 </Typography>
-                <Box component="form"
+                <Button variant="contained" className='custom-button'  onClick={() => navigate('/chitreceipt')}>
+                Back
+          </Button>
+        </Stack>
+            <Card>
+                
+                <Box className="con" component="form"
                     sx={{
                         '& .MuiTextField-root': { m: 2, width: '20ch', },
                     }}
@@ -303,144 +309,180 @@ export default function AddChitReceiptPage() {
                             <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
-                            <Stack direction='row' spacing={2} alignItems='center'>
+                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                            <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                    <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                         Receipt No
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: 2, }}>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
                                             required
+                                            className='input-box1'
                                             id="outlined-required"
                                             disabled={screen === "view" ? true : false}
                                             label="Receipt No"
                                             value={ReceiptNo.data}
                                             onChange={(e) => ChitReceiptTextValidate(e, "ReceiptNo")}
-                                            style={{ width: 200, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ReceiptNo.error}</div>
+                                            style={{ }} />
+                                       
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ReceiptNo.error}</div>
                                 </Stack>
+                                </div>
+                                <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                    <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
                                         Ticket No
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: -3, }}>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
+                                        className='input-box1'
                                             required
                                             id="outlined-required"
                                             disabled={screen === "view" ? true : false}
                                             label="Ticket No"
                                             value={TicketNo.data}
                                             onChange={(e) => ChitReceiptTextValidate(e, "TicketNo")}
-                                            style={{ width: 200, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{TicketNo.error}</div>
+                                            style={{  }} />
+                                      
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{TicketNo.error}</div>
                                 </Stack>
+                                </div>
                             </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center'>
+                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                            <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                    <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                         Auction Mode
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: 2, }}>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
                                             required
+                                            className='input-box1'
                                             id="outlined-required"
                                             disabled={screen === "view" ? true : false}
                                             label="Auction Mode"
                                             value={AuctionMode.data}
                                             onChange={(e) => ChitReceiptTextValidate(e, "AuctionMode")}
-                                            style={{ width: 200, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{AuctionMode.error}</div>
+                                            style={{  }} />
+                                       
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{AuctionMode.error}</div>
                                 </Stack>
+                                </div>
+                                <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                    <Typography variant='subtitle1'  sx={{mt: 2, ml: 2 }} >
                                         Duration
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: -3, }}>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
                                             required
+                                            className='input-box1'
                                             id="outlined-required"
                                             disabled={screen === "view" ? true : false}
                                             label="Duration"
                                             value={Duration.data}
                                             onChange={(e) => ChitReceiptTextValidate(e, "Duration")}
-                                            style={{ width: 200, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Duration.error}</div>
+                                            style={{  }} />
+                                      
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Duration.error}</div>
                                 </Stack>
+                             
+                                </div>
+                                </Stack>
+
+                                <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                    <Typography variant='subtitle1' sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }} >
                                         Account No
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: -3, }}>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
                                             required
+                                            className='input-box1'
                                             id="outlined-required"
                                             disabled={screen === "view" ? true : false}
                                             label="Account No"
                                             value={AccountNo.data}
                                             onChange={(e) => ChitReceiptTextValidate(e, "AccountNo")}
-                                            style={{ width: 200, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{AccountNo.error}</div>
+                                            style={{  }} />
+                                      
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{AccountNo.error}</div>
                                 </Stack>
-                            </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center'>
+                           </div>
+                           <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                    <Typography variant="subtitle1" sx={{mt: 2, ml: 2 }}>
                                         Inst. From
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: 2, }}>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
                                             required
+                                            className='input-box1'
                                             id="outlined-required"
                                             disabled={screen === "view" ? true : false}
                                             label="Inst. From"
                                             value={InstFrom.data}
                                             onChange={(e) => ChitReceiptTextValidate(e, "InstFrom")}
-                                            style={{ width: 200, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{InstFrom.error}</div>
+                                            style={{  }} />
+                                        
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{InstFrom.error}</div>
                                 </Stack>
+                                </div>
+                                </Stack>
+                                <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                    <Typography variant='subtitle1' sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}  >
                                         Inst. To
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: -3, }}>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
                                             required
+                                            className='input-box1'
                                             id="outlined-required"
                                             disabled={screen === "view" ? true : false}
                                             label="Inst. To"
                                             value={InstTo.data}
                                             onChange={(e) => ChitReceiptTextValidate(e, "InstTo")}
-                                            style={{ width: 200, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{InstTo.error}</div>
+                                            style={{ }} />
+                                       
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{InstTo.error}</div>
                                 </Stack>
+                                </div>
+                                <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                    <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
                                         Value
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: -3, }}>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
                                             required
+                                            className='input-box1'
                                             id="outlined-required"
                                             disabled={screen === "view" ? true : false}
                                             label="Value"
                                             value={Values.data}
                                             onChange={(e) => ChitReceiptTextValidate(e, "Values")}
-                                            style={{ width: 200, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Values.error}</div>
+                                            style={{  }} />
+                                      
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Values.error}</div>
                                 </Stack>
+                                </div>
                             </Stack>
                             {screen === "view"
                                 ? null
                                 :<Stack direction='column' alignItems='flex-end'>
-                                        <Button sx={{ mr: 5, mb: 3, height: 50, width: 150 }} variant="contained" color="inherit" onClick={HandleSubmitClick}>
+                                        <Button sx={{ mr: 5, mt:2, mb: 3, height: 50, width: 150 }} variant="contained" className='custom-button'  onClick={HandleSubmitClick}>
                                             {Loading
                                                 ? (<img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                                 : ("Submit")}
@@ -465,7 +507,7 @@ export default function AddChitReceiptPage() {
                     {AlertFrom === "success"
                         ? <img src="../../../public/assets/icons/success_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />
                         : <img src="../../../public/assets/icons/failed_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />}
-                    <Typography gutterBottom variant='h4' mt={2} mb={5} color={AlertFrom === "success" ? "#45da81" : "#ef4444"}>
+                    <Typography gutterBottom variant='h6' className="alert-msg" mt={2} mb={5} color={AlertFrom === "success" ? "#45da81" : "#ef4444"}>
                         {AlertMessage}
                     </Typography>
                 </Stack>

@@ -101,7 +101,7 @@ export default function Nav({ openNav, onCloseNav }) {
         },
       }}
     >
-      <Logo sx={{ mt: 3, ml: 4 }} />
+     
 
       {renderAccount}
 
@@ -118,6 +118,7 @@ export default function Nav({ openNav, onCloseNav }) {
       sx={{
         flexShrink: { lg: 0 },
         width: { lg: NAV.WIDTH },
+        backgroundColor: 'white',
       }}
     >
       {upLg ? (
@@ -174,6 +175,7 @@ function NavItem({ item }) {
         ...(active && {
           color: 'primary.main',
           fontWeight: 'fontWeightSemiBold',
+          backgroundColor: 'white',
           bgcolor: (theme) => alpha(theme.palette.primary.main, 0.08),
           '&:hover': {
             bgcolor: (theme) => alpha(theme.palette.primary.main, 0.16),

@@ -25,7 +25,7 @@ import MemberTableRow from '../member-list';
 import TableEmptyRows from '../table-empty-rows';
 import ErrorLayout from '../../../Error/ErrorLayout';
 import { emptyRows, applyFilter, getComparator } from '../utils';
-
+import './member-view.css';
 export default function MemberView() {
 
   const navigate = useNavigate();
@@ -165,15 +165,15 @@ export default function MemberView() {
   const HandleAlertClose = () => {
     setAlert(false);
   };
-
+  
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
   return (
     <Container>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} >
-        <Typography variant="h4">Member List</Typography>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2}>
+        <Typography variant="h6" sx={{color: '#637381' }}>Member List</Typography>
 
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddMemberClick}>
+        <Button variant="contained"   className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddMemberClick}>
           Add Member
         </Button>
       </Stack>
@@ -206,21 +206,24 @@ export default function MemberView() {
           </Stack>
           :<Stack>
             <Scrollbar>
+            <div className="table-container" >
               <TableContainer sx={{ overflow: 'unset' }}>
                 <Table sx={{ minWidth: 800 }}>
                   <TableHeader
+                  sx={{ background: 'rgba(24, 119, 242, 0.16)', color: '#1877f2' }}
                     order={order}
                     orderBy={orderBy}
                     rowCount={MemberList.length}
                     numSelected={selected.length}
                     onRequestSort={handleSort}
                     onSelectAllClick={handleSelectAllClick}
-                    headLabel={[
+                    headLabel  ={[
                       { id: 'Member Name', label: 'Member Name' },
                       { id: 'Acc No', label: 'Acc No' },
                       { id: 'Mobile Number', label: 'Mobile Number' },
                       { id: 'Status', label: 'Status' },
                       { id: '' }, ]} />
+                     
                   <TableBody>
                     {dataFiltered
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -231,6 +234,7 @@ export default function MemberView() {
                           handleClick={(event) => handleClick(event, row.name)}
                           item={row}
                         /> ))}
+                        
                     <TableEmptyRows
                       height={77}
                       emptyRows={emptyRows(page, rowsPerPage, MemberList.length)} />
@@ -238,6 +242,7 @@ export default function MemberView() {
                   </TableBody>
                 </Table>
               </TableContainer>
+              </div>
             </Scrollbar>
 
             <TablePagination

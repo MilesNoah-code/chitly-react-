@@ -29,7 +29,7 @@ import TableHeader from '../member/table-head';
 import TableNoData from '../member/table-no-data';
 import TableEmptyRows from '../member/table-empty-rows';
 import ChitReceiptMemberTableRow from './chitreceipt-member-list';
-
+import './chitreceipt-add.css';
 
 export default function AddChitReceiptPage() {
    
@@ -414,7 +414,7 @@ export default function AddChitReceiptPage() {
                 error: ""
             }));
         }
-        /* if (!AccountNo.data) {
+         if (!AccountNo.data) {
             IsValidate = false;
             setAccountNo(prevState => ({
                 ...prevState,
@@ -425,7 +425,7 @@ export default function AddChitReceiptPage() {
                 ...prevState,
                 error: ""
             }));
-        } */
+        } 
         if (!InstFrom.data) {
             IsValidate = false;
             setInstFrom(prevState => ({
@@ -616,15 +616,19 @@ export default function AddChitReceiptPage() {
                             <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
-                            <Stack direction="row">
+                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                            <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                    <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                         Receipt Date
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: 2, mt: 1 }}>
+                                    <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                    
                                         <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                            <DemoContainer components={['DatePicker']} >
+                                            <DemoContainer components={['DatePicker']} sx={{ width: 530 }}>
+                                         
                                                 <DatePicker
+                                                className='input-box1'
                                                     label="From Date"
                                                     value={ReceiptDate.data}
                                                     onChange={HandleDateChange}
@@ -633,19 +637,22 @@ export default function AddChitReceiptPage() {
                                         </LocalizationProvider>
                                     </Stack>
                                 </Stack>
+                                </div>
+                                <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                    <Typography variant="subtitle1" sx={{mt: 2, ml: 2 }}>
                                         Group No
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: 2, mt: 2 }}>
+                                    <Stack direction='row' sx={{ ml: 0, mt: 0}}>
                                         <Autocomplete
+                                        className='input-box1'
                                             disablePortal
                                             id="combo-box-demo"
                                             options={PendingGroupList}
                                             disabled={screen === "view"}
                                             getOptionLabel={(option) => option.groupno}
                                             onChange={HandleGroupNoSearch}
-                                            sx={{ width: 300 }}
+                                            sx={{ }}
                                             renderOption={(props, option) => (
                                                 <ListItem {...props} key={option.id}>
                                                     <ListItemText
@@ -657,6 +664,7 @@ export default function AddChitReceiptPage() {
                                         />
                                     </Stack>
                                 </Stack>
+                                </div>
                             </Stack>
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                             <div className='box-grp'>
@@ -676,7 +684,7 @@ export default function AddChitReceiptPage() {
                                             style={{ }} />
                                        
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ReceiptNo.error}</div>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{ReceiptNo.error}</div>
                                 </Stack>
                                 </div>
                                 <div className='box-grp'>
@@ -696,7 +704,7 @@ export default function AddChitReceiptPage() {
                                             style={{  }} />
                                       
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{TicketNo.error}</div>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{TicketNo.error}</div>
                                 </Stack>
                                 </div>
                             </Stack>
@@ -718,7 +726,7 @@ export default function AddChitReceiptPage() {
                                             style={{  }} />
                                        
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{AuctionMode.error}</div>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AuctionMode.error}</div>
                                 </Stack>
                                 </div>
                                 <div className='box-grp'>
@@ -738,7 +746,7 @@ export default function AddChitReceiptPage() {
                                             style={{  }} />
                                       
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Duration.error}</div>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Duration.error}</div>
                                 </Stack>
                              
                                 </div>
@@ -762,7 +770,7 @@ export default function AddChitReceiptPage() {
                                             style={{  }} />
                                       
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{AccountNo.error}</div>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AccountNo.error}</div>
                                 </Stack>
                            </div>
                            <div className='box-grp'>
@@ -782,7 +790,7 @@ export default function AddChitReceiptPage() {
                                             style={{  }} />
                                         
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{InstFrom.error}</div>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{InstFrom.error}</div>
                                 </Stack>
                                 </div>
                                 </Stack>
@@ -804,7 +812,7 @@ export default function AddChitReceiptPage() {
                                             style={{ }} />
                                        
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{InstTo.error}</div>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{InstTo.error}</div>
                                 </Stack>
                                 </div>
                                 <div className='box-grp'>
@@ -824,7 +832,7 @@ export default function AddChitReceiptPage() {
                                             style={{  }} />
                                       
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Values.error}</div>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Values.error}</div>
                                 </Stack>
                                 </div>
                             </Stack>
@@ -906,9 +914,9 @@ export default function AddChitReceiptPage() {
                             </IconButton>
                         </Stack>
                         <Scrollbar>
-                            <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
-                                <Table sx={{ minWidth: 500 }} stickyHeader>
-                                    <TableHeader
+                            <TableContainer sx={{ overflow: '', mt: 2 }}>
+                                <Table sx={{ minWidth: 530 }} stickyHeader>
+                                    <TableHeader sx={{ width:'100%' }}
                                         order={order}
                                         orderBy={orderBy}
                                         rowCount={MemberList.length}

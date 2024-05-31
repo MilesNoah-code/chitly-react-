@@ -23,7 +23,7 @@ export default function TableHeader({
   };
 
   return (
-    <TableHead >
+    <TableHead>
       <TableRow>
         <TableCell padding="checkbox" style={{ display: 'none' }}>
           <Checkbox

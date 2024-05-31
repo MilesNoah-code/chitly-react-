@@ -1,0 +1,79 @@
+.custom-button{
+    background-color: #edf4fe;
+   font-size: 17px;
+    color: #1877f2;
+    transition: background-color 0.3s ease;
+  }
+  .custom-button:hover{
+    background: rgba(24, 119, 242, 0.16);
+  }
+.stack-box {
+    display: flex !important;
+    flex-wrap: wrap !important;
+  }
+ .box-grp{
+    flex: 1 0 49%;
+    max-width: 49%;
+    flex-wrap: wrap;
+  } 
+  .con{
+    padding: 20px;
+  }
+  .box-grp .input-box1 {
+    
+    width: calc(100% - 20px); 
+  }
+  
+  .box-grp .MuiAutocomplete-root  .MuiTextField-root  {
+    width: calc(100% - 20px) !important; 
+  }
+  .alert-msg{
+    display: flex;
+    align-items: center;
+    text-align-last: center;
+    font-size: 18px;
+    padding: 10px;
+  }
+  @media screen and (max-width: 768px) {
+    .stack-box{
+        flex-direction: column !important;
+        width: 100% !important;
+        align-items:inherit;
+    }
+    .box-grp {
+      flex: 1 0 100%;
+      max-width: 100%;
+      margin-left: 0px !important; 
+    }
+   .stack-box .css-mxq89r-MuiTypography-root {
+    margin-left: 16px !important;
+    font-size: 13px;
+   }
+  .box-grp  .input-box1 {
+        width: calc(100% - 0px) !important; 
+      }
+      .con{
+        padding: 10px;
+      }
+    }
+    @media (min-width:769px) and (max-width:894px){
+      .box-grp {
+        flex: 1 0 48%;
+        max-width: 48%;
+        flex-wrap: wrap;
+      } 
+    }
+    @media (min-width:370px) and (max-width:540px){
+      h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+        font-size: 15px;
+        margin-top: 2px;
+      margin-bottom: -9px;
+    }
+    input#outlined-required {
+      font-size: 13px !important;
+    }
+   
+    .custom-button{
+     font-size: 13px;
+    }
+    }

@@ -30,7 +30,7 @@ import TableHeader from '../member/table-head';
 import TableNoData from '../member/table-no-data';
 import TableEmptyRows from '../member/table-empty-rows';
 import ChitPaymentMemberTableRow from './chitpayment-member-list';
-
+import'./chitpayment-add.css';
 export default function AddChitPaymentPage() {
    
     const navigate = useNavigate();
@@ -404,7 +404,7 @@ export default function AddChitPaymentPage() {
                 error: ""
             }));
         }
-       /* if (!AccountNo.data) {
+        if (!AccountNo.data) {
             IsValidate = false;
             setAccountNo(prevState => ({
                 ...prevState,
@@ -415,7 +415,7 @@ export default function AddChitPaymentPage() {
                 ...prevState,
                 error: ""
             }));
-        } */
+        } 
         if (!Values.data) {
             IsValidate = false;
             setValues(prevState => ({
@@ -614,11 +614,17 @@ export default function AddChitPaymentPage() {
 
     return (
         <Container>
-            <Card>
-                <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
+        <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{mt:2, mb:2}}>
+               <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
                     {screenLabel[screen] || "Add Chit Payment"}
                 </Typography>
-                <Box component="form"
+                <Button variant="contained" className='custom-button'  onClick={() => navigate('/member')}>
+                  Back
+                </Button>
+         </Stack>
+            <Card>
+                
+                <Box  className="con" component="form"
                     sx={{
                         '& .MuiTextField-root': { m: 2, width: '20ch', },
                     }}
@@ -629,29 +635,38 @@ export default function AddChitPaymentPage() {
                             <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
-                            <Stack direction="row">
+                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                            <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                               
+                                    <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                         Receipt Date
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: 2, mt: 1 }}>
-                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                            <DemoContainer components={['DatePicker']} >
-                                                <DatePicker
-                                                    label="From Date"
-                                                    value={ReceiptDate.data}
-                                                    onChange={HandleDateChange}
-                                                    format="DD-MM-YYYY" />
-                                            </DemoContainer>
-                                        </LocalizationProvider>
-                                    </Stack>
+                                    <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                    
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DemoContainer components={['DatePicker']} sx={{ width: 530 }}>
+                                     
+                                            <DatePicker
+                                            className='input-box1'
+                                                label="From Date"
+                                                value={ReceiptDate.data}
+                                                onChange={HandleDateChange}
+                                                format="DD-MM-YYYY" />
+                                        </DemoContainer>
+                                    </LocalizationProvider>
                                 </Stack>
+                                  
+                                </Stack>
+                                </div>
+                                <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                    <Typography variant="subtitle1" sx={{mt: 2, ml: 2 }}>
                                         Group No
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: 2, mt: 2 }}>
+                                    <Stack direction='row' sx={{ ml: 0,  }}>
                                         <TextField
+                                            className='input-box1'
                                             required
                                             id="outlined-required"
                                             readOnly
@@ -659,213 +674,266 @@ export default function AddChitPaymentPage() {
                                             sx={{ pointerEvents: 'auto' }}
                                             value={GroupNoSearch}
                                             onChange={(e) => setGroupNoSearch(e.target.value)}
-                                            style={{ width: 200, }}
+                                            style={{  }}
                                             onClick={HandleGroupNoSearch} />
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{GroupNoSearch.error}</div>
                                 </Stack>
+                                </div>
                             </Stack>
-                            <Stack direction='row' sx={{ mt: 2 }}>
+                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                            <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 }}>
+                                    <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                         Member Name
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: 2, }}>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
+                                        className='input-box1'
                                             required
                                             id="outlined-required"
                                             disabled
                                             label="Member Name"
                                             value={MemberName.data}
                                             onChange={(e) => ChitPaymentTextValidate(e, "MemberName")}
-                                            style={{ width: 200, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{MemberName.error}</div>
-                                    </Stack>
+                                            style={{  }} />
+                                      
                                 </Stack>
+                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{MemberName.error}</div>
+                                </Stack>
+                                </div>
+                                <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                    <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
                                         Ticket No
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: -3, mt: -1 }}>
+                                    <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                         <TextField
+                                        className='input-box1'
                                             required
                                             id="outlined-required"
                                             disabled
                                             label="Ticket No"
                                             value={TicketNo.data}
                                             onChange={(e) => ChitPaymentTextValidate(e, "TicketNo")}
-                                            style={{ width: 200, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{TicketNo.error}</div>
+                                            style={{  }} />
+                                       
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{TicketNo.error}</div>
                                 </Stack>
+                                </div>
+                                </Stack>
+                                <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ mt: 1, ml: -1 }} >
+                                    <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                         Receipt No
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: -3, mt: -1 }}>
+                                    <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                         <TextField
+                                        className='input-box1'
                                             required
                                             id="outlined-required"
                                             disabled
                                             label="Receipt No"
                                             value={ReceiptNo.data}
                                             onChange={(e) => ChitPaymentTextValidate(e, "ReceiptNo")}
-                                            style={{ width: 200, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ReceiptNo.error}</div>
+                                            style={{  }} />
+                                      
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{ReceiptNo.error}</div>
                                 </Stack>
-                            </Stack>
-                            <Stack direction='row' sx={{ mt: 2 }}>
+                                </div>
+                                <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{ ml: 4, mr: 5 }}>
+                                    <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }}>
                                         Installment No
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: 2, }}>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
+                                        className='input-box1'
                                             required
                                             id="outlined-required"
                                             disabled
                                             label="Installment No"
                                             value={InstallmentNo.data}
                                             onChange={(e) => ChitPaymentTextValidate(e, "InstallmentNo")}
-                                            style={{ width: 200, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{InstallmentNo.error}</div>
+                                            style={{  }} />
+                                      
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{InstallmentNo.error}</div>
                                 </Stack>
+                                </div>
+                                </Stack>
+                                <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ mt: 1, ml: -1 }}>
+                                    <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                         Mobile No
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: -3, mt: -1 }}>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
                                             required
+                                            className='input-box1'
                                             id="outlined-required"
                                             disabled
                                             label="Mobile No"
                                             value={MobileNo.data}
                                             onChange={(e) => ChitPaymentTextValidate(e, "MobileNo")}
-                                            style={{ width: 200, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{MobileNo.error}</div>
+                                            style={{ }} />
+                                      
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{MobileNo.error}</div>
                                 </Stack>
+                                </div>
+                                <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                    <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
                                         Account No
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: -3, }}>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
                                             required
+                                            className='input-box1'
                                             id="outlined-required"
                                             disabled
                                             label="Account No"
                                             value={AccountNo.data}
                                             onChange={(e) => ChitPaymentTextValidate(e, "AccountNo")}
-                                            style={{ width: 200, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{AccountNo.error}</div>
+                                            style={{ }} />
+                                      
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{AccountNo.error}</div>
                                 </Stack>
+                                </div>
                             </Stack>
-                            <Stack direction='row' sx={{ mt: 2 }}>
+                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                            <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{ ml: 4, mr: 5 }}>
+                                    <Typography variant='subtitle1' sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                         Value
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: 2, }}>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
                                             required
+                                            className='input-box1'
                                             id="outlined-required"
                                             disabled={screen === "view"}
                                             label="Value"
                                             value={Values.data}
                                             onChange={(e) => ChitPaymentTextValidate(e, "Values")}
-                                            style={{ width: 200, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Values.error}</div>
+                                            style={{  }} />
+                                     
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{Values.error}</div>
                                 </Stack>
+                                </div>
+                                <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                    <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }}>
                                         Particulars
                                     </Typography>
-                                    <Stack direction='row' sx={{ ml: -3, mt: -1 }}>
+                                    <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                         <TextField
                                             required
+                                            className='input-box1'
                                             id="outlined-required"
                                             disabled
                                             label="Particulars"
                                             value={Particulars.data}
                                             onChange={(e) => ChitPaymentTextValidate(e, "Particulars")}
-                                            style={{ width: 200, }} />
-                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Particulars.error}</div>
+                                            style={{  }} />
+                                       
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{Particulars.error}</div>
                                 </Stack>
+                                </div>
                             </Stack>
+                           
                             <Stack direction='column' sx={{ mt: 2 }}>
-                                <Stack direction='row' sx={{ alignItems: 'center' }}>
-                                    <Typography variant='subtitle1' sx={{ ml: 4, mr: 5 }}>
+                                <Stack direction='row' spacing={2} alignItems='center' sx={{ ml:2, mt:1}}>
+                              
+                                    <Typography variant='subtitle1' sx={{ ml:2, mr: 2, mt: 3, mb: '0px' }}>
                                         Ledger Contra Entry Details
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 1, }} onClick={HandleCreateLedger}>
                                         <img src="../../../public/assets/icons/rounded_plus.png" alt="Loading" style={{ width: 25, height: 25, }} />   
                                     </Stack>
+                                 
                                 </Stack>
+                              
                                 <Stack>
                                     {SelectLedgerList
                                         .map((row) => (
-                                            <Stack direction='row' sx={{ mt: 2 }}>
+                                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                            <div className='box-grp'>
                                                 <Stack direction='column'>
-                                                    <Typography variant='h6' sx={{ ml: 4, mr: 5 }}>
+                                                    <Typography variant='subtitle1' sx={{ ml:2, mr: 2, mt: 3, mb: '0px' }}>
                                                         Name
                                                     </Typography>
-                                                    <Stack direction='row' sx={{ ml: 2, }}>
+                                                    <Stack direction='row' sx={{mt: 0, ml: 0 }}>
                                                         <TextField
                                                             required
+                                                            className='input-box1'
                                                             id="outlined-required"
                                                             disabled
                                                             label="Name"
                                                             value={row.name}
                                                             onChange={(e) => ChitPaymentLedgerTextValidate(e, row, "LedgerName")}
-                                                            style={{ width: 200, }} />
-                                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{row.nameerror}</div>
+                                                            style={{ }} />
+                                                      
                                                     </Stack>
+                                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{row.nameerror}</div>
                                                 </Stack>
+                                                </div>
+                                                <div className='box-grp'>
                                                 <Stack direction='column'>
-                                                    <Typography variant="subtitle1" sx={{ mt: 1, ml: -1 }}>
+                                                    <Typography variant="subtitle1" sx={{ ml: 2, mt: 2 }}>
                                                         Value
                                                     </Typography>
-                                                    <Stack direction='row' sx={{ ml: -3, mt: -1 }}>
+                                                    <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                                         <TextField
                                                             required
+                                                            className='input-box1'
                                                             id="outlined-required"
                                                             disabled={screen === "view"}
                                                             label="Value"
                                                             value={row.value}
                                                             onChange={(e) => ChitPaymentLedgerTextValidate(e, row, "LedgerValues")}
-                                                            style={{ width: 200, }} />
-                                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{row.valueerror}</div>
+                                                            style={{ }} />
+                                                     
                                                     </Stack>
+                                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{row.valueerror}</div>
                                                 </Stack>
+                                                </div>
+                                                <div className='box-grp'>
                                                 <Stack direction='column'>
-                                                    <Typography variant='subtitle1' sx={{ mt: 1, ml: -1 }} >
+                                                    <Typography variant='subtitle1' sx={{ ml:0, mr: 2, mt: 3, mb: '0px' }} >
                                                         Particular
                                                     </Typography>
-                                                    <Stack direction='row' sx={{ ml: -3, }}>
+                                                    <Stack direction='row' sx={{ ml: -2, }}>
                                                         <TextField
                                                             required
+                                                            className='input-box1'
                                                             id="outlined-required"
                                                             disabled={screen === "view"}
                                                             label="Particular"
                                                             value={row.particular}
                                                             onChange={(e) => ChitPaymentLedgerTextValidate(e, row, "LedgerParticular")}
-                                                            style={{ width: 200, }} />
-                                                        <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{row.particularerror}</div>
+                                                            style={{  }} />
+                                                    
                                                     </Stack>
+                                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{row.particularerror}</div>
                                                 </Stack>
-                                            </Stack>))}
+                                                </div>
+                                            </Stack>
+                                        ))}
                                 </Stack>
                             </Stack>
                             {screen === "view"
                                 ? null
                                 : <Stack direction='column' alignItems='flex-end'>
-                                    <Button sx={{ mr: 5, mb: 3, height: 50, width: 150 }} variant="contained" color="inherit" onClick={HandleSubmitClick}>
+                                    <Button sx={{ mr: 5, mb: 3, height: 50, width: 150 }} variant="contained" className='custom-button' onClick={HandleSubmitClick}>
                                         {Loading
                                             ? (<img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                             : ("Submit")}
@@ -904,7 +972,7 @@ export default function AddChitPaymentPage() {
                 aria-describedby="alert-dialog-description" >
                 <Card sx={{ maxWidth: '800px' }}>
                     <Stack>
-                        <Stack mt={2} ml={2} mr={1} direction="row" alignItems="center" >
+                        <Stack mt={4} ml={2} mr={1} direction="row" alignItems="center" >
                             <TextField
                                 placeholder="Group Code..."
                                 value={filterGroupCode}
@@ -935,13 +1003,13 @@ export default function AddChitPaymentPage() {
                             <IconButton
                                 aria-label="close"
                                 onClick={HandleUnPaidGroupAlertClose}
-                                sx={{ position: 'absolute', right: 15, top: 5, color: (theme) => theme.palette.grey[500], }} >
+                                sx={{ position: 'absolute', right: 7, top: 4, color: (theme) => theme.palette.grey[500], }} >
                                 <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                             </IconButton>
                         </Stack>
                         <Scrollbar>
-                            <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
-                                <Table sx={{ minWidth: 600 }} stickyHeader>
+                            <TableContainer sx={{ overflow: '', mt: 2 }}>
+                            <Table sx={{ minWidth: 700 }} stickyHeader>
                                     <TableHeader
                                         order={order}
                                         orderBy={orderBy}

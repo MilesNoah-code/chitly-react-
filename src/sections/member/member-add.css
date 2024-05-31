@@ -52,16 +52,16 @@ flex-wrap: wrap;
   margin: 8px;
   flex-wrap: wrap;
 }
-.radio-box .radio-control3.css-1vbggne-MuiFormControlLabel-root{
+.radio-box .radio-control3.MuiFormControlLabel-root{
   margin-left: -2px;
 }
-.radio-box .radio-control2.css-1vbggne-MuiFormControlLabel-root{
+.radio-box .radio-control2.MuiFormControlLabel-root{
   margin-left: 27px;
 }
-.radio-box .radio-control.css-1vbggne-MuiFormControlLabel-root{
+.radio-box .radio-control.MuiFormControlLabel-root{
   margin-left: 5px;
 }
-.radio-box .radio-control1.css-1vbggne-MuiFormControlLabel-root{
+.radio-box .radio-control1.MuiFormControlLabel-root{
   margin-left: 3px;
 }
 .radio-box  .css-1vbggne-MuiFormControlLabel-root{
@@ -88,37 +88,63 @@ flex-wrap: wrap;
       .box  .input-box {
         width: 100px !important;
       }
-      .css-13xfq8m-MuiTabPanel-root {
+      .MuiTabPanel-root {
         padding: 10px !important;
       }
      .req{
         margin-left: 15px !important;
      }
-     .radio-box .radio-control3.css-1vbggne-MuiFormControlLabel-root{
+     .radio-box .radio-control3.MuiFormControlLabel-root{
       margin-left: 15px;
     }
-    .radio-box .radio-control2.css-1vbggne-MuiFormControlLabel-root{
+    .radio-box .radio-control2.MuiFormControlLabel-root{
       margin-left: 15px;
     }
-    .radio-box .radio-control.css-1vbggne-MuiFormControlLabel-root{
+    .radio-box .radio-control.MuiFormControlLabel-root{
       margin-left: 15px;
     }
-    .radio-box .radio-control1.css-1vbggne-MuiFormControlLabel-root{
+    .radio-box .radio-control1.MuiFormControlLabel-root{
       margin-left: 15px;
     }
   }
   @media screen and (max-width: 1305px) and (min-width: 1200px) {
-    .radio-box  .css-1vbggne-MuiFormControlLabel-root{
+    .radio-box  .MuiFormControlLabel-root{
       margin-left: 10px;
       margin-right: 10px;
     }
-    .radio-box .radio-control2.css-1vbggne-MuiFormControlLabel-root{
+    .radio-box .radio-control2.MuiFormControlLabel-root{
       margin-left: 0px;
     }
-    .radio-box .radio-control3.css-1vbggne-MuiFormControlLabel-root{
+    .radio-box .radio-control3.MuiFormControlLabel-root{
       margin-left: 10px;
     }
-    .radio-box .radio-control1.css-1vbggne-MuiFormControlLabel-root{
+    .radio-box .radio-control1.MuiFormControlLabel-root{
       margin-left: 10px;
     }
+  }
+  @media (min-width:769px) and (max-width:894px){
+    .box {
+      flex: 1 0 48%;
+      max-width: 48%;
+      flex-wrap: wrap;
+    } 
+  }
+  @media (min-width:370px) and (max-width:540px){
+    h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+      font-size: 14.5px;
+      margin-top: 2px;
+    margin-bottom: -9px;
+  }
+  input#outlined-required {
+    font-size: 13px !important;
+  }
+ 
+  .custom-button{
+   font-size: 13px;
+  }
+  .inf{
+    margin-top:15px !important;
+  margin-bottom: 0px !important;
+font-size: 16px !important; 
+margin-left: 25px !important; }
   }

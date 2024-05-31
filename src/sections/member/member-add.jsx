@@ -1643,7 +1643,7 @@ export default function AddMemberPage() {
                         : <Stack direction='column'>
                             <TabContext value={TabIndex}>
                                 {screen === "add" 
-                                    ? <Typography variant="subtitle1" sx={{ ml: 4, mr: 5 , mt:3}}>
+                                    ? <Typography className="inf" variant="subtitle1" sx={{ ml: 4, mr: 5 , mt:3}}>
                                         Member Information
                                      </Typography>
                                     : <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

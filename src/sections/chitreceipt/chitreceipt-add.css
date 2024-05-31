@@ -52,3 +52,24 @@
         padding: 10px;
       }
     }
+    @media (min-width:769px) and (max-width:894px){
+      .box-grp {
+        flex: 1 0 48%;
+        max-width: 48%;
+        flex-wrap: wrap;
+      } 
+    }
+    @media (min-width:370px) and (max-width:540px){
+      h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+        font-size: 15px;
+        margin-top: 2px;
+      margin-bottom: -9px;
+    }
+    input#outlined-required {
+      font-size: 13px !important;
+    }
+   
+    .custom-button{
+     font-size: 13px;
+    }
+    }

@@ -871,7 +871,7 @@ export default function AddChitReceiptPage() {
             </Dialog>
             <Dialog
                 open={MemberListAlert}
-                fullWidth
+                fullWidth={600}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description" >
                 <Card>
@@ -909,7 +909,7 @@ export default function AddChitReceiptPage() {
                             <IconButton
                                 aria-label="close"
                                 onClick={HandleMemberListAlertClose}
-                                sx={{ position: 'absolute', right: 15, top: 5, color: (theme) => theme.palette.grey[500], }} >
+                                sx={{ position: 'absolute', right: 2, top: 0, color: (theme) => theme.palette.grey[500], }} >
                                 <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                             </IconButton>
                         </Stack>

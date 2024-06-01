@@ -965,7 +965,7 @@ export default function AddChitPaymentPage() {
             </Dialog>
             <Dialog
                 open={UnPaidGroupAlert}
-                fullWidth
+                fullWidth={600}
                 maxWidth="md"
                 sx={{ display: 'flex', justifyContent: 'center', flex: 1, }}
                 aria-labelledby="alert-dialog-title"
@@ -1009,7 +1009,7 @@ export default function AddChitPaymentPage() {
                         </Stack>
                         <Scrollbar>
                             <TableContainer sx={{ overflow: '', mt: 2 }}>
-                            <Table sx={{ minWidth: 700 }} stickyHeader>
+                            <Table sx={{ minWidth: 800 }} stickyHeader>
                                     <TableHeader
                                         order={order}
                                         orderBy={orderBy}

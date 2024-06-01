@@ -192,7 +192,7 @@ export default function ChitReceiptView() {
         </Button>
       </Stack>
       <Card>
-        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" justifyContent="space-between">
+        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap={'40px'}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker']} >
               <DatePicker

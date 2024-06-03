@@ -2250,7 +2250,7 @@ export default function AddMemberPage() {
                                                 </RadioGroup>
                                               
                                             </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Education.error}</div>
+                                            <div style={{ marginLeft: "25px", marginTop: "0px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Education.error}</div>
                                         </Stack>
                                         </div>
                                         <div className='box'>
@@ -2274,7 +2274,7 @@ export default function AddMemberPage() {
                                                 </RadioGroup>
                                               
                                             </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{MaritalStatus.error}</div>
+                                            <div style={{ marginLeft: "25px", marginTop: "0px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{MaritalStatus.error}</div>
                                         </Stack>
                                         </div>
                                     </Stack>

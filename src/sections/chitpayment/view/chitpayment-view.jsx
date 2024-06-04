@@ -183,15 +183,15 @@ export default function ChitPaymentView() {
 
   return (
     <Container>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} >
-        <Typography variant="h4">Chit Payment List</Typography>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
+        <Typography variant="h6" sx={{color: '#637381' }}>Chit Payment List</Typography>
 
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddChitPaymentClick}>
+        <Button variant="contained"  className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddChitPaymentClick}>
           Add Chit Payment
         </Button>
       </Stack>
       <Card>
-        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" justifyContent="space-between">
+        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap={'40px'}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker']} >
               <DatePicker

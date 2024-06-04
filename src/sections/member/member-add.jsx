@@ -1748,7 +1748,7 @@ export default function AddMemberPage() {
                                                     onChange={(e) => MemberInfoTextValidate(e, "Relationship")} />
                                               
                                             </Stack>
-                                            <div style={{ marginLeft: "15px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500",  }} className='req'>{Relationship.error || RelationPrefix.error}</div>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500",  }} className='req'>{Relationship.error || RelationPrefix.error}</div>
                                         </Stack>
                                         </div>
                                     </Stack>
@@ -1799,7 +1799,7 @@ export default function AddMemberPage() {
                                                     style={{  }} />
                                                
                                             </Stack>
-                                            <div style={{ marginLeft: "15px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{MobileNumber.error}</div>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{MobileNumber.error}</div>
                                         </Stack>
                                         </div>
                                     </Stack>
@@ -1847,7 +1847,7 @@ export default function AddMemberPage() {
                                                     onChange={(e) => MemberInfoTextValidate(e, "Email")}
                                                     style={{  }} />
                                             </Stack>
-                                            <div style={{ marginLeft: "15px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{Email.error}</div>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{Email.error}</div>
                                         </Stack>
                                         </div>
                                     </Stack>
@@ -1888,7 +1888,7 @@ export default function AddMemberPage() {
                                                     onChange={(e) => MemberInfoTextValidate(e, "GuardName")}
                                                     style={{ }} />
                                             </Stack>
-                                            <div style={{ marginLeft: "15px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{GuardName.error}</div>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{GuardName.error}</div>
                                         </Stack>
                                         </div>
                                     </Stack>
@@ -1928,7 +1928,7 @@ export default function AddMemberPage() {
                                                     onChange={(e) => MemberInfoTextValidate(e, "AadharNo")}
                                                     style={{  }} />
                                             </Stack>
-                                            <div style={{ marginTop: "-10px", marginLeft: "15px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AadharNo.error}</div>
+                                            <div style={{ marginTop: "-10px", marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AadharNo.error}</div>
                                         </Stack>
                                         </div>
                                     </Stack>
@@ -1994,7 +1994,7 @@ export default function AddMemberPage() {
                                                     style={{  }} />
                                               
                                             </Stack>
-                                            <div style={{ marginLeft: "15px",  color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AreaName.error}</div>
+                                            <div style={{ marginLeft: "25px",  color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AreaName.error}</div>
                                         </Stack>
                                         </div>
                                     </Stack> 
@@ -2035,7 +2035,7 @@ export default function AddMemberPage() {
                                                     onChange={(e) => AddressDetailsTextValidate(e, "State")}
                                                     style={{  }} />
                                             </Stack>
-                                            <div style={{ marginTop: "-10px", marginLeft: "15px",color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{State.error}</div>
+                                            <div style={{ marginTop: "-10px", marginLeft: "25px",color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{State.error}</div>
                                         </Stack>
                                         </div>
                                     </Stack>
@@ -2102,7 +2102,7 @@ export default function AddMemberPage() {
                                                     style={{  }} />
                                             
                                             </Stack>
-                                            <div style={{  marginTop: "-10px", marginLeft: "15px",color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AccountNumber.error}</div>
+                                            <div style={{  marginTop: "-10px", marginLeft: "25px",color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AccountNumber.error}</div>
                                         </Stack>
                                         </div>
                                     </Stack>
@@ -2154,7 +2154,7 @@ export default function AddMemberPage() {
                                                 </TextField>
                                               
                                             </Stack>
-                                            <div style={{ marginLeft: "15px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{TypeOfAccount.error}</div>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{TypeOfAccount.error}</div>
                                         </Stack>
                                         </div>
                                     </Stack>
@@ -2197,7 +2197,7 @@ export default function AddMemberPage() {
                                                     onChange={(e) => BankDetailsTextValidate(e, "Branch")}
                                                     style={{  }} />
                                             </Stack>
-                                            <div style={{ marginTop: "-10px", marginLeft: "15px",color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Branch.error}</div>
+                                            <div style={{ marginTop: "-10px", marginLeft: "25px",color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Branch.error}</div>
                                         </Stack>
                                         </div>
                                     </Stack>
@@ -2250,7 +2250,7 @@ export default function AddMemberPage() {
                                                 </RadioGroup>
                                               
                                             </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Education.error}</div>
+                                            <div style={{ marginLeft: "25px", marginTop: "0px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Education.error}</div>
                                         </Stack>
                                         </div>
                                         <div className='box'>
@@ -2274,7 +2274,7 @@ export default function AddMemberPage() {
                                                 </RadioGroup>
                                               
                                             </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{MaritalStatus.error}</div>
+                                            <div style={{ marginLeft: "25px", marginTop: "0px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{MaritalStatus.error}</div>
                                         </Stack>
                                         </div>
                                     </Stack>
@@ -2534,14 +2534,16 @@ export default function AddMemberPage() {
                         Upload Proof
                         <VisuallyHiddenInput type="file" onChange={HandleProofImage} />
                     </Button>
-                    <div style={{ marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ProofImage.error}</div>
+                   
                 </Stack>
+                <div style={{ marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ProofImage.error}</div>
                 <Stack sx={{ mt: 2, ml: 3 }}>
                     <Stack direction='row'>
                         <img src={MediaList[0].image} alt="Selected" style={{ width: 120, height: 120, }} />
-                        <Stack flexDirection='column' sx={{ ml: 3, }}>
+                        <Stack flexDirection='column' sx={{ ml: 3,  }}>
                             <Stack flexDirection='row'>
                                 <TextField
+                                className='dialog'
                                     id="outlined-select-currency"
                                     select
                                     variant="outlined"
@@ -2561,9 +2563,10 @@ export default function AddMemberPage() {
                                 <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ProofType.error}</div>
                             </Stack>
                             {ProofType.data === "KYC" || ProofType.data === "OTHERS"
-                                ? <Stack flexDirection='row' sx={{  }}>
+                                ? <Stack flexDirection='row' sx={{ mt:1 }}>
                                     <TextField
                                         id="outlined-select-currency"
+                                        className='dialog'
                                         select
                                         variant="outlined"
                                         value={KYCOtherType.data}

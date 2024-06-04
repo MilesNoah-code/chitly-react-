@@ -23,6 +23,10 @@
     
     width: calc(100% - 20px); 
   }
+  
+  .box-grp .MuiAutocomplete-root  .MuiTextField-root  {
+    width: calc(100% - 20px) !important; 
+  }
   .alert-msg{
     display: flex;
     align-items: center;

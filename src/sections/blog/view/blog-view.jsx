@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { GROUP_LIST, REACT_APP_HOST_URL, GROUP_MEMBER_LIST } from 'src/utils/api-constant';
+import { GROUP_LISTALL, REACT_APP_HOST_URL, GROUP_MEMBER_LIST } from 'src/utils/api-constant';
 import { GetHeader } from 'src/hooks/AxiosApiFetch';  
 import "./Groupmember.css";
 import GroupSearch from '../group-search';
@@ -15,6 +15,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import { FormControl, InputLabel, Input, FormHelperText } from '@mui/material';
+import TextField from '@mui/material/TextField';
 
 export default function BlogView() {
 
@@ -100,7 +101,7 @@ export default function BlogView() {
   };
 
   const GetGroupList = (isActive) => {
-    const url = REACT_APP_HOST_URL + GROUP_LIST;
+    const url = REACT_APP_HOST_URL + GROUP_LISTALL;
 
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
@@ -171,7 +172,7 @@ export default function BlogView() {
               <Typography variant="h6">Group Detail</Typography>
               <FormControl>
                 <InputLabel htmlFor="group-no">Group No</InputLabel>
-                <Input
+                <TextField
                   id="group-no"
                   name="groupno"
                   value={memberDetail.groupno || ''}
@@ -182,7 +183,7 @@ export default function BlogView() {
               </FormControl>
               <FormControl>
                 <InputLabel htmlFor="amount">Amount</InputLabel>
-                <Input
+                <TextField
                   id="amount"
                   name="amount"
                   value={memberDetail.amount || ''}
@@ -192,7 +193,7 @@ export default function BlogView() {
               </FormControl>
               <FormControl>
                 <InputLabel htmlFor="duration">Duration</InputLabel>
-                <Input
+                <TextField
                   id="duration"
                   name="duration"
                   value={memberDetail.duration || ''}
@@ -201,8 +202,8 @@ export default function BlogView() {
                 />
               </FormControl>
               <FormControl>
-                <InputLabel htmlFor="auction-mode">Auction Mode</InputLabel>
-                <Input
+                {/* <InputLabel htmlFor="auction-mode">Auction Mode</InputLabel> */}
+                <TextField
                   id="auction-mode"
                   name="auction_mode"
                   value={memberDetail.auction_mode || ''}
@@ -213,7 +214,7 @@ export default function BlogView() {
               <Typography variant="h6">Member Detail</Typography>
               <FormControl>
                 <InputLabel htmlFor="member-name">Member Name</InputLabel>
-                <Input
+                <TextField
                   id="member-name"
                   name="memberName"
                   value={memberDetail.memberName || ''}
@@ -223,7 +224,7 @@ export default function BlogView() {
               </FormControl>
               <FormControl>
                 <InputLabel htmlFor="tktno">Ticket No</InputLabel>
-                <Input
+                <TextField
                   id="tktno"
                   name="tktno"
                   value={memberDetail.tktno || ''}
@@ -232,8 +233,8 @@ export default function BlogView() {
                 />
               </FormControl>
               <FormControl>
-                <InputLabel htmlFor="member-id">Member ID</InputLabel>
-                <Input
+                {/* <InputLabel htmlFor="member-id">Member ID</InputLabel> */}
+                <TextField
                   id="member-id"
                   name="memberId"
                   value={memberDetail.memberId || ''}
@@ -242,8 +243,8 @@ export default function BlogView() {
                 />
               </FormControl>
               <FormControl>
-                <InputLabel htmlFor="memdob">Date of Birth</InputLabel>
-                <Input
+                {/* <InputLabel htmlFor="memdob">Date of Birth</InputLabel> */}
+                <TextField
                   id="memdob"
                   name="memdob"
                   value={memberDetail.memdob || ''}
@@ -252,8 +253,8 @@ export default function BlogView() {
                 />
               </FormControl>
               <FormControl>
-                <InputLabel htmlFor="mapped-phone">Mapped Phone</InputLabel>
-                <Input
+                {/* <InputLabel htmlFor="mapped-phone">Mapped Phone</InputLabel> */}
+                <TextField
                   id="mapped-phone"
                   name="mapped_phone"
                   value={memberDetail.mapped_phone || ''}
@@ -262,8 +263,8 @@ export default function BlogView() {
                 />
               </FormControl>
               <FormControl>
-                <InputLabel htmlFor="email">Email</InputLabel>
-                <Input
+                {/* <InputLabel htmlFor="email">Email</InputLabel> */}
+                <TextField
                   id="email"
                   name="email"
                   value={memberDetail.email || ''}

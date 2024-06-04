@@ -39,7 +39,7 @@ export default function Router() {
         { path: 'member', element: <MemberPage /> },
         { path: 'addMember', element: <MemberAddPage /> },
         { path: 'addMember', element: <MemberAddPage /> },
-        { path: 'groupMember', element:<groupMember/>}
+        { path: 'groupMember', element:<groupMember/>},
         { path: 'group', element: <GroupPage /> },
         { path: 'addGroup', element: <GroupAddPage /> },
         { path: 'chitreceipt', element: <ChitReceiptPage /> },

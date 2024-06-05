@@ -2,6 +2,8 @@ export const REACT_APP_HOST_URL = "https://minichit.accozen.co.in/"
 export const LOGIN_URL = "api/login";
 export const MEMBER_LIST = "api/member/list?isActive=";
 export const MEMBER_ADD = "api/member/save";
+export const GROUP_LISTALL= "api/group/list";
+export const GROUP_MEMBER_LIST= "api/groupMember/list";
 export const MEMBER_VIEW = "api/member/view/";
 export const MEMBER_DELETE = "api/member/delete/";
 export const MEMBER_UPDATE = "api/member/update/";

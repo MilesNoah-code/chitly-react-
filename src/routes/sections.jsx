@@ -14,6 +14,7 @@ export const ChitReceiptPage = lazy(() => import('src/pages/chitreceipt'));
 export const ChitReceiptAddPage = lazy(() => import('src/sections/chitreceipt/chitreceipt-add'));
 export const ChitPaymentPage = lazy(() => import('src/pages/chitpayment'));
 export const ChitPaymentAddPage = lazy(() => import('src/sections/chitpayment/chitpayment-add'));
+export const groupMember = lazy(() => import('src/sections/blog/group-member'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 
 // ----------------------------------------------------------------------
@@ -39,6 +40,8 @@ export default function Router() {
         { path: 'blog', element: <BlogPage /> },
         { path: 'member', element: <MemberPage /> },
         { path: 'addMember', element: <MemberAddPage /> },
+        { path: 'addMember', element: <MemberAddPage /> },
+        { path: 'groupMember', element:<groupMember/>},
         { path: 'group', element: <GroupPage /> },
         { path: 'addGroup', element: <GroupAddPage /> },
         { path: 'chitreceipt', element: <ChitReceiptPage /> },

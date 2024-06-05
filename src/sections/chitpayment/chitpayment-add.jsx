@@ -906,7 +906,7 @@ export default function AddChitPaymentPage() {
                                                     <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{row.valueerror}</div>
                                                 </Stack>
                                                 </div>
-                                                <div className='box-grp'>
+                                                <div className=' grp-mbl'>
                                                 <Stack direction='column'>
                                                     <Typography variant='subtitle1' sx={{ ml:0, mr: 2, mt: 3, mb: '0px' }} >
                                                         Particular
@@ -914,7 +914,7 @@ export default function AddChitPaymentPage() {
                                                     <Stack direction='row' sx={{ ml: -2, }}>
                                                         <TextField
                                                             required
-                                                            className='input-box1'
+                                                            className='input-box1 width-inp'
                                                             id="outlined-required"
                                                             disabled={screen === "view"}
                                                             label="Particular"
@@ -958,19 +958,19 @@ export default function AddChitPaymentPage() {
                     {AlertFrom === "success"
                         ? <img src="../../../public/assets/icons/success_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />
                         : <img src="../../../public/assets/icons/failed_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />}
-                    <Typography gutterBottom variant='h4' mt={2} mb={5} color={AlertFrom === "success" ? "#45da81" : "#ef4444"}>
+                    <Typography gutterBottom variant='h6' className="alert-msg" mt={2} mb={5}  color={AlertFrom === "success" ? "#45da81" : "#ef4444"}>
                         {AlertMessage}
                     </Typography>
                 </Stack>
             </Dialog>
             <Dialog
                 open={UnPaidGroupAlert}
-                fullWidth={600}
+                fullWidth
                 maxWidth="md"
                 sx={{ display: 'flex', justifyContent: 'center', flex: 1, }}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description" >
-                <Card sx={{ maxWidth: '800px' }}>
+                <Card>
                     <Stack>
                         <Stack mt={4} ml={2} mr={1} direction="row" alignItems="center" >
                             <TextField
@@ -1002,15 +1002,16 @@ export default function AddChitPaymentPage() {
                                 }} /> 
                             <IconButton
                                 aria-label="close"
+                                className='btn-close'
                                 onClick={HandleUnPaidGroupAlertClose}
-                                sx={{ position: 'absolute', right: 7, top: 4, color: (theme) => theme.palette.grey[500], }} >
+                                sx={{ position: 'absolute', right: 2, top: 0, color: (theme) => theme.palette.grey[500], }} >
                                 <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                             </IconButton>
                         </Stack>
                         <Scrollbar>
                             <TableContainer sx={{ overflow: '', mt: 2 }}>
-                            <Table sx={{ minWidth: 800 }} stickyHeader>
-                                    <TableHeader
+                            <Table sx={{ minWidth: 530 }} stickyHeader>
+                                    <TableHeader sx={{ width:'100%' }}
                                         order={order}
                                         orderBy={orderBy}
                                         rowCount={UnPaidGroupList.length}
@@ -1070,7 +1071,7 @@ export default function AddChitPaymentPage() {
                                         <InputAdornment position="start">
                                             <Iconify
                                                 icon="eva:search-fill"
-                                                sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
+                                                sx={{ ml: 1, mt:1, mb:1, width: 20, height: 20, color: 'text.disabled' }}
                                             />
                                         </InputAdornment>
                                     ),

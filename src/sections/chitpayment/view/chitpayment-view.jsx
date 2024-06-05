@@ -31,7 +31,7 @@ import TableNoData from '../../member/table-no-data';
 import ErrorLayout from '../../../Error/ErrorLayout';
 import ChitPaymentTableRow from '../chitpayment-list';
 import TableEmptyRows from '../../member/table-empty-rows';
-
+import './chitpayment-view.css';
 export default function ChitPaymentView() {
 
   const navigate = useNavigate();
@@ -191,7 +191,7 @@ export default function ChitPaymentView() {
         </Button>
       </Stack>
       <Card>
-        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap={'40px'}>
+        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap={'40px'} className='mbl-view'>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker']} >
               <DatePicker

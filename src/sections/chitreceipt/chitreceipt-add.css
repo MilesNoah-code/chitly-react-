@@ -34,11 +34,21 @@
     font-size: 18px;
     padding: 10px;
   }
+  .Muipopper-root{
+    background-color: #ccc !important;
+  }
   @media screen and (max-width: 768px) {
     .stack-box{
         flex-direction: column !important;
         width: 100% !important;
         align-items:inherit;
+    }
+    .alert-msg{
+      padding: 10px 15px 10px 15px;
+      font-size: 15px;
+    }
+    .grp-label{
+      width: calc(97% - 0px) !important; 
     }
     .box-grp {
       flex: 1 0 100%;
@@ -64,6 +74,14 @@
       } 
     }
     @media (min-width:370px) and (max-width:540px){
+      .btn-close{
+        right: -1px;
+        top: -2px;
+      }
+      .btn-close img{
+        width: 14px !important;
+        height: 14px !important;
+      }
       h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
         font-size: 15px;
         margin-top: 2px;
@@ -75,5 +93,6 @@
    
     .custom-button{
      font-size: 13px;
+     margin-top: 10px;
     }
     }

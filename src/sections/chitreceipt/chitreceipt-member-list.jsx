@@ -27,7 +27,7 @@ export default function ChitReceiptMemberTableRow({
           ? <Avatar alt='../../../public/assets/icons/green_tick.png' src='../../../public/assets/icons/green_tick.png' sx={{ width: 20, height: 20 }} />
           : <Avatar alt='../../../public/assets/icons/pending.png' src='../../../public/assets/icons/pending.png' sx={{ width: 20, height: 20 }} />}
       </TableCell>
-      <TableCell>{ }</TableCell>
+    
     </TableRow>
   );
 }

@@ -333,7 +333,7 @@ export default function AddGroupPage() {
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                             <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml:4, mr: 2, mt: 2, mb: '0px' }}>
+                                    <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                         Group Code
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
@@ -375,7 +375,7 @@ export default function AddGroupPage() {
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                             <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml:4, mr: 2, mt: 2, mb: '0px' }}>
+                                    <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                         Duration
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
@@ -417,7 +417,7 @@ export default function AddGroupPage() {
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                             <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml:4, mr: 2, mt: 2, mb: '0px' }}>
+                                    <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                         FM. PR. Due
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
@@ -460,7 +460,7 @@ export default function AddGroupPage() {
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                             <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml:4, mr: 2, mt: 2, mb: '0px' }}>
+                                    <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
                                         Auction Mode
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>

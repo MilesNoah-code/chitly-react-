@@ -1677,7 +1677,7 @@ export default function AddMemberPage() {
                                                     Upload Photo
                                                     <VisuallyHiddenInput type="file" onChange={HandleProfileImage} />
                                                 </Button>
-                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ProfileImage.error}</div>
+                                                <div style={{ marginLeft: "10px", marginTop: "0px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ProfileImage.error}</div>
                                             </Stack>
                                         </Stack>}
                                     <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
@@ -1813,7 +1813,7 @@ export default function AddMemberPage() {
                                             </Typography>
                                             <Stack direction='row' sx={{ ml: 0, }}>
                                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                    <DemoContainer components={['DatePicker']} sx={{ width: 525 }} className="date-pick">
+                                                    <DemoContainer components={['DatePicker']} sx={{  width: 530 }} className="date-pick">
                                                         <DatePicker 
                                                         className='input-box1'
                                                             value={Dob.data}
@@ -1977,10 +1977,30 @@ export default function AddMemberPage() {
                                             <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Address.error}</div>
                                         </Stack>
                                         </div>
+                                        <div className='box' style={{display: 'none'}}>
+                                          <Stack direction='column'>
+                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
+                                                 Area Name
+                                            </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, }}>
+                                                <TextField
+                                             className='input-box1'
+                                                    required
+                                                    id="outlined-required"
+                                                    disabled={screen === "view"}
+                                                    label="Area Name"
+                                                    value={AreaName.data}
+                                                    onChange={(e) => AddressDetailsTextValidate(e, "AreaName")}
+                                                     style={{  }} />
+                                              
+                                             </Stack>
+                                             <div style={{ marginLeft: "25px",  color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AreaName.error}</div>
+                                         </Stack>
+                                         </div>
                                         <div className='box'>
                                         <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
-                                                Area Name
+                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
+                                                Country
                                             </Typography>
                                             <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
@@ -1988,13 +2008,13 @@ export default function AddMemberPage() {
                                                     required
                                                     id="outlined-required"
                                                     disabled={screen === "view"}
-                                                    label="Area Name"
-                                                    value={AreaName.data}
-                                                    onChange={(e) => AddressDetailsTextValidate(e, "AreaName")}
+                                                    label="Country"
+                                                    value={Country.data}
+                                                    onChange={(e) => AddressDetailsTextValidate(e, "Country")}
                                                     style={{  }} />
                                               
                                             </Stack>
-                                            <div style={{ marginLeft: "25px",  color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AreaName.error}</div>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Country.error}</div>
                                         </Stack>
                                         </div>
                                     </Stack> 
@@ -2040,26 +2060,7 @@ export default function AddMemberPage() {
                                         </div>
                                     </Stack>
                                     <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                    <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                                Country
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Country"
-                                                    value={Country.data}
-                                                    onChange={(e) => AddressDetailsTextValidate(e, "Country")}
-                                                    style={{  }} />
-                                              
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Country.error}</div>
-                                        </Stack>
-                                        </div>
+                                   
                                     </Stack>
                                 </TabPanel>
                                 <TabPanel value="3">
@@ -2282,10 +2283,10 @@ export default function AddMemberPage() {
                                         ? <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                         <div className='box'>
                                             <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
+                                                <Typography variant="subtitle1" sx={{ ml:3, mr: 2, mt: 2, mb: 1 }}>
                                                     Spouse Education
                                                 </Typography>
-                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                <Stack direction='row' sx={{ ml: 0, }}  className='radio-box'>
                                                     <RadioGroup
                                                         aria-labelledby="demo-radio-buttons-group-label"
                                                         name="radio-buttons-group"
@@ -2294,10 +2295,10 @@ export default function AddMemberPage() {
                                                         onChange={(e) => setSpouseEducation({ data: e.target.value, error: "" })}>
                                                         <FormControlLabel value="Primary" control={<Radio />} label="Primary" disabled={screen === "view"} />
                                                         <FormControlLabel value="Secondary" control={<Radio />} label="Secondary" disabled={screen === "view"} />
-                                                        <FormControlLabel value="Diploma" control={<Radio />} label="Diploma" disabled={screen === "view"} />
+                                                        <FormControlLabel className="radio-control2" value="Diploma" control={<Radio />} label="Diploma" disabled={screen === "view"} />
                                                         <FormControlLabel value="Graduate" control={<Radio />} label="Graduate" disabled={screen === "view"} />
-                                                        <FormControlLabel value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view"} />
-                                                        <FormControlLabel value="Doctrate" control={<Radio />} label="Doctorate" disabled={screen === "view"} />
+                                                        <FormControlLabel className="radio-control" value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view"} />
+                                                        <FormControlLabel className="radio-control1" value="Doctrate" control={<Radio />} label="Doctorate" disabled={screen === "view"} />
                                                     </RadioGroup>
                                                   
                                                 </Stack>
@@ -2373,7 +2374,7 @@ export default function AddMemberPage() {
                                                 </TextField>
                                                
                                             </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{CurrentOccupation.error}</div>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{CurrentOccupation.error}</div>
                                         </Stack>
                                         </div>
                                         <div className='box'>
@@ -2393,7 +2394,7 @@ export default function AddMemberPage() {
                                                     style={{ }} />
                                               
                                             </Stack>
-                                            <div style={{ marginLeft: "15px",  marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{CurrentEmployer.error}</div>
+                                            <div style={{ marginLeft: "25px",  marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{CurrentEmployer.error}</div>
                                         </Stack>
                                         </div>
                                     </Stack>
@@ -2415,7 +2416,7 @@ export default function AddMemberPage() {
                                                     style={{ }} />
                                                
                                             </Stack>
-                                            <div style={{ marginLeft: "15px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{YearsAtCurrentEmployer.error}</div>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{YearsAtCurrentEmployer.error}</div>
                                         </Stack>
                                         </div>
                                         <div className='box'>
@@ -2435,7 +2436,7 @@ export default function AddMemberPage() {
                                                     style={{  }} />
                                               
                                             </Stack>
-                                            <div style={{ marginLeft: "15px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{MonthlyIncome.error}</div>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{MonthlyIncome.error}</div>
                                         </Stack>
                                         </div>
                                     </Stack>
@@ -2458,7 +2459,7 @@ export default function AddMemberPage() {
                                                 </RadioGroup>
                                               
                                             </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{LivingIn.error}</div>
+                                            <div style={{ marginLeft: "25px", marginTop: "-5px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{LivingIn.error}</div>
                                         </Stack>
                                         </div>
                                         <div className='box'>
@@ -2479,7 +2480,7 @@ export default function AddMemberPage() {
                                             </Stack>
                                         
                                         </Stack>
-                                        <div style={{ marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{YearsAtCurrentResidence.error}</div>
+                                        <div style={{ marginLeft: "25px",marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{YearsAtCurrentResidence.error}</div>
                                         </div>
                                     </Stack>
                                 </TabPanel>
@@ -2512,7 +2513,7 @@ export default function AddMemberPage() {
                     {AlertFrom === "success"
                         ? <img src="../../../public/assets/icons/success_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />
                         : <img src="../../../public/assets/icons/failed_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />}
-                    <Typography gutterBottom variant='h4' mt={2} mb={5} color={AlertFrom === "success" ? "#45da81" : "#ef4444"}>
+                    <Typography gutterBottom variant='h4' mt={2} mb={5} className="alert-msg" color={AlertFrom === "success" ? "#45da81" : "#ef4444"}>
                         {AlertMessage}
                     </Typography>
                 </Stack>
@@ -2536,10 +2537,11 @@ export default function AddMemberPage() {
                     </Button>
                    
                 </Stack>
-                <div style={{ marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ProofImage.error}</div>
+
                 <Stack sx={{ mt: 2, ml: 3 }}>
                     <Stack direction='row'>
                         <img src={MediaList[0].image} alt="Selected" style={{ width: 120, height: 120, }} />
+                        
                         <Stack flexDirection='column' sx={{ ml: 3,  }}>
                             <Stack flexDirection='row'>
                                 <TextField
@@ -2591,6 +2593,7 @@ export default function AddMemberPage() {
                                 <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{KYCOtherType.error}</div>
                         </Stack>
                     </Stack>
+                    <div style={{ marginLeft: "8px", color: 'red', fontSize: "12px", marginTop: "3px", fontWeight: "500", width: "100px" }}>{ProofImage.error}</div>
                 </Stack>
                 <Stack sx={{ alignItems: 'center', mt: 1, mb: 3 }}>
                     <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 100, height: 40 }} onClick={validateProofDetails}>

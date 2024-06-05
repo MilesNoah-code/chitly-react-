@@ -173,7 +173,7 @@ export default function GroupView() {
         </Button>
       </Stack>
       <Card>
-        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" justifyContent="space-between">
+        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" justifyContent="space-between" className='mbl-view'>
           <TextField
             placeholder="Search Group..."
             value={filterName}

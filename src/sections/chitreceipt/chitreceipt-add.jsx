@@ -638,7 +638,7 @@ export default function AddChitReceiptPage() {
                                     </Stack>
                                 </Stack>
                                 </div>
-                                <div className='box-grp'>
+                                <div className='box-grp  grp-label'>
                                 <Stack direction='column'>
                                     <Typography variant="subtitle1" sx={{mt: 2, ml: 2 }}>
                                         Group No
@@ -908,8 +908,9 @@ export default function AddChitReceiptPage() {
                                 }} />
                             <IconButton
                                 aria-label="close"
+                                className='btn-close'
                                 onClick={HandleMemberListAlertClose}
-                                sx={{ position: 'absolute', right: 2, top: 0, color: (theme) => theme.palette.grey[500], }} >
+                                sx={{ position: 'absolute', right: 2, top: 0, color: (theme) => theme.palette.grey[500] }}  >
                                 <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                             </IconButton>
                         </Stack>
@@ -932,7 +933,7 @@ export default function AddChitReceiptPage() {
                                             { id: 'Status', label: 'Status' },
                                         ]} />
                                     {MemberListLoading
-                                        ? <Stack mt={10} sx={{ alignItems: 'center' }}>
+                                        ? <Stack mt={10} sx={{ alignItems: 'center' ,justifyContent:'center'}}>
                                             <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                                         </Stack>
                                         : <TableBody>

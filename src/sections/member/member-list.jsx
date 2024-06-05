@@ -15,7 +15,7 @@ import { Button, Dialog, DialogTitle, DialogActions, } from '@mui/material';
 
 import { DeleteHeader } from 'src/hooks/AxiosApiFetch';
 
-import { IMAGE_URL, MEMBER_DELETE, REACT_APP_HOST_URL } from 'src/utils/api-constant';
+import { MEMBER_DELETE, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
 
@@ -37,6 +37,7 @@ export default function MemberTableRow({
   const [AlertFrom, setAlertFrom] = useState('');
   const [ErrorAlert, setErrorAlert] = useState(false);
   const [ErrorScreen, setErrorScreen] = useState('network');
+  const ImageUrl = JSON.parse(localStorage.getItem('imageUrl'));
 
   const MemberDeleteMethod = (id) => {
     const url = `${REACT_APP_HOST_URL}${MEMBER_DELETE}${id}`;
@@ -125,7 +126,7 @@ export default function MemberTableRow({
 
           <TableCell component="th" scope="row" >
             <Stack direction="row" alignItems="center" spacing={2} marginLeft={2}>
-              <Avatar alt={item.name} src={IMAGE_URL + item.mapped_photo} >{item.name[0]}</Avatar>
+              <Avatar alt={item.name} src={`${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${item.mapped_photo}`} >{item.name[0]}</Avatar>
               <Typography variant="subtitle2" noWrap>
                 {item.name}
               </Typography>
@@ -140,11 +141,13 @@ export default function MemberTableRow({
             <Label color={(item.status === 'banned' && 'error') || 'success'}>{item.status}</Label>
           </TableCell>
 
-          <TableCell align="right">
-            <IconButton onClick={handleOpenMenu}>
-              <Iconify icon="eva:more-vertical-fill" />
-            </IconButton>
-          </TableCell>
+          {item.is_active === 1
+            ? <TableCell align="right">
+              <IconButton onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>
+                <Iconify icon="eva:more-vertical-fill" />
+              </IconButton>
+            </TableCell>
+          : null}
         </TableRow>}
       <Popover
         open={!!open}
@@ -156,16 +159,16 @@ export default function MemberTableRow({
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={() => HandleSelectMenu("view")} sx={{ display: 'none' }}>
+        <MenuItem onClick={() => HandleSelectMenu("view")} sx={{ display: 'none', cursor: 'pointer' }}>
           <Iconify icon="eva:eye-fill" sx={{ mr: 2 }} />
           View
         </MenuItem>
-        <MenuItem onClick={() => HandleSelectMenu("edit")}>
+        <MenuItem onClick={() => HandleSelectMenu("edit")} sx={{ cursor: 'pointer' }}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
           Edit
         </MenuItem>
 
-        <MenuItem onClick={() => setConfirmAlert(true)} sx={{ color: 'error.main' }}>
+        <MenuItem onClick={() => setConfirmAlert(true)} sx={{ color: 'error.main', cursor: 'pointer' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
           Delete
         </MenuItem>
@@ -180,10 +183,10 @@ export default function MemberTableRow({
           Are you sure you want to delete this Member ?
         </DialogTitle>
         <DialogActions>
-          <Button autoFocus onClick={HandleConfirmYesClick}>
+          <Button autoFocus onClick={HandleConfirmYesClick} sx={{ cursor: 'pointer' }}>
             Yes
           </Button>
-          <Button onClick={HandleConfirmNoClick} autoFocus>
+          <Button onClick={HandleConfirmNoClick} autoFocus sx={{ cursor: 'pointer' }}>
             No
           </Button>
         </DialogActions>
@@ -197,7 +200,7 @@ export default function MemberTableRow({
         <IconButton
           aria-label="close"
           onClick={HandleAlertClose}
-          sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], }} >
+          sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
           <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
         </IconButton>
         <Stack style={{ alignItems: 'center', }} mt={5}>

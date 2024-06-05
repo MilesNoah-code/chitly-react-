@@ -36,7 +36,7 @@ export default function GroupView() {
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(15);
   const Session = localStorage.getItem('apiToken');
   const [GroupList, setGroupList] = useState([]);
   const [GroupListLoading, setGroupListLoading] = useState(true);
@@ -46,15 +46,20 @@ export default function GroupView() {
   const [AlertFrom, setAlertFrom] = useState('');
   const [ErrorAlert, setErrorAlert] = useState(false);
   const [ErrorScreen, setErrorScreen] = useState('');
+  const [TotalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
-    GetGroupList(1, "");
+    setTotalCount(0);
+    setGroupList([]);
+    GetGroupList(ActiveFilter, filterName, page * rowsPerPage, rowsPerPage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [page, rowsPerPage, ActiveFilter, filterName]);
 
-  const GetGroupList = (isActive, text) => {
+  const GetGroupList = (isActive, text, start, limit) => {
     setGroupListLoading(true);
-    const url = `${REACT_APP_HOST_URL}${GROUP_LIST}${isActive}&search=${text}`;
+    setTotalCount(0);
+    setGroupList([]);
+    const url = `${REACT_APP_HOST_URL}${GROUP_LIST}${isActive}&search=${text}&start=${start}&limit=${limit}`;
     console.log(url);
     console.log(Session)
     fetch(url, GetHeader(JSON.parse(Session)))
@@ -63,7 +68,8 @@ export default function GroupView() {
         console.log(JSON.stringify(json));
         setGroupListLoading(false);
         if (json.success) {
-          setGroupList(json.list);
+          setTotalCount(json.total);
+          setGroupList([...GroupList, ...json.list]);
         } else if (json.success === false) {
           setAlertMessage(json.message);
           setAlertFrom("failed");
@@ -127,8 +133,9 @@ export default function GroupView() {
 
   const handleFilterByName = (event) => {
     setPage(0);
+    setTotalCount(0);
+    setGroupList([]);
     setFilterName(event.target.value);
-    GetGroupList(ActiveFilter, event.target.value);
   };
 
   const HandleAddGroupClick = () => {
@@ -149,8 +156,9 @@ export default function GroupView() {
     const text = e.target.value;
     console.log(text);
     setPage(0);
+    setTotalCount(0);
+    setGroupList([]);
     setActiveFilter(text);
-    GetGroupList(text, filterName);
   };
 
   const HandleAlertShow = () => {
@@ -168,7 +176,7 @@ export default function GroupView() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
         <Typography variant="h6" sx={{color: '#637381' }}>Group List</Typography>
 
-        <Button variant="contained" className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddGroupClick}>
+        <Button variant="contained" className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddGroupClick} sx={{ cursor: 'pointer' }}>
           Add Group
         </Button>
       </Stack>
@@ -243,15 +251,15 @@ export default function GroupView() {
               </TableContainer>
             </Scrollbar>
 
-            <TablePagination
+            {GroupList.length > 0 && <TablePagination
               page={page}
               component="div"
-              count={GroupList.length}
+              count={TotalCount}
               rowsPerPage={rowsPerPage}
               onPageChange={handleChangePage}
-              rowsPerPageOptions={[5, 10, 25]}
+              rowsPerPageOptions={[15, 30, 50]}
               onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+            />}
           </Stack>}
 
       </Card>
@@ -264,7 +272,7 @@ export default function GroupView() {
         <IconButton
           aria-label="close"
           onClick={HandleAlertClose}
-          sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], }} >
+          sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
           <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
         </IconButton>
         <Stack style={{ alignItems: 'center', }} mt={5}>

@@ -20,12 +20,12 @@ import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
 import './member-view.css';
+import { emptyRows, } from '../utils';
 import TableHeader from '../table-head';
 import TableNoData from '../table-no-data';
 import MemberTableRow from '../member-list';
 import TableEmptyRows from '../table-empty-rows';
 import ErrorLayout from '../../../Error/ErrorLayout';
-import { emptyRows, applyFilter, getComparator } from '../utils';
 
 export default function MemberView() {
 
@@ -35,7 +35,7 @@ export default function MemberView() {
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(15);
   const Session = localStorage.getItem('apiToken');
   const [MemberList, setMemberList] = useState([]);
   const [MemberListLoading, setMemberListLoading] = useState(true);
@@ -45,24 +45,31 @@ export default function MemberView() {
   const [AlertFrom, setAlertFrom] = useState('');
   const [ErrorAlert, setErrorAlert] = useState(false);
   const [ErrorScreen, setErrorScreen] = useState('');
+  const [TotalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
-    GetMemberList(1, "");
+    setTotalCount(0);
+    setMemberList([]);
+    GetMemberList(ActiveFilter, filterName, page * rowsPerPage, rowsPerPage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [page, rowsPerPage, ActiveFilter, filterName]);
 
-  const GetMemberList = (isActive, text) => {
+  const GetMemberList = (isActive, text, start, limit) => {
     setMemberListLoading(true);
-    const url = `${REACT_APP_HOST_URL}${MEMBER_LIST}${isActive}&search=${text}`;
+    setTotalCount(0);
+    setMemberList([]);
+    const url = `${REACT_APP_HOST_URL}${MEMBER_LIST}${isActive}&search=${text}&start=${start}&limit=${limit}`;
     console.log(url);
     console.log(Session)
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
+        console.log(MemberList.length);
         console.log(JSON.stringify(json));
         setMemberListLoading(false);
         if (json.success) {
-          setMemberList(json.list);
+          setTotalCount(json.total);
+          setMemberList([...MemberList, ...json.list]);
         } else if (json.success === false) {
           setAlertMessage(json.message);
           setAlertFrom("failed");
@@ -117,6 +124,7 @@ export default function MemberView() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    console.log(newPage)
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -126,17 +134,10 @@ export default function MemberView() {
 
   const handleFilterByName = (event) => {
     setPage(0);
+    setTotalCount(0);
+    setMemberList([]);
     setFilterName(event.target.value);
-    GetMemberList(ActiveFilter, event.target.value);
   };
-
-  const dataFiltered = applyFilter({
-    inputData: MemberList,
-    comparator: getComparator(order, orderBy),
-    filterName,
-  });
-
-  const notFound = !dataFiltered.length && !!filterName;
 
   const HandleAddMemberClick = () => {
     navigate('/addMember', {
@@ -156,8 +157,9 @@ export default function MemberView() {
     const text = e.target.value;
     console.log(text);
     setPage(0);
+    setTotalCount(0);
+    setMemberList([]);
     setActiveFilter(text);
-    GetMemberList(text, filterName);
   };
 
   const HandleAlertShow = () => {
@@ -175,7 +177,7 @@ export default function MemberView() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2}>
         <Typography variant="h6" sx={{color: '#637381' }}>Member List</Typography>
 
-        <Button variant="contained"   className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddMemberClick}>
+        <Button variant="contained"   className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddMemberClick} sx={{ cursor: 'pointer' }}>
           Add Member
         </Button>
       </Stack>
@@ -227,8 +229,8 @@ export default function MemberView() {
                       { id: '' }, ]} />
                      
                   <TableBody>
-                    {dataFiltered
-                      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                      {MemberList
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => (
                         <MemberTableRow
                           key={row.id}
@@ -240,22 +242,22 @@ export default function MemberView() {
                     <TableEmptyRows
                       height={77}
                       emptyRows={emptyRows(page, rowsPerPage, MemberList.length)} />
-                    {notFound && <TableNoData query={filterName} />}
+                      {MemberList.length === 0 && <TableNoData query={filterName} />}
                   </TableBody>
                 </Table>
               </TableContainer>
               </div>
             </Scrollbar>
 
-            <TablePagination
+            {MemberList.length > 0 && <TablePagination
               page={page}
               component="div"
-              count={MemberList.length}
+              count={TotalCount}
               rowsPerPage={rowsPerPage}
               onPageChange={handleChangePage}
-              rowsPerPageOptions={[5, 10, 25]}
+              rowsPerPageOptions={[15, 30, 50]}
               onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+            />}
           </Stack>}
         
       </Card>
@@ -268,7 +270,7 @@ export default function MemberView() {
         <IconButton
           aria-label="close"
           onClick={HandleAlertClose}
-          sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], }} >
+          sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
           <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
         </IconButton>
         <Stack style={{ alignItems: 'center', }} mt={5}>

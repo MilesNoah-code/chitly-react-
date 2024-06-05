@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
@@ -19,7 +19,7 @@ import { useResponsive } from 'src/hooks/use-responsive';
 
 import { LOGOUT_URL, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
-import Logo from 'src/components/logo';
+// import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
 
 import { NAV } from './config-layout';
@@ -32,8 +32,10 @@ export default function Nav({ openNav, onCloseNav }) {
   const UserDetail = JSON.parse(localStorage.getItem('userDetails'));
   const Session = localStorage.getItem('apiToken');
   const navigate = useNavigate();
+  const [Loading, setLoading] = useState(false);
 
   const LogOutMethod = () => {
+    setLoading(true);
     const url = `${REACT_APP_HOST_URL}${LOGOUT_URL}`;
     console.log(JSON.parse(Session));
     console.log(url);
@@ -41,6 +43,7 @@ export default function Nav({ openNav, onCloseNav }) {
       .then((response) => response.json())
       .then((json) => {
         console.log(JSON.stringify(json));
+        setLoading(false);
         if (json.success) {
           localStorage.removeItem("apiToken");
           localStorage.removeItem("userDetails");
@@ -48,6 +51,7 @@ export default function Nav({ openNav, onCloseNav }) {
         }
       })
       .catch((error) => {
+        setLoading(false);
         console.log(error);
       })
   }
@@ -89,8 +93,8 @@ export default function Nav({ openNav, onCloseNav }) {
 
   const renderMenu = (
     <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
-      {navConfig.map((item) => (
-        <NavItem key={item.title} item={item} />
+      {navConfig.map((item, index) => (
+        <NavItem key={item.title} item={item} isFirstItem={index === 0} />
       ))}
     </Stack>
   );
@@ -98,14 +102,14 @@ export default function Nav({ openNav, onCloseNav }) {
   const renderUpgrade = (
     <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
       <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
-
         <Button
           target="_blank"
           variant="contained"
           color="inherit"
-          onClick={LogOutMethod}
-        >
-          Logout
+          onClick={Loading ? null : LogOutMethod} >
+          {Loading
+            ? (<img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+            : ("Logout")}
         </Button>
       </Stack>
     </Box>
@@ -177,10 +181,12 @@ Nav.propTypes = {
 
 // ----------------------------------------------------------------------
 
-function NavItem({ item }) {
+function NavItem({ item, isFirstItem }) {
   const pathname = usePathname();
-
-  const active = item.path === pathname;
+  // console.log(pathname);
+  // console.log(item.path);
+  // const active = item.path === pathname;
+  const active = item.path === pathname || (isFirstItem && pathname === '/');
 
   return (
     <ListItemButton
@@ -215,4 +221,5 @@ function NavItem({ item }) {
 
 NavItem.propTypes = {
   item: PropTypes.object,
+  isFirstItem: PropTypes.bool
 };

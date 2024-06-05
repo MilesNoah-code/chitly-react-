@@ -50,6 +50,7 @@ export default function AddGroupPage() {
     });
 
     const AuctionModeArray = ["Weekly", "Monthly", "Monthly Twice", "Monthly Thrice"];
+    const DividendArray = ["Current Month", "Next Month"];
 
     const [Loading, setLoading] = useState(false);
     const [Alert, setAlert] = useState(false);
@@ -294,7 +295,7 @@ export default function AddGroupPage() {
     const HandleAlertClose = () => {
         setAlert(false);
         if (AlertFrom === "success"){
-            window.location.reload();
+            navigate('/group');
         }
     };
 
@@ -317,7 +318,7 @@ export default function AddGroupPage() {
         <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
                     {screenLabel[screen] || "Add Group"}
     </Typography>
-    <Button variant="contained" className='custom-button'  onClick={() => navigate('/group')}>
+                <Button variant="contained" className='custom-button' onClick={() => navigate('/group')} sx={{ cursor: 'pointer' }}>
      Back
     </Button>
     </Stack>
@@ -445,12 +446,17 @@ export default function AddGroupPage() {
                                             required
                                             className='input-box1'
                                             id="outlined-required"
+                                            select
                                             disabled={screen === "view"}
-                                            label="Dividend"
+                                            label="Select"
                                             value={Dividend.data}
                                             onChange={(e) => GroupTextValidate(e, "Dividend")}
-                                            style={{  }} />
-                                       
+                                            style={{}}>
+                                            {DividendArray.map((option) => (
+                                                <MenuItem key={option} value={option}>
+                                                    {option}
+                                                </MenuItem> ))}
+                                        </TextField>
                                     </Stack>
                                    
                                 </Stack>
@@ -490,7 +496,7 @@ export default function AddGroupPage() {
                             {screen === "view"
                                 ? null
                                 :<Stack direction='column' alignItems='flex-end'>
-                                        <Button sx={{ mr: 5, mb: 3, height: 50, width: 150 }} variant="contained" className='custom-button' onClick={HandleSubmitClick}>
+                                <Button sx={{ mr: 5, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                             {Loading
                                                 ? (<img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                                 : ("Submit")}
@@ -508,7 +514,7 @@ export default function AddGroupPage() {
                 <IconButton
                     aria-label="close"
                     onClick={HandleAlertClose}
-                    sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], }} >
+                    sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
                     <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                 </IconButton>
                 <Stack style={{ alignItems: 'center', }} mt={5}>

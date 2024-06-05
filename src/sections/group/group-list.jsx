@@ -136,7 +136,7 @@ export default function GroupTableRow({
           <TableCell>{item.amount}</TableCell>
 
           <TableCell align="right">
-            <IconButton onClick={handleOpenMenu}>
+            <IconButton onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>
               <Iconify icon="eva:more-vertical-fill" />
             </IconButton>
           </TableCell>
@@ -151,16 +151,16 @@ export default function GroupTableRow({
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={() => HandleSelectMenu("view")} sx={{ display: 'none' }}>
+        <MenuItem onClick={() => HandleSelectMenu("view")} sx={{ display: 'none', cursor: 'pointer' }}>
           <Iconify icon="eva:eye-fill" sx={{ mr: 2 }} />
           View
         </MenuItem>
-        <MenuItem onClick={() => HandleSelectMenu("edit")}>
+        <MenuItem onClick={() => HandleSelectMenu("edit")} sx={{ cursor: 'pointer' }}>
           <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
           Edit
         </MenuItem>
 
-        <MenuItem onClick={() => setConfirmAlert(true)} sx={{ color: 'error.main' }}>
+        <MenuItem onClick={() => setConfirmAlert(true)} sx={{ color: 'error.main', cursor: 'pointer' }}>
           <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
           Delete
         </MenuItem>
@@ -175,10 +175,10 @@ export default function GroupTableRow({
           Are you sure you want to delete this Group ?
         </DialogTitle>
         <DialogActions>
-          <Button autoFocus onClick={HandleConfirmYesClick}>
+          <Button autoFocus onClick={HandleConfirmYesClick} sx={{ cursor: 'pointer' }}>
             Yes
           </Button>
-          <Button onClick={HandleConfirmNoClick} autoFocus>
+          <Button onClick={HandleConfirmNoClick} autoFocus sx={{ cursor: 'pointer' }}>
             No
           </Button>
         </DialogActions>
@@ -192,7 +192,7 @@ export default function GroupTableRow({
         <IconButton
           aria-label="close"
           onClick={HandleAlertClose}
-          sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], }} >
+          sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
           <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
         </IconButton>
         <Stack style={{ alignItems: 'center', }} mt={5}>

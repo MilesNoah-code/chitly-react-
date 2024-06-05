@@ -13,7 +13,7 @@ export default function ChitPaymentMemberTableRow({
 }) {
 
   return (
-    <TableRow hover tabIndex={-1} role="checkbox" selected={selected} onClick={handleClick}>
+    <TableRow hover tabIndex={-1} role="checkbox" selected={selected} onClick={handleClick} sx={{ cursor: 'pointer' }}>
       <TableCell padding="checkbox" style={{ display: 'none' }}>
         <Checkbox disableRipple checked={selected} onChange={handleClick} />
       </TableCell>

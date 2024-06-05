@@ -41,7 +41,7 @@ export default function ChitReceiptView() {
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(15);
   const Session = localStorage.getItem('apiToken');
   const [ChitReceiptList, setChitReceiptList] = useState([]);
   const [ChitReceiptLoading, setChitReceiptLoading] = useState(true);
@@ -58,15 +58,20 @@ export default function ChitReceiptView() {
     data: null,
     searchdata: "",
   });
+  const [TotalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
-    GetChitReceiptList("", "", "");
+    setTotalCount(0);
+    setChitReceiptList([]);
+    GetChitReceiptList(FromDate.searchdata, ToDate.searchdata, filterName, page * rowsPerPage, rowsPerPage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [page, rowsPerPage, FromDate, ToDate, filterName]);
 
-  const GetChitReceiptList = (fromdate, todate, text) => {
+  const GetChitReceiptList = (fromdate, todate, text, start, limit) => {
     setChitReceiptLoading(true);
-    const url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_LIST}${fromdate}&toDate=${todate}&search=${text}`;
+    setTotalCount(0);
+    setChitReceiptList([]);
+    const url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_LIST}${fromdate}&toDate=${todate}&search=${text}&start=${start}&limit=${limit}`;
     console.log(url);
     console.log(Session)
     fetch(url, GetHeader(JSON.parse(Session)))
@@ -75,7 +80,8 @@ export default function ChitReceiptView() {
         console.log(JSON.stringify(json));
         setChitReceiptLoading(false);
         if (json.success) {
-          setChitReceiptList(json.list);
+          setTotalCount(json.total);
+          setChitReceiptList([...ChitReceiptList, ...json.list]);
         } else if (json.success === false) {
           setAlertMessage(json.message);
           setAlertFrom("failed");
@@ -139,8 +145,9 @@ export default function ChitReceiptView() {
 
   const handleFilterByName = (event) => {
     setPage(0);
+    setTotalCount(0);
+    setChitReceiptList([]);
     setFilterName(event.target.value);
-    GetChitReceiptList(FromDate.searchdata, ToDate.searchdata, event.target.value);
   };
 
   const HandleAddChitReceiptClick = () => {
@@ -163,21 +170,25 @@ export default function ChitReceiptView() {
   const HandleFromDateChange = (date) => {
     const DateForSearch = date ? dayjs(date).format('YYYY-MM-DD') : "";
     console.log('Date to search:', DateForSearch);
+    setPage(0);
+    setTotalCount(0);
+    setChitReceiptList([]);
     setFromDate({
       data: date,
       searchdata: DateForSearch
     });
-    GetChitReceiptList(DateForSearch, ToDate.searchdata, filterName);
   };
 
   const HandleToDateChange = (date) => {
     const DateForSearch = date ? dayjs(date).format('YYYY-MM-DD') : "";
     console.log('Date to search:', DateForSearch);
+    setPage(0);
+    setTotalCount(0);
+    setChitReceiptList([]);
     setToDate({
       data: date,
       searchdata: DateForSearch
     });
-    GetChitReceiptList(FromDate.searchdata, DateForSearch, filterName);
   };
 
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
@@ -192,7 +203,7 @@ export default function ChitReceiptView() {
         </Button>
       </Stack>
       <Card>
-        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap={'40px'}>
+        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='40px'>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker']} >
               <DatePicker
@@ -277,15 +288,15 @@ export default function ChitReceiptView() {
               </TableContainer>
             </Scrollbar>
 
-            <TablePagination
+            {ChitReceiptList.length > 0 && <TablePagination
               page={page}
               component="div"
-              count={ChitReceiptList.length}
+              count={TotalCount}
               rowsPerPage={rowsPerPage}
               onPageChange={handleChangePage}
-              rowsPerPageOptions={[5, 10, 25]}
+              rowsPerPageOptions={[15, 30, 50]}
               onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+            />}
           </Stack>}
 
       </Card>

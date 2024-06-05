@@ -60,7 +60,6 @@ export function PostImageHeader(session, form) {
     headers: {
       "Cache-Control": "max-age=0, no-cache, no-store",
       "Accept": "application/json",
-      "Content-Type": "multipart/form-data",
       "apiToken": session,
       "needJson": "1"
     }

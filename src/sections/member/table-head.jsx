@@ -44,7 +44,7 @@ export default function TableHeader({
               hideSortIcon
               active={orderBy === headCell.id}
               direction={orderBy === headCell.id ? order : 'asc'}
-              onClick={onSort(headCell.id)}
+              // onClick={onSort(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id ? (

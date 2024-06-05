@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Outlet, useRoutes } from 'react-router-dom';
+import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 
 import DashboardLayout from 'src/layouts/dashboard';
 
@@ -19,20 +19,22 @@ export const Page404 = lazy(() => import('src/pages/page-not-found'));
 // ----------------------------------------------------------------------
 
 export default function Router() {
+  const isSessionAvailable = localStorage.getItem('apiToken') !== null;
+
   const routes = useRoutes([
     {
-      element: <LoginPage />,
-      index: true
-    },
-    {
-      element: (
+      path: '/',
+      element: isSessionAvailable ? (
         <DashboardLayout>
           <Suspense>
             <Outlet />
           </Suspense>
         </DashboardLayout>
+      ) : (
+        <Navigate to="/login" replace />
       ),
       children: [
+        { path: '', element: <IndexPage /> },
         { path: 'dashboard', element: <IndexPage /> },
         { path: 'blog', element: <BlogPage /> },
         { path: 'member', element: <MemberPage /> },
@@ -44,10 +46,14 @@ export default function Router() {
         { path: 'chitpayment', element: <ChitPaymentPage /> },
         { path: 'addChitPayment', element: <ChitPaymentAddPage /> },
       ],
-    },{
-      element: <LoginPage />,
+    },
+    {
       path: 'login',
-      index: true
+      element: <LoginPage />,
+    },
+    {
+      path: '*',
+      element: <Page404 />,
     },
   ]);
 

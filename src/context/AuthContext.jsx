@@ -1,4 +1,5 @@
-import React, { useReducer, createContext } from "react";
+import PropTypes from 'prop-types';
+import React, { useMemo, useReducer, createContext } from "react";
 
 const isAuthToken = JSON.parse(localStorage.getItem("apiToken"));
 
@@ -32,14 +33,19 @@ export const AuthContextProvider = ({ children }) => {
     DispatchAuthReducer({ type: "LOGOUT" });
   };
 
-  const authContext = {
+  const authContext = useMemo(() => ({
     isLogin: auth.isLogin,
     authLogin,
     authLogout,
-  };
+  }), [auth.isLogin]);
+
   return (
     <AuthContext.Provider value={authContext}>{children}</AuthContext.Provider>
   );
 };
 
 export default AuthContext;
+
+AuthContextProvider.propTypes = {
+  children: PropTypes.any,
+};

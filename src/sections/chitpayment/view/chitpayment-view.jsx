@@ -40,7 +40,7 @@ export default function ChitPaymentView() {
   const [selected, setSelected] = useState([]);
   const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(15);
   const Session = localStorage.getItem('apiToken');
   const [ChitPaymentList, setChitPaymentList] = useState([]);
   const [ChitPaymentLoading, setChitPaymentLoading] = useState(true);
@@ -57,15 +57,20 @@ export default function ChitPaymentView() {
     data: null,
     searchdata: "",
   });
+  const [TotalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
-    GetChitPaymentList("", "", "");
+    setTotalCount(0);
+    setChitPaymentList([]);
+    GetChitPaymentList(FromDate.searchdata, ToDate.searchdata, filterName, page * rowsPerPage, rowsPerPage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [page, rowsPerPage, FromDate, ToDate, filterName]);
 
-  const GetChitPaymentList = (fromdate, todate, text) => {
+  const GetChitPaymentList = (fromdate, todate, text, start, limit) => {
     setChitPaymentLoading(true);
-    const url = `${REACT_APP_HOST_URL}${CHIT_PAYMENT_LIST}${fromdate}&toDate=${todate}&search=${text}`;
+    setTotalCount(0);
+    setChitPaymentList([]);
+    const url = `${REACT_APP_HOST_URL}${CHIT_PAYMENT_LIST}1&fromDate=${fromdate}&toDate=${todate}&search=${text}&start=${start}&limit=${limit}`;
     console.log(url);
     console.log(Session);
     fetch(url, GetHeader(JSON.parse(Session)))
@@ -74,7 +79,8 @@ export default function ChitPaymentView() {
         console.log(JSON.stringify(json));
         setChitPaymentLoading(false);
         if (json.success) {
-          setChitPaymentList(json.list);
+          setTotalCount(json.total);
+          setChitPaymentList([...ChitPaymentList, ...json.list]);
         } else if (json.success === false) {
           setAlertMessage(json.message);
           setAlertFrom("failed");
@@ -138,8 +144,9 @@ export default function ChitPaymentView() {
 
   const handleFilterByName = (event) => {
     setPage(0);
+    setTotalCount(0);
+    setChitPaymentList([]);
     setFilterName(event.target.value);
-    GetChitPaymentList(FromDate.searchdata, ToDate.searchdata, event.target.value);
   };
 
   const HandleAddChitPaymentClick = () => {
@@ -162,21 +169,25 @@ export default function ChitPaymentView() {
   const HandleFromDateChange = (date) => {
     const DateForSearch = date ? dayjs(date).format('YYYY-MM-DD') : "";
     console.log('Date to search:', DateForSearch);
+    setPage(0);
+    setTotalCount(0);
+    setChitPaymentList([]);
     setFromDate({
       data: date,
       searchdata: DateForSearch
     });
-    GetChitPaymentList(DateForSearch, ToDate.searchdata, filterName);
   };
 
   const HandleToDateChange = (date) => {
     const DateForSearch = date ? dayjs(date).format('YYYY-MM-DD') : "";
     console.log('Date to search:', DateForSearch);
+    setPage(0);
+    setTotalCount(0);
+    setChitPaymentList([]);
     setToDate({
       data: date,
       searchdata: DateForSearch
     });
-    GetChitPaymentList(FromDate.searchdata, DateForSearch, filterName);
   };
 
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
@@ -191,7 +202,9 @@ export default function ChitPaymentView() {
         </Button>
       </Stack>
       <Card>
+
         <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap={'40px'} className='mbl-view'>
+
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker']} >
               <DatePicker
@@ -277,15 +290,15 @@ export default function ChitPaymentView() {
               </TableContainer>
             </Scrollbar>
 
-            <TablePagination
+            {ChitPaymentList.length > 0 && <TablePagination
               page={page}
               component="div"
-              count={ChitPaymentList.length}
+              count={TotalCount}
               rowsPerPage={rowsPerPage}
               onPageChange={handleChangePage}
-              rowsPerPageOptions={[5, 10, 25]}
+              rowsPerPageOptions={[15, 30, 50]}
               onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+            />}
           </Stack>}
 
       </Card>
@@ -298,7 +311,7 @@ export default function ChitPaymentView() {
         <IconButton
           aria-label="close"
           onClick={HandleAlertClose}
-          sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], }} >
+          sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
           <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
         </IconButton>
         <Stack style={{ alignItems: 'center', }} mt={5}>

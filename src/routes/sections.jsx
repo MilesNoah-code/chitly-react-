@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Outlet, useRoutes } from 'react-router-dom';
+import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 
 import DashboardLayout from 'src/layouts/dashboard';
 
@@ -14,29 +14,34 @@ export const ChitReceiptPage = lazy(() => import('src/pages/chitreceipt'));
 export const ChitReceiptAddPage = lazy(() => import('src/sections/chitreceipt/chitreceipt-add'));
 export const ChitPaymentPage = lazy(() => import('src/pages/chitpayment'));
 export const ChitPaymentAddPage = lazy(() => import('src/sections/chitpayment/chitpayment-add'));
+export const groupMember = lazy(() => import('src/sections/blog/group-member'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
+  const isSessionAvailable = localStorage.getItem('apiToken') !== null;
+
   const routes = useRoutes([
     {
-      element: <LoginPage />,
-      index: true
-    },
-    {
-      element: (
+      path: '/',
+      element: isSessionAvailable ? (
         <DashboardLayout>
           <Suspense>
             <Outlet />
           </Suspense>
         </DashboardLayout>
+      ) : (
+        <Navigate to="/login" replace />
       ),
       children: [
+        { path: '', element: <IndexPage /> },
         { path: 'dashboard', element: <IndexPage /> },
         { path: 'blog', element: <BlogPage /> },
         { path: 'member', element: <MemberPage /> },
         { path: 'addMember', element: <MemberAddPage /> },
+        { path: 'addMember', element: <MemberAddPage /> },
+        { path: 'groupMember', element:<groupMember/>},
         { path: 'group', element: <GroupPage /> },
         { path: 'addGroup', element: <GroupAddPage /> },
         { path: 'chitreceipt', element: <ChitReceiptPage /> },
@@ -44,10 +49,14 @@ export default function Router() {
         { path: 'chitpayment', element: <ChitPaymentPage /> },
         { path: 'addChitPayment', element: <ChitPaymentAddPage /> },
       ],
-    },{
-      element: <LoginPage />,
+    },
+    {
       path: 'login',
-      index: true
+      element: <LoginPage />,
+    },
+    {
+      path: '*',
+      element: <Page404 />,
     },
   ]);
 

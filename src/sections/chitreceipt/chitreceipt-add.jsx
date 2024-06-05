@@ -25,11 +25,12 @@ import Scrollbar from 'src/components/scrollbar';
 
 import { emptyRows } from 'src/sections/member/utils';
 
+import './chitreceipt-add.css';
 import TableHeader from '../member/table-head';
 import TableNoData from '../member/table-no-data';
 import TableEmptyRows from '../member/table-empty-rows';
 import ChitReceiptMemberTableRow from './chitreceipt-member-list';
-import './chitreceipt-add.css';
+
 
 export default function AddChitReceiptPage() {
    
@@ -46,11 +47,11 @@ export default function AddChitReceiptPage() {
         error: ""
     });
     const [AuctionMode, setAuctionMode] = useState({
-        data: screen === "view" ? data : "",
+        data: "",
         error: ""
     });
     const [Duration, setDuration] = useState({
-        data: screen === "view" ? data : "",
+        data: "",
         error: ""
     });
     const [AccountNo, setAccountNo] = useState({
@@ -83,7 +84,10 @@ export default function AddChitReceiptPage() {
     const [ErrorAlert, setErrorAlert] = useState(false);
     const [ErrorScreen, setErrorScreen] = useState('');
     const [PendingGroupList, setPendingGroupList] = useState([]);
-    const [GroupNoSearch, setGroupNoSearch] = useState('');
+    const [GroupNoSearch, setGroupNoSearch] = useState({
+        data: "",
+        error: ""
+    });
     const [MemberListAlert, setMemberListAlert] = useState(false);
     const [MemberListLoading, setMemberListLoading] = useState(true);
     const [MemberList, setMemberList] = useState([]);
@@ -99,6 +103,9 @@ export default function AddChitReceiptPage() {
     useEffect(() => {
         if (screen === "add") {
             GetPendingGroupList("");
+            if (page) {
+                GetMemberList(GroupNoSearch.data ? GroupNoSearch.data.id : "", filterName, filterTicketNo);
+            }
         } else if (screen === "view") {
             GetChitReceiptView();
         }
@@ -116,9 +123,20 @@ export default function AddChitReceiptPage() {
                 console.log(JSON.stringify(json));
                 setGroupListLoading(false);
                 if (json.success) {
-                    setGroupNoSearch(json.list.groupno != null ? json.list.groupno : "");
+                    setGroupNoSearch({
+                        data: json.list.groupno != null ? json.list.groupno : "",
+                        error: ""
+                    });
                     setReceiptNo({
                         data: json.list.receiptno != null ? json.list.receiptno : "",
+                        error: ""
+                    });
+                    setAuctionMode({
+                        data: json.list.auction_mode != null ? json.list.auction_mode : "",
+                        error: ""
+                    });
+                    setDuration({
+                        data: json.list.duration != null ? json.list.duration : "",
                         error: ""
                     });
                     setTicketNo({
@@ -189,7 +207,7 @@ export default function AddChitReceiptPage() {
 
     const GetMemberList = (groupid, membername, ticketno) => {
         setMemberListLoading(true);
-        const url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_PAID_UNPAID_LIST}${groupid}`;
+        const url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_PAID_UNPAID_LIST}${groupid}&memberName=${membername}&ticketNo=${ticketno}`;
         console.log(url);
         console.log(Session)
         fetch(url, GetHeader(JSON.parse(Session)))
@@ -198,6 +216,7 @@ export default function AddChitReceiptPage() {
                 console.log(JSON.stringify(json));
                 setMemberListLoading(false);
                 if (json.success) {
+                    // setTotalCount(json.total);
                     setMemberList(json.unPaidMembers);
                     setPaidMemberList(json.paidMembers);
                 } else if (json.success === false) {
@@ -227,7 +246,7 @@ export default function AddChitReceiptPage() {
                 console.log(JSON.stringify(json));
                 if (json.success) {
                     setReceiptNo({
-                        data: json.receiptNo !== "" && json.receiptNo !== null ? "1" : "1",
+                        data: json.receiptNo !== "" && json.receiptNo !== null ? (Math.round(json.receiptNo) + 1) : "1",
                         error: ""
                     });
                 } else if (json.success === false) {
@@ -323,43 +342,46 @@ export default function AddChitReceiptPage() {
             setTicketNo(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
+                error: text.trim() === "" ? "" : ""
             }));
         } else if (from === "AuctionMode"){
             setAuctionMode(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
+                error: text.trim() === "" ? "" : ""
             }));
         } else if (from === "Duration"){
             setDuration(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
+                error: text.trim() === "" ? "" : ""
             }));
         } else if (from === "AccountNo") {
             setAccountNo(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
+                error: text.trim() === "" ? "" : ""
             }));
         } else if (from === "InstFrom"){
             setInstFrom(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
+                error: text.trim() === "" ? "" : ""
             }));
         } else if (from === "InstTo"){
             setInstTo(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
+                error: text.trim() === "" ? "" : ""
             }));
-        } else if (from === "Values"){
+        } else if (from === "Values") {
+            const AmountError = isValidateAmount(text.trim(), GroupNoSearch.data.amount) ? "" : "Receipt amount should not greater than running balance";
+            console.log(isValidateAmount(text.trim(), GroupNoSearch.data.amount))
+            const ValidError = !isValidNumber(text) ? "* Invalid Amount" : AmountError;
             setValues(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
+                error: text.trim() === "" ? "* Required" : ValidError
             }));
         }
     };
@@ -378,7 +400,19 @@ export default function AddChitReceiptPage() {
                 error: ""
             }));
         }
-        if (!TicketNo.data) {
+        if (!GroupNoSearch.data) {
+            IsValidate = false;
+            setGroupNoSearch(prevState => ({
+                ...prevState,
+                error: "* Required"
+            }));
+        } else {
+            setGroupNoSearch(prevState => ({
+                ...prevState,
+                error: ""
+            }));
+        }
+        /* if (!TicketNo.data) {
             IsValidate = false;
             setTicketNo(prevState => ({
                 ...prevState,
@@ -425,7 +459,7 @@ export default function AddChitReceiptPage() {
                 ...prevState,
                 error: ""
             }));
-        } 
+        }
         if (!InstFrom.data) {
             IsValidate = false;
             setInstFrom(prevState => ({
@@ -449,12 +483,24 @@ export default function AddChitReceiptPage() {
                 ...prevState,
                 error: ""
             }));
-        }
+        } */
         if (!Values.data) {
             IsValidate = false;
             setValues(prevState => ({
                 ...prevState,
                 error: "* Required"
+            }));
+        } else if (!isValidNumber(Values.data)) {
+            IsValidate = false;
+            setValues(prevState => ({
+                ...prevState,
+                error: "* InValid Amount"
+            }));
+        } else if (!isValidateAmount(Values.data, GroupNoSearch.data.amount)) {
+            IsValidate = false;
+            setValues(prevState => ({
+                ...prevState,
+                error: "Receipt amount should not greater than running balance"
             }));
         } else {
             setValues(prevState => ({
@@ -467,6 +513,21 @@ export default function AddChitReceiptPage() {
         }
     }
 
+    const isValidNumber = (input) => {
+        const num = parseFloat(input);
+        // Check if the input is not a number, or if it starts with '0.'
+        if (Number.isNaN(num) || /^0\.\d+$/.test(input)) {
+            return false;
+        }
+        // Check if the number is positive
+        return num > 0;
+    };
+
+    const isValidateAmount = (input, specifiedAmount) => {
+        const num = parseFloat(input);
+        return !Number.isNaN(num) && num <= specifiedAmount;
+    };
+
     const HandleAlertShow = () => {
         setAlert(true);
     };
@@ -474,9 +535,9 @@ export default function AddChitReceiptPage() {
     const HandleAlertClose = () => {
         setAlert(false);
         if (AlertFrom === "success"){
-            window.location.reload();
+            navigate('/chitreceipt');
         }
-    };
+    }
 
     const HandleSubmitClick = () => {
         console.log("submitclick11");
@@ -495,7 +556,10 @@ export default function AddChitReceiptPage() {
 
     const HandleGroupNoSearch = (event, value) => {
         if (value) {
-            setGroupNoSearch(value);
+            setGroupNoSearch({
+                data: value,
+                error: ""
+            });
             console.log(value);
             setMemberListAlert(true);
             setAuctionMode({
@@ -512,11 +576,64 @@ export default function AddChitReceiptPage() {
             });
             GetReceiptNumberList(value.id);
             GetMemberList(value.id, "", "")
+        } else {
+            setGroupNoSearch({
+                data: "",
+                error: ""
+            });
+            setAuctionMode({
+                data: "",
+                error: ""
+            });
+            setDuration({
+                data: "",
+                error: ""
+            });
+            setValues({
+                data: "",
+                error: ""
+            });
+            setReceiptNo({
+                data: "",
+                error: ""
+            });
+            setTicketNo({
+                data: "",
+                error: ""
+            });
+            setAccountNo({
+                data: "",
+                error: ""
+            });
+            setInstFrom({
+                data: "",
+                error: ""
+            });
+            setInstTo({
+                data: "",
+                error: ""
+            });
         }
     }
 
     const HandleMemberListAlertClose = () => {
         setMemberListAlert(false);
+        setAuctionMode({
+            data: "",
+            error: ""
+        });
+        setDuration({
+            data: "",
+            error: ""
+        });
+        setValues({
+            data: "",
+            error: ""
+        });
+        setReceiptNo({
+            data: "",
+            error: ""
+        });
     };
 
     const handleSort = (event, id) => {
@@ -553,37 +670,42 @@ export default function AddChitReceiptPage() {
         }
         setSelected(newSelected);
         setSelectMemberList(item);
-        setTicketNo({
-            data: item.tktNo !== "" && item.tktNo != null ? item.tktNo : "",
-            error: ""
-        });
-        setAccountNo({
-            data: item.accno !== "" && item.accno != null ? item.accno : "",
-            error: ""
-        });
-        setInstFrom({
-            data: item.inst_from !== "" && item.inst_from != null ? item.inst_from : "",
-            error: ""
-        });
-        setInstTo({
-            data: item.inst_to !== "" && item.inst_to != null ? item.inst_to : "",
-            error: ""
-        });
-        setMemberListAlert(false);
+        if (item.amount_to_be_paid === "0" || item.amount_to_be_paid === "0.00" || item.amount_to_be_paid === 0) {
+            setAlertMessage("This Member Paid all the installments..");
+            setAlertFrom("failed");
+            HandleAlertShow();
+        } else {
+            setTicketNo({
+                data: item.tktNo !== "" && item.tktNo != null ? item.tktNo : "",
+                error: ""
+            });
+            setAccountNo({
+                data: item.accno !== "" && item.accno != null ? item.accno : "",
+                error: ""
+            });
+            setInstFrom({
+                data: item.inst_from !== "" && item.inst_from != null ? item.inst_from : "",
+                error: ""
+            });
+            setInstTo({
+                data: item.inst_to !== "" && item.inst_to != null ? item.inst_to : "",
+                error: ""
+            });
+            setMemberListAlert(false);
+        }
     };
 
     const HandleFilterMemberName = (event) => {
         setPage(0);
         setFilterName(event.target.value);
-        GetMemberList(GroupNoSearch.id, event.target.value, filterTicketNo);
+        GetMemberList(GroupNoSearch.data.id, event.target.value, filterTicketNo);
     };
 
     const HandleFilterTicketNo = (event) => {
         setPage(0);
         setfilterTicketNo(event.target.value);
-        GetMemberList(GroupNoSearch.id, filterName, event.target.value);
+        GetMemberList(GroupNoSearch.data.id, filterName, event.target.value);
     };
-
 
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
@@ -599,12 +721,11 @@ export default function AddChitReceiptPage() {
         <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
                     {screenLabel[screen] || "Add Chit Receipt"}
                 </Typography>
-                <Button variant="contained" className='custom-button'  onClick={() => navigate('/chitreceipt')}>
-                Back
-          </Button>
-        </Stack>
+                <Button variant="contained" className='custom-button' onClick={() => navigate('/chitreceipt')} sx={{ cursor: 'pointer' }}>
+                    Back
+                </Button>
+            </Stack>
             <Card>
-                
                 <Box className="con" component="form"
                     sx={{
                         '& .MuiTextField-root': { m: 2, width: '20ch', },
@@ -660,9 +781,10 @@ export default function AddChitReceiptPage() {
                                                         secondary={`${option.auction_mode},  ${Math.round(option.amount)}`} />
                                                 </ListItem>
                                             )}
-                                            renderInput={(params) => <TextField {...params} label={screen === "view" ? GroupNoSearch : "Search"} />}
+                                            renderInput={(params) => <TextField {...params} label={screen === "view" ? GroupNoSearch.data : "Search"} />}
                                         />
                                     </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupNoSearch.error}</div>
                                 </Stack>
                                 </div>
                             </Stack>
@@ -695,7 +817,7 @@ export default function AddChitReceiptPage() {
                                     <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
                                         className='input-box1'
-                                            required
+                                            // required
                                             id="outlined-required"
                                             disabled
                                             label="Ticket No"
@@ -716,7 +838,7 @@ export default function AddChitReceiptPage() {
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
-                                            required
+                                            // required
                                             className='input-box1'
                                             id="outlined-required"
                                             disabled
@@ -736,7 +858,7 @@ export default function AddChitReceiptPage() {
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
-                                            required
+                                            // required
                                             className='input-box1'
                                             id="outlined-required"
                                             disabled
@@ -760,7 +882,7 @@ export default function AddChitReceiptPage() {
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
-                                            required
+                                            // required
                                             className='input-box1'
                                             id="outlined-required"
                                             disabled
@@ -780,7 +902,7 @@ export default function AddChitReceiptPage() {
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
-                                            required
+                                            // required
                                             className='input-box1'
                                             id="outlined-required"
                                             disabled
@@ -802,7 +924,7 @@ export default function AddChitReceiptPage() {
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
-                                            required
+                                            // required
                                             className='input-box1'
                                             id="outlined-required"
                                             disabled
@@ -838,13 +960,13 @@ export default function AddChitReceiptPage() {
                             </Stack>
                             {screen === "view"
                                 ? null
-                                :<Stack direction='column' alignItems='flex-end'>
-                                        <Button sx={{ mr: 5, mt:2, mb: 3, height: 50, width: 150 }} variant="contained" className='custom-button'  onClick={HandleSubmitClick}>
-                                            {Loading
-                                                ? (<img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
-                                                : ("Submit")}
-                                        </Button>
-                                    </Stack>}
+                                : <Stack direction='column' alignItems='flex-end'>
+                                    <Button sx={{ mr: 5, mt:2, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button'  onClick={Loading ? null : HandleSubmitClick}>
+                                        {Loading
+                                            ? (<img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                                            : ("Submit")}
+                                    </Button>
+                                </Stack>}
                         </Stack>}
                 </Box>
             </Card>
@@ -857,7 +979,7 @@ export default function AddChitReceiptPage() {
                 <IconButton
                     aria-label="close"
                     onClick={HandleAlertClose}
-                    sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], }} >
+                    sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
                     <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                 </IconButton>
                 <Stack style={{ alignItems: 'center', }} mt={5}>
@@ -881,7 +1003,6 @@ export default function AddChitReceiptPage() {
                                 placeholder="Member Name..."
                                 value={filterName}
                                 onChange={(e) => HandleFilterMemberName(e)}
-                                disabled={MemberListLoading}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -895,7 +1016,6 @@ export default function AddChitReceiptPage() {
                                 placeholder="Ticket No..."
                                 value={filterTicketNo}
                                 onChange={(e) => HandleFilterTicketNo(e)}
-                                disabled={MemberListLoading}
                                 sx={{ ml: 2 }}
                                 InputProps={{
                                     startAdornment: (
@@ -910,7 +1030,9 @@ export default function AddChitReceiptPage() {
                                 aria-label="close"
                                 className='btn-close'
                                 onClick={HandleMemberListAlertClose}
-                                sx={{ position: 'absolute', right: 2, top: 0, color: (theme) => theme.palette.grey[500] }}  >
+
+                                sx={{ position: 'absolute', right: 2, top: 0, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
+
                                 <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                             </IconButton>
                         </Stack>
@@ -959,7 +1081,6 @@ export default function AddChitReceiptPage() {
                                 </Table>
                             </TableContainer>
                         </Scrollbar>
-
                     </Stack>
                 </Card>
             </Dialog>

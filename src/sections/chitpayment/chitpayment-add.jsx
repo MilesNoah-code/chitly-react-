@@ -17,7 +17,7 @@ import { Box, Stack, Button, Dialog, Divider, IconButton, Typography, InputAdorn
 
 import { GetHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 
-import { CHIT_RECEIPT_SAVE, REACT_APP_HOST_URL, CHIT_RECEIPT_DETAIL, CHIT_PAYMENT_LEDGER_LIST, CHIT_PAYMENT_UNPAID_GROUP_LIST, } from 'src/utils/api-constant';
+import { CHIT_RECEIPT_SAVE, REACT_APP_HOST_URL, CHIT_RECEIPT_DETAIL, REQ_CHIT_PARAMETERS, CHIT_PAYMENT_LEDGER_LIST, CHIT_PAYMENT_UNPAID_GROUP_LIST, } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
 
@@ -26,11 +26,12 @@ import Scrollbar from 'src/components/scrollbar';
 
 import { emptyRows } from 'src/sections/member/utils';
 
+import './chitpayment-add.css';
 import TableHeader from '../member/table-head';
 import TableNoData from '../member/table-no-data';
 import TableEmptyRows from '../member/table-empty-rows';
 import ChitPaymentMemberTableRow from './chitpayment-member-list';
-import'./chitpayment-add.css';
+
 export default function AddChitPaymentPage() {
    
     const navigate = useNavigate();
@@ -83,7 +84,10 @@ export default function AddChitPaymentPage() {
     const [ErrorAlert, setErrorAlert] = useState(false);
     const [ErrorScreen, setErrorScreen] = useState('');
     const [UnPaidGroupList, setUnPaidGroupList] = useState([]);
-    const [GroupNoSearch, setGroupNoSearch] = useState('');
+    const [GroupNoSearch, setGroupNoSearch] = useState({
+        data: "",
+        error: ""
+    });
     const [UnPaidGroupAlert, setUnPaidGroupAlert] = useState(false);
     const [UnPaidGroupLoading, setUnPaidGroupLoading] = useState(true);
     const [page, setPage] = useState(0);
@@ -100,6 +104,7 @@ export default function AddChitPaymentPage() {
     const [LedgerTotalCount, setLedgerTotalCount] = useState(0);
     const [LedgerFilterName, setLedgerFilterName] = useState('');
     const [SelectLedgerList, setSelectLedgerList] = useState([]);
+    // const [ReqChitParameterList, setReqChitParameterList] = useState([]);
 
     useEffect(() => {
         if (screen === "add") {
@@ -121,7 +126,10 @@ export default function AddChitPaymentPage() {
                 console.log(JSON.stringify(json));
                 setGroupListLoading(false);
                 if (json.success) {
-                    setGroupNoSearch(json.list.groupno != null ? json.list.groupno : "");
+                    setGroupNoSearch({
+                        data: json.list.groupno != null ? json.list.groupno : "",
+                        error: ""
+                    });
                     setReceiptNo({
                         data: json.list.receiptno != null ? json.list.receiptno : "",
                         error: ""
@@ -163,9 +171,9 @@ export default function AddChitPaymentPage() {
             })
     }
 
-    const GetUnPaidGroupList = (groupid) => {
+    const GetUnPaidGroupList = (groupcode, membername) => {
         setUnPaidGroupLoading(true);
-        const url = `${REACT_APP_HOST_URL}${CHIT_PAYMENT_UNPAID_GROUP_LIST}1&search=${groupid}`;
+        const url = `${REACT_APP_HOST_URL}${CHIT_PAYMENT_UNPAID_GROUP_LIST}`;
         console.log(url);
         console.log(Session)
         fetch(url, GetHeader(JSON.parse(Session)))
@@ -192,8 +200,42 @@ export default function AddChitPaymentPage() {
             })
     }
 
-    const GetLedgerList = (text, start, limit) => {
+    const GetReqChitParameterList = (groupid) => {
+        // setReqChitParameterList([]);
+        const url = `${REACT_APP_HOST_URL}${REQ_CHIT_PARAMETERS}${groupid}`;
+        console.log(url);
+        console.log(Session)
+        fetch(url, GetHeader(JSON.parse(Session)))
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(JSON.stringify(json));
+                if (json.success) {
+                    // setReqChitParameterList(json.list);
+                    if (json.list[0].total_installment_amount > 0) {
+                        setAlertMessage("Please Add Receipt for this group");
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
+                } else if (json.success === false) {
+                    setAlertMessage(json.message);
+                    setAlertFrom("failed");
+                    HandleAlertShow();
+                } else {
+                    setErrorAlert(true);
+                    setErrorScreen("network");
+                }
+            })
+            .catch((error) => {
+                setErrorAlert(true);
+                setErrorScreen("error");
+                console.log(error);
+            })
+    }
+
+    const GetLedgerList = (text, start, limit, from) => {
         setLedgerListLoading(true);
+        setLedgerTotalCount(0);
+        setLedgerList([]);
         const url = `${REACT_APP_HOST_URL}${CHIT_PAYMENT_LEDGER_LIST}${text}&start=${start}&limit=${limit}`;
         console.log(url);
         console.log(Session)
@@ -203,8 +245,8 @@ export default function AddChitPaymentPage() {
                 console.log(JSON.stringify(json));
                 setLedgerListLoading(false);
                 if (json.success) {
-                    setLedgerList([...LedgerList,...json.list]);
                     setLedgerTotalCount(json.total);
+                    setLedgerList([...LedgerList, ...json.list]);
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
                     setAlertFrom("failed");
@@ -291,7 +333,13 @@ export default function AddChitPaymentPage() {
     const ChitPaymentTextValidate = (e, from) => {
         const text = e.target.value;
         console.log(from);
-        if (from === "ReceiptNo") {
+        if (from === "GroupNoSearch") {
+            setGroupNoSearch(prevState => ({
+                ...prevState,
+                data: text.trim() !== "" ? text : "",
+                error: text.trim() === "" ? "* Required" : ""
+            }));
+        } else if (from === "ReceiptNo") {
             setReceiptNo(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
@@ -301,7 +349,7 @@ export default function AddChitPaymentPage() {
             setTicketNo(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
+                error: text.trim() === "" ? "" : ""
             }));
         } else if (from === "MemberName") {
             setMemberName(prevState => ({
@@ -313,19 +361,19 @@ export default function AddChitPaymentPage() {
             setInstallmentNo(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
+                error: text.trim() === "" ? "" : ""
             }));
         } else if (from === "AccountNo") {
             setAccountNo(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
+                error: text.trim() === "" ? "" : ""
             }));
         } else if (from === "MobileNo") {
             setMobileNo(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
+                error: text.trim() === "" ? "" : ""
             }));
         } else if (from === "Particulars") {
             setParticulars(prevState => ({
@@ -344,6 +392,18 @@ export default function AddChitPaymentPage() {
 
     const validateChitPaymentInfo = () => {
         let IsValidate = true;
+        if (!GroupNoSearch.data) {
+            IsValidate = false;
+            setGroupNoSearch(prevState => ({
+                ...prevState,
+                error: "* Required"
+            }));
+        } else {
+            setGroupNoSearch(prevState => ({
+                ...prevState,
+                error: ""
+            }));
+        }
         if (!MemberName.data) {
             IsValidate = false;
             setMemberName(prevState => ({
@@ -356,7 +416,7 @@ export default function AddChitPaymentPage() {
                 error: ""
             }));
         }
-        if (!TicketNo.data) {
+        /* if (!TicketNo.data) {
             IsValidate = false;
             setTicketNo(prevState => ({
                 ...prevState,
@@ -367,7 +427,7 @@ export default function AddChitPaymentPage() {
                 ...prevState,
                 error: ""
             }));
-        }
+        } */
         if (!ReceiptNo.data) {
             IsValidate = false;
             setReceiptNo(prevState => ({
@@ -380,7 +440,7 @@ export default function AddChitPaymentPage() {
                 error: ""
             }));
         }
-        if (!InstallmentNo.data) {
+        /* if (!InstallmentNo.data) {
             IsValidate = false;
             setInstallmentNo(prevState => ({
                 ...prevState,
@@ -415,7 +475,7 @@ export default function AddChitPaymentPage() {
                 ...prevState,
                 error: ""
             }));
-        } 
+        } */
         if (!Values.data) {
             IsValidate = false;
             setValues(prevState => ({
@@ -440,9 +500,38 @@ export default function AddChitPaymentPage() {
                 error: ""
             }));
         }
+        const isLedgerListValid = validateLedgerList();
+        if (!isLedgerListValid) {
+            IsValidate = false;
+        }
         if (screen === "add") {
+            // console.log("IsValidate");
+            // console.log(IsValidate)
             ChitPaymentAddMethod(IsValidate);
         }
+    };
+
+    const validateLedgerList = () => {
+        let isValid = true;
+        setSelectLedgerList(prevState =>
+            prevState.map(ledger => {
+                const updatedLedger = { ...ledger };
+                if (ledger.name.trim() === "") {
+                    updatedLedger.nameerror = "* Required";
+                    isValid = false;
+                }
+                if (ledger.value.trim() === "") {
+                    updatedLedger.valueerror = "* Required";
+                    isValid = false;
+                }
+                if (ledger.particular.trim() === "") {
+                    updatedLedger.particularerror = "* Required";
+                    isValid = false;
+                }
+                return updatedLedger;
+            })
+        );
+        return isValid;
     };
 
     const HandleAlertShow = () => {
@@ -451,8 +540,8 @@ export default function AddChitPaymentPage() {
 
     const HandleAlertClose = () => {
         setAlert(false);
-        if (AlertFrom === "success"){
-            window.location.reload();
+        if (AlertFrom === "success") {
+            navigate('/chitpayment');
         }
     };
 
@@ -472,7 +561,7 @@ export default function AddChitPaymentPage() {
     };
 
     const HandleGroupNoSearch = () => {
-        console.log("ssss")
+        console.log("ssss");
         setUnPaidGroupAlert(true);
     }
 
@@ -512,21 +601,28 @@ export default function AddChitPaymentPage() {
                 selected.slice(selectedIndex + 1)
             );
         }
-        setSelected(newSelected);
-        setSelectUnPaidGroup(item);
-        setUnPaidGroupAlert(false);
+        if (item.isJaminDone === 0) {
+            setAlertMessage("Please, Add Jamin letter for this Member");
+            setAlertFrom("failed");
+            HandleAlertShow();
+        } else {
+            setSelected(newSelected);
+            setSelectUnPaidGroup(item);
+            GetReqChitParameterList(item.group_id);
+            setUnPaidGroupAlert(false);
+        }
     };
 
     const HandleFilterMemberName = (event) => {
         setPage(0);
         setFilterName(event.target.value);
-        GetUnPaidGroupList(GroupNoSearch.id);
+        GetUnPaidGroupList(filterGroupCode, event.target.value);
     };
 
     const HandleFilterGroupCode = (event) => {
         setPage(0);
         setfilterGroupCode(event.target.value);
-        GetUnPaidGroupList(GroupNoSearch.id);
+        GetUnPaidGroupList(event.target.value, filterName);
     };
 
     const HandleCreateLedger = () => {
@@ -549,12 +645,20 @@ export default function AddChitPaymentPage() {
 
     const HandleFilterLedgerName = (event) => {
         setPage(0);
+        setLedgerTotalCount(0);
+        setLedgerList([]);
         setLedgerFilterName(event.target.value);
         GetLedgerList(event.target.value, page * rowsPerPage, rowsPerPage);
     };
 
     const HandleLedgerClick = (event, item) => {
-        setSelectLedgerList([...SelectLedgerList,
+        const isItemAlreadySelected = SelectLedgerList.some(ledger => ledger.name === item.ledgername);
+        if (isItemAlreadySelected) {
+            setAlertMessage("This Ledger is Already Selected");
+            setAlertFrom("failed");
+            HandleAlertShow();
+        }else{
+            setSelectLedgerList([...SelectLedgerList,
             {
                 name: item.ledgername,
                 value: "",
@@ -564,8 +668,9 @@ export default function AddChitPaymentPage() {
                 valueerror: "",
                 particularerror: ""
             }
-        ]);
-        setLedgerListAlert(false);
+            ]);
+            setLedgerListAlert(false);
+        }
     };
 
     const ChitPaymentLedgerTextValidate = (e, item, from) => {
@@ -602,7 +707,9 @@ export default function AddChitPaymentPage() {
         );
     };
 
-
+    const removeLedgerItem = (index) => {
+        setSelectLedgerList(prevList => prevList.filter((_, i) => i !== index));
+    };
 
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
@@ -672,8 +779,8 @@ export default function AddChitPaymentPage() {
                                             readOnly
                                             label="Group No"
                                             sx={{ pointerEvents: 'auto' }}
-                                            value={GroupNoSearch}
-                                            onChange={(e) => setGroupNoSearch(e.target.value)}
+                                                value={GroupNoSearch.data}
+                                                onChange={(e) => ChitPaymentTextValidate(e, "GroupNoSearch")}
                                             style={{  }}
                                             onClick={HandleGroupNoSearch} />
                                     </Stack>
@@ -838,7 +945,7 @@ export default function AddChitPaymentPage() {
                                             required
                                             className='input-box1'
                                             id="outlined-required"
-                                            disabled
+                                            disabled={screen === "view"}
                                             label="Particulars"
                                             value={Particulars.data}
                                             onChange={(e) => ChitPaymentTextValidate(e, "Particulars")}
@@ -859,12 +966,11 @@ export default function AddChitPaymentPage() {
                                     <Stack direction='row' sx={{ ml: 1, }} onClick={HandleCreateLedger}>
                                         <img src="../../../public/assets/icons/rounded_plus.png" alt="Loading" style={{ width: 25, height: 25, }} />   
                                     </Stack>
-                                 
                                 </Stack>
                               
                                 <Stack>
                                     {SelectLedgerList
-                                        .map((row) => (
+                                        .map((row, index) => (
                                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                             <div className='box-grp'>
                                                 <Stack direction='column'>
@@ -925,6 +1031,9 @@ export default function AddChitPaymentPage() {
                                                     </Stack>
                                                     <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{row.particularerror}</div>
                                                 </Stack>
+                                                    <Stack direction='column' sx={{ cursor: 'pointer' }} onClick={() => removeLedgerItem(index)}>
+                                                        <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
+                                                    </Stack>
                                                 </div>
                                             </Stack>
                                         ))}
@@ -933,7 +1042,7 @@ export default function AddChitPaymentPage() {
                             {screen === "view"
                                 ? null
                                 : <Stack direction='column' alignItems='flex-end'>
-                                    <Button sx={{ mr: 5, mb: 3, height: 50, width: 150 }} variant="contained" className='custom-button' onClick={HandleSubmitClick}>
+                                    <Button sx={{ mr: 5, mb: 3, height: 50, width: 150 }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                         {Loading
                                             ? (<img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                             : ("Submit")}
@@ -951,7 +1060,7 @@ export default function AddChitPaymentPage() {
                 <IconButton
                     aria-label="close"
                     onClick={HandleAlertClose}
-                    sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], }} >
+                    sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
                     <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                 </IconButton>
                 <Stack style={{ alignItems: 'center', }} mt={5}>
@@ -1080,7 +1189,7 @@ export default function AddChitPaymentPage() {
                             <IconButton
                                 aria-label="close"
                                 onClick={HandleLedgerListAlertClose}
-                                sx={{ position: 'absolute', right: 15, top: 5, color: (theme) => theme.palette.grey[500] }}
+                                sx={{ position: 'absolute', right: 15, top: 5, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }}
                             >
                                 <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17 }} />
                             </IconButton>
@@ -1093,37 +1202,37 @@ export default function AddChitPaymentPage() {
                                     </Stack>
                                 ) : (
                                     <Stack>
-                                            {LedgerList
-                                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                                .map((row, index) => (
-                                            <Stack
-                                                key={index}
-                                                direction="column"
-                                                sx={{ mt: 0.5 }}
-                                                onClick={(event) => HandleLedgerClick(event, row)}
-                                            >
-                                                <Typography sx={{ ml: 4, mr: 5, mb: 0.5, fontSize: 11 }}>
-                                                    {row.ledgername}
-                                                </Typography>
-                                                <Divider sx={{ flexGrow: 1 }} />
-                                            </Stack>
-                                        ))}
+                                        {LedgerList
+                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                            .map((row, index) => (
+                                                <Stack
+                                                    key={index}
+                                                    direction="column"
+                                                    sx={{ mt: 0.5, cursor: 'pointer' }}
+                                                    onClick={(event) => HandleLedgerClick(event, row)}
+                                                >
+                                                    <Typography sx={{ ml: 4, mr: 5, mb: 0.5, fontSize: 11 }}>
+                                                        {row.ledgername}
+                                                    </Typography>
+                                                    <Divider sx={{ flexGrow: 1 }} />
+                                                </Stack>
+                                            ))}
                                         <TableEmptyRows height={77} emptyRows={emptyRows(page, rowsPerPage, LedgerList.length)} />
                                         {LedgerList.length === 0 && <TableNoData query={LedgerFilterName} />}
                                     </Stack>
                                 )}
                             </Scrollbar>
                         </Box>
-                        <TablePagination
+                        {LedgerList.length > 0 && <TablePagination
                             page={page}
                             component="div"
                             count={LedgerTotalCount}
                             rowsPerPage={rowsPerPage}
                             onPageChange={handleChangePage}
-                            rowsPerPageOptions={[5, 10, 25]}
+                            rowsPerPageOptions={[15, 30, 50]}
                             onRowsPerPageChange={handleChangeRowsPerPage}
                             sx={{ borderTop: '1px solid #e0e0e0' }}
-                        />
+                        />}
                     </Stack>
                 </Card>
             </Dialog>

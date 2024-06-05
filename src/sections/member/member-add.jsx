@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import styled from '@emotion/styled';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
@@ -15,8 +15,8 @@ import { Box, Tab, Radio, Stack, Button, Dialog, MenuItem, RadioGroup, IconButto
 
 import { GetHeader, PutHeader, PostHeader, DeleteHeader, PostImageHeader } from 'src/hooks/AxiosApiFetch';
 
-import { isValidEmail } from 'src/utils/Validator';
-import { IMAGE_URL, MEMBER_ADD, MEMBER_VIEW, MEMBER_UPDATE, MEMBER_MEDIA_LIST, REACT_APP_HOST_URL, MEMBER_ADDRESS_SAVE, MEMBER_IMAGE_UPLOAD,
+// import { isValidEmail } from 'src/utils/Validator';
+import { MEMBER_ADD, STATE_LIST, MEMBER_VIEW, COUNTRY_LIST, MEMBER_UPDATE, MEMBER_MEDIA_LIST, MEMBER_MEDIA_SAVE, REACT_APP_HOST_URL, MEMBER_ADDRESS_SAVE, MEMBER_IMAGE_UPLOAD,
     MEMBER_MEDIA_DELETE, MEMBER_ADDRESS_UPDATE, MEMBER_BANK_DETAIL_SAVE, MEMBER_BANK_DETAIL_UPDATE, MEMBER_EDUCATION_DETAIL_SAVE,
     MEMBER_OCCUPATION_DETAIL_SAVE, MEMBER_EDUCATION_DETAIL_UPDATE, MEMBER_OCCUPATION_DETAIL_UPDATE,
 } from 'src/utils/api-constant';
@@ -86,6 +86,7 @@ export default function AddMemberPage() {
     });
     const [ProfileImage, setProfileImage] = useState({
         data: "",
+        savedata: "",
         error: ""
     });
     const [Loading, setLoading] = useState(false);
@@ -152,6 +153,7 @@ export default function AddMemberPage() {
     });
     const [ProofImage, setProofImage] = useState({
         data: "",
+        savedata: "",
         error: ""
     });
     const [CurrentOccupation, setCurrentOccupation] = useState({
@@ -180,6 +182,7 @@ export default function AddMemberPage() {
     });
 
     const Prefix = [{ value: "MR", data: "Mr" }, { value: "MRS", data: "Mrs" }, { value: "MS", data: "Ms" }, { value: "M/s", data: "M/s" }, { value: "Master", data: "Master" }];
+    const RelationShipPrefix = [{ value: "S/O", data: "S/O" }, { value: "D/O", data: "D/O" }, { value: "W/O", data: "W/O" }, { value: "C/O", data: "C/O" },];
     const GenderArray = ["Male", "Female", "Other"];
     const TypeOfAccountArray = ["Savings account", "Current account"];
     const CurrentOccupationArray = ["Public Sector", "Private Sector", "Business"];
@@ -201,7 +204,7 @@ export default function AddMemberPage() {
     const [BankId, setBankId] = useState('');
     const [EducationId, setEducationId] = useState('');
     const [OccupationId, setOccupationId] = useState('');
-    const [MediaList1, setMediaList] = useState([]);
+    const [MediaList, setMediaList] = useState([]);
     const [ProofAlert, setProofAlert] = useState(false);
     const [ProofType, setProofType] = useState({
         data: ProofArray[0],
@@ -212,10 +215,17 @@ export default function AddMemberPage() {
         error: ""
     });
     const [MediaListLoading, setMediaListLoading] = useState(false);
+    const ImageUrl = JSON.parse(localStorage.getItem('imageUrl'));
+    const [StateList, setStateList] = useState([]);
+    const [CountryList, setCountryList] = useState([]);
 
     useEffect(() => {
         if (screen === "view" || screen === "edit"){
             GetMemberView();
+            GetMediaList();
+        }
+        if (screen === "add" || screen === "edit"){
+            GetStateList()
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [screen]);
@@ -232,6 +242,7 @@ export default function AddMemberPage() {
                 if (json.success) {
                     setProfileImage({
                         data: json.list.mapped_photo != null ? json.list.mapped_photo : "",
+                        savedata: json.list.mapped_photo != null ? json.list.mapped_photo : "",
                         error: ""
                     });
                     setNamePrefix({
@@ -425,7 +436,7 @@ export default function AddMemberPage() {
         "pancardno": PancardNo.data,
         "weddingdate": "",
         "mapped_phone": MobileNumber.data,
-        "mapped_photo": screen === "add" ? "" : ProfileImage.data,
+        "mapped_photo": screen === "add" ? "" : ProfileImage.savedata,
         "relationship": Relationship.data,
         "signed_person_desig": "",
         "aadhar_no": AadharNo.data,
@@ -513,7 +524,11 @@ export default function AddMemberPage() {
                     setLoading(false);
                     if (json.success) {
                         setAlertMessage(json.message);
-                        setAlertFrom("success");
+                        if (screen === "add" || TabIndex === '1') {
+                            setAlertFrom("add_success");
+                        }else{
+                            setAlertFrom("success");
+                        }
                         HandleAlertShow();
                     }else if(json.success === false){
                         setAlertMessage(json.message);
@@ -616,18 +631,13 @@ export default function AddMemberPage() {
         console.log(fileToUpload);
         if (fileToUpload != null && fileToUpload !== "") {
             setLoading(true);
-            const form = new FormData();
-            form.append("uploaded_file", fileToUpload);
+            const formData = new FormData();
+            formData.append("uploaded_file", fileToUpload);
             const url = `${REACT_APP_HOST_URL}${MEMBER_IMAGE_UPLOAD}&type=${imagetype}&ref_id=${data.id}`;
-            const formDataObject = {};
-            form.forEach((value, key) => {
-                formDataObject[key] = value;
-            });
-            console.log(formDataObject);
-            console.log(form);
+            console.log(formData);
             console.log(url);
             console.log(JSON.parse(Session));
-            fetch(url, PostImageHeader(JSON.parse(Session), formDataObject))
+            fetch(url, PostImageHeader(JSON.parse(Session), formData))
                 .then((response) => response.json())
                 .then((json) => {
                     console.log(json);
@@ -636,15 +646,18 @@ export default function AddMemberPage() {
                         if (imagetype === "MEMBER_PROFILE"){
                             setProfileImage({
                                 data: json.uploaded_path,
+                                savedata: json.uploaded_path,
                                 error: ""
                             });
                         }else{
                             setProofImage({
                                 data: json.uploaded_path,
+                                savedata: json.uploaded_path,
                                 error: ""
                             });
                         }
-                        setAlertFrom("success");
+                        setAlertMessage(json.message);
+                        setAlertFrom("media_success");
                         HandleAlertShow();
                     } else if (json.success === false) {
                         setAlertMessage(json.message);
@@ -660,9 +673,9 @@ export default function AddMemberPage() {
                     setErrorAlert(true);
                     setErrorScreen("error");
                     console.log(error);
-                })
+                });
         }
-    }
+    };
 
     const MediaSaveParams = {
         id: 0,
@@ -679,14 +692,17 @@ export default function AddMemberPage() {
     const MemberMediaSave = (IsValidate, imagepath) => {
         if (IsValidate && imagepath != null && imagepath !== "") {
             setLoading(true);
-            MediaSaveParams.path = imagepath;
+            MediaSaveParams.path = imagepath.savedata;
             if (ProofType.data === "ID PROOF"){
                 MediaSaveParams.entry_mappedtype = "ID_PROOF";
                 MediaSaveParams.entry_mappedtypeno = 101;
+                MediaSaveParams.name = ProofType.data;
             } else if (ProofType.data === "SIGNATURE PROOF") {
                 MediaSaveParams.entry_mappedtype = "SIGNATURE";
                 MediaSaveParams.entry_mappedtypeno = 103;
+                MediaSaveParams.name = ProofType.data;
             } else if (ProofType.data === "KYC") {
+                MediaSaveParams.name = KYCOtherType.data;
                 if (KYCOtherType.data === "Pancard") {
                     MediaSaveParams.entry_mappedtype = "PANCARD";
                     MediaSaveParams.entry_mappedtypeno = 103;
@@ -698,6 +714,7 @@ export default function AddMemberPage() {
                     MediaSaveParams.entry_mappedtypeno = 127;
                 }
             } else if (ProofType.data === "OTHERS") {
+                MediaSaveParams.name = KYCOtherType.data;
                 if (KYCOtherType.data === "Bank Statement") {
                     MediaSaveParams.entry_mappedtype = "BANK_STATEMENT";
                     MediaSaveParams.entry_mappedtypeno = 131;
@@ -712,7 +729,7 @@ export default function AddMemberPage() {
                     MediaSaveParams.entry_mappedtypeno = 130;
                 }
             }
-            const url = `${REACT_APP_HOST_URL}${MEMBER_IMAGE_UPLOAD}`;
+            const url = `${REACT_APP_HOST_URL}${MEMBER_MEDIA_SAVE}`;
             console.log(JSON.stringify(MediaSaveParams));
             console.log(url);
             fetch(url, PostHeader(JSON.parse(Session), MediaSaveParams))
@@ -721,9 +738,21 @@ export default function AddMemberPage() {
                     console.log(JSON.stringify(json));
                     setLoading(false);
                     if (json.success) {
+                        setProofAlert(false);
+                        setProofImage({
+                            data: "",
+                            savedata: "",
+                            error: ""
+                        });
+                        setProofType({
+                            data: ProofArray[0],
+                            error: ""
+                        });
+                        setKYCOtherType({
+                            data: "",
+                            error: ""
+                        });
                         GetMediaList();
-                        setAlertFrom("success");
-                        HandleAlertShow();
                     } else if (json.success === false) {
                         setAlertMessage(json.message);
                         setAlertFrom("failed");
@@ -775,7 +804,60 @@ export default function AddMemberPage() {
             })
     }
 
-    const MediaList = [
+    const GetStateList = () => {
+        const url = `${REACT_APP_HOST_URL}${STATE_LIST}`;
+        console.log(url);;
+        console.log(Session)
+        fetch(url, GetHeader(JSON.parse(Session)))
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(JSON.stringify(json));
+                if (json.success) {
+                    setStateList(json.list);
+                    GetCountryList(json.list[0]);
+                } else if (json.success === false) {
+                    setAlertMessage(json.message);
+                    setAlertFrom("failed");
+                    HandleAlertShow();
+                } else {
+                    setErrorAlert(true);
+                    setErrorScreen("network");
+                }
+            })
+            .catch((error) => {
+                setErrorAlert(true);
+                setErrorScreen("error");
+                console.log(error);
+            })
+    }
+
+    const GetCountryList = (statename) => {
+        const url = `${REACT_APP_HOST_URL}${COUNTRY_LIST}${statename}`;
+        console.log(url);;
+        console.log(Session)
+        fetch(url, GetHeader(JSON.parse(Session)))
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(JSON.stringify(json));
+                if (json.success) {
+                    setCountryList(json.list);
+                } else if (json.success === false) {
+                    setAlertMessage(json.message);
+                    setAlertFrom("failed");
+                    HandleAlertShow();
+                } else {
+                    setErrorAlert(true);
+                    setErrorScreen("network");
+                }
+            })
+            .catch((error) => {
+                setErrorAlert(true);
+                setErrorScreen("error");
+                console.log(error);
+            })
+    }
+
+    const MediaList1 = [
         { id: 1, image: "https://cdn.dummyjson.com/product-images/1/1.jpg", },
         { id: 2, image: "https://cdn.dummyjson.com/product-images/2/1.jpg", },
         { id: 3, image: "https://cdn.dummyjson.com/product-images/3/1.jpg", },
@@ -814,7 +896,7 @@ export default function AddMemberPage() {
             setGender(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" || text.trim() === "Select" ? "* Required" : ""
+                error: text.trim() === "" || text.trim() === "Select" ? "" : ""
             }));
         } else if (from === "MobileNumber"){
             setMobileNumber(prevState => ({
@@ -827,14 +909,14 @@ export default function AddMemberPage() {
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 datesave: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
+                error: text.trim() === "" ? "" : ""
             }));
         } else if (from === "Email") {
-            const newError = isValidEmail(text) ? "" : "* Invalid Email";
+            // const newError = isValidEmail(text) ? "" : "* Invalid Email";
             setEmail(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : newError
+                error: text.trim() === "" ? "" : ""
             }));
         } else if (from === "WhatsappNo"){
             setWhatsappNo(prevState => ({
@@ -846,25 +928,25 @@ export default function AddMemberPage() {
             setGuardName(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
+                error: text.trim() === "" ? "" : ""
             }));
         } else if (from === "GuardRelationship"){
             setGuardRelationship(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
+                error: text.trim() === "" ? "" : ""
             }));
         } else if (from === "AadharNo"){
             setAadharNo(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
+                error: text.trim() === "" ? "" : ""
             }));
         } else if (from === "PancardNo"){
             setPancardNo(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
+                error: text.trim() === "" ? "" : ""
             }));
         }
     };
@@ -919,7 +1001,7 @@ export default function AddMemberPage() {
                 error: ""
             }));
         }
-        if (!Gender.data || Gender.data === "Select") {
+        /* if (!Gender.data || Gender.data === "Select") {
             IsValidate = false;
             setGender(prevState => ({
                 ...prevState,
@@ -930,7 +1012,7 @@ export default function AddMemberPage() {
                 ...prevState,
                 error: ""
             }));
-        }
+        } */
         if (!MobileNumber.data) {
             IsValidate = false;
             setMobileNumber(prevState => ({
@@ -943,7 +1025,7 @@ export default function AddMemberPage() {
                 error: ""
             }));
         }
-        if (!Dob.data) {
+        /* if (!Dob.data) {
             IsValidate = false;
             setDob(prevState => ({
                 ...prevState,
@@ -972,7 +1054,7 @@ export default function AddMemberPage() {
                 ...prevState,
                 error: ""
             }));
-        }
+        } */
         if (!WhatsappNo.data) {
             IsValidate = false;
             setWhatsappNo(prevState => ({
@@ -985,7 +1067,7 @@ export default function AddMemberPage() {
                 error: ""
             }));
         }
-        if (!GuardName.data) {
+        /* if (!GuardName.data) {
             IsValidate = false;
             setGuardName(prevState => ({
                 ...prevState,
@@ -1032,8 +1114,9 @@ export default function AddMemberPage() {
                 ...prevState,
                 error: ""
             }));
-        }
-        if(screen === "edit"){
+        } */
+     
+        /* if(screen === "edit"){
             if (!ProfileImage.data) {
                 IsValidate = false;
                 setProfileImage(prevState => ({
@@ -1046,7 +1129,7 @@ export default function AddMemberPage() {
                     error: ""
                 }));
             }
-        }
+        } */
         if(screen === "add"){
             MemberAddMethod(IsValidate);
         }else{
@@ -1153,8 +1236,8 @@ export default function AddMemberPage() {
                 error: ""
             }));
         }
-        console.log("AddressDetailEmpty");
-        console.log(AddressDetailEmpty);
+        // console.log("AddressDetailEmpty");
+        // console.log(AddressDetailEmpty);
         console.log(IsValidate);
         if (AddressDetailEmpty === "no_data"){
             MemberAddMethod(IsValidate);
@@ -1206,7 +1289,7 @@ export default function AddMemberPage() {
             setUPI(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
+                error: text.trim() === "" ? "" : ""
             }));
         }
     };
@@ -1285,7 +1368,7 @@ export default function AddMemberPage() {
                 error: ""
             }));
         }
-        if (!UPI.data) {
+        /* if (!UPI.data) {
             IsValidate = false;
             setUPI(prevState => ({
                 ...prevState,
@@ -1296,7 +1379,7 @@ export default function AddMemberPage() {
                 ...prevState,
                 error: ""
             }));
-        }
+        } */
         if (BankDetailEmpty === "no_data") {
             MemberAddMethod(IsValidate);
         } else {
@@ -1330,7 +1413,7 @@ export default function AddMemberPage() {
                 error: ""
             }));
         }
-        if (MaritalStatus === "Married" || MaritalStatus === "Married With Kids"){
+        if (MaritalStatus.data === "Married" || MaritalStatus.data === "Married With Kids"){
             if (!SpouseEducation.data) {
                 IsValidate = false;
                 setSpouseEducation(prevState => ({
@@ -1520,6 +1603,8 @@ export default function AddMemberPage() {
         setAlert(false);
         if (AlertFrom === "success"){
             window.location.reload();
+        } else if (AlertFrom === "add_success"){
+            navigate('/member')
         }
     };
     
@@ -1562,22 +1647,22 @@ export default function AddMemberPage() {
         const file = event.target.files[0];
         console.log(file);
         if (file) {
-            const filePath = URL.createObjectURL(file);
-            console.log(filePath);
+            // const filePath = URL.createObjectURL(file);
             setProfileImage({
-                data: filePath,
+                data: file,
+                savedata: "",
                 error: ""
             });
-            MemberImageUpload(file, 'MEMBER_PROFILE');
-            /* if(ProfileImage.data !== ""){
+            if(ProfileImage.data !== ""){
                 MemberDeleteMedia(file, data.id);
             }else{
                 setProfileImage({
-                    data: filePath,
+                    data: file,
+                    savedata: "",
                     error: ""
                 });
-                MemberImageUpload(filePath, 'MEMBER_PROFILE');
-            } */
+                MemberImageUpload(file, 'MEMBER_PROFILE');
+            }
         }
     };
 
@@ -1587,11 +1672,13 @@ export default function AddMemberPage() {
         console.log(file);
         if (file) {
             const filePath = URL.createObjectURL(file);
-            console.log(filePath);
+            console.log(file);
             setProofImage({
                 data: filePath,
+                savedata: "",
                 error: ""
             });
+            MemberImageUpload(file, 'MEMBER_PROOF');
         }
     };
 
@@ -1626,7 +1713,7 @@ export default function AddMemberPage() {
         <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 2, mb: 2 }}>
                     {screenLabel[screen] || "Add Member"}
     </Typography>
-    <Button variant="contained" className='custom-button'  onClick={() => navigate('/member')}>
+                <Button variant="contained" className='custom-button'  onClick={() => navigate('/member')} sx={{ cursor: 'pointer' }}>
           Back
     </Button>
   
@@ -1667,7 +1754,7 @@ export default function AddMemberPage() {
                                             <Stack direction='column' sx={{ ml: 2, }}>
                                                 {ProfileImage.data !== ""
                                                     ? <div>
-                                                        <img src={IMAGE_URL + ProfileImage.data} alt="Selected" style={{ width: 100, height: 100, }} />
+                                                        <img src={`${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${ProfileImage.data}`} alt="Selected" style={{ width: 100, height: 100, }} />
                                                     </div>
                                                     : <div>
                                                         <img src="../../../public/assets/icons/placeholder.png" alt="Selected" style={{ width: 100, height: 100, }} />
@@ -1719,7 +1806,7 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                         <Stack direction='column'>
                                             <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
-                                                RelationShip
+                                                RelationShip Name
                                             </Typography>
                                             <Stack direction='row'  sx={{ ml: 0, }}>
                                                 <TextField
@@ -1732,7 +1819,7 @@ export default function AddMemberPage() {
                                                     value={RelationPrefix.data}
                                                     onChange={(e) => MemberInfoTextValidate(e, "RelationPrefix")}
                                                     style={{ width: 90, marginRight: -10 }} >
-                                                    {Prefix.map((option) => (
+                                                        {RelationShipPrefix.map((option) => (
                                                         <MenuItem key={option} value={option.value}>
                                                             {option.data}
                                                         </MenuItem>
@@ -1762,7 +1849,7 @@ export default function AddMemberPage() {
                                             <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
                                                 className='input-box1'
-                                                    required
+                                                    // required
                                                     id="outlined-select-currency"
                                                     select
                                                     disabled={screen === "view"}
@@ -1839,7 +1926,7 @@ export default function AddMemberPage() {
                                             <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
                                                 className='input-box1'
-                                                    required
+                                                    // required
                                                     id="outlined-required"
                                                     disabled={screen === "view"}
                                                     label="Email"
@@ -1879,7 +1966,7 @@ export default function AddMemberPage() {
                                             </Typography>
                                             <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
-                                                    required
+                                                    // required
                                                     className='input-box1'
                                                     id="outlined-required"
                                                     disabled={screen === "view"}
@@ -1901,7 +1988,7 @@ export default function AddMemberPage() {
                                             <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
                                                 className='input-box1'
-                                                    required
+                                                    // required
                                                     id="outlined-required"
                                                     disabled={screen === "view"}
                                                     label="Guardian Relation"
@@ -1920,7 +2007,7 @@ export default function AddMemberPage() {
                                             <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
                                                 className='input-box1'
-                                                    required
+                                                    // required
                                                     id="outlined-required"
                                                     disabled={screen === "view"}
                                                     label="Aadhar Number"
@@ -1941,7 +2028,7 @@ export default function AddMemberPage() {
                                             <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
                                                 className='input-box1'
-                                                    required
+                                                    // required
                                                     id="outlined-required"
                                                     disabled={screen === "view"}
                                                     label="Pancard Number"
@@ -2045,6 +2132,23 @@ export default function AddMemberPage() {
                                                 State
                                             </Typography>
                                             <Stack direction='row' sx={{ ml: 0, }}>
+                                                    {/* <TextField
+                                                        className='input-box1'
+                                                        required
+                                                        id="outlined-select-currency"
+                                                        select
+                                                        disabled={screen === "view"}
+                                                        label="Select"
+                                                        variant="outlined"
+                                                        value={State.data}
+                                                        onChange={(e) => AddressDetailsTextValidate(e, "State")}
+                                                        style={{}}>
+                                                        {StateList.map((option) => (
+                                                            <MenuItem key={option} value={option}>
+                                                                {option}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </TextField> */}
                                                 <TextField
                                                 className='input-box1'
                                                     required
@@ -2060,7 +2164,45 @@ export default function AddMemberPage() {
                                         </div>
                                     </Stack>
                                     <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                   
+
+                                    <div className='box'>
+                                        <Stack direction='column'>
+                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
+                                                Country
+                                            </Typography>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
+                                                    {/* <TextField
+                                                        className='input-box1'
+                                                        required
+                                                        id="outlined-select-currency"
+                                                        select
+                                                        disabled={screen === "view"}
+                                                        label="Select"
+                                                        variant="outlined"
+                                                        value={Country.data}
+                                                        onChange={(e) => AddressDetailsTextValidate(e, "Country")}
+                                                        style={{}}>
+                                                        {CountryList.map((option) => (
+                                                            <MenuItem key={option} value={option}>
+                                                                {option}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </TextField> */}
+                                                <TextField
+                                                className='input-box1'
+                                                    required
+                                                    id="outlined-required"
+                                                    disabled={screen === "view"}
+                                                    label="Country"
+                                                    value={Country.data}
+                                                    onChange={(e) => AddressDetailsTextValidate(e, "Country")}
+                                                    style={{  }} />
+                                              
+                                            </Stack>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Country.error}</div>
+                                        </Stack>
+                                        </div>
+
                                     </Stack>
                                 </TabPanel>
                                 <TabPanel value="3">
@@ -2213,7 +2355,7 @@ export default function AddMemberPage() {
                                             <Stack direction='row' sx={{ ml: 0, }}>
                                                 <TextField
                                                 className='input-box1'
-                                                    required
+                                                    // required
                                                     id="outlined-required"
                                                     disabled={screen === "view"}
                                                     label="UPI"
@@ -2314,35 +2456,41 @@ export default function AddMemberPage() {
         {screen === "view"
             ? null
             : <Stack spacing={2}  style={{ justifyContent: 'flex-end' }}>
-                <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 130, height: 30 }} onClick={() => setProofAlert(true)}>
+                                                <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 130, height: 30, cursor: 'pointer' }} onClick={() => setProofAlert(true)}>
                     Choose Photo
                 </Button>
               </Stack>
         }
         <Stack direction='row' spacing={2} sx={{ mb: 3, mt:2, alignItems: 'flex-end', mr: 3 }} className='row-box'>
-            {MediaList.map((row) => (
-                <Stack direction='column' sx={{ ml: 2 }} key={row.id} className='boxing'>
-                   
-                    {row.image
-                        ? <Stack direction='row' sx={{ ml: 0 }} className='image-top'>
-                        <div className='img-box' style={{ width: 120, height: 120 }}>
-                            <img src={row.image} alt="Selected"  style={{ width: '100% ', height: '100% '}} />
-                            </div>
-                            <Button onClick={() => MemberDeleteMedia("", row.id)} className='btn-click'>
-                                <img src="../../../public/assets/icons/cancel.png" alt="Selected" style={{ width: 12, height: 12 }} />
-                            </Button>
-                          </Stack>
-                        : <Stack>
-                        <div className='img-box' style={{ width: 100, height: 100 }}>
-                            <img src="../../../public/assets/icons/placeholder.png" alt="Selected" style={{ width: '100% '}} />
-                            </div>
-                          </Stack>
-                    }
-                    <Typography variant="subtitle1" sx={{ ml: 3, mr: 2, mt: 0, mb: '-5px' }}>
-                    Pancard
-                </Typography>
-                </Stack>
-            ))}
+                                            {MediaListLoading
+                                                ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
+                                                    <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                                                </Stack>
+                                            : MediaList.map((row) => (
+                                                <Stack direction='column' sx={{ ml: 2 }} key={row.id} className='boxing'>
+
+                                                    {row.path
+                                                        ? <Stack direction='row' sx={{ ml: 0 }} className='image-top'>
+                                                            <div className='img-box' style={{ width: 120, height: 120 }}>
+                                                                <img src={`${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${row.path}`} alt="Selected" style={{ width: '100% ', height: '100% ' }} />
+                                                            </div>
+                                                            <Button onClick={() => MemberDeleteMedia("", row.id)} className='btn-click' sx={{ cursor: 'pointer' }}>
+                                                                <img src="../../../public/assets/icons/cancel.png" alt="Selected" style={{ width: 12, height: 12 }} />
+                                                            </Button>
+                                                        </Stack>
+                                                        : <Stack>
+                                                            <div className='img-box' style={{ width: 100, height: 100 }}>
+                                                                <img src="../../../public/assets/icons/placeholder.png" alt="Selected" style={{ width: '100% ' }} />
+                                                            </div>
+                                                        </Stack>
+                                                    }
+                                                    {row.name
+                                                        ? <Typography variant="subtitle1" sx={{ ml: 3, mr: 2, mt: 0, mb: '-5px' }}>
+                                                            {row.name}
+                                                        </Typography>
+                                                        : null}
+                                                </Stack>
+                                            )) }        
         </Stack>
     </Stack>
 </TabPanel>
@@ -2488,7 +2636,7 @@ export default function AddMemberPage() {
                             {screen === "view" || TabIndex === "5"
                                 ? null
                                 :<Stack direction='column' alignItems='flex-end'>
-                                        <Button sx={{ mr: 5, mb: 3, height: 50, width: 150 }} variant="contained"  className='custom-button' onClick={HandleSubmitClick}>
+                                    <Button sx={{ mr: 5, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                             {Loading
                                                 ? (<img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                                 : ("Submit")}
@@ -2506,14 +2654,21 @@ export default function AddMemberPage() {
                 <IconButton
                     aria-label="close"
                     onClick={HandleAlertClose}
-                    sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], }} >
+                    sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
                     <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                 </IconButton>
                 <Stack style={{ alignItems: 'center', }} mt={5}>
+
                     {AlertFrom === "success"
                         ? <img src="../../../public/assets/icons/success_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />
                         : <img src="../../../public/assets/icons/failed_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />}
                     <Typography gutterBottom variant='h4' mt={2} mb={5} className="alert-msg" color={AlertFrom === "success" ? "#45da81" : "#ef4444"}>
+
+                    {AlertFrom === "failed"
+                        ? <img src="../../../public/assets/icons/failed_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />
+                        : <img src="../../../public/assets/icons/success_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />}
+                    <Typography gutterBottom variant='h4' mt={2} mb={5} className="alert-msg" color={AlertFrom === "failed" ? "#ef4444" : "#45da81"}>
+
                         {AlertMessage}
                     </Typography>
                 </Stack>
@@ -2527,7 +2682,7 @@ export default function AddMemberPage() {
                 <IconButton
                     aria-label="close"
                     onClick={HandleProofAlertClose}
-                    sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], }} >
+                    sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
                     <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                 </IconButton>
                 <Stack flexDirection='row' sx={{ mt: 3, ml: 3 }}>
@@ -2540,8 +2695,11 @@ export default function AddMemberPage() {
 
                 <Stack sx={{ mt: 2, ml: 3 }}>
                     <Stack direction='row'>
-                        <img src={MediaList[0].image} alt="Selected" style={{ width: 120, height: 120, }} />
-                        
+
+                        {ProofImage.data
+                            ? <img src={`${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${ProofImage.data}`} alt="Selected" style={{ width: 120, height: 120, }} />
+                            : <img src="../../../public/assets/icons/image_placeholder.png" alt="Selected" style={{ width: 120, height: 120, }} />}
+
                         <Stack flexDirection='column' sx={{ ml: 3,  }}>
                             <Stack flexDirection='row'>
                                 <TextField
@@ -2596,7 +2754,7 @@ export default function AddMemberPage() {
                     <div style={{ marginLeft: "8px", color: 'red', fontSize: "12px", marginTop: "3px", fontWeight: "500", width: "100px" }}>{ProofImage.error}</div>
                 </Stack>
                 <Stack sx={{ alignItems: 'center', mt: 1, mb: 3 }}>
-                    <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 100, height: 40 }} onClick={validateProofDetails}>
+                    <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 100, height: 40, cursor: 'pointer' }} onClick={validateProofDetails}>
                        Save
                     </Button>
                 </Stack>

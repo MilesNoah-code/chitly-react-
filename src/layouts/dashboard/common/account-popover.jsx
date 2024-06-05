@@ -7,6 +7,7 @@ import Divider from '@mui/material/Divider';
 import Popover from '@mui/material/Popover';
 import { alpha } from '@mui/material/styles';
 import MenuItem from '@mui/material/MenuItem';
+import { Stack, Dialog } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
@@ -39,6 +40,7 @@ export default function AccountPopover() {
   };
   const Session = localStorage.getItem('apiToken');
   const navigate = useNavigate();
+  const [Loading, setLoading] = useState(false);
 
   const handleClose = () => {
     setOpen(null);
@@ -46,6 +48,7 @@ export default function AccountPopover() {
 
   const LogOutMethod = () => {
     setOpen(null);
+    setLoading(true);
     const url = `${REACT_APP_HOST_URL}${LOGOUT_URL}`;
     console.log(url);
     console.log(JSON.parse(Session))
@@ -53,6 +56,7 @@ export default function AccountPopover() {
       .then((response) => response.json())
       .then((json) => {
         console.log(JSON.stringify(json));
+        setLoading(false);
         if (json.success) {
           localStorage.removeItem("apiToken");
           localStorage.removeItem( "userDetails");
@@ -60,6 +64,7 @@ export default function AccountPopover() {
         }
       })
       .catch((error) => {
+        setLoading(false);
         console.log(error);
       })
   }
@@ -138,6 +143,21 @@ export default function AccountPopover() {
           Logout
         </MenuItem>
       </Popover>
+      <Dialog
+        open={Loading}
+        onClose={() => setLoading(false)}
+        fullWidth={500}
+        PaperProps={{
+          style: {
+            backgroundColor: 'transparent',
+            boxShadow: 'none',
+          },
+        }}
+      >
+        <Stack style={{ alignItems: 'center' }} mt={5} mb={5}>
+          <img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 70, height: 70 }} />
+        </Stack>
+      </Dialog>
     </>
   );
 }

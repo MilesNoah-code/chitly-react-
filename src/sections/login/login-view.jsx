@@ -13,10 +13,10 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import { useRouter } from 'src/routes/hooks';
 
-import { PostHeader } from 'src/hooks/AxiosApiFetch';
+import { GetHeader, PostHeader } from 'src/hooks/AxiosApiFetch';
 
 import { isValidEmail } from 'src/utils/Validator';
-import { LOGIN_URL, REACT_APP_HOST_URL } from 'src/utils/api-constant';
+import { LOGIN_URL, IMAGE_DISPLAY_URL, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import { bgGradient } from 'src/theme/css';
 import { pxToRem } from 'src/theme/typography';
@@ -52,7 +52,7 @@ export default function LoginView() {
         .then((response) => response.json())
         .then((json) => {
           console.log(JSON.stringify(json));
-          setLoading(false);
+          
           if (json.success) {
             localStorage.setItem(
               "apiToken",
@@ -62,7 +62,13 @@ export default function LoginView() {
               "userDetails",
               JSON.stringify(json.userDetails)
             );
-            router.push('/dashboard');
+            // router.push('/dashboard');
+            GetImageUrl(json.apiToken)
+          } else if (json.success === false) {
+            setPasswordError(json.message);
+            setLoading(false);
+          } else{
+            setLoading(false);
           }
         })
         .catch((error) => {
@@ -70,6 +76,29 @@ export default function LoginView() {
           console.log(error);
         })
     }
+  }
+
+  const GetImageUrl = (Session) => {
+    setLoading(true);
+    const url = `${REACT_APP_HOST_URL}${IMAGE_DISPLAY_URL}`;
+    console.log(url);
+    fetch(url, GetHeader(Session))
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(JSON.stringify(json));
+        setLoading(false);
+        if (json.success) {
+          localStorage.setItem(
+            "imageUrl",
+            JSON.stringify(json)
+          );
+          router.push('/dashboard');
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error);
+      })
   }
 
   const HandleEmailValue = (e) => {
@@ -163,7 +192,7 @@ export default function LoginView() {
         type="submit"
         variant="contained"
         color="inherit"
-        onClick={ValidateLoginClick} >
+        onClick={Loading ? null : ValidateLoginClick} >
         {Loading 
           ? ( <img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, marginRight: '8px' }} />) 
           : ( "Login" )}

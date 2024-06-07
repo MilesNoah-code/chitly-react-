@@ -18,12 +18,11 @@ export default function ChitPaymentMemberTableRow({
         <Checkbox disableRipple checked={selected} onChange={handleClick} />
       </TableCell>
       <TableCell>{item.groupno}</TableCell>
-      <TableCell>{item.tktNo}</TableCell>
-      <TableCell>{item.name}</TableCell>
-      <TableCell>{item.date != null && item.date !== "" ? dayjs(item.date).format('DD-MM-YYYY') : ""}</TableCell>
-      <TableCell>{item.fcno}</TableCell>
-      <TableCell>{item.fcno}</TableCell>
-      <TableCell>{ }</TableCell>
+      <TableCell>{item.member_name}</TableCell>
+      <TableCell>{item.memberid}</TableCell>
+      <TableCell>{item.auctiondate != null && item.auctiondate !== "" ? dayjs(item.auctiondate).format('DD-MM-YYYY') : ""}</TableCell>
+      <TableCell>{item.tktno}</TableCell>
+      <TableCell>{item.installno}</TableCell>
     </TableRow>
   );
 }

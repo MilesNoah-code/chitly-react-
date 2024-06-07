@@ -10,7 +10,7 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-import { Dialog, MenuItem, TextField, IconButton, InputAdornment } from '@mui/material';
+import { Alert, MenuItem, Snackbar, TextField, InputAdornment } from '@mui/material';
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
 
@@ -41,7 +41,7 @@ export default function GroupView() {
   const [GroupList, setGroupList] = useState([]);
   const [GroupListLoading, setGroupListLoading] = useState(true);
   const [ActiveFilter, setActiveFilter] = useState(1);
-  const [Alert, setAlert] = useState(false);
+  const [AlertOpen, setAlertOpen] = useState(false);
   const [AlertMessage, setAlertMessage] = useState('');
   const [AlertFrom, setAlertFrom] = useState('');
   const [ErrorAlert, setErrorAlert] = useState(false);
@@ -139,7 +139,7 @@ export default function GroupView() {
   };
 
   const HandleAddGroupClick = () => {
-    navigate('/addGroup', {
+    navigate('/group/add', {
       state: {
         screen: 'add',
         data: [],
@@ -162,11 +162,11 @@ export default function GroupView() {
   };
 
   const HandleAlertShow = () => {
-    setAlert(true);
+    setAlertOpen(true);
   };
 
   const HandleAlertClose = () => {
-    setAlert(false);
+    setAlertOpen(false);
   };
 
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
@@ -174,8 +174,7 @@ export default function GroupView() {
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
-        <Typography variant="h6" sx={{color: '#637381' }}>Group List</Typography>
-
+        <Typography variant="h6" sx={{ color: '#637381' }}>Group List</Typography>
         <Button variant="contained" className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddGroupClick} sx={{ cursor: 'pointer' }}>
           Add Group
         </Button>
@@ -239,18 +238,15 @@ export default function GroupView() {
                           item={row}
                         />
                       ))}
-
                     <TableEmptyRows
                       height={77}
                       emptyRows={emptyRows(page, rowsPerPage, GroupList.length)}
                     />
-
                     {GroupList.length === 0 && <TableNoData query={filterName} />}
                   </TableBody>
                 </Table>
               </TableContainer>
             </Scrollbar>
-
             {GroupList.length > 0 && <TablePagination
               page={page}
               component="div"
@@ -261,30 +257,16 @@ export default function GroupView() {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />}
           </Stack>}
-
       </Card>
-      <Dialog
-        open={Alert}
-        onClose={HandleAlertClose}
-        fullWidth={500}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description" >
-        <IconButton
-          aria-label="close"
-          onClick={HandleAlertClose}
-          sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
-          <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
-        </IconButton>
-        <Stack style={{ alignItems: 'center', }} mt={5}>
-          {AlertFrom === "success"
-            ? <img src="../../../public/assets/icons/success_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />
-            : <img src="../../../public/assets/icons/failed_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />}
-          <Typography gutterBottom variant='h4' mt={2} mb={5} color={AlertFrom === "success" ? "#45da81" : "#ef4444"}>
-            {AlertMessage}
-          </Typography>
-        </Stack>
-      </Dialog>
+      <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert
+          onClose={HandleAlertClose}
+          severity={AlertFrom === "failed" ? "error" : "success"}
+          variant="filled"
+          sx={{ width: '100%' }} >
+          {AlertMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }
-

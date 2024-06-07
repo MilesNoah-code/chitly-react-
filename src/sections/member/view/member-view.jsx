@@ -10,7 +10,7 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-import { Dialog, MenuItem, TextField, IconButton, InputAdornment } from '@mui/material';
+import { Alert, Snackbar, MenuItem, TextField, InputAdornment } from '@mui/material';
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
 
@@ -40,7 +40,7 @@ export default function MemberView() {
   const [MemberList, setMemberList] = useState([]);
   const [MemberListLoading, setMemberListLoading] = useState(true);
   const [ActiveFilter, setActiveFilter] = useState(1);
-  const [Alert, setAlert] = useState(false);
+  const [AlertOpen, setAlertOpen] = useState(false);
   const [AlertMessage, setAlertMessage] = useState('');
   const [AlertFrom, setAlertFrom] = useState('');
   const [ErrorAlert, setErrorAlert] = useState(false);
@@ -140,7 +140,7 @@ export default function MemberView() {
   };
 
   const HandleAddMemberClick = () => {
-    navigate('/addMember', {
+    navigate('/member/add', {
       state: {
         screen: 'add',
         data: [],
@@ -163,30 +163,30 @@ export default function MemberView() {
   };
 
   const HandleAlertShow = () => {
-    setAlert(true);
+    setAlertOpen(true);
   };
 
   const HandleAlertClose = () => {
-    setAlert(false);
+    setAlertOpen(false);
   };
-  
+
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2}>
-        <Typography variant="h6" sx={{color: '#637381' }}>Member List</Typography>
+        <Typography variant="h6" sx={{ color: '#637381' }}>Member List</Typography>
 
-        <Button variant="contained"   className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddMemberClick} sx={{ cursor: 'pointer' }}>
+        <Button variant="contained" className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddMemberClick} sx={{ cursor: 'pointer' }}>
           Add Member
         </Button>
       </Stack>
-       <Card>
+      <Card>
         <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" justifyContent="space-between" className='mbl-view'>
           <TextField
-          className='search-field'
+            className='search-field'
             placeholder="Search member..."
-            value={filterName} 
+            value={filterName}
             onChange={(e) => handleFilterByName(e)}
             InputProps={{
               startAdornment: (
@@ -196,7 +196,8 @@ export default function MemberView() {
                     sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
                   />
                 </InputAdornment>
-              ),}} />
+              ),
+            }} />
           <TextField select size="small" value={ActiveFilter} onChange={(e) => handleFilterByActive(e)}>
             {options.map((option) => (
               <MenuItem key={option.value} value={option.value}>
@@ -209,47 +210,44 @@ export default function MemberView() {
           ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
             <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
           </Stack>
-          :<Stack>
+          : <Stack>
             <Scrollbar>
-            <div className="table-container" >
-              <TableContainer sx={{ overflow: 'unset' }}>
-                <Table sx={{ minWidth: 800 }}>
-                  <TableHeader
-                  sx={{ background: 'rgba(24, 119, 242, 0.16)', color: '#1877f2' }}
-                    order={order}
-                    orderBy={orderBy}
-                    rowCount={MemberList.length}
-                    numSelected={selected.length}
-                    onRequestSort={handleSort}
-                    onSelectAllClick={handleSelectAllClick}
-                    headLabel  ={[
-                      { id: 'Member Name', label: 'Member Name' },
-                      { id: 'Acc No', label: 'Acc No' },
-                      { id: 'Mobile Number', label: 'Mobile Number' },
-                      { id: 'Status', label: 'Status' },
-                      { id: '' }, ]} />
-                     
-                  <TableBody>
+              <div className="table-container" >
+                <TableContainer sx={{ overflow: 'unset' }}>
+                  <Table sx={{ minWidth: 800 }}>
+                    <TableHeader
+                      sx={{ background: 'rgba(24, 119, 242, 0.16)', color: '#1877f2' }}
+                      order={order}
+                      orderBy={orderBy}
+                      rowCount={MemberList.length}
+                      numSelected={selected.length}
+                      onRequestSort={handleSort}
+                      onSelectAllClick={handleSelectAllClick}
+                      headLabel={[
+                        { id: 'Member Name', label: 'Member Name' },
+                        { id: 'Acc No', label: 'Acc No' },
+                        { id: 'Mobile Number', label: 'Mobile Number' },
+                        { id: 'Status', label: 'Status' },
+                        { id: '' },]} />
+                    <TableBody>
                       {MemberList
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                      .map((row) => (
-                        <MemberTableRow
-                          key={row.id}
-                          selected={selected.indexOf(row.name) !== -1}
-                          handleClick={(event) => handleClick(event, row.name)}
-                          item={row}
-                        /> ))}
-                        
-                    <TableEmptyRows
-                      height={77}
-                      emptyRows={emptyRows(page, rowsPerPage, MemberList.length)} />
+                        .map((row) => (
+                          <MemberTableRow
+                            key={row.id}
+                            selected={selected.indexOf(row.name) !== -1}
+                            handleClick={(event) => handleClick(event, row.name)}
+                            item={row}
+                          />))}
+                      <TableEmptyRows
+                        height={77}
+                        emptyRows={emptyRows(page, rowsPerPage, MemberList.length)} />
                       {MemberList.length === 0 && <TableNoData query={filterName} />}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
               </div>
             </Scrollbar>
-
             {MemberList.length > 0 && <TablePagination
               page={page}
               component="div"
@@ -260,29 +258,16 @@ export default function MemberView() {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />}
           </Stack>}
-        
       </Card>
-      <Dialog
-        open={Alert}
-        onClose={HandleAlertClose}
-        fullWidth={500}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description" >
-        <IconButton
-          aria-label="close"
-          onClick={HandleAlertClose}
-          sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
-          <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
-        </IconButton>
-        <Stack style={{ alignItems: 'center', }} mt={5}>
-          {AlertFrom === "success"
-            ? <img src="../../../public/assets/icons/success_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />
-            : <img src="../../../public/assets/icons/failed_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />}
-          <Typography gutterBottom variant='h4' mt={2} mb={5} color={AlertFrom === "success" ? "#45da81" : "#ef4444"}>
-            {AlertMessage}
-          </Typography>
-        </Stack>
-      </Dialog>
+      <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert
+          onClose={HandleAlertClose}
+          severity={AlertFrom === "failed" ? "error" : "success"}
+          variant="filled"
+          sx={{ width: '100%' }} >
+          {AlertMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

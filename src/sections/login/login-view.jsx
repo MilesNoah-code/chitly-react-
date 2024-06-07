@@ -13,10 +13,10 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import { useRouter } from 'src/routes/hooks';
 
-import { PostHeader } from 'src/hooks/AxiosApiFetch';
+import { GetHeader, PostHeader } from 'src/hooks/AxiosApiFetch';
 
 import { isValidEmail } from 'src/utils/Validator';
-import { LOGIN_URL, REACT_APP_HOST_URL } from 'src/utils/api-constant';
+import { LOGIN_URL, IMAGE_DISPLAY_URL, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import { bgGradient } from 'src/theme/css';
 import { pxToRem } from 'src/theme/typography';
@@ -36,6 +36,7 @@ export default function LoginView() {
   const [Password, setPassword] = useState("");
   const [UsernameError, setUsernameError] = useState("");
   const [PasswordError, setPasswordError] = useState("");
+  const [Loading, setLoading] = useState(false);
 
   const Params = {
     "username": UserName,
@@ -44,12 +45,14 @@ export default function LoginView() {
 
   const LoginMethod = (IsValidate) => {
     if (IsValidate) {
-      const url = REACT_APP_HOST_URL + LOGIN_URL;
+      setLoading(true);
+      const url = `${REACT_APP_HOST_URL}${LOGIN_URL}`;
       console.log(JSON.stringify(Params) + url);
       fetch(url, PostHeader('', Params))
         .then((response) => response.json())
         .then((json) => {
           console.log(JSON.stringify(json));
+          
           if (json.success) {
             localStorage.setItem(
               "apiToken",
@@ -59,13 +62,43 @@ export default function LoginView() {
               "userDetails",
               JSON.stringify(json.userDetails)
             );
-            router.push('/dashboard');
+            // router.push('/dashboard');
+            GetImageUrl(json.apiToken)
+          } else if (json.success === false) {
+            setPasswordError(json.message);
+            setLoading(false);
+          } else{
+            setLoading(false);
           }
         })
         .catch((error) => {
+          setLoading(false);
           console.log(error);
         })
     }
+  }
+
+  const GetImageUrl = (Session) => {
+    setLoading(true);
+    const url = `${REACT_APP_HOST_URL}${IMAGE_DISPLAY_URL}`;
+    console.log(url);
+    fetch(url, GetHeader(Session))
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(JSON.stringify(json));
+        setLoading(false);
+        if (json.success) {
+          localStorage.setItem(
+            "imageUrl",
+            JSON.stringify(json)
+          );
+          router.push('/dashboard');
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error);
+      })
   }
 
   const HandleEmailValue = (e) => {
@@ -118,10 +151,6 @@ export default function LoginView() {
     }
   };
 
-  const HandleClick = () => {
-    router.push('/dashboard');
-  }
-
   const renderForm = (
     <>
       <Stack spacing={3}>
@@ -150,21 +179,27 @@ export default function LoginView() {
         />
       </Stack>
       <div style={{ color: '#ce0820', fontSize: pxToRem(12), marginTop: pxToRem(5) }}>{PasswordError}</div>
-      <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
+      <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 , display: 'none'}}>
         <Link variant="subtitle2" underline="hover">
           Forgot password?
         </Link>
       </Stack>
+
 
       <LoadingButton
         fullWidth
         size="large"
         type="submit"
         variant="contained"
-        color="inherit"
-        onClick={ValidateLoginClick}
-      >
-        Login
+        sx={{
+          my: 3, backgroundColor: '#1877f2',
+          '&:hover': {
+            backgroundColor: 'rgba(24, 119, 242, 0.7)',
+          }, }}
+        onClick={Loading ? null : ValidateLoginClick} >
+        {Loading 
+          ? ( <img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, marginRight: '8px' }} />) 
+          : ( "Login" )}
       </LoadingButton>
     </>
   );
@@ -179,13 +214,16 @@ export default function LoginView() {
         height: 1,
       }}
     >
-      <Logo
+      {/* <Logo
         sx={{
           position: 'fixed',
           top: { xs: 16, md: 24 },
           left: { xs: 16, md: 24 },
         }}
-      />
+      /> */}
+      <Stack sx={{ justifyContent: 'center', alignItems: 'center' }}>
+        <img src="../../../public/assets/icons/chitly_logo.png" alt="Loading" style={{ width: 150, height: 100, marginTop: 20 }} />
+      </Stack>
 
       <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
         <Card

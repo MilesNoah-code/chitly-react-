@@ -13,45 +13,43 @@ import { bgBlur } from 'src/theme/css';
 
 import Iconify from 'src/components/iconify';
 
-import Searchbar from './common/searchbar';
+import './header.css';
 import { NAV, HEADER } from './config-layout';
 import AccountPopover from './common/account-popover';
-import LanguagePopover from './common/language-popover';
-import NotificationsPopover from './common/notifications-popover';
-
-// ----------------------------------------------------------------------
+// import LanguagePopover from './common/language-popover';
+// import NotificationsPopover from './common/notifications-popover';
 
 export default function Header({ onOpenNav }) {
   const theme = useTheme();
 
-  const lgUp = useResponsive('up', 'lg');
+   const lgUp = useResponsive('up', 'lg');
 
   const renderContent = (
     <>
-      {!lgUp && (
-        <IconButton onClick={onOpenNav} sx={{ mr: 1 }}>
+    
+        <IconButton onClick={onOpenNav} sx={{ mr:2 }}>
           <Iconify icon="eva:menu-2-fill" />
         </IconButton>
-      )}
-
-      <Searchbar />
+    
 
       <Box sx={{ flexGrow: 1 }} />
 
       <Stack direction="row" alignItems="center" spacing={1}>
-        <LanguagePopover />
-        <NotificationsPopover />
+        {/* <LanguagePopover />
+        <NotificationsPopover /> */}
         <AccountPopover />
+        
       </Stack>
     </>
   );
 
   return (
-    <AppBar
+    <AppBar  className="custom-header"
       sx={{
         boxShadow: 'none',
         height: HEADER.H_MOBILE,
         zIndex: theme.zIndex.appBar + 1,
+        backgroundColor: 'white',
         ...bgBlur({
           color: theme.palette.background.default,
         }),
@@ -68,6 +66,7 @@ export default function Header({ onOpenNav }) {
         sx={{
           height: 1,
           px: { lg: 5 },
+          justifyContent: 'space-between',
         }}
       >
         {renderContent}

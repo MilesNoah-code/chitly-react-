@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -13,22 +14,47 @@ import ListItemButton from '@mui/material/ListItemButton';
 import { usePathname } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 
+import { PostHeader } from 'src/hooks/AxiosApiFetch';
 import { useResponsive } from 'src/hooks/use-responsive';
 
-import { account } from 'src/_mock/account';
+import { LOGOUT_URL, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
-import Logo from 'src/components/logo';
+// import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
 
 import { NAV } from './config-layout';
 import navConfig from './config-navigation';
 
-// ----------------------------------------------------------------------
-
 export default function Nav({ openNav, onCloseNav }) {
   const pathname = usePathname();
 
   const upLg = useResponsive('up', 'lg');
+  const UserDetail = JSON.parse(localStorage.getItem('userDetails'));
+  const Session = localStorage.getItem('apiToken');
+  const navigate = useNavigate();
+  const [Loading, setLoading] = useState(false);
+
+  const LogOutMethod = () => {
+    setLoading(true);
+    const url = `${REACT_APP_HOST_URL}${LOGOUT_URL}`;
+    console.log(JSON.parse(Session));
+    console.log(url);
+    fetch(url, PostHeader(JSON.parse(Session), ''))
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(JSON.stringify(json));
+        setLoading(false);
+        if (json.success) {
+          localStorage.removeItem("apiToken");
+          localStorage.removeItem("userDetails");
+          navigate('/login');
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log(error);
+      })
+  }
 
   useEffect(() => {
     if (openNav) {
@@ -50,13 +76,16 @@ export default function Nav({ openNav, onCloseNav }) {
         bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
       }}
     >
-      <Avatar src={account.photoURL} alt="photoURL" />
+      <Avatar src={UserDetail.photoURL} alt={UserDetail.first_name} >
+        {UserDetail.first_name[0]}
+      </Avatar>
 
-      <Box sx={{ ml: 2 }}>
-        <Typography variant="subtitle2">{account.displayName}</Typography>
+      <Box sx={{ ml: 2, flexDirection: 'row' }}>
+        <Typography variant="subtitle2">{(UserDetail.first_name !== null && UserDetail.first_name !== undefined) ? UserDetail.first_name : ''}</Typography>
+        <Typography variant="subtitle2">{(UserDetail.last_name !== null && UserDetail.last_name !== undefined) ? UserDetail.last_name : ''}</Typography>
 
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          {account.role}
+        <Typography variant="body2" sx={{ color: 'text.secondary', display: 'none' }}>
+          {UserDetail.role_id}
         </Typography>
       </Box>
     </Box>
@@ -64,8 +93,8 @@ export default function Nav({ openNav, onCloseNav }) {
 
   const renderMenu = (
     <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
-      {navConfig.map((item) => (
-        <NavItem key={item.title} item={item} />
+      {navConfig.map((item, index) => (
+        <NavItem key={item.title} item={item} isFirstItem={index === 0} />
       ))}
     </Stack>
   );
@@ -73,14 +102,14 @@ export default function Nav({ openNav, onCloseNav }) {
   const renderUpgrade = (
     <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
       <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
-
         <Button
-          href="https://material-ui.com/store/items/minimal-dashboard/"
           target="_blank"
           variant="contained"
           color="inherit"
-        >
-          Logout
+          onClick={Loading ? null : LogOutMethod} >
+          {Loading
+            ? (<img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+            : ("Logout")}
         </Button>
       </Stack>
     </Box>
@@ -97,7 +126,7 @@ export default function Nav({ openNav, onCloseNav }) {
         },
       }}
     >
-      <Logo sx={{ mt: 3, ml: 4 }} />
+     
 
       {renderAccount}
 
@@ -114,6 +143,7 @@ export default function Nav({ openNav, onCloseNav }) {
       sx={{
         flexShrink: { lg: 0 },
         width: { lg: NAV.WIDTH },
+        backgroundColor: 'white',
       }}
     >
       {upLg ? (
@@ -151,10 +181,12 @@ Nav.propTypes = {
 
 // ----------------------------------------------------------------------
 
-function NavItem({ item }) {
+function NavItem({ item, isFirstItem }) {
   const pathname = usePathname();
-
-  const active = item.path === pathname;
+  // console.log(pathname);
+  // console.log(item.path);
+  // const active = item.path === pathname;
+  const active = item.path === pathname || (isFirstItem && pathname === '/');
 
   return (
     <ListItemButton
@@ -170,6 +202,7 @@ function NavItem({ item }) {
         ...(active && {
           color: 'primary.main',
           fontWeight: 'fontWeightSemiBold',
+          backgroundColor: 'white',
           bgcolor: (theme) => alpha(theme.palette.primary.main, 0.08),
           '&:hover': {
             bgcolor: (theme) => alpha(theme.palette.primary.main, 0.16),
@@ -188,4 +221,5 @@ function NavItem({ item }) {
 
 NavItem.propTypes = {
   item: PropTypes.object,
+  isFirstItem: PropTypes.bool
 };

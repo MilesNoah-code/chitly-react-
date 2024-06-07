@@ -14,12 +14,12 @@ const navConfig = [
   },
   {
     title: 'Member',
-    path: '/member',
+    path: '/member/list',
     icon: icon('member'),
   },
   {
     title: 'Groups',
-    path: '/group',
+    path: '/group/list',
     icon: icon('group'),
   },
   {
@@ -39,12 +39,12 @@ const navConfig = [
   },
   {
     title: 'Chit Receipts',
-    path: '/chitreceipt',
+    path: '/chitreceipt/list',
     icon: icon('chitreceipt'),
   },
   {
     title: 'Chit Payment',
-    path: '/chitpayment',
+    path: '/chitpayment/list',
     icon: icon('chitpayment'),
   }
 ];

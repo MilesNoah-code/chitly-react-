@@ -1,29 +1,62 @@
 import { useState, useEffect } from 'react';
-import { styled } from '@mui/material/styles';
+
 import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container';
+import List from '@mui/material/List';
+import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
+import { styled } from '@mui/material/styles';
+import ListItem from '@mui/material/ListItem';
+import Container from '@mui/material/Container';
+import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import { GROUP_LISTALL, REACT_APP_HOST_URL, GROUP_MEMBER_LIST } from 'src/utils/api-constant';
-import { GetHeader } from 'src/hooks/AxiosApiFetch';  
+import ListItemText from '@mui/material/ListItemText';
+import { Card, Table, Alert, Dialog, Snackbar, TableBody, InputLabel, IconButton, FormControl, FormHelperText, InputAdornment, TableContainer, TablePagination } from '@mui/material';
+
+import { GetHeader } from 'src/hooks/AxiosApiFetch';
+
+import { MEMBER_LIST,  GROUP_LISTALL, GROUP_MEMBER_LIST, REACT_APP_HOST_URL, ADDRESS_DETAIL } from 'src/utils/api-constant';
+
+import ErrorLayout from 'src/Error/ErrorLayout';
+
+import Iconify from 'src/components/iconify';
+import Scrollbar from 'src/components/scrollbar';
+
+import { emptyRows } from 'src/sections/member/utils';
+import TableHeader from 'src/sections/member/table-head';
+import TableNoData from 'src/sections/member/table-no-data';
+import TableEmptyRows from 'src/sections/member/table-empty-rows';
+
 import "./Groupmember.css";
 import GroupSearch from '../group-search';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import Divider from '@mui/material/Divider';
-import { FormControl, InputLabel, Input, FormHelperText } from '@mui/material';
-import TextField from '@mui/material/TextField';
+import GroupMemberTableRow from '../groupmember-member-list';
 
 export default function BlogView() {
 
-  const UserDetail = JSON.parse(localStorage.getItem('userDetails'));
+  // const UserDetail = JSON.parse(localStorage.getItem('userDetails'));
   const Session = localStorage.getItem('apiToken');
   const [grouplist, setGroupList] = useState([]);
   const [groupMemberlist, setGroupMemberList] = useState([]);
   const [memberDetail, setMemberDetail] = useState({});
+  const [MemberListAlert, setMemberListAlert] = useState(false);
+  const [MemberListLoading, setMemberListLoading] = useState(true);
+  const [MemberList, setMemberList] = useState([]);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [page, setPage] = useState(0);
+  const [order, setOrder] = useState('asc');
+  const [selected, setSelected] = useState([]);
+  const [orderBy, setOrderBy] = useState('name');
+  const [filterName, setFilterName] = useState('');
+  const [TotalCount, setTotalCount] = useState('');
+  const [AlertOpen, setAlertOpen] = useState(false);
+  const [AlertMessage, setAlertMessage] = useState('');
+  const [AlertFrom, setAlertFrom] = useState('');
+  const [ErrorAlert, setErrorAlert] = useState(false);
+  const [ErrorScreen, setErrorScreen] = useState('');
+  const [SelectedIndex, setSelectedIndex] = useState('');
+  const [TicketNoClick, setTicketNoClick] = useState(false);
+  const [GroupMemberLoading, setGroupMemberLoading] = useState(true);
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -35,11 +68,13 @@ export default function BlogView() {
 
   useEffect(() => {
     GetGroupList(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const GetGroupMemberList = (isActive, selectedGroupId, selectedMemberId) => {
-    var memberId = '';
-    if (selectedMemberId == undefined || selectedMemberId == null || selectedMemberId == '' || selectedMemberId == "undefined") {
+    // const memberId = '';
+    setGroupMemberLoading(true);
+    if (selectedMemberId === undefined || selectedMemberId == null || selectedMemberId === '' || selectedMemberId === "undefined") {
       selectedMemberId = '';
     }
     const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}?groupId=${selectedGroupId}&id=${selectedMemberId}`;
@@ -48,30 +83,51 @@ export default function BlogView() {
       .then((response) => response.json())
       .then((json) => {
         console.log(JSON.stringify(json));
+        setGroupMemberLoading(false);
         if (json.success) {
-          const { list, duration } = json;
-
+          const { list } = json;
+          const { groupno, groupId, groupAddressId, amount, duration, auction_mode } = list[0];
+          const commonProperties = {
+            groupno,
+            groupId,
+            groupAddressId,
+            amount,
+            duration,
+            auction_mode
+          };
           // Initialize newList with empty slots based on duration
           const newList = Array.from({ length: list[0].duration }, (_, index) => ({
             id: `empty_${index}`,
             memberName: '',
-            tktno: index + 1
+            tktno: index + 1,
+            ...commonProperties
           }));
 
           // Place each member at the correct index based on tktno
           list.forEach((member) => {
             const index = member.tktno - 1; // Adjust tktno to be 0-based index
             if (index >= 0 && index < list[0].duration) {
-              newList[index] = member;
+              newList[index] = { ...newList[index], ...member };
             }
           });
+          console.log(JSON.stringify(newList));
           setGroupMemberList(newList);
           GetMemberDetail(1, newList[0].id)
 
+        } else if (json.success === false) {
+          setAlertMessage(json.message);
+          setAlertFrom("failed");
+          HandleAlertShow();
+        } else {
+          setErrorAlert(true);
+          setErrorScreen("network");
         }
       })
       .catch((error) => {
         console.log(error);
+        setGroupMemberLoading(false);
+        setErrorAlert(true);
+        setErrorScreen("error");
       });
   };
 
@@ -84,12 +140,108 @@ export default function BlogView() {
       .then((json) => {
         console.log(JSON.stringify(json));
         if (json.success) {
-          setMemberDetail(json.list[0]);
+          setTicketNoClick(false);
+          if(json.list.length > 0){
+            setMemberDetail(json.list[0]);
+          }
+          if (json.list && json.list.length === 0){
+            if (TicketNoClick) {
+              setAlertMessage("please save the already selected Ticket No");
+              setAlertFrom("save_alert");
+              HandleAlertShow();
+            } else {
+              setMemberListAlert(true);
+              GetMemberList(1, filterName, page * rowsPerPage, rowsPerPage);
+            }
+          }
+        } else if (json.success === false) {
+          setAlertMessage(json.message);
+          setAlertFrom("failed");
+          HandleAlertShow();
+        } else {
+          setErrorAlert(true);
+          setErrorScreen("network");
         }
       })
       .catch((error) => {
+        setMemberListAlert(false);
+        setErrorAlert(true);
+        setErrorScreen("error");
         console.log(error);
       });
+  };
+
+  const GetMemberList = (isActive, text, start, limit) => {
+    setMemberListLoading(true);
+    setTotalCount(0);
+    setMemberList([]);
+    const url = `${REACT_APP_HOST_URL}${MEMBER_LIST}${isActive}&search=${text}&start=${start}&limit=${limit}`;
+    console.log(url);
+    console.log(Session)
+    fetch(url, GetHeader(JSON.parse(Session)))
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(MemberList.length);
+        console.log(JSON.stringify(json));
+        setMemberListLoading(false);
+        if (json.success) {
+          setTotalCount(json.total);
+          setMemberList([...MemberList, ...json.list]);
+        } else if (json.success === false) {
+          setAlertMessage(json.message);
+          setAlertFrom("failed");
+          HandleAlertShow();
+        } else {
+          setErrorAlert(true);
+          setErrorScreen("network");
+        }
+      })
+      .catch((error) => {
+        setMemberListLoading(false);
+        setErrorAlert(true);
+        setErrorScreen("error");
+        console.log(error);
+      })
+  }
+
+  const GetAddressView = (id) => {
+    const url = `${REACT_APP_HOST_URL}${ADDRESS_DETAIL}${id}`;
+    console.log(url);
+    fetch(url, GetHeader(JSON.parse(Session)))
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(JSON.stringify(json));
+        if (json.success) {
+          if(json.list !== null){
+            const updatedItem = {
+              ...memberDetail,
+              ...json.list
+            };
+            console.log(updatedItem)
+            setMemberDetail(updatedItem);
+          }
+        } else if (json.success === false) {
+          setAlertMessage(json.message);
+          setAlertFrom("failed");
+          HandleAlertShow();
+        } else {
+          setErrorAlert(true);
+          setErrorScreen("network");
+        }
+      })
+      .catch((error) => {
+        setErrorAlert(true);
+        setErrorScreen("error");
+        console.log(error);
+      })
+  }
+
+  const HandleAlertShow = () => {
+    setAlertOpen(true);
+  };
+
+  const HandleAlertClose = () => {
+    setAlertOpen(false);
   };
 
   const handleGroupClick = (isActive, id) => {
@@ -110,10 +262,19 @@ export default function BlogView() {
         if (json.success) {
           setGroupList(json.list);
           GetGroupMemberList(1, json.list[0].id);
+        } else if (json.success === false) {
+          setAlertMessage(json.message);
+          setAlertFrom("failed");
+          HandleAlertShow();
+        } else {
+          setErrorAlert(true);
+          setErrorScreen("network");
         }
       })
       .catch((error) => {
         console.log(error);
+        setErrorAlert(true);
+        setErrorScreen("error");
       })
   }
 
@@ -135,12 +296,80 @@ export default function BlogView() {
     backgroundColor: 'background.paper',
   };
 
+  const handleSort = (event, id) => {
+    const isAsc = orderBy === id && order === 'asc';
+    if (id !== '') {
+      setOrder(isAsc ? 'desc' : 'asc');
+      setOrderBy(id);
+    }
+  };
+
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      const newSelecteds = MemberList.map((n) => n.name);
+      setSelected(newSelecteds);
+      return;
+    }
+    setSelected([]);
+  };
+
+  const handleClick = (event, item) => {
+    const selectedIndex = selected.indexOf(item.name);
+    let newSelected = [];
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, item.name);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
+    setSelected(newSelected);
+    setTicketNoClick(true);
+    const updatedGroupMemberList = [...groupMemberlist];
+    if (SelectedIndex >= 0 && SelectedIndex < updatedGroupMemberList.length) {
+      const updatedItem = {
+        ...updatedGroupMemberList[SelectedIndex],
+        ...item, 
+        memberName: item.name,
+        memberId: item.id,
+        memdob: item.dob,
+      };
+      console.log(updatedItem)
+      updatedGroupMemberList[SelectedIndex] = updatedItem;
+      setGroupMemberList(updatedGroupMemberList);
+      setMemberDetail(updatedItem);
+    }
+    setMemberListAlert(false);
+    GetAddressView(item.id);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setPage(0);
+    setRowsPerPage(parseInt(event.target.value, 10));
+  };
+
+  if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
+
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} >
         <Typography variant="h4">Group Member</Typography>
       </Stack>
       <GroupSearch groupList={grouplist} />
+      {GroupMemberLoading
+        ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
+          <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+        </Stack>
+        :
       <Box sx={{ flexGrow: 1 }} className="toppadding">
         <Grid container className="groupN" spacing={2}>
           <Grid item xs={12} md={4}>
@@ -157,9 +386,9 @@ export default function BlogView() {
           </Grid>
           <Grid item xs={12} md={4}>
             <List sx={style} aria-label="mailbox folders">
-              {groupMemberlist.map((member) => (
+              {groupMemberlist.map((member, index) => (
                 <>
-                  <ListItem key={member.id} onClick={() => GetMemberDetail(1, member.id)}>
+                  <ListItem key={member.id} onClick={() => { GetMemberDetail(1, member.id); setSelectedIndex(index);}}>
                     <ListItemText primary={`${member.tktno} .  ${member.memberName}`} />
                   </ListItem>
                   <Divider component="li" />
@@ -179,7 +408,7 @@ export default function BlogView() {
                   onChange={handleInputChange}
                   style={{ width: '100%', padding: '10px', fontSize: '16px' }}
                 />
-                <FormHelperText id="group-no-helper-text">We'll never share your email.</FormHelperText>
+                <FormHelperText id="group-no-helper-text">We&apos;ll never share your email.</FormHelperText>
               </FormControl>
               <FormControl>
                 <InputLabel htmlFor="amount">Amount</InputLabel>
@@ -284,7 +513,101 @@ export default function BlogView() {
             </Item>
           </Grid>
         </Grid>
-      </Box>
+      </Box> }
+      <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "save_alert" ? 2000 : 1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert
+          onClose={HandleAlertClose}
+          severity={AlertFrom === "failed" || AlertFrom === "save_alert" ? "error" : "success"}
+          variant="filled"
+          sx={{ width: '100%' }} >
+          {AlertMessage}
+        </Alert>
+      </Snackbar>
+      <Dialog
+        open={MemberListAlert}
+        fullWidth
+        maxWidth="md"
+        sx={{ display: 'flex', justifyContent: 'center', flex: 1, }}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description" >
+        <Card sx={{ maxWidth: '800px' }}>
+          <Stack sx={{ height: '100%', maxHeight: '100vh', overflow: 'hidden' }}>
+            <Typography variant="subtitle1" sx={{ ml: 2, mr: 5, mt: 2 }}>
+              Member List
+            </Typography>
+            <Stack mt={1} ml={2} mr={1} direction="row" alignItems="center">
+              <TextField
+                placeholder="Member Name..."
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Iconify
+                        icon="eva:search-fill"
+                        sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
+                      />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <IconButton
+                aria-label="close"
+                onClick={() => setMemberListAlert(false)}
+                sx={{ position: 'absolute', right: 15, top: 5, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }}
+              >
+                <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17 }} />
+              </IconButton>
+            </Stack>
+            <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 1 }}>
+              <Scrollbar>
+                <TableContainer sx={{ overflow: '', mt: 2 }}>
+                  <Table sx={{ minWidth: 800 }} stickyHeader>
+                    <TableHeader
+                      order={order}
+                      orderBy={orderBy}
+                      rowCount={MemberList.length}
+                      numSelected={selected.length}
+                      onRequestSort={handleSort}
+                      onSelectAllClick={handleSelectAllClick}
+                      headLabel={[
+                        { id: 'Member Name', label: 'Member Name' },
+                        { id: 'Acc No', label: 'Acc No' },
+                        { id: 'Mobile Number', label: 'Mobile Number' },
+                        { id: 'Status', label: 'Status' },
+                      ]} />
+                    {MemberListLoading
+                      ? <Stack mt={10} sx={{ alignItems: 'center' }}>
+                        <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                      </Stack>
+                      : <TableBody>
+                        {MemberList
+                          .map((row) => (
+                            <GroupMemberTableRow
+                              key={row.id}
+                              selected={selected.indexOf(row.name) !== -1}
+                              handleClick={(event) => handleClick(event, row)}
+                              item={row} />))}
+                        <TableEmptyRows
+                          height={77}
+                          emptyRows={emptyRows(page, 5, MemberList.length)} />
+                        {MemberList.length === 0 && <TableNoData query={filterName} />}
+                      </TableBody>}
+                  </Table>
+                </TableContainer>
+              </Scrollbar>
+            </Box>
+            {MemberList.length > 0 && <TablePagination
+              page={page}
+              component="div"
+              count={TotalCount}
+              rowsPerPage={rowsPerPage}
+              onPageChange={handleChangePage}
+              rowsPerPageOptions={[5, 10, 20]}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              sx={{ borderTop: '1px solid #e0e0e0' }}
+            />}
+          </Stack>
+        </Card>
+      </Dialog>
     </Container>
   );
 }

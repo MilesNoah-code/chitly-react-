@@ -14,7 +14,7 @@ import TablePagination from '@mui/material/TablePagination';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { Dialog, TextField, IconButton, InputAdornment } from '@mui/material';
+import { Alert, Snackbar, TextField, InputAdornment } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
@@ -45,7 +45,7 @@ export default function ChitReceiptView() {
   const Session = localStorage.getItem('apiToken');
   const [ChitReceiptList, setChitReceiptList] = useState([]);
   const [ChitReceiptLoading, setChitReceiptLoading] = useState(true);
-  const [Alert, setAlert] = useState(false);
+  const [AlertOpen, setAlertOpen] = useState(false);
   const [AlertMessage, setAlertMessage] = useState('');
   const [AlertFrom, setAlertFrom] = useState('');
   const [ErrorAlert, setErrorAlert] = useState(false);
@@ -151,7 +151,7 @@ export default function ChitReceiptView() {
   };
 
   const HandleAddChitReceiptClick = () => {
-    navigate('/addChitReceipt', {
+    navigate('/chitreceipt/add', {
       state: {
         screen: 'add',
         data: [],
@@ -160,11 +160,11 @@ export default function ChitReceiptView() {
   }
 
   const HandleAlertShow = () => {
-    setAlert(true);
+    setAlertOpen(true);
   };
 
   const HandleAlertClose = () => {
-    setAlert(false);
+    setAlertOpen(false);
   };
 
   const HandleFromDateChange = (date) => {
@@ -195,17 +195,14 @@ export default function ChitReceiptView() {
 
   return (
     <Container>
-      <Stack direction="row" alignItems="center" justifyContent="space-between"  mb={2} mt={2} >
-        <Typography variant="h6" sx={{color: '#637381' }}>Chit Receipt List</Typography>
-
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
+        <Typography variant="h6" sx={{ color: '#637381' }}>Chit Receipt List</Typography>
         <Button variant="contained" className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddChitReceiptClick}>
           Add Chit Receipt
         </Button>
       </Stack>
       <Card>
-
-        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap={'40px'} className='mbl-view'>
-
+        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='40px' className='mbl-view'>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker']} >
               <DatePicker
@@ -223,7 +220,7 @@ export default function ChitReceiptView() {
                 value={ToDate.data}
                 onChange={HandleToDateChange}
                 disabled={ChitReceiptLoading}
-                format="DD-MM-YYYY"/>
+                format="DD-MM-YYYY" />
             </DemoContainer>
           </LocalizationProvider>
           <TextField
@@ -278,18 +275,15 @@ export default function ChitReceiptView() {
                           item={row}
                         />
                       ))}
-
                     <TableEmptyRows
                       height={77}
                       emptyRows={emptyRows(page, rowsPerPage, ChitReceiptList.length)}
                     />
-
                     {ChitReceiptList.length === 0 && <TableNoData query={filterName} />}
                   </TableBody>
                 </Table>
               </TableContainer>
             </Scrollbar>
-
             {ChitReceiptList.length > 0 && <TablePagination
               page={page}
               component="div"
@@ -300,29 +294,16 @@ export default function ChitReceiptView() {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />}
           </Stack>}
-
       </Card>
-      <Dialog
-        open={Alert}
-        onClose={HandleAlertClose}
-        fullWidth={500}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description" >
-        <IconButton
-          aria-label="close"
-          onClick={HandleAlertClose}
-          sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], }} >
-          <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
-        </IconButton>
-        <Stack style={{ alignItems: 'center', }} mt={5}>
-          {AlertFrom === "success"
-            ? <img src="../../../public/assets/icons/success_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />
-            : <img src="../../../public/assets/icons/failed_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />}
-          <Typography gutterBottom variant='h4' mt={2} mb={5} color={AlertFrom === "success" ? "#45da81" : "#ef4444"}>
-            {AlertMessage}
-          </Typography>
-        </Stack>
-      </Dialog>
+      <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert
+          onClose={HandleAlertClose}
+          severity={AlertFrom === "failed" ? "error" : "success"}
+          variant="filled"
+          sx={{ width: '100%' }} >
+          {AlertMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

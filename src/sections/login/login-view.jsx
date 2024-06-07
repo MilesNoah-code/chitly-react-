@@ -179,7 +179,7 @@ export default function LoginView() {
         />
       </Stack>
       <div style={{ color: '#ce0820', fontSize: pxToRem(12), marginTop: pxToRem(5) }}>{PasswordError}</div>
-      <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
+      <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 , display: 'none'}}>
         <Link variant="subtitle2" underline="hover">
           Forgot password?
         </Link>
@@ -191,7 +191,11 @@ export default function LoginView() {
         size="large"
         type="submit"
         variant="contained"
-        color="inherit"
+        sx={{
+          my: 3, backgroundColor: '#1877f2',
+          '&:hover': {
+            backgroundColor: 'rgba(24, 119, 242, 0.7)',
+          }, }}
         onClick={Loading ? null : ValidateLoginClick} >
         {Loading 
           ? ( <img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, marginRight: '8px' }} />) 
@@ -210,13 +214,16 @@ export default function LoginView() {
         height: 1,
       }}
     >
-      <Logo
+      {/* <Logo
         sx={{
           position: 'fixed',
           top: { xs: 16, md: 24 },
           left: { xs: 16, md: 24 },
         }}
-      />
+      /> */}
+      <Stack sx={{ justifyContent: 'center', alignItems: 'center' }}>
+        <img src="../../../public/assets/icons/chitly_logo.png" alt="Loading" style={{ width: 150, height: 100, marginTop: 20 }} />
+      </Stack>
 
       <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
         <Card

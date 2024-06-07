@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
-import { Box, Stack, Button, Dialog, MenuItem, IconButton, Typography } from '@mui/material';
+import { Box, Stack, Alert, Button, MenuItem, Snackbar, Typography } from '@mui/material';
 
 import { PutHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 
@@ -15,7 +15,7 @@ import ErrorLayout from 'src/Error/ErrorLayout';
 import './group-add.css';
 
 export default function AddGroupPage() {
-   
+
     const navigate = useNavigate();
     const location = useLocation();
     const { screen, data } = location.state;
@@ -53,11 +53,26 @@ export default function AddGroupPage() {
     const DividendArray = ["Current Month", "Next Month"];
 
     const [Loading, setLoading] = useState(false);
-    const [Alert, setAlert] = useState(false);
+    const [AlertOpen, setAlertOpen] = useState(false);
     const [AlertMessage, setAlertMessage] = useState('');
     const [AlertFrom, setAlertFrom] = useState('');
     const [ErrorAlert, setErrorAlert] = useState(false);
     const [ErrorScreen, setErrorScreen] = useState('');
+    const [FMPRDUEArray, setFMPRDUEArray] = useState([]);
+    const [ScreenRefresh, setScreenRefresh] = useState(0);
+
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            if (ScreenRefresh) {
+                event.preventDefault();
+                event.returnValue = '';
+            }
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [ScreenRefresh]);
 
     const GroupInfoParams = {
         "duration": Duration.data,
@@ -88,15 +103,16 @@ export default function AddGroupPage() {
                 .then((json) => {
                     console.log(JSON.stringify(json));
                     setLoading(false);
+                    setScreenRefresh(0);
                     if (json.success) {
                         setAlertMessage(json.message);
                         setAlertFrom("success");
                         HandleAlertShow();
-                    }else if(json.success === false){
+                    } else if (json.success === false) {
                         setAlertMessage(json.message);
                         setAlertFrom("failed");
                         HandleAlertShow();
-                    }else{
+                    } else {
                         setErrorAlert(true);
                         setErrorScreen("network");
                     }
@@ -124,6 +140,7 @@ export default function AddGroupPage() {
                 .then((json) => {
                     console.log(JSON.stringify(json));
                     setLoading(false);
+                    setScreenRefresh(0);
                     if (json.success) {
                         setAlertMessage(json.message);
                         setAlertFrom("success");
@@ -146,46 +163,75 @@ export default function AddGroupPage() {
         }
     }
 
+    useEffect(() => {
+        if (Amount.data !== '' && Duration.data !== '') {
+            const amountValue = parseFloat(Amount.data);
+            const durationValue = parseFloat(Duration.data);
+            if (!Number.isNaN(amountValue) && !Number.isNaN(durationValue) && durationValue !== 0) {
+                setEMDue({
+                    data: (amountValue / durationValue).toFixed(2), // Displaying with two decimal places
+                    error: ''
+                });
+            } else {
+                setEMDue({ data: '', error: '* Invalid Number Entered in Amount or Duration' });
+            }
+        } else {
+            setEMDue({ data: '', error: '' });
+        }
+    }, [Amount.data, Duration.data]);
+
     const GroupTextValidate = (e, from) => {
         const text = e.target.value;
+        setScreenRefresh(pre => pre + 1);
         console.log(from);
-        if (from === "GroupCode"){
+        if (from === "GroupCode") {
             setGroupCode(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "* Required" : ""
             }));
-        } else if (from === "Amount"){
+        } else if (from === "Amount") {
             setAmount(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "* Required" : ""
             }));
-        } else if (from === "Duration"){
+        } else if (from === "Duration") {
+            if (!Number.isNaN(text)) {
+                const intValue = parseInt(text, 10);
+                const newList = [];
+                for (let i = 1; i <= intValue;) {
+                    newList.push(i);
+                    i += 1;
+                }
+                setFMPRDUEArray(newList);
+            } else {
+                setFMPRDUEArray([]);
+            }
             setDuration(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "* Required" : ""
             }));
-        } else if (from === "EMDue"){
+        } else if (from === "EMDue") {
             setEMDue(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "* Required" : ""
             }));
-        } else if (from === "FMPRDue"){
+        } else if (from === "FMPRDue") {
             setFMPRDue(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "* Required" : ""
             }));
-        } else if (from === "Dividend"){
+        } else if (from === "Dividend") {
             setDividend(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "* Required" : ""
             }));
-        } else if (from === "AuctionMode"){
+        } else if (from === "AuctionMode") {
             setAuctionMode(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
@@ -280,22 +326,22 @@ export default function AddGroupPage() {
                 error: ""
             }));
         }
-        if(screen === "add"){
+        if (screen === "add") {
             GroupAddMethod(IsValidate);
-        }else{
+        } else {
             GroupUpdateMethod(IsValidate);
         }
-    
+
     }
 
     const HandleAlertShow = () => {
-        setAlert(true);
+        setAlertOpen(true);
     };
 
     const HandleAlertClose = () => {
-        setAlert(false);
-        if (AlertFrom === "success"){
-            navigate('/group');
+        setAlertOpen(false);
+        if (AlertFrom === "success") {
+            navigate('/group/list');
         }
     };
 
@@ -303,6 +349,20 @@ export default function AddGroupPage() {
         console.log("submitclick11");
         validateGroupInfo();
     };
+
+    const HandleBack = () => {
+        if (ScreenRefresh) {
+            const confirmNavigation = window.confirm(
+                'You have unsaved changes. Are you sure you want to leave this page?'
+            );
+            if (confirmNavigation) {
+                setScreenRefresh(0);
+                navigate('/group/list');
+            }
+        } else {
+            navigate('/group/list');
+        }
+    }
 
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
@@ -314,16 +374,15 @@ export default function AddGroupPage() {
 
     return (
         <Container>
-        <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{mt:2, mb:2}}>
-        <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
+            <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
+                <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
                     {screenLabel[screen] || "Add Group"}
-    </Typography>
-                <Button variant="contained" className='custom-button' onClick={() => navigate('/group')} sx={{ cursor: 'pointer' }}>
-     Back
-    </Button>
-    </Stack>
+                </Typography>
+                <Button variant="contained" className='custom-button' onClick={HandleBack} sx={{ cursor: 'pointer' }}>
+                    Back
+                </Button>
+            </Stack>
             <Card>
-               
                 <Box className="con" component="form"
                     sx={{
                         '& .MuiTextField-root': { m: 2, width: '20ch', },
@@ -331,94 +390,90 @@ export default function AddGroupPage() {
                     noValidate
                     autoComplete="off">
                     <Stack direction='column' >
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                        <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                             <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
+                                    <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                         Group Code
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
-                                        className='input-box1'
+                                            className='input-box1'
                                             required
                                             id="outlined-required"
                                             disabled={screen === "view"}
                                             label="Group Code"
                                             value={GroupCode.data}
                                             onChange={(e) => GroupTextValidate(e, "GroupCode")}
-                                            style={{ }} />
-                                      
+                                            style={{}} />
                                     </Stack>
                                     <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupCode.error}</div>
                                 </Stack>
-                                </div>
-                                <div className='box-grp'>
+                            </div>
+                            <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
+                                    <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
                                         Amount
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
-                                        className='input-box1'
+                                            className='input-box1'
                                             required
                                             id="outlined-required"
                                             disabled={screen === "view"}
                                             label="Amount"
                                             value={Amount.data}
                                             onChange={(e) => GroupTextValidate(e, "Amount")}
-                                            style={{  }} />
-                                       
+                                            style={{}} />
                                     </Stack>
                                     <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Amount.error}</div>
                                 </Stack>
-                                </div>
-                            </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                            </div>
+                        </Stack>
+                        <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                             <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
+                                    <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                         Duration
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
-                                        className='input-box1'
+                                            className='input-box1'
                                             required
                                             id="outlined-required"
                                             disabled={screen === "view"}
                                             label="Duration"
                                             value={Duration.data}
                                             onChange={(e) => GroupTextValidate(e, "Duration")}
-                                            style={{  }} />
-                                      
+                                            style={{}} />
                                     </Stack>
                                     <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Duration.error}</div>
                                 </Stack>
-                                </div>
-                                <div className='box-grp'>
+                            </div>
+                            <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
+                                    <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
                                         EM Due
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
-                                        className='input-box1'
+                                            className='input-box1'
                                             required
                                             id="outlined-required"
-                                            disabled={screen === "view"}
+                                            disabled
                                             label="EM Due"
                                             value={EMDue.data}
                                             onChange={(e) => GroupTextValidate(e, "EMDue")}
-                                            style={{  }} />
-                                      
+                                            style={{}} />
                                     </Stack>
                                     <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{EMDue.error}</div>
                                 </Stack>
-                                </div>
-                            </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                            </div>
+                        </Stack>
+                        <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                             <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
+                                    <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                         FM. PR. Due
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
@@ -426,19 +481,24 @@ export default function AddGroupPage() {
                                             required
                                             className='input-box1'
                                             id="outlined-required"
+                                            select
                                             disabled={screen === "view"}
-                                            label="FM. PR. Due"
+                                            label="Select"
                                             value={FMPRDue.data}
                                             onChange={(e) => GroupTextValidate(e, "FMPRDue")}
-                                            style={{  }} />
-                                       
+                                            style={{}}>
+                                            {FMPRDUEArray.map((option) => (
+                                                <MenuItem key={option} value={option}>
+                                                    {option}
+                                                </MenuItem>))}
+                                        </TextField>
                                     </Stack>
                                     <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{FMPRDue.error}</div>
                                 </Stack>
-                                </div>
-                                <div className='box-grp'>
+                            </div>
+                            <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
+                                    <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
                                         Dividend
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
@@ -455,18 +515,17 @@ export default function AddGroupPage() {
                                             {DividendArray.map((option) => (
                                                 <MenuItem key={option} value={option}>
                                                     {option}
-                                                </MenuItem> ))}
+                                                </MenuItem>))}
                                         </TextField>
                                     </Stack>
-                                   
                                 </Stack>
                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Dividend.error}</div>
-                                </div>
-                            </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                            </div>
+                        </Stack>
+                        <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                             <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
+                                    <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                         Auction Mode
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
@@ -480,52 +539,39 @@ export default function AddGroupPage() {
                                             variant="outlined"
                                             value={AuctionMode.data}
                                             onChange={(e) => GroupTextValidate(e, "AuctionMode")}
-                                            style={{  }}>
+                                            style={{}}>
                                             {AuctionModeArray.map((option) => (
                                                 <MenuItem key={option} value={option}>
                                                     {option}
                                                 </MenuItem>
                                             ))}
                                         </TextField>
-                                      
                                     </Stack>
                                     <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{AuctionMode.error}</div>
                                 </Stack>
-                                </div>
-                            </Stack>
-                            {screen === "view"
-                                ? null
-                                :<Stack direction='column' alignItems='flex-end'>
-                                <Button sx={{ mr: 5, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
-                                            {Loading
-                                                ? (<img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
-                                                : ("Submit")}
-                                        </Button>
-                                    </Stack>}
+                            </div>
                         </Stack>
+                        {screen === "view"
+                            ? null
+                            : <Stack direction='column' alignItems='flex-end'>
+                                <Button sx={{ mr: 5, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
+                                    {Loading
+                                        ? (<img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                                        : ("Submit")}
+                                </Button>
+                            </Stack>}
+                    </Stack>
                 </Box>
             </Card>
-            <Dialog
-                open={Alert}
-                onClose={HandleAlertClose}
-                fullWidth={500}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description" >
-                <IconButton
-                    aria-label="close"
-                    onClick={HandleAlertClose}
-                    sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
-                    <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
-                </IconButton>
-                <Stack style={{ alignItems: 'center', }} mt={5}>
-                    {AlertFrom === "success"
-                        ? <img src="../../../public/assets/icons/success_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />
-                        : <img src="../../../public/assets/icons/failed_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />}
-                    <Typography gutterBottom variant='h6' className="alert-msg" mt={2} mb={5} color={AlertFrom === "success" ? "#45da81" : "#ef4444"}>
-                        {AlertMessage}
-                    </Typography>
-                </Stack>
-            </Dialog>
+            <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+                <Alert
+                    onClose={HandleAlertClose}
+                    severity={AlertFrom === "failed" ? "error" : "success"}
+                    variant="filled"
+                    sx={{ width: '100%' }} >
+                    {AlertMessage}
+                </Alert>
+            </Snackbar>
         </Container>
     );
 }

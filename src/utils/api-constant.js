@@ -15,7 +15,7 @@ export const MEMBER_EDUCATION_DETAIL_SAVE = "api/member/education/save";
 export const MEMBER_EDUCATION_DETAIL_UPDATE = "api/member/education/update/";
 export const MEMBER_OCCUPATION_DETAIL_SAVE = "api/member/occupation/save";
 export const MEMBER_OCCUPATION_DETAIL_UPDATE = "api/member/occupation/update/";
-export const MEMBER_MEDIA_LIST = "api/media/list?id=";
+export const MEMBER_MEDIA_LIST = "api/media/list?id=&masterMappedId=";
 export const MEMBER_IMAGE_UPLOAD = "api/media/saveImage?file_type=Image";
 export const MEMBER_MEDIA_SAVE = "api/media/save";
 export const MEMBER_MEDIA_DELETE = "api/media/delete/";
@@ -36,7 +36,7 @@ export const CHIT_PAYMENT_CHIT_PARAMETERS = "api/chitPayment/getChitParameters?g
 export const CHIT_PAYMENT_UPDATE_PARTICULAR = "api/chitPayment/updateParticular/";
 export const CHIT_PAYMENT_LIST = "api/chitPayment/list?isActive=";
 export const CHIT_PAYMENT_DELETE = "api/chitPayment/delete/";
-export const CHIT_PAYMENT_UNPAID_GROUP_LIST = "api/chitPayment/unpaidWinnersGroupList?groupId="
+export const CHIT_PAYMENT_UNPAID_GROUP_LIST = "api/chitPayment/unpaidWinnersGroupList?groupNo="
 
 export const LOGOUT_URL = "api/logout";
 export const CHIT_RECEPT_PENDING_GROUP_LIST = "api/group/pendngGroupList?groupno=";
@@ -45,5 +45,6 @@ export const CHIT_GET_RECEIPT_NUMBER = "api/chitReceipt/lastGenReceiptNoOfGroup?
 export const CHIT_PAYMENT_LEDGER_LIST = "/api/ledger/find?ledgerName=";
 export const IMAGE_DISPLAY_URL = "api/imageBasicInfo";
 export const REQ_CHIT_PARAMETERS = "api/chitPayment/getChitParameters?groupId=";
-export const STATE_LIST = "api/common/stateList?";
+export const STATE_LIST = "api/common/stateList?country_name=";
 export const COUNTRY_LIST = "api/common/countryList?state_name=";
+export const ADDRESS_DETAIL = "api/member/address/list?memberId="

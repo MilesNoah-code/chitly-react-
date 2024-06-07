@@ -11,11 +11,11 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Box, Tab, Radio, Stack, Button, Dialog, MenuItem, RadioGroup, IconButton, Typography, FormControlLabel } from '@mui/material';
+import { Box, Tab, Radio, Stack, Alert, Button, Dialog, MenuItem, Snackbar, RadioGroup, IconButton, Typography, DialogTitle, DialogActions, FormControlLabel } from '@mui/material';
 
 import { GetHeader, PutHeader, PostHeader, DeleteHeader, PostImageHeader } from 'src/hooks/AxiosApiFetch';
 
-// import { isValidEmail } from 'src/utils/Validator';
+import { isValidEmail } from 'src/utils/Validator';
 import { MEMBER_ADD, STATE_LIST, MEMBER_VIEW, COUNTRY_LIST, MEMBER_UPDATE, MEMBER_MEDIA_LIST, MEMBER_MEDIA_SAVE, REACT_APP_HOST_URL, MEMBER_ADDRESS_SAVE, MEMBER_IMAGE_UPLOAD,
     MEMBER_MEDIA_DELETE, MEMBER_ADDRESS_UPDATE, MEMBER_BANK_DETAIL_SAVE, MEMBER_BANK_DETAIL_UPDATE, MEMBER_EDUCATION_DETAIL_SAVE,
     MEMBER_OCCUPATION_DETAIL_SAVE, MEMBER_EDUCATION_DETAIL_UPDATE, MEMBER_OCCUPATION_DETAIL_UPDATE,
@@ -26,13 +26,23 @@ import ErrorLayout from 'src/Error/ErrorLayout';
 import './member-add.css';
 
 export default function AddMemberPage() {
-   
+
     const navigate = useNavigate();
     const location = useLocation();
     const { screen, data } = location.state;
     const Session = localStorage.getItem('apiToken');
+
+    const Prefix = [{ value: "MR", data: "Mr" }, { value: "MRS", data: "Mrs" }, { value: "MS", data: "Ms" }, { value: "M/s", data: "M/s" }, { value: "Master", data: "Master" }];
+    const RelationShipPrefix = [{ value: "S/O", data: "S/O" }, { value: "D/O", data: "D/O" }, { value: "W/O", data: "W/O" }, { value: "C/O", data: "C/O" },];
+    const GenderArray = ["Male", "Female"];
+    const TypeOfAccountArray = ["Savings account", "Current account"];
+    const CurrentOccupationArray = ["Public Sector", "Private Sector", "Business"];
+    const ProofArray = ["ID PROOF", "SIGNATURE PROOF", "KYC", "OTHERS"];
+    const KYCArray = ["Pancard", "Aadhar Card Front", "Aadhar Card Back"];
+    const OtherArray = ["Bank Statement", "Salary Slip", "Other Income Proof", "ITR Form"];
+
     const [NamePrefix, setNamePrefix] = useState({
-        data: "",
+        data: Prefix[0].value,
         error: ""
     });
     const [MemberName, setMemberName] = useState({
@@ -40,7 +50,7 @@ export default function AddMemberPage() {
         error: ""
     });
     const [RelationPrefix, setRelationPrefix] = useState({
-        data: "",
+        data: RelationShipPrefix[0].data,
         error: ""
     });
     const [Relationship, setRelationship] = useState({
@@ -87,6 +97,7 @@ export default function AddMemberPage() {
     const [ProfileImage, setProfileImage] = useState({
         data: "",
         savedata: "",
+        type: "",
         error: ""
     });
     const [Loading, setLoading] = useState(false);
@@ -154,6 +165,7 @@ export default function AddMemberPage() {
     const [ProofImage, setProofImage] = useState({
         data: "",
         savedata: "",
+        type: "",
         error: ""
     });
     const [CurrentOccupation, setCurrentOccupation] = useState({
@@ -180,17 +192,7 @@ export default function AddMemberPage() {
         data: "",
         error: ""
     });
-
-    const Prefix = [{ value: "MR", data: "Mr" }, { value: "MRS", data: "Mrs" }, { value: "MS", data: "Ms" }, { value: "M/s", data: "M/s" }, { value: "Master", data: "Master" }];
-    const RelationShipPrefix = [{ value: "S/O", data: "S/O" }, { value: "D/O", data: "D/O" }, { value: "W/O", data: "W/O" }, { value: "C/O", data: "C/O" },];
-    const GenderArray = ["Male", "Female", "Other"];
-    const TypeOfAccountArray = ["Savings account", "Current account"];
-    const CurrentOccupationArray = ["Public Sector", "Private Sector", "Business"];
-    const ProofArray = ["ID PROOF", "SIGNATURE PROOF", "KYC", "OTHERS"];
-    const KYCArray = ["Pancard", "Aadhar Card Front", "Aadhar Card Back"];
-    const OtherArray = ["Bank Statement", "Salary Slip", "Other Income Proof", "ITR Form"];
-
-    const [Alert, setAlert] = useState(false);
+    const [AlertOpen, setAlertOpen] = useState(false);
     const [AlertMessage, setAlertMessage] = useState('');
     const [AlertFrom, setAlertFrom] = useState('');
     const [ErrorAlert, setErrorAlert] = useState(false);
@@ -218,17 +220,33 @@ export default function AddMemberPage() {
     const ImageUrl = JSON.parse(localStorage.getItem('imageUrl'));
     const [StateList, setStateList] = useState([]);
     const [CountryList, setCountryList] = useState([]);
+    const [ProfileUploadLoading, setProfileUploadLoading] = useState(false);
+    const [ConfirmAlert, setConfirmAlert] = useState(false);
+    const [MediaId, setMediaId] = useState('');
+    const [ProofLoading, setProofLoading] = useState(false);
+    const [ProfileMediaId, setProfileMediaId] = useState('');
+    const [ScreenRefresh, setScreenRefresh] = useState(0);
 
     useEffect(() => {
-        if (screen === "view" || screen === "edit"){
+        if (screen === "view" || screen === "edit") {
             GetMemberView();
-            GetMediaList();
-        }
-        if (screen === "add" || screen === "edit"){
-            GetStateList()
+            GetMediaList("", "");
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [screen]);
+
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            if (ScreenRefresh) {
+                event.preventDefault();
+                event.returnValue = '';
+            }
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [ScreenRefresh]);
 
     const GetMemberView = () => {
         setMemberLoading(true);
@@ -243,6 +261,7 @@ export default function AddMemberPage() {
                     setProfileImage({
                         data: json.list.mapped_photo != null ? json.list.mapped_photo : "",
                         savedata: json.list.mapped_photo != null ? json.list.mapped_photo : "",
+                        type: "server",
                         error: ""
                     });
                     setNamePrefix({
@@ -299,7 +318,7 @@ export default function AddMemberPage() {
                         error: ""
                     });
 
-                    if (json.list && json.list.address){
+                    if (json.list && json.list.address) {
                         setAddressId(json.list.address.id != null ? json.list.address.id : "");
                         setAddress({
                             data: json.list.address.addressline1 != null ? json.list.address.addressline1 : "",
@@ -313,15 +332,17 @@ export default function AddMemberPage() {
                             data: json.list.address.city != null ? json.list.address.city : "",
                             error: ""
                         });
+                        const statedata = StateList && StateList.length > 0 ? StateList[0].state_name : "";
                         setState({
-                            data: json.list.address.state != null ? json.list.address.state : "",
+                            data: json.list.address.state != null ? json.list.address.state : statedata,
                             error: ""
                         });
+                        const countrydata = CountryList && CountryList.length > 0 ? CountryList[0].country_name : "";
                         setCountry({
-                            data: json.list.address.country != null ? json.list.address.country : "",
+                            data: json.list.address.country != null ? json.list.address.country : countrydata,
                             error: ""
                         });
-                    }else{
+                    } else {
                         setAddressDetailEmpty("no_data");
                     }
 
@@ -406,7 +427,9 @@ export default function AddMemberPage() {
                     } else {
                         setOccupationDetailEmpty("no_data");
                     }
-
+                    if (screen === "add" || screen === "edit") {
+                        GetCountryList()
+                    }
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
                     setAlertFrom("failed");
@@ -423,7 +446,7 @@ export default function AddMemberPage() {
                 console.log(error);
             })
     }
-    
+
     const MemberInfoParams = {
         "nameprefix": NamePrefix.data,
         "name": MemberName.data,
@@ -498,7 +521,7 @@ export default function AddMemberPage() {
             setLoading(true);
             let url = '';
             let Params = '';
-            if(screen === "add" || TabIndex === '1'){
+            if (screen === "add" || TabIndex === '1') {
                 url = `${REACT_APP_HOST_URL}${MEMBER_ADD}`;
                 Params = MemberInfoParams;
             }
@@ -522,19 +545,20 @@ export default function AddMemberPage() {
                 .then((json) => {
                     console.log(JSON.stringify(json));
                     setLoading(false);
+                    setScreenRefresh(0);
                     if (json.success) {
                         setAlertMessage(json.message);
                         if (screen === "add" || TabIndex === '1') {
                             setAlertFrom("add_success");
-                        }else{
+                        } else {
                             setAlertFrom("success");
                         }
                         HandleAlertShow();
-                    }else if(json.success === false){
+                    } else if (json.success === false) {
                         setAlertMessage(json.message);
                         setAlertFrom("failed");
                         HandleAlertShow();
-                    }else{
+                    } else {
                         setErrorAlert(true);
                         setErrorScreen("network");
                     }
@@ -576,6 +600,7 @@ export default function AddMemberPage() {
                 .then((json) => {
                     console.log(JSON.stringify(json));
                     setLoading(false);
+                    setScreenRefresh(0);
                     if (json.success) {
                         setAlertMessage(json.message);
                         setAlertFrom("success");
@@ -598,9 +623,9 @@ export default function AddMemberPage() {
         }
     }
 
-    const GetMediaList = () => {
+    const GetMediaList = (entryMappedtypeNo, file) => {
         setMediaListLoading(true);
-        const url = `${REACT_APP_HOST_URL}${MEMBER_MEDIA_LIST}`;
+        const url = `${REACT_APP_HOST_URL}${MEMBER_MEDIA_LIST}${data.id}&entryMappedtypeNo=${entryMappedtypeNo}`;
         console.log(url);;
         console.log(Session)
         fetch(url, GetHeader(JSON.parse(Session)))
@@ -609,17 +634,30 @@ export default function AddMemberPage() {
                 console.log(JSON.stringify(json));
                 setMediaListLoading(false);
                 if (json.success) {
+                    if (json.list.length > 0) {
+                        if (entryMappedtypeNo !== "") {
+                            setProfileMediaId(json.list[0].id);
+                            if (file !== "") {
+                                MemberImageUpload(file, "MEMBER_PROFILE");
+                            }
+                        }
+                    } else {
+                        MemberImageUpload(file, "MEMBER_PROFILE");
+                    }
                     setMediaList(json.list);
                 } else if (json.success === false) {
+                    setProfileUploadLoading(false);
                     setAlertMessage(json.message);
                     setAlertFrom("failed");
                     HandleAlertShow();
                 } else {
+                    setProfileUploadLoading(false);
                     setErrorAlert(true);
                     setErrorScreen("network");
                 }
             })
             .catch((error) => {
+                setProfileUploadLoading(false);
                 setMediaListLoading(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
@@ -630,7 +668,6 @@ export default function AddMemberPage() {
     const MemberImageUpload = (fileToUpload, imagetype) => {
         console.log(fileToUpload);
         if (fileToUpload != null && fileToUpload !== "") {
-            setLoading(true);
             const formData = new FormData();
             formData.append("uploaded_file", fileToUpload);
             const url = `${REACT_APP_HOST_URL}${MEMBER_IMAGE_UPLOAD}&type=${imagetype}&ref_id=${data.id}`;
@@ -641,24 +678,26 @@ export default function AddMemberPage() {
                 .then((response) => response.json())
                 .then((json) => {
                     console.log(json);
-                    setLoading(false);
+                    setProfileUploadLoading(false);
                     if (json.success) {
-                        if (imagetype === "MEMBER_PROFILE"){
+                        if (imagetype === "MEMBER_PROFILE") {
                             setProfileImage({
                                 data: json.uploaded_path,
                                 savedata: json.uploaded_path,
+                                type: "server",
                                 error: ""
                             });
-                        }else{
+                            setAlertMessage(json.message);
+                            setAlertFrom("media_success");
+                            HandleAlertShow();
+                        } else {
                             setProofImage({
                                 data: json.uploaded_path,
                                 savedata: json.uploaded_path,
+                                type: "server",
                                 error: ""
                             });
                         }
-                        setAlertMessage(json.message);
-                        setAlertFrom("media_success");
-                        HandleAlertShow();
                     } else if (json.success === false) {
                         setAlertMessage(json.message);
                         setAlertFrom("failed");
@@ -669,7 +708,7 @@ export default function AddMemberPage() {
                     }
                 })
                 .catch((error) => {
-                    setLoading(false);
+                    setProfileUploadLoading(false);
                     setErrorAlert(true);
                     setErrorScreen("error");
                     console.log(error);
@@ -691,9 +730,8 @@ export default function AddMemberPage() {
 
     const MemberMediaSave = (IsValidate, imagepath) => {
         if (IsValidate && imagepath != null && imagepath !== "") {
-            setLoading(true);
             MediaSaveParams.path = imagepath.savedata;
-            if (ProofType.data === "ID PROOF"){
+            if (ProofType.data === "ID PROOF") {
                 MediaSaveParams.entry_mappedtype = "ID_PROOF";
                 MediaSaveParams.entry_mappedtypeno = 101;
                 MediaSaveParams.name = ProofType.data;
@@ -736,12 +774,13 @@ export default function AddMemberPage() {
                 .then((response) => response.json())
                 .then((json) => {
                     console.log(JSON.stringify(json));
-                    setLoading(false);
+                    setProofLoading(false);
                     if (json.success) {
                         setProofAlert(false);
                         setProofImage({
                             data: "",
                             savedata: "",
+                            type: "",
                             error: ""
                         });
                         setProofType({
@@ -752,7 +791,8 @@ export default function AddMemberPage() {
                             data: "",
                             error: ""
                         });
-                        GetMediaList();
+                        setScreenRefresh(0);
+                        GetMediaList("", "");
                     } else if (json.success === false) {
                         setAlertMessage(json.message);
                         setAlertFrom("failed");
@@ -763,7 +803,7 @@ export default function AddMemberPage() {
                     }
                 })
                 .catch((error) => {
-                    setLoading(false);
+                    setProofLoading(false);
                     setErrorAlert(true);
                     setErrorScreen("error");
                     console.log(error);
@@ -771,8 +811,7 @@ export default function AddMemberPage() {
         }
     }
 
-    const MemberDeleteMedia = (file, id) => {
-        setLoading(true);
+    const MemberDeleteMedia = (from, id, IsValidate) => {
         const url = `${REACT_APP_HOST_URL}${MEMBER_MEDIA_DELETE}${id}`;
         console.log(url);
         console.log(Session);
@@ -780,12 +819,49 @@ export default function AddMemberPage() {
             .then((response) => response.json())
             .then((json) => {
                 console.log(JSON.stringify(json));
-                setLoading(false);
                 if (json.success) {
-                    if(file !== ""){
-                        MemberImageUpload(file, "MEMBER_PROFILE");
-                    }else{
-                        GetMediaList();
+                    if (from === "1") {
+                        MemberUpdateMethod(IsValidate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("remove_success");
+                        HandleAlertShow();
+                        GetMediaList("", "");
+                    }
+                } else if (json.success === false) {
+                    setProfileUploadLoading(false);
+                    setAlertMessage(json.message);
+                    setAlertFrom("failed");
+                    HandleAlertShow();
+                } else {
+                    setProfileUploadLoading(false);
+                    setErrorAlert(true);
+                    setErrorScreen("network");
+                }
+            })
+            .catch((error) => {
+                setProfileUploadLoading(false);
+                setErrorAlert(true);
+                setErrorScreen("error");
+                console.log(error);
+            })
+    }
+
+    const GetStateList = (countryname) => {
+        const url = `${REACT_APP_HOST_URL}${STATE_LIST}${countryname}`;
+        console.log(url);;
+        console.log(Session)
+        fetch(url, GetHeader(JSON.parse(Session)))
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(JSON.stringify(json));
+                if (json.success) {
+                    setStateList(json.list);
+                    if (State.data === "") {
+                        setState({
+                            data: json.list && json.list.length > 0 ? json.list[0].state_name : "",
+                            error: ""
+                        });
                     }
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
@@ -797,42 +873,14 @@ export default function AddMemberPage() {
                 }
             })
             .catch((error) => {
-                setLoading(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
                 console.log(error);
             })
     }
 
-    const GetStateList = () => {
-        const url = `${REACT_APP_HOST_URL}${STATE_LIST}`;
-        console.log(url);;
-        console.log(Session)
-        fetch(url, GetHeader(JSON.parse(Session)))
-            .then((response) => response.json())
-            .then((json) => {
-                console.log(JSON.stringify(json));
-                if (json.success) {
-                    setStateList(json.list);
-                    GetCountryList(json.list[0]);
-                } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
-                } else {
-                    setErrorAlert(true);
-                    setErrorScreen("network");
-                }
-            })
-            .catch((error) => {
-                setErrorAlert(true);
-                setErrorScreen("error");
-                console.log(error);
-            })
-    }
-
-    const GetCountryList = (statename) => {
-        const url = `${REACT_APP_HOST_URL}${COUNTRY_LIST}${statename}`;
+    const GetCountryList = () => {
+        const url = `${REACT_APP_HOST_URL}${COUNTRY_LIST}`;
         console.log(url);;
         console.log(Session)
         fetch(url, GetHeader(JSON.parse(Session)))
@@ -841,6 +889,13 @@ export default function AddMemberPage() {
                 console.log(JSON.stringify(json));
                 if (json.success) {
                     setCountryList(json.list);
+                    if (Country.data === "") {
+                        setCountry({
+                            data: json.list && json.list.length > 0 ? json.list[0].country_name : "",
+                            error: ""
+                        });
+                    }
+                    GetStateList(json.list[0].country_name);
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
                     setAlertFrom("failed");
@@ -857,54 +912,55 @@ export default function AddMemberPage() {
             })
     }
 
-    const MediaList1 = [
+    /* const MediaList1 = [
         { id: 1, image: "https://cdn.dummyjson.com/product-images/1/1.jpg", },
         { id: 2, image: "https://cdn.dummyjson.com/product-images/2/1.jpg", },
         { id: 3, image: "https://cdn.dummyjson.com/product-images/3/1.jpg", },
         { id: 4, image: "https://cdn.dummyjson.com/product-images/4/1.jpg", },
         { id: 5, image: "https://cdn.dummyjson.com/product-images/5/1.jpg", }
-    ]
+    ] */
 
     const MemberInfoTextValidate = (e, from) => {
         const text = e.target.value;
+        setScreenRefresh(pre => pre + 1);
         console.log(from);
-        if (from === "NamePrefix"){
+        if (from === "NamePrefix") {
             setNamePrefix(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "* Required" : ""
             }));
-        } else if (from === "MemberName"){
+        } else if (from === "MemberName") {
             setMemberName(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "* Required" : ""
             }));
-        } else if (from === "RelationPrefix"){
+        } else if (from === "RelationPrefix") {
             setRelationPrefix(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "* Required" : ""
             }));
-        } else if (from === "Relationship"){
+        } else if (from === "Relationship") {
             setRelationship(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "* Required" : ""
             }));
-        } else if (from === "Gender"){
+        } else if (from === "Gender") {
             setGender(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" || text.trim() === "Select" ? "" : ""
             }));
-        } else if (from === "MobileNumber"){
+        } else if (from === "MobileNumber") {
             setMobileNumber(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "* Required" : ""
             }));
-        } else if (from === "Dob"){
+        } else if (from === "Dob") {
             setDob(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
@@ -912,37 +968,37 @@ export default function AddMemberPage() {
                 error: text.trim() === "" ? "" : ""
             }));
         } else if (from === "Email") {
-            // const newError = isValidEmail(text) ? "" : "* Invalid Email";
+            const newError = isValidEmail(text) ? "" : "* Invalid Email";
             setEmail(prevState => ({
+                ...prevState,
+                data: text.trim() !== "" ? text : "",
+                error: text.trim() === "" ? "" : newError
+            }));
+        } else if (from === "WhatsappNo") {
+            setWhatsappNo(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "" : ""
             }));
-        } else if (from === "WhatsappNo"){
-            setWhatsappNo(prevState => ({
-                ...prevState,
-                data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
-            }));
-        } else if (from === "GuardName"){
+        } else if (from === "GuardName") {
             setGuardName(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "" : ""
             }));
-        } else if (from === "GuardRelationship"){
+        } else if (from === "GuardRelationship") {
             setGuardRelationship(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "" : ""
             }));
-        } else if (from === "AadharNo"){
+        } else if (from === "AadharNo") {
             setAadharNo(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "" : ""
             }));
-        } else if (from === "PancardNo"){
+        } else if (from === "PancardNo") {
             setPancardNo(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
@@ -1054,7 +1110,7 @@ export default function AddMemberPage() {
                 ...prevState,
                 error: ""
             }));
-        } */
+        } 
         if (!WhatsappNo.data) {
             IsValidate = false;
             setWhatsappNo(prevState => ({
@@ -1067,7 +1123,7 @@ export default function AddMemberPage() {
                 error: ""
             }));
         }
-        /* if (!GuardName.data) {
+        if (!GuardName.data) {
             IsValidate = false;
             setGuardName(prevState => ({
                 ...prevState,
@@ -1115,7 +1171,7 @@ export default function AddMemberPage() {
                 error: ""
             }));
         } */
-     
+
         /* if(screen === "edit"){
             if (!ProfileImage.data) {
                 IsValidate = false;
@@ -1130,16 +1186,23 @@ export default function AddMemberPage() {
                 }));
             }
         } */
-        if(screen === "add"){
+        if (screen === "add") {
             MemberAddMethod(IsValidate);
-        }else{
-            MemberUpdateMethod(IsValidate);
         }
-    
+        if (screen === "edit") {
+            if (ProfileMediaId !== "") {
+                MemberDeleteMedia("1", ProfileMediaId, IsValidate);
+            } else {
+                MemberUpdateMethod(IsValidate);
+            }
+
+        }
+
     }
 
     const AddressDetailsTextValidate = (e, from) => {
         const text = e.target.value;
+        setScreenRefresh(pre => pre + 1);
         console.log(from);
         if (from === "Address") {
             setAddress(prevState => ({
@@ -1171,6 +1234,7 @@ export default function AddMemberPage() {
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "* Required" : ""
             }));
+            GetStateList(text);
         }
     };
 
@@ -1239,15 +1303,16 @@ export default function AddMemberPage() {
         // console.log("AddressDetailEmpty");
         // console.log(AddressDetailEmpty);
         console.log(IsValidate);
-        if (AddressDetailEmpty === "no_data"){
+        if (AddressDetailEmpty === "no_data") {
             MemberAddMethod(IsValidate);
-        } else{
+        } else {
             MemberUpdateMethod(IsValidate);
         }
     }
 
     const BankDetailsTextValidate = (e, from) => {
         const text = e.target.value;
+        setScreenRefresh(pre => pre + 1);
         console.log(from);
         if (from === "NameOnAccount") {
             setNameOnAccount(prevState => ({
@@ -1413,7 +1478,7 @@ export default function AddMemberPage() {
                 error: ""
             }));
         }
-        if (MaritalStatus.data === "Married" || MaritalStatus.data === "Married With Kids"){
+        if (MaritalStatus.data === "Married" || MaritalStatus.data === "Married With Kids") {
             if (!SpouseEducation.data) {
                 IsValidate = false;
                 setSpouseEducation(prevState => ({
@@ -1460,7 +1525,7 @@ export default function AddMemberPage() {
                 error: ""
             }));
         }
-        if (ProofType.data === "KYC" || ProofType.data === "OTHERS"){
+        if (ProofType.data === "KYC" || ProofType.data === "OTHERS") {
             if (!KYCOtherType.data) {
                 IsValidate = false;
                 setKYCOtherType(prevState => ({
@@ -1474,11 +1539,13 @@ export default function AddMemberPage() {
                 }));
             }
         }
+        setProofLoading(true);
         MemberMediaSave(IsValidate, ProofImage)
     }
 
     const OccupationDetailsTextValidate = (e, from) => {
         const text = e.target.value;
+        setScreenRefresh(pre => pre + 1);
         console.log(from);
         if (from === "CurrentOccupation") {
             setCurrentOccupation(prevState => ({
@@ -1596,26 +1663,38 @@ export default function AddMemberPage() {
     }
 
     const HandleAlertShow = () => {
-        setAlert(true);
+        setAlertOpen(true);
     };
 
     const HandleAlertClose = () => {
-        setAlert(false);
-        if (AlertFrom === "success"){
-            window.location.reload();
-        } else if (AlertFrom === "add_success"){
-            navigate('/member')
+        setAlertOpen(false);
+        if (AlertFrom === "success") {
+            GetMemberView();
+            GetMediaList("", "");
+            // window.location.reload();
+        } else if (AlertFrom === "add_success") {
+            navigate('/member/list')
         }
     };
-    
+
     const handleChange = (event, newValue) => {
         console.log(newValue);
-        setTabIndex(newValue);
+        if (ScreenRefresh) {
+            const confirmNavigation = window.confirm(
+                'You have unsaved changes. Are you sure you want to leave this Tab?'
+            );
+            if (confirmNavigation) {
+                setScreenRefresh(0);
+                setTabIndex(newValue);
+            }
+        } else {
+            setTabIndex(newValue);
+        }  
     };
 
     const HandleSubmitClick = () => {
         console.log("submitclick11");
-        if (screen === "add" || TabIndex === '1'){
+        if (screen === "add" || TabIndex === '1') {
             validateMemberInfo();
         }
         if (TabIndex === '2') {
@@ -1643,30 +1722,29 @@ export default function AddMemberPage() {
     });
 
     const HandleProfileImage = (event) => {
+        setScreenRefresh(pre => pre + 1);
         console.log(event);
         const file = event.target.files[0];
         console.log(file);
         if (file) {
-            // const filePath = URL.createObjectURL(file);
+            const filePath = URL.createObjectURL(file);
             setProfileImage({
-                data: file,
+                data: filePath,
                 savedata: "",
+                type: "local",
                 error: ""
             });
-            if(ProfileImage.data !== ""){
-                MemberDeleteMedia(file, data.id);
-            }else{
-                setProfileImage({
-                    data: file,
-                    savedata: "",
-                    error: ""
-                });
+            if (ProfileImage.data !== "") {
+                setProfileUploadLoading(true);
+                GetMediaList("106", file);
+            } else {
                 MemberImageUpload(file, 'MEMBER_PROFILE');
             }
         }
     };
 
     const HandleProofImage = (event) => {
+        setScreenRefresh(pre => pre + 1);
         console.log(event);
         const file = event.target.files[0];
         console.log(file);
@@ -1676,17 +1754,35 @@ export default function AddMemberPage() {
             setProofImage({
                 data: filePath,
                 savedata: "",
+                type: "local",
                 error: ""
             });
+            setProfileUploadLoading(true);
             MemberImageUpload(file, 'MEMBER_PROOF');
         }
     };
 
     const HandleProofAlertClose = () => {
         setProofAlert(false);
+        setScreenRefresh(0);
+        setProofImage({
+            data: "",
+            savedata: "",
+            type: "",
+            error: ""
+        });
+        setProofType({
+            data: ProofArray[0],
+            error: ""
+        });
+        setKYCOtherType({
+            data: "",
+            error: ""
+        });
     };
 
     const HandleDateChange = (date) => {
+        setScreenRefresh(pre => pre + 1);
         const DateForSave = dayjs(date).format('YYYY-MM-DD');
         console.log('Date to save:', DateForSave);
         setDob({
@@ -1695,6 +1791,25 @@ export default function AddMemberPage() {
             error: ""
         });
     };
+
+    const HandleConfirmYesClick = () => {
+        setConfirmAlert(false);
+        MemberDeleteMedia("", MediaId, true)
+    };
+
+    const HandleBack = () => {
+        if (ScreenRefresh) {
+            const confirmNavigation = window.confirm(
+                'You have unsaved changes. Are you sure you want to leave this page?'
+            );
+            if (confirmNavigation) {
+                setScreenRefresh(0);
+                navigate('/member/list');
+            }
+        } else {
+            navigate('/member/list');
+        }  
+    }
 
     const currentDate = dayjs();
     const maxDate = currentDate.subtract(18, 'year');
@@ -1709,57 +1824,52 @@ export default function AddMemberPage() {
 
     return (
         <Container>
-        <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{mt:2, mb:2}}>
-        <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 2, mb: 2 }}>
+            <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
+                <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 2, mb: 2 }}>
                     {screenLabel[screen] || "Add Member"}
-    </Typography>
-                <Button variant="contained" className='custom-button'  onClick={() => navigate('/member')} sx={{ cursor: 'pointer' }}>
-          Back
-    </Button>
-  
-    </Stack>
+                </Typography>
+                <Button variant="contained" className='custom-button' onClick={HandleBack} sx={{ cursor: 'pointer' }}>
+                    Back
+                </Button>
+            </Stack>
             <Card>
-              
                 <Box component="form"
-                    sx={{
-                        '& .MuiTextField-root': { m: 2, width: '20ch', },
-                    }}
+                    sx={{ '& .MuiTextField-root': { m: 2, width: '20ch', }, }}
                     noValidate
                     autoComplete="off">
-                    {MemberLoading
-                        ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-                            <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
-                        </Stack>
-                        : <Stack direction='column'>
-                            <TabContext value={TabIndex}>
-                                {screen === "add" 
-                                    ? <Typography className="inf" variant="subtitle1" sx={{ ml: 4, mr: 5 , mt:3}}>
-                                        Member Information
-                                     </Typography>
-                                    : <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                        <TabList onChange={handleChange} aria-label="lab API tabs example"
-                                            variant="scrollable" scrollButtons="auto">
-                                            <Tab label="Member Information" value="1" />
-                                            <Tab label="Address Details" value="2" />
-                                            <Tab label="Bank Details" value="3" />
-                                            <Tab label="Education Details" value="4" />
-                                            <Tab label="Proof Details" value="5" />
-                                            <Tab label="Occupation Details" value="6" />
-                                        </TabList>
-                                    </Box>}
-                                <TabPanel value="1">
+                    <Stack direction='column'>
+                        <TabContext value={TabIndex}>
+                            {screen === "add"
+                                ? <Typography className="inf" variant="subtitle1" sx={{ ml: 4, mr: 5, mt: 3 }}>
+                                    Member Information
+                                </Typography>
+                                : <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                    <TabList onChange={handleChange} aria-label="lab API tabs example"
+                                        variant="scrollable" scrollButtons="auto">
+                                        <Tab label="Member Information" value="1" />
+                                        <Tab label="Address Details" value="2" />
+                                        <Tab label="Bank Details" value="3" />
+                                        <Tab label="Education Details" value="4" />
+                                        <Tab label="Occupation Details" value="5" />
+                                        <Tab label="Proof Details" value="6" />
+                                    </TabList>
+                                </Box>}
+                            {MemberLoading
+                                ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
+                                    <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                                </Stack>
+                                : <TabPanel value="1">
                                     {screen === "add"
                                         ? null
                                         : <Stack spacing={2} sx={{ mb: 3, alignItems: 'flex-end', mr: 3 }}>
                                             <Stack direction='column' sx={{ ml: 2, }}>
                                                 {ProfileImage.data !== ""
                                                     ? <div>
-                                                        <img src={`${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${ProfileImage.data}`} alt="Selected" style={{ width: 100, height: 100, }} />
+                                                        <img src={ProfileImage.type === "local" ? `${ProfileImage.data}` : `${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${ProfileImage.data}`} alt="Selected" style={{ width: 100, height: 100, }} />
                                                     </div>
                                                     : <div>
                                                         <img src="../../../public/assets/icons/placeholder.png" alt="Selected" style={{ width: 100, height: 100, }} />
-                                                    </div>
-                                                }
+                                                    </div>}
                                                 <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 130, height: 40, mt: 2 }}>
                                                     Upload Photo
                                                     <VisuallyHiddenInput type="file" onChange={HandleProfileImage} />
@@ -1768,410 +1878,337 @@ export default function AddMemberPage() {
                                             </Stack>
                                         </Stack>}
                                     <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                    <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                                Member Name
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box'
-                                                    id="outlined-select-currency"
-                                                    select
-                                                    disabled={screen === "view"}
-                                                    variant="outlined"
-                                                    value={NamePrefix.data}
-                                                    onChange={(e) => MemberInfoTextValidate(e, "NamePrefix")}
-                                                    style={{ width: 90, marginRight: -10, color: 'black' }} >
-                                                    {Prefix.map((option) => (
-                                                        <MenuItem key={option} value={option.value}>
-                                                            {option.data}
-                                                        </MenuItem>
-                                                    ))}
-                                                </TextField>
-                                                <TextField
-                                                className='input-box1'
-                                                    required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Member Name"
-                                                    variant="outlined"
-                                                    value={MemberName.data}
-                                                    onChange={(e) => MemberInfoTextValidate(e, "MemberName")} />
-                                               
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{MemberName.error || NamePrefix.error}</div>
-                                        </Stack>
-                                        </div>
                                         <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
-                                                RelationShip Name
-                                            </Typography>
-                                            <Stack direction='row'  sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box'
-                                                    id="outlined-select-currency"
-                                                    select
-                                                    disabled={screen === "view"}
-                                                    label=""
-                                                    variant="outlined"
-                                                    value={RelationPrefix.data}
-                                                    onChange={(e) => MemberInfoTextValidate(e, "RelationPrefix")}
-                                                    style={{ width: 90, marginRight: -10 }} >
-                                                        {RelationShipPrefix.map((option) => (
-                                                        <MenuItem key={option} value={option.value}>
-                                                            {option.data}
-                                                        </MenuItem>
-                                                    ))}
-                                                </TextField>
-                                                <TextField
-                                                className='input-box1'
-                                                    required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Relationhsip"
-                                                    value={Relationship.data}
-                                                    onChange={(e) => MemberInfoTextValidate(e, "Relationship")} />
-                                              
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500",  }} className='req'>{Relationship.error || RelationPrefix.error}</div>
-                                        </Stack>
-                                        </div>
-                                    </Stack>
-                                  
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                    <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                                Gender
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    // required
-                                                    id="outlined-select-currency"
-                                                    select
-                                                    disabled={screen === "view"}
-                                                    label="Select"
-                                                    variant="outlined"
-                                                    value={Gender.data}
-                                                    onChange={(e) => MemberInfoTextValidate(e, "Gender")}
-                                                    style={{  }}>
-                                                    {GenderArray.map((option) => (
-                                                        <MenuItem key={option} value={option}>
-                                                            {option}
-                                                        </MenuItem>
-                                                    ))}
-                                                </TextField>
-                                             
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Gender.error}</div>
-                                        </Stack>
-                                        </div>
-                                        <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
-                                                Mobile Number
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Mobile Number"
-                                                    value={MobileNumber.data}
-                                                    onChange={(e) => MemberInfoTextValidate(e, "MobileNumber")}
-                                                    style={{  }} />
-                                               
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{MobileNumber.error}</div>
-                                        </Stack>
-                                        </div>
-                                    </Stack>
-                                    
-                                   
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                    <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                                Date of Birth
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                    <DemoContainer components={['DatePicker']} sx={{  width: 530 }} className="date-pick">
-                                                        <DatePicker 
-                                                        className='input-box1'
-                                                            value={Dob.data}
-                                                            onChange={HandleDateChange}
-                                                            format="DD-MM-YYYY"
-                                                            maxDate={maxDate}
-                                                            renderInput={(params) => <TextField {...params} />}
-                                                          
-                                                            sx={{  }} />
-                                                    </DemoContainer>
-                                                </LocalizationProvider>
-                                               
-                                              
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Dob.error}</div>
-                                        </Stack>
-                                        </div>
-                                        <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
-                                                Email
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    // required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Email"
-                                                    value={Email.data}
-                                                    onChange={(e) => MemberInfoTextValidate(e, "Email")}
-                                                    style={{  }} />
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{Email.error}</div>
-                                        </Stack>
-                                        </div>
-                                    </Stack>
-                                    
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                    <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                                Whatsapp Number
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                    required
-                                                    className='input-box1'
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Whatsapp Number"
-                                                    value={WhatsappNo.data}
-                                                    onChange={(e) => MemberInfoTextValidate(e, "WhatsappNo")}
-                                                    style={{  }} />
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{WhatsappNo.error}</div>
-                                        </Stack>
-                                        </div>
-                                        <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
-                                                Guardian Name
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                    // required
-                                                    className='input-box1'
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Guardian Name"
-                                                    value={GuardName.data}
-                                                    onChange={(e) => MemberInfoTextValidate(e, "GuardName")}
-                                                    style={{ }} />
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{GuardName.error}</div>
-                                        </Stack>
-                                        </div>
-                                    </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                    <div className='box' >
-                                        <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                                Guardian Relation
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    // required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Guardian Relation"
-                                                    value={GuardRelationship.data}
-                                                    onChange={(e) => MemberInfoTextValidate(e, "GuardRelationship")}
-                                                    style={{  }} />
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GuardRelationship.error}</div>
-                                        </Stack>
-                                        </div>
-                                        <div className='box' >
-                                        <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
-                                                Aadhar Number
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    // required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Aadhar Number"
-                                                    value={AadharNo.data}
-                                                    onChange={(e) => MemberInfoTextValidate(e, "AadharNo")}
-                                                    style={{  }} />
-                                            </Stack>
-                                            <div style={{ marginTop: "-10px", marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AadharNo.error}</div>
-                                        </Stack>
-                                        </div>
-                                    </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                    <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                                PanCard Number
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    // required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Pancard Number"
-                                                    value={PancardNo.data}
-                                                    onChange={(e) => MemberInfoTextValidate(e, "PancardNo")}
-                                                    style={{ }} />
-                                              
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{PancardNo.error}</div>
-                                        </Stack>
-                                        </div>
-                                    </Stack>
-                                </TabPanel>
-                                <TabPanel value="2">
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                    <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                                Address
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Address"
-                                                    value={Address.data}
-                                                    onChange={(e) => AddressDetailsTextValidate(e, "Address")}
-                                                    style={{  }} />
-                                              
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Address.error}</div>
-                                        </Stack>
-                                        </div>
-                                        <div className='box' style={{display: 'none'}}>
-                                          <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
-                                                 Area Name
-                                            </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                             className='input-box1'
-                                                    required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Area Name"
-                                                    value={AreaName.data}
-                                                    onChange={(e) => AddressDetailsTextValidate(e, "AreaName")}
-                                                     style={{  }} />
-                                              
-                                             </Stack>
-                                             <div style={{ marginLeft: "25px",  color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AreaName.error}</div>
-                                         </Stack>
-                                         </div>
-                                        <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                                Country
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Country"
-                                                    value={Country.data}
-                                                    onChange={(e) => AddressDetailsTextValidate(e, "Country")}
-                                                    style={{  }} />
-                                              
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Country.error}</div>
-                                        </Stack>
-                                        </div>
-                                    </Stack> 
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                    <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                                City
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="City"
-                                                    value={City.data}
-                                                    onChange={(e) => AddressDetailsTextValidate(e, "City")}
-                                                    style={{  }} />
-                                               
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{City.error}</div>
-                                        </Stack>
-                                        </div>
-                                        <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
-                                                State
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                    {/* <TextField
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    Member Name
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box'
+                                                        id="outlined-select-currency"
+                                                        select
+                                                        disabled={screen === "view"}
+                                                        variant="outlined"
+                                                        value={NamePrefix.data}
+                                                        onChange={(e) => MemberInfoTextValidate(e, "NamePrefix")}
+                                                        style={{ width: 90, marginRight: -10, color: 'black' }} >
+                                                        {Prefix.map((option) => (
+                                                            <MenuItem key={option} value={option.value}>
+                                                                {option.data}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </TextField>
+                                                    <TextField
                                                         className='input-box1'
                                                         required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Member Name"
+                                                        variant="outlined"
+                                                        value={MemberName.data}
+                                                        onChange={(e) => MemberInfoTextValidate(e, "MemberName")} />
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{MemberName.error || NamePrefix.error}</div>
+                                            </Stack>
+                                        </div>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                                    RelationShip Name
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box'
+                                                        id="outlined-select-currency"
+                                                        select
+                                                        disabled={screen === "view"}
+                                                        variant="outlined"
+                                                        value={RelationPrefix.data}
+                                                        onChange={(e) => MemberInfoTextValidate(e, "RelationPrefix")}
+                                                        style={{ width: 90, marginRight: -10 }} >
+                                                        {RelationShipPrefix.map((option) => (
+                                                            <MenuItem key={option} value={option.value}>
+                                                                {option.data}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </TextField>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Relationhsip"
+                                                        value={Relationship.data}
+                                                        onChange={(e) => MemberInfoTextValidate(e, "Relationship")} />
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }} className='req'>{Relationship.error || RelationPrefix.error}</div>
+                                            </Stack>
+                                        </div>
+                                    </Stack>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    Gender
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        // required
                                                         id="outlined-select-currency"
                                                         select
                                                         disabled={screen === "view"}
                                                         label="Select"
                                                         variant="outlined"
-                                                        value={State.data}
-                                                        onChange={(e) => AddressDetailsTextValidate(e, "State")}
+                                                        value={Gender.data}
+                                                        onChange={(e) => MemberInfoTextValidate(e, "Gender")}
                                                         style={{}}>
-                                                        {StateList.map((option) => (
+                                                        {GenderArray.map((option) => (
                                                             <MenuItem key={option} value={option}>
                                                                 {option}
                                                             </MenuItem>
                                                         ))}
-                                                    </TextField> */}
-                                                <TextField
-                                                className='input-box1'
-                                                    required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="State"
-                                                    value={State.data}
-                                                    onChange={(e) => AddressDetailsTextValidate(e, "State")}
-                                                    style={{  }} />
+                                                    </TextField>
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Gender.error}</div>
                                             </Stack>
-                                            <div style={{ marginTop: "-10px", marginLeft: "25px",color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{State.error}</div>
-                                        </Stack>
+                                        </div>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                                    Mobile Number
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Mobile Number"
+                                                        value={MobileNumber.data}
+                                                        onChange={(e) => MemberInfoTextValidate(e, "MobileNumber")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{MobileNumber.error}</div>
+                                            </Stack>
                                         </div>
                                     </Stack>
                                     <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-
-                                    <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                                Country
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                    {/* <TextField
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    Date of Birth
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                        <DemoContainer components={['DatePicker']} sx={{ width: 530 }} className="date-pick">
+                                                            <DatePicker
+                                                                className='input-box1'
+                                                                value={Dob.data}
+                                                                onChange={HandleDateChange}
+                                                                format="DD-MM-YYYY"
+                                                                maxDate={maxDate}
+                                                                renderInput={(params) => <TextField {...params} />}
+                                                                sx={{}} />
+                                                        </DemoContainer>
+                                                    </LocalizationProvider>
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Dob.error}</div>
+                                            </Stack>
+                                        </div>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                                    Email
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        // required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Email"
+                                                        value={Email.data}
+                                                        onChange={(e) => MemberInfoTextValidate(e, "Email")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{Email.error}</div>
+                                            </Stack>
+                                        </div>
+                                    </Stack>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    Whatsapp Number
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        required
+                                                        className='input-box1'
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Whatsapp Number"
+                                                        value={WhatsappNo.data}
+                                                        onChange={(e) => MemberInfoTextValidate(e, "WhatsappNo")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{WhatsappNo.error}</div>
+                                            </Stack>
+                                        </div>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                                    Guardian Name
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        // required
+                                                        className='input-box1'
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Guardian Name"
+                                                        value={GuardName.data}
+                                                        onChange={(e) => MemberInfoTextValidate(e, "GuardName")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{GuardName.error}</div>
+                                            </Stack>
+                                        </div>
+                                    </Stack>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                        <div className='box' >
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    Guardian Relation
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        // required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Guardian Relation"
+                                                        value={GuardRelationship.data}
+                                                        onChange={(e) => MemberInfoTextValidate(e, "GuardRelationship")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GuardRelationship.error}</div>
+                                            </Stack>
+                                        </div>
+                                        <div className='box' >
+                                            <Stack direction='column'>
+                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                                    Aadhar Number
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        // required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Aadhar Number"
+                                                        value={AadharNo.data}
+                                                        onChange={(e) => MemberInfoTextValidate(e, "AadharNo")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginTop: "-10px", marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AadharNo.error}</div>
+                                            </Stack>
+                                        </div>
+                                    </Stack>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    PanCard Number
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        // required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Pancard Number"
+                                                        value={PancardNo.data}
+                                                        onChange={(e) => MemberInfoTextValidate(e, "PancardNo")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{PancardNo.error}</div>
+                                            </Stack>
+                                        </div>
+                                    </Stack>
+                                </TabPanel>}
+                            {MemberLoading
+                                ? null
+                                : <TabPanel value="2">
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    Address
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Address"
+                                                        value={Address.data}
+                                                        onChange={(e) => AddressDetailsTextValidate(e, "Address")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Address.error}</div>
+                                            </Stack>
+                                        </div>
+                                        <div className='box' style={{display: 'none'}}>
+                                            <Stack direction='column'>
+                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                                    Area Name
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Area Name"
+                                                        value={AreaName.data}
+                                                        onChange={(e) => AddressDetailsTextValidate(e, "AreaName")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AreaName.error}</div>
+                                            </Stack>
+                                        </div>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mt: 2, }}>
+                                                    City
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="City"
+                                                        value={City.data}
+                                                        onChange={(e) => AddressDetailsTextValidate(e, "City")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{City.error}</div>
+                                            </Stack>
+                                        </div>
+                                    </Stack>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2, mr: 2, mb: '0px' }} >
+                                                    Country
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
                                                         className='input-box1'
                                                         required
                                                         id="outlined-select-currency"
@@ -2183,499 +2220,490 @@ export default function AddMemberPage() {
                                                         onChange={(e) => AddressDetailsTextValidate(e, "Country")}
                                                         style={{}}>
                                                         {CountryList.map((option) => (
+                                                            <MenuItem key={option} value={option.country_name}>
+                                                                {option.country_name}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </TextField>
+                                                </Stack>
+                                                <div style={{ marginTop: "-10px", marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Country.error}</div>
+                                            </Stack>
+                                        </div>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    State
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        required
+                                                        id="outlined-select-currency"
+                                                        select
+                                                        disabled={screen === "view"}
+                                                        label="Select"
+                                                        variant="outlined"
+                                                        value={State.data}
+                                                        onChange={(e) => AddressDetailsTextValidate(e, "State")}
+                                                        style={{}}>
+                                                        {StateList.map((option) => (
+                                                            <MenuItem key={option} value={option.state_name}>
+                                                                {option.state_name}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </TextField>
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{State.error}</div>
+                                            </Stack>
+                                        </div>
+                                    </Stack>
+                                </TabPanel>}
+                            {MemberLoading
+                                ? null
+                                : <TabPanel value="3">
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    Name on Account
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Name on Account"
+                                                        value={NameOnAccount.data}
+                                                        onChange={(e) => BankDetailsTextValidate(e, "NameOnAccount")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{NameOnAccount.error}</div>
+                                            </Stack>
+                                        </div>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                                    Account Number
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Account Number"
+                                                        value={AccountNumber.data}
+                                                        onChange={(e) => BankDetailsTextValidate(e, "AccountNumber")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginTop: "-10px", marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AccountNumber.error}</div>
+                                            </Stack>
+                                        </div>
+                                    </Stack>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    IFSC Code
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="IFSC Code"
+                                                        value={IFSCCode.data}
+                                                        onChange={(e) => BankDetailsTextValidate(e, "IFSCCode")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{IFSCCode.error}</div>
+                                            </Stack>
+                                        </div>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                                    Type of Account
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        required
+                                                        id="outlined-select-currency"
+                                                        select
+                                                        disabled={screen === "view"}
+                                                        label="Select"
+                                                        variant="outlined"
+                                                        value={TypeOfAccount.data}
+                                                        onChange={(e) => BankDetailsTextValidate(e, "TypeOfAccount")}
+                                                        style={{}}>
+                                                        {TypeOfAccountArray.map((option) => (
                                                             <MenuItem key={option} value={option}>
                                                                 {option}
                                                             </MenuItem>
                                                         ))}
-                                                    </TextField> */}
-                                                <TextField
-                                                className='input-box1'
-                                                    required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Country"
-                                                    value={Country.data}
-                                                    onChange={(e) => AddressDetailsTextValidate(e, "Country")}
-                                                    style={{  }} />
-                                              
+                                                    </TextField>
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{TypeOfAccount.error}</div>
                                             </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Country.error}</div>
-                                        </Stack>
                                         </div>
-
                                     </Stack>
-                                </TabPanel>
-                                <TabPanel value="3">
-                              
                                     <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                    <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                                Name on Account
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Name on Account"
-                                                    value={NameOnAccount.data}
-                                                    onChange={(e) => BankDetailsTextValidate(e, "NameOnAccount")}
-                                                    style={{  }} />
-                                              
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{NameOnAccount.error}</div>
-                                        </Stack>
-                                        </div>
-                                        <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
-                                                Account Number
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Account Number"
-                                                    value={AccountNumber.data}
-                                                    onChange={(e) => BankDetailsTextValidate(e, "AccountNumber")}
-                                                    style={{  }} />
-                                            
-                                            </Stack>
-                                            <div style={{  marginTop: "-10px", marginLeft: "25px",color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AccountNumber.error}</div>
-                                        </Stack>
-                                        </div>
-                                    </Stack>
-                                    
-                                    
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                    <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                                IFSC Code
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="IFSC Code"
-                                                    value={IFSCCode.data}
-                                                    onChange={(e) => BankDetailsTextValidate(e, "IFSCCode")}
-                                                    style={{  }} />
-                                             
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{IFSCCode.error}</div>
-                                        </Stack>
-                                        </div>
-                                        <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
-                                                Type of Account
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    required
-                                                    id="outlined-select-currency"
-                                                    select
-                                                    disabled={screen === "view"}
-                                                    label="Select"
-                                                    variant="outlined"
-                                                    value={TypeOfAccount.data}
-                                                    onChange={(e) => BankDetailsTextValidate(e, "TypeOfAccount")}
-                                                    style={{  }}>
-                                                    {TypeOfAccountArray.map((option) => (
-                                                        <MenuItem key={option} value={option}>
-                                                            {option}
-                                                        </MenuItem>
-                                                    ))}
-                                                </TextField>
-                                              
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{TypeOfAccount.error}</div>
-                                        </Stack>
-                                        </div>
-                                    </Stack>
-                            
-                                  
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                    <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                                Bank Name
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Bank Name"
-                                                    value={BankName.data}
-                                                    onChange={(e) => BankDetailsTextValidate(e, "BankName")}
-                                                    style={{ }} />
-                                            
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{BankName.error}</div>
-                                        </Stack>
-                                        </div>
-                                        <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
-                                                Branch
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Branch"
-                                                    value={Branch.data}
-                                                    onChange={(e) => BankDetailsTextValidate(e, "Branch")}
-                                                    style={{  }} />
-                                            </Stack>
-                                            <div style={{ marginTop: "-10px", marginLeft: "25px",color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Branch.error}</div>
-                                        </Stack>
-                                        </div>
-                                    </Stack>
-                                    
-                                   
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                    <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                                UPI
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    // required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="UPI"
-                                                    value={UPI.data}
-                                                    onChange={(e) => BankDetailsTextValidate(e, "UPI")}
-                                                    style={{  }} />
-                                              
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{UPI.error}</div>
-                                        </Stack>
-                                        </div>
-                                    </Stack>
-                                </TabPanel>
-                                <TabPanel value="4">
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                    <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml:3, mr: 2, mt: 2, mb: 1 }}>
-                                                Education
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml:0, }} className='radio-box'>
-                                                <RadioGroup
-                                                    aria-labelledby="demo-radio-buttons-group-label"
-                                                    defaultValue="female"
-                                                    name="radio-buttons-group"
-                                                    row 
-                                                    value={Education.data}
-                                                    onChange={(e) => setEducation({ data: e.target.value, error: "" })}>
-                                                    <FormControlLabel value="Primary" control={<Radio />} label="Primary" disabled={screen === "view"} />
-                                                    <FormControlLabel value="Secondary" control={<Radio />} label="Secondary" disabled={screen === "view"} />
-                                                    <FormControlLabel className="radio-control2" value="Diploma" control={<Radio />} label="Diploma" disabled={screen === "view"} />
-                                                    <FormControlLabel value="Graduate" control={<Radio />} label="Graduate" disabled={screen === "view"} />
-                                                    <FormControlLabel className="radio-control" value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view"} />
-                                                    <FormControlLabel className="radio-control1" value="Doctrate" control={<Radio />} label="Doctorate" onChange={() => setEducation('Doctrate')} disabled={screen === "view"} />
-                                                </RadioGroup>
-                                              
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "0px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Education.error}</div>
-                                        </Stack>
-                                        </div>
-                                        <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml:3, mr: 2, mt: 2, mb: 1 }}>
-                                                Marital Status
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }} className='radio-box'>
-                                                <RadioGroup
-                                                    aria-labelledby="demo-radio-buttons-group-label"
-                                                    defaultValue="female"
-                                                    name="radio-buttons-group"
-                                                    row 
-                                                    value={MaritalStatus.data}
-                                                    onChange={(e) => setMaritalStatus({ data: e.target.value, error: "" })}>
-                                                    <FormControlLabel value="Single" control={<Radio />} label="Single" disabled={screen === "view"} />
-                                                    <FormControlLabel value="Married" control={<Radio />} label="Married" disabled={screen === "view"} />
-                                                    <FormControlLabel value="Married With Kids" control={<Radio />} label="Married with Kids" disabled={screen === "view"} />
-                                                    <FormControlLabel value="Divorced" control={<Radio />} label="Divorced" disabled={screen === "view"} />
-                                                    <FormControlLabel className="radio-control3" value="Separated" control={<Radio />} label="Separated" disabled={screen === "view"} />
-                                                </RadioGroup>
-                                              
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "0px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{MaritalStatus.error}</div>
-                                        </Stack>
-                                        </div>
-                                    </Stack>
-                                    {MaritalStatus.data === "Married" || MaritalStatus.data === "Married With Kids"
-                                        ? <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                         <div className='box'>
                                             <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ ml:3, mr: 2, mt: 2, mb: 1 }}>
-                                                    Spouse Education
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    Bank Name
                                                 </Typography>
-                                                <Stack direction='row' sx={{ ml: 0, }}  className='radio-box'>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Bank Name"
+                                                        value={BankName.data}
+                                                        onChange={(e) => BankDetailsTextValidate(e, "BankName")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{BankName.error}</div>
+                                            </Stack>
+                                        </div>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                                    Branch
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Branch"
+                                                        value={Branch.data}
+                                                        onChange={(e) => BankDetailsTextValidate(e, "Branch")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginTop: "-10px", marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Branch.error}</div>
+                                            </Stack>
+                                        </div>
+                                    </Stack>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    UPI
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        // required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="UPI"
+                                                        value={UPI.data}
+                                                        onChange={(e) => BankDetailsTextValidate(e, "UPI")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{UPI.error}</div>
+                                            </Stack>
+                                        </div>
+                                    </Stack>
+                                </TabPanel>}
+                            {MemberLoading
+                                ? null
+                                : <TabPanel value="4">
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 3, mr: 2, mt: 2, mb: 1 }}>
+                                                    Education
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }} className='radio-box'>
                                                     <RadioGroup
                                                         aria-labelledby="demo-radio-buttons-group-label"
+                                                        defaultValue="female"
                                                         name="radio-buttons-group"
                                                         row
-                                                        value={SpouseEducation.data}
-                                                        onChange={(e) => setSpouseEducation({ data: e.target.value, error: "" })}>
+                                                        value={Education.data}
+                                                        onChange={(e) => { setEducation({ data: e.target.value, error: "" }); setScreenRefresh(pre => pre + 1); }}>
                                                         <FormControlLabel value="Primary" control={<Radio />} label="Primary" disabled={screen === "view"} />
                                                         <FormControlLabel value="Secondary" control={<Radio />} label="Secondary" disabled={screen === "view"} />
                                                         <FormControlLabel className="radio-control2" value="Diploma" control={<Radio />} label="Diploma" disabled={screen === "view"} />
                                                         <FormControlLabel value="Graduate" control={<Radio />} label="Graduate" disabled={screen === "view"} />
                                                         <FormControlLabel className="radio-control" value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view"} />
-                                                        <FormControlLabel className="radio-control1" value="Doctrate" control={<Radio />} label="Doctorate" disabled={screen === "view"} />
+                                                        <FormControlLabel className="radio-control1" value="Doctrate" control={<Radio />} label="Doctorate" onChange={() => setEducation('Doctrate')} disabled={screen === "view"} />
                                                     </RadioGroup>
-                                                  
                                                 </Stack>
-                                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{SpouseEducation.error}</div>
+                                                <div style={{ marginLeft: "25px", marginTop: "0px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Education.error}</div>
                                             </Stack>
+                                        </div>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 3, mr: 2, mt: 2, mb: 1 }}>
+                                                    Marital Status
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }} className='radio-box'>
+                                                    <RadioGroup
+                                                        aria-labelledby="demo-radio-buttons-group-label"
+                                                        defaultValue="female"
+                                                        name="radio-buttons-group"
+                                                        row
+                                                        value={MaritalStatus.data}
+                                                        onChange={(e) => { setMaritalStatus({ data: e.target.value, error: "" }); setScreenRefresh(pre => pre + 1); }}>
+                                                        <FormControlLabel value="Single" control={<Radio />} label="Single" disabled={screen === "view"} />
+                                                        <FormControlLabel value="Married" control={<Radio />} label="Married" disabled={screen === "view"} />
+                                                        <FormControlLabel value="Married With Kids" control={<Radio />} label="Married with Kids" disabled={screen === "view"} />
+                                                        <FormControlLabel value="Divorced" control={<Radio />} label="Divorced" disabled={screen === "view"} />
+                                                        <FormControlLabel className="radio-control3" value="Separated" control={<Radio />} label="Separated" disabled={screen === "view"} />
+                                                    </RadioGroup>
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "0px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{MaritalStatus.error}</div>
+                                            </Stack>
+                                        </div>
+                                    </Stack>
+                                    {MaritalStatus.data === "Married" || MaritalStatus.data === "Married With Kids"
+                                        ? <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                            <div className='box'>
+                                                <Stack direction='column'>
+                                                    <Typography variant="subtitle1" sx={{ ml:3, mr: 2, mt: 2, mb: 1 }}>
+                                                        Spouse Education
+                                                    </Typography>
+                                                    <Stack direction='row' sx={{ ml: 0, }}  className='radio-box'>
+                                                        <RadioGroup
+                                                            aria-labelledby="demo-radio-buttons-group-label"
+                                                            name="radio-buttons-group"
+                                                            row
+                                                            value={SpouseEducation.data}
+                                                            onChange={(e) => { setSpouseEducation({ data: e.target.value, error: "" }); setScreenRefresh(pre => pre + 1); }}>
+                                                            <FormControlLabel value="Primary" control={<Radio />} label="Primary" disabled={screen === "view"} />
+                                                            <FormControlLabel value="Secondary" control={<Radio />} label="Secondary" disabled={screen === "view"} />
+                                                            <FormControlLabel className="radio-control2" value="Diploma" control={<Radio />} label="Diploma" disabled={screen === "view"} />
+                                                            <FormControlLabel value="Graduate" control={<Radio />} label="Graduate" disabled={screen === "view"} />
+                                                            <FormControlLabel className="radio-control" value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view"} />
+                                                            <FormControlLabel className="radio-control1" value="Doctrate" control={<Radio />} label="Doctorate" disabled={screen === "view"} />
+                                                        </RadioGroup>
+                                                    </Stack>
+                                                    <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{SpouseEducation.error}</div>
+                                                </Stack>
                                             </div>
-                                         </Stack>
-                                        : null }
-                                    
-                                </TabPanel>
-                                <TabPanel value="5">
-    <Stack direction='column' spacing={2}>
-        {screen === "view"
-            ? null
-            : <Stack spacing={2}  style={{ justifyContent: 'flex-end' }}>
+                                        </Stack>
+                                        : null}
+                                </TabPanel>}
+                            {MemberLoading
+                                ? null
+                                : <TabPanel value="5">
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    Current Occupation
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        required
+                                                        id="outlined-select-currency"
+                                                        select
+                                                        disabled={screen === "view"}
+                                                        label="Select"
+                                                        variant="outlined"
+                                                        value={CurrentOccupation.data}
+                                                        onChange={(e) => OccupationDetailsTextValidate(e, "CurrentOccupation")}
+                                                        style={{}}>
+                                                        {CurrentOccupationArray.map((option) => (
+                                                            <MenuItem key={option} value={option}>
+                                                                {option}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </TextField>
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{CurrentOccupation.error}</div>
+                                            </Stack>
+                                        </div>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                                    Current Employer
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Current Employer"
+                                                        value={CurrentEmployer.data}
+                                                        onChange={(e) => OccupationDetailsTextValidate(e, "CurrentEmployer")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginLeft: "15px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{CurrentEmployer.error}</div>
+                                            </Stack>
+                                        </div>
+                                    </Stack>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box' >
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    Years at Current Employer
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Years at Current Employer"
+                                                        value={YearsAtCurrentEmployer.data}
+                                                        onChange={(e) => OccupationDetailsTextValidate(e, "YearsAtCurrentEmployer")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{YearsAtCurrentEmployer.error}</div>
+                                            </Stack>
+                                        </div>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                                    Monthly Income
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Monthly Income"
+                                                        value={MonthlyIncome.data}
+                                                        onChange={(e) => OccupationDetailsTextValidate(e, "MonthlyIncome")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{MonthlyIncome.error}</div>
+                                            </Stack>
+                                        </div>
+                                    </Stack>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    Living in Rented House/Own House
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 2, mt: 2 }}>
+                                                    <RadioGroup
+                                                        aria-labelledby="demo-radio-buttons-group-label"
+                                                        defaultValue="female"
+                                                        name="radio-buttons-group"
+                                                        row
+                                                        value={LivingIn.data}
+                                                        onChange={(e) => setLivingIn({ data: e.target.value, error: "" })}>
+                                                        <FormControlLabel value="0" control={<Radio />} label="Rented House" disabled={screen === "view"} />
+                                                        <FormControlLabel value="1" control={<Radio />} label="Own House" disabled={screen === "view"} />
+                                                    </RadioGroup>
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-5px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{LivingIn.error}</div>
+                                            </Stack>
+                                        </div>
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                                    Years at Current Residence
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Years at Current Residence"
+                                                        value={YearsAtCurrentResidence.data}
+                                                        onChange={(e) => OccupationDetailsTextValidate(e, "YearsAtCurrentResidence")}
+                                                        style={{}} />
+                                                </Stack>
+                                            </Stack>
+                                            <div style={{ marginLeft: "25px",marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{YearsAtCurrentResidence.error}</div>
+                                        </div>
+                                    </Stack>
+                                </TabPanel>}
+                            {MemberLoading
+                                ? null
+                                : <TabPanel value="6">
+                                    <Stack direction='column' spacing={2}>
+                                        {screen === "view"
+                                            ? null
+                                            : <Stack spacing={2} style={{ justifyContent: 'flex-end' }}>
                                                 <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 130, height: 30, cursor: 'pointer' }} onClick={() => setProofAlert(true)}>
-                    Choose Photo
-                </Button>
-              </Stack>
-        }
-        <Stack direction='row' spacing={2} sx={{ mb: 3, mt:2, alignItems: 'flex-end', mr: 3 }} className='row-box'>
+                                                    Choose Photo
+                                                </Button>
+                                            </Stack>}
+                                        <Stack direction='row' spacing={2} sx={{ mb: 3, mt: 2, mr: 3 }} className='row-box'>
                                             {MediaListLoading
                                                 ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
                                                     <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                                                 </Stack>
-                                            : MediaList.map((row) => (
-                                                <Stack direction='column' sx={{ ml: 2 }} key={row.id} className='boxing'>
-
-                                                    {row.path
-                                                        ? <Stack direction='row' sx={{ ml: 0 }} className='image-top'>
-                                                            <div className='img-box' style={{ width: 120, height: 120 }}>
-                                                                <img src={`${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${row.path}`} alt="Selected" style={{ width: '100% ', height: '100% ' }} />
-                                                            </div>
-                                                            <Button onClick={() => MemberDeleteMedia("", row.id)} className='btn-click' sx={{ cursor: 'pointer' }}>
-                                                                <img src="../../../public/assets/icons/cancel.png" alt="Selected" style={{ width: 12, height: 12 }} />
-                                                            </Button>
-                                                        </Stack>
-                                                        : <Stack>
-                                                            <div className='img-box' style={{ width: 100, height: 100 }}>
-                                                                <img src="../../../public/assets/icons/placeholder.png" alt="Selected" style={{ width: '100% ' }} />
-                                                            </div>
-                                                        </Stack>
-                                                    }
-                                                    {row.name
-                                                        ? <Typography variant="subtitle1" sx={{ ml: 3, mr: 2, mt: 0, mb: '-5px' }}>
-                                                            {row.name}
-                                                        </Typography>
-                                                        : null}
-                                                </Stack>
-                                            )) }        
-        </Stack>
-    </Stack>
-</TabPanel>
-
-                                <TabPanel value="6">
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                    <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                                Current Occupation
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                required
-                                                    id="outlined-select-currency"
-                                                    select
-                                                    disabled={screen === "view"}
-                                                    label="Select"
-                                                    variant="outlined"
-                                                    value={CurrentOccupation.data}
-                                                    onChange={(e) => OccupationDetailsTextValidate(e, "CurrentOccupation")}
-                                                    style={{ }}>
-                                                    {CurrentOccupationArray.map((option) => (
-                                                        <MenuItem key={option} value={option}>
-                                                            {option}
-                                                        </MenuItem>
-                                                    ))}
-                                                </TextField>
-                                               
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{CurrentOccupation.error}</div>
+                                                : MediaList.map((row) => (
+                                                    <Stack direction='column' sx={{ ml: 2 }} key={row.id} className='boxing'>
+                                                        {row.path
+                                                            ? <Stack direction='row' sx={{ ml: 0 }} className='image-top'>
+                                                                <div className='img-box' style={{ width: 120, height: 120 }}>
+                                                                    <img src={`${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${row.path}`} alt="Selected" style={{ width: '100% ', height: '100% ' }} />
+                                                                </div>
+                                                                <Button onClick={() => { setMediaId(row.id); setConfirmAlert(true); }} className='btn-click' sx={{ cursor: 'pointer' }}>
+                                                                    <img src="../../../public/assets/icons/cancel.png" alt="Selected" style={{ width: 12, height: 12 }} />
+                                                                </Button>
+                                                            </Stack>
+                                                            : <Stack>
+                                                                <div className='img-box' style={{ width: 100, height: 100 }}>
+                                                                    <img src="../../../public/assets/icons/placeholder.png" alt="Selected" style={{ width: '100% ' }} />
+                                                                </div>
+                                                            </Stack>}
+                                                        {row.name
+                                                            ? <Typography variant="subtitle1" sx={{ ml: 3, mr: 2, mt: 0, mb: '-5px' }}>
+                                                                {row.name}
+                                                            </Typography>
+                                                            : null}
+                                                    </Stack>
+                                                ))}
                                         </Stack>
-                                        </div>
-                                        <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
-                                                Current Employer
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Current Employer"
-                                                    value={CurrentEmployer.data}
-                                                    onChange={(e) => OccupationDetailsTextValidate(e, "CurrentEmployer")}
-                                                    style={{ }} />
-                                              
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px",  marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{CurrentEmployer.error}</div>
-                                        </Stack>
-                                        </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box' >
-                                    <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                                Years at Current Employer
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Years at Current Employer"
-                                                    value={YearsAtCurrentEmployer.data}
-                                                    onChange={(e) => OccupationDetailsTextValidate(e, "YearsAtCurrentEmployer")}
-                                                    style={{ }} />
-                                               
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{YearsAtCurrentEmployer.error}</div>
-                                        </Stack>
-                                        </div>
-                                        <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
-                                                Monthly Income
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Monthly Income"
-                                                    value={MonthlyIncome.data}
-                                                    onChange={(e) => OccupationDetailsTextValidate(e, "MonthlyIncome")}
-                                                    style={{  }} />
-                                              
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{MonthlyIncome.error}</div>
-                                        </Stack>
-                                        </div>
-                                    </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                    <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                                Living in Rented House/Own House
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 2, mt: 2 }}>
-                                                <RadioGroup
-                                                    aria-labelledby="demo-radio-buttons-group-label"
-                                                    defaultValue="female"
-                                                    name="radio-buttons-group"
-                                                    row 
-                                                    value={LivingIn.data}
-                                                    onChange={(e) => setLivingIn({ data: e.target.value, error: "" })}>
-                                                    <FormControlLabel value="0" control={<Radio />} label="Rented House" disabled={screen === "view"} />
-                                                    <FormControlLabel value="1" control={<Radio />} label="Own House" disabled={screen === "view"} />
-                                                </RadioGroup>
-                                              
-                                            </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-5px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{LivingIn.error}</div>
-                                        </Stack>
-                                        </div>
-                                        <div className='box'>
-                                        <Stack direction='column'>
-                                            <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
-                                                Years at Current Residence
-                                            </Typography>
-                                            <Stack direction='row' sx={{ ml: 0, }}>
-                                                <TextField
-                                                className='input-box1'
-                                                    required
-                                                    id="outlined-required"
-                                                    disabled={screen === "view"}
-                                                    label="Years at Current Residence"
-                                                    value={YearsAtCurrentResidence.data}
-                                                    onChange={(e) => OccupationDetailsTextValidate(e, "YearsAtCurrentResidence")}
-                                                    style={{  }} />
-                                            </Stack>
-                                        
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px",marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{YearsAtCurrentResidence.error}</div>
-                                        </div>
-                                    </Stack>
-                                </TabPanel>
-                            </TabContext>
-                            {screen === "view" || TabIndex === "5"
-                                ? null
-                                :<Stack direction='column' alignItems='flex-end'>
-                                    <Button sx={{ mr: 5, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
-                                            {Loading
-                                                ? (<img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
-                                                : ("Submit")}
-                                        </Button>
-                                    </Stack>}
-                        </Stack>}
+                                </TabPanel>}
+                        </TabContext>
+                        {!MemberLoading && (screen === "view" || TabIndex === "5"
+                            ? null
+                            : <Stack direction='column' alignItems='flex-end'>
+                                <Button sx={{ mr: 5, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
+                                    {Loading
+                                        ? (<img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                                        : ("Submit")}
+                                </Button>
+                            </Stack>)}
+                    </Stack>
                 </Box>
             </Card>
+            <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+                <Alert
+                    onClose={HandleAlertClose}
+                    severity={AlertFrom === "failed" ? "error" : "success"}
+                    variant="filled"
+                    sx={{ width: '100%' }} >
+                    {AlertMessage}
+                </Alert>
+            </Snackbar>
             <Dialog
-                open={Alert}
-                onClose={HandleAlertClose}
+                open={ProfileUploadLoading}
+                onClose={() => setProfileUploadLoading(false)}
                 fullWidth={500}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description" >
-                <IconButton
-                    aria-label="close"
-                    onClick={HandleAlertClose}
-                    sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
-                    <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
-                </IconButton>
-                <Stack style={{ alignItems: 'center', }} mt={5}>
-
-                    {AlertFrom === "success"
-                        ? <img src="../../../public/assets/icons/success_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />
-                        : <img src="../../../public/assets/icons/failed_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />}
-                    <Typography gutterBottom variant='h4' mt={2} mb={5} className="alert-msg" color={AlertFrom === "success" ? "#45da81" : "#ef4444"}>
-
-                    {AlertFrom === "failed"
-                        ? <img src="../../../public/assets/icons/failed_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />
-                        : <img src="../../../public/assets/icons/success_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />}
-                    <Typography gutterBottom variant='h4' mt={2} mb={5} className="alert-msg" color={AlertFrom === "failed" ? "#ef4444" : "#45da81"}>
-
-                        {AlertMessage}
-                    </Typography>
+                PaperProps={{
+                    style: {
+                        backgroundColor: 'transparent',
+                        boxShadow: 'none',
+                    },
+                }} >
+                <Stack style={{ alignItems: 'center' }} mt={5} mb={5}>
+                    <img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 70, height: 70 }} />
                 </Stack>
             </Dialog>
             <Dialog
                 open={ProofAlert}
-                onClose={HandleProofAlertClose}
                 fullWidth={500}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description" >
@@ -2690,20 +2718,16 @@ export default function AddMemberPage() {
                         Upload Proof
                         <VisuallyHiddenInput type="file" onChange={HandleProofImage} />
                     </Button>
-                   
                 </Stack>
-
                 <Stack sx={{ mt: 2, ml: 3 }}>
                     <Stack direction='row'>
-
                         {ProofImage.data
-                            ? <img src={`${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${ProofImage.data}`} alt="Selected" style={{ width: 120, height: 120, }} />
+                            ? <img src={ProofImage.type === "local" ? `${ProofImage.data}` : `${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${ProofImage.data}`} alt="Selected" style={{ width: 120, height: 120, }} />
                             : <img src="../../../public/assets/icons/image_placeholder.png" alt="Selected" style={{ width: 120, height: 120, }} />}
-
-                        <Stack flexDirection='column' sx={{ ml: 3,  }}>
+                        <Stack flexDirection='column' sx={{ ml: 3, }}>
                             <Stack flexDirection='row'>
                                 <TextField
-                                className='dialog'
+                                    className='dialog'
                                     id="outlined-select-currency"
                                     select
                                     variant="outlined"
@@ -2723,7 +2747,7 @@ export default function AddMemberPage() {
                                 <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ProofType.error}</div>
                             </Stack>
                             {ProofType.data === "KYC" || ProofType.data === "OTHERS"
-                                ? <Stack flexDirection='row' sx={{ mt:1 }}>
+                                ? <Stack flexDirection='row' sx={{ mt: 1 }}>
                                     <TextField
                                         id="outlined-select-currency"
                                         className='dialog'
@@ -2744,20 +2768,38 @@ export default function AddMemberPage() {
                                                 </MenuItem>
                                             ))}
                                     </TextField>
-                                   
                                 </Stack>
-                               
                                 : null}
-                                <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{KYCOtherType.error}</div>
+                            <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{KYCOtherType.error}</div>
                         </Stack>
                     </Stack>
                     <div style={{ marginLeft: "8px", color: 'red', fontSize: "12px", marginTop: "3px", fontWeight: "500", width: "100px" }}>{ProofImage.error}</div>
                 </Stack>
                 <Stack sx={{ alignItems: 'center', mt: 1, mb: 3 }}>
-                    <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 100, height: 40, cursor: 'pointer' }} onClick={validateProofDetails}>
-                       Save
+                    <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 100, height: 40, cursor: 'pointer' }} onClick={ProofLoading ? null : validateProofDetails}>
+                        {ProofLoading
+                            ? (<img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                            : ("Save")}
                     </Button>
                 </Stack>
+            </Dialog>
+            <Dialog
+                open={ConfirmAlert}
+                onClose={HandleAlertClose}
+                maxWidth
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description" >
+                <DialogTitle id="responsive-dialog-title">
+                    Are you sure you want to delete this Proof ?
+                </DialogTitle>
+                <DialogActions>
+                    <Button autoFocus onClick={HandleConfirmYesClick} sx={{ cursor: 'pointer' }}>
+                        Yes
+                    </Button>
+                    <Button onClick={() => setConfirmAlert(false)} autoFocus sx={{ cursor: 'pointer' }}>
+                        No
+                    </Button>
+                </DialogActions>
             </Dialog>
         </Container>
     );

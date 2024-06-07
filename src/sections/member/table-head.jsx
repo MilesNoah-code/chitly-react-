@@ -18,9 +18,9 @@ export default function TableHeader({
   onRequestSort,
   onSelectAllClick,
 }) {
-  const onSort = (property) => (event) => {
+  /* const onSort = (property) => (event) => {
     onRequestSort(event, property);
-  };
+  }; */
 
   return (
     <TableHead>

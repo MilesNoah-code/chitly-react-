@@ -14,7 +14,7 @@ import TablePagination from '@mui/material/TablePagination';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { Dialog, TextField, IconButton, InputAdornment } from '@mui/material';
+import { Alert, Snackbar, TextField, InputAdornment } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
@@ -26,12 +26,13 @@ import Scrollbar from 'src/components/scrollbar';
 
 import { emptyRows } from 'src/sections/member/utils';
 
+import './chitpayment-view.css';
 import TableHeader from '../../member/table-head';
 import TableNoData from '../../member/table-no-data';
 import ErrorLayout from '../../../Error/ErrorLayout';
 import ChitPaymentTableRow from '../chitpayment-list';
 import TableEmptyRows from '../../member/table-empty-rows';
-import './chitpayment-view.css';
+
 export default function ChitPaymentView() {
 
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ export default function ChitPaymentView() {
   const Session = localStorage.getItem('apiToken');
   const [ChitPaymentList, setChitPaymentList] = useState([]);
   const [ChitPaymentLoading, setChitPaymentLoading] = useState(true);
-  const [Alert, setAlert] = useState(false);
+  const [AlertOpen, setAlertOpen] = useState(false);
   const [AlertMessage, setAlertMessage] = useState('');
   const [AlertFrom, setAlertFrom] = useState('');
   const [ErrorAlert, setErrorAlert] = useState(false);
@@ -150,7 +151,7 @@ export default function ChitPaymentView() {
   };
 
   const HandleAddChitPaymentClick = () => {
-    navigate('/addChitPayment', {
+    navigate('/chitpayment/add', {
       state: {
         screen: 'add',
         data: [],
@@ -159,11 +160,11 @@ export default function ChitPaymentView() {
   }
 
   const HandleAlertShow = () => {
-    setAlert(true);
+    setAlertOpen(true);
   };
 
   const HandleAlertClose = () => {
-    setAlert(false);
+    setAlertOpen(false);
   };
 
   const HandleFromDateChange = (date) => {
@@ -195,16 +196,13 @@ export default function ChitPaymentView() {
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
-        <Typography variant="h6" sx={{color: '#637381' }}>Chit Payment List</Typography>
-
-        <Button variant="contained"  className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddChitPaymentClick}>
+        <Typography variant="h6" sx={{ color: '#637381' }}>Chit Payment List</Typography>
+        <Button variant="contained" className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddChitPaymentClick}>
           Add Chit Payment
         </Button>
       </Stack>
       <Card>
-
-        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap={'40px'} className='mbl-view'>
-
+        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='40px' className='mbl-view'>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker']} >
               <DatePicker
@@ -278,18 +276,14 @@ export default function ChitPaymentView() {
                           item={row}
                         />
                       ))}
-
                     <TableEmptyRows
                       height={77}
-                      emptyRows={emptyRows(page, rowsPerPage, ChitPaymentList.length)}
-                    />
-
+                      emptyRows={emptyRows(page, rowsPerPage, ChitPaymentList.length)} />
                     {ChitPaymentList.length === 0 && <TableNoData query={filterName} />}
                   </TableBody>
                 </Table>
               </TableContainer>
             </Scrollbar>
-
             {ChitPaymentList.length > 0 && <TablePagination
               page={page}
               component="div"
@@ -300,29 +294,16 @@ export default function ChitPaymentView() {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />}
           </Stack>}
-
       </Card>
-      <Dialog
-        open={Alert}
-        onClose={HandleAlertClose}
-        fullWidth={500}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description" >
-        <IconButton
-          aria-label="close"
-          onClick={HandleAlertClose}
-          sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
-          <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
-        </IconButton>
-        <Stack style={{ alignItems: 'center', }} mt={5}>
-          {AlertFrom === "success"
-            ? <img src="../../../public/assets/icons/success_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />
-            : <img src="../../../public/assets/icons/failed_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />}
-          <Typography gutterBottom variant='h4' mt={2} mb={5} color={AlertFrom === "success" ? "#45da81" : "#ef4444"}>
-            {AlertMessage}
-          </Typography>
-        </Stack>
-      </Dialog>
+      <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+        <Alert
+          onClose={HandleAlertClose}
+          severity={AlertFrom === "failed" ? "error" : "success"}
+          variant="filled"
+          sx={{ width: '100%' }} >
+          {AlertMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }

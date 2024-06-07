@@ -24,10 +24,6 @@ const MENU_OPTIONS = [
     label: 'Profile',
     icon: 'eva:person-fill',
   },
-  {
-    label: 'Settings',
-    icon: 'eva:settings-2-fill',
-  },
 ];
 
 // ----------------------------------------------------------------------
@@ -42,8 +38,13 @@ export default function AccountPopover() {
   const navigate = useNavigate();
   const [Loading, setLoading] = useState(false);
 
-  const handleClose = () => {
+  const handleClose = (option) => {
     setOpen(null);
+    if (option.label === "Home"){
+      navigate('/');
+    } else if (option.label === "Profile") {
+      navigate('/');
+    }
   };
 
   const LogOutMethod = () => {
@@ -103,7 +104,7 @@ export default function AccountPopover() {
       <Popover
         open={!!open}
         anchorEl={open}
-        onClose={handleClose}
+        onClose={() => handleClose("")}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         PaperProps={{
@@ -127,7 +128,7 @@ export default function AccountPopover() {
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         {MENU_OPTIONS.map((option) => (
-          <MenuItem key={option.label} onClick={handleClose}>
+          <MenuItem key={option.label} onClick={() => handleClose(option)}>
             {option.label}
           </MenuItem>
         ))}

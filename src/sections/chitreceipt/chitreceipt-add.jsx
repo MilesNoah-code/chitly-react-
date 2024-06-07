@@ -12,7 +12,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Box, Stack, Button, Dialog, ListItem, IconButton, Typography, Autocomplete, ListItemText, InputAdornment } from '@mui/material';
+import { Box, Stack, Alert, Button, Dialog, ListItem, Snackbar, IconButton, Typography, Autocomplete, ListItemText, InputAdornment } from '@mui/material';
 
 import { GetHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 
@@ -33,7 +33,7 @@ import ChitReceiptMemberTableRow from './chitreceipt-member-list';
 
 
 export default function AddChitReceiptPage() {
-   
+
     const navigate = useNavigate();
     const location = useLocation();
     const { screen, data } = location.state;
@@ -78,7 +78,7 @@ export default function AddChitReceiptPage() {
 
     const [Loading, setLoading] = useState(false);
     const [GroupListLoading, setGroupListLoading] = useState(true);
-    const [Alert, setAlert] = useState(false);
+    const [AlertOpen, setAlertOpen] = useState(false);
     const [AlertMessage, setAlertMessage] = useState('');
     const [AlertFrom, setAlertFrom] = useState('');
     const [ErrorAlert, setErrorAlert] = useState(false);
@@ -99,6 +99,11 @@ export default function AddChitReceiptPage() {
     const [filterName, setFilterName] = useState('');
     const [SelectMemberList, setSelectMemberList] = useState([]);
     const [filterTicketNo, setfilterTicketNo] = useState('');
+    const [MemberName, setMemberName] = useState({
+        data: "",
+        error: ""
+    });
+    const [ScreenRefresh, setScreenRefresh] = useState(0);
 
     useEffect(() => {
         if (screen === "add") {
@@ -112,6 +117,18 @@ export default function AddChitReceiptPage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [screen]);
 
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            if (ScreenRefresh) {
+                event.preventDefault();
+                event.returnValue = '';
+            }
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [ScreenRefresh]);
 
     const GetChitReceiptView = () => {
         setGroupListLoading(true);
@@ -129,6 +146,10 @@ export default function AddChitReceiptPage() {
                     });
                     setReceiptNo({
                         data: json.list.receiptno != null ? json.list.receiptno : "",
+                        error: ""
+                    });
+                    setMemberName({
+                        data: json.list.membername != null ? json.list.membername : "",
                         error: ""
                     });
                     setAuctionMode({
@@ -307,15 +328,16 @@ export default function AddChitReceiptPage() {
                 .then((json) => {
                     console.log(JSON.stringify(json));
                     setLoading(false);
+                    setScreenRefresh(0);
                     if (json.success) {
                         setAlertMessage(json.message);
                         setAlertFrom("success");
                         HandleAlertShow();
-                    }else if(json.success === false){
+                    } else if (json.success === false) {
                         setAlertMessage(json.message);
                         setAlertFrom("failed");
                         HandleAlertShow();
-                    }else{
+                    } else {
                         setErrorAlert(true);
                         setErrorScreen("network");
                     }
@@ -331,26 +353,27 @@ export default function AddChitReceiptPage() {
 
     const ChitReceiptTextValidate = (e, from) => {
         const text = e.target.value;
+        setScreenRefresh(pre => pre + 1);
         console.log(from);
-        if (from === "ReceiptNo"){
+        if (from === "ReceiptNo") {
             setReceiptNo(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "* Required" : ""
             }));
-        } else if (from === "TicketNo"){
+        } else if (from === "TicketNo") {
             setTicketNo(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "" : ""
             }));
-        } else if (from === "AuctionMode"){
+        } else if (from === "AuctionMode") {
             setAuctionMode(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "" : ""
             }));
-        } else if (from === "Duration"){
+        } else if (from === "Duration") {
             setDuration(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
@@ -362,26 +385,32 @@ export default function AddChitReceiptPage() {
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "" : ""
             }));
-        } else if (from === "InstFrom"){
+        } else if (from === "InstFrom") {
             setInstFrom(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "" : ""
             }));
-        } else if (from === "InstTo"){
+        } else if (from === "InstTo") {
             setInstTo(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "" : ""
             }));
         } else if (from === "Values") {
-            const AmountError = isValidateAmount(text.trim(), GroupNoSearch.data.amount) ? "" : "Receipt amount should not greater than running balance";
+            const AmountError = isValidateAmount(text.trim(), GroupNoSearch.data.amount) ? "" : "Receipt amount should not greater than due amount";
             console.log(isValidateAmount(text.trim(), GroupNoSearch.data.amount))
             const ValidError = !isValidNumber(text) ? "* Invalid Amount" : AmountError;
             setValues(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "* Required" : ValidError
+            }));
+        } else if (from === "MemberName") {
+            setMemberName(prevState => ({
+                ...prevState,
+                data: text.trim() !== "" ? text : "",
+                error: text.trim() === "" ? "" : ""
             }));
         }
     };
@@ -412,7 +441,19 @@ export default function AddChitReceiptPage() {
                 error: ""
             }));
         }
-        /* if (!TicketNo.data) {
+        if (!MemberName.data) {
+            IsValidate = false;
+            setMemberName(prevState => ({
+                ...prevState,
+                error: "* Required"
+            }));
+        } else {
+            setMemberName(prevState => ({
+                ...prevState,
+                error: ""
+            }));
+        }
+        if (TicketNo.data == null || TicketNo.data === "" || TicketNo.data > 0) {
             IsValidate = false;
             setTicketNo(prevState => ({
                 ...prevState,
@@ -436,7 +477,7 @@ export default function AddChitReceiptPage() {
                 error: ""
             }));
         }
-        if (!Duration.data) {
+        if (Duration.data == null || Duration.data === "" || Duration.data > 0) {
             IsValidate = false;
             setDuration(prevState => ({
                 ...prevState,
@@ -448,7 +489,7 @@ export default function AddChitReceiptPage() {
                 error: ""
             }));
         }
-         if (!AccountNo.data) {
+        if (AccountNo.data == null || AccountNo.data === "" || AccountNo.data > 0) {
             IsValidate = false;
             setAccountNo(prevState => ({
                 ...prevState,
@@ -460,7 +501,7 @@ export default function AddChitReceiptPage() {
                 error: ""
             }));
         }
-        if (!InstFrom.data) {
+        if (InstFrom.data == null || InstFrom.data === "" || InstFrom.data > 0) {
             IsValidate = false;
             setInstFrom(prevState => ({
                 ...prevState,
@@ -472,7 +513,7 @@ export default function AddChitReceiptPage() {
                 error: ""
             }));
         }
-        if (!InstTo.data) {
+        if (InstTo.data == null || InstTo.data === "" || InstTo.data > 0) {
             IsValidate = false;
             setInstTo(prevState => ({
                 ...prevState,
@@ -483,7 +524,7 @@ export default function AddChitReceiptPage() {
                 ...prevState,
                 error: ""
             }));
-        } */
+        }
         if (!Values.data) {
             IsValidate = false;
             setValues(prevState => ({
@@ -500,7 +541,7 @@ export default function AddChitReceiptPage() {
             IsValidate = false;
             setValues(prevState => ({
                 ...prevState,
-                error: "Receipt amount should not greater than running balance"
+                error: "Receipt amount should not greater than due amount"
             }));
         } else {
             setValues(prevState => ({
@@ -508,7 +549,7 @@ export default function AddChitReceiptPage() {
                 error: ""
             }));
         }
-        if(screen === "add"){
+        if (screen === "add") {
             ChitReceiptAddMethod(IsValidate);
         }
     }
@@ -529,13 +570,13 @@ export default function AddChitReceiptPage() {
     };
 
     const HandleAlertShow = () => {
-        setAlert(true);
+        setAlertOpen(true);
     };
 
     const HandleAlertClose = () => {
-        setAlert(false);
-        if (AlertFrom === "success"){
-            navigate('/chitreceipt');
+        setAlertOpen(false);
+        if (AlertFrom === "success") {
+            navigate('/chitreceipt/list');
         }
     }
 
@@ -545,6 +586,7 @@ export default function AddChitReceiptPage() {
     };
 
     const HandleDateChange = (date) => {
+        setScreenRefresh(pre => pre + 1);
         const DateForSave = date ? dayjs(date).format('YYYY-MM-DD') : "";
         console.log('Date to save:', DateForSave);
         setReceiptDate({
@@ -556,6 +598,7 @@ export default function AddChitReceiptPage() {
 
     const HandleGroupNoSearch = (event, value) => {
         if (value) {
+            setScreenRefresh(pre => pre + 1);
             setGroupNoSearch({
                 data: value,
                 error: ""
@@ -577,6 +620,7 @@ export default function AddChitReceiptPage() {
             GetReceiptNumberList(value.id);
             GetMemberList(value.id, "", "")
         } else {
+            setScreenRefresh(0);
             setGroupNoSearch({
                 data: "",
                 error: ""
@@ -610,6 +654,10 @@ export default function AddChitReceiptPage() {
                 error: ""
             });
             setInstTo({
+                data: "",
+                error: ""
+            });
+            setMemberName({
                 data: "",
                 error: ""
             });
@@ -691,6 +739,10 @@ export default function AddChitReceiptPage() {
                 data: item.inst_to !== "" && item.inst_to != null ? item.inst_to : "",
                 error: ""
             });
+            setMemberName({
+                data: item.name !== "" && item.name != null ? item.name : "",
+                error: ""
+            });
             setMemberListAlert(false);
         }
     };
@@ -707,6 +759,20 @@ export default function AddChitReceiptPage() {
         GetMemberList(GroupNoSearch.data.id, filterName, event.target.value);
     };
 
+    const HandleBack = () => {
+        if (ScreenRefresh) {
+            const confirmNavigation = window.confirm(
+                'You have unsaved changes. Are you sure you want to leave this page?'
+            );
+            if (confirmNavigation) {
+                setScreenRefresh(0);
+                navigate('/chitreceipt/list');
+            }
+        } else {
+            navigate('/chitreceipt/list');
+        }
+    }
+
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
     const screenLabel = {
@@ -717,11 +783,11 @@ export default function AddChitReceiptPage() {
 
     return (
         <Container>
-        <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{mt:2, mb:2}}>
-        <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
+            <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
+                <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
                     {screenLabel[screen] || "Add Chit Receipt"}
                 </Typography>
-                <Button variant="contained" className='custom-button' onClick={() => navigate('/chitreceipt')} sx={{ cursor: 'pointer' }}>
+                <Button variant="contained" className='custom-button' onClick={HandleBack} sx={{ cursor: 'pointer' }}>
                     Back
                 </Button>
             </Stack>
@@ -738,230 +804,243 @@ export default function AddChitReceiptPage() {
                         </Stack>
                         : <Stack direction='column'>
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                            <div className='box-grp'>
-                                <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                        Receipt Date
-                                    </Typography>
-                                    <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                    
-                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                            <DemoContainer components={['DatePicker']} sx={{ width: 530 }}>
-                                         
-                                                <DatePicker
-                                                className='input-box1'
-                                                    label="From Date"
-                                                    value={ReceiptDate.data}
-                                                    onChange={HandleDateChange}
-                                                    format="DD-MM-YYYY" />
-                                            </DemoContainer>
-                                        </LocalizationProvider>
+                                <div className='box-grp'>
+                                    <Stack direction='column'>
+                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                            Receipt Date
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                <DemoContainer components={['DatePicker']} sx={{ width: 530 }}>
+                                                    <DatePicker
+                                                        className='input-box1'
+                                                        label="From Date"
+                                                        disabled={screen === "view"}
+                                                        value={ReceiptDate.data}
+                                                        onChange={HandleDateChange}
+                                                        format="DD-MM-YYYY" />
+                                                </DemoContainer>
+                                            </LocalizationProvider>
+                                        </Stack>
                                     </Stack>
-                                </Stack>
                                 </div>
                                 <div className='box-grp  grp-label'>
-                                <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{mt: 2, ml: 2 }}>
-                                        Group No
-                                    </Typography>
-                                    <Stack direction='row' sx={{ ml: 0, mt: 0}}>
-                                        <Autocomplete
-                                        className='input-box1'
-                                            disablePortal
-                                            id="combo-box-demo"
-                                            options={PendingGroupList}
-                                            disabled={screen === "view"}
-                                            getOptionLabel={(option) => option.groupno}
-                                            onChange={HandleGroupNoSearch}
-                                            sx={{ }}
-                                            renderOption={(props, option) => (
-                                                <ListItem {...props} key={option.id}>
-                                                    <ListItemText
-                                                        primary={option.groupno}
-                                                        secondary={`${option.auction_mode},  ${Math.round(option.amount)}`} />
-                                                </ListItem>
-                                            )}
-                                            renderInput={(params) => <TextField {...params} label={screen === "view" ? GroupNoSearch.data : "Search"} />}
-                                        />
+                                    <Stack direction='column'>
+                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                            Group No
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                            <Autocomplete
+                                                className='input-box1'
+                                                disablePortal
+                                                id="combo-box-demo"
+                                                options={PendingGroupList}
+                                                disabled={screen === "view"}
+                                                getOptionLabel={(option) => option.groupno}
+                                                onChange={HandleGroupNoSearch}
+                                                sx={{}}
+                                                renderOption={(props, option) => (
+                                                    <ListItem {...props} key={option.id}>
+                                                        <ListItemText
+                                                            primary={option.groupno}
+                                                            secondary={`${option.auction_mode},  ${Math.round(option.amount)}`} />
+                                                    </ListItem>
+                                                )}
+                                                renderInput={(params) => <TextField {...params} label={screen === "view" ? GroupNoSearch.data : "Search"} />}
+                                            />
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupNoSearch.error}</div>
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupNoSearch.error}</div>
-                                </Stack>
                                 </div>
                             </Stack>
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                            <div className='box-grp'>
-                                <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                        Receipt No
-                                    </Typography>
-                                    <Stack direction='row' sx={{ ml: 0, }}>
-                                        <TextField
-                                            required
-                                            className='input-box1'
-                                            id="outlined-required"
-                                            disabled
-                                            label="Receipt No"
-                                            value={ReceiptNo.data}
-                                            onChange={(e) => ChitReceiptTextValidate(e, "ReceiptNo")}
-                                            style={{ }} />
-                                       
+                                <div className='box-grp'>
+                                    <Stack direction='column'>
+                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                            Member Name
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, }}>
+                                            <TextField
+                                                required
+                                                className='input-box1'
+                                                id="outlined-required"
+                                                disabled
+                                                label="Member Name"
+                                                value={MemberName.data}
+                                                onChange={(e) => ChitReceiptTextValidate(e, "MemberName")}
+                                                style={{}} />
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{MemberName.error}</div>
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{ReceiptNo.error}</div>
-                                </Stack>
                                 </div>
                                 <div className='box-grp'>
-                                <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
-                                        Ticket No
-                                    </Typography>
-                                    <Stack direction='row' sx={{ ml: 0, }}>
-                                        <TextField
-                                        className='input-box1'
-                                            // required
-                                            id="outlined-required"
-                                            disabled
-                                            label="Ticket No"
-                                            value={TicketNo.data}
-                                            onChange={(e) => ChitReceiptTextValidate(e, "TicketNo")}
-                                            style={{  }} />
-                                      
+                                    <Stack direction='column'>
+                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                            Receipt No
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, }}>
+                                            <TextField
+                                                required
+                                                className='input-box1'
+                                                id="outlined-required"
+                                                disabled
+                                                label="Receipt No"
+                                                value={ReceiptNo.data}
+                                                onChange={(e) => ChitReceiptTextValidate(e, "ReceiptNo")}
+                                                style={{}} />
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{ReceiptNo.error}</div>
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{TicketNo.error}</div>
-                                </Stack>
                                 </div>
-                            </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                            <div className='box-grp'>
-                                <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}>
-                                        Auction Mode
-                                    </Typography>
-                                    <Stack direction='row' sx={{ ml: 0, }}>
-                                        <TextField
-                                            // required
-                                            className='input-box1'
-                                            id="outlined-required"
-                                            disabled
-                                            label="Auction Mode"
-                                            value={AuctionMode.data}
-                                            onChange={(e) => ChitReceiptTextValidate(e, "AuctionMode")}
-                                            style={{  }} />
-                                       
-                                    </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AuctionMode.error}</div>
-                                </Stack>
-                                </div>
-                                <div className='box-grp'>
-                                <Stack direction='column'>
-                                    <Typography variant='subtitle1'  sx={{mt: 2, ml: 2 }} >
-                                        Duration
-                                    </Typography>
-                                    <Stack direction='row' sx={{ ml: 0, }}>
-                                        <TextField
-                                            // required
-                                            className='input-box1'
-                                            id="outlined-required"
-                                            disabled
-                                            label="Duration"
-                                            value={Duration.data}
-                                            onChange={(e) => ChitReceiptTextValidate(e, "Duration")}
-                                            style={{  }} />
-                                      
-                                    </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Duration.error}</div>
-                                </Stack>
-                             
-                                </div>
-                                </Stack>
 
-                                <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                            </Stack>
+                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                 <div className='box-grp'>
-                                <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }} >
-                                        Account No
-                                    </Typography>
-                                    <Stack direction='row' sx={{ ml: 0, }}>
-                                        <TextField
-                                            // required
-                                            className='input-box1'
-                                            id="outlined-required"
-                                            disabled
-                                            label="Account No"
-                                            value={AccountNo.data}
-                                            onChange={(e) => ChitReceiptTextValidate(e, "AccountNo")}
-                                            style={{  }} />
-                                      
+                                    <Stack direction='column'>
+                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                            Ticket No
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, }}>
+                                            <TextField
+                                                className='input-box1'
+                                                // required
+                                                id="outlined-required"
+                                                disabled
+                                                label="Ticket No"
+                                                value={TicketNo.data}
+                                                onChange={(e) => ChitReceiptTextValidate(e, "TicketNo")}
+                                                style={{}} />
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{TicketNo.error}</div>
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AccountNo.error}</div>
-                                </Stack>
-                           </div>
-                           <div className='box-grp'>
-                                <Stack direction='column'>
-                                    <Typography variant="subtitle1" sx={{mt: 2, ml: 2 }}>
-                                        Inst. From
-                                    </Typography>
-                                    <Stack direction='row' sx={{ ml: 0, }}>
-                                        <TextField
-                                            // required
-                                            className='input-box1'
-                                            id="outlined-required"
-                                            disabled
-                                            label="Inst. From"
-                                            value={InstFrom.data}
-                                            onChange={(e) => ChitReceiptTextValidate(e, "InstFrom")}
-                                            style={{  }} />
-                                        
-                                    </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{InstFrom.error}</div>
-                                </Stack>
-                                </div>
-                                </Stack>
-                                <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                <div className='box-grp'>
-                                <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{ ml:2, mr: 2, mt: 2, mb: '0px' }}  >
-                                        Inst. To
-                                    </Typography>
-                                    <Stack direction='row' sx={{ ml: 0, }}>
-                                        <TextField
-                                            // required
-                                            className='input-box1'
-                                            id="outlined-required"
-                                            disabled
-                                            label="Inst. To"
-                                            value={InstTo.data}
-                                            onChange={(e) => ChitReceiptTextValidate(e, "InstTo")}
-                                            style={{ }} />
-                                       
-                                    </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{InstTo.error}</div>
-                                </Stack>
                                 </div>
                                 <div className='box-grp'>
-                                <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{mt: 2, ml: 2 }} >
-                                        Value
-                                    </Typography>
-                                    <Stack direction='row' sx={{ ml: 0, }}>
-                                        <TextField
-                                            required
-                                            className='input-box1'
-                                            id="outlined-required"
-                                            disabled={screen === "view"}
-                                            label="Value"
-                                            value={Values.data}
-                                            onChange={(e) => ChitReceiptTextValidate(e, "Values")}
-                                            style={{  }} />
-                                      
+                                    <Stack direction='column'>
+                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                            Auction Mode
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, }}>
+                                            <TextField
+                                                // required
+                                                className='input-box1'
+                                                id="outlined-required"
+                                                disabled
+                                                label="Auction Mode"
+                                                value={AuctionMode.data}
+                                                onChange={(e) => ChitReceiptTextValidate(e, "AuctionMode")}
+                                                style={{}} />
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AuctionMode.error}</div>
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Values.error}</div>
-                                </Stack>
+                                </div>
+
+                            </Stack>
+
+                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                <div className='box-grp'>
+                                    <Stack direction='column'>
+                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                            Duration
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, }}>
+                                            <TextField
+                                                // required
+                                                className='input-box1'
+                                                id="outlined-required"
+                                                disabled
+                                                label="Duration"
+                                                value={Duration.data}
+                                                onChange={(e) => ChitReceiptTextValidate(e, "Duration")}
+                                                style={{}} />
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Duration.error}</div>
+                                    </Stack>
+                                </div>
+                                <div className='box-grp'>
+                                    <Stack direction='column'>
+                                        <Typography variant='subtitle1' sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }} >
+                                            Account No
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, }}>
+                                            <TextField
+                                                // required
+                                                className='input-box1'
+                                                id="outlined-required"
+                                                disabled
+                                                label="Account No"
+                                                value={AccountNo.data}
+                                                onChange={(e) => ChitReceiptTextValidate(e, "AccountNo")}
+                                                style={{}} />
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AccountNo.error}</div>
+                                    </Stack>
+                                </div>
+                            </Stack>
+                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                <div className='box-grp'>
+                                    <Stack direction='column'>
+                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                            Inst. From
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, }}>
+                                            <TextField
+                                                // required
+                                                className='input-box1'
+                                                id="outlined-required"
+                                                disabled
+                                                label="Inst. From"
+                                                value={InstFrom.data}
+                                                onChange={(e) => ChitReceiptTextValidate(e, "InstFrom")}
+                                                style={{}} />
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{InstFrom.error}</div>
+                                    </Stack>
+                                </div>
+                                <div className='box-grp'>
+                                    <Stack direction='column'>
+                                        <Typography variant='subtitle1' sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}  >
+                                            Inst. To
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, }}>
+                                            <TextField
+                                                // required
+                                                className='input-box1'
+                                                id="outlined-required"
+                                                disabled
+                                                label="Inst. To"
+                                                value={InstTo.data}
+                                                onChange={(e) => ChitReceiptTextValidate(e, "InstTo")}
+                                                style={{}} />
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{InstTo.error}</div>
+                                    </Stack>
+                                </div>
+                            </Stack>
+                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                <div className='box-grp'>
+                                    <Stack direction='column'>
+                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                            Value
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, }}>
+                                            <TextField
+                                                required
+                                                className='input-box1'
+                                                id="outlined-required"
+                                                disabled={screen === "view"}
+                                                label="Value"
+                                                value={Values.data}
+                                                onChange={(e) => ChitReceiptTextValidate(e, "Values")}
+                                                style={{}} />
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Values.error}</div>
+                                    </Stack>
                                 </div>
                             </Stack>
                             {screen === "view"
                                 ? null
                                 : <Stack direction='column' alignItems='flex-end'>
-                                    <Button sx={{ mr: 5, mt:2, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button'  onClick={Loading ? null : HandleSubmitClick}>
+                                    <Button sx={{ mr: 5, mt: 2, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                         {Loading
                                             ? (<img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                             : ("Submit")}
@@ -970,27 +1049,15 @@ export default function AddChitReceiptPage() {
                         </Stack>}
                 </Box>
             </Card>
-            <Dialog
-                open={Alert}
-                onClose={HandleAlertClose}
-                fullWidth={500}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description" >
-                <IconButton
-                    aria-label="close"
-                    onClick={HandleAlertClose}
-                    sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
-                    <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
-                </IconButton>
-                <Stack style={{ alignItems: 'center', }} mt={5}>
-                    {AlertFrom === "success"
-                        ? <img src="../../../public/assets/icons/success_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />
-                        : <img src="../../../public/assets/icons/failed_gif.gif" alt="Loading" style={{ width: 130, height: 130, }} />}
-                    <Typography gutterBottom variant='h6' className="alert-msg" mt={2} mb={5} color={AlertFrom === "success" ? "#45da81" : "#ef4444"}>
-                        {AlertMessage}
-                    </Typography>
-                </Stack>
-            </Dialog>
+            <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+                <Alert
+                    onClose={HandleAlertClose}
+                    severity={AlertFrom === "failed" ? "error" : "success"}
+                    variant="filled"
+                    sx={{ width: '100%' }} >
+                    {AlertMessage}
+                </Alert>
+            </Snackbar>
             <Dialog
                 open={MemberListAlert}
                 fullWidth={600}
@@ -1030,16 +1097,14 @@ export default function AddChitReceiptPage() {
                                 aria-label="close"
                                 className='btn-close'
                                 onClick={HandleMemberListAlertClose}
-
                                 sx={{ position: 'absolute', right: 2, top: 0, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
-
                                 <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                             </IconButton>
                         </Stack>
                         <Scrollbar>
                             <TableContainer sx={{ overflow: '', mt: 2 }}>
                                 <Table sx={{ minWidth: 530 }} stickyHeader>
-                                    <TableHeader sx={{ width:'100%' }}
+                                    <TableHeader sx={{ width: '100%' }}
                                         order={order}
                                         orderBy={orderBy}
                                         rowCount={MemberList.length}

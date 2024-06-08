@@ -16,7 +16,7 @@ export const ChitPaymentPage = lazy(() => import('src/pages/chitpayment'));
 export const ChitPaymentAddPage = lazy(() => import('src/sections/chitpayment/chitpayment-add'));
 export const groupMember = lazy(() => import('src/sections/groupmember/group-member'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
-export const ChangeLog = lazy(() => import('src/ChangeLog'));
+export const ChangeLog = lazy(() => import('src/changelog'));
 export const ChitEstimatePage = lazy(() => import('src/pages/chitestimate'));
 export const ChitEstimateAddPage = lazy(() => import('src/sections/chitestimate/chitestimate-add'));
 
@@ -70,7 +70,7 @@ export default function Router() {
       element: <Page404 />,
     },
     {
-      path: '/ChangeLog',
+      path: '/changelog',
       element: <ChangeLog />,
     },
   ]);

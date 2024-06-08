@@ -17,6 +17,8 @@ export const ChitPaymentAddPage = lazy(() => import('src/sections/chitpayment/ch
 export const groupMember = lazy(() => import('src/sections/groupmember/group-member'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 export const ChangeLog = lazy(() => import('src/ChangeLog'));
+export const ChitEstimatePage = lazy(() => import('src/pages/chitestimate'));
+export const ChitEstimateAddPage = lazy(() => import('src/sections/chitestimate/chitestimate-add'));
 
 export default function Router() {
   const isSessionAvailable = localStorage.getItem('apiToken') !== null;
@@ -53,6 +55,10 @@ export default function Router() {
         { path: 'chitpayment/list', element: <ChitPaymentPage /> },
         { path: 'chitpayment/add', element: <ChitPaymentAddPage /> },
         { path: 'chitpayment/view/:memberId', element: <ChitPaymentAddPage /> },
+        { path: 'chitestimate/list', element: <ChitEstimatePage /> },
+        { path: 'chitestimate/add', element: <ChitEstimateAddPage /> },
+        { path: 'chitestimate/view/:memberId', element: <ChitEstimateAddPage /> },
+        { path: 'chitestimate/edit/:memberId', element: <ChitEstimateAddPage /> },
       ],
     },
     {

@@ -29,7 +29,7 @@ const navConfig = [
   },
   {
     title: 'Chit Estimate',
-    path: '/login',
+    path: '/chitestimate/list',
     icon: icon('chitestimate'),
   },
   {

@@ -50,7 +50,7 @@ jobs:
           cd dist
           ls
           cd ..
-          IMAGE_TAG=$(head -1 CHANGELOG.md)
+          IMAGE_TAG=$(head -1 src/CHANGELOG.md)
           docker build -t gcr.io/${{env.PROJECT_ID}}/${{env.IMAGE_NAME}}:${IMAGE_TAG} .
           docker push gcr.io/${{env.PROJECT_ID}}/${{env.IMAGE_NAME}}:${IMAGE_TAG}
           echo ${IMAGE_TAG}

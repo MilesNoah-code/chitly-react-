@@ -1,36 +1,18 @@
-import dayjs from 'dayjs';
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
-import Table from '@mui/material/Table';
 import Container from '@mui/material/Container';
-import TableBody from '@mui/material/TableBody';
 import TextField from '@mui/material/TextField';
-import TableContainer from '@mui/material/TableContainer';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Box, Stack, Alert, Button, Dialog, ListItem, Snackbar, IconButton, Typography, Autocomplete, ListItemText, InputAdornment } from '@mui/material';
+import { Box, Stack, Alert, Button, ListItem, Snackbar, Typography, Autocomplete, ListItemText } from '@mui/material';
 
 import { GetHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 
-import { CHIT_RECEIPT_SAVE, REACT_APP_HOST_URL, CHIT_RECEIPT_DETAIL, CHIT_GET_RECEIPT_NUMBER, CHIT_RECEIPT_PAID_UNPAID_LIST, CHIT_RECEPT_PENDING_GROUP_LIST, } from 'src/utils/api-constant';
+import { CHIT_RECEIPT_SAVE, REACT_APP_HOST_URL, CHIT_RECEIPT_DETAIL, } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
 
-import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
-
-import { emptyRows } from 'src/sections/member/utils';
-
 import './chitestimate-add.css';
-import TableHeader from '../member/table-head';
-import TableNoData from '../member/table-no-data';
-import TableEmptyRows from '../member/table-empty-rows';
-import ChitEstimateMemberTableRow from './chitestimate-member-list';
-
 
 export default function AddChitEstimatePage() {
 
@@ -38,11 +20,11 @@ export default function AddChitEstimatePage() {
     const location = useLocation();
     const { screen, data } = location.state;
     const Session = localStorage.getItem('apiToken');
-    const [ReceiptNo, setReceiptNo] = useState({
+    const [GroupNoSearch, setGroupNoSearch] = useState({
         data: "",
         error: ""
     });
-    const [TicketNo, setTicketNo] = useState({
+    const [ForemanPrDue, setForemanPrDue] = useState({
         data: "",
         error: ""
     });
@@ -50,68 +32,27 @@ export default function AddChitEstimatePage() {
         data: "",
         error: ""
     });
+    const [Dividend, setDividend] = useState({
+        data: "",
+        error: ""
+    });
     const [Duration, setDuration] = useState({
         data: "",
         error: ""
     });
-    const [AccountNo, setAccountNo] = useState({
-        data: "",
-        error: ""
-    });
-    const [InstFrom, setInstFrom] = useState({
-        data: "",
-        error: ""
-    });
-    const [InstTo, setInstTo] = useState({
-        data: "",
-        error: ""
-    });
-    const [Values, setValues] = useState({
-        data: "",
-        error: ""
-    });
-    const [ReceiptDate, setReceiptDate] = useState({
-        data: dayjs(),
-        datasave: dayjs(dayjs()).format('YYYY-MM-DD'),
-        error: ""
-    });
-
     const [Loading, setLoading] = useState(false);
-    const [GroupListLoading, setGroupListLoading] = useState(true);
+    const [GroupListLoading, setGroupListLoading] = useState(false);
     const [AlertOpen, setAlertOpen] = useState(false);
     const [AlertMessage, setAlertMessage] = useState('');
     const [AlertFrom, setAlertFrom] = useState('');
     const [ErrorAlert, setErrorAlert] = useState(false);
     const [ErrorScreen, setErrorScreen] = useState('');
     const [PendingGroupList, setPendingGroupList] = useState([]);
-    const [GroupNoSearch, setGroupNoSearch] = useState({
-        data: "",
-        error: ""
-    });
-    const [MemberListAlert, setMemberListAlert] = useState(false);
-    const [MemberListLoading, setMemberListLoading] = useState(true);
-    const [MemberList, setMemberList] = useState([]);
-    const [PaidMemberList, setPaidMemberList] = useState([]);
-    const [page, setPage] = useState(0);
-    const [order, setOrder] = useState('asc');
-    const [selected, setSelected] = useState([]);
-    const [orderBy, setOrderBy] = useState('name');
-    const [filterName, setFilterName] = useState('');
-    const [SelectMemberList, setSelectMemberList] = useState([]);
-    const [filterTicketNo, setfilterTicketNo] = useState('');
-    const [MemberName, setMemberName] = useState({
-        data: "",
-        error: ""
-    });
+    
     const [ScreenRefresh, setScreenRefresh] = useState(0);
 
     useEffect(() => {
-        if (screen === "add") {
-            GetPendingGroupList("");
-            if (page) {
-                GetMemberList(GroupNoSearch.data ? GroupNoSearch.data.id : "", filterName, filterTicketNo);
-            }
-        } else if (screen === "view") {
+        if (screen === "view") {
             GetChitReceiptView();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -144,12 +85,12 @@ export default function AddChitEstimatePage() {
                         data: json.list.groupno != null ? json.list.groupno : "",
                         error: ""
                     });
-                    setReceiptNo({
-                        data: json.list.receiptno != null ? json.list.receiptno : "",
+                    setDividend({
+                        data: json.list.Dividend != null ? json.list.Dividend : "",
                         error: ""
                     });
-                    setMemberName({
-                        data: json.list.membername != null ? json.list.membername : "",
+                    setForemanPrDue({
+                        data: json.list.ForemanPrDue != null ? json.list.ForemanPrDue : "",
                         error: ""
                     });
                     setAuctionMode({
@@ -160,26 +101,6 @@ export default function AddChitEstimatePage() {
                         data: json.list.duration != null ? json.list.duration : "",
                         error: ""
                     });
-                    setTicketNo({
-                        data: json.list.tktno != null ? json.list.tktno : "",
-                        error: ""
-                    });
-                    setAccountNo({
-                        data: json.list.accno != null ? json.list.accno : "",
-                        error: ""
-                    });
-                    setInstFrom({
-                        data: json.list.installfrom != null ? json.list.installfrom : "",
-                        error: ""
-                    });
-                    setInstTo({
-                        data: json.list.installto != null ? json.list.installto : "",
-                        error: ""
-                    });
-                    setValues({
-                        data: json.list.credit_value != null ? json.list.credit_value : "",
-                        error: ""
-                    });
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
                     setAlertFrom("failed");
@@ -191,95 +112,6 @@ export default function AddChitEstimatePage() {
             })
             .catch((error) => {
                 setGroupListLoading(false);
-                setErrorAlert(true);
-                setErrorScreen("error");
-                console.log(error);
-            })
-    }
-
-    const GetPendingGroupList = (text) => {
-        setGroupListLoading(true);
-        const url = `${REACT_APP_HOST_URL}${CHIT_RECEPT_PENDING_GROUP_LIST}1&search=${text}`;
-        console.log(url);
-        console.log(Session)
-        fetch(url, GetHeader(JSON.parse(Session)))
-            .then((response) => response.json())
-            .then((json) => {
-                console.log(JSON.stringify(json));
-                setGroupListLoading(false);
-                if (json.success) {
-                    setPendingGroupList(json.list);
-                } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
-                } else {
-                    setErrorAlert(true);
-                    setErrorScreen("network");
-                }
-            })
-            .catch((error) => {
-                setGroupListLoading(false);
-                setErrorAlert(true);
-                setErrorScreen("error");
-                console.log(error);
-            })
-    }
-
-    const GetMemberList = (groupid, membername, ticketno) => {
-        setMemberListLoading(true);
-        const url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_PAID_UNPAID_LIST}${groupid}&memberName=${membername}&ticketNo=${ticketno}`;
-        console.log(url);
-        console.log(Session)
-        fetch(url, GetHeader(JSON.parse(Session)))
-            .then((response) => response.json())
-            .then((json) => {
-                console.log(JSON.stringify(json));
-                setMemberListLoading(false);
-                if (json.success) {
-                    // setTotalCount(json.total);
-                    setMemberList(json.unPaidMembers);
-                    setPaidMemberList(json.paidMembers);
-                } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
-                } else {
-                    setErrorAlert(true);
-                    setErrorScreen("network");
-                }
-            })
-            .catch((error) => {
-                setMemberListLoading(false);
-                setErrorAlert(true);
-                setErrorScreen("error");
-                console.log(error);
-            })
-    }
-
-    const GetReceiptNumberList = (groupid) => {
-        const url = `${REACT_APP_HOST_URL}${CHIT_GET_RECEIPT_NUMBER}${groupid}`;
-        console.log(url);
-        console.log(Session)
-        fetch(url, GetHeader(JSON.parse(Session)))
-            .then((response) => response.json())
-            .then((json) => {
-                console.log(JSON.stringify(json));
-                if (json.success) {
-                    setReceiptNo({
-                        data: json.receiptNo !== "" && json.receiptNo !== null ? (Math.round(json.receiptNo) + 1) : "1",
-                        error: ""
-                    });
-                } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
-                } else {
-                    setErrorAlert(true);
-                    setErrorScreen("network");
-                }
-            })
-            .catch((error) => {
                 setErrorAlert(true);
                 setErrorScreen("error");
                 console.log(error);
@@ -344,59 +176,20 @@ export default function AddChitEstimatePage() {
         const text = e.target.value;
         setScreenRefresh(pre => pre + 1);
         console.log(from);
-        if (from === "ReceiptNo") {
-            setReceiptNo(prevState => ({
-                ...prevState,
-                data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
-            }));
-        } else if (from === "TicketNo") {
-            setTicketNo(prevState => ({
-                ...prevState,
-                data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "" : ""
-            }));
-        } else if (from === "AuctionMode") {
+        if (from === "AuctionMode") {
             setAuctionMode(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "" : ""
             }));
+        } else if (from === "Dividend") {
+            setDividend(prevState => ({
+                ...prevState,
+                data: text.trim() !== "" ? text : "",
+                error: text.trim() === "" ? "* Required" : ""
+            }));
         } else if (from === "Duration") {
             setDuration(prevState => ({
-                ...prevState,
-                data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "" : ""
-            }));
-        } else if (from === "AccountNo") {
-            setAccountNo(prevState => ({
-                ...prevState,
-                data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "" : ""
-            }));
-        } else if (from === "InstFrom") {
-            setInstFrom(prevState => ({
-                ...prevState,
-                data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "" : ""
-            }));
-        } else if (from === "InstTo") {
-            setInstTo(prevState => ({
-                ...prevState,
-                data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "" : ""
-            }));
-        } else if (from === "Values") {
-            const AmountError = isValidateAmount(text.trim(), GroupNoSearch.data.amount) ? "" : "Receipt amount should not greater than due amount";
-            console.log(isValidateAmount(text.trim(), GroupNoSearch.data.amount))
-            const ValidError = !isValidNumber(text) ? "* Invalid Amount" : AmountError;
-            setValues(prevState => ({
-                ...prevState,
-                data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ValidError
-            }));
-        } else if (from === "MemberName") {
-            setMemberName(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
                 error: text.trim() === "" ? "" : ""
@@ -406,14 +199,14 @@ export default function AddChitEstimatePage() {
 
     const validateChitReceiptInfo = () => {
         let IsValidate = true;
-        if (!ReceiptNo.data) {
+        if (!Dividend.data) {
             IsValidate = false;
-            setReceiptNo(prevState => ({
+            setDividend(prevState => ({
                 ...prevState,
                 error: "* Required"
             }));
         } else {
-            setReceiptNo(prevState => ({
+            setDividend(prevState => ({
                 ...prevState,
                 error: ""
             }));
@@ -430,26 +223,14 @@ export default function AddChitEstimatePage() {
                 error: ""
             }));
         }
-        if (!MemberName.data) {
+        if (!ForemanPrDue.data) {
             IsValidate = false;
-            setMemberName(prevState => ({
+            setForemanPrDue(prevState => ({
                 ...prevState,
                 error: "* Required"
             }));
         } else {
-            setMemberName(prevState => ({
-                ...prevState,
-                error: ""
-            }));
-        }
-        if (TicketNo.data == null || TicketNo.data === "" || TicketNo.data > 0) {
-            IsValidate = false;
-            setTicketNo(prevState => ({
-                ...prevState,
-                error: "* Required"
-            }));
-        } else {
-            setTicketNo(prevState => ({
+            setForemanPrDue(prevState => ({
                 ...prevState,
                 error: ""
             }));
@@ -474,66 +255,6 @@ export default function AddChitEstimatePage() {
             }));
         } else {
             setDuration(prevState => ({
-                ...prevState,
-                error: ""
-            }));
-        }
-        if (AccountNo.data == null || AccountNo.data === "" || AccountNo.data > 0) {
-            IsValidate = false;
-            setAccountNo(prevState => ({
-                ...prevState,
-                error: "* Required"
-            }));
-        } else {
-            setAccountNo(prevState => ({
-                ...prevState,
-                error: ""
-            }));
-        }
-        if (InstFrom.data == null || InstFrom.data === "" || InstFrom.data > 0) {
-            IsValidate = false;
-            setInstFrom(prevState => ({
-                ...prevState,
-                error: "* Required"
-            }));
-        } else {
-            setInstFrom(prevState => ({
-                ...prevState,
-                error: ""
-            }));
-        }
-        if (InstTo.data == null || InstTo.data === "" || InstTo.data > 0) {
-            IsValidate = false;
-            setInstTo(prevState => ({
-                ...prevState,
-                error: "* Required"
-            }));
-        } else {
-            setInstTo(prevState => ({
-                ...prevState,
-                error: ""
-            }));
-        }
-        if (!Values.data) {
-            IsValidate = false;
-            setValues(prevState => ({
-                ...prevState,
-                error: "* Required"
-            }));
-        } else if (!isValidNumber(Values.data)) {
-            IsValidate = false;
-            setValues(prevState => ({
-                ...prevState,
-                error: "* InValid Amount"
-            }));
-        } else if (!isValidateAmount(Values.data, GroupNoSearch.data.amount)) {
-            IsValidate = false;
-            setValues(prevState => ({
-                ...prevState,
-                error: "Receipt amount should not greater than due amount"
-            }));
-        } else {
-            setValues(prevState => ({
                 ...prevState,
                 error: ""
             }));
@@ -574,17 +295,6 @@ export default function AddChitEstimatePage() {
         validateChitReceiptInfo();
     };
 
-    const HandleDateChange = (date) => {
-        setScreenRefresh(pre => pre + 1);
-        const DateForSave = date ? dayjs(date).format('YYYY-MM-DD') : "";
-        console.log('Date to save:', DateForSave);
-        setReceiptDate({
-            data: date,
-            datasave: DateForSave,
-            error: ""
-        });
-    };
-
     const HandleGroupNoSearch = (event, value) => {
         if (value) {
             setScreenRefresh(pre => pre + 1);
@@ -593,7 +303,6 @@ export default function AddChitEstimatePage() {
                 error: ""
             });
             console.log(value);
-            setMemberListAlert(true);
             setAuctionMode({
                 data: value.auction_mode !== "" && value.auction_mode != null ? value.auction_mode : "",
                 error: ""
@@ -602,12 +311,6 @@ export default function AddChitEstimatePage() {
                 data: value.duration !== "" && value.duration != null ? value.duration : "",
                 error: ""
             });
-            setValues({
-                data: value.amount !== "" && value.amount != null ? value.amount : "",
-                error: ""
-            });
-            GetReceiptNumberList(value.id);
-            GetMemberList(value.id, "", "")
         } else {
             setScreenRefresh(0);
             setGroupNoSearch({
@@ -622,131 +325,16 @@ export default function AddChitEstimatePage() {
                 data: "",
                 error: ""
             });
-            setValues({
+            setDividend({
                 data: "",
                 error: ""
             });
-            setReceiptNo({
-                data: "",
-                error: ""
-            });
-            setTicketNo({
-                data: "",
-                error: ""
-            });
-            setAccountNo({
-                data: "",
-                error: ""
-            });
-            setInstFrom({
-                data: "",
-                error: ""
-            });
-            setInstTo({
-                data: "",
-                error: ""
-            });
-            setMemberName({
+            setForemanPrDue({
                 data: "",
                 error: ""
             });
         }
     }
-
-    const HandleMemberListAlertClose = () => {
-        setMemberListAlert(false);
-        setAuctionMode({
-            data: "",
-            error: ""
-        });
-        setDuration({
-            data: "",
-            error: ""
-        });
-        setValues({
-            data: "",
-            error: ""
-        });
-        setReceiptNo({
-            data: "",
-            error: ""
-        });
-    };
-
-    const handleSort = (event, id) => {
-        const isAsc = orderBy === id && order === 'asc';
-        if (id !== '') {
-            setOrder(isAsc ? 'desc' : 'asc');
-            setOrderBy(id);
-        }
-    };
-
-    const handleSelectAllClick = (event) => {
-        if (event.target.checked) {
-            const newSelecteds = MemberList.map((n) => n.name);
-            setSelected(newSelecteds);
-            return;
-        }
-        setSelected([]);
-    };
-
-    const handleClick = (event, item) => {
-        const selectedIndex = selected.indexOf(item.name);
-        let newSelected = [];
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, item.name);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1)
-            );
-        }
-        setSelected(newSelected);
-        setSelectMemberList(item);
-        if (item.amount_to_be_paid === "0" || item.amount_to_be_paid === "0.00" || item.amount_to_be_paid === 0) {
-            setAlertMessage("This Member Paid all the installments..");
-            setAlertFrom("failed");
-            HandleAlertShow();
-        } else {
-            setTicketNo({
-                data: item.tktNo !== "" && item.tktNo != null ? item.tktNo : "",
-                error: ""
-            });
-            setAccountNo({
-                data: item.accno !== "" && item.accno != null ? item.accno : "",
-                error: ""
-            });
-            setInstFrom({
-                data: item.inst_from !== "" && item.inst_from != null ? item.inst_from : "",
-                error: ""
-            });
-            setInstTo({
-                data: item.inst_to !== "" && item.inst_to != null ? item.inst_to : "",
-                error: ""
-            });
-            setMemberName({
-                data: item.name !== "" && item.name != null ? item.name : "",
-                error: ""
-            });
-            setMemberListAlert(false);
-        }
-    };
-
-    const HandleFilterMemberName = (event) => {
-        setPage(0);
-        setFilterName(event.target.value);
-        GetMemberList(GroupNoSearch.data.id, event.target.value, filterTicketNo);
-    };
-
-    const HandleFilterTicketNo = (event) => {
-        setPage(0);
-        setfilterTicketNo(event.target.value);
-        GetMemberList(GroupNoSearch.data.id, filterName, event.target.value);
-    };
 
     const HandleBack = () => {
         if (ScreenRefresh) {
@@ -793,29 +381,9 @@ export default function AddChitEstimatePage() {
                         </Stack>
                         : <Stack direction='column'>
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Receipt Date
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                <DemoContainer components={['DatePicker']} sx={{ width: 530 }}>
-                                                    <DatePicker
-                                                        className='input-box1'
-                                                        label="From Date"
-                                                        disabled={screen === "view"}
-                                                        value={ReceiptDate.data}
-                                                        onChange={HandleDateChange}
-                                                        format="DD-MM-YYYY" />
-                                                </DemoContainer>
-                                            </LocalizationProvider>
-                                        </Stack>
-                                    </Stack>
-                                </div>
                                 <div className='box-grp  grp-label'>
                                     <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                             Group No
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
@@ -841,12 +409,31 @@ export default function AddChitEstimatePage() {
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupNoSearch.error}</div>
                                     </Stack>
                                 </div>
+                                <div className='box-grp'>
+                                    <Stack direction='column'>
+                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                            Foreman Pr.Due
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                            <TextField
+                                                // required
+                                                className='input-box1'
+                                                id="outlined-required"
+                                                disabled
+                                                label="Auction Mode"
+                                                value={ForemanPrDue.data}
+                                                onChange={(e) => ChitReceiptTextValidate(e, "ForemanPrDue")}
+                                                style={{}} />
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ForemanPrDue.error}</div>
+                                    </Stack>
+                                </div>
                             </Stack>
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                 <div className='box-grp'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Member Name
+                                            Amount
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
@@ -855,17 +442,17 @@ export default function AddChitEstimatePage() {
                                                 id="outlined-required"
                                                 disabled
                                                 label="Member Name"
-                                                value={MemberName.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "MemberName")}
+                                                value={AuctionMode.data}
+                                                onChange={(e) => ChitReceiptTextValidate(e, "AuctionMode")}
                                                 style={{}} />
                                         </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{MemberName.error}</div>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AuctionMode.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='box-grp'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Receipt No
+                                            Dividend
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
@@ -874,57 +461,15 @@ export default function AddChitEstimatePage() {
                                                 id="outlined-required"
                                                 disabled
                                                 label="Receipt No"
-                                                value={ReceiptNo.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "ReceiptNo")}
+                                                value={Dividend.data}
+                                                onChange={(e) => ChitReceiptTextValidate(e, "Dividend")}
                                                 style={{}} />
                                         </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{ReceiptNo.error}</div>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Dividend.error}</div>
                                     </Stack>
                                 </div>
 
                             </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                            Ticket No
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <TextField
-                                                className='input-box1'
-                                                // required
-                                                id="outlined-required"
-                                                disabled
-                                                label="Ticket No"
-                                                value={TicketNo.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "TicketNo")}
-                                                style={{}} />
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{TicketNo.error}</div>
-                                    </Stack>
-                                </div>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Auction Mode
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <TextField
-                                                // required
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                label="Auction Mode"
-                                                value={AuctionMode.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "AuctionMode")}
-                                                style={{}} />
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AuctionMode.error}</div>
-                                    </Stack>
-                                </div>
-
-                            </Stack>
-
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                 <div className='box-grp'>
                                     <Stack direction='column'>
@@ -933,8 +478,8 @@ export default function AddChitEstimatePage() {
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                // required
                                                 className='input-box1'
+                                                // required
                                                 id="outlined-required"
                                                 disabled
                                                 label="Duration"
@@ -943,86 +488,6 @@ export default function AddChitEstimatePage() {
                                                 style={{}} />
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Duration.error}</div>
-                                    </Stack>
-                                </div>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant='subtitle1' sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }} >
-                                            Account No
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <TextField
-                                                // required
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                label="Account No"
-                                                value={AccountNo.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "AccountNo")}
-                                                style={{}} />
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AccountNo.error}</div>
-                                    </Stack>
-                                </div>
-                            </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
-                                            Inst. From
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <TextField
-                                                // required
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                label="Inst. From"
-                                                value={InstFrom.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "InstFrom")}
-                                                style={{}} />
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{InstFrom.error}</div>
-                                    </Stack>
-                                </div>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant='subtitle1' sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}  >
-                                            Inst. To
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <TextField
-                                                // required
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                label="Inst. To"
-                                                value={InstTo.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "InstTo")}
-                                                style={{}} />
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{InstTo.error}</div>
-                                    </Stack>
-                                </div>
-                            </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                            Value
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <TextField
-                                                required
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled={screen === "view"}
-                                                label="Value"
-                                                value={Values.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "Values")}
-                                                style={{}} />
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Values.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>
@@ -1047,97 +512,6 @@ export default function AddChitEstimatePage() {
                     {AlertMessage}
                 </Alert>
             </Snackbar>
-            <Dialog
-                open={MemberListAlert}
-                fullWidth={600}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description" >
-                <Card>
-                    <Stack>
-                        <Stack mt={2} ml={2} mr={1} direction="row" alignItems="center" >
-                            <TextField
-                                placeholder="Member Name..."
-                                value={filterName}
-                                onChange={(e) => HandleFilterMemberName(e)}
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <Iconify
-                                                icon="eva:search-fill"
-                                                sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
-                                            />
-                                        </InputAdornment>),
-                                }} />
-                            <TextField
-                                placeholder="Ticket No..."
-                                value={filterTicketNo}
-                                onChange={(e) => HandleFilterTicketNo(e)}
-                                sx={{ ml: 2 }}
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <Iconify
-                                                icon="eva:search-fill"
-                                                sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
-                                            />
-                                        </InputAdornment>),
-                                }} />
-                            <IconButton
-                                aria-label="close"
-                                className='btn-close'
-                                onClick={HandleMemberListAlertClose}
-                                sx={{ position: 'absolute', right: 2, top: 0, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
-                                <img src="../../../public/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
-                            </IconButton>
-                        </Stack>
-                        <Scrollbar>
-                            <TableContainer sx={{ overflow: '', mt: 2 }}>
-                                <Table sx={{ minWidth: 530 }} stickyHeader>
-                                    <TableHeader sx={{ width: '100%' }}
-                                        order={order}
-                                        orderBy={orderBy}
-                                        rowCount={MemberList.length}
-                                        numSelected={selected.length}
-                                        onRequestSort={handleSort}
-                                        onSelectAllClick={handleSelectAllClick}
-                                        headLabel={[
-                                            { id: 'Group', label: 'Group' },
-                                            { id: 'Ticket No', label: 'Ticket No' },
-                                            { id: 'Name', label: 'Name' },
-                                            { id: 'Phone', label: 'Phone' },
-                                            { id: 'F.Code', label: 'F.Code' },
-                                            { id: 'Status', label: 'Status' },
-                                        ]} />
-                                    {MemberListLoading
-                                        ? <Stack mt={10} sx={{ alignItems: 'center' ,justifyContent:'center'}}>
-                                            <img src="../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
-                                        </Stack>
-                                        : <TableBody>
-                                            {MemberList
-                                                .map((row) => (
-                                                    <ChitEstimateMemberTableRow
-                                                        key="unpaidmember"
-                                                        selected={selected.indexOf(row.name) !== -1}
-                                                        handleClick={(event) => handleClick(event, row)}
-                                                        item={row} />))}
-                                            {PaidMemberList
-                                                .map((row) => (
-                                                    <ChitEstimateMemberTableRow
-                                                        key="paidmember"
-                                                        selected={selected.indexOf(row.name) !== -1}
-                                                        handleClick={(event) => handleClick(event, row)}
-                                                        item={row} />))}
-                                            <TableEmptyRows
-                                                height={77}
-                                                emptyRows={emptyRows(page, 5, MemberList.length)} />
-                                            {(MemberList.length === 0 && PaidMemberList.length === 0) && <TableNoData query={filterName} />}
-                                        </TableBody>}
-                                </Table>
-                            </TableContainer>
-                        </Scrollbar>
-                    </Stack>
-                </Card>
-            </Dialog>
         </Container>
     );
 }

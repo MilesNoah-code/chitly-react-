@@ -800,7 +800,7 @@ export default function AddChitReceiptPage() {
                     autoComplete="off">
                     {GroupListLoading
                         ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-                            <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                            <img src="../../assets/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
@@ -1042,7 +1042,7 @@ export default function AddChitReceiptPage() {
                                 : <Stack direction='column' alignItems='flex-end'>
                                     <Button sx={{ mr: 5, mt: 2, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                         {Loading
-                                            ? (<img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                                            ? (<img src="../../assets/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                             : ("Submit")}
                                     </Button>
                                 </Stack>}
@@ -1098,7 +1098,7 @@ export default function AddChitReceiptPage() {
                                 className='btn-close'
                                 onClick={HandleMemberListAlertClose}
                                 sx={{ position: 'absolute', right: 2, top: 0, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
-                                <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
+                                <img src="../../assets/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                             </IconButton>
                         </Stack>
                         <Scrollbar>
@@ -1121,7 +1121,7 @@ export default function AddChitReceiptPage() {
                                         ]} />
                                     {MemberListLoading
                                         ? <Stack mt={10} sx={{ alignItems: 'center' ,justifyContent:'center'}}>
-                                            <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                                            <img src="../../assets/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                                         </Stack>
                                         : <TableBody>
                                             {MemberList

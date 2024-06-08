@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 
-import { BlogView } from 'src/sections/blog/view';
+import { GroupMemberView } from 'src/sections/groupmember/view';
 
 // ----------------------------------------------------------------------
 
-export default function BlogPage() {
+export default function GroupMemberPage() {
   return (
     <>
       <Helmet>
-        <title> Blog | Minimal UI </title>
+        <title> Group Member | Chitly </title>
       </Helmet>
 
-      <BlogView />
+      <GroupMemberView />
     </>
   );
 }

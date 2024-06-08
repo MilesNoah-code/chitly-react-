@@ -1252,7 +1252,7 @@ export default function AddMemberPage() {
                 error: ""
             }));
         }
-        if (!AreaName.data) {
+        /* if (!AreaName.data) {
             IsValidate = false;
             setAreaName(prevState => ({
                 ...prevState,
@@ -1263,7 +1263,7 @@ export default function AddMemberPage() {
                 ...prevState,
                 error: ""
             }));
-        }
+        } */
         if (!City.data) {
             IsValidate = false;
             setCity(prevState => ({
@@ -1856,7 +1856,7 @@ export default function AddMemberPage() {
                                 </Box>}
                             {MemberLoading
                                 ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-                                    <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                                    <img src="../../assets/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                                 </Stack>
                                 : <TabPanel value="1">
                                     {screen === "add"
@@ -1868,7 +1868,7 @@ export default function AddMemberPage() {
                                                         <img src={ProfileImage.type === "local" ? `${ProfileImage.data}` : `${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${ProfileImage.data}`} alt="Selected" style={{ width: 100, height: 100, }} />
                                                     </div>
                                                     : <div>
-                                                        <img src="../../../public/assets/icons/placeholder.png" alt="Selected" style={{ width: 100, height: 100, }} />
+                                                        <img src="../../assets/placeholder.png" alt="Selected" style={{ width: 100, height: 100, }} />
                                                     </div>}
                                                 <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 130, height: 40, mt: 2 }}>
                                                     Upload Photo
@@ -2638,7 +2638,7 @@ export default function AddMemberPage() {
                                         <Stack direction='row' spacing={2} sx={{ mb: 3, mt: 2, mr: 3 }} className='row-box'>
                                             {MediaListLoading
                                                 ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-                                                    <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                                                    <img src="../../assets/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                                                 </Stack>
                                                 : MediaList.map((row) => (
                                                     <Stack direction='column' sx={{ ml: 2 }} key={row.id} className='boxing'>
@@ -2647,13 +2647,15 @@ export default function AddMemberPage() {
                                                                 <div className='img-box' style={{ width: 120, height: 120 }}>
                                                                     <img src={`${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${row.path}`} alt="Selected" style={{ width: '100% ', height: '100% ' }} />
                                                                 </div>
-                                                                <Button onClick={() => { setMediaId(row.id); setConfirmAlert(true); }} className='btn-click' sx={{ cursor: 'pointer' }}>
-                                                                    <img src="../../../public/assets/icons/cancel.png" alt="Selected" style={{ width: 12, height: 12 }} />
-                                                                </Button>
+                                                                {screen === "view"
+                                                                    ? null
+                                                                    : <Button onClick={() => { setMediaId(row.id); setConfirmAlert(true); }} className='btn-click' sx={{ cursor: 'pointer' }}>
+                                                                        <img src="../../assets/cancel.png" alt="Selected" style={{ width: 12, height: 12 }} />
+                                                                    </Button>}
                                                             </Stack>
                                                             : <Stack>
                                                                 <div className='img-box' style={{ width: 100, height: 100 }}>
-                                                                    <img src="../../../public/assets/icons/placeholder.png" alt="Selected" style={{ width: '100% ' }} />
+                                                                    <img src="../../assets/placeholder.png" alt="Selected" style={{ width: '100% ' }} />
                                                                 </div>
                                                             </Stack>}
                                                         {row.name
@@ -2672,7 +2674,7 @@ export default function AddMemberPage() {
                             : <Stack direction='column' alignItems='flex-end'>
                                 <Button sx={{ mr: 5, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                     {Loading
-                                        ? (<img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                                        ? (<img src="../../assets/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                         : ("Submit")}
                                 </Button>
                             </Stack>)}
@@ -2699,7 +2701,7 @@ export default function AddMemberPage() {
                     },
                 }} >
                 <Stack style={{ alignItems: 'center' }} mt={5} mb={5}>
-                    <img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 70, height: 70 }} />
+                    <img src="../../assets/white_loading.gif" alt="Loading" style={{ width: 70, height: 70 }} />
                 </Stack>
             </Dialog>
             <Dialog
@@ -2711,7 +2713,7 @@ export default function AddMemberPage() {
                     aria-label="close"
                     onClick={HandleProofAlertClose}
                     sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
-                    <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
+                    <img src="../../assets/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                 </IconButton>
                 <Stack flexDirection='row' sx={{ mt: 3, ml: 3 }}>
                     <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 130, height: 40 }}>
@@ -2723,7 +2725,7 @@ export default function AddMemberPage() {
                     <Stack direction='row'>
                         {ProofImage.data
                             ? <img src={ProofImage.type === "local" ? `${ProofImage.data}` : `${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${ProofImage.data}`} alt="Selected" style={{ width: 120, height: 120, }} />
-                            : <img src="../../../public/assets/icons/image_placeholder.png" alt="Selected" style={{ width: 120, height: 120, }} />}
+                            : <img src="../../assets/image_placeholder.png" alt="Selected" style={{ width: 120, height: 120, }} />}
                         <Stack flexDirection='column' sx={{ ml: 3, }}>
                             <Stack flexDirection='row'>
                                 <TextField
@@ -2778,7 +2780,7 @@ export default function AddMemberPage() {
                 <Stack sx={{ alignItems: 'center', mt: 1, mb: 3 }}>
                     <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 100, height: 40, cursor: 'pointer' }} onClick={ProofLoading ? null : validateProofDetails}>
                         {ProofLoading
-                            ? (<img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                            ? (<img src="../../assets/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                             : ("Save")}
                     </Button>
                 </Stack>

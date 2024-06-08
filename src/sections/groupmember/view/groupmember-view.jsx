@@ -12,11 +12,11 @@ import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import ListItemText from '@mui/material/ListItemText';
-import { Card, Table, Alert, Dialog, Snackbar, TableBody, InputLabel, IconButton, FormControl, FormHelperText, InputAdornment, TableContainer, TablePagination } from '@mui/material';
+import { Card, Table, Alert, Button, Dialog, Snackbar, TableBody, InputLabel, IconButton, FormControl, FormHelperText, InputAdornment, TableContainer, TablePagination, } from '@mui/material';
 
-import { GetHeader } from 'src/hooks/AxiosApiFetch';
+import { GetHeader, PostHeader } from 'src/hooks/AxiosApiFetch';
 
-import { MEMBER_LIST,  GROUP_LISTALL, GROUP_MEMBER_LIST, REACT_APP_HOST_URL, ADDRESS_DETAIL } from 'src/utils/api-constant';
+import { MEMBER_LIST, GROUP_LISTALL, ADDRESS_DETAIL, GROUP_MEMBER_LIST, GROUP_MEMBER_SAVE, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
 
@@ -32,7 +32,7 @@ import "./Groupmember.css";
 import GroupSearch from '../group-search';
 import GroupMemberTableRow from '../groupmember-member-list';
 
-export default function BlogView() {
+export default function GroupMemberView() {
 
   // const UserDetail = JSON.parse(localStorage.getItem('userDetails'));
   const Session = localStorage.getItem('apiToken');
@@ -57,6 +57,8 @@ export default function BlogView() {
   const [SelectedIndex, setSelectedIndex] = useState('');
   const [TicketNoClick, setTicketNoClick] = useState(false);
   const [GroupMemberLoading, setGroupMemberLoading] = useState(true);
+  const [Loading, setLoading] = useState(false);
+  const [ScreenRefresh, setScreenRefresh] = useState(0);
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -236,6 +238,64 @@ export default function BlogView() {
       })
   }
 
+  const GroupMemberInfoParams = {
+    "groupid": memberDetail.groupId,
+    "memberid": memberDetail.memberId,
+    "tkt_suffix": "A",
+    "tkt_percentage": "100",
+    "tktno": memberDetail.tktno,
+    "addressid": memberDetail && memberDetail.addressId ? memberDetail.addressId : ""
+  }
+
+  const GroupMemberUpdateInfoParams = {
+    "groupid": memberDetail.groupId,
+    "memberid": memberDetail.memberId,
+    "tkt_suffix": "A",
+    "tkt_percentage": "100",
+    "tktno": memberDetail.tktno,
+    "addressid": memberDetail && memberDetail.addressId ? memberDetail.addressId : "",
+    "id": memberDetail && memberDetail.id ? memberDetail.id : ""
+  }
+
+  // groupmember update in request need to pass id param
+
+  const GroupMemberAddMethod = (IsValidate) => {
+    if (IsValidate) {
+      setLoading(true);
+      let url = '';
+      let Params = '';
+      url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_SAVE}`;
+      Params = GroupMemberInfoParams;
+      console.log(JSON.stringify(Params) + url);
+      console.log(Session);
+      fetch(url, PostHeader(JSON.parse(Session), Params))
+        .then((response) => response.json())
+        .then((json) => {
+          console.log(JSON.stringify(json));
+          setLoading(false);
+          setScreenRefresh(0);
+          if (json.success) {
+            setAlertMessage(json.message);
+            setAlertFrom("success");
+            HandleAlertShow();
+          } else if (json.success === false) {
+            setAlertMessage(json.message);
+            setAlertFrom("failed");
+            HandleAlertShow();
+          } else {
+            setErrorAlert(true);
+            setErrorScreen("network");
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+          setErrorAlert(true);
+          setErrorScreen("error");
+          console.log(error);
+        })
+    }
+  }
+
   const HandleAlertShow = () => {
     setAlertOpen(true);
   };
@@ -357,6 +417,11 @@ export default function BlogView() {
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 
+  const HandleSubmitClick = () => {
+    console.log("submitclick11");
+    GroupMemberAddMethod(true);
+  };
+
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
   return (
@@ -367,7 +432,7 @@ export default function BlogView() {
       <GroupSearch groupList={grouplist} />
       {GroupMemberLoading
         ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-          <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+          <img src="../../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
         </Stack>
         :
       <Box sx={{ flexGrow: 1 }} className="toppadding">
@@ -513,6 +578,13 @@ export default function BlogView() {
             </Item>
           </Grid>
         </Grid>
+          <Stack direction='column' alignItems='flex-end'>
+            <Button sx={{ mr: 5, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
+              {Loading
+                ? (<img src="../../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                : ("Submit")}
+            </Button>
+          </Stack>
       </Box> }
       <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "save_alert" ? 2000 : 1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
         <Alert
@@ -554,7 +626,7 @@ export default function BlogView() {
                 onClick={() => setMemberListAlert(false)}
                 sx={{ position: 'absolute', right: 15, top: 5, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }}
               >
-                <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17 }} />
+                <img src="../../../../public/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17 }} />
               </IconButton>
             </Stack>
             <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 1 }}>
@@ -576,7 +648,7 @@ export default function BlogView() {
                       ]} />
                     {MemberListLoading
                       ? <Stack mt={10} sx={{ alignItems: 'center' }}>
-                        <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                        <img src="../../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                       </Stack>
                       : <TableBody>
                         {MemberList

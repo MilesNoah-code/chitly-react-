@@ -198,7 +198,7 @@ export default function LoginView() {
           }, }}
         onClick={Loading ? null : ValidateLoginClick} >
         {Loading 
-          ? ( <img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, marginRight: '8px' }} />) 
+          ? ( <img src={`${process.env.REACT_APP_HOST_URL}../../../../../public/assets/images/img/white_loading.gif`} alt="Loading" style={{ width: 30, height: 30, marginRight: '8px' }} />) 
           : ( "Login" )}
       </LoadingButton>
     </>
@@ -222,7 +222,7 @@ export default function LoginView() {
         }}
       /> */}
       <Stack sx={{ justifyContent: 'center', alignItems: 'center' }}>
-        <img src="../../../public/assets/icons/chitly_logo.png" alt="Loading" style={{ width: 150, height: 100, marginTop: 20 }} />
+        <img src="../../assets/chitly_logo.png" alt="Loading" style={{ width: 150, height: 100, marginTop: 20 }} />
       </Stack>
 
       <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>

@@ -779,7 +779,7 @@ export default function AddChitPaymentPage() {
                     autoComplete="off">
                     {GroupListLoading
                         ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-                            <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                            <img src="../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
@@ -992,7 +992,7 @@ export default function AddChitPaymentPage() {
                                             Ledger Contra Entry Details
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 1, }} onClick={HandleCreateLedger}>
-                                            <img src="../../../public/assets/icons/rounded_plus.png" alt="Loading" style={{ width: 25, height: 25, }} />
+                                            <img src="../../../public/assets/images/img/rounded_plus.png" alt="Loading" style={{ width: 25, height: 25, }} />
                                         </Stack>
                                     </Stack>}
                                 {SelectUnPaidGroup.memberid === 1
@@ -1059,7 +1059,7 @@ export default function AddChitPaymentPage() {
                                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{row.particularerror}</div>
                                                     </Stack>
                                                     <Stack direction='column' sx={{ cursor: 'pointer' }} onClick={() => removeLedgerItem(index)}>
-                                                        <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
+                                                        <img src="../../../public/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                                                     </Stack>
                                                 </div>
                                             </Stack>
@@ -1071,7 +1071,7 @@ export default function AddChitPaymentPage() {
                                 : <Stack direction='column' alignItems='flex-end'>
                                     <Button sx={{ mr: 5, mb: 3, height: 50, width: 150 }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                         {Loading
-                                            ? (<img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                                            ? (<img src="../../../public/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                             : ("Submit")}
                                     </Button>
                                 </Stack>}
@@ -1129,7 +1129,7 @@ export default function AddChitPaymentPage() {
                                 className='btn-close'
                                 onClick={HandleUnPaidGroupAlertClose}
                                 sx={{ position: 'absolute', right: 2, top: 0, color: (theme) => theme.palette.grey[500], }} >
-                                <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
+                                <img src="../../../public/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                             </IconButton>
                         </Stack>
                         <Scrollbar>
@@ -1152,7 +1152,7 @@ export default function AddChitPaymentPage() {
                                         ]} />
                                     {UnPaidGroupLoading
                                         ? <Stack mt={10} sx={{ alignItems: 'center' }}>
-                                            <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                                            <img src="../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                                         </Stack>
                                         : <TableBody>
                                             {UnPaidGroupList
@@ -1206,14 +1206,14 @@ export default function AddChitPaymentPage() {
                                 onClick={HandleLedgerListAlertClose}
                                 sx={{ position: 'absolute', right: 15, top: 5, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }}
                             >
-                                <img src="../../../public/assets/icons/cancel.png" alt="Loading" style={{ width: 17, height: 17 }} />
+                                <img src="../../../public/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17 }} />
                             </IconButton>
                         </Stack>
                         <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 1 }}>
                             <Scrollbar>
                                 {LedgerListLoading ? (
                                     <Stack mt={10} sx={{ alignItems: 'center' }}>
-                                        <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70 }} />
+                                        <img src="../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70 }} />
                                     </Stack>
                                 ) : (
                                     <Stack>

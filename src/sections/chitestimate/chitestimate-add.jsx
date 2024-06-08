@@ -25,14 +25,14 @@ import Scrollbar from 'src/components/scrollbar';
 
 import { emptyRows } from 'src/sections/member/utils';
 
-import './chitreceipt-add.css';
+import './chitestimate-add.css';
 import TableHeader from '../member/table-head';
 import TableNoData from '../member/table-no-data';
 import TableEmptyRows from '../member/table-empty-rows';
-import ChitReceiptMemberTableRow from './chitreceipt-member-list';
+import ChitEstimateMemberTableRow from './chitestimate-member-list';
 
 
-export default function AddChitReceiptPage() {
+export default function AddChitEstimatePage() {
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -287,31 +287,20 @@ export default function AddChitReceiptPage() {
     }
 
     const ChitReceiptInfoParams = {
-        "id": 0,
-        "branchid": 0,
-        "date": ReceiptDate.datasave,
-        "groupid": SelectMemberList.group_id,
-        "memberid": SelectMemberList.member_id,
-        "tktno": TicketNo.data,
-        "tkt_percentage": "100",
-        "tkt_suffix": "A",
-        "group_member_id": SelectMemberList.group_member_id,
-        "installfrom": InstFrom.data,
-        "installto": InstTo.data,
-        "particulars": "",
-        "receiptno": ReceiptNo.data != null ? ReceiptNo.data : "",
-        "cancel": "",
-        "credit_value": Values.data,
-        "latefees_percen": 0,
-        "latefees_amount": 0,
-        "disc_percen": 0,
-        "disc_amount": 0,
-        "note": "",
-        "status": "",
-        "comments": "",
-        "from_source": "RUNNING_ACCOUNT",
-        "is_active": 1,
-        "installmentAmounts": []
+        "groupid": 0,
+        "Instno": 0,
+        "auctiondate": "",
+        "dueamount": "",
+        "payment": "",
+        "startpercentage": "",
+        "calcpercentage": "",
+        "less_amount": "",
+        "area_id": "",
+        "gst_value": "",
+        "doc_charge_value": "",
+        "is_blocked": "",
+        "online_flag": "",
+        "fm_commission": "",
     }
 
     const ChitReceiptAddMethod = (IsValidate) => {
@@ -576,7 +565,7 @@ export default function AddChitReceiptPage() {
     const HandleAlertClose = () => {
         setAlertOpen(false);
         if (AlertFrom === "success") {
-            navigate('/chitreceipt/list');
+            navigate('/chitestimate/list');
         }
     }
 
@@ -766,26 +755,26 @@ export default function AddChitReceiptPage() {
             );
             if (confirmNavigation) {
                 setScreenRefresh(0);
-                navigate('/chitreceipt/list');
+                navigate('/chitestimate/list');
             }
         } else {
-            navigate('/chitreceipt/list');
+            navigate('/chitestimate/list');
         }
     }
 
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
     const screenLabel = {
-        add: "Add Chit Receipt",
-        view: "View Chit Receipt",
-        edit: "Edit Chit Receipt",
+        add: "Add Chit Estimate",
+        view: "View Chit Estimate",
+        edit: "Edit Chit Estimate",
     };
 
     return (
         <Container>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
                 <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
-                    {screenLabel[screen] || "Add Chit Receipt"}
+                    {screenLabel[screen] || "Add Chit Estimate"}
                 </Typography>
                 <Button variant="contained" className='custom-button' onClick={HandleBack} sx={{ cursor: 'pointer' }}>
                     Back
@@ -1126,14 +1115,14 @@ export default function AddChitReceiptPage() {
                                         : <TableBody>
                                             {MemberList
                                                 .map((row) => (
-                                                    <ChitReceiptMemberTableRow
+                                                    <ChitEstimateMemberTableRow
                                                         key="unpaidmember"
                                                         selected={selected.indexOf(row.name) !== -1}
                                                         handleClick={(event) => handleClick(event, row)}
                                                         item={row} />))}
                                             {PaidMemberList
                                                 .map((row) => (
-                                                    <ChitReceiptMemberTableRow
+                                                    <ChitEstimateMemberTableRow
                                                         key="paidmember"
                                                         selected={selected.indexOf(row.name) !== -1}
                                                         handleClick={(event) => handleClick(event, row)}

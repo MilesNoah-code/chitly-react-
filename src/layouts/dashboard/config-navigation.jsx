@@ -24,12 +24,12 @@ const navConfig = [
   },
   {
     title: 'Group Members',
-    path: '/blog',
+    path: '/groupmember',
     icon: icon('groupmember'),
   },
   {
     title: 'Chit Estimate',
-    path: '/login',
+    path: '/chitestimate/list',
     icon: icon('chitestimate'),
   },
   {

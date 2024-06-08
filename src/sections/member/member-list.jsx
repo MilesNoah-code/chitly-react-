@@ -13,9 +13,9 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import { Alert, Button, Dialog, Snackbar, DialogTitle, DialogActions } from '@mui/material';
 
-import { DeleteHeader } from 'src/hooks/AxiosApiFetch';
+import { DeleteHeader, PutHeaderWithoutParams } from 'src/hooks/AxiosApiFetch';
 
-import { MEMBER_DELETE, REACT_APP_HOST_URL } from 'src/utils/api-constant';
+import { MEMBER_DELETE, MEMBER_ACTIVATE, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
 
@@ -44,6 +44,34 @@ export default function MemberTableRow({
     console.log(url);
     console.log(Session);
     fetch(url, DeleteHeader(JSON.parse(Session)))
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(JSON.stringify(json));
+        if (json.success) {
+          setAlertMessage(json.message);
+          setAlertFrom("success");
+          HandleAlertShow();
+        } else if (json.success === false) {
+          setAlertMessage(json.message);
+          setAlertFrom("failed");
+          HandleAlertShow();
+        } else {
+          setErrorAlert(true);
+          setErrorScreen("network");
+        }
+      })
+      .catch((error) => {
+        setErrorAlert(true);
+        setErrorScreen("error");
+        console.log(error);
+      })
+  }
+
+  const MemberActivateMethod = (id) => {
+    const url = `${REACT_APP_HOST_URL}${MEMBER_ACTIVATE}${id}`;
+    console.log(url);
+    console.log(Session);
+    fetch(url, PutHeaderWithoutParams(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
         console.log(JSON.stringify(json));
@@ -105,7 +133,11 @@ export default function MemberTableRow({
   const HandleConfirmYesClick = () => {
     setOpen(null);
     setConfirmAlert(false);
-    MemberDeleteMethod(item.id);
+    if (item.is_active === 0){
+      MemberActivateMethod(item.id);
+    }else{
+      MemberDeleteMethod(item.id);
+    }
   };
 
   const HandleConfirmNoClick = () => {
@@ -123,7 +155,6 @@ export default function MemberTableRow({
           <TableCell padding="checkbox" style={{ display: 'none' }}>
             <Checkbox disableRipple checked={selected} onChange={handleClick} />
           </TableCell>
-
           <TableCell component="th" scope="row" >
             <Stack direction="row" alignItems="center" spacing={2} marginLeft={2}>
               <Avatar alt={item.name} src={`${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${item.mapped_photo}`} >{item.name[0]}</Avatar>
@@ -132,22 +163,16 @@ export default function MemberTableRow({
               </Typography>
             </Stack>
           </TableCell>
-
           <TableCell>{item.accno}</TableCell>
-
           <TableCell>{item.mapped_phone}</TableCell>
-
           <TableCell>
             <Label color={(item.status === 'banned' && 'error') || 'success'}>{item.status}</Label>
           </TableCell>
-
-          {item.is_active === 1
-            ? <TableCell align="right">
-              <IconButton onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>
-                <Iconify icon="eva:more-vertical-fill" />
-              </IconButton>
-            </TableCell>
-          : null}
+          <TableCell align="right">
+            <IconButton onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>
+              <Iconify icon="eva:more-vertical-fill" />
+            </IconButton>
+          </TableCell>
         </TableRow>}
       <Popover
         open={!!open}
@@ -159,19 +184,24 @@ export default function MemberTableRow({
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={() => HandleSelectMenu("view")} sx={{ display: 'none', cursor: 'pointer' }}>
-          <Iconify icon="eva:eye-fill" sx={{ mr: 2 }} />
-          View
-        </MenuItem>
-        <MenuItem onClick={() => HandleSelectMenu("edit")} sx={{ cursor: 'pointer' }}>
-          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
-
-        <MenuItem onClick={() => setConfirmAlert(true)} sx={{ color: 'error.main', cursor: 'pointer' }}>
-          <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
-          Delete
-        </MenuItem>
+        {item.is_active === 1
+          ? <MenuItem onClick={() => HandleSelectMenu("edit")} sx={{ cursor: 'pointer' }}>
+            <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
+            Edit
+          </MenuItem>
+          : <MenuItem onClick={() => HandleSelectMenu("view")} sx={{ cursor: 'pointer' }}>
+            <Iconify icon="eva:eye-fill" sx={{ mr: 2 }} />
+            View
+          </MenuItem>}
+        {item.is_active === 1
+          ? <MenuItem onClick={() => setConfirmAlert(true)} sx={{ color: 'error.main', cursor: 'pointer' }}>
+            <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
+            Delete
+          </MenuItem>
+          : <MenuItem onClick={() => setConfirmAlert(true)} sx={{ cursor: 'pointer' }}>
+            <img src="../../../public/assets/images/img/reactivate.png" alt="Loading" style={{ width: 20, height: 20, marginRight: '15px' }} />
+            Activate
+          </MenuItem>}
       </Popover>
       <Dialog
         open={ConfirmAlert}
@@ -180,7 +210,7 @@ export default function MemberTableRow({
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description" >
         <DialogTitle id="responsive-dialog-title">
-          Are you sure you want to delete this Member ?
+          {item.is_active === 1 ? "Are you sure you want to delete this Member ?" : "Are you sure you want to activate this Member ?"}
         </DialogTitle>
         <DialogActions>
           <Button autoFocus onClick={HandleConfirmYesClick} sx={{ cursor: 'pointer' }}>

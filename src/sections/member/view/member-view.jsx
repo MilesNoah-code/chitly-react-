@@ -208,7 +208,7 @@ export default function MemberView() {
         </Stack>
         {MemberListLoading
           ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-            <img src="../../../public/assets/icons/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+            <img src="../../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
           </Stack>
           : <Stack>
             <Scrollbar>

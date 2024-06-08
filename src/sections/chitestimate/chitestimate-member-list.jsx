@@ -5,7 +5,7 @@ import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
 
-export default function ChitReceiptMemberTableRow({
+export default function ChitEstimateMemberTableRow({
   key,
   selected,
   handleClick,
@@ -32,7 +32,7 @@ export default function ChitReceiptMemberTableRow({
   );
 }
 
-ChitReceiptMemberTableRow.propTypes = {
+ChitEstimateMemberTableRow.propTypes = {
   key: PropTypes.any,
   selected: PropTypes.any,
   handleClick: PropTypes.func,

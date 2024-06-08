@@ -66,3 +66,15 @@ export function PostImageHeader(session, form) {
   };
   return headers;
 };
+
+export function PutHeaderWithoutParams(session) {
+  const headers = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "needJson": 1,
+      "apiToken": session
+    },
+  };
+  return headers;
+};

@@ -47,4 +47,7 @@ export const IMAGE_DISPLAY_URL = "api/imageBasicInfo";
 export const REQ_CHIT_PARAMETERS = "api/chitPayment/getChitParameters?groupId=";
 export const STATE_LIST = "api/common/stateList?country_name=";
 export const COUNTRY_LIST = "api/common/countryList?state_name=";
-export const ADDRESS_DETAIL = "api/member/address/list?memberId="
+export const ADDRESS_DETAIL = "api/member/address/list?memberId=";
+export const MEMBER_ACTIVATE = "api/member/activate/";
+export const GROUP_ACTIVATE = "api/group/activate/";
+export const GROUP_MEMBER_SAVE = "api/groupMember/save";

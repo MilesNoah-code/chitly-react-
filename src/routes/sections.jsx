@@ -4,7 +4,7 @@ import { Outlet, Navigate, useRoutes } from 'react-router-dom';
 import DashboardLayout from 'src/layouts/dashboard';
 
 export const IndexPage = lazy(() => import('src/pages/app'));
-export const BlogPage = lazy(() => import('src/pages/blog'));
+export const GroupMemberPage = lazy(() => import('src/pages/groupmember'));
 export const LoginPage = lazy(() => import('src/pages/login'));
 export const MemberPage = lazy(() => import('src/pages/member'));
 export const MemberAddPage = lazy(() => import('src/sections/member/member-add'));
@@ -14,10 +14,9 @@ export const ChitReceiptPage = lazy(() => import('src/pages/chitreceipt'));
 export const ChitReceiptAddPage = lazy(() => import('src/sections/chitreceipt/chitreceipt-add'));
 export const ChitPaymentPage = lazy(() => import('src/pages/chitpayment'));
 export const ChitPaymentAddPage = lazy(() => import('src/sections/chitpayment/chitpayment-add'));
-export const groupMember = lazy(() => import('src/sections/blog/group-member'));
+export const groupMember = lazy(() => import('src/sections/groupmember/group-member'));
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
-
-// ----------------------------------------------------------------------
+export const ChangeLog = lazy(() => import('src/ChangeLog'));
 
 export default function Router() {
   const isSessionAvailable = localStorage.getItem('apiToken') !== null;
@@ -37,7 +36,7 @@ export default function Router() {
       children: [
         { path: '', element: <IndexPage /> },
         { path: 'dashboard', element: <IndexPage /> },
-        { path: 'blog', element: <BlogPage /> },
+        { path: 'groupmember', element: <GroupMemberPage /> },
         { path: 'member/list', element: <MemberPage /> },
         { path: 'member/add', element: <MemberAddPage /> },
         { path: 'member/view/:memberId', element: <MemberAddPage /> },
@@ -63,6 +62,10 @@ export default function Router() {
     {
       path: '*',
       element: <Page404 />,
+    },
+    {
+      path: '/ChangeLog',
+      element: <ChangeLog />,
     },
   ]);
 

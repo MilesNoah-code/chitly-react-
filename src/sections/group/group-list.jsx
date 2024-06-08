@@ -12,9 +12,9 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import { Alert, Button, Dialog, Snackbar, DialogTitle, DialogActions } from '@mui/material';
 
-import { DeleteHeader } from 'src/hooks/AxiosApiFetch';
+import { DeleteHeader, PutHeaderWithoutParams } from 'src/hooks/AxiosApiFetch';
 
-import { GROUP_DELETE, REACT_APP_HOST_URL } from 'src/utils/api-constant';
+import { GROUP_DELETE, GROUP_ACTIVATE, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
 
@@ -41,6 +41,34 @@ export default function GroupTableRow({
     console.log(url);
     console.log(Session);
     fetch(url, DeleteHeader(JSON.parse(Session)))
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(JSON.stringify(json));
+        if (json.success) {
+          setAlertMessage(json.message);
+          setAlertFrom("success");
+          HandleAlertShow();
+        } else if (json.success === false) {
+          setAlertMessage(json.message);
+          setAlertFrom("failed");
+          HandleAlertShow();
+        } else {
+          setErrorAlert(true);
+          setErrorScreen("network");
+        }
+      })
+      .catch((error) => {
+        setErrorAlert(true);
+        setErrorScreen("error");
+        console.log(error);
+      })
+  }
+
+  const GroupActivateMethod = (id) => {
+    const url = `${REACT_APP_HOST_URL}${GROUP_ACTIVATE}${id}`;
+    console.log(url);
+    console.log(Session);
+    fetch(url, PutHeaderWithoutParams(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
         console.log(JSON.stringify(json));
@@ -103,7 +131,11 @@ export default function GroupTableRow({
   const HandleConfirmYesClick = () => {
     setOpen(null);
     setConfirmAlert(false);
-    GroupDeleteMethod(item.id);
+    if (item.is_active === 0) {
+      GroupActivateMethod(item.id);
+    } else {
+      GroupDeleteMethod(item.id);
+    }
   };
 
   const HandleConfirmNoClick = () => {
@@ -129,13 +161,9 @@ export default function GroupTableRow({
               </Typography>
             </Stack>
           </TableCell>
-
           <TableCell>{item.duration}</TableCell>
-
           <TableCell>{item.auction_mode}</TableCell>
-
           <TableCell>{item.amount}</TableCell>
-
           <TableCell align="right">
             <IconButton onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>
               <Iconify icon="eva:more-vertical-fill" />
@@ -152,19 +180,25 @@ export default function GroupTableRow({
           sx: { width: 140 },
         }}
       >
-        <MenuItem onClick={() => HandleSelectMenu("view")} sx={{ display: 'none', cursor: 'pointer' }}>
-          <Iconify icon="eva:eye-fill" sx={{ mr: 2 }} />
-          View
-        </MenuItem>
-        <MenuItem onClick={() => HandleSelectMenu("edit")} sx={{ cursor: 'pointer' }}>
-          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
-
-        <MenuItem onClick={() => setConfirmAlert(true)} sx={{ color: 'error.main', cursor: 'pointer' }}>
-          <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
-          Delete
-        </MenuItem>
+        {item.is_active === 1
+          ? <MenuItem onClick={() => HandleSelectMenu("edit")} sx={{ cursor: 'pointer' }}>
+            <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
+            Edit
+          </MenuItem>
+          : <MenuItem onClick={() => HandleSelectMenu("view")} sx={{ cursor: 'pointer' }}>
+            <Iconify icon="eva:eye-fill" sx={{ mr: 2 }} />
+            View
+          </MenuItem>}
+        {item.is_active === 1
+          ? <MenuItem onClick={() => setConfirmAlert(true)} sx={{ color: 'error.main', cursor: 'pointer' }}>
+            <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
+            Delete
+          </MenuItem>
+          : <MenuItem onClick={() => setConfirmAlert(true)} sx={{ cursor: 'pointer' }}>
+            <img src="../../assets/reactivate.png" alt="Loading" style={{ width: 20, height: 20, marginRight: '15px' }} />
+            Activate
+          </MenuItem>
+        }
       </Popover>
       <Dialog
         open={ConfirmAlert}
@@ -173,7 +207,7 @@ export default function GroupTableRow({
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description" >
         <DialogTitle id="responsive-dialog-title">
-          Are you sure you want to delete this Group ?
+          {item.is_active === 1 ? "Are you sure you want to delete this Group ?" : "Are you sure you want to activate this Group ?"}
         </DialogTitle>
         <DialogActions>
           <Button autoFocus onClick={HandleConfirmYesClick} sx={{ cursor: 'pointer' }}>

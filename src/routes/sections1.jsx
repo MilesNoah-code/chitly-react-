@@ -4,7 +4,7 @@ import { Outlet, useRoutes } from 'react-router-dom';
 import DashboardLayout from 'src/layouts/dashboard';
 
 export const IndexPage = lazy(() => import('src/pages/app'));
-export const BlogPage = lazy(() => import('src/pages/blog'));
+export const BlogPage = lazy(() => import('src/pages/groupmember'));
 export const LoginPage = lazy(() => import('src/pages/login'));
 export const MemberPage = lazy(() => import('src/pages/member'));
 export const MemberAddPage = lazy(() => import('src/sections/member/member-add'));
@@ -38,7 +38,7 @@ export default function Router1() {
             ),
             children: [
                 { path: '', element: <IndexPage /> },
-                { path: 'blog', element: <BlogPage /> },
+                { path: 'groupmember', element: <BlogPage /> },
                 { path: 'member', element: <MemberPage /> },
                 { path: 'addMember', element: <MemberAddPage /> },
                 { path: 'group', element: <GroupPage /> },

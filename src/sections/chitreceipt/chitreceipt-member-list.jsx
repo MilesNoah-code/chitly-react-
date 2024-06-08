@@ -24,8 +24,8 @@ export default function ChitReceiptMemberTableRow({
       <TableCell>{item.fcno}</TableCell>
       <TableCell>
         {key === "paidmember"
-          ? <Avatar alt='../../../public/assets/icons/green_tick.png' src='../../../public/assets/icons/green_tick.png' sx={{ width: 20, height: 20 }} />
-          : <Avatar alt='../../../public/assets/icons/pending.png' src='../../../public/assets/icons/pending.png' sx={{ width: 20, height: 20 }} />}
+          ? <Avatar alt='../../assets/green_tick.png' src='../../assets/green_tick.png' sx={{ width: 20, height: 20 }} />
+          : <Avatar alt='../../assets/pending.png' src='../../assets/pending.png' sx={{ width: 20, height: 20 }} />}
       </TableCell>
     
     </TableRow>

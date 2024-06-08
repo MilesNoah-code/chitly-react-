@@ -108,7 +108,7 @@ export default function Nav({ openNav, onCloseNav }) {
           color="inherit"
           onClick={Loading ? null : LogOutMethod} >
           {Loading
-            ? (<img src="../../../public/assets/icons/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+            ? (<img src="../../assets/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
             : ("Logout")}
         </Button>
       </Stack>

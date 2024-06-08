@@ -156,7 +156,7 @@ export default function AccountPopover() {
         }}
       >
         <Stack style={{ alignItems: 'center' }} mt={5} mb={5}>
-          <img src="../../../assets/white_loading.gif" alt="Loading" style={{ width: 70, height: 70 }} />
+          <img src="../../../../public/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 70, height: 70 }} />
         </Stack>
       </Dialog>
     </>

@@ -199,7 +199,7 @@ export default function MemberTableRow({
             Delete
           </MenuItem>
           : <MenuItem onClick={() => setConfirmAlert(true)} sx={{ cursor: 'pointer' }}>
-            <img src="../../assets/reactivate.png" alt="Loading" style={{ width: 20, height: 20, marginRight: '15px' }} />
+            <img src="../../../public/assets/images/img/reactivate.png" alt="Loading" style={{ width: 20, height: 20, marginRight: '15px' }} />
             Activate
           </MenuItem>}
       </Popover>

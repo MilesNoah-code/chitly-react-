@@ -11,29 +11,25 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { Alert, Snackbar, TextField, InputAdornment } from '@mui/material';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { Alert, Snackbar, MenuItem, TextField, InputAdornment } from '@mui/material';
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
 
-import { CHIT_PAYMENT_LIST, REACT_APP_HOST_URL } from 'src/utils/api-constant';
+import { GROUP_LIST, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
 import { emptyRows } from 'src/sections/member/utils';
 
-import './chitpayment-view.css';
+import './chitestimate-view.css';
 import TableHeader from '../../member/table-head';
 import TableNoData from '../../member/table-no-data';
 import ErrorLayout from '../../../Error/ErrorLayout';
-import ChitPaymentTableRow from '../chitpayment-list';
+import ChitEstimateTableRow from '../chitestimate-list';
 import TableEmptyRows from '../../member/table-empty-rows';
 
-export default function ChitPaymentView() {
+export default function ChitEstimateView() {
 
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
@@ -43,45 +39,39 @@ export default function ChitPaymentView() {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(15);
   const Session = localStorage.getItem('apiToken');
-  const [ChitPaymentList, setChitPaymentList] = useState([]);
-  const [ChitPaymentLoading, setChitPaymentLoading] = useState(true);
+  const [ChitEstimateList, setChitEstimateList] = useState([]);
+  const [ChitEstimateLoading, setChitEstimateLoading] = useState(true);
   const [AlertOpen, setAlertOpen] = useState(false);
   const [AlertMessage, setAlertMessage] = useState('');
   const [AlertFrom, setAlertFrom] = useState('');
   const [ErrorAlert, setErrorAlert] = useState(false);
   const [ErrorScreen, setErrorScreen] = useState('');
-  const [FromDate, setFromDate] = useState({
-    data: null,
-    searchdata: "",
-  });
-  const [ToDate, setToDate] = useState({
-    data: null,
-    searchdata: "",
-  });
+  const [ActiveFilter, setActiveFilter] = useState(1);
+  const [ChitEstimateFilter, setChitEstimateFilter] = useState(1);
   const [TotalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
     setTotalCount(0);
-    setChitPaymentList([]);
-    GetChitPaymentList(FromDate.searchdata, ToDate.searchdata, filterName, page * rowsPerPage, rowsPerPage);
+    setChitEstimateList([]);
+    GetChitEstimateList(ActiveFilter, ChitEstimateFilter, filterName, page * rowsPerPage, rowsPerPage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, rowsPerPage, FromDate, ToDate, filterName]);
+  }, [page, rowsPerPage, ActiveFilter, ChitEstimateFilter, filterName]);
 
-  const GetChitPaymentList = (fromdate, todate, text, start, limit) => {
-    setChitPaymentLoading(true);
+  const GetChitEstimateList = (isactive, chitestimate, text, start, limit) => {
+    setChitEstimateLoading(true);
     setTotalCount(0);
-    setChitPaymentList([]);
-    const url = `${REACT_APP_HOST_URL}${CHIT_PAYMENT_LIST}1&fromDate=${fromdate}&toDate=${todate}&search=${text}&start=${start}&limit=${limit}`;
+    setChitEstimateList([]);
+    const url = `${REACT_APP_HOST_URL}${GROUP_LIST}${isactive}&toDate=${chitestimate}&search=${text}&start=${start}&limit=${limit}`;
     console.log(url);
-    console.log(Session);
+    console.log(Session)
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
         console.log(JSON.stringify(json));
-        setChitPaymentLoading(false);
+        setChitEstimateLoading(false);
         if (json.success) {
           setTotalCount(json.total);
-          setChitPaymentList([...ChitPaymentList, ...json.list]);
+          setChitEstimateList([...ChitEstimateList, ...json.list]);
         } else if (json.success === false) {
           setAlertMessage(json.message);
           setAlertFrom("failed");
@@ -92,7 +82,7 @@ export default function ChitPaymentView() {
         }
       })
       .catch((error) => {
-        setChitPaymentLoading(false);
+        setChitEstimateLoading(false);
         setErrorAlert(true);
         setErrorScreen("error");
         console.log(error);
@@ -109,7 +99,7 @@ export default function ChitPaymentView() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = ChitPaymentList.map((n) => n.name);
+      const newSelecteds = ChitEstimateList.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -146,18 +136,47 @@ export default function ChitPaymentView() {
   const handleFilterByName = (event) => {
     setPage(0);
     setTotalCount(0);
-    setChitPaymentList([]);
+    setChitEstimateList([]);
     setFilterName(event.target.value);
   };
 
-  const HandleAddChitPaymentClick = () => {
-    navigate('/chitpayment/add', {
+  const HandleAddChitEstimateClick = () => {
+    navigate('/chitestimate/add', {
       state: {
         screen: 'add',
         data: [],
       },
     });
-  }
+  };
+
+  const options = [
+    { value: 1, label: 'Active' },
+    { value: 0, label: 'InActive' },
+  ];
+
+  const options1 = [
+    { value: 1, label: 'Both' },
+    { value: 2, label: 'Chit Estimate Done' },
+    { value: 3, label: 'Chit Estimate Not Done' },
+  ];
+
+  const handleFilterByActive = (e) => {
+    const text = e.target.value;
+    console.log(text);
+    setPage(0);
+    setTotalCount(0);
+    setChitEstimateList([]);
+    setActiveFilter(text);
+  };
+
+  const handleFilterByChitEstimate = (e) => {
+    const text = e.target.value;
+    console.log(text);
+    setPage(0);
+    setTotalCount(0);
+    setChitEstimateList([]);
+    setChitEstimateFilter(text);
+  };
 
   const HandleAlertShow = () => {
     setAlertOpen(true);
@@ -167,67 +186,22 @@ export default function ChitPaymentView() {
     setAlertOpen(false);
   };
 
-  const HandleFromDateChange = (date) => {
-    const DateForSearch = date ? dayjs(date).format('YYYY-MM-DD') : "";
-    console.log('Date to search:', DateForSearch);
-    setPage(0);
-    setTotalCount(0);
-    setChitPaymentList([]);
-    setFromDate({
-      data: date,
-      searchdata: DateForSearch
-    });
-  };
-
-  const HandleToDateChange = (date) => {
-    const DateForSearch = date ? dayjs(date).format('YYYY-MM-DD') : "";
-    console.log('Date to search:', DateForSearch);
-    setPage(0);
-    setTotalCount(0);
-    setChitPaymentList([]);
-    setToDate({
-      data: date,
-      searchdata: DateForSearch
-    });
-  };
-
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
-        <Typography variant="h6" sx={{ color: '#637381' }}>Chit Payment List</Typography>
-        <Button variant="contained" className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddChitPaymentClick}>
-          Add Chit Payment
+        <Typography variant="h6" sx={{ color: '#637381' }}>Chit Estimate List</Typography>
+        <Button variant="contained" className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddChitEstimateClick}>
+          Add Chit Estimate
         </Button>
       </Stack>
       <Card>
         <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='40px' className='mbl-view'>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={['DatePicker']} >
-              <DatePicker
-                label="From Date"
-                value={FromDate.data}
-                onChange={HandleFromDateChange}
-                disabled={ChitPaymentLoading}
-                format="DD-MM-YYYY" />
-            </DemoContainer>
-          </LocalizationProvider>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={['DatePicker']}>
-              <DatePicker
-                label="To Date"
-                value={ToDate.data}
-                onChange={HandleToDateChange}
-                disabled={ChitPaymentLoading}
-                format="DD-MM-YYYY" />
-            </DemoContainer>
-          </LocalizationProvider>
           <TextField
-            placeholder="Search..."
+            placeholder="Search Group Code..."
             value={filterName}
             onChange={(e) => handleFilterByName(e)}
-            disabled={ChitPaymentLoading}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -239,8 +213,22 @@ export default function ChitPaymentView() {
               ),
             }}
           />
+          <TextField select size="small" value={ActiveFilter} onChange={(e) => handleFilterByActive(e)}>
+            {options.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField select size="small" value={ChitEstimateFilter} onChange={(e) => handleFilterByChitEstimate(e)}>
+            {options1.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
         </Stack>
-        {ChitPaymentLoading
+        {ChitEstimateLoading
           ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
             <img src="../../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
           </Stack>
@@ -251,25 +239,22 @@ export default function ChitPaymentView() {
                   <TableHeader
                     order={order}
                     orderBy={orderBy}
-                    rowCount={ChitPaymentList.length}
+                    rowCount={ChitEstimateList.length}
                     numSelected={selected.length}
                     onRequestSort={handleSort}
                     onSelectAllClick={handleSelectAllClick}
                     headLabel={[
-                      { id: 'Date', label: 'Date' },
-                      { id: 'Receipt No', label: 'Receipt No' },
-                      { id: 'Group No', label: 'Group No' },
-                      { id: 'Member Name', label: 'Member Name' },
-                      { id: 'Ticket No', label: 'Ticket No' },
-                      { id: 'Inst No', label: 'Inst No' },
-                      { id: 'Debit', label: 'Debit' },
+                      { id: 'Group Code', label: 'Group Code' },
+                      { id: 'Amount', label: 'Amount' },
+                      { id: 'Duration', label: 'Duration' },
+                      { id: 'Auction Mode', label: 'Auction Mode' },
                       { id: '' },
                     ]} />
                   <TableBody>
-                    {ChitPaymentList
+                    {ChitEstimateList
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => (
-                        <ChitPaymentTableRow
+                        <ChitEstimateTableRow
                           key={row.id}
                           selected={selected.indexOf(row.name) !== -1}
                           handleClick={(event) => handleClick(event, row.name)}
@@ -278,13 +263,14 @@ export default function ChitPaymentView() {
                       ))}
                     <TableEmptyRows
                       height={77}
-                      emptyRows={emptyRows(page, rowsPerPage, ChitPaymentList.length)} />
-                    {ChitPaymentList.length === 0 && <TableNoData query={filterName} />}
+                      emptyRows={emptyRows(page, rowsPerPage, ChitEstimateList.length)}
+                    />
+                    {ChitEstimateList.length === 0 && <TableNoData query={filterName} />}
                   </TableBody>
                 </Table>
               </TableContainer>
             </Scrollbar>
-            {ChitPaymentList.length > 0 && <TablePagination
+            {ChitEstimateList.length > 0 && <TablePagination
               page={page}
               component="div"
               count={TotalCount}

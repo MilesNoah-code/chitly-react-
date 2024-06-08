@@ -198,7 +198,7 @@ export default function LoginView() {
           }, }}
         onClick={Loading ? null : ValidateLoginClick} >
         {Loading 
-          ? ( <img src={`${process.env.REACT_APP_HOST_URL}"../../assets/white_loading.gif"`} alt="Loading" style={{ width: 30, height: 30, marginRight: '8px' }} />) 
+          ? ( <img src={`${process.env.REACT_APP_HOST_URL}../../../../../public/assets/images/img/white_loading.gif`} alt="Loading" style={{ width: 30, height: 30, marginRight: '8px' }} />) 
           : ( "Login" )}
       </LoadingButton>
     </>

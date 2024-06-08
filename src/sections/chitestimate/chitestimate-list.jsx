@@ -8,19 +8,20 @@ import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
 import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
-import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import { Alert, Button, Dialog, Snackbar, DialogTitle, DialogActions } from '@mui/material';
 
-import { DeleteHeader, PutHeaderWithoutParams } from 'src/hooks/AxiosApiFetch';
+import { DeleteHeader } from 'src/hooks/AxiosApiFetch';
 
-import { GROUP_DELETE, GROUP_ACTIVATE, REACT_APP_HOST_URL } from 'src/utils/api-constant';
+import { REACT_APP_HOST_URL, CHIT_ESTIMATE_DELETE } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
 
 import Iconify from 'src/components/iconify';
 
-export default function GroupTableRow({
+// ----------------------------------------------------------------------
+
+export default function ChitEstimateTableRow({
   key,
   selected,
   handleClick,
@@ -36,39 +37,11 @@ export default function GroupTableRow({
   const [ErrorAlert, setErrorAlert] = useState(false);
   const [ErrorScreen, setErrorScreen] = useState('network');
 
-  const GroupDeleteMethod = (id) => {
-    const url = `${REACT_APP_HOST_URL}${GROUP_DELETE}${id}`;
+  const ChitEstimateDeleteMethod = (id) => {
+    const url = `${REACT_APP_HOST_URL}${CHIT_ESTIMATE_DELETE}${id}`;
     console.log(url);
     console.log(Session);
     fetch(url, DeleteHeader(JSON.parse(Session)))
-      .then((response) => response.json())
-      .then((json) => {
-        console.log(JSON.stringify(json));
-        if (json.success) {
-          setAlertMessage(json.message);
-          setAlertFrom("success");
-          HandleAlertShow();
-        } else if (json.success === false) {
-          setAlertMessage(json.message);
-          setAlertFrom("failed");
-          HandleAlertShow();
-        } else {
-          setErrorAlert(true);
-          setErrorScreen("network");
-        }
-      })
-      .catch((error) => {
-        setErrorAlert(true);
-        setErrorScreen("error");
-        console.log(error);
-      })
-  }
-
-  const GroupActivateMethod = (id) => {
-    const url = `${REACT_APP_HOST_URL}${GROUP_ACTIVATE}${id}`;
-    console.log(url);
-    console.log(Session);
-    fetch(url, PutHeaderWithoutParams(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
         console.log(JSON.stringify(json));
@@ -100,14 +73,14 @@ export default function GroupTableRow({
     console.log(item)
     setOpen(null);
     if (from === "view") {
-      navigate(`/group/view/${item.id}`, {
+      navigate(`/chitestimate/view/${item.id}`, {
         state: {
           screen: 'view',
           data: item,
         },
       });
     } else if (from === "edit") {
-      navigate(`/group/edit/${item.id}`, {
+      navigate(`/chitestimate/edit/${item.id}`, {
         state: {
           screen: 'edit',
           data: item,
@@ -122,7 +95,6 @@ export default function GroupTableRow({
 
   const HandleAlertClose = () => {
     setAlertOpen(false);
-    setConfirmAlert(false);
     if (AlertFrom === "success") {
       window.location.reload();
     }
@@ -131,11 +103,7 @@ export default function GroupTableRow({
   const HandleConfirmYesClick = () => {
     setOpen(null);
     setConfirmAlert(false);
-    if (item.is_active === 0) {
-      GroupActivateMethod(item.id);
-    } else {
-      GroupDeleteMethod(item.id);
-    }
+    ChitEstimateDeleteMethod(item.id);
   };
 
   const HandleConfirmNoClick = () => {
@@ -153,17 +121,10 @@ export default function GroupTableRow({
           <TableCell padding="checkbox" style={{ display: 'none' }}>
             <Checkbox disableRipple checked={selected} onChange={handleClick} />
           </TableCell>
-          <TableCell sx={{ ml: 2 }}>{item.id}</TableCell>
-          <TableCell component="th" scope="row" >
-            <Stack direction="row" alignItems="center" >
-              <Typography variant="subtitle2" noWrap>
-                {item.groupno}
-              </Typography>
-            </Stack>
-          </TableCell>
+          <TableCell>{item.groupno}</TableCell>
+          <TableCell>{item.amount != null && item.amount !== "" ? Math.round(item.amount) : ""}</TableCell>
           <TableCell>{item.duration}</TableCell>
           <TableCell>{item.auction_mode}</TableCell>
-          <TableCell>{item.amount}</TableCell>
           <TableCell align="right">
             <IconButton onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>
               <Iconify icon="eva:more-vertical-fill" />
@@ -180,24 +141,18 @@ export default function GroupTableRow({
           sx: { width: 140 },
         }}
       >
-        {item.is_active === 1
-          ? <MenuItem onClick={() => HandleSelectMenu("edit")} sx={{ cursor: 'pointer' }}>
-            <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-            Edit
-          </MenuItem>
-          : <MenuItem onClick={() => HandleSelectMenu("view")} sx={{ cursor: 'pointer' }}>
-            <Iconify icon="eva:eye-fill" sx={{ mr: 2 }} />
-            View
-          </MenuItem>}
-        {item.is_active === 1
-          ? <MenuItem onClick={() => setConfirmAlert(true)} sx={{ color: 'error.main', cursor: 'pointer' }}>
-            <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
-            Delete
-          </MenuItem>
-          : <MenuItem onClick={() => setConfirmAlert(true)} sx={{ cursor: 'pointer' }}>
-            <img src="../../../public/assets/images/img/reactivate.png" alt="Loading" style={{ width: 20, height: 20, marginRight: '15px' }} />
-            Activate
-          </MenuItem> }
+        <MenuItem onClick={() => HandleSelectMenu("view")} sx={{ cursor: 'pointer' }}>
+          <Iconify icon="eva:eye-fill" sx={{ mr: 2 }} />
+          View
+        </MenuItem>
+        <MenuItem onClick={() => HandleSelectMenu("edit")} sx={{ cursor: 'pointer' }}>
+          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
+          Edit
+        </MenuItem>
+        <MenuItem onClick={() => setConfirmAlert(true)} sx={{ color: 'error.main', cursor: 'pointer' }}>
+          <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
+          Delete
+        </MenuItem>
       </Popover>
       <Dialog
         open={ConfirmAlert}
@@ -206,7 +161,7 @@ export default function GroupTableRow({
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description" >
         <DialogTitle id="responsive-dialog-title">
-          {item.is_active === 1 ? "Are you sure you want to delete this Group ?" : "Are you sure you want to activate this Group ?"}
+          Are you sure you want to delete this Chit Estimate ?
         </DialogTitle>
         <DialogActions>
           <Button autoFocus onClick={HandleConfirmYesClick} sx={{ cursor: 'pointer' }}>
@@ -230,7 +185,7 @@ export default function GroupTableRow({
   );
 }
 
-GroupTableRow.propTypes = {
+ChitEstimateTableRow.propTypes = {
   key: PropTypes.any,
   selected: PropTypes.any,
   handleClick: PropTypes.func,

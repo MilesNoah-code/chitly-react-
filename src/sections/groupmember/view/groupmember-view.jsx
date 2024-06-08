@@ -432,7 +432,7 @@ export default function GroupMemberView() {
       <GroupSearch groupList={grouplist} />
       {GroupMemberLoading
         ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-          <img src="../../../assets/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+          <img src="../../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
         </Stack>
         :
       <Box sx={{ flexGrow: 1 }} className="toppadding">
@@ -581,7 +581,7 @@ export default function GroupMemberView() {
           <Stack direction='column' alignItems='flex-end'>
             <Button sx={{ mr: 5, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
               {Loading
-                ? (<img src="../../../assets/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                ? (<img src="../../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                 : ("Submit")}
             </Button>
           </Stack>
@@ -626,7 +626,7 @@ export default function GroupMemberView() {
                 onClick={() => setMemberListAlert(false)}
                 sx={{ position: 'absolute', right: 15, top: 5, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }}
               >
-                <img src="../../../assets/cancel.png" alt="Loading" style={{ width: 17, height: 17 }} />
+                <img src="../../../../public/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17 }} />
               </IconButton>
             </Stack>
             <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 1 }}>
@@ -648,7 +648,7 @@ export default function GroupMemberView() {
                       ]} />
                     {MemberListLoading
                       ? <Stack mt={10} sx={{ alignItems: 'center' }}>
-                        <img src="../../../assets/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                        <img src="../../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                       </Stack>
                       : <TableBody>
                         {MemberList

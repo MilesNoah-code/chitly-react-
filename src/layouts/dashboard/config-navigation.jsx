@@ -34,7 +34,7 @@ const navConfig = [
   },
   {
     title: 'Chit Auction',
-    path: '/404',
+    path: '/chitauction/list',
     icon: icon('chitauction'),
   },
   {

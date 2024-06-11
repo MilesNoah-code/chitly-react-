@@ -72,12 +72,11 @@ export default function ChitReceiptView() {
     setTotalCount(0);
     setChitReceiptList([]);
     const url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_LIST}${fromdate}&toDate=${todate}&search=${text}&start=${start}&limit=${limit}`;
-    console.log(url);
-    console.log(Session)
+    // console.log(JSON.parse(Session) + url);
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         setChitReceiptLoading(false);
         if (json.success) {
           setTotalCount(json.total);
@@ -95,7 +94,7 @@ export default function ChitReceiptView() {
         setChitReceiptLoading(false);
         setErrorAlert(true);
         setErrorScreen("error");
-        console.log(error);
+        // console.log(error);
       })
   }
 
@@ -169,7 +168,7 @@ export default function ChitReceiptView() {
 
   const HandleFromDateChange = (date) => {
     const DateForSearch = date ? dayjs(date).format('YYYY-MM-DD') : "";
-    console.log('Date to search:', DateForSearch);
+    // console.log('Date to search:', DateForSearch);
     setPage(0);
     setTotalCount(0);
     setChitReceiptList([]);
@@ -181,7 +180,7 @@ export default function ChitReceiptView() {
 
   const HandleToDateChange = (date) => {
     const DateForSearch = date ? dayjs(date).format('YYYY-MM-DD') : "";
-    console.log('Date to search:', DateForSearch);
+    // console.log('Date to search:', DateForSearch);
     setPage(0);
     setTotalCount(0);
     setChitReceiptList([]);
@@ -241,7 +240,7 @@ export default function ChitReceiptView() {
         </Stack>
         {ChitReceiptLoading
           ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-            <img src="../../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+            <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
           </Stack>
           : <Stack>
             <Scrollbar>

@@ -51,9 +51,14 @@ export const ADDRESS_DETAIL = "api/member/address/list?memberId=";
 export const MEMBER_ACTIVATE = "api/member/activate/";
 export const GROUP_ACTIVATE = "api/group/activate/";
 export const GROUP_MEMBER_SAVE = "api/groupMember/save";
-export const CHIT_ESTIMATE_LIST = "api/chitEstimate/list?";
+export const CHIT_ESTIMATE_LIST = "api/chitEstimate/list?groupId=";
 export const CHIT_ESTIMATE_SAVE = "api/chitEstimate/save";
-export const CHIT_ESTIMATE_MEMBER_LIST = "api/chitEstimateMembers/list?groupId=4&id=&instNo=1&start=&limit=";
+export const CHIT_ESTIMATE_MEMBER_LIST = "api/chitEstimateMembers/list?groupId=";
 export const CHIT_ESTIMATE_MEMBER_SAVE = "api/chitEstimateMembers/save";
 export const CHIT_ESTIMATE_UPDATE = "api/chitEstimateMembers/update/";
 export const CHIT_ESTIMATE_DELETE = "api/chitEstimateMembers/delete/";
+export const STANDING_INSTRUCTION = "api/standingInstruction/listByKey?genericKey=COMPANY_MEMBER";
+export const CHIT_AUCTION_LIST = "api/auction/list?id=256&group_id=&isActive=&installNo=&start=&limit=";
+export const CHIT_AUCTION_VIEW = "api/auction/details?status=All&id=614&start=&limit=";
+export const CHIT_AUCTION_SAVE = "api/auction/save";
+export const CHIT_AUCTION_UPDATE = "api/auction/update/"

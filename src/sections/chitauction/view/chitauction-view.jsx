@@ -10,7 +10,7 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-import { Alert, MenuItem, Snackbar, TextField, InputAdornment } from '@mui/material';
+import { Alert, Snackbar, TableRow, TableCell, TextField, IconButton, InputAdornment } from '@mui/material';
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
 
@@ -21,14 +21,13 @@ import Scrollbar from 'src/components/scrollbar';
 
 import { emptyRows } from 'src/sections/member/utils';
 
-import './group-view.css';
-import GroupTableRow from '../group-list';
+import './chitauction-view.css';
 import TableHeader from '../../member/table-head';
 import TableNoData from '../../member/table-no-data';
 import ErrorLayout from '../../../Error/ErrorLayout';
 import TableEmptyRows from '../../member/table-empty-rows';
 
-export default function GroupView() {
+export default function ChitAuctionView() {
 
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
@@ -38,9 +37,8 @@ export default function GroupView() {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(15);
   const Session = localStorage.getItem('apiToken');
-  const [GroupList, setGroupList] = useState([]);
-  const [GroupListLoading, setGroupListLoading] = useState(true);
-  const [ActiveFilter, setActiveFilter] = useState(1);
+  const [ChitAuctionList, setChitAuctionList] = useState([]);
+  const [ChitAuctionLoading, setChitAuctionLoading] = useState(true);
   const [AlertOpen, setAlertOpen] = useState(false);
   const [AlertMessage, setAlertMessage] = useState('');
   const [AlertFrom, setAlertFrom] = useState('');
@@ -50,25 +48,25 @@ export default function GroupView() {
 
   useEffect(() => {
     setTotalCount(0);
-    setGroupList([]);
-    GetGroupList(ActiveFilter, filterName, page * rowsPerPage, rowsPerPage);
+    setChitAuctionList([]);
+    GetChitAuctionList(1, filterName, page * rowsPerPage, rowsPerPage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, rowsPerPage, ActiveFilter, filterName]);
+  }, [page, rowsPerPage, filterName]);
 
-  const GetGroupList = (isActive, text, start, limit) => {
-    setGroupListLoading(true);
+  const GetChitAuctionList = (isactive, text, start, limit) => {
+    setChitAuctionLoading(true);
     setTotalCount(0);
-    setGroupList([]);
-    const url = `${REACT_APP_HOST_URL}${GROUP_LIST}${isActive}&search=${text}&start=${start}&limit=${limit}`;
+    setChitAuctionList([]);
+    const url = `${REACT_APP_HOST_URL}${GROUP_LIST}${isactive}&search=${text}&start=${start}&limit=${limit}`;
     // console.log(JSON.parse(Session) + url);
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
         // console.log(JSON.stringify(json));
-        setGroupListLoading(false);
+        setChitAuctionLoading(false);
         if (json.success) {
           setTotalCount(json.total);
-          setGroupList([...GroupList, ...json.list]);
+          setChitAuctionList([...ChitAuctionList, ...json.list]);
         } else if (json.success === false) {
           setAlertMessage(json.message);
           setAlertFrom("failed");
@@ -79,7 +77,7 @@ export default function GroupView() {
         }
       })
       .catch((error) => {
-        setGroupListLoading(false);
+        setChitAuctionLoading(false);
         setErrorAlert(true);
         setErrorScreen("error");
         // console.log(error);
@@ -96,29 +94,11 @@ export default function GroupView() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = GroupList.map((n) => n.name);
+      const newSelecteds = ChitAuctionList.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -133,30 +113,17 @@ export default function GroupView() {
   const handleFilterByName = (event) => {
     setPage(0);
     setTotalCount(0);
-    setGroupList([]);
+    setChitAuctionList([]);
     setFilterName(event.target.value);
   };
 
-  const HandleAddGroupClick = () => {
-    navigate('/group/add', {
+  const HandleAddChitAuctionClick = () => {
+    navigate('/chitauction/add', {
       state: {
         screen: 'add',
         data: [],
       },
     });
-  }
-
-  const options = [
-    { value: 1, label: 'Active' },
-    { value: 0, label: 'InActive' },
-  ];
-
-  const handleFilterByActive = (e) => {
-    const text = e.target.value;
-    setPage(0);
-    setTotalCount(0);
-    setGroupList([]);
-    setActiveFilter(text);
   };
 
   const HandleAlertShow = () => {
@@ -167,20 +134,29 @@ export default function GroupView() {
     setAlertOpen(false);
   };
 
+  const handleOpenScreen = (row) => {
+    navigate(`/chitauction/add`, {
+      state: {
+        screen: 'add',
+        data: row,
+      },
+    });
+  };
+
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
-        <Typography variant="h6" sx={{ color: '#637381' }}>Group List</Typography>
-        <Button variant="contained" className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddGroupClick} sx={{ cursor: 'pointer' }}>
-          Add Group
+        <Typography variant="h6" sx={{ color: '#637381' }}>Chit Auction List</Typography>
+        <Button variant="contained" className='custom-button' sx={{ display: 'none' }} startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddChitAuctionClick}>
+          Add Chit Auction
         </Button>
       </Stack>
       <Card>
-        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" justifyContent="space-between" className='mbl-view'>
+        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='40px' className='mbl-view'>
           <TextField
-            placeholder="Search Group..."
+            placeholder="Search Group Code..."
             value={filterName}
             onChange={(e) => handleFilterByName(e)}
             InputProps={{
@@ -194,15 +170,8 @@ export default function GroupView() {
               ),
             }}
           />
-          <TextField select size="small" value={ActiveFilter} onChange={(e) => handleFilterByActive(e)}>
-            {options.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
         </Stack>
-        {GroupListLoading
+        {ChitAuctionLoading
           ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
           </Stack>
@@ -213,39 +182,45 @@ export default function GroupView() {
                   <TableHeader
                     order={order}
                     orderBy={orderBy}
-                    rowCount={GroupList.length}
+                    rowCount={ChitAuctionList.length}
                     numSelected={selected.length}
                     onRequestSort={handleSort}
                     onSelectAllClick={handleSelectAllClick}
                     headLabel={[
-                      { id: 'Group Id', label: 'Group Id' },
-                      { id: 'Group Name', label: 'Group Name' },
+                      { id: 'Group Code', label: 'Group Code' },
                       { id: 'Duration', label: 'Duration' },
                       { id: 'Auction Mode', label: 'Auction Mode' },
                       { id: 'Amount', label: 'Amount' },
+                      { id: 'Status', label: 'Status' },
                       { id: '' },
                     ]} />
                   <TableBody>
-                    {GroupList
+                    {ChitAuctionList
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => (
-                        <GroupTableRow
-                          key={row.id}
-                          selected={selected.indexOf(row.name) !== -1}
-                          handleClick={(event) => handleClick(event, row.name)}
-                          item={row}
-                        />
+                        <TableRow hover tabIndex={-1} role="checkbox" selected={selected.indexOf(row.name) !== -1}>
+                          <TableCell>{row.groupno}</TableCell>
+                          <TableCell>{row.duration}</TableCell>
+                          <TableCell>{row.auction_mode}</TableCell>
+                          <TableCell>{row.amount != null && row.amount !== "" ? Math.round(row.amount) : ""}</TableCell>
+                          <TableCell>{row.status}</TableCell>
+                          <TableCell align="right">
+                            <IconButton onClick={() => handleOpenScreen(row)} sx={{ cursor: 'pointer' }}>
+                              <Iconify icon="eva:edit-fill" />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
                       ))}
                     <TableEmptyRows
                       height={77}
-                      emptyRows={emptyRows(page, rowsPerPage, GroupList.length)}
+                      emptyRows={emptyRows(page, rowsPerPage, ChitAuctionList.length)}
                     />
-                    {GroupList.length === 0 && <TableNoData query={filterName} />}
+                    {ChitAuctionList.length === 0 && <TableNoData query={filterName} />}
                   </TableBody>
                 </Table>
               </TableContainer>
             </Scrollbar>
-            {GroupList.length > 0 && <TablePagination
+            {ChitAuctionList.length > 0 && <TablePagination
               page={page}
               component="div"
               count={TotalCount}
@@ -268,3 +243,4 @@ export default function GroupView() {
     </Container>
   );
 }
+

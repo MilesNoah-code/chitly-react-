@@ -24,8 +24,8 @@ export default function ChitEstimateMemberTableRow({
       <TableCell>{item.fcno}</TableCell>
       <TableCell>
         {key === "paidmember"
-          ? <Avatar alt='Loading' src='../../../public/assets/images/img/green_tick.png' sx={{ width: 20, height: 20 }} />
-          : <Avatar alt='Loading' src='../../../public/assets/images/img/pending.png' sx={{ width: 20, height: 20 }} />}
+          ? <Avatar alt='Loading' src='/assets/images/img/green_tick.png' sx={{ width: 20, height: 20 }} />
+          : <Avatar alt='Loading' src='/assets/images/img/pending.png' sx={{ width: 20, height: 20 }} />}
       </TableCell>
     
     </TableRow>

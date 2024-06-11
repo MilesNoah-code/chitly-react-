@@ -117,13 +117,13 @@ export default function ChitEstimateTableRow({
         ? <Stack style={{ alignItems: 'center', backgroundColor: 'red', flex: 1 }} mt={5}>
           <ErrorLayout screen={ErrorScreen} />
         </Stack>
-        : <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
+        : <TableRow hover tabIndex={-1} role="checkbox" selected={selected} onClick={handleClick}>
           <TableCell padding="checkbox" style={{ display: 'none' }}>
             <Checkbox disableRipple checked={selected} onChange={handleClick} />
           </TableCell>
           <TableCell>{item.groupno}</TableCell>
           <TableCell>{item.amount != null && item.amount !== "" ? Math.round(item.amount) : ""}</TableCell>
-          <TableCell>{item.duration}</TableCell>
+          <TableCell>{item.installfrom}</TableCell>
           <TableCell>{item.auction_mode}</TableCell>
           <TableCell align="right">
             <IconButton onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>

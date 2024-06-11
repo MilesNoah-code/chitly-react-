@@ -51,7 +51,7 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
           series={series}
           options={chartOptions}
           width="100%"
-          height={364}
+          height={365}
         />
       </Box>
     </Card>

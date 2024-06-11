@@ -139,6 +139,8 @@ export default function ChitPaymentView() {
 
   const handleChangeRowsPerPage = (event) => {
     setPage(0);
+    setTotalCount(0);
+    setChitPaymentList([]);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 

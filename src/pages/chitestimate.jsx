@@ -4,7 +4,7 @@ import { ChitEstimateView } from 'src/sections/chitestimate/view';
 
 // ----------------------------------------------------------------------
 
-export default function ProductsPage() {
+export default function ChitEstimatePage() {
   return (
     <>
       <Helmet>

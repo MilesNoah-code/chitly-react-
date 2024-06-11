@@ -443,6 +443,7 @@ export default function GroupMemberView() {
 
   const handleChangeRowsPerPage = (event) => {
     setPage(0);
+    setGroupList([]);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 

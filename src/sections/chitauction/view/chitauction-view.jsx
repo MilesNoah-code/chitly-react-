@@ -107,6 +107,8 @@ export default function ChitAuctionView() {
 
   const handleChangeRowsPerPage = (event) => {
     setPage(0);
+    setTotalCount(0);
+    setChitAuctionList([]);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 

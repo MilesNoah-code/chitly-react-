@@ -127,6 +127,8 @@ export default function GroupView() {
 
   const handleChangeRowsPerPage = (event) => {
     setPage(0);
+    setTotalCount(0);
+    setGroupList([]);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 

@@ -226,6 +226,41 @@ export default function AddChitPaymentPage() {
                     // setReqChitParameterList(json.list);
                     if (json.list.length > 0) {
                         if (json.list[0].total_installment_amount > 0) {
+                            setReceiptNo(prevState => ({
+                                ...prevState,
+                                data: "",
+                                error: ""
+                            }));
+                            setTicketNo(prevState => ({
+                                ...prevState,
+                                data: "",
+                                error: ""
+                            }));
+                            setMemberName(prevState => ({
+                                ...prevState,
+                                data: "",
+                                error: ""
+                            }));
+                            setInstallmentNo(prevState => ({
+                                ...prevState,
+                                data: "",
+                                error: ""
+                            }));
+                            setAccountNo(prevState => ({
+                                ...prevState,
+                                data: "",
+                                error: ""
+                            }));
+                            setMobileNo(prevState => ({
+                                ...prevState,
+                                data: "",
+                                error: ""
+                            }));
+                            setValues(prevState => ({
+                                ...prevState,
+                                data: "",
+                                error: ""
+                            }));
                             setAlertMessage("Please Add Receipt for this group");
                             setAlertFrom("failed");
                             HandleAlertShow();
@@ -431,7 +466,7 @@ export default function AddChitPaymentPage() {
                 error: ""
             }));
         }
-        /* if (!TicketNo.data) {
+        if (!TicketNo.data) {
             IsValidate = false;
             setTicketNo(prevState => ({
                 ...prevState,
@@ -442,7 +477,7 @@ export default function AddChitPaymentPage() {
                 ...prevState,
                 error: ""
             }));
-        } */
+        } 
         if (!ReceiptNo.data) {
             IsValidate = false;
             setReceiptNo(prevState => ({
@@ -455,7 +490,7 @@ export default function AddChitPaymentPage() {
                 error: ""
             }));
         }
-        /* if (!InstallmentNo.data) {
+        if (!InstallmentNo.data) {
             IsValidate = false;
             setInstallmentNo(prevState => ({
                 ...prevState,
@@ -490,7 +525,7 @@ export default function AddChitPaymentPage() {
                 ...prevState,
                 error: ""
             }));
-        } */
+        }
         if (!Values.data) {
             IsValidate = false;
             setValues(prevState => ({
@@ -562,7 +597,7 @@ export default function AddChitPaymentPage() {
     const HandleAlertClose = () => {
         setAlertOpen(false);
         if (AlertFrom === "success") {
-            navigate('/chitpayment/list');
+            // navigate('/chitpayment/list');
         }
     };
 
@@ -573,7 +608,7 @@ export default function AddChitPaymentPage() {
     const HandleDateChange = (date) => {
         setScreenRefresh(pre => pre + 1);
         const DateForSave = date ? dayjs(date).format('YYYY-MM-DD') : "";
-        // console.log('Date to save:', DateForSave);
+        console.log('Date to save:', DateForSave);
         setReceiptDate({
             data: date,
             datasave: DateForSave,
@@ -624,6 +659,46 @@ export default function AddChitPaymentPage() {
         }
         setSelected(newSelected);
         setSelectUnPaidGroup(item);
+        console.log(item)
+        setGroupNoSearch({
+            data: item.groupno,
+            error: ''
+        });
+        setReceiptNo(prevState => ({
+            ...prevState,
+            data: "",
+            error: ""
+        }));
+        setTicketNo(prevState => ({
+            ...prevState,
+            data: item.tktno,
+            error: ""
+        }));
+        setMemberName(prevState => ({
+            ...prevState,
+            data: item.member_name,
+            error: ""
+        }));
+        setInstallmentNo(prevState => ({
+            ...prevState,
+            data: item.installno,
+            error: ""
+        }));
+        setAccountNo(prevState => ({
+            ...prevState,
+            data: "",
+            error: ""
+        }));
+        setMobileNo(prevState => ({
+            ...prevState,
+            data: item.mappedPhone,
+            error: ""
+        }));
+        setValues(prevState => ({
+            ...prevState,
+            data: item.amount,
+            error: ""
+        }));
         GetReqChitParameterList(item.memberid);
         setUnPaidGroupAlert(false);
     };
@@ -650,6 +725,8 @@ export default function AddChitPaymentPage() {
 
     const handleChangeRowsPerPage = (event) => {
         setPage(0);
+        setLedgerTotalCount(0);
+        setLedgerList([]);
         setRowsPerPage(parseInt(event.target.value, 10));
     };
 
@@ -946,7 +1023,7 @@ export default function AddChitPaymentPage() {
                                                 required
                                                 className='input-box1'
                                                 id="outlined-required"
-                                                disabled={screen === "view"}
+                                                disabled
                                                 label="Value"
                                                 value={Values.data}
                                                 onChange={(e) => ChitPaymentTextValidate(e, "Values")}

@@ -39,12 +39,11 @@ export default function ChitPaymentTableRow({
 
   const GroupDeleteMethod = (id) => {
     const url = `${REACT_APP_HOST_URL}${CHIT_PAYMENT_DELETE}${id}`;
-    console.log(url);
-    console.log(Session);
+    // console.log(JSON.parse(Session) + url);
     fetch(url, DeleteHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         if (json.success) {
           setAlertMessage(json.message);
           setAlertFrom("success");
@@ -61,7 +60,7 @@ export default function ChitPaymentTableRow({
       .catch((error) => {
         setErrorAlert(true);
         setErrorScreen("error");
-        console.log(error);
+        // console.log(error);
       })
   }
 
@@ -70,7 +69,6 @@ export default function ChitPaymentTableRow({
   };
 
   const HandleSelectMenu = (from) => {
-    console.log(item)
     setOpen(null);
     if (from === "view") {
       navigate(`/chitpayment/view/${item.id}`, {

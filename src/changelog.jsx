@@ -10,7 +10,7 @@ const ChangeLog = () => {
                 const content = await response.text();
                 setChangelogContent(content);
             } catch (error) {
-                console.error('Error fetching changelog:', error);
+                // console.log('Error fetching changelog:', error);
             }
         };
 

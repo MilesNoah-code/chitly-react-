@@ -59,6 +59,7 @@ export default function GroupMemberView() {
   const [GroupMemberLoading, setGroupMemberLoading] = useState(true);
   const [Loading, setLoading] = useState(false);
   const [ScreenRefresh, setScreenRefresh] = useState(0);
+  const [GroupMemberId, setGroupMemberId] = useState('');
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -73,6 +74,26 @@ export default function GroupMemberView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    setTotalCount(0);
+    setMemberList([]);
+    GetMemberList(1, filterName, page * rowsPerPage, rowsPerPage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, rowsPerPage, filterName]);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      if (ScreenRefresh) {
+        event.preventDefault();
+        event.returnValue = '';
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [ScreenRefresh]);
+
   const GetGroupMemberList = (isActive, selectedGroupId, selectedMemberId) => {
     // const memberId = '';
     setGroupMemberLoading(true);
@@ -80,11 +101,11 @@ export default function GroupMemberView() {
       selectedMemberId = '';
     }
     const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}?groupId=${selectedGroupId}&id=${selectedMemberId}`;
-
+    // console.log(JSON.parse(Session) + url);
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         setGroupMemberLoading(false);
         if (json.success) {
           const { list } = json;
@@ -112,9 +133,9 @@ export default function GroupMemberView() {
               newList[index] = { ...newList[index], ...member };
             }
           });
-          console.log(JSON.stringify(newList));
+          // console.log(JSON.stringify(newList));
           setGroupMemberList(newList);
-          GetMemberDetail(1, newList[0].id)
+          GetMemberDetail(1, newList[0].id, 2, '')
 
         } else if (json.success === false) {
           setAlertMessage(json.message);
@@ -126,34 +147,41 @@ export default function GroupMemberView() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         setGroupMemberLoading(false);
         setErrorAlert(true);
         setErrorScreen("error");
       });
   };
 
-  const GetMemberDetail = (isActive, id) => {
-
+  const GetMemberDetail = (isActive, id, from, index) => {
     const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}?id=${id}`;
-
+    // console.log(JSON.parse(Session) + url);
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         if (json.success) {
           setTicketNoClick(false);
           if(json.list.length > 0){
             setMemberDetail(json.list[0]);
           }
-          if (json.list && json.list.length === 0){
+          if (from === 3) {
             if (TicketNoClick) {
               setAlertMessage("please save the already selected Ticket No");
               setAlertFrom("save_alert");
               HandleAlertShow();
             } else {
-              setMemberListAlert(true);
-              GetMemberList(1, filterName, page * rowsPerPage, rowsPerPage);
+              // console.log(index)
+              if (index !== 0) {
+                setMemberListAlert(true);
+                GetMemberList(1, filterName, page * rowsPerPage, rowsPerPage);
+              }
+              if(json.list.length > 0){
+                setGroupMemberId(json.list[0].id)
+              }else{
+                setGroupMemberId('');
+              }
             }
           }
         } else if (json.success === false) {
@@ -169,7 +197,7 @@ export default function GroupMemberView() {
         setMemberListAlert(false);
         setErrorAlert(true);
         setErrorScreen("error");
-        console.log(error);
+        // console.log(error);
       });
   };
 
@@ -178,13 +206,11 @@ export default function GroupMemberView() {
     setTotalCount(0);
     setMemberList([]);
     const url = `${REACT_APP_HOST_URL}${MEMBER_LIST}${isActive}&search=${text}&start=${start}&limit=${limit}`;
-    console.log(url);
-    console.log(Session)
+    // console.log(JSON.parse(Session) + url);
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
-        console.log(MemberList.length);
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         setMemberListLoading(false);
         if (json.success) {
           setTotalCount(json.total);
@@ -202,24 +228,24 @@ export default function GroupMemberView() {
         setMemberListLoading(false);
         setErrorAlert(true);
         setErrorScreen("error");
-        console.log(error);
+        // console.log(error);
       })
   }
 
-  const GetAddressView = (id) => {
+  const GetAddressView = (id, memberDetails) => {
     const url = `${REACT_APP_HOST_URL}${ADDRESS_DETAIL}${id}`;
-    console.log(url);
+    // console.log(JSON.parse(Session) + url);
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         if (json.success) {
           if(json.list !== null){
             const updatedItem = {
-              ...memberDetail,
+              ...memberDetails,
               ...json.list
             };
-            console.log(updatedItem)
+            // console.log(updatedItem)
             setMemberDetail(updatedItem);
           }
         } else if (json.success === false) {
@@ -234,7 +260,7 @@ export default function GroupMemberView() {
       .catch((error) => {
         setErrorAlert(true);
         setErrorScreen("error");
-        console.log(error);
+        // console.log(error);
       })
   }
 
@@ -244,7 +270,7 @@ export default function GroupMemberView() {
     "tkt_suffix": "A",
     "tkt_percentage": "100",
     "tktno": memberDetail.tktno,
-    "addressid": memberDetail && memberDetail.addressId ? memberDetail.addressId : ""
+    "addressid": memberDetail && memberDetail.addressId ? memberDetail.addressId : "",
   }
 
   const GroupMemberUpdateInfoParams = {
@@ -254,7 +280,7 @@ export default function GroupMemberView() {
     "tkt_percentage": "100",
     "tktno": memberDetail.tktno,
     "addressid": memberDetail && memberDetail.addressId ? memberDetail.addressId : "",
-    "id": memberDetail && memberDetail.id ? memberDetail.id : ""
+    "id": GroupMemberId
   }
 
   // groupmember update in request need to pass id param
@@ -265,13 +291,16 @@ export default function GroupMemberView() {
       let url = '';
       let Params = '';
       url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_SAVE}`;
-      Params = GroupMemberInfoParams;
-      console.log(JSON.stringify(Params) + url);
-      console.log(Session);
+      if (GroupMemberId !== ""){
+        Params = GroupMemberUpdateInfoParams;
+      }else{
+        Params = GroupMemberInfoParams;
+      }
+      // console.log(JSON.stringify(Params) + url);
       fetch(url, PostHeader(JSON.parse(Session), Params))
         .then((response) => response.json())
         .then((json) => {
-          console.log(JSON.stringify(json));
+          // console.log(JSON.stringify(json));
           setLoading(false);
           setScreenRefresh(0);
           if (json.success) {
@@ -291,7 +320,7 @@ export default function GroupMemberView() {
           setLoading(false);
           setErrorAlert(true);
           setErrorScreen("error");
-          console.log(error);
+          // console.log(error);
         })
     }
   }
@@ -306,7 +335,7 @@ export default function GroupMemberView() {
 
   const handleGroupClick = (isActive, id) => {
     // Call your specific function here
-    console.log('Clicked item ID:', id);
+    // console.log('Clicked item ID:', id);
     // You can call another function and pass the id as needed
     GetGroupMemberList(1, id);
 
@@ -314,11 +343,11 @@ export default function GroupMemberView() {
 
   const GetGroupList = (isActive) => {
     const url = REACT_APP_HOST_URL + GROUP_LISTALL;
-
+    // console.log(JSON.parse(Session) + url);
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         if (json.success) {
           setGroupList(json.list);
           GetGroupMemberList(1, json.list[0].id);
@@ -332,7 +361,7 @@ export default function GroupMemberView() {
         }
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         setErrorAlert(true);
         setErrorScreen("error");
       })
@@ -399,13 +428,13 @@ export default function GroupMemberView() {
         memberId: item.id,
         memdob: item.dob,
       };
-      console.log(updatedItem)
+      // console.log(updatedItem)
       updatedGroupMemberList[SelectedIndex] = updatedItem;
       setGroupMemberList(updatedGroupMemberList);
-      setMemberDetail(updatedItem);
+      GetAddressView(item.id, updatedItem);
     }
     setMemberListAlert(false);
-    GetAddressView(item.id);
+    
   };
 
   const handleChangePage = (event, newPage) => {
@@ -418,9 +447,29 @@ export default function GroupMemberView() {
   };
 
   const HandleSubmitClick = () => {
-    console.log("submitclick11");
     GroupMemberAddMethod(true);
   };
+
+  const handleFilterByName = (event) => {
+    setPage(0);
+    setTotalCount(0);
+    setMemberList([]);
+    setFilterName(event.target.value);
+  };
+
+  /* const HandleBack = () => {
+    if (ScreenRefresh) {
+      const confirmNavigation = window.confirm(
+        'You have unsaved changes. Are you sure you want to leave this page?'
+      );
+      if (confirmNavigation) {
+        setScreenRefresh(0);
+        window.location.reload();
+      }
+    } else {
+      window.location.reload();
+    }
+  } */
 
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
@@ -432,7 +481,7 @@ export default function GroupMemberView() {
       <GroupSearch groupList={grouplist} />
       {GroupMemberLoading
         ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-          <img src="../../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+          <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
         </Stack>
         :
       <Box sx={{ flexGrow: 1 }} className="toppadding">
@@ -453,7 +502,7 @@ export default function GroupMemberView() {
             <List sx={style} aria-label="mailbox folders">
               {groupMemberlist.map((member, index) => (
                 <>
-                  <ListItem key={member.id} onClick={() => { GetMemberDetail(1, member.id); setSelectedIndex(index);}}>
+                  <ListItem key={member.id} onClick={() => { GetMemberDetail(1, member.id, 3, index); setSelectedIndex(index);}}>
                     <ListItemText primary={`${member.tktno} .  ${member.memberName}`} />
                   </ListItem>
                   <Divider component="li" />
@@ -581,7 +630,7 @@ export default function GroupMemberView() {
           <Stack direction='column' alignItems='flex-end'>
             <Button sx={{ mr: 5, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
               {Loading
-                ? (<img src="../../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                ? (<img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                 : ("Submit")}
             </Button>
           </Stack>
@@ -610,6 +659,8 @@ export default function GroupMemberView() {
             <Stack mt={1} ml={2} mr={1} direction="row" alignItems="center">
               <TextField
                 placeholder="Member Name..."
+                value={filterName}
+                onChange={(e) => handleFilterByName(e)}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -626,7 +677,7 @@ export default function GroupMemberView() {
                 onClick={() => setMemberListAlert(false)}
                 sx={{ position: 'absolute', right: 15, top: 5, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }}
               >
-                <img src="../../../../public/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17 }} />
+                <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17 }} />
               </IconButton>
             </Stack>
             <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 1 }}>
@@ -648,7 +699,7 @@ export default function GroupMemberView() {
                       ]} />
                     {MemberListLoading
                       ? <Stack mt={10} sx={{ alignItems: 'center' }}>
-                        <img src="../../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                        <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                       </Stack>
                       : <TableBody>
                         {MemberList

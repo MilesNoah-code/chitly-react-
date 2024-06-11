@@ -96,12 +96,11 @@ export default function AddGroupPage() {
             let Params = '';
             url = `${REACT_APP_HOST_URL}${GROUP_SAVE}`;
             Params = GroupInfoParams;
-            console.log(JSON.stringify(Params) + url);
-            console.log(Session);
+            // console.log(JSON.stringify(Params) + url);
             fetch(url, PostHeader(JSON.parse(Session), Params))
                 .then((response) => response.json())
                 .then((json) => {
-                    console.log(JSON.stringify(json));
+                    // console.log(JSON.stringify(json));
                     setLoading(false);
                     setScreenRefresh(0);
                     if (json.success) {
@@ -121,7 +120,7 @@ export default function AddGroupPage() {
                     setLoading(false);
                     setErrorAlert(true);
                     setErrorScreen("error");
-                    console.log(error);
+                    // console.log(error);
                 })
         }
     }
@@ -133,12 +132,11 @@ export default function AddGroupPage() {
             let Params = '';
             url = `${REACT_APP_HOST_URL}${GROUP_UPDATE}${data.id}`;
             Params = GroupInfoParams;
-            console.log(JSON.stringify(Params) + url);
-            console.log(Session);
+            // console.log(JSON.stringify(Params) + url);
             fetch(url, PutHeader(JSON.parse(Session), Params))
                 .then((response) => response.json())
                 .then((json) => {
-                    console.log(JSON.stringify(json));
+                    // console.log(JSON.stringify(json));
                     setLoading(false);
                     setScreenRefresh(0);
                     if (json.success) {
@@ -158,7 +156,7 @@ export default function AddGroupPage() {
                     setLoading(false);
                     setErrorAlert(true);
                     setErrorScreen("error");
-                    console.log(error);
+                    // console.log(error);
                 })
         }
     }
@@ -183,7 +181,7 @@ export default function AddGroupPage() {
     const GroupTextValidate = (e, from) => {
         const text = e.target.value;
         setScreenRefresh(pre => pre + 1);
-        console.log(from);
+        // console.log(from);
         if (from === "GroupCode") {
             setGroupCode(prevState => ({
                 ...prevState,
@@ -346,7 +344,6 @@ export default function AddGroupPage() {
     };
 
     const HandleSubmitClick = () => {
-        console.log("submitclick11");
         validateGroupInfo();
     };
 
@@ -556,7 +553,7 @@ export default function AddGroupPage() {
                             : <Stack direction='column' alignItems='flex-end'>
                                 <Button sx={{ mr: 5, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                     {Loading
-                                        ? (<img src="../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                                        ? (<img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                         : ("Submit")}
                                 </Button>
                             </Stack>}

@@ -19,6 +19,8 @@ export const Page404 = lazy(() => import('src/pages/page-not-found'));
 export const ChangeLog = lazy(() => import('src/changelog'));
 export const ChitEstimatePage = lazy(() => import('src/pages/chitestimate'));
 export const ChitEstimateAddPage = lazy(() => import('src/sections/chitestimate/chitestimate-add'));
+export const ChitAuctionPage = lazy(() => import('src/pages/chitauction'));
+export const ChitAuctionAddPage = lazy(() => import('src/sections/chitauction/chitauction-add'));
 
 export default function Router() {
   const isSessionAvailable = localStorage.getItem('apiToken') !== null;
@@ -57,8 +59,8 @@ export default function Router() {
         { path: 'chitpayment/view/:memberId', element: <ChitPaymentAddPage /> },
         { path: 'chitestimate/list', element: <ChitEstimatePage /> },
         { path: 'chitestimate/add', element: <ChitEstimateAddPage /> },
-        { path: 'chitestimate/view/:memberId', element: <ChitEstimateAddPage /> },
-        { path: 'chitestimate/edit/:memberId', element: <ChitEstimateAddPage /> },
+        { path: 'chitauction/list', element: <ChitAuctionPage /> },
+        { path: 'chitauction/add', element: <ChitAuctionAddPage /> },
       ],
     },
     {
@@ -70,7 +72,7 @@ export default function Router() {
       element: <Page404 />,
     },
     {
-      path: '/changelog',
+      path: 'changelog',
       element: <ChangeLog />,
     },
   ]);

@@ -41,12 +41,11 @@ export default function MemberTableRow({
 
   const MemberDeleteMethod = (id) => {
     const url = `${REACT_APP_HOST_URL}${MEMBER_DELETE}${id}`;
-    console.log(url);
-    console.log(Session);
+    // console.log(JSON.parse(Session) + url);
     fetch(url, DeleteHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         if (json.success) {
           setAlertMessage(json.message);
           setAlertFrom("success");
@@ -63,18 +62,17 @@ export default function MemberTableRow({
       .catch((error) => {
         setErrorAlert(true);
         setErrorScreen("error");
-        console.log(error);
+        // console.log(error);
       })
   }
 
   const MemberActivateMethod = (id) => {
     const url = `${REACT_APP_HOST_URL}${MEMBER_ACTIVATE}${id}`;
-    console.log(url);
-    console.log(Session);
+    // console.log(JSON.parse(Session) + url);
     fetch(url, PutHeaderWithoutParams(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         if (json.success) {
           setAlertMessage(json.message);
           setAlertFrom("success");
@@ -91,7 +89,7 @@ export default function MemberTableRow({
       .catch((error) => {
         setErrorAlert(true);
         setErrorScreen("error");
-        console.log(error);
+        // console.log(error);
       })
   }
 
@@ -100,7 +98,6 @@ export default function MemberTableRow({
   };
 
   const HandleSelectMenu = (from) => {
-    console.log(item)
     setOpen(null);
     if (from === "view") {
       navigate(`/member/view/${item.id}`, {
@@ -199,7 +196,7 @@ export default function MemberTableRow({
             Delete
           </MenuItem>
           : <MenuItem onClick={() => setConfirmAlert(true)} sx={{ cursor: 'pointer' }}>
-            <img src="../../../public/assets/images/img/reactivate.png" alt="Loading" style={{ width: 20, height: 20, marginRight: '15px' }} />
+            <img src="/assets/images/img/reactivate.png" alt="Loading" style={{ width: 20, height: 20, marginRight: '15px' }} />
             Activate
           </MenuItem>}
       </Popover>

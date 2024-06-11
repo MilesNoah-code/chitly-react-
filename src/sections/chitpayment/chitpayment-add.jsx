@@ -134,11 +134,11 @@ export default function AddChitPaymentPage() {
     const GetChitPaymentView = () => {
         setGroupListLoading(true);
         const url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_DETAIL}${data.id}`;
-        console.log(url);
+        // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                console.log(JSON.stringify(json));
+                // console.log(JSON.stringify(json));
                 setGroupListLoading(false);
                 if (json.success) {
                     setGroupNoSearch({
@@ -182,19 +182,18 @@ export default function AddChitPaymentPage() {
                 setGroupListLoading(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
-                console.log(error);
+                // console.log(error);
             })
     }
 
     const GetUnPaidGroupList = (groupcode, memberid) => {
         setUnPaidGroupLoading(true);
         const url = `${REACT_APP_HOST_URL}${CHIT_PAYMENT_UNPAID_GROUP_LIST}${groupcode}&memberId=${memberid}`;
-        console.log(url);
-        console.log(Session)
+        // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                console.log(JSON.stringify(json));
+                // console.log(JSON.stringify(json));
                 setUnPaidGroupLoading(false);
                 if (json.success) {
                     setUnPaidGroupList(json.list);
@@ -211,19 +210,18 @@ export default function AddChitPaymentPage() {
                 setUnPaidGroupLoading(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
-                console.log(error);
+                // console.log(error);
             })
     }
 
     const GetReqChitParameterList = (groupid) => {
         // setReqChitParameterList([]);
         const url = `${REACT_APP_HOST_URL}${REQ_CHIT_PARAMETERS}${groupid}`;
-        console.log(url);
-        console.log(Session)
+        // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                console.log(JSON.stringify(json));
+                // console.log(JSON.stringify(json));
                 if (json.success) {
                     // setReqChitParameterList(json.list);
                     if (json.list.length > 0) {
@@ -245,7 +243,7 @@ export default function AddChitPaymentPage() {
             .catch((error) => {
                 setErrorAlert(true);
                 setErrorScreen("error");
-                console.log(error);
+                // console.log(error);
             })
     }
 
@@ -254,12 +252,11 @@ export default function AddChitPaymentPage() {
         setLedgerTotalCount(0);
         setLedgerList([]);
         const url = `${REACT_APP_HOST_URL}${CHIT_PAYMENT_LEDGER_LIST}${text}&start=${start}&limit=${limit}`;
-        console.log(url);
-        console.log(Session)
+        // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                console.log(JSON.stringify(json));
+                // console.log(JSON.stringify(json));
                 setLedgerListLoading(false);
                 if (json.success) {
                     setLedgerTotalCount(json.total);
@@ -277,7 +274,7 @@ export default function AddChitPaymentPage() {
                 setLedgerListLoading(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
-                console.log(error);
+                // console.log(error);
             })
     }
 
@@ -318,12 +315,11 @@ export default function AddChitPaymentPage() {
             let Params = '';
             url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_SAVE}`;
             Params = ChitPaymentInfoParams;
-            console.log(JSON.stringify(Params) + url);
-            console.log(Session);
+            // console.log(JSON.stringify(Params) + url);
             fetch(url, PostHeader(JSON.parse(Session), Params))
                 .then((response) => response.json())
                 .then((json) => {
-                    console.log(JSON.stringify(json));
+                    // console.log(JSON.stringify(json));
                     setLoading(false);
                     setScreenRefresh(0);
                     if (json.success) {
@@ -343,7 +339,7 @@ export default function AddChitPaymentPage() {
                     setLoading(false);
                     setErrorAlert(true);
                     setErrorScreen("error");
-                    console.log(error);
+                    // console.log(error);
                 })
         }
     }
@@ -351,7 +347,7 @@ export default function AddChitPaymentPage() {
     const ChitPaymentTextValidate = (e, from) => {
         const text = e.target.value;
         setScreenRefresh(pre => pre + 1);
-        console.log(from);
+        // console.log(from);
         if (from === "GroupNoSearch") {
             setGroupNoSearch(prevState => ({
                 ...prevState,
@@ -532,8 +528,6 @@ export default function AddChitPaymentPage() {
             }
         }
         if (screen === "add") {
-            // console.log("IsValidate");
-            // console.log(IsValidate)
             ChitPaymentAddMethod(IsValidate);
         }
     };
@@ -573,14 +567,13 @@ export default function AddChitPaymentPage() {
     };
 
     const HandleSubmitClick = () => {
-        console.log("submitclick11");
         validateChitPaymentInfo();
     };
 
     const HandleDateChange = (date) => {
         setScreenRefresh(pre => pre + 1);
         const DateForSave = date ? dayjs(date).format('YYYY-MM-DD') : "";
-        console.log('Date to save:', DateForSave);
+        // console.log('Date to save:', DateForSave);
         setReceiptDate({
             data: date,
             datasave: DateForSave,
@@ -589,7 +582,6 @@ export default function AddChitPaymentPage() {
     };
 
     const HandleGroupNoSearch = () => {
-        console.log("ssss");
         setUnPaidGroupAlert(true);
     }
 
@@ -649,7 +641,6 @@ export default function AddChitPaymentPage() {
     };
 
     const HandleCreateLedger = () => {
-        console.log("HandleCreateLedger");
         setLedgerListAlert(true);
     };
 
@@ -701,7 +692,7 @@ export default function AddChitPaymentPage() {
     const ChitPaymentLedgerTextValidate = (e, item, from) => {
         const text = e.target.value;
         setScreenRefresh(pre => pre + 1);
-        console.log(from);
+        // console.log(from);
         setSelectLedgerList(prevState =>
             prevState.map(ledger => {
                 if (ledger === item) {
@@ -779,7 +770,7 @@ export default function AddChitPaymentPage() {
                     autoComplete="off">
                     {GroupListLoading
                         ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-                            <img src="../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                            <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
@@ -992,7 +983,7 @@ export default function AddChitPaymentPage() {
                                             Ledger Contra Entry Details
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 1, }} onClick={HandleCreateLedger}>
-                                            <img src="../../../public/assets/images/img/rounded_plus.png" alt="Loading" style={{ width: 25, height: 25, }} />
+                                            <img src="/assets/images/img/rounded_plus.png" alt="Loading" style={{ width: 25, height: 25, }} />
                                         </Stack>
                                     </Stack>}
                                 {SelectUnPaidGroup.memberid === 1
@@ -1059,7 +1050,7 @@ export default function AddChitPaymentPage() {
                                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{row.particularerror}</div>
                                                     </Stack>
                                                     <Stack direction='column' sx={{ cursor: 'pointer' }} onClick={() => removeLedgerItem(index)}>
-                                                        <img src="../../../public/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
+                                                        <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                                                     </Stack>
                                                 </div>
                                             </Stack>
@@ -1071,7 +1062,7 @@ export default function AddChitPaymentPage() {
                                 : <Stack direction='column' alignItems='flex-end'>
                                     <Button sx={{ mr: 5, mb: 3, height: 50, width: 150 }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                         {Loading
-                                            ? (<img src="../../../public/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                                            ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                             : ("Submit")}
                                     </Button>
                                 </Stack>}
@@ -1129,7 +1120,7 @@ export default function AddChitPaymentPage() {
                                 className='btn-close'
                                 onClick={HandleUnPaidGroupAlertClose}
                                 sx={{ position: 'absolute', right: 2, top: 0, color: (theme) => theme.palette.grey[500], }} >
-                                <img src="../../../public/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
+                                <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                             </IconButton>
                         </Stack>
                         <Scrollbar>
@@ -1152,7 +1143,7 @@ export default function AddChitPaymentPage() {
                                         ]} />
                                     {UnPaidGroupLoading
                                         ? <Stack mt={10} sx={{ alignItems: 'center' }}>
-                                            <img src="../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                                            <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                                         </Stack>
                                         : <TableBody>
                                             {UnPaidGroupList
@@ -1206,14 +1197,14 @@ export default function AddChitPaymentPage() {
                                 onClick={HandleLedgerListAlertClose}
                                 sx={{ position: 'absolute', right: 15, top: 5, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }}
                             >
-                                <img src="../../../public/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17 }} />
+                                <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17 }} />
                             </IconButton>
                         </Stack>
                         <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 1 }}>
                             <Scrollbar>
                                 {LedgerListLoading ? (
                                     <Stack mt={10} sx={{ alignItems: 'center' }}>
-                                        <img src="../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70 }} />
+                                        <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70 }} />
                                     </Stack>
                                 ) : (
                                     <Stack>

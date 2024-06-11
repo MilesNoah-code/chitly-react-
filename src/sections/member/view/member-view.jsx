@@ -59,13 +59,11 @@ export default function MemberView() {
     setTotalCount(0);
     setMemberList([]);
     const url = `${REACT_APP_HOST_URL}${MEMBER_LIST}${isActive}&search=${text}&start=${start}&limit=${limit}`;
-    console.log(url);
-    console.log(Session)
+    // console.log(JSON.parse(Session) + url)
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
-        console.log(MemberList.length);
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         setMemberListLoading(false);
         if (json.success) {
           setTotalCount(json.total);
@@ -83,7 +81,7 @@ export default function MemberView() {
         setMemberListLoading(false);
         setErrorAlert(true);
         setErrorScreen("error");
-        console.log(error);
+        // console.log(error);
       })
   }
 
@@ -124,7 +122,6 @@ export default function MemberView() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    console.log(newPage)
   };
 
   const handleChangeRowsPerPage = (event) => {
@@ -155,7 +152,6 @@ export default function MemberView() {
 
   const handleFilterByActive = (e) => {
     const text = e.target.value;
-    console.log(text);
     setPage(0);
     setTotalCount(0);
     setMemberList([]);

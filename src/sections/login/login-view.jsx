@@ -21,7 +21,7 @@ import { LOGIN_URL, IMAGE_DISPLAY_URL, REACT_APP_HOST_URL } from 'src/utils/api-
 import { bgGradient } from 'src/theme/css';
 import { pxToRem } from 'src/theme/typography';
 
-import Logo from 'src/components/logo';
+// import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
 
 
@@ -47,12 +47,11 @@ export default function LoginView() {
     if (IsValidate) {
       setLoading(true);
       const url = `${REACT_APP_HOST_URL}${LOGIN_URL}`;
-      console.log(JSON.stringify(Params) + url);
+      // console.log(JSON.stringify(Params) + url);
       fetch(url, PostHeader('', Params))
         .then((response) => response.json())
         .then((json) => {
-          console.log(JSON.stringify(json));
-          
+          // console.log(JSON.stringify(json));
           if (json.success) {
             localStorage.setItem(
               "apiToken",
@@ -73,7 +72,7 @@ export default function LoginView() {
         })
         .catch((error) => {
           setLoading(false);
-          console.log(error);
+          // console.log(error);
         })
     }
   }
@@ -81,11 +80,11 @@ export default function LoginView() {
   const GetImageUrl = (Session) => {
     setLoading(true);
     const url = `${REACT_APP_HOST_URL}${IMAGE_DISPLAY_URL}`;
-    console.log(url);
+    // console.log(JSON.parse(Session) + url);
     fetch(url, GetHeader(Session))
       .then((response) => response.json())
       .then((json) => {
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         setLoading(false);
         if (json.success) {
           localStorage.setItem(
@@ -97,7 +96,7 @@ export default function LoginView() {
       })
       .catch((error) => {
         setLoading(false);
-        console.log(error);
+        // console.log(error);
       })
   }
 
@@ -198,7 +197,7 @@ export default function LoginView() {
           }, }}
         onClick={Loading ? null : ValidateLoginClick} >
         {Loading 
-          ? ( <img src="../../../public/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, marginRight: '8px' }} />) 
+          ? ( <img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, marginRight: '8px' }} />) 
           : ( "Login" )}
       </LoadingButton>
     </>
@@ -222,7 +221,7 @@ export default function LoginView() {
         }}
       /> */}
       <Stack sx={{ justifyContent: 'center', alignItems: 'center' }}>
-        <img src="../../assets/chitly_logo.png" alt="Loading" style={{ width: 150, height: 100, marginTop: 20 }} />
+        <img src="/assets/images/img/chitly_logo.png" alt="Loading" style={{ width: 150, height: 100, marginTop: 20 }} />
       </Stack>
 
       <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>

@@ -139,6 +139,8 @@ export default function ChitReceiptView() {
 
   const handleChangeRowsPerPage = (event) => {
     setPage(0);
+    setTotalCount(0);
+    setChitReceiptList([]);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 

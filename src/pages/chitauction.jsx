@@ -4,7 +4,7 @@ import { ChitAuctionView } from 'src/sections/chitauction/view';
 
 // ----------------------------------------------------------------------
 
-export default function ProductsPage() {
+export default function ChitAuctionPage() {
   return (
     <>
       <Helmet>

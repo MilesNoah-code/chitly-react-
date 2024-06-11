@@ -71,7 +71,7 @@ export default function AddChitEstimatePage() {
     const [ChitEstimateMemberLoading, setChitEstimateMemberLoading] = useState(false);
     const [ChitEstimateMemberList, setChitEstimateMemberList] = useState([]);
     const [ChitEstimateListAdd, setChitEstimateListAdd] = useState(0);
-    const [ChitEstimateMemberListAdd, setChitEstimateMemberListAdd] = useState(0);
+    const [ChitEstimateMemberListAdd, setChitEstimateMemberListAdd] = useState(false);
     const [MemberDeleteClick, setMemberDeleteClick] = useState(false);
 
     const [page, setPage] = useState(0);
@@ -88,7 +88,8 @@ export default function AddChitEstimatePage() {
         add: 0,
         add_data: '',
         remove: 0,
-        remove_data: ''
+        remove_data: '',
+        member_edit: 'false'
     });
 
     useEffect(() => {
@@ -100,7 +101,7 @@ export default function AddChitEstimatePage() {
     useEffect(() => {
         GetGroupMemberList(FilterName, filterTicketNo, page * rowsPerPage, rowsPerPage);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page, rowsPerPage]);
+    }, [page, rowsPerPage, FilterName, filterTicketNo ]);
 
     useEffect(() => {
         const handleBeforeUnload = (event) => {
@@ -125,26 +126,35 @@ export default function AddChitEstimatePage() {
                 // console.log(JSON.stringify(json));
                 setChitEstimateLoading(false);
                 if (json.success) {
-                    const emptyObjects = data.duration - json.list.length;
-                    const additionalData = Array.from(
-                        { length: emptyObjects },
-                        (_, index) => ({
-                            id: `id_${json.list.length + index + 1}`,
-                            Instno: json.list.length + index + 1,
-                            area_id: 0,
-                            auctiondate: null,
-                            auctiondate_save: "0",
-                            dueamount: "0",
-                            less_amount: "0",
-                            fm_commission: "0",
-                            gst_value: "0",
-                            doc_charge_value: "0",
-                            payment: "0"
-                        })
-                    );
-                    const datas = [...json.list, ...additionalData];
-                    // console.log(datas)
-                    setChitEstimateList(datas);
+                    const existingList = json.list;
+                    const existingInstno = new Set(existingList.map(item => item.Instno));
+
+                    // Determine the missing Instno values
+                    const missingInstnos = [];
+                    let i = 1;
+                    while (i <= data.duration) {
+                        if (!existingInstno.has(i)) {
+                            missingInstnos.push(i);
+                        }
+                        i += 1;
+                    }
+
+                    const additionalData = missingInstnos.map((instno, index) => ({
+                        id: `id_${instno}`,
+                        Instno: instno,
+                        area_id: 0,
+                        auctiondate: null,
+                        auctiondate_save: "0",
+                        dueamount: "0",
+                        less_amount: "0",
+                        fm_commission: "0",
+                        gst_value: "0",
+                        doc_charge_value: "0",
+                        payment: "0"
+                    }));
+                    const completeList = [...existingList, ...additionalData];
+                    completeList.sort((a, b) => a.Instno - b.Instno);
+                    setChitEstimateList(completeList);
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
                     setAlertFrom("failed");
@@ -165,42 +175,55 @@ export default function AddChitEstimatePage() {
     const GetChitEstimateMemberList = () => {
         setChitEstimateMemberLoading(true);
         const url = `${REACT_APP_HOST_URL}${CHIT_ESTIMATE_MEMBER_LIST}${data.id}`;
-        // console.log(JSON.parse(Session) + url);
+        console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                // console.log(JSON.stringify(json));
+                console.log(JSON.stringify(json));
                 if (json.success) {
-                    const emptyObjects = data.duration - json.list.length;
-                    const additionalData = Array.from(
-                        { length: emptyObjects },
-                        (_, index) => ({
-                            id: `id_${json.list.length + index + 1}`,
-                            group_id: data.id,
-                            install_no: json.list.length + index + 1,
-                            ticket_no: json.list.length + index + 1,
-                            member_id: "",
-                            tkt_suffix: "A",
-                            tkt_percentage: "100",
-                            is_active: true,
-                            comments: "",
-                            memberProfile: "",
-                            memberName: "",
-                            accno: "",
-                            action: "add"
-                        })
-                    );
-                    const datas = [...json.list, ...additionalData];
+                    const existingList = json.list;
+
+                    // Extract the existing install_no values
+                    const existingInstallNos = new Set(existingList.map(item => item.install_no));
+
+                    // Determine the missing install_no values
+                    const missingInstallNos = [];
+                    let i = 1;
+                    while (i <= data.duration) {
+                        if (!existingInstallNos.has(i)) {
+                            missingInstallNos.push(i);
+                        }
+                        i += 1;
+                    }
+
+                    // Generate the additional data for missing install_no values
+                    const additionalData = missingInstallNos.map((install_nos, index) => ({
+                        id: `id_${install_nos}`,
+                        group_id: data.id,
+                        install_no: install_nos,
+                        ticket_no: install_nos,
+                        member_id: "",
+                        tkt_suffix: "A",
+                        tkt_percentage: "100",
+                        is_active: true,
+                        comments: "",
+                        memberProfile: "",
+                        memberName: "",
+                        accno: "",
+                        action: "add"
+                    }));
+                    const completeList = [...existingList, ...additionalData];
+                    completeList.sort((a, b) => a.install_no - b.install_no);
+                    setChitEstimateMemberList(completeList);
                     setSelectGroupMemberList({
                         add: 0,
                         add_data: json.list && json.list[0] ? json.list[0] : "",
                         remove: 0,
-                        remove_data: ''
+                        remove_data: '',
+                        member_edit: 'false'
                     });
-                    // console.log(datas)
-                    setChitEstimateMemberList(datas);
                     if(json.list.length === 0){
-                        GetStandingInstructionList(datas);
+                        GetStandingInstructionList(completeList);
                     }else{
                         setChitEstimateMemberLoading(false);
                     }
@@ -276,7 +299,8 @@ export default function AddChitEstimatePage() {
                             add: 0,
                             add_data: updatedFirstItem,
                             remove: 0,
-                            remove_data: ''
+                            remove_data: '',
+                            member_edit: 'true'
                         });
                         setChitEstimateMemberList(updatedList);
                     }
@@ -302,11 +326,11 @@ export default function AddChitEstimatePage() {
         setTotalCount(0);
         setGroupMemberList([]);
         const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}?groupId=${data.id}&memberName=${membername}&tktNo=${ticketno}&start=${start}&limit=${limit}`;
-        // console.log(JSON.parse(Session) + url);
+        console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                // console.log(JSON.stringify(json));
+                console.log(JSON.stringify(json));
                 setGroupMemberListLoading(false);
                 if (json.success) {
                     setTotalCount(json.total);
@@ -353,13 +377,14 @@ export default function AddChitEstimatePage() {
                 } : null
             ).filter(item => item !== null);
             const url = `${REACT_APP_HOST_URL}${CHIT_ESTIMATE_SAVE}`;
-            // console.log(JSON.stringify(ChitEstimateListParams) + url);
+            console.log(JSON.stringify(ChitEstimateListParams) + url);
             fetch(url, PostHeader(JSON.parse(Session), ChitEstimateListParams))
                 .then((response) => response.json())
                 .then((json) => {
-                    // console.log(JSON.stringify(json));
+                    console.log(JSON.stringify(json));
                     setLoading(false);
                     setScreenRefresh(0);
+                    setChitEstimateMemberListAdd(false);
                     if (json.success) {
                         setAlertMessage(json.message);
                         setAlertFrom("success");
@@ -396,11 +421,11 @@ export default function AddChitEstimatePage() {
             "comments": ChitEstimateMemberList[SelectGroupMemberList.add].comments
         };
         const url = `${REACT_APP_HOST_URL}${CHIT_ESTIMATE_MEMBER_SAVE}`;
-        // console.log(JSON.stringify(ChitEstimateMemberListParams) + url);
+        console.log(JSON.stringify(ChitEstimateMemberListParams) + url);
         fetch(url, PostHeader(JSON.parse(Session), ChitEstimateMemberListParams))
             .then((response) => response.json())
             .then((json) => {
-                // console.log(JSON.stringify(json));
+                console.log(JSON.stringify(json));
                 setLoading(false);
                 setScreenRefresh(0);
                 setChitEstimateMemberListAdd(false);
@@ -440,11 +465,11 @@ export default function AddChitEstimatePage() {
             "comments": ChitEstimateMemberList[SelectGroupMemberList.add].comments
         };
         const url = `${REACT_APP_HOST_URL}${CHIT_ESTIMATE_UPDATE}${id}`;
-        // console.log(JSON.stringify(ChitEstimateMemberListParams) + url);
+        console.log(JSON.stringify(ChitEstimateMemberListParams) + url);
         fetch(url, PutHeader(JSON.parse(Session), ChitEstimateMemberListParams))
             .then((response) => response.json())
             .then((json) => {
-                // console.log(JSON.stringify(json));
+                console.log(JSON.stringify(json));
                 setLoading(false);
                 setScreenRefresh(0);
                 setChitEstimateMemberListAdd(false);
@@ -602,12 +627,14 @@ export default function AddChitEstimatePage() {
         if (ChitEstimateList.length > 0 && ChitEstimateListAdd !== 0){
             ChitEstimateAddMethod(IsValidate);
         }
-        if (ChitEstimateMemberList.length > 0 && ChitEstimateMemberListAdd){
-            // console.log(SelectGroupMemberList)
-            if (typeof SelectGroupMemberList.add_data.id === 'string' && SelectGroupMemberList.add_data.id.includes('id_')){
-                ChitEstimateMemberAddMethod();
-            }else{
-                ChitEstimateMemberUpdateMethod(SelectGroupMemberList.add_data.id);
+        if (SelectGroupMemberList.member_edit === 'true') {
+            if (ChitEstimateMemberList.length > 0) {
+                // console.log(SelectGroupMemberList)
+                if (typeof SelectGroupMemberList.add_data.id === 'string' && SelectGroupMemberList.add_data.id.includes('id_')) {
+                    ChitEstimateMemberAddMethod();
+                } else {
+                    ChitEstimateMemberUpdateMethod(SelectGroupMemberList.add_data.id);
+                }
             }
         }
     }
@@ -678,47 +705,48 @@ export default function AddChitEstimatePage() {
                 } else {
                     setChitEstimateListAdd(0);
                 }
+                const updatedId = String(item.id).replace(/^id_/, '');
                 if (prev === item) {
                     if (from === "dueamount") {
                         return {
                             ...prev,
-                            id: item.id.replace(/^id_/, ''),
-                            dueamount: text.trim() !== "" ? text : "0",
+                            id: updatedId,
+                            dueamount: text.trim() !== "" ? text : "",
                         };
                     }
                     if (from === "less_amount") {
                         return {
                             ...prev,
-                            id: item.id.replace(/^id_/, ''),
-                            less_amount: text.trim() !== "" ? text : "0",
+                            id: updatedId,
+                            less_amount: text.trim() !== "" ? text : "",
                         };
                     }
                     if (from === "fm_commission") {
                         return {
                             ...prev,
-                            id: item.id.replace(/^id_/, ''),
-                            fm_commission: text.trim() !== "" ? text : "0",
+                            id: updatedId,
+                            fm_commission: text.trim() !== "" ? text : "",
                         };
                     }
                     if (from === "gst_value") {
                         return {
                             ...prev,
-                            id: item.id.replace(/^id_/, ''),
-                            gst_value: text.trim() !== "" ? text : "0",
+                            id: updatedId,
+                            gst_value: text.trim() !== "" ? text : "",
                         };
                     }
                     if (from === "doc_charge_value") {
                         return {
                             ...prev,
-                            id: item.id.replace(/^id_/, ''),
-                            doc_charge_value: text.trim() !== "" ? text : "0",
+                            id: updatedId,
+                            doc_charge_value: text.trim() !== "" ? text : "",
                         };
                     }
                     if (from === "payment") {
                         return {
                             ...prev,
-                            id: item.id.replace(/^id_/, ''),
-                            payment: text.trim() !== "" ? text : "0",
+                            id: updatedId,
+                            payment: text.trim() !== "" ? text : "",
                         };
                     }
                 }
@@ -732,6 +760,10 @@ export default function AddChitEstimatePage() {
         // console.log(from);
         setChitEstimateMemberList(prevState =>
             prevState.map(prev => {
+                setSelectGroupMemberList(prevs => ({
+                    ...prevs,
+                    member_edit: 'true'
+                }));
                 if(text.trim() !== ""){
                     setScreenRefresh(pre => pre + 1);
                 }else{
@@ -773,7 +805,8 @@ export default function AddChitEstimatePage() {
                 add: index,
                 add_data: item,
                 remove: 0,
-                remove_data: ''
+                remove_data: '',
+                member_edit: 'true'
             });
             setGroupMemberListAlert(true);
         }
@@ -844,8 +877,12 @@ export default function AddChitEstimatePage() {
                 updatedFirstItem,
                 ...ChitEstimateMemberList.slice(SelectGroupMemberList.add + 1)
             ];
-            // console.log(updatedList);
+            console.log(updatedList);
             setChitEstimateMemberList(updatedList);
+            setSelectGroupMemberList(prevs => ({
+                ...prevs,
+                member_edit: 'true'
+            }));
             setGroupMemberListAlert(false);
         } 
     };
@@ -856,6 +893,8 @@ export default function AddChitEstimatePage() {
 
     const handleChangeRowsPerPage = (event) => {
         setPage(0);
+        setTotalCount(0);
+        setGroupMemberList([]);
         setRowsPerPage(parseInt(event.target.value, 10));
     };
 
@@ -863,6 +902,10 @@ export default function AddChitEstimatePage() {
         setGroupMemberListAlert(false);
         setScreenRefresh(0);
         setChitEstimateMemberListAdd(false);
+        setSelectGroupMemberList(prevs => ({
+            ...prevs,
+            member_edit: 'false'
+        }));
     };
 
     const HandleFilterMemberName = (event) => {
@@ -1313,7 +1356,8 @@ export default function AddChitEstimatePage() {
                                                                         add: 0,
                                                                         add_data: '',
                                                                         remove: index,
-                                                                        remove_data: row
+                                                                        remove_data: row,
+                                                                        member_edit: 'false'
                                                                     });}} sx={{ cursor: 'pointer' }}>
                                                                     <Iconify icon="streamline:delete-1-solid" />
                                                                 </IconButton>)}

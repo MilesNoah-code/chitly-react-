@@ -2,9 +2,14 @@ import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
+import Table from '@mui/material/Table';
+import TableRow from '@mui/material/TableRow';
+import TableCell from '@mui/material/TableCell';
 import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
-import { Box, Stack, Alert, Button, Snackbar, Typography, } from '@mui/material';
+import TableBody from '@mui/material/TableBody';
+import TableContainer from '@mui/material/TableContainer';
+import { Box, Stack, Alert, Button, Snackbar, Typography, IconButton } from '@mui/material';
 
 import { GetHeader, PutHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 
@@ -12,7 +17,14 @@ import { CHIT_AUCTION_VIEW, CHIT_AUCTION_SAVE, REACT_APP_HOST_URL, CHIT_AUCTION_
 
 import ErrorLayout from 'src/Error/ErrorLayout';
 
+import Iconify from 'src/components/iconify';
+import Scrollbar from 'src/components/scrollbar';
+
 import './chitauction-add.css';
+import { emptyRows } from '../member/utils';
+import TableHeader from '../member/table-head';
+import TableNoData from '../member/table-no-data';
+import TableEmptyRows from '../member/table-empty-rows';
 
 export default function AddChitAuctionPage() {
 
@@ -50,6 +62,9 @@ export default function AddChitAuctionPage() {
     // const ImageUrl = JSON.parse(localStorage.getItem('imageUrl'));
     const [ChitAuctionMemberLoading, setChitAuctionMemberLoading] = useState(false);
     const [ChitAuctionList, setChitAuctionList] = useState([]);
+    const [order, setOrder] = useState('asc');
+    const [orderBy, setOrderBy] = useState('name');
+    const [selected, setSelected] = useState([]);
 
     const [SelectAuctionList, setSelectAuctionList] = useState({
         add: 0,
@@ -327,6 +342,58 @@ export default function AddChitAuctionPage() {
         validateChitAuctionInfo();
     };
 
+    const handleSort = (event, id) => {
+        const isAsc = orderBy === id && order === 'asc';
+        if (id !== '') {
+            setOrder(isAsc ? 'desc' : 'asc');
+            setOrderBy(id);
+        }
+    };
+
+    const handleSelectAllClick = (event) => {
+        if (event.target.checked) {
+            const newSelecteds = ChitAuctionList.map((n) => n.name);
+            setSelected(newSelecteds);
+            return;
+        }
+        setSelected([]);
+    };
+
+    const ChitEstimateMemberListTextValidate = (e, item, from) => {
+        const text = e.target.value;
+        // console.log(from);
+        setChitAuctionList(prevState =>
+            prevState.map(prev => {
+                if (text.trim() !== "") {
+                    setScreenRefresh(pre => pre + 1);
+                } else {
+                    setScreenRefresh(0);
+                }
+                if (prev === item) {
+                    if (from === "memberName") {
+                        return {
+                            ...prev,
+                            memberName: text.trim() !== "" ? text : "",
+                        };
+                    }
+                    if (from === "accno") {
+                        return {
+                            ...prev,
+                            accno: text.trim() !== "" ? text : "",
+                        };
+                    }
+                    if (from === "comments") {
+                        return {
+                            ...prev,
+                            comments: text.trim() !== "" ? text : "",
+                        };
+                    }
+                }
+                return prev;
+            })
+        );
+    };
+
     const HandleBack = () => {
         if (ScreenRefresh) {
             const confirmNavigation = window.confirm(
@@ -466,6 +533,102 @@ export default function AddChitAuctionPage() {
                                     </Stack>
                                 </div>
                             </Stack>
+                            <Scrollbar>
+                                <TableContainer sx={{ overflow: 'unset' }}>
+                                    <Table sx={{ minWidth: 800 }}>
+                                        <TableHeader
+                                            order="asc"
+                                            orderBy="name"
+                                            rowCount={ChitAuctionList.length}
+                                            numSelected={selected.length}
+                                            onRequestSort={handleSort}
+                                            onSelectAllClick={handleSelectAllClick}
+                                            headLabel={[
+                                                { id: 'Tkt.No', label: 'Tkt.No' },
+                                                { id: 'Member Name', label: 'Member Name' },
+                                                { id: 'Max.Auc.Disc', label: 'Max.Auc.Disc' },
+                                                { id: 'Sign', label: 'Sign' },
+                                                { id: 'Action', label: 'Action' },
+                                            ]} />
+                                        <TableBody>
+                                            {ChitAuctionList
+                                                .map((row, index) => (
+                                                    <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }}>
+                                                        <TableCell>{row.install_no}</TableCell>
+                                                        <TableCell>{row.ticket_no}</TableCell>
+                                                        <TableCell>
+                                                            <TextField
+                                                                id="filled-hidden-label-normal"
+                                                                variant="filled"
+                                                                disabled
+                                                                value={row.memberName}
+                                                                onChange={(e) => ChitEstimateMemberListTextValidate(e, row, "memberName")}
+                                                                sx={{
+                                                                    backgroundColor: 'transparent',
+                                                                    '& .MuiFilledInput-root': {
+                                                                        backgroundColor: 'transparent',
+                                                                        '&:hover': {
+                                                                            backgroundColor: 'transparent',
+                                                                        },
+                                                                        '&.Mui-focused': {
+                                                                            backgroundColor: 'transparent',
+                                                                        },
+                                                                        '&.Mui-disabled': {
+                                                                            backgroundColor: 'transparent',
+                                                                        },
+                                                                    },
+                                                                    '& .Mui-disabled': {
+                                                                        '-webkit-text-fill-color': 'currentColor',
+                                                                    },
+                                                                }} />
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <TextField
+                                                                id="filled-hidden-label-normal"
+                                                                variant="filled"
+                                                                disabled
+                                                                value={row.accno}
+                                                                onChange={(e) => ChitEstimateMemberListTextValidate(e, row, "accno")}
+                                                                sx={{
+                                                                    backgroundColor: 'transparent',
+                                                                    '& .MuiFilledInput-root': {
+                                                                        backgroundColor: 'transparent',
+                                                                        '&:hover': {
+                                                                            backgroundColor: 'transparent',
+                                                                        },
+                                                                        '&.Mui-focused': {
+                                                                            backgroundColor: 'transparent',
+                                                                        },
+                                                                        '&.Mui-disabled': {
+                                                                            backgroundColor: 'transparent',
+                                                                        },
+                                                                    },
+                                                                    '& .Mui-disabled': {
+                                                                        '-webkit-text-fill-color': 'currentColor',
+                                                                    },
+                                                                }} />
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            {row.action === "add"
+                                                                ? <IconButton sx={{ cursor: 'pointer' }}>
+                                                                    <Iconify icon="icon-park-solid:add-one" />
+                                                                </IconButton>
+                                                                : (row.install_no !== 1 && <IconButton sx={{ cursor: 'pointer' }}>
+                                                                    <Iconify icon="streamline:delete-1-solid" />
+                                                                </IconButton>)}
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            <TableEmptyRows
+                                                height={77}
+                                                emptyRows={emptyRows(0, 15, ChitAuctionList.length)}
+                                            />
+                                            {ChitAuctionList.length === 0 && <TableNoData query="" />}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </Scrollbar>
+
                             <Stack direction='column' alignItems='flex-end'>
                                 <Button sx={{ mr: 5, mt: 2, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                     {Loading

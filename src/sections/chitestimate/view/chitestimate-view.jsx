@@ -109,6 +109,8 @@ export default function ChitEstimateView() {
 
   const handleChangeRowsPerPage = (event) => {
     setPage(0);
+    setTotalCount(0);
+    setChitEstimateList([]);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 

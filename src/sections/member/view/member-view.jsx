@@ -126,6 +126,8 @@ export default function MemberView() {
 
   const handleChangeRowsPerPage = (event) => {
     setPage(0);
+    setTotalCount(0);
+    setMemberList([]);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 

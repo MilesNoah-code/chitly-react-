@@ -318,11 +318,12 @@ export default function AddChitReceiptPage() {
             let Params = '';
             url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_SAVE}`;
             Params = ChitReceiptInfoParams;
-            // console.log(JSON.stringify(Params) + url);
+            console.log(JSON.stringify(Params) + url);
+            console.log(JSON.parse(Session));
             fetch(url, PostHeader(JSON.parse(Session), Params))
                 .then((response) => response.json())
                 .then((json) => {
-                    // console.log(JSON.stringify(json));
+                    console.log(JSON.stringify(json));
                     setLoading(false);
                     setScreenRefresh(0);
                     if (json.success) {
@@ -449,7 +450,8 @@ export default function AddChitReceiptPage() {
                 error: ""
             }));
         }
-        if (TicketNo.data == null || TicketNo.data === "" || TicketNo.data > 0) {
+        // console.log(TicketNo.data)
+        if (TicketNo.data === null || TicketNo.data === "" || TicketNo.data === "0") {
             IsValidate = false;
             setTicketNo(prevState => ({
                 ...prevState,
@@ -473,7 +475,7 @@ export default function AddChitReceiptPage() {
                 error: ""
             }));
         }
-        if (Duration.data == null || Duration.data === "" || Duration.data > 0) {
+        if (Duration.data === null || Duration.data === "" || Duration.data.length > 0) {
             IsValidate = false;
             setDuration(prevState => ({
                 ...prevState,
@@ -485,7 +487,7 @@ export default function AddChitReceiptPage() {
                 error: ""
             }));
         }
-        if (AccountNo.data == null || AccountNo.data === "" || AccountNo.data > 0) {
+        if (AccountNo.data === null || AccountNo.data === "" || AccountNo.data.length > 0) {
             IsValidate = false;
             setAccountNo(prevState => ({
                 ...prevState,
@@ -497,7 +499,7 @@ export default function AddChitReceiptPage() {
                 error: ""
             }));
         }
-        if (InstFrom.data == null || InstFrom.data === "" || InstFrom.data > 0) {
+        if (InstFrom.data === null || InstFrom.data === "" || InstFrom.data.length > 0) {
             IsValidate = false;
             setInstFrom(prevState => ({
                 ...prevState,
@@ -509,7 +511,7 @@ export default function AddChitReceiptPage() {
                 error: ""
             }));
         }
-        if (InstTo.data == null || InstTo.data === "" || InstTo.data > 0) {
+        if (InstTo.data === null || InstTo.data === "" || InstTo.data.length > 0) {
             IsValidate = false;
             setInstTo(prevState => ({
                 ...prevState,
@@ -723,7 +725,7 @@ export default function AddChitReceiptPage() {
                 error: ""
             });
             setAccountNo({
-                data: item.accno !== "" && item.accno != null ? item.accno : "",
+                data: item.member_id !== "" && item.member_id != null ? item.member_id : "",
                 error: ""
             });
             setInstFrom({
@@ -806,7 +808,7 @@ export default function AddChitReceiptPage() {
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                <DemoContainer components={['DatePicker']} sx={{ width: 530 }}>
+                                                <DemoContainer components={['DatePicker']} sx={{ width: 550 }}>
                                                     <DatePicker
                                                         className='input-box1'
                                                         label="From Date"

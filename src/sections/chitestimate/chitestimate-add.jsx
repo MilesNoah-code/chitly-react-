@@ -359,7 +359,7 @@ export default function AddChitEstimatePage() {
         if (IsValidate) {
             setLoading(true);
             const ChitEstimateListParams = ChitEstimateList.map(item =>
-                !item.id.includes('id_') ? {
+                !String(item.id).includes('id_') ? {
                     "groupid": data.id,
                     "Instno": item.Instno,
                     "auctiondate": item.auctiondate_save,
@@ -680,10 +680,11 @@ export default function AddChitEstimatePage() {
         setChitEstimateList(prevState =>
             prevState.map(prev => {
                 if (prev === item) {
+                    const ids = String(item.id).startsWith('id_') ? item.id.replace(/^id_/, '') : item.id;
                     if (from === "auctiondate") {
                         return {
                             ...prev,
-                            id: item.id.replace(/^id_/, ''),
+                            id: ids,
                             auctiondate: date,
                             auctiondate_save: DateForSave,
                         };
@@ -705,47 +706,47 @@ export default function AddChitEstimatePage() {
                 } else {
                     setChitEstimateListAdd(0);
                 }
-                const updatedId = String(item.id).replace(/^id_/, '');
+                const ids = String(item.id).startsWith('id_') ? item.id.replace(/^id_/, '') : item.id;
                 if (prev === item) {
                     if (from === "dueamount") {
                         return {
                             ...prev,
-                            id: updatedId,
+                            id: ids,
                             dueamount: text.trim() !== "" ? text : "",
                         };
                     }
                     if (from === "less_amount") {
                         return {
                             ...prev,
-                            id: updatedId,
+                            id: ids,
                             less_amount: text.trim() !== "" ? text : "",
                         };
                     }
                     if (from === "fm_commission") {
                         return {
                             ...prev,
-                            id: updatedId,
+                            id: ids,
                             fm_commission: text.trim() !== "" ? text : "",
                         };
                     }
                     if (from === "gst_value") {
                         return {
                             ...prev,
-                            id: updatedId,
+                            id: ids,
                             gst_value: text.trim() !== "" ? text : "",
                         };
                     }
                     if (from === "doc_charge_value") {
                         return {
                             ...prev,
-                            id: updatedId,
+                            id: ids,
                             doc_charge_value: text.trim() !== "" ? text : "",
                         };
                     }
                     if (from === "payment") {
                         return {
                             ...prev,
-                            id: updatedId,
+                            id: ids,
                             payment: text.trim() !== "" ? text : "",
                         };
                     }
@@ -814,6 +815,7 @@ export default function AddChitEstimatePage() {
 
     const HandleChitEstimateMemberDeleteClick = (item) => {
         setMemberDeleteClick(false);
+        setChitEstimateMemberListAdd(false);
         const updatedFirstItem = {
             ...ChitEstimateMemberList[SelectGroupMemberList.remove],
             member_id: "",

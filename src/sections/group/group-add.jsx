@@ -62,6 +62,18 @@ export default function AddGroupPage() {
     const [ScreenRefresh, setScreenRefresh] = useState(0);
 
     useEffect(() => {
+        console.log(data);
+        if (!Number.isNaN(data.duration)) {
+            const intValue = parseInt(data.duration, 10);
+            const newList = [];
+            for (let i = 1; i <= intValue;) {
+                newList.push(i);
+                i += 1;
+            }
+            setFMPRDUEArray(newList);
+        } else {
+            setFMPRDUEArray([]);
+        }
         const handleBeforeUnload = (event) => {
             if (ScreenRefresh) {
                 event.preventDefault();
@@ -72,6 +84,7 @@ export default function AddGroupPage() {
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ScreenRefresh]);
 
     const GroupInfoParams = {
@@ -220,8 +233,8 @@ export default function AddGroupPage() {
         } else if (from === "FMPRDue") {
             setFMPRDue(prevState => ({
                 ...prevState,
-                data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
+                data: text !== "" ? text : "",
+                error: text === "" ? "* Required" : ""
             }));
         } else if (from === "Dividend") {
             setDividend(prevState => ({

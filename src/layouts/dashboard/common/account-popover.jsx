@@ -20,10 +20,6 @@ const MENU_OPTIONS = [
     label: 'Home',
     icon: 'eva:home-fill',
   },
-  {
-    label: 'Profile',
-    icon: 'eva:person-fill',
-  },
 ];
 
 // ----------------------------------------------------------------------

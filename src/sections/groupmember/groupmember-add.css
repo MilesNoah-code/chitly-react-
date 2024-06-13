@@ -21,10 +21,7 @@
   }
   .box-grp .input-box1 {
     
-    width: calc(100% - 20px); 
-  }
-  .box-grp .input-box2 {
-    width: calc(100% - 30px);
+    width: calc(100% - 50px); 
   }
   
   .box-grp .MuiAutocomplete-root  .MuiTextField-root  {

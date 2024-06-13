@@ -17,7 +17,7 @@ import { Box, Stack, Alert, Button, Dialog, Divider, Snackbar, IconButton, Typog
 
 import { GetHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 
-import { CHIT_RECEIPT_SAVE, REACT_APP_HOST_URL, CHIT_RECEIPT_DETAIL, REQ_CHIT_PARAMETERS, CHIT_PAYMENT_LEDGER_LIST, CHIT_PAYMENT_UNPAID_GROUP_LIST, } from 'src/utils/api-constant';
+import { CHIT_RECEIPT_SAVE, REACT_APP_HOST_URL, CHIT_RECEIPT_DETAIL, REQ_CHIT_PARAMETERS, CHIT_PAYMENT_LEDGER_LIST, CHIT_PAYMENT_RECEIPT_NUMBER, CHIT_PAYMENT_UNPAID_GROUP_LIST, } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
 
@@ -134,11 +134,11 @@ export default function AddChitPaymentPage() {
     const GetChitPaymentView = () => {
         setGroupListLoading(true);
         const url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_DETAIL}${data.id}`;
-        // console.log(JSON.parse(Session) + url);
+        console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                // console.log(JSON.stringify(json));
+                console.log(JSON.stringify(json));
                 setGroupListLoading(false);
                 if (json.success) {
                     setGroupNoSearch({
@@ -189,11 +189,11 @@ export default function AddChitPaymentPage() {
     const GetUnPaidGroupList = (groupcode, memberid) => {
         setUnPaidGroupLoading(true);
         const url = `${REACT_APP_HOST_URL}${CHIT_PAYMENT_UNPAID_GROUP_LIST}${groupcode}&memberId=${memberid}`;
-        // console.log(JSON.parse(Session) + url);
+        console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                // console.log(JSON.stringify(json));
+                console.log(JSON.stringify(json));
                 setUnPaidGroupLoading(false);
                 if (json.success) {
                     setUnPaidGroupList(json.list);
@@ -214,14 +214,42 @@ export default function AddChitPaymentPage() {
             })
     }
 
-    const GetReqChitParameterList = (groupid) => {
-        // setReqChitParameterList([]);
-        const url = `${REACT_APP_HOST_URL}${REQ_CHIT_PARAMETERS}${groupid}`;
-        // console.log(JSON.parse(Session) + url);
+    const GetReceiptNumberList = (groupid) => {
+        const url = `${REACT_APP_HOST_URL}${CHIT_PAYMENT_RECEIPT_NUMBER}${groupid}`;
+        console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                // console.log(JSON.stringify(json));
+                console.log(JSON.stringify(json));
+                if (json.success) {
+                    setReceiptNo({
+                        data: json.receiptNo !== "" && json.receiptNo !== null ? (Math.round(json.receiptNo) + 1) : "1",
+                        error: ""
+                    });
+                } else if (json.success === false) {
+                    setAlertMessage(json.message);
+                    setAlertFrom("failed");
+                    HandleAlertShow();
+                } else {
+                    setErrorAlert(true);
+                    setErrorScreen("network");
+                }
+            })
+            .catch((error) => {
+                setErrorAlert(true);
+                setErrorScreen("error");
+                // console.log(error);
+            })
+    }
+
+    const GetReqChitParameterList = (groupid) => {
+        // setReqChitParameterList([]);
+        const url = `${REACT_APP_HOST_URL}${REQ_CHIT_PARAMETERS}${groupid}`;
+        console.log(JSON.parse(Session) + url);
+        fetch(url, GetHeader(JSON.parse(Session)))
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(JSON.stringify(json));
                 if (json.success) {
                     // setReqChitParameterList(json.list);
                     if (json.list.length > 0) {
@@ -262,7 +290,7 @@ export default function AddChitPaymentPage() {
                                 error: ""
                             }));
                             setAlertMessage("Please Add Receipt for this group");
-                            setAlertFrom("failed");
+                            setAlertFrom("alert_failed");
                             HandleAlertShow();
                         }
                     }
@@ -287,7 +315,7 @@ export default function AddChitPaymentPage() {
         setLedgerTotalCount(0);
         setLedgerList([]);
         const url = `${REACT_APP_HOST_URL}${CHIT_PAYMENT_LEDGER_LIST}${text}&start=${start}&limit=${limit}`;
-        // console.log(JSON.parse(Session) + url);
+        console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
@@ -350,11 +378,11 @@ export default function AddChitPaymentPage() {
             let Params = '';
             url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_SAVE}`;
             Params = ChitPaymentInfoParams;
-            // console.log(JSON.stringify(Params) + url);
+            console.log(JSON.stringify(Params) + url);
             fetch(url, PostHeader(JSON.parse(Session), Params))
                 .then((response) => response.json())
                 .then((json) => {
-                    // console.log(JSON.stringify(json));
+                    console.log(JSON.stringify(json));
                     setLoading(false);
                     setScreenRefresh(0);
                     if (json.success) {
@@ -429,7 +457,7 @@ export default function AddChitPaymentPage() {
             setParticulars(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
+                error: text.trim() === "" ? "" : ""
             }));
         } else if (from === "Values") {
             setValues(prevState => ({
@@ -538,7 +566,7 @@ export default function AddChitPaymentPage() {
                 error: ""
             }));
         }
-        if (!Particulars.data) {
+        /* if (!Particulars.data) {
             IsValidate = false;
             setParticulars(prevState => ({
                 ...prevState,
@@ -549,7 +577,7 @@ export default function AddChitPaymentPage() {
                 ...prevState,
                 error: ""
             }));
-        }
+        } */
         const isLedgerListValid = validateLedgerList();
         if (SelectUnPaidGroup.memberid !== 1){
             if (SelectLedgerList.length === 0) {
@@ -664,11 +692,6 @@ export default function AddChitPaymentPage() {
             data: item.groupno,
             error: ''
         });
-        setReceiptNo(prevState => ({
-            ...prevState,
-            data: "",
-            error: ""
-        }));
         setTicketNo(prevState => ({
             ...prevState,
             data: item.tktno,
@@ -686,7 +709,7 @@ export default function AddChitPaymentPage() {
         }));
         setAccountNo(prevState => ({
             ...prevState,
-            data: "",
+            data: item.memberid,
             error: ""
         }));
         setMobileNo(prevState => ({
@@ -699,7 +722,8 @@ export default function AddChitPaymentPage() {
             data: item.amount,
             error: ""
         }));
-        GetReqChitParameterList(item.memberid);
+        GetReceiptNumberList(item.id);
+        GetReqChitParameterList(item.id);
         setUnPaidGroupAlert(false);
     };
 
@@ -858,7 +882,7 @@ export default function AddChitPaymentPage() {
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                <DemoContainer components={['DatePicker']} sx={{ width: 530 }}>
+                                                <DemoContainer components={['DatePicker']} sx={{ width: 550 }}>
                                                     <DatePicker
                                                         className='input-box1'
                                                         label="From Date"
@@ -1146,10 +1170,10 @@ export default function AddChitPaymentPage() {
                         </Stack>}
                 </Box>
             </Card>
-            <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+            <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "alert_failed" ? 2000 :1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
                 <Alert
                     onClose={HandleAlertClose}
-                    severity={AlertFrom === "failed" ? "error" : "success"}
+                    severity={AlertFrom === "failed" || AlertFrom === "alert_failed" ? "error" : "success"}
                     variant="filled"
                     sx={{ width: '100%' }} >
                     {AlertMessage}

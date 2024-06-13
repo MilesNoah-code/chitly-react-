@@ -331,6 +331,9 @@ export default function GroupMemberView() {
 
   const HandleAlertClose = () => {
     setAlertOpen(false);
+    if (AlertFrom === "success") {
+      window.location.reload();
+    }
   };
 
   const handleGroupClick = (isActive, id) => {
@@ -443,7 +446,8 @@ export default function GroupMemberView() {
 
   const handleChangeRowsPerPage = (event) => {
     setPage(0);
-    setGroupList([]);
+    setTotalCount(0);
+    setMemberList([]);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 

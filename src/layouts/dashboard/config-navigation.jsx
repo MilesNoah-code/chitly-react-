@@ -24,7 +24,7 @@ const navConfig = [
   },
   {
     title: 'Group Members',
-    path: '/groupmember',
+    path: '/groupMember/list',
     icon: icon('groupmember'),
   },
   {

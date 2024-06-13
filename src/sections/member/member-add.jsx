@@ -251,11 +251,11 @@ export default function AddMemberPage() {
     const GetMemberView = () => {
         setMemberLoading(true);
         const url = `${REACT_APP_HOST_URL}${MEMBER_VIEW}${data.id}`;
-        // console.log(JSON.parse(Session) + url);
+        console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                // console.log(JSON.stringify(json));
+                console.log(JSON.stringify(json));
                 setMemberLoading(false);
                 if (json.success) {
                     setProfileImage({
@@ -1984,7 +1984,7 @@ export default function AddMemberPage() {
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                        <DemoContainer components={['DatePicker']} sx={{ width: 530 }} className="date-pick">
+                                                        <DemoContainer components={['DatePicker']} sx={{ width: 550 }} className="date-pick">
                                                             <DatePicker
                                                                 className='input-box1'
                                                                 value={Dob.data}

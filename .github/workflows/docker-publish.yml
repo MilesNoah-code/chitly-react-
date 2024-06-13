@@ -47,6 +47,7 @@ jobs:
       - name: Build and Push Container
         run: |-
           ls
+          cp src/CHANGELOG.md dist/changelog.txt
           cd dist
           ls
           cd ..

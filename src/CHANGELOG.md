@@ -1,3 +1,12 @@
+2.2.0
+Date : 13/06/2024
+Type : Development
+Description :  
+        1.Group Member, Add, Edit Ui and Integration
+        2.Chit Estimate, Add, Delete Ui and Integration
+        3.Chit Auction List Ui and Integration
+        4.DashBoard Chart, ActivityLog List and Count Ui and Integration
+        5.Activity Log Separate List Ui and Integration
 1.2.0
 Date : 07/06/2024
 Type : Development

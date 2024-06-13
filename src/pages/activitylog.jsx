@@ -1,17 +1,17 @@
 import { Helmet } from 'react-helmet-async';
 
-import { ChitEstimateView } from 'src/sections/chitestimate/view';
+import { ActivityLogView } from 'src/sections/activitylog/view';
 
 // ----------------------------------------------------------------------
 
-export default function ChitEstimatePage() {
+export default function ChitAuctionPage() {
   return (
     <>
       <Helmet>
-        <title> Chit Estimate | Chitly </title>
+        <title> Activity Log | Chitly </title>
       </Helmet>
 
-      <ChitEstimateView />
+      <ActivityLogView />
     </>
   );
 }

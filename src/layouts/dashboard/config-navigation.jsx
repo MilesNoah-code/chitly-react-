@@ -24,7 +24,7 @@ const navConfig = [
   },
   {
     title: 'Group Members',
-    path: '/groupmember',
+    path: '/groupMember/list',
     icon: icon('groupmember'),
   },
   {
@@ -34,7 +34,7 @@ const navConfig = [
   },
   {
     title: 'Chit Auction',
-    path: '/404',
+    path: '/chitauction/list',
     icon: icon('chitauction'),
   },
   {

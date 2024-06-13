@@ -1,1 +1,1 @@
-export { default as GroupMemberView } from './groupmember-view';
+export { default as GroupMemberView } from './groupmembers-view';

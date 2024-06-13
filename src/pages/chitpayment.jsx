@@ -4,7 +4,7 @@ import { ChitPaymentView } from 'src/sections/chitpayment/view';
 
 // ----------------------------------------------------------------------
 
-export default function ProductsPage() {
+export default function ChitPaymentPage() {
   return (
     <>
       <Helmet>

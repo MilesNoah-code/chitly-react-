@@ -1,3 +1,4 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
@@ -6,35 +7,31 @@ import CardHeader from '@mui/material/CardHeader';
 
 import Chart, { useChart } from 'src/components/chart';
 
-// ----------------------------------------------------------------------
-
 export default function AppWebsiteVisits({ title, subheader, chart, ...other }) {
-  const { labels, colors, series, options } = chart;
+  const { labels, series, options } = chart;
 
   const chartOptions = useChart({
-    colors,
     plotOptions: {
       bar: {
-        columnWidth: '16%',
+        horizontal: false, // Set to true if you want horizontal bars
+        columnWidth: '30%', // Adjust the width of bars
+        endingShape: 'rounded', // Specify bar ending shape (rounded, flat, etc.)
       },
     },
     fill: {
-      type: series.map((i) => i.fill),
+      type: 'solid', // Fill type for bars
     },
-    labels,
+    dataLabels: {
+      enabled: false, // Disable if you don't want data labels on bars
+    },
     xaxis: {
-      type: 'datetime',
+      categories: labels, // Use labels as categories for x-axis
     },
     tooltip: {
       shared: true,
       intersect: false,
       y: {
-        formatter: (value) => {
-          if (typeof value !== 'undefined') {
-            return `${value.toFixed(0)} visits`;
-          }
-          return value;
-        },
+        formatter: (value) => `${value.toFixed(0)}`,
       },
     },
     ...options,
@@ -43,15 +40,14 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
   return (
     <Card {...other}>
       <CardHeader title={title} subheader={subheader} />
-
       <Box sx={{ p: 3, pb: 1 }}>
         <Chart
           dir="ltr"
-          type="line"
+          type="bar"
           series={series}
           options={chartOptions}
           width="100%"
-          height={364}
+          height={365}
         />
       </Box>
     </Card>

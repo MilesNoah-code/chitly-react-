@@ -17,7 +17,6 @@ export const ChitPaymentAddPage = lazy(() => import('src/sections/chitpayment/ch
 export const Page404 = lazy(() => import('src/pages/page-not-found'));
 
 export default function Router1() {
-    console.log("Router1")
     const routes = useRoutes([
         {
             path: '/',

@@ -38,12 +38,11 @@ export default function GroupTableRow({
 
   const GroupDeleteMethod = (id) => {
     const url = `${REACT_APP_HOST_URL}${GROUP_DELETE}${id}`;
-    console.log(url);
-    console.log(Session);
+    // console.log(JSON.parse(Session) + url);
     fetch(url, DeleteHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         if (json.success) {
           setAlertMessage(json.message);
           setAlertFrom("success");
@@ -60,18 +59,17 @@ export default function GroupTableRow({
       .catch((error) => {
         setErrorAlert(true);
         setErrorScreen("error");
-        console.log(error);
+        // console.log(error);
       })
   }
 
   const GroupActivateMethod = (id) => {
     const url = `${REACT_APP_HOST_URL}${GROUP_ACTIVATE}${id}`;
-    console.log(url);
-    console.log(Session);
+    // console.log(JSON.parse(Session) + url);
     fetch(url, PutHeaderWithoutParams(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         if (json.success) {
           setAlertMessage(json.message);
           setAlertFrom("success");
@@ -88,7 +86,7 @@ export default function GroupTableRow({
       .catch((error) => {
         setErrorAlert(true);
         setErrorScreen("error");
-        console.log(error);
+        // console.log(error);
       })
   }
 
@@ -97,7 +95,6 @@ export default function GroupTableRow({
   };
 
   const HandleSelectMenu = (from) => {
-    console.log(item)
     setOpen(null);
     if (from === "view") {
       navigate(`/group/view/${item.id}`, {
@@ -195,7 +192,7 @@ export default function GroupTableRow({
             Delete
           </MenuItem>
           : <MenuItem onClick={() => setConfirmAlert(true)} sx={{ cursor: 'pointer' }}>
-            <img src="../../../public/assets/images/img/reactivate.png" alt="Loading" style={{ width: 20, height: 20, marginRight: '15px' }} />
+            <img src="/assets/images/img/reactivate.png" alt="Loading" style={{ width: 20, height: 20, marginRight: '15px' }} />
             Activate
           </MenuItem> }
       </Popover>

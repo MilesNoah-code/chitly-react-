@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,29 +10,24 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { Alert, Snackbar, TextField, InputAdornment } from '@mui/material';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { Alert, Snackbar, TableRow, TableCell, TextField, IconButton, InputAdornment } from '@mui/material';
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
 
-import { CHIT_RECEIPT_LIST, REACT_APP_HOST_URL } from 'src/utils/api-constant';
+import { GROUP_LIST, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
 import { emptyRows } from 'src/sections/member/utils';
 
-import './chitreceipt-view.css';
+import './chitauction-view.css';
 import TableHeader from '../../member/table-head';
 import TableNoData from '../../member/table-no-data';
 import ErrorLayout from '../../../Error/ErrorLayout';
-import ChitReceiptTableRow from '../chitreceipt-list';
 import TableEmptyRows from '../../member/table-empty-rows';
 
-export default function ChitReceiptView() {
+export default function ChitAuctionView() {
 
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
@@ -43,44 +37,36 @@ export default function ChitReceiptView() {
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(15);
   const Session = localStorage.getItem('apiToken');
-  const [ChitReceiptList, setChitReceiptList] = useState([]);
-  const [ChitReceiptLoading, setChitReceiptLoading] = useState(true);
+  const [ChitAuctionList, setChitAuctionList] = useState([]);
+  const [ChitAuctionLoading, setChitAuctionLoading] = useState(true);
   const [AlertOpen, setAlertOpen] = useState(false);
   const [AlertMessage, setAlertMessage] = useState('');
   const [AlertFrom, setAlertFrom] = useState('');
   const [ErrorAlert, setErrorAlert] = useState(false);
   const [ErrorScreen, setErrorScreen] = useState('');
-  const [FromDate, setFromDate] = useState({
-    data: null,
-    searchdata: "",
-  });
-  const [ToDate, setToDate] = useState({
-    data: null,
-    searchdata: "",
-  });
   const [TotalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
     setTotalCount(0);
-    setChitReceiptList([]);
-    GetChitReceiptList(FromDate.searchdata, ToDate.searchdata, filterName, page * rowsPerPage, rowsPerPage);
+    setChitAuctionList([]);
+    GetChitAuctionList(1, filterName, page * rowsPerPage, rowsPerPage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, rowsPerPage, FromDate, ToDate, filterName]);
+  }, [page, rowsPerPage, filterName]);
 
-  const GetChitReceiptList = (fromdate, todate, text, start, limit) => {
-    setChitReceiptLoading(true);
+  const GetChitAuctionList = (isactive, text, start, limit) => {
+    setChitAuctionLoading(true);
     setTotalCount(0);
-    setChitReceiptList([]);
-    const url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_LIST}${fromdate}&toDate=${todate}&search=${text}&start=${start}&limit=${limit}`;
+    setChitAuctionList([]);
+    const url = `${REACT_APP_HOST_URL}${GROUP_LIST}${isactive}&search=${text}&start=${start}&limit=${limit}`;
     // console.log(JSON.parse(Session) + url);
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
         // console.log(JSON.stringify(json));
-        setChitReceiptLoading(false);
+        setChitAuctionLoading(false);
         if (json.success) {
           setTotalCount(json.total);
-          setChitReceiptList([...ChitReceiptList, ...json.list]);
+          setChitAuctionList([...ChitAuctionList, ...json.list]);
         } else if (json.success === false) {
           setAlertMessage(json.message);
           setAlertFrom("failed");
@@ -91,7 +77,7 @@ export default function ChitReceiptView() {
         }
       })
       .catch((error) => {
-        setChitReceiptLoading(false);
+        setChitAuctionLoading(false);
         setErrorAlert(true);
         setErrorScreen("error");
         // console.log(error);
@@ -108,29 +94,11 @@ export default function ChitReceiptView() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = ChitReceiptList.map((n) => n.name);
+      const newSelecteds = ChitAuctionList.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -140,25 +108,25 @@ export default function ChitReceiptView() {
   const handleChangeRowsPerPage = (event) => {
     setPage(0);
     setTotalCount(0);
-    setChitReceiptList([]);
+    setChitAuctionList([]);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 
   const handleFilterByName = (event) => {
     setPage(0);
     setTotalCount(0);
-    setChitReceiptList([]);
+    setChitAuctionList([]);
     setFilterName(event.target.value);
   };
 
-  const HandleAddChitReceiptClick = () => {
-    navigate('/chitreceipt/add', {
+  const HandleAddChitAuctionClick = () => {
+    navigate('/chitauction/add', {
       state: {
         screen: 'add',
         data: [],
       },
     });
-  }
+  };
 
   const HandleAlertShow = () => {
     setAlertOpen(true);
@@ -168,27 +136,12 @@ export default function ChitReceiptView() {
     setAlertOpen(false);
   };
 
-  const HandleFromDateChange = (date) => {
-    const DateForSearch = date ? dayjs(date).format('YYYY-MM-DD') : "";
-    // console.log('Date to search:', DateForSearch);
-    setPage(0);
-    setTotalCount(0);
-    setChitReceiptList([]);
-    setFromDate({
-      data: date,
-      searchdata: DateForSearch
-    });
-  };
-
-  const HandleToDateChange = (date) => {
-    const DateForSearch = date ? dayjs(date).format('YYYY-MM-DD') : "";
-    // console.log('Date to search:', DateForSearch);
-    setPage(0);
-    setTotalCount(0);
-    setChitReceiptList([]);
-    setToDate({
-      data: date,
-      searchdata: DateForSearch
+  const handleOpenScreen = (row) => {
+    navigate(`/chitauction/add`, {
+      state: {
+        screen: 'add',
+        data: row,
+      },
     });
   };
 
@@ -197,35 +150,15 @@ export default function ChitReceiptView() {
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
-        <Typography variant="h6" sx={{ color: '#637381' }}>Chit Receipt List</Typography>
-        <Button variant="contained" className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddChitReceiptClick}>
-          Add Chit Receipt
+        <Typography variant="h6" sx={{ color: '#637381' }}>Chit Auction List</Typography>
+        <Button variant="contained" className='custom-button' sx={{ display: 'none' }} startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddChitAuctionClick}>
+          Add Chit Auction
         </Button>
       </Stack>
       <Card>
         <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='40px' className='mbl-view'>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={['DatePicker']} >
-              <DatePicker
-                label="From Date"
-                value={FromDate.data}
-                onChange={HandleFromDateChange}
-                disabled={ChitReceiptLoading}
-                format="DD-MM-YYYY" />
-            </DemoContainer>
-          </LocalizationProvider>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={['DatePicker']}>
-              <DatePicker
-                label="To Date"
-                value={ToDate.data}
-                onChange={HandleToDateChange}
-                disabled={ChitReceiptLoading}
-                format="DD-MM-YYYY" />
-            </DemoContainer>
-          </LocalizationProvider>
           <TextField
-            placeholder="Search..."
+            placeholder="Search Group Code..."
             value={filterName}
             onChange={(e) => handleFilterByName(e)}
             InputProps={{
@@ -240,7 +173,7 @@ export default function ChitReceiptView() {
             }}
           />
         </Stack>
-        {ChitReceiptLoading
+        {ChitAuctionLoading
           ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
           </Stack>
@@ -251,41 +184,45 @@ export default function ChitReceiptView() {
                   <TableHeader
                     order={order}
                     orderBy={orderBy}
-                    rowCount={ChitReceiptList.length}
+                    rowCount={ChitAuctionList.length}
                     numSelected={selected.length}
                     onRequestSort={handleSort}
                     onSelectAllClick={handleSelectAllClick}
                     headLabel={[
-                      { id: 'Date', label: 'Date' },
-                      { id: 'Receipt No', label: 'Receipt No' },
-                      { id: 'Group No', label: 'Group No' },
-                      { id: 'Member Name', label: 'Member Name' },
-                      { id: 'Ticket No', label: 'Ticket No' },
-                      { id: 'Inst No', label: 'Inst No' },
-                      { id: 'Credit Amount', label: 'Credit Amount' },
+                      { id: 'Group Code', label: 'Group Code' },
+                      { id: 'Duration', label: 'Duration' },
+                      { id: 'Auction Mode', label: 'Auction Mode' },
+                      { id: 'Amount', label: 'Amount' },
+                      { id: 'Status', label: 'Status' },
                       { id: '' },
                     ]} />
                   <TableBody>
-                    {ChitReceiptList
+                    {ChitAuctionList
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => (
-                        <ChitReceiptTableRow
-                          key={row.id}
-                          selected={selected.indexOf(row.name) !== -1}
-                          handleClick={(event) => handleClick(event, row.name)}
-                          item={row}
-                        />
+                        <TableRow hover tabIndex={-1} role="checkbox" selected={selected.indexOf(row.name) !== -1}>
+                          <TableCell>{row.groupno}</TableCell>
+                          <TableCell>{row.duration}</TableCell>
+                          <TableCell>{row.auction_mode}</TableCell>
+                          <TableCell>{row.amount != null && row.amount !== "" ? Math.round(row.amount) : ""}</TableCell>
+                          <TableCell>{row.status}</TableCell>
+                          <TableCell align="right">
+                            <IconButton onClick={() => handleOpenScreen(row)} sx={{ cursor: 'pointer' }}>
+                              <Iconify icon="eva:edit-fill" />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
                       ))}
                     <TableEmptyRows
                       height={77}
-                      emptyRows={emptyRows(page, rowsPerPage, ChitReceiptList.length)}
+                      emptyRows={emptyRows(page, rowsPerPage, ChitAuctionList.length)}
                     />
-                    {ChitReceiptList.length === 0 && <TableNoData query={filterName} />}
+                    {ChitAuctionList.length === 0 && <TableNoData query={filterName} />}
                   </TableBody>
                 </Table>
               </TableContainer>
             </Scrollbar>
-            {ChitReceiptList.length > 0 && <TablePagination
+            {ChitAuctionList.length > 0 && <TablePagination
               page={page}
               component="div"
               count={TotalCount}

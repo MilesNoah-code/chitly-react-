@@ -133,11 +133,11 @@ export default function AddChitReceiptPage() {
     const GetChitReceiptView = () => {
         setGroupListLoading(true);
         const url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_DETAIL}${data.id}`;
-        console.log(url);
+        // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                console.log(JSON.stringify(json));
+                // console.log(JSON.stringify(json));
                 setGroupListLoading(false);
                 if (json.success) {
                     setGroupNoSearch({
@@ -193,19 +193,18 @@ export default function AddChitReceiptPage() {
                 setGroupListLoading(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
-                console.log(error);
+                // console.log(error);
             })
     }
 
     const GetPendingGroupList = (text) => {
         setGroupListLoading(true);
         const url = `${REACT_APP_HOST_URL}${CHIT_RECEPT_PENDING_GROUP_LIST}1&search=${text}`;
-        console.log(url);
-        console.log(Session)
+        // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                console.log(JSON.stringify(json));
+                // console.log(JSON.stringify(json));
                 setGroupListLoading(false);
                 if (json.success) {
                     setPendingGroupList(json.list);
@@ -222,19 +221,18 @@ export default function AddChitReceiptPage() {
                 setGroupListLoading(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
-                console.log(error);
+                // console.log(error);
             })
     }
 
     const GetMemberList = (groupid, membername, ticketno) => {
         setMemberListLoading(true);
         const url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_PAID_UNPAID_LIST}${groupid}&memberName=${membername}&ticketNo=${ticketno}`;
-        console.log(url);
-        console.log(Session)
+        // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                console.log(JSON.stringify(json));
+                // console.log(JSON.stringify(json));
                 setMemberListLoading(false);
                 if (json.success) {
                     // setTotalCount(json.total);
@@ -253,18 +251,17 @@ export default function AddChitReceiptPage() {
                 setMemberListLoading(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
-                console.log(error);
+                // console.log(error);
             })
     }
 
     const GetReceiptNumberList = (groupid) => {
         const url = `${REACT_APP_HOST_URL}${CHIT_GET_RECEIPT_NUMBER}${groupid}`;
-        console.log(url);
-        console.log(Session)
+        // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                console.log(JSON.stringify(json));
+                // console.log(JSON.stringify(json));
                 if (json.success) {
                     setReceiptNo({
                         data: json.receiptNo !== "" && json.receiptNo !== null ? (Math.round(json.receiptNo) + 1) : "1",
@@ -282,7 +279,7 @@ export default function AddChitReceiptPage() {
             .catch((error) => {
                 setErrorAlert(true);
                 setErrorScreen("error");
-                console.log(error);
+                // console.log(error);
             })
     }
 
@@ -322,7 +319,7 @@ export default function AddChitReceiptPage() {
             url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_SAVE}`;
             Params = ChitReceiptInfoParams;
             console.log(JSON.stringify(Params) + url);
-            console.log(Session);
+            console.log(JSON.parse(Session));
             fetch(url, PostHeader(JSON.parse(Session), Params))
                 .then((response) => response.json())
                 .then((json) => {
@@ -346,7 +343,7 @@ export default function AddChitReceiptPage() {
                     setLoading(false);
                     setErrorAlert(true);
                     setErrorScreen("error");
-                    console.log(error);
+                    // console.log(error);
                 })
         }
     }
@@ -354,7 +351,7 @@ export default function AddChitReceiptPage() {
     const ChitReceiptTextValidate = (e, from) => {
         const text = e.target.value;
         setScreenRefresh(pre => pre + 1);
-        console.log(from);
+        // console.log(from);
         if (from === "ReceiptNo") {
             setReceiptNo(prevState => ({
                 ...prevState,
@@ -399,7 +396,7 @@ export default function AddChitReceiptPage() {
             }));
         } else if (from === "Values") {
             const AmountError = isValidateAmount(text.trim(), GroupNoSearch.data.amount) ? "" : "Receipt amount should not greater than due amount";
-            console.log(isValidateAmount(text.trim(), GroupNoSearch.data.amount))
+            // console.log(isValidateAmount(text.trim(), GroupNoSearch.data.amount))
             const ValidError = !isValidNumber(text) ? "* Invalid Amount" : AmountError;
             setValues(prevState => ({
                 ...prevState,
@@ -453,7 +450,8 @@ export default function AddChitReceiptPage() {
                 error: ""
             }));
         }
-        if (TicketNo.data == null || TicketNo.data === "" || TicketNo.data > 0) {
+        // console.log(TicketNo.data)
+        if (TicketNo.data === null || TicketNo.data === "" || TicketNo.data === "0") {
             IsValidate = false;
             setTicketNo(prevState => ({
                 ...prevState,
@@ -477,7 +475,7 @@ export default function AddChitReceiptPage() {
                 error: ""
             }));
         }
-        if (Duration.data == null || Duration.data === "" || Duration.data > 0) {
+        if (Duration.data === null || Duration.data === "" || Duration.data.length > 0) {
             IsValidate = false;
             setDuration(prevState => ({
                 ...prevState,
@@ -489,7 +487,7 @@ export default function AddChitReceiptPage() {
                 error: ""
             }));
         }
-        if (AccountNo.data == null || AccountNo.data === "" || AccountNo.data > 0) {
+        if (AccountNo.data === null || AccountNo.data === "" || AccountNo.data.length > 0) {
             IsValidate = false;
             setAccountNo(prevState => ({
                 ...prevState,
@@ -501,7 +499,7 @@ export default function AddChitReceiptPage() {
                 error: ""
             }));
         }
-        if (InstFrom.data == null || InstFrom.data === "" || InstFrom.data > 0) {
+        if (InstFrom.data === null || InstFrom.data === "" || InstFrom.data.length > 0) {
             IsValidate = false;
             setInstFrom(prevState => ({
                 ...prevState,
@@ -513,7 +511,7 @@ export default function AddChitReceiptPage() {
                 error: ""
             }));
         }
-        if (InstTo.data == null || InstTo.data === "" || InstTo.data > 0) {
+        if (InstTo.data === null || InstTo.data === "" || InstTo.data.length > 0) {
             IsValidate = false;
             setInstTo(prevState => ({
                 ...prevState,
@@ -581,14 +579,13 @@ export default function AddChitReceiptPage() {
     }
 
     const HandleSubmitClick = () => {
-        console.log("submitclick11");
         validateChitReceiptInfo();
     };
 
     const HandleDateChange = (date) => {
         setScreenRefresh(pre => pre + 1);
         const DateForSave = date ? dayjs(date).format('YYYY-MM-DD') : "";
-        console.log('Date to save:', DateForSave);
+        // console.log('Date to save:', DateForSave);
         setReceiptDate({
             data: date,
             datasave: DateForSave,
@@ -603,7 +600,7 @@ export default function AddChitReceiptPage() {
                 data: value,
                 error: ""
             });
-            console.log(value);
+            // console.log(value);
             setMemberListAlert(true);
             setAuctionMode({
                 data: value.auction_mode !== "" && value.auction_mode != null ? value.auction_mode : "",
@@ -728,7 +725,7 @@ export default function AddChitReceiptPage() {
                 error: ""
             });
             setAccountNo({
-                data: item.accno !== "" && item.accno != null ? item.accno : "",
+                data: item.member_id !== "" && item.member_id != null ? item.member_id : "",
                 error: ""
             });
             setInstFrom({
@@ -800,7 +797,7 @@ export default function AddChitReceiptPage() {
                     autoComplete="off">
                     {GroupListLoading
                         ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-                            <img src="../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                            <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
@@ -811,7 +808,7 @@ export default function AddChitReceiptPage() {
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                <DemoContainer components={['DatePicker']} sx={{ width: 530 }}>
+                                                <DemoContainer components={['DatePicker']} sx={{ width: 550 }}>
                                                     <DatePicker
                                                         className='input-box1'
                                                         label="From Date"
@@ -1042,7 +1039,7 @@ export default function AddChitReceiptPage() {
                                 : <Stack direction='column' alignItems='flex-end'>
                                     <Button sx={{ mr: 5, mt: 2, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                         {Loading
-                                            ? (<img src="../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                                            ? (<img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                             : ("Submit")}
                                     </Button>
                                 </Stack>}
@@ -1098,7 +1095,7 @@ export default function AddChitReceiptPage() {
                                 className='btn-close'
                                 onClick={HandleMemberListAlertClose}
                                 sx={{ position: 'absolute', right: 2, top: 0, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
-                                <img src="../../../public/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
+                                <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                             </IconButton>
                         </Stack>
                         <Scrollbar>
@@ -1121,7 +1118,7 @@ export default function AddChitReceiptPage() {
                                         ]} />
                                     {MemberListLoading
                                         ? <Stack mt={10} sx={{ alignItems: 'center' ,justifyContent:'center'}}>
-                                            <img src="../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                                            <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                                         </Stack>
                                         : <TableBody>
                                             {MemberList

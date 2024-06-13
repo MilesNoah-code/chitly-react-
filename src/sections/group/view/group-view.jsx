@@ -60,12 +60,11 @@ export default function GroupView() {
     setTotalCount(0);
     setGroupList([]);
     const url = `${REACT_APP_HOST_URL}${GROUP_LIST}${isActive}&search=${text}&start=${start}&limit=${limit}`;
-    console.log(url);
-    console.log(Session)
+    // console.log(JSON.parse(Session) + url);
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         setGroupListLoading(false);
         if (json.success) {
           setTotalCount(json.total);
@@ -83,7 +82,7 @@ export default function GroupView() {
         setGroupListLoading(false);
         setErrorAlert(true);
         setErrorScreen("error");
-        console.log(error);
+        // console.log(error);
       })
   }
 
@@ -128,6 +127,8 @@ export default function GroupView() {
 
   const handleChangeRowsPerPage = (event) => {
     setPage(0);
+    setTotalCount(0);
+    setGroupList([]);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 
@@ -154,7 +155,6 @@ export default function GroupView() {
 
   const handleFilterByActive = (e) => {
     const text = e.target.value;
-    console.log(text);
     setPage(0);
     setTotalCount(0);
     setGroupList([]);

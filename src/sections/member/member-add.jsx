@@ -251,7 +251,7 @@ export default function AddMemberPage() {
     const GetMemberView = () => {
         setMemberLoading(true);
         const url = `${REACT_APP_HOST_URL}${MEMBER_VIEW}${data.id}`;
-        console.log(url);
+        console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
@@ -443,7 +443,7 @@ export default function AddMemberPage() {
                 setMemberLoading(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
-                console.log(error);
+                // console.log(error);
             })
     }
 
@@ -538,12 +538,11 @@ export default function AddMemberPage() {
                 url = `${REACT_APP_HOST_URL}${MEMBER_OCCUPATION_DETAIL_SAVE}`;
                 Params = OccupationDetailParams;
             }
-            console.log(JSON.stringify(Params) + url);
-            console.log(Session);
+            // console.log(JSON.stringify(Params) + url);
             fetch(url, PostHeader(JSON.parse(Session), Params))
                 .then((response) => response.json())
                 .then((json) => {
-                    console.log(JSON.stringify(json));
+                    // console.log(JSON.stringify(json));
                     setLoading(false);
                     setScreenRefresh(0);
                     if (json.success) {
@@ -567,7 +566,7 @@ export default function AddMemberPage() {
                     setLoading(false);
                     setErrorAlert(true);
                     setErrorScreen("error");
-                    console.log(error);
+                    // console.log(error);
                 })
         }
     }
@@ -593,12 +592,11 @@ export default function AddMemberPage() {
                 url = `${REACT_APP_HOST_URL}${MEMBER_OCCUPATION_DETAIL_UPDATE}${OccupationId}`;
                 Params = OccupationDetailParams;
             }
-            console.log(JSON.stringify(Params) + url);
-            console.log(Session);
+            // console.log(JSON.stringify(Params) + url);
             fetch(url, PutHeader(JSON.parse(Session), Params))
                 .then((response) => response.json())
                 .then((json) => {
-                    console.log(JSON.stringify(json));
+                    // console.log(JSON.stringify(json));
                     setLoading(false);
                     setScreenRefresh(0);
                     if (json.success) {
@@ -618,7 +616,7 @@ export default function AddMemberPage() {
                     setLoading(false);
                     setErrorAlert(true);
                     setErrorScreen("error");
-                    console.log(error);
+                    // console.log(error);
                 })
         }
     }
@@ -626,12 +624,11 @@ export default function AddMemberPage() {
     const GetMediaList = (entryMappedtypeNo, file) => {
         setMediaListLoading(true);
         const url = `${REACT_APP_HOST_URL}${MEMBER_MEDIA_LIST}${data.id}&entryMappedtypeNo=${entryMappedtypeNo}`;
-        console.log(url);;
-        console.log(Session)
+        // console.log(JSON.parse(Session) + url);;
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                console.log(JSON.stringify(json));
+                // console.log(JSON.stringify(json));
                 setMediaListLoading(false);
                 if (json.success) {
                     if (json.list.length > 0) {
@@ -661,23 +658,21 @@ export default function AddMemberPage() {
                 setMediaListLoading(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
-                console.log(error);
+                // console.log(error);
             })
     }
 
     const MemberImageUpload = (fileToUpload, imagetype) => {
-        console.log(fileToUpload);
         if (fileToUpload != null && fileToUpload !== "") {
             const formData = new FormData();
             formData.append("uploaded_file", fileToUpload);
             const url = `${REACT_APP_HOST_URL}${MEMBER_IMAGE_UPLOAD}&type=${imagetype}&ref_id=${data.id}`;
-            console.log(formData);
-            console.log(url);
-            console.log(JSON.parse(Session));
+            // console.log(formData);
+            // console.log(JSON.parse(Session) + url);
             fetch(url, PostImageHeader(JSON.parse(Session), formData))
                 .then((response) => response.json())
                 .then((json) => {
-                    console.log(json);
+                    // console.log(json);
                     setProfileUploadLoading(false);
                     if (json.success) {
                         if (imagetype === "MEMBER_PROFILE") {
@@ -711,7 +706,7 @@ export default function AddMemberPage() {
                     setProfileUploadLoading(false);
                     setErrorAlert(true);
                     setErrorScreen("error");
-                    console.log(error);
+                    // console.log(error);
                 });
         }
     };
@@ -768,12 +763,11 @@ export default function AddMemberPage() {
                 }
             }
             const url = `${REACT_APP_HOST_URL}${MEMBER_MEDIA_SAVE}`;
-            console.log(JSON.stringify(MediaSaveParams));
-            console.log(url);
+            // console.log(JSON.stringify(MediaSaveParams) + url);
             fetch(url, PostHeader(JSON.parse(Session), MediaSaveParams))
                 .then((response) => response.json())
                 .then((json) => {
-                    console.log(JSON.stringify(json));
+                    // console.log(JSON.stringify(json));
                     setProofLoading(false);
                     if (json.success) {
                         setProofAlert(false);
@@ -806,19 +800,18 @@ export default function AddMemberPage() {
                     setProofLoading(false);
                     setErrorAlert(true);
                     setErrorScreen("error");
-                    console.log(error);
+                    // console.log(error);
                 })
         }
     }
 
     const MemberDeleteMedia = (from, id, IsValidate) => {
         const url = `${REACT_APP_HOST_URL}${MEMBER_MEDIA_DELETE}${id}`;
-        console.log(url);
-        console.log(Session);
+        // console.log(JSON.parse(Session) + url);
         fetch(url, DeleteHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                console.log(JSON.stringify(json));
+                // console.log(JSON.stringify(json));
                 if (json.success) {
                     if (from === "1") {
                         MemberUpdateMethod(IsValidate);
@@ -843,18 +836,17 @@ export default function AddMemberPage() {
                 setProfileUploadLoading(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
-                console.log(error);
+                // console.log(error);
             })
     }
 
     const GetStateList = (countryname) => {
         const url = `${REACT_APP_HOST_URL}${STATE_LIST}${countryname}`;
-        console.log(url);;
-        console.log(Session)
+        // console.log(JSON.parse(Session) + url);;
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                console.log(JSON.stringify(json));
+                // console.log(JSON.stringify(json));
                 if (json.success) {
                     setStateList(json.list);
                     if (State.data === "") {
@@ -875,18 +867,17 @@ export default function AddMemberPage() {
             .catch((error) => {
                 setErrorAlert(true);
                 setErrorScreen("error");
-                console.log(error);
+                // console.log(error);
             })
     }
 
     const GetCountryList = () => {
         const url = `${REACT_APP_HOST_URL}${COUNTRY_LIST}`;
-        console.log(url);;
-        console.log(Session)
+        // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                console.log(JSON.stringify(json));
+                // console.log(JSON.stringify(json));
                 if (json.success) {
                     setCountryList(json.list);
                     if (Country.data === "") {
@@ -908,7 +899,7 @@ export default function AddMemberPage() {
             .catch((error) => {
                 setErrorAlert(true);
                 setErrorScreen("error");
-                console.log(error);
+                // console.log(error);
             })
     }
 
@@ -923,7 +914,7 @@ export default function AddMemberPage() {
     const MemberInfoTextValidate = (e, from) => {
         const text = e.target.value;
         setScreenRefresh(pre => pre + 1);
-        console.log(from);
+        // console.log(from);
         if (from === "NamePrefix") {
             setNamePrefix(prevState => ({
                 ...prevState,
@@ -1203,7 +1194,7 @@ export default function AddMemberPage() {
     const AddressDetailsTextValidate = (e, from) => {
         const text = e.target.value;
         setScreenRefresh(pre => pre + 1);
-        console.log(from);
+        // console.log(from);
         if (from === "Address") {
             setAddress(prevState => ({
                 ...prevState,
@@ -1300,9 +1291,7 @@ export default function AddMemberPage() {
                 error: ""
             }));
         }
-        // console.log("AddressDetailEmpty");
         // console.log(AddressDetailEmpty);
-        console.log(IsValidate);
         if (AddressDetailEmpty === "no_data") {
             MemberAddMethod(IsValidate);
         } else {
@@ -1313,7 +1302,7 @@ export default function AddMemberPage() {
     const BankDetailsTextValidate = (e, from) => {
         const text = e.target.value;
         setScreenRefresh(pre => pre + 1);
-        console.log(from);
+        // console.log(from);
         if (from === "NameOnAccount") {
             setNameOnAccount(prevState => ({
                 ...prevState,
@@ -1546,7 +1535,7 @@ export default function AddMemberPage() {
     const OccupationDetailsTextValidate = (e, from) => {
         const text = e.target.value;
         setScreenRefresh(pre => pre + 1);
-        console.log(from);
+        // console.log(from);
         if (from === "CurrentOccupation") {
             setCurrentOccupation(prevState => ({
                 ...prevState,
@@ -1642,7 +1631,6 @@ export default function AddMemberPage() {
                 error: ""
             }));
         }
-        console.log(LivingIn)
         if (LivingIn.data === "") {
             IsValidate = false;
             setLivingIn(prevState => ({
@@ -1678,7 +1666,6 @@ export default function AddMemberPage() {
     };
 
     const handleChange = (event, newValue) => {
-        console.log(newValue);
         if (ScreenRefresh) {
             const confirmNavigation = window.confirm(
                 'You have unsaved changes. Are you sure you want to leave this Tab?'
@@ -1693,12 +1680,10 @@ export default function AddMemberPage() {
     };
 
     const HandleSubmitClick = () => {
-        console.log("submitclick11");
         if (screen === "add" || TabIndex === '1') {
             validateMemberInfo();
         }
         if (TabIndex === '2') {
-            console.log("submitclick")
             validateAddressDetails();
         } else if (TabIndex === '3') {
             validateBankDetails();
@@ -1723,9 +1708,8 @@ export default function AddMemberPage() {
 
     const HandleProfileImage = (event) => {
         setScreenRefresh(pre => pre + 1);
-        console.log(event);
         const file = event.target.files[0];
-        console.log(file);
+        // console.log(file);
         if (file) {
             const filePath = URL.createObjectURL(file);
             setProfileImage({
@@ -1745,12 +1729,10 @@ export default function AddMemberPage() {
 
     const HandleProofImage = (event) => {
         setScreenRefresh(pre => pre + 1);
-        console.log(event);
         const file = event.target.files[0];
-        console.log(file);
+        // console.log(file);
         if (file) {
             const filePath = URL.createObjectURL(file);
-            console.log(file);
             setProofImage({
                 data: filePath,
                 savedata: "",
@@ -1784,7 +1766,7 @@ export default function AddMemberPage() {
     const HandleDateChange = (date) => {
         setScreenRefresh(pre => pre + 1);
         const DateForSave = dayjs(date).format('YYYY-MM-DD');
-        console.log('Date to save:', DateForSave);
+        // console.log('Date to save:', DateForSave);
         setDob({
             data: date,
             datesave: DateForSave,
@@ -1856,7 +1838,7 @@ export default function AddMemberPage() {
                                 </Box>}
                             {MemberLoading
                                 ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-                                    <img src="../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                                    <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                                 </Stack>
                                 : <TabPanel value="1">
                                     {screen === "add"
@@ -1865,10 +1847,10 @@ export default function AddMemberPage() {
                                             <Stack direction='column' sx={{ ml: 2, }}>
                                                 {ProfileImage.data !== ""
                                                     ? <div>
-                                                        <img src={ProfileImage.type === "local" ? `${ProfileImage.data}` : `${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${ProfileImage.data}`} alt="Selected" style={{ width: 100, height: 100, }} />
+                                                        <img src={ProfileImage.type === "local" ? `${ProfileImage.data}` : `${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${ProfileImage.data}`} alt="Loading" style={{ width: 100, height: 100, }} />
                                                     </div>
                                                     : <div>
-                                                        <img src="../../../public/assets/images/img/placeholder.png" alt="Loading" style={{ width: 100, height: 100, }} />
+                                                        <img src="/assets/images/img/placeholder.png" alt="Loading" style={{ width: 100, height: 100, }} />
                                                     </div>}
                                                 <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 130, height: 40, mt: 2 }}>
                                                     Upload Photo
@@ -2002,7 +1984,7 @@ export default function AddMemberPage() {
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                        <DemoContainer components={['DatePicker']} sx={{ width: 530 }} className="date-pick">
+                                                        <DemoContainer components={['DatePicker']} sx={{ width: 550 }} className="date-pick">
                                                             <DatePicker
                                                                 className='input-box1'
                                                                 value={Dob.data}
@@ -2638,7 +2620,7 @@ export default function AddMemberPage() {
                                         <Stack direction='row' spacing={2} sx={{ mb: 3, mt: 2, mr: 3 }} className='row-box'>
                                             {MediaListLoading
                                                 ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-                                                    <img src="../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                                                    <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                                                 </Stack>
                                                 : MediaList.map((row) => (
                                                     <Stack direction='column' sx={{ ml: 2 }} key={row.id} className='boxing'>
@@ -2650,12 +2632,12 @@ export default function AddMemberPage() {
                                                                 {screen === "view"
                                                                     ? null
                                                                     : <Button onClick={() => { setMediaId(row.id); setConfirmAlert(true); }} className='btn-click' sx={{ cursor: 'pointer' }}>
-                                                                        <img src="../../../public/assets/images/img/cancel.png" alt="Loading" style={{ width: 12, height: 12 }} />
+                                                                        <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 12, height: 12 }} />
                                                                     </Button>}
                                                             </Stack>
                                                             : <Stack>
                                                                 <div className='img-box' style={{ width: 100, height: 100 }}>
-                                                                    <img src="../../../public/assets/images/img/placeholder.png" alt="Loading" style={{ width: '100% ' }} />
+                                                                    <img src="/assets/images/img/placeholder.png" alt="Loading" style={{ width: '100% ' }} />
                                                                 </div>
                                                             </Stack>}
                                                         {row.name
@@ -2674,7 +2656,7 @@ export default function AddMemberPage() {
                             : <Stack direction='column' alignItems='flex-end'>
                                 <Button sx={{ mr: 5, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                     {Loading
-                                        ? (<img src="../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                                        ? (<img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                         : ("Submit")}
                                 </Button>
                             </Stack>)}
@@ -2701,7 +2683,7 @@ export default function AddMemberPage() {
                     },
                 }} >
                 <Stack style={{ alignItems: 'center' }} mt={5} mb={5}>
-                    <img src="../../../public/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 70, height: 70 }} />
+                    <img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 70, height: 70 }} />
                 </Stack>
             </Dialog>
             <Dialog
@@ -2713,7 +2695,7 @@ export default function AddMemberPage() {
                     aria-label="close"
                     onClick={HandleProofAlertClose}
                     sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
-                    <img src="../../../public/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
+                    <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                 </IconButton>
                 <Stack flexDirection='row' sx={{ mt: 3, ml: 3 }}>
                     <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 130, height: 40 }}>
@@ -2724,8 +2706,8 @@ export default function AddMemberPage() {
                 <Stack sx={{ mt: 2, ml: 3 }}>
                     <Stack direction='row'>
                         {ProofImage.data
-                            ? <img src={ProofImage.type === "local" ? `${ProofImage.data}` : `${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${ProofImage.data}`} alt="Selected" style={{ width: 120, height: 120, }} />
-                            : <img src="../../../public/assets/images/img/image_placeholder.png" alt="Selected" style={{ width: 120, height: 120, }} />}
+                            ? <img src={ProofImage.type === "local" ? `${ProofImage.data}` : `${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${ProofImage.data}`} alt="Loading" style={{ width: 120, height: 120, }} />
+                            : <img src="/assets/images/img/image_placeholder.png" alt="Loading" style={{ width: 120, height: 120, }} />}
                         <Stack flexDirection='column' sx={{ ml: 3, }}>
                             <Stack flexDirection='row'>
                                 <TextField
@@ -2780,7 +2762,7 @@ export default function AddMemberPage() {
                 <Stack sx={{ alignItems: 'center', mt: 1, mb: 3 }}>
                     <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 100, height: 40, cursor: 'pointer' }} onClick={ProofLoading ? null : validateProofDetails}>
                         {ProofLoading
-                            ? (<img src="../../../public/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                            ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                             : ("Save")}
                     </Button>
                 </Stack>

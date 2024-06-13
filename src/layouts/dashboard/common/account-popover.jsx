@@ -20,10 +20,6 @@ const MENU_OPTIONS = [
     label: 'Home',
     icon: 'eva:home-fill',
   },
-  {
-    label: 'Profile',
-    icon: 'eva:person-fill',
-  },
 ];
 
 // ----------------------------------------------------------------------
@@ -51,12 +47,11 @@ export default function AccountPopover() {
     setOpen(null);
     setLoading(true);
     const url = `${REACT_APP_HOST_URL}${LOGOUT_URL}`;
-    console.log(url);
-    console.log(JSON.parse(Session))
+    // console.log(JSON.parse(Session) + url)
     fetch(url, PostHeader(JSON.parse(Session), ''))
       .then((response) => response.json())
       .then((json) => {
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         setLoading(false);
         if (json.success) {
           localStorage.removeItem("apiToken");
@@ -66,7 +61,7 @@ export default function AccountPopover() {
       })
       .catch((error) => {
         setLoading(false);
-        console.log(error);
+        // console.log(error);
       })
   }
 
@@ -156,7 +151,7 @@ export default function AccountPopover() {
         }}
       >
         <Stack style={{ alignItems: 'center' }} mt={5} mb={5}>
-          <img src="../../../../public/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 70, height: 70 }} />
+          <img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 70, height: 70 }} />
         </Stack>
       </Dialog>
     </>

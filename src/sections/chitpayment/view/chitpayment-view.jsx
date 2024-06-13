@@ -72,12 +72,11 @@ export default function ChitPaymentView() {
     setTotalCount(0);
     setChitPaymentList([]);
     const url = `${REACT_APP_HOST_URL}${CHIT_PAYMENT_LIST}1&fromDate=${fromdate}&toDate=${todate}&search=${text}&start=${start}&limit=${limit}`;
-    console.log(url);
-    console.log(Session);
+    // console.log(JSON.parse(Session) + url);
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         setChitPaymentLoading(false);
         if (json.success) {
           setTotalCount(json.total);
@@ -95,7 +94,7 @@ export default function ChitPaymentView() {
         setChitPaymentLoading(false);
         setErrorAlert(true);
         setErrorScreen("error");
-        console.log(error);
+        // console.log(error);
       })
   }
 
@@ -140,6 +139,8 @@ export default function ChitPaymentView() {
 
   const handleChangeRowsPerPage = (event) => {
     setPage(0);
+    setTotalCount(0);
+    setChitPaymentList([]);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 
@@ -169,7 +170,7 @@ export default function ChitPaymentView() {
 
   const HandleFromDateChange = (date) => {
     const DateForSearch = date ? dayjs(date).format('YYYY-MM-DD') : "";
-    console.log('Date to search:', DateForSearch);
+    // console.log('Date to search:', DateForSearch);
     setPage(0);
     setTotalCount(0);
     setChitPaymentList([]);
@@ -181,7 +182,7 @@ export default function ChitPaymentView() {
 
   const HandleToDateChange = (date) => {
     const DateForSearch = date ? dayjs(date).format('YYYY-MM-DD') : "";
-    console.log('Date to search:', DateForSearch);
+    // console.log('Date to search:', DateForSearch);
     setPage(0);
     setTotalCount(0);
     setChitPaymentList([]);
@@ -242,7 +243,7 @@ export default function ChitPaymentView() {
         </Stack>
         {ChitPaymentLoading
           ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-            <img src="../../../../public/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+            <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
           </Stack>
           : <Stack>
             <Scrollbar>

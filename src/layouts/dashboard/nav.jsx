@@ -37,12 +37,11 @@ export default function Nav({ openNav, onCloseNav }) {
   const LogOutMethod = () => {
     setLoading(true);
     const url = `${REACT_APP_HOST_URL}${LOGOUT_URL}`;
-    console.log(JSON.parse(Session));
-    console.log(url);
+    // console.log(JSON.parse(Session)  + url);
     fetch(url, PostHeader(JSON.parse(Session), ''))
       .then((response) => response.json())
       .then((json) => {
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         setLoading(false);
         if (json.success) {
           localStorage.removeItem("apiToken");
@@ -52,7 +51,7 @@ export default function Nav({ openNav, onCloseNav }) {
       })
       .catch((error) => {
         setLoading(false);
-        console.log(error);
+        // console.log(error);
       })
   }
 
@@ -108,7 +107,7 @@ export default function Nav({ openNav, onCloseNav }) {
           color="inherit"
           onClick={Loading ? null : LogOutMethod} >
           {Loading
-            ? (<img src="../../../public/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+            ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
             : ("Logout")}
         </Button>
       </Stack>

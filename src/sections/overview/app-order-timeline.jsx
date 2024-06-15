@@ -19,7 +19,7 @@ export default function AnalyticsOrderTimeline({ title, subheader, list, ...othe
   const navigate = useNavigate();
 
   return (
-    <Card {...other} sx={{ height: 485 }}>
+    <Card {...other} sx={{ height: 470 }}>
       <CardHeader title={title} subheader={subheader} />
 
       <Timeline
@@ -36,7 +36,7 @@ export default function AnalyticsOrderTimeline({ title, subheader, list, ...othe
           <OrderItem key={item.id} item={item} lastTimeline={index === list.length - 1} />
         ))}
       </Timeline>
-      <Stack sx={{ mt: 5 }} alignItems="center" justifyContent="center">
+      <Stack alignItems="center" justifyContent="center">
         <Button sx={{ height: 40, width: 120, }} variant="contained" onClick={() => navigate('/ActivityLog/list')}>
           View All
         </Button>
@@ -55,22 +55,32 @@ AnalyticsOrderTimeline.propTypes = {
 
 function OrderItem({ item, lastTimeline }) {
   const { type, description, created_on } = item;
+
+  const getOperationColor = (types) => {
+    switch (types) {
+      case 'Save':
+        return '#4caf50';
+      case 'Updates':
+        return '#ff9800';
+      case 'Delete':
+        return '#f44336';
+      case 'ACTIVATE':
+        return '#2196f3';
+      default:
+        return '#d32f2f';
+    }
+  };
+
   return (
     <TimelineItem>
       <TimelineSeparator>
-        <TimelineDot
-          color={
-            (type === 'Save' && 'primary') ||
-            (type === 'Delete' && 'success') ||
-            'error'
-          }
-        />
+        <TimelineDot sx={{  backgroundColor: getOperationColor(type), }} />
         {lastTimeline ? null : <TimelineConnector />}
       </TimelineSeparator>
 
       <TimelineContent>
         <Typography variant="subtitle2" >{fDateTime1(created_on)}</Typography>
-        <Typography variant="caption" sx={{ color: 'text.disabled' }}>{description}</Typography>
+        <Typography variant="caption" sx={{ color: 'text.disabled' }}>{description !== null && description !== "" && description !== undefined ? description : '--'}</Typography>
       </TimelineContent>
     </TimelineItem>
   );

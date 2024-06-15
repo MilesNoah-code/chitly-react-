@@ -15,11 +15,11 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Box, Stack, Alert, Button, Dialog, Divider, Snackbar, Typography, IconButton, InputAdornment } from '@mui/material';
+import { Box, Grid, Stack, Alert, Button, Dialog, styled, Divider, Snackbar, Typography, IconButton, InputAdornment } from '@mui/material';
 
 import { GetHeader, PutHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 
-import { MEMBER_VIEW, CHIT_AUCTION_SAVE, CHIT_AUCTION_LIST, REACT_APP_HOST_URL, CHIT_AUCTION_UPDATE, STANDING_INSTRUCTION } from 'src/utils/api-constant';
+import { MEMBER_VIEW, CHIT_AUCTION_SAVE, CHIT_AUCTION_LIST, REACT_APP_HOST_URL, CHIT_ESTIMATE_LIST, CHIT_AUCTION_UPDATE, STANDING_INSTRUCTION, CHIT_AUCTION_MAPPED_UNMAPPED_MEMBER } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
 
@@ -100,12 +100,7 @@ export default function AddChitAuctionPage() {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('name');
     const [selected, setSelected] = useState([]);
-    const [SelectAuctionList, setSelectAuctionMemberList] = useState({
-        add: 0,
-        add_data: '',
-        remove: 0,
-        remove_data: ''
-    });
+    const [SelectAuctionMemberList, setSelectAuctionMemberList] = useState({});
     const [ShowEstimateListAlert, setShowEstimateListAlert] = useState(false);
     const [AddMemberListAlert, setAddMemberListAlert] = useState(false);
     const [page, setPage] = useState(0);
@@ -114,103 +109,12 @@ export default function AddChitAuctionPage() {
     const [ChitAuctionAddMemberList, setChitAuctionAddMemberList] = useState([]);
     const [ChitAuctionAddMemberListLoading, setChitAuctionAddMemberListLoading] = useState(false);
     const [ChitEstimateList, setChitEstimateList] = useState({});
-
-    const existarray = [
-        {
-            "date": null,
-            "id": 1,
-            "branchid": 22,
-            "groupid": 13,
-            "groupno": "CA/GM/5/M/EEET",
-            "amount": 100000.00,
-            "auctiondate": "2024-03-26",
-            "auction_time": "11:00 AM to 11:10 AM",
-            "installno": 1,
-            "installvalue": "100000",
-            "fm_am_name": "Dhanabalan",
-            "fmcode": "3",
-            "dividend": 0.00,
-            "prized_memid": 1,
-            "prized_member_name": "MGM PUSHPAM CHITS PVT LTD.",
-            "prized_group_member_id": 88,
-            "tktno": "1",
-            "maxaucdisc": 0.00,
-            "prized_amount": 100000.00,
-            "auction_no": 1,
-            "foreman_commission": 0.00
-        },
-    ]
     
     useEffect(() => {
         console.log(data);
-        const existingList = existarray;
-        const existingInstno = new Set(existingList.map(item => item.installno));
-
-        // Determine the missing Instno values
-        const missingInstnos = [];
-        let i = 1;
-        while (i <= data.duration) {
-            if (!existingInstno.has(i)) {
-                missingInstnos.push(i);
-            }
-            i += 1;
-        }
-
-        const additionalData = missingInstnos.map((instno, index) => ({
-            id: `id_${instno}`,
-            installno: instno,
-            tktno: instno,
-            auctiondate: null,
-            branchid: 0,
-            groupid: "0",
-            groupno: "0",
-            amount: "0",
-            auction_time: "0",
-            dividend: "0",
-            installvalue: "0",
-            fm_am_name: "",
-            fmcode: "",
-            prized_memid: "",
-            prized_member_name: "",
-            prized_group_member_id: "",
-            maxaucdisc: "", 
-            prized_amount: "",
-            auction_no: "",
-            foreman_commission: "",
-        }));
-        let completeList = [...existingList, ...additionalData];
-        completeList.sort((a, b) => a.Instno - b.Instno);
-        if (AuctionDateArray.length > 0) {
-            const auctionDates = [
-                AuctionDateArray[0].firstauctiondate,
-                AuctionDateArray[0].secondauctiondate,
-                AuctionDateArray[0].thirdauctiondate
-            ];
-
-            completeList = completeList.map((item, index) => {
-                if (!item.auctiondate && index < auctionDates.length) {
-                    return { ...item, auctiondate: auctionDates[index] };
-                }
-                return item;
-            });
-
-            const auctionMode = "monthly";
-            const totalDatesNeeded = data.duration - auctionDates.length;
-            const newAuctionDates = getNextAuctionDates(auctionDates, auctionMode, totalDatesNeeded);
-            console.log(newAuctionDates);
-            let newDateIndex = 0;
-            completeList = completeList.map((item) => {
-                if (!item.auctiondate && newDateIndex < newAuctionDates.length) {
-                    const updatedItem = { ...item, auctiondate: newAuctionDates[newDateIndex] };
-                    newDateIndex += 1;
-                    console.log(updatedItem);
-                    return updatedItem;
-                }
-                return item;
-            });
-        }
-        setChitAuctionList(completeList);
-        // GetChitAuctionEntryList();
+        setChitAuctionAddMemberList([]);
+        setChitAuctionAddMemberListLoading(false);
+        GetChitAuctionEntryList();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [screen]);
 
@@ -227,7 +131,13 @@ export default function AddChitAuctionPage() {
         };
     }, [ScreenRefresh]);
 
-    const AuctionDateArray = [
+    useEffect(() => {
+        GetChitAuctionAddMemberList(filterTicketNo, filterName);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [filterTicketNo, filterName]);
+
+
+    /* const AuctionDateArray = [
         {
             "id": 1,
             "groupId": data.id,
@@ -255,7 +165,6 @@ export default function AddChitAuctionPage() {
             "isAuctionDone": 0,
             "duration": 3 }
     ]
-
     function getNextAuctionDates(auctionDates, auctionMode, totalDatesNeeded) {
         const lastAuctionDate = new Date(auctionDates[auctionDates.length - 1]);
         const newDates = [];
@@ -285,7 +194,7 @@ export default function AddChitAuctionPage() {
             }
         }
         return newDates;
-    }
+    } */
 
     const GetChitAuctionEntryList = () => {
         setChitAuctionLoading(true);
@@ -298,9 +207,8 @@ export default function AddChitAuctionPage() {
                 console.log(JSON.stringify(json));
                 setChitAuctionLoading(false);
                 if (json.success) {
-                    const existingList = existarray;
+                    const existingList = json.list;
                     const existingInstno = new Set(existingList.map(item => item.installno));
-
                     // Determine the missing Instno values
                     const missingInstnos = [];
                     let i = 1;
@@ -310,7 +218,6 @@ export default function AddChitAuctionPage() {
                         }
                         i += 1;
                     }
-
                     const additionalData = missingInstnos.map((instno, index) => ({
                         id: `id_${instno}`,
                         installno: instno,
@@ -328,14 +235,16 @@ export default function AddChitAuctionPage() {
                         prized_memid: "",
                         prized_member_name: "",
                         prized_group_member_id: "",
-                        maxaucdisc: "",
+                        maxaucdisc: "0",
                         prized_amount: "",
                         auction_no: "",
-                        foreman_commission: ""
+                        foreman_commission: "",
                     }));
-                    let completeList = [...existingList, ...additionalData];
+                    const completeList = [...existingList, ...additionalData];
                     completeList.sort((a, b) => a.Instno - b.Instno);
-                    if (AuctionDateArray.length > 0) {
+                    // three auction date is given from the api after that calculate pending auction date
+                    // based on the auction mode for that use the above function (getNextAuctionDates)
+                    /* if (AuctionDateArray.length > 0) {
                         const auctionDates = [
                             AuctionDateArray[0].firstauctiondate,
                             AuctionDateArray[0].secondauctiondate,
@@ -363,7 +272,7 @@ export default function AddChitAuctionPage() {
                             }
                             return item;
                         });
-                    }
+                    } */
                     setChitAuctionList(completeList);
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
@@ -392,15 +301,18 @@ export default function AddChitAuctionPage() {
                 if (json.success) {
                     GetMemberView(json.list.id, datas)
                 } else if (json.success === false) {
+                    setChitAuctionMemberListLoading(false);
                     setAlertMessage(json.message);
                     setAlertFrom("failed");
                     HandleAlertShow();
                 } else {
+                    setChitAuctionMemberListLoading(false);
                     setErrorAlert(true);
                     setErrorScreen("network");
                 }
             })
             .catch((error) => {
+                setChitAuctionMemberListLoading(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
                 // console.log(error);
@@ -414,24 +326,47 @@ export default function AddChitAuctionPage() {
             .then((response) => response.json())
             .then((json) => {
                 console.log(JSON.stringify(json));
+                setChitAuctionMemberListLoading(false);
                 if (json.success) {
-                    if (datas.length > 0) {
-                        const updatedFirstItem = {
-                            ...datas[0],
-                            prized_memid: json.list.id,
-                            prized_member_name: json.list.name,
-                            prized_group_member_id: json.list.accno,
-                        };
-                        const updatedList = [updatedFirstItem];
-                        // console.log('Updated list after updating first item:', updatedList);
-                        setSelectAuctionMemberList({
-                            add: 0,
-                            add_data: updatedFirstItem,
-                            remove: 0,
-                            remove_data: '',
-                            member_edit: 'true'
-                        });
-                        setChitAuctionMemberList(updatedList);
+                    const updatedFirstItem = {
+                        ...datas,
+                        prized_memid: json.list.id,
+                        prized_member_name: json.list.name,
+                        prized_group_member_id: json.list.id,
+                        maxaucdisc: "0",
+                        prized_amount: "",
+                        action: 'delete'
+                    };
+                    const updatedList = [updatedFirstItem];
+                    setSelectAuctionMemberList(updatedFirstItem);
+                    setChitAuctionMemberList(updatedList);
+                } else if (json.success === false) {
+                    setAlertMessage(json.message);
+                    setAlertFrom("failed");
+                    HandleAlertShow();
+                } else {
+                    setErrorAlert(true);
+                    setErrorScreen("network");
+                }
+            })
+            .catch((error) => {
+                setChitAuctionMemberListLoading(false);
+                setErrorAlert(true);
+                setErrorScreen("error");
+                // console.log(error);
+            })
+    }
+
+    const GetChitEstimateList = (groupid, install_no) => {
+        const url = `${REACT_APP_HOST_URL}${CHIT_ESTIMATE_LIST}${groupid}&instNo=${install_no}&start=0&limit=0`;
+        console.log(JSON.parse(Session) + url);
+        fetch(url, GetHeader(JSON.parse(Session)))
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(JSON.stringify(json));
+                if (json.success) {
+                    if (json.list.length > 0){
+                        setChitEstimateList(json.list[0]);
                     }
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
@@ -449,19 +384,42 @@ export default function AddChitAuctionPage() {
             })
     }
 
+    const GetChitAuctionAddMemberList = (tktno, membername) => {
+        setChitAuctionAddMemberListLoading(true);
+        setChitAuctionAddMemberList([]);
+        const url = `${REACT_APP_HOST_URL}${CHIT_AUCTION_MAPPED_UNMAPPED_MEMBER}${data.id}&tokenNo=${tktno}&memberName=${membername}&start=0&limit=0`;
+        console.log(JSON.parse(Session) + url);
+        fetch(url, GetHeader(JSON.parse(Session)))
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(JSON.stringify(json));
+                setChitAuctionAddMemberListLoading(false);
+                if (json.success) {
+                    setChitAuctionAddMemberList(json.list);
+                } else if (json.success === false) {
+                    setAlertMessage(json.message);
+                    setAlertFrom("failed");
+                    HandleAlertShow();
+                } else {
+                    setErrorAlert(true);
+                    setErrorScreen("network");
+                }
+            })
+            .catch((error) => {
+                setChitAuctionAddMemberListLoading(false);
+                setErrorAlert(true);
+                setErrorScreen("error");
+                // console.log(error);
+            })
+    }
+
     const ChitAuctionAddMethod = (IsValidate) => {
         if (IsValidate){
             setLoading(true);
             const ChitAuctionListParams = {
                 "id": 0,
-                "group_id": ChitAuctionList[SelectAuctionList.add].group_id,
-                "install_no": ChitAuctionList[SelectAuctionList.add].install_no,
-                "ticket_no": ChitAuctionList[SelectAuctionList.add].ticket_no,
-                "member_id": ChitAuctionList[SelectAuctionList.add].member_id,
                 "tkt_suffix": "A",
                 "tkt_percentage": "100",
-                "is_active": ChitAuctionList[SelectAuctionList.add].is_active,
-                "comments": ChitAuctionList[SelectAuctionList.add].comments
             };
             const url = `${REACT_APP_HOST_URL}${CHIT_AUCTION_SAVE}`;
             console.log(JSON.stringify(ChitAuctionListParams) + url);
@@ -499,14 +457,8 @@ export default function AddChitAuctionPage() {
             setLoading(true);
             const ChitAuctionListUpdateParams = {
                 "id": 0,
-                "group_id": ChitAuctionList[SelectAuctionList.add].group_id,
-                "install_no": ChitAuctionList[SelectAuctionList.add].install_no,
-                "ticket_no": ChitAuctionList[SelectAuctionList.add].ticket_no,
-                "member_id": ChitAuctionList[SelectAuctionList.add].member_id,
                 "tkt_suffix": "A",
                 "tkt_percentage": "100",
-                "is_active": ChitAuctionList[SelectAuctionList.add].is_active,
-                "comments": ChitAuctionList[SelectAuctionList.add].comments
             };
             const url = `${REACT_APP_HOST_URL}${CHIT_AUCTION_UPDATE}${id}`;
             console.log(JSON.stringify(ChitAuctionListUpdateParams) + url);
@@ -537,7 +489,7 @@ export default function AddChitAuctionPage() {
                     console.log(error);
                 })
         }
-    }
+    };
 
     const ChitAuctionTextValidate = (e, from) => {
         const text = e.target.value;
@@ -747,11 +699,11 @@ export default function AddChitAuctionPage() {
             }));
         }
         if (ChitAuctionList.length > 0){
-            console.log(SelectAuctionList)
-            if (typeof SelectAuctionList.add_data.id === 'string' && SelectAuctionList.add_data.id.includes('id_')){
+            console.log(SelectAuctionMemberList)
+            if (typeof SelectAuctionMemberList.add_data.id === 'string' && SelectAuctionMemberList.add_data.id.includes('id_')){
                 ChitAuctionAddMethod(IsValidate);
             }else{
-                ChitAuctionUpdateMethod(IsValidate, SelectAuctionList.add_data.id);
+                ChitAuctionUpdateMethod(IsValidate, SelectAuctionMemberList.add_data.id);
             }
         }
     }
@@ -802,30 +754,66 @@ export default function AddChitAuctionPage() {
     };
 
     const HandleTimeChange = (time, from) => {
-        setScreenRefresh(pre => pre + 1);
+        setScreenRefresh(prev => prev + 1);
         const DateForSave = time.format('h:mm A');
         console.log('Time to save:', DateForSave, ' ', time);
+        const isValidTimeRange = (fromTime, toTime) => fromTime.isBefore(toTime);
         if (from === "AucFromTime") {
-            setAucFromTime({
-                data: time,
-                data_save: DateForSave,
-                error: ""
-            });
+            console.log('Time to save1:', AucToTime.data, ' ', isValidTimeRange(time, AucToTime.data));
+            if (AucToTime.data && !isValidTimeRange(time, AucToTime.data)) {
+                setAlertMessage("From time must be earlier than To time");
+                setAlertFrom("failed");
+                HandleAlertShow();
+                setAucFromTime({
+                    data: null,
+                    data_save: "",
+                    error: ""
+                });
+            } else {
+                setAucFromTime({
+                    data: time,
+                    data_save: DateForSave,
+                    error: ""
+                });
+            }
         } else if (from === "AucToTime") {
-            setAucToTime({
-                data: time,
-                data_save: DateForSave,
-                error: ""
-            });
-        }
+            console.log('Time to save3:', AucFromTime.data, ' ', isValidTimeRange(time, AucFromTime.data));
+            if (AucFromTime.data && !isValidTimeRange(AucFromTime.data, time)) {
+                setAlertMessage("From time must be earlier than To time");
+                setAlertFrom("failed");
+                HandleAlertShow();
+                setAucFromTime({
+                    data: null,
+                    data_save: "",
+                    error: ""
+                });
+            } else {
+                setAucToTime({
+                    data: time,
+                    data_save: DateForSave,
+                    error: ""
+                });
+            }
+        } 
     };
 
     const HandleShowEstimateClick = () => {
         setShowEstimateListAlert(true);
+        GetChitEstimateList(data.id, SelectAuctionMemberList.installno);
     };
 
     const HandleAddMemberClick = () => {
-        setAddMemberListAlert(true);
+        const isEmptyObject = (obj) =>  Object.keys(obj).length === 0; 
+        if (!isEmptyObject(SelectAuctionMemberList)){
+            if (SelectAuctionMemberList.installno === 1) {
+                setAlertMessage("Can't add member for this auction, This Auction allotted for company.");
+                setAlertFrom("error_alert");
+                HandleAlertShow();
+            } else {
+                setAddMemberListAlert(true);
+                GetChitAuctionAddMemberList(filterTicketNo, filterName)
+            }
+        }
     };
 
     const HandleResetClick = () => {
@@ -854,26 +842,66 @@ export default function AddChitAuctionPage() {
         setSelected(newSelected);
         setSelectAuctionMemberList(item);
         console.log(item);
-        if (from === "company_member"){
-            GetStandingInstructionList(ChitAuctionList);
+        if (from === "auction_list_click"){
+            GetChitEstimateList(data.id, item.installno);
+            if (item.installno === 1){
+                setChitAuctionMemberListLoading(true);
+                GetStandingInstructionList(item);
+            }else{
+                setChitAuctionMemberList([]);
+            }
         }else{
+            const updatedList = {
+                ...item,
+                prized_memid: item.memberid,
+                prized_member_name: item.mem_name,
+                prized_group_member_id: item.memberid,
+                maxaucdisc: "0",
+                prized_amount: "",
+                action: 'delete'
+            };
+            console.log(updatedList);
+            setChitAuctionMemberList([updatedList]);
+            setSelectAuctionMemberList(prevs => ({...prevs}));
             setAddMemberListAlert(false);
         }
     };
 
     const HandleFilterMemberName = (event) => {
         setPage(0);
+        setChitAuctionAddMemberList([]);
         setFilterName(event.target.value);
     };
 
     const HandleFilterTicketNo = (event) => {
         setPage(0);
+        setChitAuctionAddMemberList([]);
         setfilterTicketNo(event.target.value);
     };
 
     const HandleMemberListAlertClose = () => {
         setAddMemberListAlert(false);
     };
+
+    const CustomTextField = styled(TextField)(({ theme }) => ({
+        '& .MuiInputBase-root': {
+            borderBottom: '1px solid', // Add bottom border
+            borderRadius: 0, // Remove border radius
+            padding: '4px', // Adjust padding to reduce size
+            backgroundColor: 'transparent', // Remove background color
+            fontSize: '0.75rem', // Smaller font size
+            height: '32px', // Fixed input height
+            width: '100%', // Ensure it takes full width
+        },
+        '& .MuiInputBase-input': {
+            padding: '0 4px', // Adjust input padding
+            minWidth: 0, // Ensure the input field can shrink to fit
+            fontSize: '0.75rem', // Match font size of input
+        },
+        '& .MuiSvgIcon-root': {
+            fontSize: '1rem', // Decrease icon size
+        },
+    }));
 
     const HandleBack = () => {
         if (ScreenRefresh) {
@@ -968,7 +996,7 @@ export default function AddChitAuctionPage() {
                                                         disabled={screen === "view"}
                                                         defaultValue={dayjs()}
                                                         value={AucFromTime.data}
-                                                        onChange={(date) => HandleTimeChange(date, "AucFromTime")} />
+                                                        onChange={(time) => HandleTimeChange(time, "AucFromTime")} />
                                                 </DemoContainer>
                                             </LocalizationProvider>
                                         </Stack>
@@ -989,7 +1017,7 @@ export default function AddChitAuctionPage() {
                                                         disabled={screen === "view"}
                                                         defaultValue={dayjs()}
                                                         value={AucToTime.data}
-                                                        onChange={(date) => HandleTimeChange(date, "AucToTime")} />
+                                                        onChange={(time) => HandleTimeChange(time, "AucToTime")} />
                                                 </DemoContainer>
                                             </LocalizationProvider>
                                         </Stack>
@@ -1140,107 +1168,126 @@ export default function AddChitAuctionPage() {
                                     </Stack>
                                 </div>
                             </Stack>
-                            <Scrollbar>
-                                <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
-                                    <Table sx={{ minWidth: 800 }}>
-                                        <TableHeader
-                                            order="asc"
-                                            orderBy="name"
-                                            rowCount={ChitAuctionList.length}
-                                            numSelected={selected.length}
-                                            onRequestSort={handleSort}
-                                            onSelectAllClick={handleSelectAllClick}
-                                            headLabel={[
-                                                { id: 'Inst.No', label: 'Inst.No' },
-                                                { id: 'Auc.Date', label: 'Auc.Date' },
-                                                { id: 'Prized Member', label: 'Prized Member' },
-                                            ]} />
-                                        <TableBody>
-                                            {ChitAuctionList
-                                                .map((row, index) => (
-                                                    <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }} onClick={row.installno === 1 ? (event) => handleClick(event, row, "company_member") : null}>
-                                                        <TableCell>{row.installno}</TableCell>
-                                                        <TableCell>{row.auctiondate ? dayjs(row.auctiondate).format('DD-MM-YYYY') : null}</TableCell>
-                                                        <TableCell>{row.prized_member_name}</TableCell>
-                                                    </TableRow>
-                                                ))}
-                                            <TableEmptyRows
-                                                height={77}
-                                                emptyRows={emptyRows(0, 15, ChitAuctionList.length)}
-                                            />
-                                            {ChitAuctionList.length === 0 && <TableNoData query="" />}
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
-                            </Scrollbar>
-                            <Scrollbar>
-                                {ChitAuctionMemberListLoading
-                                    ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-                                        <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
-                                    </Stack>
-                                    : <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
-                                        <Table sx={{ minWidth: 800 }}>
-                                            <TableHeader
-                                                order="asc"
-                                                orderBy="name"
-                                                rowCount={ChitAuctionMemberList.length}
-                                                numSelected={selected.length}
-                                                onRequestSort={handleSort}
-                                                onSelectAllClick={handleSelectAllClick}
-                                                headLabel={[
-                                                    { id: 'Tkt.No', label: 'Tkt.No' },
-                                                    { id: 'Member Name', label: 'Member Name' },
-                                                    { id: 'Max.Auc.Disc', label: 'Max.Auc.Disc' },
-                                                    { id: 'Sign', label: 'Sign' },
-                                                    { id: 'Action', label: 'Action' },
-                                                ]} />
-                                            <TableBody>
-                                                {ChitAuctionMemberList
-                                                    .map((row, index) => (
-                                                        <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }}>
-                                                            <TableCell>{row.tktno}</TableCell>
-                                                            <TableCell>{row.prized_member_name}</TableCell>
-                                                            <TableCell>{row.maxaucdisc}</TableCell>
-                                                            <TableCell>{row.tktno}</TableCell>
-                                                            <TableCell> {row.action === "add" ? ("Add") : ("Delete")}</TableCell>
-                                                        </TableRow>
-                                                    ))}
-                                                <TableEmptyRows
-                                                    height={77}
-                                                    emptyRows={emptyRows(0, 15, ChitAuctionMemberList.length)}
-                                                />
-                                                {ChitAuctionMemberList.length === 0 && <TableNoData query="" />}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>}
-                            </Scrollbar>
-                            <Stack direction='row' alignItems='flex-end'>
-                                <Button sx={{ mr: 5, mt: 2, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
-                                    {Loading
-                                        ? (<img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
-                                        : ("Submit")}
-                                </Button>
-
-                                <Button sx={{ mr: 5, mt: 2, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleResetClick}>
-                                    Reset
-                                </Button>
-                                <Button sx={{ mr: 5, mt: 2, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleAddMemberClick}>
-                                    Add Member
-                                </Button>
-                                <Button sx={{ mr: 5, mt: 2, mb: 3, height: 50, width: 200, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleShowEstimateClick}>
-                                    Show Estimate
-                                </Button>
-                                <Button sx={{ mr: 5, mt: 2, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleDeleteClick}>
-                                    Delete
-                                </Button>
+                            <Grid container spacing={2}>
+                                <Grid item xs={5}>
+                                    <Scrollbar>
+                                        <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
+                                            <Table sx={{ minWidth: 450 }}>
+                                                <TableHeader
+                                                    order="asc"
+                                                    orderBy="name"
+                                                    rowCount={ChitAuctionList.length}
+                                                    numSelected={selected.length}
+                                                    onRequestSort={handleSort}
+                                                    onSelectAllClick={handleSelectAllClick}
+                                                    headLabel={[
+                                                        { id: 'Inst.No', label: 'Inst.No' },
+                                                        { id: 'Auc.Date', label: 'Auc.Date' },
+                                                        { id: 'Prized Member', label: 'Prized Member' },
+                                                    ]} />
+                                                <TableBody>
+                                                    {ChitAuctionList
+                                                        .map((row, index) => (
+                                                            <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); handleClick(event, row, "auction_list_click")}}>
+                                                                <TableCell sx={{ width: '10%' }}>{row.installno}</TableCell>
+                                                                <TableCell sx={{ width: '30%', padding: 0 }}>
+                                                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                                        <DatePicker
+                                                                            id="filled-hidden-label-normal"
+                                                                            value={row.auctiondate != null ? dayjs(row.auctiondate) : null}
+                                                                            onChange={(e) => { e.stopPropagation(); HandleDateChange(e, "auctiondate", row)}}
+                                                                            format="DD-MM-YYYY"
+                                                                            renderInput={(params) => (
+                                                                                <CustomTextField
+                                                                                    {...params}
+                                                                                    variant="filled"
+                                                                                    sx={{ width: '100%', height: '32px' }} />
+                                                                            )} />
+                                                                    </LocalizationProvider>
+                                                                </TableCell>
+                                                                <TableCell sx={{ width: '60%' }}>{row.prized_member_name}</TableCell>
+                                                            </TableRow>
+                                                        ))}
+                                                    <TableEmptyRows
+                                                        height={77}
+                                                        emptyRows={emptyRows(0, 15, ChitAuctionList.length)}
+                                                    />
+                                                    {ChitAuctionList.length === 0 && <TableNoData query="" />}
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+                                    </Scrollbar>
+                                </Grid>
+                                <Grid item xs={7}>
+                                    <Scrollbar>
+                                        <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
+                                            <Table sx={{ minWidth: 550 }}>
+                                                <TableHeader
+                                                    order="asc"
+                                                    orderBy="name"
+                                                    rowCount={ChitAuctionMemberList.length}
+                                                    numSelected={selected.length}
+                                                    onRequestSort={handleSort}
+                                                    onSelectAllClick={handleSelectAllClick}
+                                                    headLabel={[
+                                                        { id: 'Tkt.No', label: 'Tkt.No' },
+                                                        { id: 'Member Name', label: 'Member Name' },
+                                                        { id: 'Max.Auc.Disc', label: 'Max.Auc.Disc' },
+                                                        { id: 'Sign', label: 'Sign' },
+                                                        { id: 'Action', label: 'Action' },
+                                                    ]} />
+                                                {ChitAuctionMemberListLoading
+                                                    ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
+                                                        <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                                                    </Stack>
+                                                    : <TableBody>
+                                                        {ChitAuctionMemberList
+                                                            .map((row, index) => (
+                                                                <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }}>
+                                                                    <TableCell>{row.tktno}</TableCell>
+                                                                    <TableCell>{row.prized_member_name}</TableCell>
+                                                                    <TableCell>{row.maxaucdisc}</TableCell>
+                                                                    <TableCell>{row.tktno}</TableCell>
+                                                                    <TableCell> {row.action === "delete" && ("Delete")}</TableCell>
+                                                                </TableRow>))}
+                                                        <TableEmptyRows
+                                                            height={77}
+                                                            emptyRows={emptyRows(0, 15, ChitAuctionMemberList.length)} />
+                                                        {ChitAuctionMemberList.length === 0 && <TableNoData query="" />}
+                                                    </TableBody>}
+                                            </Table>
+                                        </TableContainer>
+                                    </Scrollbar>
+                                </Grid>
+                            </Grid>
+                            <Stack direction='column' alignItems='flex-end' sx={{ mt: 4, mb: 3, }}>
+                                <Stack direction='row'>
+                                    <Button sx={{ mr: 5, height: 50, width: 100, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
+                                        {Loading
+                                            ? (<img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                                            : ("Submit")}
+                                    </Button>
+                                    <Button sx={{ mr: 3, height: 50, width: 100, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleResetClick}>
+                                        Reset
+                                    </Button>
+                                    <Button sx={{ mr: 3, height: 50, width: 140, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleAddMemberClick}>
+                                        Add Member
+                                    </Button>
+                                    <Button sx={{ mr: 3, height: 50, width: 170, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleShowEstimateClick}>
+                                        Show Estimate
+                                    </Button>
+                                    <Button sx={{ mr: 2, height: 50, width: 100, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleDeleteClick}>
+                                        Delete
+                                    </Button>
+                                </Stack>
                             </Stack>
                         </Stack>}
                 </Box>
             </Card>
-            <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "save_alert" ? 2000 : 1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+            <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "error_alert" ? 2000 : 1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
                 <Alert
                     onClose={HandleAlertClose}
-                    severity={AlertFrom === "failed" || AlertFrom === "save_alert" ? "error" : "success"}
+                    severity={AlertFrom === "failed" || AlertFrom === "error_alert" ? "error" : "success"}
                     variant="filled"
                     sx={{ width: '100%' }} >
                     {AlertMessage}
@@ -1282,10 +1329,9 @@ export default function AddChitAuctionPage() {
                                                     id="outlined-required"
                                                     disabled
                                                     label="Chit Amount"
-                                                    value={Amount.data}
+                                                    value={ChitEstimateList.payment || ""}
                                                     style={{}} />
                                             </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupNo.error}</div>
                                         </Stack>
                                     </div>
                                     <div className='box-grp'>
@@ -1299,10 +1345,9 @@ export default function AddChitAuctionPage() {
                                                     id="outlined-required"
                                                     disabled
                                                     label="Ticket No"
-                                                    value={Amount.data}
+                                                    value={ChitEstimateList.Instno || ""}
                                                     style={{}} />
                                             </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Amount.error}</div>
                                         </Stack>
                                     </div>
                                 </Stack>
@@ -1318,10 +1363,9 @@ export default function AddChitAuctionPage() {
                                                     id="outlined-required"
                                                     disabled
                                                     label="Installment No"
-                                                    value={Amount.data}
+                                                    value={ChitEstimateList.Instno || ""}
                                                     style={{}} />
                                             </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupNo.error}</div>
                                         </Stack>
                                     </div>
                                     <div className='box-grp'>
@@ -1335,10 +1379,9 @@ export default function AddChitAuctionPage() {
                                                     id="outlined-required"
                                                     disabled
                                                     label="Member Name"
-                                                    value={Amount.data}
+                                                    value={ChitEstimateList.name || ""}
                                                     style={{}} />
                                             </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Amount.error}</div>
                                         </Stack>
                                     </div>
                                 </Stack>
@@ -1354,10 +1397,9 @@ export default function AddChitAuctionPage() {
                                                     id="outlined-required"
                                                     disabled
                                                     label="Auction Date"
-                                                    value={Amount.data}
+                                                    value={ChitEstimateList.auctiondate ? dayjs(ChitEstimateList.auctiondate).format('DD-MM-YYYY') : ""}
                                                     style={{}} />
                                             </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupNo.error}</div>
                                         </Stack>
                                     </div>
                                     <div className='box-grp'>
@@ -1371,10 +1413,9 @@ export default function AddChitAuctionPage() {
                                                     id="outlined-required"
                                                     disabled
                                                     label="Less Amount"
-                                                    value={Amount.data}
+                                                    value={ChitEstimateList.less_amount || ""}
                                                     style={{}} />
                                             </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Amount.error}</div>
                                         </Stack>
                                     </div>
                                 </Stack>
@@ -1390,10 +1431,9 @@ export default function AddChitAuctionPage() {
                                                     id="outlined-required"
                                                     disabled
                                                     label="Payment Amount"
-                                                    value={Amount.data}
+                                                    value={ChitEstimateList.payment || ""}
                                                     style={{}} />
                                             </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupNo.error}</div>
                                         </Stack>
                                     </div>
                                     <div className='box-grp'>
@@ -1407,10 +1447,9 @@ export default function AddChitAuctionPage() {
                                                     id="outlined-required"
                                                     disabled
                                                     label="Particulars"
-                                                    value={Amount.data}
+                                                    value={ChitEstimateList.particulars || ""}
                                                     style={{}} />
                                             </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Amount.error}</div>
                                         </Stack>
                                     </div>
                                 </Stack>
@@ -1426,10 +1465,9 @@ export default function AddChitAuctionPage() {
                                                     id="outlined-required"
                                                     disabled
                                                     label="Due Amount"
-                                                    value={Amount.data}
+                                                    value={ChitEstimateList.dueamount || ""}
                                                     style={{}} />
                                             </Stack>
-                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupNo.error}</div>
                                         </Stack>
                                     </div>
                                 </Stack>
@@ -1503,10 +1541,10 @@ export default function AddChitAuctionPage() {
                                         : <TableBody>
                                             {ChitAuctionAddMemberList
                                                 .map((row) => (
-                                                    <TableRow hover tabIndex={-1} role="checkbox" selected={selected.indexOf(row.name) !== -1} onClick={(event) => handleClick(event, row, "")} sx={{ cursor: 'pointer' }}>
-                                                        <TableCell>{row.groupno}</TableCell>
-                                                        <TableCell>{row.tktNo}</TableCell>
-                                                        <TableCell>{row.name}</TableCell>
+                                                    <TableRow hover tabIndex={-1} role="checkbox" onClick={(event) => handleClick(event, row, "")} sx={{ cursor: 'pointer' }}>
+                                                        <TableCell>{row.mem_name}</TableCell>
+                                                        <TableCell>{row.memberid}</TableCell>
+                                                        <TableCell>{row.tktno}</TableCell>
                                                     </TableRow>))}
                                             <TableEmptyRows
                                                 height={77}

@@ -220,8 +220,8 @@ export default function LoginView() {
           left: { xs: 16, md: 24 },
         }}
       /> */}
-      <Stack sx={{ justifyContent: 'center', alignItems: 'center' }}>
-        <img src="/assets/images/img/chitly_logo.png" alt="Loading" style={{ width: 150, height: 100, marginTop: 20 }} />
+      <Stack>
+        <img src="/assets/images/img/chitly_logo.png" alt="Loading" style={{ width: 100, height: 80, marginTop: 20, marginLeft: 20 }} />
       </Stack>
 
       <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>

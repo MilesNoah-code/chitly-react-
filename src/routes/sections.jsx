@@ -22,6 +22,7 @@ export const ChitAuctionPage = lazy(() => import('src/pages/chitauction'));
 export const ChitAuctionAddPage = lazy(() => import('src/sections/chitauction/chitauction-add'));
 export const ActivityLogPage = lazy(() => import('src/pages/activitylog'));
 export const GroupMemberAddPage = lazy(() => import('src/sections/groupmember/groupmember-add'));
+export const ReportPage = lazy(() => import('src/pages/report'));
 
 export default function Router() {
   const isSessionAvailable = localStorage.getItem('apiToken') !== null;
@@ -61,6 +62,7 @@ export default function Router() {
         { path: 'chitestimate/add', element: <ChitEstimateAddPage /> },
         { path: 'chitauction/list', element: <ChitAuctionPage /> },
         { path: 'chitauction/add', element: <ChitAuctionAddPage /> },
+        { path: 'report/list', element: <ReportPage /> },
       ],
     },
     {

@@ -17,7 +17,7 @@ import { Box, Stack, Alert, Button, Dialog, Divider, Snackbar, IconButton, Typog
 
 import { GetHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 
-import { CHIT_RECEIPT_SAVE, REACT_APP_HOST_URL, CHIT_RECEIPT_DETAIL, REQ_CHIT_PARAMETERS, CHIT_PAYMENT_LEDGER_LIST, CHIT_PAYMENT_RECEIPT_NUMBER, CHIT_PAYMENT_UNPAID_GROUP_LIST, } from 'src/utils/api-constant';
+import { CHIT_PAYMENT_SAVE, REACT_APP_HOST_URL, CHIT_PAYMENT_DETAIL, REQ_CHIT_PARAMETERS, CHIT_PAYMENT_LEDGER_LIST, CHIT_PAYMENT_RECEIPT_NUMBER, CHIT_PAYMENT_UNPAID_GROUP_LIST, } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
 
@@ -47,11 +47,11 @@ export default function AddChitPaymentPage() {
         error: ""
     });
     const [MemberName, setMemberName] = useState({
-        data: screen === "view" ? data : "",
+        data: "",
         error: ""
     });
     const [InstallmentNo, setInstallmentNo] = useState({
-        data: screen === "view" ? data : "",
+        data: "",
         error: ""
     });
     const [AccountNo, setAccountNo] = useState({
@@ -71,8 +71,8 @@ export default function AddChitPaymentPage() {
         error: ""
     });
     const [ReceiptDate, setReceiptDate] = useState({
-        data: dayjs(),
-        datasave: dayjs(dayjs()).format('YYYY-MM-DD'),
+        data: screen === "view" ? null : dayjs(),
+        datasave: screen === "view" ? "" : dayjs(dayjs()).format('YYYY-MM-DD'),
         error: ""
     });
 
@@ -95,7 +95,7 @@ export default function AddChitPaymentPage() {
     const [selected, setSelected] = useState([]);
     const [orderBy, setOrderBy] = useState('name');
     const [filterName, setFilterName] = useState('');
-    const [SelectUnPaidGroup, setSelectUnPaidGroup] = useState([]);
+    const [SelectUnPaidGroup, setSelectUnPaidGroup] = useState({});
     const [filterGroupCode, setfilterGroupCode] = useState('');
     const [rowsPerPage, setRowsPerPage] = useState(15);
     const [LedgerListAlert, setLedgerListAlert] = useState(false);
@@ -133,7 +133,7 @@ export default function AddChitPaymentPage() {
 
     const GetChitPaymentView = () => {
         setGroupListLoading(true);
-        const url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_DETAIL}${data.id}`;
+        const url = `${REACT_APP_HOST_URL}${CHIT_PAYMENT_DETAIL}${data.id}`;
         console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -141,32 +141,45 @@ export default function AddChitPaymentPage() {
                 console.log(JSON.stringify(json));
                 setGroupListLoading(false);
                 if (json.success) {
+                    setReceiptDate({
+                        data: json.list.date != null ? dayjs(json.list.date) : null,
+                        datasave: json.list.date != null ? dayjs(json.list.date).format('YYYY-MM-DD') : "",
+                        error: ""
+                    });
                     setGroupNoSearch({
                         data: json.list.groupno != null ? json.list.groupno : "",
                         error: ""
                     });
-                    setReceiptNo({
-                        data: json.list.receiptno != null ? json.list.receiptno : "",
+                    setMemberName({
+                        data: json.list.membername != null ? json.list.membername : "",
                         error: ""
                     });
                     setTicketNo({
                         data: json.list.tktno != null ? json.list.tktno : "",
                         error: ""
                     });
-                    setAccountNo({
-                        data: json.list.accno != null ? json.list.accno : "",
+                    setReceiptNo({
+                        data: json.list.receiptno != null ? Math.round(json.list.receiptno) : "",
+                        error: ""
+                    });
+                    setInstallmentNo({
+                        data: json.list.installment_no != null ? json.list.installment_no : "",
                         error: ""
                     });
                     setMobileNo({
-                        data: json.list.installfrom != null ? json.list.installfrom : "",
+                        data: "",
                         error: ""
                     });
-                    setParticulars({
-                        data: json.list.installto != null ? json.list.installto : "",
+                    setAccountNo({
+                        data: json.list.memberid != null ? json.list.memberid : "",
                         error: ""
                     });
                     setValues({
-                        data: json.list.credit_value != null ? json.list.credit_value : "",
+                        data: json.list.debit_value != null ? json.list.debit_value : "",
+                        error: ""
+                    });
+                    setParticulars({
+                        data: json.list.particulars != null ? json.list.particulars : "",
                         error: ""
                     });
                 } else if (json.success === false) {
@@ -353,18 +366,18 @@ export default function AddChitPaymentPage() {
         "id": 0,
         "branchid": 0,
         "date": ReceiptDate.datasave,
-        "groupid": SelectUnPaidGroup.group_id,
-        "memberid": SelectUnPaidGroup.member_id,
-        "group_member_id": TicketNo.data,
+        "groupid": SelectUnPaidGroup.id,
+        "memberid": SelectUnPaidGroup.memberid,
+        "group_member_id": SelectUnPaidGroup.groupMemberId,
         "tkt_percentage": "100",
         "tkt_suffix": "A",
-        "tktno": SelectUnPaidGroup.group_member_id,
-        "installment_no": MobileNo.data,
+        "tktno": TicketNo.data,
+        "installment_no": InstallmentNo.data,
         "particulars": Particulars.data,
-        "receiptno": "",
-        "cancel": ReceiptNo.data != null ? ReceiptNo.data : "",
-        "debit_value": "",
-        "note": Values.data,
+        "receiptno": ReceiptNo.data != null ? ReceiptNo.data : "",
+        "cancel": "",
+        "debit_value": Values.data,
+        "note": "",
         "status": 0,
         "comments": 0,
         "is_active": 0,
@@ -376,7 +389,7 @@ export default function AddChitPaymentPage() {
             setLoading(true);
             let url = '';
             let Params = '';
-            url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_SAVE}`;
+            url = `${REACT_APP_HOST_URL}${CHIT_PAYMENT_SAVE}`;
             Params = ChitPaymentInfoParams;
             console.log(JSON.stringify(Params) + url);
             fetch(url, PostHeader(JSON.parse(Session), Params))
@@ -625,7 +638,7 @@ export default function AddChitPaymentPage() {
     const HandleAlertClose = () => {
         setAlertOpen(false);
         if (AlertFrom === "success") {
-            // navigate('/chitpayment/list');
+            navigate('/chitpayment/list');
         }
     };
 
@@ -886,6 +899,7 @@ export default function AddChitPaymentPage() {
                                                     <DatePicker
                                                         className='input-box1'
                                                         label="From Date"
+                                                        disabled={screen === "view"}
                                                         value={ReceiptDate.data}
                                                         onChange={HandleDateChange}
                                                         format="DD-MM-YYYY" />
@@ -997,28 +1011,30 @@ export default function AddChitPaymentPage() {
                                 </div>
                             </Stack>
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Mobile No
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <TextField
-                                                required
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                label="Mobile No"
-                                                value={MobileNo.data}
-                                                onChange={(e) => ChitPaymentTextValidate(e, "MobileNo")}
-                                                style={{}} />
+                                {screen === "view"
+                                    ? null
+                                    : <div className='box-grp'>
+                                        <Stack direction='column'>
+                                            <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                Mobile No
+                                            </Typography>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
+                                                <TextField
+                                                    required
+                                                    className='input-box1'
+                                                    id="outlined-required"
+                                                    disabled
+                                                    label="Mobile No"
+                                                    value={MobileNo.data}
+                                                    onChange={(e) => ChitPaymentTextValidate(e, "MobileNo")}
+                                                    style={{}} />
+                                            </Stack>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{MobileNo.error}</div>
                                         </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{MobileNo.error}</div>
-                                    </Stack>
-                                </div>
+                                    </div>}
                                 <div className='box-grp'>
                                     <Stack direction='column'>
-                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2, mr: screen === "view" ? 2 : 0 }} >
                                             Account No
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
@@ -1035,30 +1051,53 @@ export default function AddChitPaymentPage() {
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{AccountNo.error}</div>
                                     </Stack>
                                 </div>
+                                {screen === "view"
+                                    ? <div className='box-grp'>
+                                        <Stack direction='column'>
+                                            <Typography variant='subtitle1' sx={{ mt: 2, ml: 2, }}>
+                                                Value
+                                            </Typography>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
+                                                <TextField
+                                                    required
+                                                    className='input-box1'
+                                                    id="outlined-required"
+                                                    disabled
+                                                    label="Value"
+                                                    value={Values.data}
+                                                    onChange={(e) => ChitPaymentTextValidate(e, "Values")}
+                                                    style={{}} />
+                                            </Stack>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{Values.error}</div>
+                                        </Stack>
+                                    </div>
+                                    : null}
                             </Stack>
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant='subtitle1' sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Value
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <TextField
-                                                required
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                label="Value"
-                                                value={Values.data}
-                                                onChange={(e) => ChitPaymentTextValidate(e, "Values")}
-                                                style={{}} />
+                                {screen === "view"
+                                    ? null
+                                    : <div className='box-grp'>
+                                        <Stack direction='column'>
+                                            <Typography variant='subtitle1' sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                Value
+                                            </Typography>
+                                            <Stack direction='row' sx={{ ml: 0, }}>
+                                                <TextField
+                                                    required
+                                                    className='input-box1'
+                                                    id="outlined-required"
+                                                    disabled
+                                                    label="Value"
+                                                    value={Values.data}
+                                                    onChange={(e) => ChitPaymentTextValidate(e, "Values")}
+                                                    style={{}} />
+                                            </Stack>
+                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{Values.error}</div>
                                         </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{Values.error}</div>
-                                    </Stack>
-                                </div>
+                                    </div>}
                                 <div className='box-grp'>
                                     <Stack direction='column'>
-                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }}>
+                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2, mr: screen === "view" ? 2 : 0 }}>
                                             Particulars
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
@@ -1076,88 +1115,90 @@ export default function AddChitPaymentPage() {
                                     </Stack>
                                 </div>
                             </Stack>
-                            <Stack direction='column' sx={{ mt: 2 }}>
-                                {SelectUnPaidGroup.memberid === 1
-                                    ? null
-                                    : <Stack direction='row' spacing={2} alignItems='center' sx={{ ml: 2, mt: 1 }}>
-                                        <Typography variant='subtitle1' sx={{ ml: 2, mr: 2, mt: 3, mb: '0px' }}>
-                                            Ledger Contra Entry Details
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 1, }} onClick={HandleCreateLedger}>
-                                            <img src="/assets/images/img/rounded_plus.png" alt="Loading" style={{ width: 25, height: 25, }} />
-                                        </Stack>
-                                    </Stack>}
-                                {SelectUnPaidGroup.memberid === 1
-                                    ? null
-                                    : <div style={{ marginLeft: "25px", marginTop: "10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{LedgerNameError}</div>}
-                                <Stack>
-                                    {SelectLedgerList
-                                        .map((row, index) => (
-                                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                                <div className='box-grp'>
-                                                    <Stack direction='column'>
-                                                        <Typography variant='subtitle1' sx={{ ml: 2, mr: 2, mt: 3, mb: '0px' }}>
-                                                            Name
-                                                        </Typography>
-                                                        <Stack direction='row' sx={{ mt: 0, ml: 0 }}>
-                                                            <TextField
-                                                                required
-                                                                className='input-box1'
-                                                                id="outlined-required"
-                                                                disabled
-                                                                label="Name"
-                                                                value={row.name}
-                                                                onChange={(e) => ChitPaymentLedgerTextValidate(e, row, "LedgerName")}
-                                                                style={{}} />
-                                                        </Stack>
-                                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{row.nameerror}</div>
-                                                    </Stack>
-                                                </div>
-                                                <div className='box-grp'>
-                                                    <Stack direction='column'>
-                                                        <Typography variant="subtitle1" sx={{ ml: 2, mt: 2 }}>
-                                                            Value
-                                                        </Typography>
-                                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                                            <TextField
-                                                                required
-                                                                className='input-box1'
-                                                                id="outlined-required"
-                                                                disabled
-                                                                label="Value"
-                                                                value={row.value}
-                                                                onChange={(e) => ChitPaymentLedgerTextValidate(e, row, "LedgerValues")}
-                                                                style={{}} />
-                                                        </Stack>
-                                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{row.valueerror}</div>
-                                                    </Stack>
-                                                </div>
-                                                <div className=' grp-mbl'>
-                                                    <Stack direction='column'>
-                                                        <Typography variant='subtitle1' sx={{ ml: 0, mr: 2, mt: 3, mb: '0px' }} >
-                                                            Particular
-                                                        </Typography>
-                                                        <Stack direction='row' sx={{ ml: -2, }}>
-                                                            <TextField
-                                                                required
-                                                                className='input-box1 width-inp'
-                                                                id="outlined-required"
-                                                                disabled={screen === "view"}
-                                                                label="Particular"
-                                                                value={row.particular}
-                                                                onChange={(e) => ChitPaymentLedgerTextValidate(e, row, "LedgerParticular")}
-                                                                style={{}} />
-                                                        </Stack>
-                                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{row.particularerror}</div>
-                                                    </Stack>
-                                                    <Stack direction='column' sx={{ cursor: 'pointer' }} onClick={() => removeLedgerItem(index)}>
-                                                        <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
-                                                    </Stack>
-                                                </div>
+                            {screen === "view"
+                                ? null
+                                : <Stack direction='column' sx={{ mt: 2 }}>
+                                    {SelectUnPaidGroup.memberid === 1
+                                        ? null
+                                        : <Stack direction='row' spacing={2} alignItems='center' sx={{ ml: 2, mt: 1 }}>
+                                            <Typography variant='subtitle1' sx={{ ml: 2, mr: 2, mt: 3, mb: '0px' }}>
+                                                Ledger Contra Entry Details
+                                            </Typography>
+                                            <Stack direction='row' sx={{ ml: 1, }} onClick={HandleCreateLedger}>
+                                                <img src="/assets/images/img/rounded_plus.png" alt="Loading" style={{ width: 25, height: 25, }} />
                                             </Stack>
-                                        ))}
-                                </Stack>
-                            </Stack>
+                                        </Stack>}
+                                    {SelectUnPaidGroup.memberid === 1
+                                        ? null
+                                        : <div style={{ marginLeft: "25px", marginTop: "10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{LedgerNameError}</div>}
+                                    <Stack>
+                                        {SelectLedgerList
+                                            .map((row, index) => (
+                                                <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                                    <div className='box-grp'>
+                                                        <Stack direction='column'>
+                                                            <Typography variant='subtitle1' sx={{ ml: 2, mr: 2, mt: 3, mb: '0px' }}>
+                                                                Name
+                                                            </Typography>
+                                                            <Stack direction='row' sx={{ mt: 0, ml: 0 }}>
+                                                                <TextField
+                                                                    required
+                                                                    className='input-box1'
+                                                                    id="outlined-required"
+                                                                    disabled
+                                                                    label="Name"
+                                                                    value={row.name}
+                                                                    onChange={(e) => ChitPaymentLedgerTextValidate(e, row, "LedgerName")}
+                                                                    style={{}} />
+                                                            </Stack>
+                                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{row.nameerror}</div>
+                                                        </Stack>
+                                                    </div>
+                                                    <div className='box-grp'>
+                                                        <Stack direction='column'>
+                                                            <Typography variant="subtitle1" sx={{ ml: 2, mt: 2 }}>
+                                                                Value
+                                                            </Typography>
+                                                            <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                                                <TextField
+                                                                    required
+                                                                    className='input-box1'
+                                                                    id="outlined-required"
+                                                                    disabled
+                                                                    label="Value"
+                                                                    value={row.value}
+                                                                    onChange={(e) => ChitPaymentLedgerTextValidate(e, row, "LedgerValues")}
+                                                                    style={{}} />
+                                                            </Stack>
+                                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{row.valueerror}</div>
+                                                        </Stack>
+                                                    </div>
+                                                    <div className=' grp-mbl'>
+                                                        <Stack direction='column'>
+                                                            <Typography variant='subtitle1' sx={{ ml: 0, mr: 2, mt: 3, mb: '0px' }} >
+                                                                Particular
+                                                            </Typography>
+                                                            <Stack direction='row' sx={{ ml: -2, }}>
+                                                                <TextField
+                                                                    required
+                                                                    className='input-box1 width-inp'
+                                                                    id="outlined-required"
+                                                                    disabled={screen === "view"}
+                                                                    label="Particular"
+                                                                    value={row.particular}
+                                                                    onChange={(e) => ChitPaymentLedgerTextValidate(e, row, "LedgerParticular")}
+                                                                    style={{}} />
+                                                            </Stack>
+                                                            <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{row.particularerror}</div>
+                                                        </Stack>
+                                                        <Stack direction='column' sx={{ cursor: 'pointer' }} onClick={() => removeLedgerItem(index)}>
+                                                            <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
+                                                        </Stack>
+                                                    </div>
+                                                </Stack>
+                                            ))}
+                                    </Stack>
+                                </Stack>}
                             {screen === "view"
                                 ? null
                                 : <Stack direction='column' alignItems='flex-end'>

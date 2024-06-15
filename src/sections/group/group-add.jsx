@@ -63,16 +63,18 @@ export default function AddGroupPage() {
 
     useEffect(() => {
         console.log(data);
-        if (!Number.isNaN(data.duration)) {
-            const intValue = parseInt(data.duration, 10);
-            const newList = [];
-            for (let i = 1; i <= intValue;) {
-                newList.push(i);
-                i += 1;
+        if(screen === "edit" || screen === "view"){
+            if (!Number.isNaN(data.duration)) {
+                const intValue = parseInt(data.duration, 10);
+                const newList = [];
+                for (let i = 1; i <= intValue;) {
+                    newList.push(i);
+                    i += 1;
+                }
+                setFMPRDUEArray(newList);
+            } else {
+                setFMPRDUEArray([]);
             }
-            setFMPRDUEArray(newList);
-        } else {
-            setFMPRDUEArray([]);
         }
         const handleBeforeUnload = (event) => {
             if (ScreenRefresh) {

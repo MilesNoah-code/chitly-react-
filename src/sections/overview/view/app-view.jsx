@@ -67,7 +67,7 @@ export default function AppView() {
 
   const GetActivityLogList = () => {
     setActivityLogListLoading(true);
-    const url = `${REACT_APP_HOST_URL}${ACTIVITY_LOG_LIST}start=0&limit=5`;
+    const url = `${REACT_APP_HOST_URL}${ACTIVITY_LOG_LIST}start=0&limit=4`;
     // console.log(JSON.parse(Session) + url);
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
@@ -96,11 +96,11 @@ export default function AppView() {
   const GetDashBoardChartList = () => {
     setCustomerCountBasedGroupListLoading(true);
     const url = `${REACT_APP_HOST_URL}${CUSTOMER_COUNT_BASED_GROUP}`;
-    console.log(JSON.parse(Session) + url);
+    // console.log(JSON.parse(Session) + url);
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         setCustomerCountBasedGroupListLoading(false);
         if (json.success) {
           setCustomerCountBasedGroupList(json.list);
@@ -132,7 +132,7 @@ export default function AppView() {
     }
   }
 
-  const labels = CustomerCountBasedGroupList.map(item => item.amount);
+  const labels = CustomerCountBasedGroupList.map(item => `Rs.${item.amount}`);
   const series = [
     {
       name: 'Members Count',
@@ -197,15 +197,14 @@ export default function AppView() {
 
           <Grid xs={12} md={6} lg={8}>
             <AppWebsiteVisits
-              title="Website Visits"
-              subheader="(+43%) than last year"
+              title="Chit Amount Based Customers Count"
               chart={chartData}
             />
           </Grid>
 
           <Grid xs={12} md={6} lg={4}>
             <AppOrderTimeline
-              title="Recent Activity"
+              title="Recent Activities"
               list={ActivityLogList}
             />
           </Grid>

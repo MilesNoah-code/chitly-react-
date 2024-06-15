@@ -36,7 +36,7 @@ export const CHIT_PAYMENT_CHIT_PARAMETERS = "api/chitPayment/getChitParameters?g
 export const CHIT_PAYMENT_UPDATE_PARTICULAR = "api/chitPayment/updateParticular/";
 export const CHIT_PAYMENT_LIST = "api/chitPayment/list?isActive=";
 export const CHIT_PAYMENT_DELETE = "api/chitPayment/delete/";
-export const CHIT_PAYMENT_UNPAID_GROUP_LIST = "api/chitPayment/unpaidWinnersGroupList?groupNo="
+export const CHIT_PAYMENT_UNPAID_GROUP_LIST = "api/chitPayment/unpaidWinnersGroupList?isActive=1&groupNo="
 
 export const LOGOUT_URL = "api/logout";
 export const CHIT_RECEPT_PENDING_GROUP_LIST = "api/group/pendngGroupList?groupno=";
@@ -66,3 +66,6 @@ export const CHIT_PAYMENT_RECEIPT_NUMBER = "api/chitPayment/lastGenReceiptNoOfGr
 export const DASHBOARD_COUNT = "api/dashboard/list";
 export const ACTIVITY_LOG_LIST = "api/activityLog/list?";
 export const CUSTOMER_COUNT_BASED_GROUP = "api/dashboard/customerCountBasedGroup";
+export const CHIT_AUCTION_MAPPED_UNMAPPED_MEMBER = "api/groupMember/mappedAndUnMappedMember?groupId=";
+export const PAYABLE_REPORT_LIST = "api/activityLog/list?";
+export const RECEIVABLE_REPORT_LIST = "api/activityLog/list?";

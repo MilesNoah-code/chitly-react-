@@ -21,7 +21,7 @@
   }
   .box-grp .input-box1 {
     
-    width: calc(100% - 50px); 
+    width: calc(100% - 20px); 
   }
   
   .box-grp .MuiAutocomplete-root  .MuiTextField-root  {
@@ -37,7 +37,18 @@
   .Muipopper-root{
     background-color: #ccc !important;
   }
+
   @media screen and (max-width: 768px) {
+    .table-grid{
+      width: 100%;
+    }
+    .grid-UI{
+      display: flex;
+      flex-direction: column;
+    }
+    .grid-UI table{
+    width: 100%;
+    }
     .stack-box{
         flex-direction: column !important;
         width: 100% !important;

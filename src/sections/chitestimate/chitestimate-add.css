@@ -12,7 +12,7 @@
   flex-wrap: wrap;
 }
 @media (max-width:768px){
-  .stack-box{
+  .stack-box1{
     flex-direction: column !important;
     width: 100% !important;
     align-items:inherit;

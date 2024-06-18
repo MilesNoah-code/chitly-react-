@@ -126,6 +126,9 @@ export default function Nav({ openNav, onCloseNav }) {
       }}
     >
      
+      <Stack>
+        <img src="/assets/images/img/chitly_logo.png" alt="Loading" style={{ width: 170, height: 80, marginTop: 20, marginLeft: 20 }} />
+      </Stack>
 
       {renderAccount}
 

@@ -9,13 +9,16 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-import { Alert, Snackbar, TableRow, TableCell, IconButton } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { Alert, Snackbar, TableRow, TableCell } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
 
 import { ACTIVITY_LOG_LIST, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
-import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
 import { emptyRows } from 'src/sections/member/utils';
@@ -42,19 +45,27 @@ export default function ActivityLogView() {
   const [ErrorAlert, setErrorAlert] = useState(false);
   const [ErrorScreen, setErrorScreen] = useState('');
   const [TotalCount, setTotalCount] = useState(0);
+  const [FromDate, setFromDate] = useState({
+    data: null,
+    searchdata: "",
+  });
+  const [ToDate, setToDate] = useState({
+    data: null,
+    searchdata: "",
+  });
 
   useEffect(() => {
     setTotalCount(0);
     setActivityLogList([]);
-    GetActivityLogList(page * rowsPerPage, rowsPerPage);
+    GetActivityLogList(FromDate.searchdata, ToDate.searchdata, page * rowsPerPage, rowsPerPage);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, rowsPerPage]);
+  }, [page, rowsPerPage, FromDate, ToDate]);
 
-  const GetActivityLogList = (start, limit) => {
+  const GetActivityLogList = (fromdate, todate, start, limit) => {
     setActivityLogLoading(true);
     setTotalCount(0);
     setActivityLogList([]);
-    const url = `${REACT_APP_HOST_URL}${ACTIVITY_LOG_LIST}start=${start}&limit=${limit}`;
+    const url = `${REACT_APP_HOST_URL}${ACTIVITY_LOG_LIST}fromDate=${fromdate}&toDate=${todate}&start=${start}&limit=${limit}`;
     console.log(JSON.parse(Session) + url);
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
@@ -117,8 +128,28 @@ export default function ActivityLogView() {
     setAlertOpen(false);
   };
 
-  const handleOpenScreen = (row) => {
-    
+  const HandleFromDateChange = (date) => {
+    const DateForSearch = date ? dayjs(date).format('YYYY-MM-DD') : "";
+    // console.log('Date to search:', DateForSearch);
+    setPage(0);
+    setTotalCount(0);
+    setActivityLogList([]);
+    setFromDate({
+      data: date,
+      searchdata: DateForSearch === "Invalid Date" || DateForSearch === undefined || DateForSearch === null ? "" : DateForSearch
+    });
+  };
+
+  const HandleToDateChange = (date) => {
+    const DateForSearch = date ? dayjs(date).format('YYYY-MM-DD') : "";
+    console.log('Date to search:', DateForSearch);
+    setPage(0);
+    setTotalCount(0);
+    setActivityLogList([]);
+    setToDate({
+      data: date,
+      searchdata: DateForSearch === "Invalid Date" || DateForSearch === undefined || DateForSearch === null ? "" : DateForSearch
+    });
   };
 
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
@@ -129,6 +160,28 @@ export default function ActivityLogView() {
         <Typography variant="h6" sx={{ color: '#637381' }}>Activity Log List</Typography>
       </Stack>
       <Card>
+        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='40px' className='mbl-view'>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer components={['DatePicker']} >
+              <DatePicker
+                label="From Date"
+                value={FromDate.data}
+                onChange={HandleFromDateChange}
+                disabled={ActivityLogLoading}
+                format="DD-MM-YYYY" />
+            </DemoContainer>
+          </LocalizationProvider>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DemoContainer components={['DatePicker']}>
+              <DatePicker
+                label="To Date"
+                value={ToDate.data}
+                onChange={HandleToDateChange}
+                disabled={ActivityLogLoading}
+                format="DD-MM-YYYY" />
+            </DemoContainer>
+          </LocalizationProvider>
+        </Stack>
         {ActivityLogLoading
           ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
@@ -153,7 +206,6 @@ export default function ActivityLogView() {
                       { id: 'Type', label: 'Type' },
                       { id: 'Reference', label: 'Reference' },
                       { id: 'Amount', label: 'Amount' },
-                      { id: 'Action', label: 'Action' },
                     ]} />
                   <TableBody>
                     {ActivityLogList
@@ -162,17 +214,12 @@ export default function ActivityLogView() {
                         <TableRow hover tabIndex={-1} role="checkbox" selected={selected.indexOf(row.name) !== -1}>
                           <TableCell>{row.created_on ? dayjs(row.created_on).format('DD-MM-YYYY') : ""}</TableCell>
                           <TableCell>{row.date ? dayjs(row.date).format('DD-MM-YYYY') : ""}</TableCell>
-                          <TableCell>{row.created_by}</TableCell>
+                          <TableCell>{row.username}</TableCell>
                           <TableCell>{row.domain}</TableCell>
                           <TableCell>{row.description}</TableCell>
                           <TableCell>{row.type}</TableCell>
                           <TableCell>{row.ref_type}</TableCell>
                           <TableCell>{row.amount != null && row.amount !== "" ? Math.round(row.amount) : ""}</TableCell>
-                          <TableCell >
-                            <IconButton onClick={() => handleOpenScreen(row)} sx={{ cursor: 'pointer' }}>
-                              <Iconify icon="eva:info-fill" />
-                            </IconButton>
-                          </TableCell>
                         </TableRow>
                       ))}
                     <TableEmptyRows

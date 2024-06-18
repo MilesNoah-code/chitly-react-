@@ -46,6 +46,11 @@ const navConfig = [
     title: 'Chit Payment',
     path: '/chitpayment/list',
     icon: icon('chitpayment'),
+  },
+  {
+    title: 'Reports',
+    path: '/report/list',
+    icon: icon('report'),
   }
 ];
 

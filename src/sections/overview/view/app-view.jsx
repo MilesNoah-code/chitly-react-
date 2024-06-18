@@ -67,7 +67,7 @@ export default function AppView() {
 
   const GetActivityLogList = () => {
     setActivityLogListLoading(true);
-    const url = `${REACT_APP_HOST_URL}${ACTIVITY_LOG_LIST}start=0&limit=5`;
+    const url = `${REACT_APP_HOST_URL}${ACTIVITY_LOG_LIST}start=0&limit=4`;
     // console.log(JSON.parse(Session) + url);
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
@@ -96,11 +96,11 @@ export default function AppView() {
   const GetDashBoardChartList = () => {
     setCustomerCountBasedGroupListLoading(true);
     const url = `${REACT_APP_HOST_URL}${CUSTOMER_COUNT_BASED_GROUP}`;
-    console.log(JSON.parse(Session) + url);
+    // console.log(JSON.parse(Session) + url);
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         setCustomerCountBasedGroupListLoading(false);
         if (json.success) {
           setCustomerCountBasedGroupList(json.list);
@@ -132,7 +132,7 @@ export default function AppView() {
     }
   }
 
-  const labels = CustomerCountBasedGroupList.map(item => item.amount);
+  const labels = CustomerCountBasedGroupList.map(item => `Rs.${item.amount}`);
   const series = [
     {
       name: 'Members Count',
@@ -164,7 +164,7 @@ export default function AppView() {
               title="Number of Customers"
               total={DashBoardCount && DashBoardCount.memberCount ? DashBoardCount.memberCount : "0"}
               color="success"
-              icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
+              icon={<img alt="icon" src="/assets/icons/glass/dashboard_member.png" />}
             />
           </Grid>
 
@@ -173,7 +173,7 @@ export default function AppView() {
               title="Number of Active Groups"
               total={DashBoardCount && DashBoardCount.groupCount ? DashBoardCount.groupCount : "0"}
               color="info"
-              icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+              icon={<img alt="icon" src="/assets/icons/glass/dashboard_group.png" />}
             />
           </Grid>
 
@@ -182,7 +182,7 @@ export default function AppView() {
               title="Total Receipt this Month"
               total={DashBoardCount && DashBoardCount.receiptCount ? DashBoardCount.receiptCount : "0"}
               color="warning"
-              icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
+              icon={<img alt="icon" src="/assets/icons/glass/dashboard_receipt.png" />}
             />
           </Grid>
 
@@ -191,21 +191,20 @@ export default function AppView() {
               title="Total Payment this Month"
               total={DashBoardCount && DashBoardCount.paymentCount ? DashBoardCount.paymentCount : "0"}
               color="error"
-              icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
+              icon={<img alt="icon" src="/assets/icons/glass/dashboard_payment.png" />}
             />
           </Grid>
 
           <Grid xs={12} md={6} lg={8}>
             <AppWebsiteVisits
-              title="Website Visits"
-              subheader="(+43%) than last year"
+              title="Chit Amount Based Customers Count"
               chart={chartData}
             />
           </Grid>
 
           <Grid xs={12} md={6} lg={4}>
             <AppOrderTimeline
-              title="Recent Activity"
+              title="Recent Activities"
               list={ActivityLogList}
             />
           </Grid>

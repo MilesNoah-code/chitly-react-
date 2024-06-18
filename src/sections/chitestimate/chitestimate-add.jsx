@@ -42,7 +42,7 @@ export default function AddChitEstimatePage() {
         error: ""
     });
     const [ForemanPrDue, setForemanPrDue] = useState({
-        data: "",
+        data: data && data.fmprdue ? data.fmprdue : "",
         error: ""
     });
     const [Amount, setAmount] = useState({
@@ -50,7 +50,7 @@ export default function AddChitEstimatePage() {
         error: ""
     });
     const [Dividend, setDividend] = useState({
-        data: "",
+        data: data && data.divident_distribute ? data.divident_distribute : "",
         error: ""
     });
     const [Duration, setDuration] = useState({
@@ -93,6 +93,7 @@ export default function AddChitEstimatePage() {
     });
 
     useEffect(() => {
+        console.log(data)
         GetChitEstimateList();
         GetChitEstimateMemberList();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -695,61 +696,76 @@ export default function AddChitEstimatePage() {
         );
     };
 
-    const ChitEstimateListTextValidate = (e, item, from) => {
+    const ChitEstimateListTextValidate = (e, item, index, from) => {
         const text = e.target.value;
-        setScreenRefresh(pre => pre + 1);
-        // console.log(from);
+        const TextValue = text.trim() !== "" ? parseFloat(text) : 0; // Ensure TextValue is a number
+        console.log(from);
         setChitEstimateList(prevState =>
-            prevState.map(prev => {
+            prevState.map((prev, idx, array) => {
                 if (text.trim() !== "") {
                     setChitEstimateListAdd(pre => pre + 1);
                 } else {
                     setChitEstimateListAdd(0);
                 }
+
                 const ids = String(item.id).startsWith('id_') ? item.id.replace(/^id_/, '') : item.id;
-                if (prev === item) {
+                let CaculateLessAmount = prev.less_amount;
+                let CaculatePayment = prev.payment;
+                let CaculateDueAmount = prev.dueamount;
+                console.log("data.emdue--> ", data.emdue);
+                if (data.divident_distribute === "Current Month") {
                     if (from === "dueamount") {
-                        return {
-                            ...prev,
-                            id: ids,
-                            dueamount: text.trim() !== "" ? text : "",
-                        };
+                        CaculateLessAmount = data.amount - (TextValue * data.duration) - prev.fm_commission;
+                        CaculateDueAmount = TextValue;
+                        console.log("CaculateLessAmount--> ", CaculateLessAmount);
+                    } else if (from === "fm_commission") {
+                        console.log("TextValue--> ", TextValue);
+                        CaculateLessAmount = prev.less_amount;
+                        CaculateDueAmount = data.emdue - ((CaculateLessAmount - TextValue) / data.duration);
+                        console.log("CaculateDueAmount--> ", CaculateDueAmount);
+                    } else if (from === "less_amount") {
+                        console.log("TextValue--> ", TextValue);
+                        CaculateLessAmount = TextValue;
+                        CaculateDueAmount = data.emdue - ((TextValue - prev.fm_commission) / data.duration);
+                        console.log("CaculateDueAmount--> ", CaculateDueAmount);
                     }
-                    if (from === "less_amount") {
-                        return {
-                            ...prev,
-                            id: ids,
-                            less_amount: text.trim() !== "" ? text : "",
-                        };
+                    CaculatePayment = data.amount - CaculateLessAmount - prev.gst_value - prev.doc_charge_value;
+                    console.log("CaculatePayment--> ", CaculatePayment);
+                } else if (data.divident_distribute === "Next Month") {
+                    if (from === "dueamount") {
+                        if (index - 1 >= 0 && index + 1 < array.length) {
+                            array[index - 1].dueamount = data.amount - (TextValue * data.duration) - array[index + 1].fm_commission;
+                        }
+                        CaculateDueAmount = TextValue;
+                        console.log("CaculateLessAmount--> ", CaculateLessAmount);
+                    } else if (from === "fm_commission") {
+                        if (index + 1 < array.length) {
+                            console.log("TextValue--> ", TextValue);
+                            CaculateLessAmount = ((data.emdue - array[index + 1].dueamount) * data.duration) + TextValue;
+                            console.log("CaculateDueAmount--> ", CaculateDueAmount);
+                        }
+                    } else if (from === "less_amount") {
+                        if (index + 1 < array.length) {
+                            console.log("TextValue--> ", TextValue);
+                            CaculateLessAmount = TextValue;
+                            array[index + 1].dueamount = data.emdue - ((TextValue - prev.fm_commission) / data.duration);
+                            console.log("CaculateDueAmount--> ", CaculateDueAmount);
+                        }
                     }
-                    if (from === "fm_commission") {
-                        return {
-                            ...prev,
-                            id: ids,
-                            fm_commission: text.trim() !== "" ? text : "",
-                        };
-                    }
-                    if (from === "gst_value") {
-                        return {
-                            ...prev,
-                            id: ids,
-                            gst_value: text.trim() !== "" ? text : "",
-                        };
-                    }
-                    if (from === "doc_charge_value") {
-                        return {
-                            ...prev,
-                            id: ids,
-                            doc_charge_value: text.trim() !== "" ? text : "",
-                        };
-                    }
-                    if (from === "payment") {
-                        return {
-                            ...prev,
-                            id: ids,
-                            payment: text.trim() !== "" ? text : "",
-                        };
-                    }
+                    CaculatePayment = data.amount - CaculateLessAmount - prev.gst_value - prev.doc_charge_value;
+                    console.log("CaculatePayment--> ", CaculatePayment);
+                }
+                if (prev === item) {
+                    return {
+                        ...prev,
+                        id: ids,
+                        dueamount: from === "dueamount" || from === "fm_commission" ? Math.round(CaculateDueAmount) : prev.dueamount,
+                        less_amount: from === "less_amount" || from === "dueamount" ? Math.round(CaculateLessAmount) : prev.less_amount,
+                        fm_commission: from === "fm_commission" ? TextValue : prev.fm_commission,
+                        gst_value: from === "gst_value" ? TextValue : prev.gst_value,
+                        doc_charge_value: from === "doc_charge_value" ? TextValue : prev.doc_charge_value,
+                        payment: from === "payment" || from === "dueamount" || from === "fm_commission" ? Math.round(CaculatePayment) : prev.payment,
+                    };
                 }
                 return prev;
             })
@@ -940,14 +956,21 @@ export default function AddChitEstimatePage() {
 
     const CustomTextField = styled(TextField)(({ theme }) => ({
         '& .MuiInputBase-root': {
-            borderBottom: '1px solid', // Add bottom border
-            borderRadius: 0, // Remove border radius
-            padding: '10px 0', // Adjust padding to match filled input
-            backgroundColor: 'transparent', // Remove background color
-            overflow: 'hidden', // Prevent overflow
+            borderBottom: '1px solid',
+            borderRadius: 0,
+            padding: '4px',
+            backgroundColor: 'transparent',
+            fontSize: '0.75rem',
+            height: '32px',
+            width: '100%',
         },
         '& .MuiInputBase-input': {
-            padding: '10px 0', // Adjust input padding
+            padding: '0 4px',
+            minWidth: 0,
+            fontSize: '0.75rem',
+        },
+        '& .MuiSvgIcon-root': {
+            fontSize: '1rem',
         },
     }));
     
@@ -983,7 +1006,6 @@ export default function AddChitEstimatePage() {
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <TextField
-                                                // required
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
@@ -1002,7 +1024,6 @@ export default function AddChitEstimatePage() {
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <TextField
-                                                // required
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
@@ -1064,7 +1085,6 @@ export default function AddChitEstimatePage() {
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
                                                 className='input-box1'
-                                                // required
                                                 id="outlined-required"
                                                 disabled
                                                 label="Duration"
@@ -1093,17 +1113,16 @@ export default function AddChitEstimatePage() {
                                                 { id: 'Less.Amt', label: 'Less.Amt' },
                                                 { id: 'FM.com.Amt', label: 'FM.com.Amt' },
                                                 { id: 'GST', label: 'GST' },
-                                                { id: 'Doc charge', label: 'Doc charge' },
                                                 { id: 'Payment', label: 'Payment' },
                                             ]} />
                                         <TableBody>
                                             {ChitEstimateList
-                                                .map((row) => (
+                                                .map((row, index) => (
                                                     <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }}>
                                                         <TableCell>{row.Instno}</TableCell>
                                                         <TableCell sx={{ width: 200 }}>
                                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                                <DemoContainer components={['DatePicker']} sx={{ width: 200, overflow: 'hidden' }}>
+                                                                <DemoContainer components={['DatePicker']} sx={{ width: 250, overflow: 'hidden' }}>
                                                                     <DatePicker
                                                                         id="filled-hidden-label-normal"
                                                                         value={row.auctiondate != null ? dayjs(row.auctiondate) : null}
@@ -1124,7 +1143,7 @@ export default function AddChitEstimatePage() {
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 value={row.dueamount}
-                                                                onChange={(e) => ChitEstimateListTextValidate(e, row, "dueamount")}
+                                                                onChange={(e) => ChitEstimateListTextValidate(e, row, index, "dueamount")}
                                                                 sx={{
                                                                     backgroundColor: 'transparent',
                                                                     '& .MuiFilledInput-root': {
@@ -1135,6 +1154,12 @@ export default function AddChitEstimatePage() {
                                                                         '&.Mui-focused': {
                                                                             backgroundColor: 'transparent',
                                                                         },
+                                                                        '&.Mui-disabled': {
+                                                                            backgroundColor: 'transparent',
+                                                                        },
+                                                                    },
+                                                                    '& .Mui-disabled': {
+                                                                        '-webkit-text-fill-color': 'currentColor',
                                                                     },
                                                                 }} />  
                                                         </TableCell>
@@ -1143,7 +1168,7 @@ export default function AddChitEstimatePage() {
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 value={row.less_amount}
-                                                                onChange={(e) => ChitEstimateListTextValidate(e, row, "less_amount")}
+                                                                onChange={(e) => ChitEstimateListTextValidate(e, row, index, "less_amount")}
                                                                 sx={{
                                                                     backgroundColor: 'transparent',
                                                                     '& .MuiFilledInput-root': {
@@ -1154,6 +1179,12 @@ export default function AddChitEstimatePage() {
                                                                         '&.Mui-focused': {
                                                                             backgroundColor: 'transparent',
                                                                         },
+                                                                        '&.Mui-disabled': {
+                                                                            backgroundColor: 'transparent',
+                                                                        },
+                                                                    },
+                                                                    '& .Mui-disabled': {
+                                                                        '-webkit-text-fill-color': 'currentColor',
                                                                     },
                                                                 }} />
                                                         </TableCell>
@@ -1162,7 +1193,7 @@ export default function AddChitEstimatePage() {
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 value={row.fm_commission}
-                                                                onChange={(e) => ChitEstimateListTextValidate(e, row, "fm_commission")}
+                                                                onChange={(e) => ChitEstimateListTextValidate(e, row, index, "fm_commission")}
                                                                 sx={{
                                                                     backgroundColor: 'transparent',
                                                                     '& .MuiFilledInput-root': {
@@ -1173,6 +1204,12 @@ export default function AddChitEstimatePage() {
                                                                         '&.Mui-focused': {
                                                                             backgroundColor: 'transparent',
                                                                         },
+                                                                        '&.Mui-disabled': {
+                                                                            backgroundColor: 'transparent',
+                                                                        },
+                                                                    },
+                                                                    '& .Mui-disabled': {
+                                                                        '-webkit-text-fill-color': 'currentColor',
                                                                     },
                                                                 }} />
                                                         </TableCell>
@@ -1181,7 +1218,7 @@ export default function AddChitEstimatePage() {
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 value={row.gst_value}
-                                                                onChange={(e) => ChitEstimateListTextValidate(e, row, "gst_value")}
+                                                                onChange={(e) => ChitEstimateListTextValidate(e, row, index, "gst_value")}
                                                                 sx={{
                                                                     backgroundColor: 'transparent',
                                                                     '& .MuiFilledInput-root': {
@@ -1190,27 +1227,14 @@ export default function AddChitEstimatePage() {
                                                                             backgroundColor: 'transparent',
                                                                         },
                                                                         '&.Mui-focused': {
+                                                                            backgroundColor: 'transparent',
+                                                                        },
+                                                                        '&.Mui-disabled': {
                                                                             backgroundColor: 'transparent',
                                                                         },
                                                                     },
-                                                                }} />
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <TextField
-                                                                id="filled-hidden-label-normal"
-                                                                variant="filled"
-                                                                value={row.doc_charge_value}
-                                                                onChange={(e) => ChitEstimateListTextValidate(e, row, "doc_charge_value")}
-                                                                sx={{
-                                                                    backgroundColor: 'transparent',
-                                                                    '& .MuiFilledInput-root': {
-                                                                        backgroundColor: 'transparent',
-                                                                        '&:hover': {
-                                                                            backgroundColor: 'transparent',
-                                                                        },
-                                                                        '&.Mui-focused': {
-                                                                            backgroundColor: 'transparent',
-                                                                        },
+                                                                    '& .Mui-disabled': {
+                                                                        '-webkit-text-fill-color': 'currentColor',
                                                                     },
                                                                 }} />
                                                         </TableCell>
@@ -1219,7 +1243,8 @@ export default function AddChitEstimatePage() {
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 value={row.payment}
-                                                                onChange={(e) => ChitEstimateListTextValidate(e, row, "payment")}
+                                                                disabled
+                                                                onChange={(e) => ChitEstimateListTextValidate(e, row, index, "payment")}
                                                                 sx={{
                                                                     backgroundColor: 'transparent',
                                                                     '& .MuiFilledInput-root': {
@@ -1230,8 +1255,14 @@ export default function AddChitEstimatePage() {
                                                                         '&.Mui-focused': {
                                                                             backgroundColor: 'transparent',
                                                                         },
+                                                                        '&.Mui-disabled': {
+                                                                            backgroundColor: 'transparent',
+                                                                        },
                                                                     },
-                                                                }} />
+                                                                    '& .Mui-disabled': {
+                                                                        '-webkit-text-fill-color': 'currentColor',
+                                                                    },
+                                                                }}/>
                                                         </TableCell>
                                                     </TableRow>
                                                 ))}

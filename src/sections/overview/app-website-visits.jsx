@@ -26,6 +26,38 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
     },
     xaxis: {
       categories: labels, // Use labels as categories for x-axis
+      title: {
+        text: 'Chit Amount', // Set your x-axis label here
+        style: {
+          fontSize: '15px',
+          fontWeight: 'bold',
+          color: '#333',
+        },
+        offsetY: 5, // Adjust the vertical position of the x-axis label
+      },
+      labels: {
+        style: {
+          fontSize: '14px',
+          colors: '#333',
+        },
+      },
+    },
+    yaxis: {
+      title: {
+        text: 'Number of Customers',
+        style: {
+          fontSize: '15px',
+          fontWeight: 'bold',
+          color: '#333',
+        },
+        offsetX: -5, // Adjust the horizontal position of the y-axis label
+      },
+      labels: {
+        style: {
+          fontSize: '14px',
+          colors: '#333',
+        },
+      },
     },
     tooltip: {
       shared: true,
@@ -34,6 +66,7 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
         formatter: (value) => `${value.toFixed(0)}`,
       },
     },
+    colors: ['#71a619'],
     ...options,
   });
 

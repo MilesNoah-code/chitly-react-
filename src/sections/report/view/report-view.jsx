@@ -1,15 +1,10 @@
-import dayjs from 'dayjs';
 import { useState, useEffect, } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import { TabList, TabPanel, TabContext } from '@mui/lab';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Box, Tab, Stack, Alert, Table, Button, Snackbar, TableRow, TableCell, TableBody, Typography, TableContainer, TablePagination } from '@mui/material';
+import { Box, Tab, Stack, Alert, Table, Button, Snackbar, TableRow, TableCell, TableBody, TextField, Typography, TableContainer, InputAdornment, TablePagination } from '@mui/material';
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
 
@@ -17,6 +12,7 @@ import { REACT_APP_HOST_URL, PAYABLE_REPORT_LIST, RECEIVABLE_REPORT_LIST } from 
 
 import ErrorLayout from 'src/Error/ErrorLayout';
 
+import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
 import { emptyRows } from 'src/sections/member/utils';
@@ -46,38 +42,24 @@ export default function ReportView() {
     const [AlertFrom, setAlertFrom] = useState('');
     const [ErrorAlert, setErrorAlert] = useState(false);
     const [ErrorScreen, setErrorScreen] = useState('');
-    const [FromDate, setFromDate] = useState({
-        data: null,
-        searchdata: "",
-    });
-    const [ToDate, setToDate] = useState({
-        data: null,
-        searchdata: "",
-    });
-    const [FromDate1, setFromDate1] = useState({
-        data: null,
-        searchdata: "",
-    });
-    const [ToDate1, setToDate1] = useState({
-        data: null,
-        searchdata: "",
-    });
+    const [GroupNoSearch, setGroupNoSearch] = useState('');
+    const [GroupNoSearch1, setGroupNoSearch1] = useState('');
     
     useEffect(() => {
-        GetPayableReportList(FromDate.searchdata, ToDate.searchdata, page * rowsPerPage, rowsPerPage);
+        GetPayableReportList(GroupNoSearch, page * rowsPerPage, rowsPerPage);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page, rowsPerPage, FromDate, ToDate]);
+    }, [page, rowsPerPage, GroupNoSearch]);
 
     useEffect(() => {
-        GetReceivableReportList(FromDate1.searchdata, ToDate1.searchdata, page1 * rowsPerPage1, rowsPerPage1);
+        GetReceivableReportList(GroupNoSearch1, page1 * rowsPerPage1, rowsPerPage1);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page1, rowsPerPage1, FromDate1, ToDate1]);
+    }, [page1, rowsPerPage1, GroupNoSearch1]);
 
-    const GetPayableReportList = (fromdate, todate, start, limit) => {
+    const GetPayableReportList = (groupno, start, limit) => {
         setPayableReportLoading(true);
         setTotalCount(0);
         setPayableReportList([]);
-        const url = `${REACT_APP_HOST_URL}${PAYABLE_REPORT_LIST}fromDate=${fromdate}&toDate=${todate}&start=${start}&limit=${limit}`;
+        const url = `${REACT_APP_HOST_URL}${PAYABLE_REPORT_LIST}${groupno}&start=${start}&limit=${limit}`;
         console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -104,11 +86,11 @@ export default function ReportView() {
             })
     }
 
-    const GetReceivableReportList = (fromdate, todate, start, limit) => {
+    const GetReceivableReportList = (groupno, start, limit) => {
         setReceivableReportLoading(true);
         setTotalCount1(0);
         setPayableReportList([]);
-        const url = `${REACT_APP_HOST_URL}${RECEIVABLE_REPORT_LIST}fromDate=${fromdate}&toDate=${todate}&start=${start}&limit=${limit}`;
+        const url = `${REACT_APP_HOST_URL}${RECEIVABLE_REPORT_LIST}${groupno}&start=${start}&limit=${limit}`;
         console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -169,47 +151,17 @@ export default function ReportView() {
         }
     };
 
-    const HandleFromDateChange = (date, from) => {
-        const DateForSearch = date ? dayjs(date).format('YYYY-MM-DD') : "";
-        // console.log('Date to search:', DateForSearch);
-        if (from === "PayableReportList"){
-            setPage(0);
-            setTotalCount(0);
-            setPayableReportList([]);
-            setFromDate({
-                data: date,
-                searchdata: DateForSearch === "Invalid Date" || DateForSearch === undefined || DateForSearch === null ? "" : DateForSearch
-            });
-        }else{
-            setPage1(0);
-            setTotalCount1(0);
-            setReceivableReportList([]);
-            setFromDate1({
-                data: date,
-                searchdata: DateForSearch === "Invalid Date" || DateForSearch === undefined || DateForSearch === null ? "" : DateForSearch
-            });
-        } 
-    };
-
-    const HandleToDateChange = (date, from) => {
-        const DateForSearch = date ? dayjs(date).format('YYYY-MM-DD') : "";
-        console.log('Date to search:', DateForSearch);
+    const handleFilterByGroupNo = (event, from) => {
         if (from === "PayableReportList") {
             setPage(0);
             setTotalCount(0);
             setPayableReportList([]);
-            setToDate({
-                data: date,
-                searchdata: DateForSearch === "Invalid Date" || DateForSearch === undefined || DateForSearch === null ? "" : DateForSearch
-            });
+            setGroupNoSearch(event.target.value);
         } else {
             setPage1(0);
             setTotalCount1(0);
             setReceivableReportList([]);
-            setToDate1({
-                data: date,
-                searchdata: DateForSearch === "Invalid Date" || DateForSearch === undefined || DateForSearch === null ? "" : DateForSearch
-            });
+            setGroupNoSearch1(event.target.value);
         }
     };
 
@@ -256,26 +208,21 @@ export default function ReportView() {
                             </Box>
                             <TabPanel value="1">
                                 <Stack mb={2} mr={3} direction="row" alignItems="center" gap='40px' className='mbl-view'>
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DemoContainer components={['DatePicker']} >
-                                            <DatePicker
-                                                label="From Date"
-                                                value={FromDate.data}
-                                                onChange={(date) => HandleFromDateChange(date, "PayableReportList")}
-                                                disabled={PayableReportLoading}
-                                                format="DD-MM-YYYY" />
-                                        </DemoContainer>
-                                    </LocalizationProvider>
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DemoContainer components={['DatePicker']}>
-                                            <DatePicker
-                                                label="To Date"
-                                                value={ToDate.data}
-                                                onChange={(date) => HandleToDateChange(date, "PayableReportList")}
-                                                disabled={PayableReportLoading}
-                                                format="DD-MM-YYYY" />
-                                        </DemoContainer>
-                                    </LocalizationProvider>
+                                    <TextField
+                                        placeholder="Search Group..."
+                                        value={GroupNoSearch}
+                                        onChange={(e) => handleFilterByGroupNo(e, "PayableReportList")}
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <Iconify
+                                                        icon="eva:search-fill"
+                                                        sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
+                                                    />
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                    />
                                 </Stack>
                                 {PayableReportLoading
                                     ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
@@ -293,24 +240,22 @@ export default function ReportView() {
                                                         onRequestSort={handleSort}
                                                         onSelectAllClick={handleSelectAllClick}
                                                         headLabel={[
-                                                            { id: 'Created On', label: 'Created On' },
-                                                            { id: 'Created By', label: 'Created By' },
-                                                            { id: 'Domain', label: 'Domain' },
-                                                            { id: 'Description', label: 'Description' },
-                                                            { id: 'Type', label: 'Type' },
+                                                            { id: 'Group No', label: 'Group No' },
+                                                            { id: 'Ticket No', label: 'Ticket No' },
+                                                            { id: 'Member Name', label: 'Member Name' },
                                                             { id: 'Amount', label: 'Amount' },
+                                                            { id: 'Arrear Amount', label: 'Arrear Amount' },
                                                         ]} />
                                                     <TableBody>
                                                         {PayableReportList
                                                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                                             .map((row) => (
                                                                 <TableRow hover tabIndex={-1} role="checkbox">
-                                                                    <TableCell>{row.created_on ? dayjs(row.created_on).format('DD-MM-YYYY') : ""}</TableCell>
-                                                                    <TableCell>{row.username}</TableCell>
-                                                                    <TableCell>{row.domain}</TableCell>
-                                                                    <TableCell>{row.description}</TableCell>
-                                                                    <TableCell>{row.type}</TableCell>
-                                                                    <TableCell>{row.amount != null && row.amount !== "" ? Math.round(row.amount) : ""}</TableCell>
+                                                                    <TableCell>{row.groupNo}</TableCell>
+                                                                    <TableCell>{row.tktno}</TableCell>
+                                                                    <TableCell>{row.memberName}</TableCell>
+                                                                    <TableCell>{row.chitAmount != null && row.chitAmount !== "" ? Math.round(row.chitAmount) : ""}</TableCell>
+                                                                    <TableCell>{row.arrears != null && row.arrears !== "" ? Math.round(row.arrears) : ""}</TableCell>
                                                                 </TableRow>
                                                             ))}
                                                         <TableEmptyRows
@@ -335,26 +280,21 @@ export default function ReportView() {
                             </TabPanel>
                             <TabPanel value="2">
                                 <Stack mb={2} mr={3} direction="row" alignItems="center" gap='40px' className='mbl-view'>
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DemoContainer components={['DatePicker']} >
-                                            <DatePicker
-                                                label="From Date"
-                                                value={FromDate1.data}
-                                                onChange={(date) => HandleFromDateChange(date, "ReceivableReportList")}
-                                                disabled={ReceivableReportLoading}
-                                                format="DD-MM-YYYY" />
-                                        </DemoContainer>
-                                    </LocalizationProvider>
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DemoContainer components={['DatePicker']}>
-                                            <DatePicker
-                                                label="To Date"
-                                                value={ToDate1.data}
-                                                onChange={(date) => HandleToDateChange(date, "ReceivableReportList")}
-                                                disabled={ReceivableReportLoading}
-                                                format="DD-MM-YYYY" />
-                                        </DemoContainer>
-                                    </LocalizationProvider>
+                                    <TextField
+                                        placeholder="Search Group..."
+                                        value={GroupNoSearch1}
+                                        onChange={(e) => handleFilterByGroupNo(e, "ReceivableReportList")}
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <Iconify
+                                                        icon="eva:search-fill"
+                                                        sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
+                                                    />
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                    />
                                 </Stack>
                                 {ReceivableReportLoading
                                     ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
@@ -372,22 +312,22 @@ export default function ReportView() {
                                                         onRequestSort={handleSort}
                                                         onSelectAllClick={handleSelectAllClick}
                                                         headLabel={[
-                                                            { id: 'Created On', label: 'Created On' },
-                                                            { id: 'Created By', label: 'Created By' },
-                                                            { id: 'Domain', label: 'Domain' },
-                                                            { id: 'Description', label: 'Description' },
+                                                            { id: 'Group No', label: 'Group No' },
+                                                            { id: 'Ticket No', label: 'Ticket No' },
+                                                            { id: 'Member Name', label: 'Member Name' },
                                                             { id: 'Amount', label: 'Amount' },
+                                                            { id: 'Arrear Amount', label: 'Arrear Amount' },
                                                         ]} />
                                                     <TableBody>
                                                         {ReceivableReportList
                                                             .slice(page1 * rowsPerPage1, page1 * rowsPerPage1 + rowsPerPage1)
                                                             .map((row) => (
                                                                 <TableRow hover tabIndex={-1} role="checkbox">
-                                                                    <TableCell>{row.created_on ? dayjs(row.created_on).format('DD-MM-YYYY') : ""}</TableCell>
-                                                                    <TableCell>{row.username}</TableCell>
-                                                                    <TableCell>{row.domain}</TableCell>
-                                                                    <TableCell>{row.description}</TableCell>
-                                                                    <TableCell>{row.amount != null && row.amount !== "" ? Math.round(row.amount) : ""}</TableCell>
+                                                                    <TableCell>{row.groupNo}</TableCell>
+                                                                    <TableCell>{row.tktno}</TableCell>
+                                                                    <TableCell>{row.memberName}</TableCell>
+                                                                    <TableCell>{row.chitAmount != null && row.chitAmount !== "" ? Math.round(row.chitAmount) : ""}</TableCell>
+                                                                    <TableCell>{row.arrears != null && row.arrears !== "" ? Math.round(row.arrears) : ""}</TableCell>
                                                                 </TableRow>
                                                             ))}
                                                         <TableEmptyRows

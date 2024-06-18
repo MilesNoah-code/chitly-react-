@@ -164,7 +164,7 @@ export default function AppView() {
               title="Number of Customers"
               total={DashBoardCount && DashBoardCount.memberCount ? DashBoardCount.memberCount : "0"}
               color="success"
-              icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
+              icon={<img alt="icon" src="/assets/icons/glass/dashboard_member.png" />}
             />
           </Grid>
 
@@ -173,7 +173,7 @@ export default function AppView() {
               title="Number of Active Groups"
               total={DashBoardCount && DashBoardCount.groupCount ? DashBoardCount.groupCount : "0"}
               color="info"
-              icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+              icon={<img alt="icon" src="/assets/icons/glass/dashboard_group.png" />}
             />
           </Grid>
 
@@ -182,7 +182,7 @@ export default function AppView() {
               title="Total Receipt this Month"
               total={DashBoardCount && DashBoardCount.receiptCount ? DashBoardCount.receiptCount : "0"}
               color="warning"
-              icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
+              icon={<img alt="icon" src="/assets/icons/glass/dashboard_receipt.png" />}
             />
           </Grid>
 
@@ -191,7 +191,7 @@ export default function AppView() {
               title="Total Payment this Month"
               total={DashBoardCount && DashBoardCount.paymentCount ? DashBoardCount.paymentCount : "0"}
               color="error"
-              icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
+              icon={<img alt="icon" src="/assets/icons/glass/dashboard_payment.png" />}
             />
           </Grid>
 

@@ -1,3 +1,11 @@
+3.2.0
+Date : 18/06/2024
+Type : Development
+Description :  
+        1.Chit Auction Add Ui, save, update and Integration
+        2.Payable Report List Ui and Integration
+        3.Receivable Report List Ui and Integration
+        4.Chit Estimate Calculation
 2.2.0
 Date : 13/06/2024
 Type : Development

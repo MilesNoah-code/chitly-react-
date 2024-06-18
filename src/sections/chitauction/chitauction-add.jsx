@@ -19,7 +19,7 @@ import { Box, Grid, Stack, Alert, Button, Dialog, styled, Divider, Snackbar, Typ
 
 import { GetHeader, PutHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 
-import { MEMBER_VIEW, CHIT_AUCTION_SAVE, CHIT_AUCTION_LIST, REACT_APP_HOST_URL, CHIT_ESTIMATE_LIST, CHIT_AUCTION_UPDATE, STANDING_INSTRUCTION, CHIT_AUCTION_MAPPED_UNMAPPED_MEMBER } from 'src/utils/api-constant';
+import { MEMBER_VIEW, CHIT_AUCTION_SAVE, CHIT_AUCTION_LIST, REACT_APP_HOST_URL, CHIT_ESTIMATE_LIST, CHIT_AUCTION_UPDATE, STANDING_INSTRUCTION, CHIT_AUCTION_MEMBER_LIST, CHIT_AUCTION_MAPPED_UNMAPPED_MEMBER, } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
 
@@ -100,7 +100,7 @@ export default function AddChitAuctionPage() {
     const [order, setOrder] = useState('asc');
     const [orderBy, setOrderBy] = useState('name');
     const [selected, setSelected] = useState([]);
-    const [SelectAuctionMemberList, setSelectAuctionMemberList] = useState({});
+    const [SelectAuctionList, setSelectAuctionList] = useState({});
     const [ShowEstimateListAlert, setShowEstimateListAlert] = useState(false);
     const [AddMemberListAlert, setAddMemberListAlert] = useState(false);
     const [page, setPage] = useState(0);
@@ -330,15 +330,43 @@ export default function AddChitAuctionPage() {
                 if (json.success) {
                     const updatedFirstItem = {
                         ...datas,
-                        prized_memid: json.list.id,
-                        prized_member_name: json.list.name,
-                        prized_group_member_id: json.list.id,
+                        memberid: json.list.id,
+                        member_name: json.list.name,
+                        group_member_id: json.list.id,
                         maxaucdisc: "0",
-                        prized_amount: "",
+                        signature: "",
+                        prized_amount: data.amount,
+                        is_prizedmember: json.list.prizedOrNot === "notPrized" ? 0 : 1,
                         action: 'delete'
                     };
                     const updatedList = [updatedFirstItem];
-                    setSelectAuctionMemberList(updatedFirstItem);
+                    console.log(updatedList)
+                    setInstNo(prevState => ({
+                        ...prevState,
+                        data: updatedFirstItem.installno,
+                        error: ""
+                    }));
+                    setDividend(prevState => ({
+                        ...prevState,
+                        data: updatedFirstItem.dividend,
+                        error: ""
+                    }));
+                    setPrizedMember(prevState => ({
+                        ...prevState,
+                        data: updatedFirstItem.prized_member_name,
+                        error: ""
+                    }));
+                    setTktNo(prevState => ({
+                        ...prevState,
+                        data: updatedFirstItem.installno,
+                        error: ""
+                    }));
+                    setMaxADisc(prevState => ({
+                        ...prevState,
+                        data: updatedFirstItem.maxaucdisc,
+                        error: ""
+                    }));
+                    setSelectAuctionList(updatedFirstItem);
                     setChitAuctionMemberList(updatedList);
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
@@ -366,6 +394,7 @@ export default function AddChitAuctionPage() {
                 console.log(JSON.stringify(json));
                 if (json.success) {
                     if (json.list.length > 0){
+                        console.log(JSON.stringify(json.list[0]));
                         setChitEstimateList(json.list[0]);
                     }
                 } else if (json.success === false) {
@@ -384,9 +413,37 @@ export default function AddChitAuctionPage() {
             })
     }
 
+    const GetChitAuctionMemberList = (auctionEntryId) => {
+        setChitAuctionMemberListLoading(true);
+        setChitAuctionMemberList([]);
+        const url = `${REACT_APP_HOST_URL}${CHIT_AUCTION_MEMBER_LIST}${auctionEntryId}&start=0&limit=0`;
+        console.log(JSON.parse(Session) + url);
+        fetch(url, GetHeader(JSON.parse(Session)))
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(JSON.stringify(json));
+                setChitAuctionMemberListLoading(false);
+                if (json.success) {
+                    setChitAuctionMemberList(json.list);
+                } else if (json.success === false) {
+                    setAlertMessage(json.message);
+                    setAlertFrom("failed");
+                    HandleAlertShow();
+                } else {
+                    setErrorAlert(true);
+                    setErrorScreen("network");
+                }
+            })
+            .catch((error) => {
+                setChitAuctionMemberListLoading(false);
+                setErrorAlert(true);
+                setErrorScreen("error");
+                // console.log(error);
+            })
+    }
+
     const GetChitAuctionAddMemberList = (tktno, membername) => {
         setChitAuctionAddMemberListLoading(true);
-        setChitAuctionAddMemberList([]);
         const url = `${REACT_APP_HOST_URL}${CHIT_AUCTION_MAPPED_UNMAPPED_MEMBER}${data.id}&tokenNo=${tktno}&memberName=${membername}&start=0&limit=0`;
         console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
@@ -395,7 +452,7 @@ export default function AddChitAuctionPage() {
                 console.log(JSON.stringify(json));
                 setChitAuctionAddMemberListLoading(false);
                 if (json.success) {
-                    setChitAuctionAddMemberList(json.list);
+                    setChitAuctionAddMemberList([...ChitAuctionAddMemberList, ...json.list]);
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
                     setAlertFrom("failed");
@@ -416,10 +473,58 @@ export default function AddChitAuctionPage() {
     const ChitAuctionAddMethod = (IsValidate) => {
         if (IsValidate){
             setLoading(true);
+            console.log(SelectAuctionList)
+            const ChitAuctionMemberListParams = ChitAuctionMemberList.map(item => ({
+                "id": 0,
+                "auctionentryid": 0,
+                "tktno": item.tktno,
+                "memberid": item.memberid,
+                "member_name": item.member_name,
+                "group_member_id": item.group_member_id,
+                "maxaucdisc": item.maxaucdisc,
+                "signature": item.signature,
+                "is_prizedmember": item.is_prizedmember,
+                "entNo": 0,
+                "branchid": data.branchid,
+                "comments": "",
+                "is_active": 1,
+            }));
             const ChitAuctionListParams = {
                 "id": 0,
+                "branchid": 0,
+                "groupid": data.id,
+                "amount": data.amount,
+                "agreement_no": null,
+                "agreement_date": null,
+                "auctiondate": AucDate.data_save,
+                "date": AucDate.data_save,
+                "auction_time":` ${AucFromTime.data_save} to ${AucToTime.data_save}`,
+                "holreason": "",
+                "installno": SelectAuctionList.installno,
+                "installvalue": "",
+                "ledger_id": "",
+                "foreman_commission": data.fm_afm !== null && data.fm_afm !== "" ? data.fm_afm : "0", 
+                "fmcode": "",
+                "dividend": SelectAuctionList.dividend,
+                "filingdate": null,
+                "prized_memid": SelectAuctionList.prized_memid,
+                "prized_member_name": SelectAuctionList.prized_member_name,
+                "prized_group_member_id": SelectAuctionList.prized_group_member_id,
+                "tktno": SelectAuctionList.tktno,
                 "tkt_suffix": "A",
                 "tkt_percentage": "100",
+                "maxaucdisc": SelectAuctionList.maxaucdisc !== "" && SelectAuctionList.maxaucdisc != null ? 
+                    SelectAuctionList.maxaucdisc : "", // if empty pass 0
+                "prized_amount": SelectAuctionList.prized_amount,
+                "doc_charge": "0",
+                "doc_charge_w_t": "0",
+                "estimate_id": ChitEstimateList ? ChitEstimateList.id  : "0",
+                "comments": "",
+                "is_active": 1,
+                "min_auc_value": "0",
+                "max_auc_value": "0",
+                "auctionMemberDetails": ChitAuctionMemberListParams,
+                
             };
             const url = `${REACT_APP_HOST_URL}${CHIT_AUCTION_SAVE}`;
             console.log(JSON.stringify(ChitAuctionListParams) + url);
@@ -455,10 +560,55 @@ export default function AddChitAuctionPage() {
     const ChitAuctionUpdateMethod = (IsValidate, id) => {
         if(IsValidate){
             setLoading(true);
-            const ChitAuctionListUpdateParams = {
+            const ChitAuctionMemberListUpdateParams = ChitAuctionMemberList.map(item => ({
                 "id": 0,
+                "auctionentryid": 0,
+                "tktno": item.tktno,
+                "memberid": item.prized_memid,
+                "member_name": item.prized_member_name,
+                "group_member_id": item.prized_group_member_id,
+                "maxaucdisc": item.maxaucdisc,
+                "signature": item.signature,
+                "is_prizedmember": item.is_prizedmember,
+                "entNo": 0,
+                "branchid": data.branchid,
+                "comments": "",
+                "is_active": 1,
+            }));
+            const ChitAuctionListUpdateParams = {
+                "branchid": "",
+                "groupid": data.id,
+                "amount": data.amount,
+                "agreement_no": "",
+                "agreement_date": "",
+                "auctiondate": AucDate.data_save,
+                "date": "",
+                "auction_time": ` ${AucFromTime.data_save} to ${AucToTime.data_save}`,
+                "holreason": "",
+                "installno": "",
+                "installvalue": "",
+                "ledger_id": "",
+                "foreman_commission": "",
+                "fmcode": "",
+                "dividend": "",
+                "filingdate": "",
+                "prized_memid": "",
+                "prized_member_name": "",
+                "prized_group_member_id": "",
+                "tktno": "",
                 "tkt_suffix": "A",
                 "tkt_percentage": "100",
+                "maxaucdisc": "",
+                "prized_amount": "",
+                "doc_charge": "",
+                "doc_charge_w_t": "",
+                "estimate_id": "",
+                "comments": "",
+                "is_active": 1,
+                "min_auc_value": "",
+                "max_auc_value": "",
+                "auctionMemberDetails": ChitAuctionMemberListUpdateParams,
+
             };
             const url = `${REACT_APP_HOST_URL}${CHIT_AUCTION_UPDATE}${id}`;
             console.log(JSON.stringify(ChitAuctionListUpdateParams) + url);
@@ -559,7 +709,7 @@ export default function AddChitAuctionPage() {
             setFM_AFMCommission(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "* Required" : ""
+                error: text.trim() === "" ? "" : ""
             }));
         }
     };
@@ -686,7 +836,7 @@ export default function AddChitAuctionPage() {
                 error: ""
             }));
         }
-        if (!FM_AFMCommission.data) {
+        /* if (!FM_AFMCommission.data) {
             IsValidate = false;
             setFM_AFMCommission(prevState => ({
                 ...prevState,
@@ -697,16 +847,46 @@ export default function AddChitAuctionPage() {
                 ...prevState,
                 error: ""
             }));
-        }
+        } */
         if (ChitAuctionList.length > 0){
-            console.log(SelectAuctionMemberList)
-            if (typeof SelectAuctionMemberList.add_data.id === 'string' && SelectAuctionMemberList.add_data.id.includes('id_')){
+            console.log(SelectAuctionList)
+            if (typeof SelectAuctionList.id === 'string' && SelectAuctionList.id.includes('id_')){
                 ChitAuctionAddMethod(IsValidate);
             }else{
-                ChitAuctionUpdateMethod(IsValidate, SelectAuctionMemberList.add_data.id);
+                ChitAuctionUpdateMethod(IsValidate, SelectAuctionList.id);
             }
         }
-    }
+    };
+
+    const ChitAuctionMemberListTextValidate = (e, item, from) => {
+        const text = e.target.value;
+        // console.log(from);
+        setChitAuctionMemberList(prevState =>
+            prevState.map(prev => {
+                if (text.trim() !== "") {
+                    setScreenRefresh(pre => pre + 1);
+                } else {
+                    setScreenRefresh(0);
+                }
+                if (prev === item) {
+                    if (from === "maxaucdisc") {
+                        return {
+                            ...prev,
+                            maxaucdisc: text.trim() !== "" ? text : "",
+                        };
+                    }
+                    if (from === "signature") {
+                        console.log(text)
+                        return {
+                            ...prev,
+                            signature: text.trim() !== "" ? text : "",
+                        };
+                    }
+                }
+                return prev;
+            })
+        );
+    };
 
     const HandleAlertShow = () => {
         setAlertOpen(true);
@@ -742,15 +922,35 @@ export default function AddChitAuctionPage() {
         setSelected([]);
     };
 
-    const HandleDateChange = (date) => {
+    const HandleDateChange = (date, from, item) => {
         setScreenRefresh(pre => pre + 1);
         const DateForSave = date ? dayjs(date).format('YYYY-MM-DD') : "";
-        // console.log('Date to save:', DateForSave);
-        setAucDate({
-            data: date,
-            data_save: DateForSave,
-            error: ""
-        });
+        console.log('Date to save:', DateForSave);
+        if (from === "auctiondate"){
+            setChitAuctionList(prevState =>
+                prevState.map(prev => {
+                    if (prev === item) {
+                        return {
+                            ...prev,
+                            maxaucdisc: date,
+                        };
+                    }
+                    return prev;
+                })
+            );
+            console.log('Date to save:11', DateForSave);
+            setAucDate({
+                data: date,
+                data_save: DateForSave,
+                error: ""
+            });
+        }else{
+            setAucDate({
+                data: date,
+                data_save: DateForSave,
+                error: ""
+            });
+        }
     };
 
     const HandleTimeChange = (time, from) => {
@@ -799,13 +999,13 @@ export default function AddChitAuctionPage() {
 
     const HandleShowEstimateClick = () => {
         setShowEstimateListAlert(true);
-        GetChitEstimateList(data.id, SelectAuctionMemberList.installno);
+        GetChitEstimateList(data.id, SelectAuctionList.installno);
     };
 
     const HandleAddMemberClick = () => {
         const isEmptyObject = (obj) =>  Object.keys(obj).length === 0; 
-        if (!isEmptyObject(SelectAuctionMemberList)){
-            if (SelectAuctionMemberList.installno === 1) {
+        if (!isEmptyObject(SelectAuctionList)){
+            if (SelectAuctionList.installno === 1) {
                 setAlertMessage("Can't add member for this auction, This Auction allotted for company.");
                 setAlertFrom("error_alert");
                 HandleAlertShow();
@@ -817,11 +1017,60 @@ export default function AddChitAuctionPage() {
     };
 
     const HandleResetClick = () => {
-        // setAddMemberListAlert(true);
+        setInstNo(prevState => ({
+            ...prevState,
+            data: "",
+            error: ""
+        }));
+        setDividend(prevState => ({
+            ...prevState,
+            data: "",
+            error: ""
+        }));
+        setPrizedMember(prevState => ({
+            ...prevState,
+            data: "",
+            error: ""
+        }));
+        setTktNo(prevState => ({
+            ...prevState,
+            data: "",
+            error: ""
+        }));
+        setMaxADisc(prevState => ({
+            ...prevState,
+            data: "",
+            error: ""
+        }));
     };
 
     const HandleDeleteClick = () => {
-        // setAddMemberListAlert(true);
+        setChitAuctionMemberList([]);
+        setInstNo(prevState => ({
+            ...prevState,
+            data: "",
+            error: ""
+        }));
+        setDividend(prevState => ({
+            ...prevState,
+            data: "",
+            error: ""
+        }));
+        setPrizedMember(prevState => ({
+            ...prevState,
+            data: "",
+            error: ""
+        }));
+        setTktNo(prevState => ({
+            ...prevState,
+            data: "",
+            error: ""
+        }));
+        setMaxADisc(prevState => ({
+            ...prevState,
+            data: "",
+            error: ""
+        }));
     };
 
     const handleClick = (event, item, from) => {
@@ -840,30 +1089,68 @@ export default function AddChitAuctionPage() {
             );
         }
         setSelected(newSelected);
-        setSelectAuctionMemberList(item);
         console.log(item);
         if (from === "auction_list_click"){
             GetChitEstimateList(data.id, item.installno);
-            if (item.installno === 1){
-                setChitAuctionMemberListLoading(true);
-                GetStandingInstructionList(item);
-            }else{
-                setChitAuctionMemberList([]);
+            if (String(item.id).includes('id_')){
+                if (item.installno === 1) {
+                    setChitAuctionMemberListLoading(true);
+                    GetStandingInstructionList(item);
+                } else {
+                    setChitAuctionMemberList([]);
+                }
+            } else{
+                GetChitAuctionMemberList(item.id);
             }
         }else{
-            const updatedList = {
-                ...item,
-                prized_memid: item.memberid,
-                prized_member_name: item.mem_name,
-                prized_group_member_id: item.memberid,
-                maxaucdisc: "0",
-                prized_amount: "",
-                action: 'delete'
-            };
-            console.log(updatedList);
-            setChitAuctionMemberList([updatedList]);
-            setSelectAuctionMemberList(prevs => ({...prevs}));
-            setAddMemberListAlert(false);
+            const checkIdExists = id => ChitAuctionMemberList.some(items => items.prized_memid === id);
+            if (checkIdExists(item.memberid)) {
+                setAlertMessage("Already this member is added");
+                setAlertFrom("error_alert");
+                HandleAlertShow();
+            }else{
+                const updatedItem = {
+                    ...item,
+                    ...SelectAuctionList,
+                    memberid: item.memberid,
+                    member_name: item.mem_name,
+                    group_member_id: item.id,
+                    maxaucdisc: "0",
+                    signature: "",
+                    prized_amount: item.amount,
+                    is_prizedmember: item.prizedOrNot === "notPrized" ? 0 : 1,
+                    tktno: item.tktno,
+                    action: 'delete'
+                };
+                console.log(updatedItem);
+                setInstNo(prevState => ({
+                    ...prevState,
+                    data: updatedItem.installno,
+                    error: ""
+                }));
+                setDividend(prevState => ({
+                    ...prevState,
+                    data: updatedItem.dividend,
+                    error: ""
+                }));
+                setPrizedMember(prevState => ({
+                    ...prevState,
+                    data: updatedItem.prized_member_name,
+                    error: ""
+                }));
+                setTktNo(prevState => ({
+                    ...prevState,
+                    data: updatedItem.installno,
+                    error: ""
+                }));
+                setMaxADisc(prevState => ({
+                    ...prevState,
+                    data: updatedItem.maxaucdisc,
+                    error: ""
+                }));
+                setChitAuctionMemberList([...ChitAuctionMemberList, updatedItem]);
+                setAddMemberListAlert(false);
+            } 
         }
     };
 
@@ -1039,7 +1326,7 @@ export default function AddChitAuctionPage() {
                                                         label="Auc Date"
                                                         disabled={screen === "view"}
                                                         value={AucDate.data}
-                                                        onChange={HandleDateChange}
+                                                        onChange={(date) => HandleDateChange(date, "AucDate")}
                                                         format="DD-MM-YYYY" />
                                                 </DemoContainer>
                                             </LocalizationProvider>
@@ -1155,7 +1442,6 @@ export default function AddChitAuctionPage() {
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <TextField
-                                                // required
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
@@ -1188,21 +1474,45 @@ export default function AddChitAuctionPage() {
                                                 <TableBody>
                                                     {ChitAuctionList
                                                         .map((row, index) => (
-                                                            <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); handleClick(event, row, "auction_list_click")}}>
+                                                            <TableRow
+                                                                hover
+                                                                tabIndex={-1}
+                                                                role="checkbox"
+                                                                sx={{ cursor: 'pointer' }}
+                                                                onClick={(event) => {
+                                                                    if (event.target.closest('.MuiDatePicker-root')) {
+                                                                        return;
+                                                                    }
+                                                                    event.stopPropagation();
+                                                                    handleClick(event, row, "auction_list_click");
+                                                                }} >
                                                                 <TableCell sx={{ width: '10%' }}>{row.installno}</TableCell>
                                                                 <TableCell sx={{ width: '30%', padding: 0 }}>
                                                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                                        <DatePicker
-                                                                            id="filled-hidden-label-normal"
-                                                                            value={row.auctiondate != null ? dayjs(row.auctiondate) : null}
-                                                                            onChange={(e) => { e.stopPropagation(); HandleDateChange(e, "auctiondate", row)}}
-                                                                            format="DD-MM-YYYY"
-                                                                            renderInput={(params) => (
-                                                                                <CustomTextField
-                                                                                    {...params}
-                                                                                    variant="filled"
-                                                                                    sx={{ width: '100%', height: '32px' }} />
-                                                                            )} />
+                                                                        <button
+                                                                            type="button"
+                                                                            tabIndex={0}
+                                                                            aria-label="Open date picker"
+                                                                            onClick={(event) => { event.stopPropagation(); }}
+                                                                            onKeyDown={(event) => {
+                                                                                if (event.key === 'Enter' || event.key === ' ') {
+                                                                                    event.stopPropagation();
+                                                                                }
+                                                                            }}
+                                                                            style={{ border: 'none', outline: 'none', backgroundColor: 'transparent',
+                                                                                padding: 0, cursor: 'pointer', }} >
+                                                                            <DatePicker
+                                                                                id="filled-hidden-label-normal"
+                                                                                value={row.auctiondate != null ? dayjs(row.auctiondate) : null}
+                                                                                onChange={(date) => { HandleDateChange(date, "auctiondate", row) }}
+                                                                                format="DD-MM-YYYY"
+                                                                                renderInput={(params) => (
+                                                                                    <CustomTextField
+                                                                                        {...params}
+                                                                                        variant="filled"
+                                                                                        sx={{ width: '100%', height: '32px' }} />
+                                                                                )} />
+                                                                        </button>
                                                                     </LocalizationProvider>
                                                                 </TableCell>
                                                                 <TableCell sx={{ width: '60%' }}>{row.prized_member_name}</TableCell>
@@ -1245,10 +1555,30 @@ export default function AddChitAuctionPage() {
                                                             .map((row, index) => (
                                                                 <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }}>
                                                                     <TableCell>{row.tktno}</TableCell>
-                                                                    <TableCell>{row.prized_member_name}</TableCell>
-                                                                    <TableCell>{row.maxaucdisc}</TableCell>
-                                                                    <TableCell>{row.tktno}</TableCell>
-                                                                    <TableCell> {row.action === "delete" && ("Delete")}</TableCell>
+                                                                    <TableCell>{row.member_name}</TableCell>
+                                                                    <TableCell>
+                                                                        <TextField
+                                                                            className='input-box2'
+                                                                            id="outlined-required"
+                                                                            value={row.maxaucdisc}
+                                                                            onChange={(e) => ChitAuctionMemberListTextValidate(e, row, "maxaucdisc")}
+                                                                            style={{ width: 100 , height: 30 }} />
+                                                                    </TableCell>
+                                                                    <TableCell>
+                                                                        <Stack justifyContent='center'>
+                                                                            <TextField
+                                                                                className='input-box2'
+                                                                                id="outlined-required"
+                                                                                value={row.signature}
+                                                                                onChange={(e) => ChitAuctionMemberListTextValidate(e, row, "signature")}
+                                                                                style={{ width: 100, height: 30 }} />
+                                                                        </Stack>
+                                                                    </TableCell>
+                                                                    <TableCell>{row.action === "delete" &&
+                                                                        <IconButton onClick={() => setChitAuctionMemberList(prevList => prevList.filter((_, i) => i !== index))} sx={{ cursor: 'pointer' }}>
+                                                                            <Iconify icon="streamline:delete-1-solid" />
+                                                                        </IconButton>}
+                                                                    </TableCell>
                                                                 </TableRow>))}
                                                         <TableEmptyRows
                                                             height={77}

@@ -1354,27 +1354,7 @@ export default function AddChitAuctionPage() {
                                     </Stack>
                                 </div>
                             </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                            Dividend
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <TextField
-                                                // required
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                label="Dividend"
-                                                value={Dividend.data}
-                                                onChange={(e) => ChitAuctionTextValidate(e, "Dividend")}
-                                                style={{}} />
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Dividend.error}</div>
-                                    </Stack>
-                                </div>
-                            </Stack>
+                            
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                 <div className='box-grp  grp-label'>
                                     <Stack direction='column'>
@@ -1451,6 +1431,27 @@ export default function AddChitAuctionPage() {
                                                 style={{}} />
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{FM_AFMCommission.error}</div>
+                                    </Stack>
+                                </div>
+                            </Stack>
+                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                <div className='box-grp'>
+                                    <Stack direction='column'>
+                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                            Dividend
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, }}>
+                                            <TextField
+                                                // required
+                                                className='input-box1'
+                                                id="outlined-required"
+                                                disabled
+                                                label="Dividend"
+                                                value={Dividend.data}
+                                                onChange={(e) => ChitAuctionTextValidate(e, "Dividend")}
+                                                style={{}} />
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Dividend.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>

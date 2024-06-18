@@ -452,8 +452,8 @@ export default function AddGroupMemberPage() {
                             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
-                            <Grid container spacing={2}>
-                                <Grid item xs={5}>
+                            <Grid className='grid-UI' container spacing={2}>
+                                <Grid className='table-grid' item xs={12} md={5}>
                                     <Scrollbar>
                                         <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
                                             <Table sx={{ minWidth: 350 }}>
@@ -497,7 +497,7 @@ export default function AddGroupMemberPage() {
                                         </TableContainer>
                                     </Scrollbar>
                                 </Grid>
-                                <Grid item xs={7}>
+                                <Grid  className='table-grid' item xs={12} md={7}>
                                     <Typography variant="h5" sx={{ mt: 5, ml: 2, }}>
                                         Group Detail
                                     </Typography>

@@ -37,7 +37,7 @@ export default function Router() {
           </Suspense>
         </DashboardLayout>
       ) : (
-        <Navigate to="/login" replace />
+        <Navigate to="login" replace />
       ),
       children: [
         { path: '', element: <IndexPage /> },

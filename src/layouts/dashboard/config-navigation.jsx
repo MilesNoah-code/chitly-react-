@@ -50,7 +50,7 @@ const navConfig = [
   {
     title: 'Reports',
     path: '/report/list',
-    icon: icon('chitpayment'),
+    icon: icon('report'),
   }
 ];
 

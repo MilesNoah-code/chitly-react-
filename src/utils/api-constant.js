@@ -67,5 +67,6 @@ export const DASHBOARD_COUNT = "api/dashboard/list";
 export const ACTIVITY_LOG_LIST = "api/activityLog/list?";
 export const CUSTOMER_COUNT_BASED_GROUP = "api/dashboard/customerCountBasedGroup";
 export const CHIT_AUCTION_MAPPED_UNMAPPED_MEMBER = "api/groupMember/mappedAndUnMappedMember?groupId=";
-export const PAYABLE_REPORT_LIST = "api/activityLog/list?";
-export const RECEIVABLE_REPORT_LIST = "api/activityLog/list?";
+export const PAYABLE_REPORT_LIST = "api/reports/payableReport?groupNo=";
+export const RECEIVABLE_REPORT_LIST = "api/reports/receivableReport?groupNo=";
+export const CHIT_AUCTION_MEMBER_LIST = "api/auctionMemberDetail/listAll?auctionEntryId=";

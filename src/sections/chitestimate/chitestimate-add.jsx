@@ -698,72 +698,73 @@ export default function AddChitEstimatePage() {
 
     const ChitEstimateListTextValidate = (e, item, index, from) => {
         const text = e.target.value;
-        const TextValue = text.trim() !== "" ? text : "";
-        // setScreenRefresh(pre => pre + 1);
+        const TextValue = text.trim() !== "" ? parseFloat(text) : 0; // Ensure TextValue is a number
         console.log(from);
         setChitEstimateList(prevState =>
-            prevState.map(prev => {
+            prevState.map((prev, idx, array) => {
                 if (text.trim() !== "") {
                     setChitEstimateListAdd(pre => pre + 1);
                 } else {
                     setChitEstimateListAdd(0);
                 }
+
                 const ids = String(item.id).startsWith('id_') ? item.id.replace(/^id_/, '') : item.id;
                 let CaculateLessAmount = prev.less_amount;
                 let CaculatePayment = prev.payment;
                 let CaculateDueAmount = prev.dueamount;
                 console.log("data.emdue--> ", data.emdue);
-                if (data.divident_distribute === "Current Month"){
+                if (data.divident_distribute === "Current Month") {
                     if (from === "dueamount") {
                         CaculateLessAmount = data.amount - (TextValue * data.duration) - prev.fm_commission;
                         CaculateDueAmount = TextValue;
                         console.log("CaculateLessAmount--> ", CaculateLessAmount);
                     } else if (from === "fm_commission") {
                         console.log("TextValue--> ", TextValue);
-                        // CaculateLessAmount = data.amount - (prev.dueamount * data.duration) - TextValue;
                         CaculateLessAmount = prev.less_amount;
-                        CaculateDueAmount = data.emdue - ((CaculateLessAmount - TextValue) / data.duration)
+                        CaculateDueAmount = data.emdue - ((CaculateLessAmount - TextValue) / data.duration);
                         console.log("CaculateDueAmount--> ", CaculateDueAmount);
                     } else if (from === "less_amount") {
                         console.log("TextValue--> ", TextValue);
-                        // CaculateLessAmount = data.amount - (prev.dueamount * data.duration) - TextValue;
-                        CaculateLessAmount = prev.less_amount;
-                        CaculateDueAmount = data.emdue - ((TextValue - prev.fm_commission) / data.duration)
+                        CaculateLessAmount = TextValue;
+                        CaculateDueAmount = data.emdue - ((TextValue - prev.fm_commission) / data.duration);
                         console.log("CaculateDueAmount--> ", CaculateDueAmount);
                     }
                     CaculatePayment = data.amount - CaculateLessAmount - prev.gst_value - prev.doc_charge_value;
                     console.log("CaculatePayment--> ", CaculatePayment);
-                } 
-                /* else if (data.divident_distribute === "Next Month") {
+                } else if (data.divident_distribute === "Next Month") {
                     if (from === "dueamount") {
-                        ChitEstimateList[index - 1].dueamount = data.amount - (TextValue * data.duration) - ChitEstimateList[index + 1].fm_commission;
+                        if (index - 1 >= 0 && index + 1 < array.length) {
+                            array[index - 1].dueamount = data.amount - (TextValue * data.duration) - array[index + 1].fm_commission;
+                        }
                         CaculateDueAmount = TextValue;
                         console.log("CaculateLessAmount--> ", CaculateLessAmount);
                     } else if (from === "fm_commission") {
-                        console.log("TextValue--> ", TextValue);
-                        // CaculateLessAmount = data.amount - (prev.dueamount * data.duration) - TextValue;
-                        CaculateLessAmount = ((data.emdue - ChitEstimateList[index + 1].dueamount) * data.duration ) + TextValue;
-                        console.log("CaculateDueAmount--> ", CaculateDueAmount);
+                        if (index + 1 < array.length) {
+                            console.log("TextValue--> ", TextValue);
+                            CaculateLessAmount = ((data.emdue - array[index + 1].dueamount) * data.duration) + TextValue;
+                            console.log("CaculateDueAmount--> ", CaculateDueAmount);
+                        }
                     } else if (from === "less_amount") {
-                        console.log("TextValue--> ", TextValue);
-                        // CaculateLessAmount = data.amount - (prev.dueamount * data.duration) - TextValue;
-                        CaculateLessAmount = prev.less_amount;
-                        ChitEstimateList[index + 1].dueamount = data.emdue - ((TextValue - prev.less_amount) / data.duration)
-                        console.log("CaculateDueAmount--> ", CaculateDueAmount);
+                        if (index + 1 < array.length) {
+                            console.log("TextValue--> ", TextValue);
+                            CaculateLessAmount = TextValue;
+                            array[index + 1].dueamount = data.emdue - ((TextValue - prev.fm_commission) / data.duration);
+                            console.log("CaculateDueAmount--> ", CaculateDueAmount);
+                        }
                     }
                     CaculatePayment = data.amount - CaculateLessAmount - prev.gst_value - prev.doc_charge_value;
                     console.log("CaculatePayment--> ", CaculatePayment);
-                } */
+                }
                 if (prev === item) {
                     return {
                         ...prev,
                         id: ids,
-                        dueamount: from === "dueamount" || from === "fm_commission" ? Math.floor(CaculateDueAmount) : prev.dueamount,
-                        less_amount: from === "less_amount" || from === "dueamount" ? CaculateLessAmount : prev.less_amount,
+                        dueamount: from === "dueamount" || from === "fm_commission" ? Math.round(CaculateDueAmount) : prev.dueamount,
+                        less_amount: from === "less_amount" || from === "dueamount" ? Math.round(CaculateLessAmount) : prev.less_amount,
                         fm_commission: from === "fm_commission" ? TextValue : prev.fm_commission,
                         gst_value: from === "gst_value" ? TextValue : prev.gst_value,
                         doc_charge_value: from === "doc_charge_value" ? TextValue : prev.doc_charge_value,
-                        payment: from === "payment" || from === "dueamount" || from === "fm_commission" ? CaculatePayment : prev.payment,
+                        payment: from === "payment" || from === "dueamount" || from === "fm_commission" ? Math.round(CaculatePayment) : prev.payment,
                     };
                 }
                 return prev;
@@ -1125,7 +1126,7 @@ export default function AddChitEstimatePage() {
                                                                     <DatePicker
                                                                         id="filled-hidden-label-normal"
                                                                         value={row.auctiondate != null ? dayjs(row.auctiondate) : null}
-                                                                        onChange={(e) => HandleDateChange(e, "auctiondate", index, row)}
+                                                                        onChange={(e) => HandleDateChange(e, "auctiondate", row)}
                                                                         format="DD-MM-YYYY"
                                                                         renderInput={(params) => (
                                                                             <CustomTextField

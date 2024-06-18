@@ -66,6 +66,7 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
         formatter: (value) => `${value.toFixed(0)}`,
       },
     },
+    colors: ['#71a619'],
     ...options,
   });
 

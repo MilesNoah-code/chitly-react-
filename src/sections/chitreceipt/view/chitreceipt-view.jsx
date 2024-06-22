@@ -71,7 +71,7 @@ export default function ChitReceiptView() {
     setChitReceiptLoading(true);
     setTotalCount(0);
     setChitReceiptList([]);
-    const url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_LIST}${fromdate}&toDate=${todate}&search=${text}&start=${start}&limit=${limit}`;
+    const url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_LIST}&fromDate=${fromdate}&toDate=${todate}&search=${text}&start=${start}&limit=${limit}`;
     // console.log(JSON.parse(Session) + url);
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())

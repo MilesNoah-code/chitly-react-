@@ -1,3 +1,9 @@
+3.3.0
+Date : 22/06/2024
+Type : Development
+Description :  
+        1.Chit Auction Save Some Validation check
+        2.GroupMember and Chit Estimate Ui fix
 3.2.0
 Date : 18/06/2024
 Type : Development

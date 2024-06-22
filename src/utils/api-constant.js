@@ -26,7 +26,7 @@ export const GROUP_DELETE = "api/group/delete/";
 
 export const CHIT_RECEIPT_SAVE = "api/chitReceipt/save";
 export const CHIT_RECEIPT_DETAIL = "api/chitReceipt/detail/";
-export const CHIT_RECEIPT_LIST = "api/chitReceipt/list?isActive=1&fromDate=";
+export const CHIT_RECEIPT_LIST = "api/chitReceipt/list?isActive=1";
 export const CHIT_RECEIPT_DELETE = "api/chitReceipt/delete/";
 export const CHIT_RECEIPT_PAID_UNPAID_LIST = "api/chitReceipt/paidAndUnPaidList?groupId=";
 
@@ -70,3 +70,4 @@ export const CHIT_AUCTION_MAPPED_UNMAPPED_MEMBER = "api/groupMember/mappedAndUnM
 export const PAYABLE_REPORT_LIST = "api/reports/payableReport?groupNo=";
 export const RECEIVABLE_REPORT_LIST = "api/reports/receivableReport?groupNo=";
 export const CHIT_AUCTION_MEMBER_LIST = "api/auctionMemberDetail/listAll?auctionEntryId=";
+export const CHIT_AUCTION_ENTRY_DELETE = "api/auction/delete/";

@@ -989,7 +989,7 @@ export default function AddChitEstimatePage() {
             <Card>
                 <Box className="con" component="form"
                     sx={{
-                        '& .MuiTextField-root': { m: 2, width: '20ch', },
+                        '& .MuiTextField-root': {  width: '20ch', },
                     }}
                     noValidate
                     autoComplete="off">
@@ -998,10 +998,10 @@ export default function AddChitEstimatePage() {
                             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                            <Stack direction='row' spacing={1} alignItems='center' gap='20px' justifyContent="center" className='stack-box1'>
                                 <div className='box-grp  grp-label'>
                                     <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 2, mb: '7px' }}>
                                             Group No
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
@@ -1019,7 +1019,7 @@ export default function AddChitEstimatePage() {
                                 </div>
                                 <div className='box-grp'>
                                     <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 0, mb:'7px' }}>
                                             Foreman Pr.Due
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
@@ -1035,11 +1035,9 @@ export default function AddChitEstimatePage() {
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ForemanPrDue.error}</div>
                                     </Stack>
                                 </div>
-                            </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                 <div className='box-grp'>
                                     <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 2, mb: '7px' }}>
                                             Amount
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
@@ -1058,7 +1056,7 @@ export default function AddChitEstimatePage() {
                                 </div>
                                 <div className='box-grp'>
                                     <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 2, mb: '7px' }}>
                                             Dividend
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
@@ -1075,11 +1073,9 @@ export default function AddChitEstimatePage() {
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Dividend.error}</div>
                                     </Stack>
                                 </div>
-                            </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                 <div className='box-grp'>
                                     <Stack direction='column'>
-                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 0,mb:'7px'}} >
                                             Duration
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
@@ -1098,7 +1094,7 @@ export default function AddChitEstimatePage() {
                             </Stack>
                             <Scrollbar>
                                 <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
-                                    <Table sx={{ minWidth: 800 }}>
+                                    <Table sx={{ minWidth: 450 }}>
                                         <TableHeader
                                             order="asc"
                                             orderBy="name"
@@ -1120,7 +1116,7 @@ export default function AddChitEstimatePage() {
                                                 .map((row, index) => (
                                                     <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }}>
                                                         <TableCell>{row.Instno}</TableCell>
-                                                        <TableCell sx={{ width: 200 }}>
+                                                        <TableCell sx={{ width: 100 }}>
                                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                                 <DemoContainer components={['DatePicker']} sx={{ width: 250, overflow: 'hidden' }}>
                                                                     <DatePicker
@@ -1138,7 +1134,7 @@ export default function AddChitEstimatePage() {
                                                                 </DemoContainer>
                                                             </LocalizationProvider>
                                                         </TableCell>
-                                                        <TableCell sx={{ ml: -2 }}>
+                                                        <TableCell sx={{ ml: -2 , width: 20 }}>
                                                             <TextField
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
@@ -1163,7 +1159,7 @@ export default function AddChitEstimatePage() {
                                                                     },
                                                                 }} />  
                                                         </TableCell>
-                                                        <TableCell>
+                                                        <TableCell sx={{  width: 20 }}>
                                                             <TextField
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
@@ -1188,7 +1184,7 @@ export default function AddChitEstimatePage() {
                                                                     },
                                                                 }} />
                                                         </TableCell>
-                                                        <TableCell>
+                                                        <TableCell sx={{  width: 20 }}>
                                                             <TextField
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
@@ -1213,7 +1209,7 @@ export default function AddChitEstimatePage() {
                                                                     },
                                                                 }} />
                                                         </TableCell>
-                                                        <TableCell>
+                                                        <TableCell sx={{  width: 20 }}>
                                                             <TextField
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
@@ -1238,7 +1234,7 @@ export default function AddChitEstimatePage() {
                                                                     },
                                                                 }} />
                                                         </TableCell>
-                                                        <TableCell>
+                                                        <TableCell sx={{  width: 20 }}>
                                                             <TextField
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
@@ -1277,7 +1273,7 @@ export default function AddChitEstimatePage() {
                             </Scrollbar>
                             <Scrollbar>
                                 <TableContainer sx={{ overflow: 'unset' }}>
-                                    <Table sx={{ minWidth: 800 }}>
+                                    <Table sx={{ minWidth: 450 ,mt:5}}>
                                         <TableHeader
                                             order="asc"
                                             orderBy="name"

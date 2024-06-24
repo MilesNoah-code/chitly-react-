@@ -6,6 +6,7 @@ env:
   PROJECT_ID: stutzenme
   IMAGE_NAME: chitly-react
   IMAGE_TAG: 2.0
+  SERVICE_NAME: chitly-react
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -54,4 +55,5 @@ jobs:
           IMAGE_TAG=$(head -1 src/CHANGELOG.md)
           docker build -t gcr.io/${{env.PROJECT_ID}}/${{env.IMAGE_NAME}}:${IMAGE_TAG} .
           docker push gcr.io/${{env.PROJECT_ID}}/${{env.IMAGE_NAME}}:${IMAGE_TAG}
+          gcloud run deploy ${{env.SERVICE_NAME}} --image gcr.io/${{env.PROJECT_ID}}/${{env.IMAGE_NAME}}:${IMAGE_TAG} --region us-central1
           echo ${IMAGE_TAG}

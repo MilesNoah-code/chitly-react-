@@ -1,6 +1,6 @@
 .custom-button{
     background-color: #edf4fe;
-   font-size: 17px;
+   font-size: 15px;
     color: #1877f2;
     transition: background-color 0.3s ease;
   }
@@ -23,6 +23,14 @@
     
     width: calc(100% - 20px); 
   }
+  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+    font-size: 15px;
+  
+}
+input#outlined-required {
+  font-size: 13px !important;
+  height: 1.00em !important;
+}
   .alert-msg{
     display: flex;
     align-items: center;

@@ -507,14 +507,11 @@ export default function AddGroupMemberPage() {
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                                     Group No
                                                 </Typography>
-                                                <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                                    <TextField
-                                                        className='input-box1'
-                                                        id="outlined-required"
-                                                        disabled
-                                                        label="Group No"
-                                                        value={memberDetail.groupno || ''}
-                                                        onChange={handleInputChange} />
+                                                <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
+                                                <Typography variant="subtitle1" sx={{ ml: 0 }}>
+                                                {memberDetail.groupno || ''}
+                                            </Typography>
+                                                   
                                                 </Stack>
                                             </Stack>
                                         </div>
@@ -523,14 +520,11 @@ export default function AddGroupMemberPage() {
                                                 <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
                                                     Amount
                                                 </Typography>
-                                                <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                                    <TextField
-                                                        className='input-box1'
-                                                        id="outlined-required"
-                                                        disabled
-                                                        label="Amount"
-                                                        value={memberDetail.amount || ''}
-                                                        onChange={handleInputChange} />
+                                                <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
+                                                <Typography variant="subtitle1" sx={{ ml: 0,  }}>
+                                                {memberDetail.amount || ''}
+                                            </Typography>
+                                                    
                                                 </Stack>
                                             </Stack>
                                         </div>
@@ -541,14 +535,11 @@ export default function AddGroupMemberPage() {
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                                     Duration
                                                 </Typography>
-                                                <Stack direction='row' sx={{ ml: 0, }}>
-                                                    <TextField
-                                                        className='input-box1'
-                                                        id="outlined-required"
-                                                        disabled
-                                                        label="Duration"
-                                                        value={memberDetail.duration || ''}
-                                                        onChange={handleInputChange} />
+                                                <Stack direction='row' sx={{ ml: 2, }}>
+                                                <Typography variant="subtitle1" sx={{ ml: 0,  }}>
+                                                {memberDetail.duration || ''}
+                                            </Typography>
+                                                      
                                                 </Stack>
                                             </Stack>
                                         </div>
@@ -557,14 +548,11 @@ export default function AddGroupMemberPage() {
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                                     Auction Mode
                                                 </Typography>
-                                                <Stack direction='row' sx={{ ml: 0, }}>
-                                                    <TextField
-                                                        className='input-box1'
-                                                        id="outlined-required"
-                                                        disabled
-                                                        label="Auction Mode"
-                                                        value={memberDetail.auction_mode || ''}
-                                                        onChange={handleInputChange} />
+                                                <Stack direction='row' sx={{ ml: 2, }}>
+                                                <Typography variant="subtitle1" sx={{ ml: 0,  }}>
+                                                {memberDetail.auction_mode || ''}
+                                            </Typography>
+                                                       
                                                 </Stack>
                                             </Stack>
                                         </div>
@@ -578,14 +566,10 @@ export default function AddGroupMemberPage() {
                                                 <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
                                                     Member Name
                                                 </Typography>
-                                                <Stack direction='row' sx={{ ml: 0, }}>
-                                                    <TextField
-                                                        className='input-box1'
-                                                        id="outlined-required"
-                                                        disabled
-                                                        label="Member Name"
-                                                        value={memberDetail.memberName || ''}
-                                                        onChange={handleInputChange} />
+                                                <Stack direction='row' sx={{ ml: 0,ml: 2 }}>
+                                                <Typography className='input-box1'>
+                                                {memberDetail.memberName || ''}
+                                            </Typography>
                                                 </Stack>
                                             </Stack>
                                         </div>
@@ -594,14 +578,10 @@ export default function AddGroupMemberPage() {
                                                 <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
                                                     Ticket No
                                                 </Typography>
-                                                <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                                    <TextField
-                                                        className='input-box1'
-                                                        id="outlined-required"
-                                                        disabled
-                                                        label="Ticket No"
-                                                        value={memberDetail.tktno || ''}
-                                                        onChange={handleInputChange} />
+                                                <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
+                                                <Typography className='input-box1'>
+                                                {memberDetail.tktno || ''}
+                                            </Typography>
                                                 </Stack>
                                             </Stack>
                                         </div>
@@ -612,14 +592,10 @@ export default function AddGroupMemberPage() {
                                                 <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
                                                     Member Id
                                                 </Typography>
-                                                <Stack direction='row' sx={{ ml: 0, }}>
-                                                    <TextField
-                                                        className='input-box1'
-                                                        id="outlined-required"
-                                                        disabled
-                                                        label="Member Id"
-                                                        value={memberDetail.memberId || ''}
-                                                        onChange={handleInputChange} />
+                                                <Stack direction='row' sx={{ ml: 2, }}>
+                                                <Typography className='input-box1'>
+                                                {memberDetail.memberId || ''}
+                                            </Typography>
                                                 </Stack>
                                             </Stack>
                                         </div>
@@ -628,14 +604,10 @@ export default function AddGroupMemberPage() {
                                                 <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
                                                     D.O.B
                                                 </Typography>
-                                                <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                                    <TextField
-                                                        className='input-box1'
-                                                        id="outlined-required"
-                                                        disabled
-                                                        label="D.O.B"
-                                                        value={memberDetail.memdob || ''}
-                                                        onChange={handleInputChange} />
+                                                <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
+                                                <Typography className='input-box1'>
+                                                {memberDetail.memdob || ''}
+                                            </Typography>
                                                 </Stack>
                                             </Stack>
                                         </div>
@@ -646,30 +618,22 @@ export default function AddGroupMemberPage() {
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                                     Mobile Number
                                                 </Typography>
-                                                <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                                    <TextField
-                                                        className='input-box1'
-                                                        id="outlined-required"
-                                                        disabled
-                                                        label="Mobile Number"
-                                                        value={memberDetail.mapped_phone || ''}
-                                                        onChange={handleInputChange} />
+                                                <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
+                                                <Typography className='input-box1'>
+                                                {memberDetail.mapped_phone || ''}
+                                            </Typography>
                                                 </Stack>
                                             </Stack>
                                         </div>
-                                        <div className='box-grp'>
+                                        <div className='box-grp grp-label'>
                                             <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2, mr:2 }}>
                                                     Email
                                                 </Typography>
-                                                <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                                    <TextField
-                                                        className='input-box1'
-                                                        id="outlined-required"
-                                                        disabled
-                                                        label="Email"
-                                                        value={memberDetail.email || ''}
-                                                        onChange={handleInputChange} />
+                                                <Stack direction='row' sx={{ ml: 2, mt: 0, }}>
+                                                <Typography className='input-box1'>
+                                                {memberDetail.email || ''}
+                                            </Typography>
                                                 </Stack>
                                             </Stack>
                                         </div>

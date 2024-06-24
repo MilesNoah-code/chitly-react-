@@ -14,7 +14,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Box, Stack, Alert, Button, Dialog, styled, Snackbar, Typography, IconButton, DialogTitle, DialogActions, InputAdornment, TablePagination } from '@mui/material';
+import { Box, Stack, Alert, Button, Dialog, styled, Snackbar, Typography, IconButton, DialogTitle, DialogActions, InputAdornment, TablePagination, Grid } from '@mui/material';
 
 import { GetHeader, PutHeader, PostHeader, DeleteHeader, } from 'src/hooks/AxiosApiFetch';
 
@@ -989,7 +989,7 @@ export default function AddChitEstimatePage() {
             <Card>
                 <Box className="con" component="form"
                     sx={{
-                        '& .MuiTextField-root': {  width: '20ch', },
+                        '& .MuiTextField-root': {  width: '20ch'},
                     }}
                     noValidate
                     autoComplete="off">
@@ -998,10 +998,10 @@ export default function AddChitEstimatePage() {
                             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
-                            <Stack direction='row' spacing={1} alignItems='center' gap='20px' justifyContent="center" className='stack-box1'>
+                            <Stack direction='row' spacing={1} alignItems='center' gap='20px' justifyContent="flex-start" sx={{px:3,py:2}} className='stack-box1'>
                                 <div className='box-grp  grp-label'>
                                     <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 2, mb: '7px' }}>
+                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 0, mb: '7px' }}>
                                             Group No
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
@@ -1009,7 +1009,6 @@ export default function AddChitEstimatePage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Group No"
                                                 value={GroupNo.data}
                                                 onChange={(e) => ChitEstimateTextValidate(e, "GroupNo")}
                                                 style={{}} />
@@ -1019,7 +1018,7 @@ export default function AddChitEstimatePage() {
                                 </div>
                                 <div className='box-grp'>
                                     <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 0, mb:'7px' }}>
+                                        <Typography variant="subtitle1" sx={{ mt: 0, ml: 0, mb:'7px' }}>
                                             Foreman Pr.Due
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
@@ -1027,7 +1026,7 @@ export default function AddChitEstimatePage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Foreman Pr.Due"
+                                              
                                                 value={ForemanPrDue.data}
                                                 onChange={(e) => ChitEstimateTextValidate(e, "ForemanPrDue")}
                                                 style={{}} />
@@ -1037,7 +1036,7 @@ export default function AddChitEstimatePage() {
                                 </div>
                                 <div className='box-grp'>
                                     <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 2, mb: '7px' }}>
+                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 0, mb: '7px' }}>
                                             Amount
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
@@ -1046,7 +1045,7 @@ export default function AddChitEstimatePage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Amount"
+                                             
                                                 value={Amount.data}
                                                 onChange={(e) => ChitEstimateTextValidate(e, "Amount")}
                                                 style={{}} />
@@ -1055,8 +1054,8 @@ export default function AddChitEstimatePage() {
                                     </Stack>
                                 </div>
                                 <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 2, mb: '7px' }}>
+                                    <Stack direction='column' >
+                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 0, mt: 0, mb: '7px' }}>
                                             Dividend
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
@@ -1065,7 +1064,7 @@ export default function AddChitEstimatePage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Dividend"
+                                               
                                                 value={Dividend.data}
                                                 onChange={(e) => ChitEstimateTextValidate(e, "Dividend")}
                                                 style={{}} />
@@ -1075,7 +1074,7 @@ export default function AddChitEstimatePage() {
                                 </div>
                                 <div className='box-grp'>
                                     <Stack direction='column'>
-                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 0,mb:'7px'}} >
+                                        <Typography variant='subtitle1' sx={{ mt: 0, ml: 0,mb:'7px'}} >
                                             Duration
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
@@ -1083,7 +1082,7 @@ export default function AddChitEstimatePage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Duration"
+                                              
                                                 value={Duration.data}
                                                 onChange={(e) => ChitEstimateTextValidate(e, "Duration")}
                                                 style={{}} />
@@ -1092,7 +1091,9 @@ export default function AddChitEstimatePage() {
                                     </Stack>
                                 </div>
                             </Stack>
-                            <Scrollbar>
+                            <Grid container spacing={2}>
+                            <Grid item md={6} xs={12}>
+                            <Scrollbar className="table-one">
                                 <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
                                     <Table sx={{ minWidth: 450 }}>
                                         <TableHeader
@@ -1116,10 +1117,11 @@ export default function AddChitEstimatePage() {
                                                 .map((row, index) => (
                                                     <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }}>
                                                         <TableCell>{row.Instno}</TableCell>
-                                                        <TableCell sx={{ width: 100 }}>
+                                                        <TableCell sx={{ width: '13%' }}>
                                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                                <DemoContainer components={['DatePicker']} sx={{ width: 250, overflow: 'hidden' }}>
+                                                                <DemoContainer components={['DatePicker']} sx={{ width:200, overflow: 'hidden' }}>
                                                                     <DatePicker
+                                                                       className='input-box-date'
                                                                         id="filled-hidden-label-normal"
                                                                         value={row.auctiondate != null ? dayjs(row.auctiondate) : null}
                                                                         onChange={(e) => HandleDateChange(e, "auctiondate", row)}
@@ -1134,10 +1136,11 @@ export default function AddChitEstimatePage() {
                                                                 </DemoContainer>
                                                             </LocalizationProvider>
                                                         </TableCell>
-                                                        <TableCell sx={{ ml: -2 , width: 20 }}>
+                                                        <TableCell sx={{ ml: -2 , width: '13%' }}>
                                                             <TextField
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
+                                                                className='input-box'
                                                                 value={row.dueamount}
                                                                 onChange={(e) => ChitEstimateListTextValidate(e, row, index, "dueamount")}
                                                                 sx={{
@@ -1159,8 +1162,9 @@ export default function AddChitEstimatePage() {
                                                                     },
                                                                 }} />  
                                                         </TableCell>
-                                                        <TableCell sx={{  width: 20 }}>
+                                                        <TableCell sx={{  width: '14%' }}>
                                                             <TextField
+                                                               className='input-box'
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 value={row.less_amount}
@@ -1184,8 +1188,9 @@ export default function AddChitEstimatePage() {
                                                                     },
                                                                 }} />
                                                         </TableCell>
-                                                        <TableCell sx={{  width: 20 }}>
+                                                        <TableCell sx={{  width: '15%' }}>
                                                             <TextField
+                                                               className='input-box'
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 value={row.fm_commission}
@@ -1209,8 +1214,9 @@ export default function AddChitEstimatePage() {
                                                                     },
                                                                 }} />
                                                         </TableCell>
-                                                        <TableCell sx={{  width: 20 }}>
+                                                        <TableCell sx={{  width: '15%' }}>
                                                             <TextField
+                                                               className='input-box'
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 value={row.gst_value}
@@ -1234,8 +1240,9 @@ export default function AddChitEstimatePage() {
                                                                     },
                                                                 }} />
                                                         </TableCell>
-                                                        <TableCell sx={{  width: 20 }}>
+                                                        <TableCell sx={{  width: '15%' }}>
                                                             <TextField
+                                                               className='input-box'
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 value={row.payment}
@@ -1270,12 +1277,16 @@ export default function AddChitEstimatePage() {
                                         </TableBody>
                                     </Table>
                                 </TableContainer>
+                            
                             </Scrollbar>
-                            <Scrollbar>
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                            <Scrollbar className="table-one1">
                                 <TableContainer sx={{ overflow: 'unset' }}>
                                     <Table sx={{ minWidth: 450 ,mt:5}}>
                                         <TableHeader
                                             order="asc"
+                                            
                                             orderBy="name"
                                             rowCount={ChitEstimateMemberList.length}
                                             numSelected={0}
@@ -1307,6 +1318,7 @@ export default function AddChitEstimatePage() {
                                                         </TableCell>
                                                         <TableCell>
                                                             <TextField
+                                                             className='input-box'
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 disabled
@@ -1333,6 +1345,7 @@ export default function AddChitEstimatePage() {
                                                         </TableCell>
                                                         <TableCell>
                                                             <TextField
+                                                             className='input-box'
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 disabled
@@ -1358,6 +1371,7 @@ export default function AddChitEstimatePage() {
                                                         </TableCell>
                                                         <TableCell>
                                                             <TextField
+                                                             className='input-box'
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 value={row.comments}
@@ -1402,6 +1416,8 @@ export default function AddChitEstimatePage() {
                                     </Table>
                                 </TableContainer>
                             </Scrollbar>
+                            </Grid>
+                            </Grid>
                             <Stack direction='column' alignItems='flex-end'>
                                 <Button sx={{ mr: 5, mt: 2, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                     {Loading

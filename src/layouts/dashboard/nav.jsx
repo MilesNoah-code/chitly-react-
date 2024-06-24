@@ -22,7 +22,7 @@ import { LOGOUT_URL, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 // import Logo from 'src/components/logo';
 import Scrollbar from 'src/components/scrollbar';
 
-import { NAV } from './config-layout';
+// import { NAV } from './config-layout';
 import navConfig from './config-navigation';
 
 export default function Nav({ openNav, onCloseNav }) {
@@ -142,8 +142,12 @@ export default function Nav({ openNav, onCloseNav }) {
     <Box
       sx={{
         flexShrink: { lg: 0 },
-        width: { lg: NAV.WIDTH },
+        width: { lg: `${80}px` }, // Initial width
         backgroundColor: 'white',
+        transition: 'width 0.3s ease-in-out', // Smooth transition for width change
+        '&:hover': {
+          width: '280px', // Width on hover
+        },
       }}
     >
       {upLg ? (
@@ -151,7 +155,11 @@ export default function Nav({ openNav, onCloseNav }) {
           sx={{
             height: 1,
             position: 'fixed',
-            width: NAV.WIDTH,
+            width: `${70}px`,
+            transition: 'width 0.3s ease-in-out', // Added transition for smooth width change
+            '&:hover': {
+              width: '280px',
+            },
             borderRight: (theme) => `dashed 1px ${theme.palette.divider}`,
           }}
         >
@@ -163,12 +171,21 @@ export default function Nav({ openNav, onCloseNav }) {
           onClose={onCloseNav}
           PaperProps={{
             sx: {
-              width: NAV.WIDTH,
+              transition: 'width 0.3s ease-in-out',
+              width: '280px', // Initial width of the drawer
+              padding: '0 16px', // Adjust padding as needed
+              '&:hover': {
+                width: '70px', // Reduced width on hover
+                '& .navItemIcon': {
+                  width: '18px', // Adjust icon width on hover
+                },
+              },
             },
           }}
         >
           {renderContent}
         </Drawer>
+
       )}
     </Box>
   );
@@ -182,6 +199,15 @@ Nav.propTypes = {
 // ----------------------------------------------------------------------
 
 function NavItem({ item, isFirstItem }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
   const pathname = usePathname();
   const location = useLocation();
   const active = location.pathname.startsWith(item.path) || (isFirstItem && pathname === '/');
@@ -191,6 +217,8 @@ function NavItem({ item, isFirstItem }) {
       component={RouterLink}
       to={item.path}
       sx={{
+        display: 'flex',
+        alignItems: 'center',
         minHeight: 44,
         borderRadius: 0.75,
         typography: 'body2',
@@ -206,17 +234,57 @@ function NavItem({ item, isFirstItem }) {
             bgcolor: (theme) => alpha(theme.palette.primary.main, 0.16),
           },
         }),
+        position: 'relative',
+        overflow: 'hidden',
+        transition: 'min-width 0.3s ease-in-out',
+        minWidth: '280px', // Initial width of the button
+        padding: '0 16px', // Adjust padding as needed
+        ...(isHovered && {
+          minWidth: '70px', // Reduced width on hover
+        }),
+        '&:hover': {
+          '& .navItemIcon': {
+            width: '18px', // Adjust icon width on hover
+          },
+
+        },
       }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
-      <Box component="span" sx={{ width: 24, height: 24, mr: 2 }}>
+      {/* Icon */}
+      <Box
+        component="span"
+        className="navItemIcon"
+        sx={{
+          width: '24px', // Initial and hover width of the icon
+          height: '24px',
+          mr: 2,
+          transition: 'width 0.3s ease-in-out', // Transition for width change
+        }}
+      >
         {item.icon}
       </Box>
-      <Box component="span">{item.title} </Box>
+
+      {/* Title */}
+      <Box
+        component="span"
+        className="navItemTitle"
+        sx={{
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          maxWidth: '100%', // Initially visible
+          transition: 'max-width 0.3s ease-in-out, margin-left 0.3s ease-in-out',
+        }}
+      >
+        {item.title}
+      </Box>
     </ListItemButton>
   );
 }
 
 NavItem.propTypes = {
-  item: PropTypes.object,
-  isFirstItem: PropTypes.bool
+  item: PropTypes.object.isRequired,
+  isFirstItem: PropTypes.bool,
 };

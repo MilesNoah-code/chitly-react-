@@ -1,7 +1,7 @@
 
 .custom-button{
     background-color: #edf4fe;
-   padding: 12px 15px;
+  font-size: 15px;
     color: #1877f2;
     transition: background-color 0.3s ease;
   }
@@ -10,7 +10,18 @@
   }
   .input-box{
     width: 100%;
+    
+   
+    
   }
+  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+    font-size: 15px;
+  
+}
+input#outlined-required {
+  font-size: 13px !important;
+  height: 1.00em !important;
+}
   @media(max-width:768px){
     .mbl-view{
       display: flex;

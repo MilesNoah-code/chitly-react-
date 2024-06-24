@@ -998,7 +998,7 @@ export default function AddChitEstimatePage() {
                             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
-                            <Stack direction='row' spacing={1} alignItems='center' gap='20px' justifyContent="center" className='stack-box1'>
+                            <Stack direction='row' spacing={1} alignItems='center' gap='20px' justifyContent="flex-start;" sx={{px:'25px',py:'5px'}} className='stack-box1'>
                                 <div className='box-grp  grp-label'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 2, mb: '7px' }}>

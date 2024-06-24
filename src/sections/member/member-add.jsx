@@ -1816,7 +1816,7 @@ export default function AddMemberPage() {
             </Stack>
             <Card>
                 <Box component="form"
-                    sx={{ '& .MuiTextField-root': { m: 2, width: '20ch', }, }}
+                    sx={{ '& .MuiTextField-root': { m: , width: '20ch', }, }}
                     noValidate
                     autoComplete="off">
                     <Stack direction='column'>
@@ -1874,7 +1874,7 @@ export default function AddMemberPage() {
                                                         variant="outlined"
                                                         value={NamePrefix.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "NamePrefix")}
-                                                        style={{ width: 90, marginRight: -10, color: 'black' }} >
+                                                        style={{ width: 70, marginRight: -10, color: 'black' }} >
                                                         {Prefix.map((option) => (
                                                             <MenuItem key={option} value={option.value}>
                                                                 {option.data}
@@ -1908,7 +1908,7 @@ export default function AddMemberPage() {
                                                         variant="outlined"
                                                         value={RelationPrefix.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "RelationPrefix")}
-                                                        style={{ width: 90, marginRight: -10 }} >
+                                                        style={{ width: 70, marginRight: -10 }} >
                                                         {RelationShipPrefix.map((option) => (
                                                             <MenuItem key={option} value={option.value}>
                                                                 {option.data}
@@ -1984,7 +1984,7 @@ export default function AddMemberPage() {
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                        <DemoContainer components={['DatePicker']} sx={{ width: 550 }} className="date-pick">
+                                                        <DemoContainer components={['DatePicker']} sx={{ width: 550 ,pt:'0px'}} className="date-pick">
                                                             <DatePicker
                                                                 className='input-box1'
                                                                 value={Dob.data}

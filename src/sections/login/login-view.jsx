@@ -20,10 +20,9 @@ import { LOGIN_URL, IMAGE_DISPLAY_URL, REACT_APP_HOST_URL } from 'src/utils/api-
 
 import { bgGradient } from 'src/theme/css';
 import { pxToRem } from 'src/theme/typography';
-
 // import Logo from 'src/components/logo';
-import Iconify from 'src/components/iconify';
-
+import Iconify from 'src/components/iconify';  
+import './login-view.css';  
 
 // ----------------------------------------------------------------------
 
@@ -152,21 +151,30 @@ export default function LoginView() {
 
   const renderForm = (
     <>
-      <Stack spacing={3}>
+      <Stack spacing={2}>
         <TextField 
         name="email" 
+         className='input-box1'
         label="Email address" 
           value={UserName}
           onChange={(e) => HandleEmailValue(e)}
+          InputProps={{
+            style: { background: 'none !important' }, // Ensure correct syntax for !important
+          }}
         />
         <div style={{ color: '#ce0820', fontSize: pxToRem(12), marginTop: pxToRem(5) }}>{UsernameError}</div>
+
+
+
         <TextField
           name="password"
           label="Password"
+          className='input-box1'
           type={showPassword ? 'text' : 'password'}
           value={Password}
           onChange={(e) => validatePassword(e)}
-          InputProps={{
+        
+          InputProps={{    style: { background: 'none !important' },
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
@@ -221,10 +229,12 @@ export default function LoginView() {
         }}
       /> */}
       <Stack>
-        <img src="/assets/images/img/chitly_logo.png" alt="Loading" style={{ width: 100, height: 80, marginTop: 20, marginLeft: 20 }} />
+      <div class="img-login" style={{ width: '140px', height: '70px', marginTop: 20, marginLeft: 20 }}>
+        <img src="/assets/images/img/chitly_logo.png" alt="Loading" style={{ width: '100%', height: '100%', marginTop: 20, marginLeft: 20 }} />
+        </div>
       </Stack>
 
-      <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
+      <Stack alignItems="center" justifyContent="space-between;" sx={{ height: 1 ,mt:3}}>
         <Card
           sx={{
             px: 5,
@@ -234,7 +244,7 @@ export default function LoginView() {
             maxWidth: 420,
           }}
         >
-          <Typography variant="h4" sx={{ my: 3 }}>Sign in to Chitly</Typography>
+          <Typography variant="h6" sx={{ my: 3}}>Sign in to Chitly</Typography>
 
           {renderForm}
         </Card>

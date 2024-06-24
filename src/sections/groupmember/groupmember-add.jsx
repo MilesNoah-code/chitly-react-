@@ -566,7 +566,7 @@ export default function AddGroupMemberPage() {
                                                 <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
                                                     Member Name
                                                 </Typography>
-                                                <Stack direction='row' sx={{ ml: 0,ml: 2 }}>
+                                                <Stack direction='row' sx={{ ml: 0,}}>
                                                 <Typography className='input-box1'>
                                                 {memberDetail.memberName || ''}
                                             </Typography>

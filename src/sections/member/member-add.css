@@ -24,7 +24,8 @@
     padding: 10px;
   }
    .box  .input-box {
-    width: 250px !important;
+    width: 150px !important;
+    height: 1.00em !important;
   }
   .box  .input-box1 {
     
@@ -47,14 +48,7 @@
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     
 }
-h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
-  font-size: 15px;
 
-}
-input#outlined-required {
-font-size: 13px !important;
-height: 1.00em !important;
-}
 .row-box{
 display: flex;
 flex-wrap: wrap;

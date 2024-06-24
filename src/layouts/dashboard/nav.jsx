@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -26,8 +26,7 @@ import { NAV } from './config-layout';
 import navConfig from './config-navigation';
 
 export default function Nav({ openNav, onCloseNav }) {
-  const pathname = usePathname();
-
+  const location = useLocation();
   const upLg = useResponsive('up', 'lg');
   const UserDetail = JSON.parse(localStorage.getItem('userDetails'));
   const Session = localStorage.getItem('apiToken');
@@ -52,15 +51,15 @@ export default function Nav({ openNav, onCloseNav }) {
       .catch((error) => {
         setLoading(false);
         // console.log(error);
-      })
-  }
+      });
+  };
 
   useEffect(() => {
     if (openNav) {
       onCloseNav();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  }, [location.pathname, openNav, onCloseNav]);
 
   const renderAccount = (
     <Box
@@ -125,7 +124,6 @@ export default function Nav({ openNav, onCloseNav }) {
         },
       }}
     >
-     
       <Stack>
         <img src="/assets/images/img/chitly_logo.png" alt="Loading" style={{ width: 170, height: 80, marginTop: 20, marginLeft: 20 }} />
       </Stack>
@@ -185,15 +183,13 @@ Nav.propTypes = {
 
 function NavItem({ item, isFirstItem }) {
   const pathname = usePathname();
-  // console.log(pathname);
-  // console.log(item.path);
-  // const active = item.path === pathname;
-  const active = item.path === pathname || (isFirstItem && pathname === '/');
+  const location = useLocation();
+  const active = location.pathname.startsWith(item.path) || (isFirstItem && pathname === '/');
 
   return (
     <ListItemButton
       component={RouterLink}
-      href={item.path}
+      to={item.path}
       sx={{
         minHeight: 44,
         borderRadius: 0.75,
@@ -215,7 +211,6 @@ function NavItem({ item, isFirstItem }) {
       <Box component="span" sx={{ width: 24, height: 24, mr: 2 }}>
         {item.icon}
       </Box>
-
       <Box component="span">{item.title} </Box>
     </ListItemButton>
   );

@@ -64,8 +64,14 @@ export default function LoginView() {
             // router.push('/dashboard');
             GetImageUrl(json.apiToken)
           } else if (json.success === false) {
-            setPasswordError(json.message);
+            
             setLoading(false);
+            const password = "password";
+            if (json.message.toLowerCase().includes(password.toLowerCase())) {
+              setPasswordError(json.message);
+            } else {
+              setUsernameError(json.message);
+            }
           } else{
             setLoading(false);
           }

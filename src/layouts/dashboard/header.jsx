@@ -27,7 +27,7 @@ export default function Header({ onOpenNav }) {
   const renderContent = (
     <>
     
-        <IconButton onClick={onOpenNav} sx={{ mr:2 }}>
+        <IconButton onClick={onOpenNav} sx={{ mr:2, display: 'none' }}>
           <Iconify icon="eva:menu-2-fill" />
         </IconButton>
     

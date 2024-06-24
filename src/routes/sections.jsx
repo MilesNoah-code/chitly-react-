@@ -1,87 +1,77 @@
-import { lazy, Suspense } from 'react';
-import { Outlet, Navigate, useRoutes } from 'react-router-dom';
+import React, { lazy, Suspense } from 'react';
+import { Route, Routes, Outlet, Navigate } from 'react-router-dom';
 
 import DashboardLayout from 'src/layouts/dashboard';
 
-export const IndexPage = lazy(() => import('src/pages/app'));
-export const LoginPage = lazy(() => import('src/pages/login'));
-export const MemberPage = lazy(() => import('src/pages/member'));
-export const MemberAddPage = lazy(() => import('src/sections/member/member-add'));
-export const GroupPage = lazy(() => import('src/pages/group'));
-export const GroupAddPage = lazy(() => import('src/sections/group/group-add'));
-export const ChitReceiptPage = lazy(() => import('src/pages/chitreceipt'));
-export const ChitReceiptAddPage = lazy(() => import('src/sections/chitreceipt/chitreceipt-add'));
-export const ChitPaymentPage = lazy(() => import('src/pages/chitpayment'));
-export const ChitPaymentAddPage = lazy(() => import('src/sections/chitpayment/chitpayment-add'));
-export const GroupMemberPage = lazy(() => import('src/pages/groupmember'));
-export const Page404 = lazy(() => import('src/pages/page-not-found'));
-export const ChangeLog = lazy(() => import('src/changelog'));
-export const ChitEstimatePage = lazy(() => import('src/pages/chitestimate'));
-export const ChitEstimateAddPage = lazy(() => import('src/sections/chitestimate/chitestimate-add'));
-export const ChitAuctionPage = lazy(() => import('src/pages/chitauction'));
-export const ChitAuctionAddPage = lazy(() => import('src/sections/chitauction/chitauction-add'));
-export const ActivityLogPage = lazy(() => import('src/pages/activitylog'));
-export const GroupMemberAddPage = lazy(() => import('src/sections/groupmember/groupmember-add'));
-export const ReportPage = lazy(() => import('src/pages/report'));
+const IndexPage = lazy(() => import('src/pages/app'));
+const LoginPage = lazy(() => import('src/pages/login'));
+const MemberPage = lazy(() => import('src/pages/member'));
+const MemberAddPage = lazy(() => import('src/sections/member/member-add'));
+const GroupPage = lazy(() => import('src/pages/group'));
+const GroupAddPage = lazy(() => import('src/sections/group/group-add'));
+const ChitReceiptPage = lazy(() => import('src/pages/chitreceipt'));
+const ChitReceiptAddPage = lazy(() => import('src/sections/chitreceipt/chitreceipt-add'));
+const ChitPaymentPage = lazy(() => import('src/pages/chitpayment'));
+const ChitPaymentAddPage = lazy(() => import('src/sections/chitpayment/chitpayment-add'));
+const GroupMemberPage = lazy(() => import('src/pages/groupmember'));
+const Page404 = lazy(() => import('src/pages/page-not-found'));
+const ChangeLog = lazy(() => import('src/changelog'));
+const ChitEstimatePage = lazy(() => import('src/pages/chitestimate'));
+const ChitEstimateAddPage = lazy(() => import('src/sections/chitestimate/chitestimate-add'));
+const ChitAuctionPage = lazy(() => import('src/pages/chitauction'));
+const ChitAuctionAddPage = lazy(() => import('src/sections/chitauction/chitauction-add'));
+const ActivityLogPage = lazy(() => import('src/pages/activitylog'));
+const GroupMemberAddPage = lazy(() => import('src/sections/groupmember/groupmember-add'));
+const ReportPage = lazy(() => import('src/pages/report'));
 
-export default function Router() {
+function Router() {
   const isSessionAvailable = localStorage.getItem('apiToken') !== null;
 
-  const routes = useRoutes([
-    {
-      path: '/',
-      element: isSessionAvailable ? (
-        <DashboardLayout>
-          <Suspense>
-            <Outlet />
-          </Suspense>
-        </DashboardLayout>
-      ) : (
-        <Navigate to="login" replace />
-      ),
-      children: [
-        { path: '', element: <IndexPage /> },
-        { path: 'dashboard', element: <IndexPage /> },
-        { path: 'member/list', element: <MemberPage /> },
-        { path: 'member/add', element: <MemberAddPage /> },
-        { path: 'member/view/:memberId', element: <MemberAddPage /> },
-        { path: 'member/edit/:memberId', element: <MemberAddPage /> },
-        { path: 'groupMember/list', element: <GroupMemberPage />},
-        { path: 'groupMember', element: <GroupMemberAddPage /> },
-        { path: 'group/list', element: <GroupPage /> },
-        { path: 'group/add', element: <GroupAddPage /> },
-        { path: 'group/view/:memberId', element: <GroupAddPage /> },
-        { path: 'group/edit/:memberId', element: <GroupAddPage /> },
-        { path: 'chitreceipt/list', element: <ChitReceiptPage /> },
-        { path: 'chitreceipt/add', element: <ChitReceiptAddPage /> },
-        { path: 'chitreceipt/view/:memberId', element: <ChitReceiptAddPage /> },
-        { path: 'chitpayment/list', element: <ChitPaymentPage /> },
-        { path: 'chitpayment/add', element: <ChitPaymentAddPage /> },
-        { path: 'chitpayment/view/:memberId', element: <ChitPaymentAddPage /> },
-        { path: 'chitestimate/list', element: <ChitEstimatePage /> },
-        { path: 'chitestimate/add', element: <ChitEstimateAddPage /> },
-        { path: 'chitauction/list', element: <ChitAuctionPage /> },
-        { path: 'chitauction/add', element: <ChitAuctionAddPage /> },
-        { path: 'report/list', element: <ReportPage /> },
-      ],
-    },
-    {
-      path: 'login',
-      element: <LoginPage />,
-    },
-    {
-      path: '*',
-      element: <Page404 />,
-    },
-    {
-      path: 'changelog',
-      element: <ChangeLog />,
-    },
-    {
-      path: 'ActivityLog/list',
-      element: <ActivityLogPage />,
-    },
-  ]);
+  return (
+    <Routes>
+      <Route
+        path="/"
+        element={isSessionAvailable ? (
+          <DashboardLayout>
+            <Suspense fallback={<div>Loading...</div>}>
+              <Outlet />
+            </Suspense>
+          </DashboardLayout>
+        ) : (
+          <Navigate to="login" replace />
+        )}
+      >
+        <Route index element={<IndexPage />} />
+        <Route path="dashboard" element={<IndexPage />} />
+        <Route path="member/list" element={<MemberPage />} />
+        <Route path="member/add" element={<MemberAddPage />} />
+        <Route path="member/view/:memberId" element={<MemberAddPage />} />
+        <Route path="member/edit/:memberId" element={<MemberAddPage />} />
+        <Route path="groupMember/list" element={<GroupMemberPage />} />
+        <Route path="groupMember" element={<GroupMemberAddPage />} />
+        <Route path="group/list" element={<GroupPage />} />
+        <Route path="group/add" element={<GroupAddPage />} />
+        <Route path="group/view/:groupId" element={<GroupAddPage />} />
+        <Route path="group/edit/:groupId" element={<GroupAddPage />} />
+        <Route path="chitreceipt/list" element={<ChitReceiptPage />} />
+        <Route path="chitreceipt/add" element={<ChitReceiptAddPage />} />
+        <Route path="chitreceipt/view/:receiptId" element={<ChitReceiptAddPage />} />
+        <Route path="chitpayment/list" element={<ChitPaymentPage />} />
+        <Route path="chitpayment/add" element={<ChitPaymentAddPage />} />
+        <Route path="chitpayment/view/:paymentId" element={<ChitPaymentAddPage />} />
+        <Route path="chitestimate/list" element={<ChitEstimatePage />} />
+        <Route path="chitestimate/add" element={<ChitEstimateAddPage />} />
+        <Route path="chitauction/list" element={<ChitAuctionPage />} />
+        <Route path="chitauction/add" element={<ChitAuctionAddPage />} />
+        <Route path="report/list" element={<ReportPage />} />
+        <Route path="ActivityLog/list" element={<ActivityLogPage />} />
+      </Route>
 
-  return routes;
+      <Route path="login" element={<LoginPage />} />
+      <Route path="*" element={<Page404 />} />
+      <Route path="changelog" element={<ChangeLog />} />
+    </Routes>
+  );
 }
+
+export default Router;

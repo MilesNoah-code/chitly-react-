@@ -92,8 +92,7 @@ input#outlined-required {
       }
       h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
         font-size: 15px;
-        margin-top: 2px;
-      margin-bottom: -9px;
+       
     }
     input#outlined-required {
       font-size: 13px !important;

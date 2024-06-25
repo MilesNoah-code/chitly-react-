@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 import Nav from './nav';
 import Main from './main';
 import Header from './header';
-
+import './index.css';
 // ----------------------------------------------------------------------
 
 export default function DashboardLayout({ children }) {
@@ -18,6 +18,7 @@ export default function DashboardLayout({ children }) {
 
       <Box
         sx={{
+          position: 'relative',
           minHeight: 1,
           display: 'flex',
           flexDirection: { xs: 'column', lg: 'row' },
@@ -25,7 +26,7 @@ export default function DashboardLayout({ children }) {
       >
         <Nav openNav={openNav} onCloseNav={() => setOpenNav(false)} />
 
-        <Main sx={{px:'0px'}}>{children}</Main>
+        <Main  className="main-div" sx={{px:'0px'}}>{children}</Main>
       </Box>
     </>
   );

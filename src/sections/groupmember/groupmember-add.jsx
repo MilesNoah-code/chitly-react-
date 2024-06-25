@@ -566,7 +566,7 @@ export default function AddGroupMemberPage() {
                                                 <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
                                                     Member Name
                                                 </Typography>
-                                                <Stack direction='row' sx={{ ml: 0,}}>
+                                                <Stack direction='row' sx={{ ml: 2,}}>
                                                 <Typography className='input-box1'>
                                                 {memberDetail.memberName || ''}
                                             </Typography>
@@ -735,8 +735,8 @@ export default function AddGroupMemberPage() {
             <Dialog
                 open={MemberListAlert}
                 fullWidth
-                maxWidth="md"
-                sx={{ display: 'flex', justifyContent: 'center', flex: 1, }}
+                maxWidth="lg"
+                sx={{ display: 'flex', justifyContent: 'center', flex: 1, minWidth: 800}}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description" >
                 <Card sx={{ maxWidth: '800px' }}>

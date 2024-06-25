@@ -1,0 +1,7 @@
+.main-div{
+    position: relative;
+    z-index: 99;
+    min-height: 1;
+    display: flex;
+  
+}

@@ -1146,7 +1146,7 @@ export default function AddChitPaymentPage() {
                                                                     className='input-box1'
                                                                     id="outlined-required"
                                                                     disabled
-                                                                    label="Name"
+                                                                   
                                                                     value={row.name}
                                                                     onChange={(e) => ChitPaymentLedgerTextValidate(e, row, "LedgerName")}
                                                                     style={{}} />
@@ -1173,7 +1173,7 @@ export default function AddChitPaymentPage() {
                                                             <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{row.valueerror}</div>
                                                         </Stack>
                                                     </div>
-                                                    <div className=' grp-mbl'>
+                                                    <div className=' grp-mbl box-popfix'>
                                                         <Stack direction='column'>
                                                             <Typography variant='subtitle1' sx={{ ml: 0, mr: 2, mt: 3, mb: '0px' }} >
                                                                 Particular
@@ -1191,7 +1191,7 @@ export default function AddChitPaymentPage() {
                                                             </Stack>
                                                             <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{row.particularerror}</div>
                                                         </Stack>
-                                                        <Stack direction='column' sx={{ cursor: 'pointer' }} onClick={() => removeLedgerItem(index)}>
+                                                        <Stack direction='column' className='cancel-btn' sx={{ cursor: 'pointer' }} onClick={() => removeLedgerItem(index)}>
                                                             <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                                                         </Stack>
                                                     </div>

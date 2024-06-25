@@ -64,9 +64,9 @@ export default function Nav({ openNav, onCloseNav }) {
   const renderAccount = (
     <Box
       sx={{
-        my: 3,
+        my: 2,
         mx: 2.5,
-        py: 2,
+        py: '10px',
         px: 2.5,
         display: 'flex',
         borderRadius: 1.5,
@@ -124,9 +124,7 @@ export default function Nav({ openNav, onCloseNav }) {
         },
       }}
     >
-      <Stack>
-        <img src="/assets/images/img/chitly_logo.png" alt="Loading" style={{ width: 170, height: 80, marginTop: 20, marginLeft: 20 }} />
-      </Stack>
+      
 
       {renderAccount}
 
@@ -140,14 +138,12 @@ export default function Nav({ openNav, onCloseNav }) {
 
   return (
     <Box
+      className='draw-container'
       sx={{
         flexShrink: { lg: 0 },
-        width: { lg: `${80}px` }, // Initial width
+        width: { lg: `${55}px` },
         backgroundColor: 'white',
-        transition: 'width 0.3s ease-in-out', // Smooth transition for width change
-        '&:hover': {
-          width: '280px', // Width on hover
-        },
+        transition: 'width 0.3s ease-in-out',
       }}
     >
       {upLg ? (
@@ -155,10 +151,12 @@ export default function Nav({ openNav, onCloseNav }) {
           sx={{
             height: 1,
             position: 'fixed',
-            width: `${70}px`,
-            transition: 'width 0.3s ease-in-out', // Added transition for smooth width change
+            width: `${55}px`,
+            transition: 'width 0.3s ease-in-out',
             '&:hover': {
-              width: '280px',
+              width: '270px',
+              zIndex: 9999999,
+              backgroundColor: 'white',
             },
             borderRight: (theme) => `dashed 1px ${theme.palette.divider}`,
           }}
@@ -166,31 +164,30 @@ export default function Nav({ openNav, onCloseNav }) {
           {renderContent}
         </Box>
       ) : (
-        <Drawer
-          open={openNav}
-          onClose={onCloseNav}
-          PaperProps={{
-            sx: {
-              transition: 'width 0.3s ease-in-out',
-              width: '280px', // Initial width of the drawer
-              padding: '0 16px', // Adjust padding as needed
-              '&:hover': {
-                width: '70px', // Reduced width on hover
-                '& .navItemIcon': {
-                  width: '18px', // Adjust icon width on hover
-                },
+      
+          <Drawer
+            open={openNav}
+            onClose={onCloseNav}
+            PaperProps={{
+              sx: {
+                transition: 'width 0.3s ease-in-out',
+                width: '280px',
+                padding: '0 16px',
+                zIndex: 100,
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                height: '100%',
               },
-            },
-          }}
-        >
-          {renderContent}
-        </Drawer>
-
+            }}
+          >
+            {renderContent}
+          </Drawer>
+     
       )}
     </Box>
   );
-}
-
+};
 Nav.propTypes = {
   openNav: PropTypes.bool,
   onCloseNav: PropTypes.func,
@@ -237,14 +234,14 @@ function NavItem({ item, isFirstItem }) {
         position: 'relative',
         overflow: 'hidden',
         transition: 'min-width 0.3s ease-in-out',
-        minWidth: '280px', // Initial width of the button
-        padding: '0 16px', // Adjust padding as needed
+        minWidth: '280px',
+        padding: '0 16px', 
         ...(isHovered && {
-          minWidth: '70px', // Reduced width on hover
+          minWidth: '55px', 
         }),
         '&:hover': {
           '& .navItemIcon': {
-            width: '18px', // Adjust icon width on hover
+            width: '18px', 
           },
 
         },
@@ -257,10 +254,10 @@ function NavItem({ item, isFirstItem }) {
         component="span"
         className="navItemIcon"
         sx={{
-          width: '24px', // Initial and hover width of the icon
+          width: '24px',
           height: '24px',
-          mr: 2,
-          transition: 'width 0.3s ease-in-out', // Transition for width change
+          mr: 2, ml:-2,
+          transition: 'width 0.3s ease-in-out', 
         }}
       >
         {item.icon}
@@ -274,7 +271,7 @@ function NavItem({ item, isFirstItem }) {
           overflow: 'hidden',
           textOverflow: 'ellipsis',
           whiteSpace: 'nowrap',
-          maxWidth: '100%', // Initially visible
+          maxWidth: '100%', 
           transition: 'max-width 0.3s ease-in-out, margin-left 0.3s ease-in-out',
         }}
       >

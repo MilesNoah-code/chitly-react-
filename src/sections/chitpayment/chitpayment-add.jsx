@@ -898,7 +898,7 @@ export default function AddChitPaymentPage() {
                                                 <DemoContainer components={['DatePicker']} sx={{ width: 550 }}>
                                                     <DatePicker
                                                         className='input-box1'
-                                                        label="From Date"
+                                                        // label="From Date"
                                                         disabled={screen === "view"}
                                                         value={ReceiptDate.data}
                                                         onChange={HandleDateChange}
@@ -919,7 +919,7 @@ export default function AddChitPaymentPage() {
                                                 required
                                                 id="outlined-required"
                                                 readOnly
-                                                label="Group No"
+                                                // label="Group No"
                                                 sx={{ pointerEvents: 'auto' }}
                                                 value={GroupNoSearch.data}
                                                 onChange={(e) => ChitPaymentTextValidate(e, "GroupNoSearch")}
@@ -942,7 +942,7 @@ export default function AddChitPaymentPage() {
                                                 required
                                                 id="outlined-required"
                                                 disabled
-                                                label="Member Name"
+                                                // label="Member Name"
                                                 value={MemberName.data}
                                                 onChange={(e) => ChitPaymentTextValidate(e, "MemberName")}
                                                 style={{}} />
@@ -961,7 +961,7 @@ export default function AddChitPaymentPage() {
                                                 required
                                                 id="outlined-required"
                                                 disabled
-                                                label="Ticket No"
+                                                // label="Ticket No"
                                                 value={TicketNo.data}
                                                 onChange={(e) => ChitPaymentTextValidate(e, "TicketNo")}
                                                 style={{}} />
@@ -982,7 +982,7 @@ export default function AddChitPaymentPage() {
                                                 required
                                                 id="outlined-required"
                                                 disabled
-                                                label="Receipt No"
+                                                // label="Receipt No"
                                                 value={ReceiptNo.data}
                                                 onChange={(e) => ChitPaymentTextValidate(e, "ReceiptNo")}
                                                 style={{}} />
@@ -1001,7 +1001,7 @@ export default function AddChitPaymentPage() {
                                                 required
                                                 id="outlined-required"
                                                 disabled
-                                                label="Installment No"
+                                                // label="Installment No"
                                                 value={InstallmentNo.data}
                                                 onChange={(e) => ChitPaymentTextValidate(e, "InstallmentNo")}
                                                 style={{}} />
@@ -1024,7 +1024,7 @@ export default function AddChitPaymentPage() {
                                                     className='input-box1'
                                                     id="outlined-required"
                                                     disabled
-                                                    label="Mobile No"
+                                                    // label="Mobile No"
                                                     value={MobileNo.data}
                                                     onChange={(e) => ChitPaymentTextValidate(e, "MobileNo")}
                                                     style={{}} />
@@ -1043,7 +1043,7 @@ export default function AddChitPaymentPage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Account No"
+                                                // label="Account No"
                                                 value={AccountNo.data}
                                                 onChange={(e) => ChitPaymentTextValidate(e, "AccountNo")}
                                                 style={{}} />
@@ -1063,7 +1063,7 @@ export default function AddChitPaymentPage() {
                                                     className='input-box1'
                                                     id="outlined-required"
                                                     disabled
-                                                    label="Value"
+                                                    // label="Value"
                                                     value={Values.data}
                                                     onChange={(e) => ChitPaymentTextValidate(e, "Values")}
                                                     style={{}} />
@@ -1087,7 +1087,7 @@ export default function AddChitPaymentPage() {
                                                     className='input-box1'
                                                     id="outlined-required"
                                                     disabled
-                                                    label="Value"
+                                                    // label="Value"
                                                     value={Values.data}
                                                     onChange={(e) => ChitPaymentTextValidate(e, "Values")}
                                                     style={{}} />
@@ -1106,7 +1106,7 @@ export default function AddChitPaymentPage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled={screen === "view"}
-                                                label="Particulars"
+                                                // label="Particulars"
                                                 value={Particulars.data}
                                                 onChange={(e) => ChitPaymentTextValidate(e, "Particulars")}
                                                 style={{}} />
@@ -1165,7 +1165,7 @@ export default function AddChitPaymentPage() {
                                                                     className='input-box1'
                                                                     id="outlined-required"
                                                                     disabled
-                                                                    label="Value"
+                                                                    // label="Value"
                                                                     value={row.value}
                                                                     onChange={(e) => ChitPaymentLedgerTextValidate(e, row, "LedgerValues")}
                                                                     style={{}} />
@@ -1184,7 +1184,7 @@ export default function AddChitPaymentPage() {
                                                                     className='input-box1 width-inp'
                                                                     id="outlined-required"
                                                                     disabled={screen === "view"}
-                                                                    label="Particular"
+                                                                    // label="Particular"
                                                                     value={row.particular}
                                                                     onChange={(e) => ChitPaymentLedgerTextValidate(e, row, "LedgerParticular")}
                                                                     style={{}} />

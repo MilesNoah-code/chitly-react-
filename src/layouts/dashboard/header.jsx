@@ -23,14 +23,19 @@ export default function Header({ onOpenNav }) {
   const theme = useTheme();
 
    const lgUp = useResponsive('up', 'lg');
-
+  
+   
   const renderContent = (
     <>
-    
-        <IconButton onClick={onOpenNav} sx={{ mr:2, display: 'none' }}>
-          <Iconify icon="eva:menu-2-fill" />
-        </IconButton>
-    
+    <Stack>
+    <div className='box-logo'>
+    <img className="logo-chitly" src="/assets/images/img/chitly_logo.png" alt="Loading"  />
+    </div>
+    </Stack>
+   
+    <IconButton onClick={onOpenNav} sx={{ mr:2, display: 'none' }}>
+    <Iconify icon="eva:menu-2-fill" />
+  </IconButton>
 
       <Box sx={{ flexGrow: 1 }} />
 
@@ -57,7 +62,7 @@ export default function Header({ onOpenNav }) {
           duration: theme.transitions.duration.shorter,
         }),
         ...(lgUp && {
-          width: `calc(100% - ${NAV.WIDTH + 1}px)`,
+          width: `calc(100% - ${1}px)`,
           height: HEADER.H_DESKTOP,
         }),
       }}

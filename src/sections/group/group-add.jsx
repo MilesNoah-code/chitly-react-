@@ -414,7 +414,7 @@ export default function AddGroupPage() {
                                             required
                                             id="outlined-required"
                                             disabled={screen === "view"}
-                                            label="Group Code"
+                                         
                                             value={GroupCode.data}
                                             onChange={(e) => GroupTextValidate(e, "GroupCode")}
                                             style={{}} />
@@ -433,7 +433,7 @@ export default function AddGroupPage() {
                                             required
                                             id="outlined-required"
                                             disabled={screen === "view"}
-                                            label="Amount"
+                                       
                                             value={Amount.data}
                                             onChange={(e) => GroupTextValidate(e, "Amount")}
                                             style={{}} />
@@ -454,7 +454,7 @@ export default function AddGroupPage() {
                                             required
                                             id="outlined-required"
                                             disabled={screen === "view"}
-                                            label="Duration"
+                                         
                                             value={Duration.data}
                                             onChange={(e) => GroupTextValidate(e, "Duration")}
                                             style={{}} />
@@ -473,7 +473,7 @@ export default function AddGroupPage() {
                                             required
                                             id="outlined-required"
                                             disabled
-                                            label="EM Due"
+                                           
                                             value={EMDue.data}
                                             onChange={(e) => GroupTextValidate(e, "EMDue")}
                                             style={{}} />
@@ -495,7 +495,7 @@ export default function AddGroupPage() {
                                             id="outlined-required"
                                             select
                                             disabled={screen === "view"}
-                                            label="Select"
+                                          
                                             value={FMPRDue.data}
                                             onChange={(e) => GroupTextValidate(e, "FMPRDue")}
                                             style={{}}>
@@ -520,7 +520,7 @@ export default function AddGroupPage() {
                                             id="outlined-required"
                                             select
                                             disabled={screen === "view"}
-                                            label="Select"
+                                        
                                             value={Dividend.data}
                                             onChange={(e) => GroupTextValidate(e, "Dividend")}
                                             style={{}}>
@@ -547,7 +547,7 @@ export default function AddGroupPage() {
                                             id="outlined-select-currency"
                                             select
                                             disabled={screen === "view"}
-                                            label="Select"
+                                          
                                             variant="outlined"
                                             value={AuctionMode.data}
                                             onChange={(e) => GroupTextValidate(e, "AuctionMode")}

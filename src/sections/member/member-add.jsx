@@ -1843,7 +1843,28 @@ export default function AddMemberPage() {
                                 : <TabPanel value="1">
                                     {screen === "add"
                                         ? null
-                                        : <Stack spacing={2} sx={{ mb: 3, alignItems: 'flex-end', mr: 3 }}>
+                                        : <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                      
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    PanCard Number
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        // required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Pancard Number"
+                                                        value={PancardNo.data}
+                                                        onChange={(e) => MemberInfoTextValidate(e, "PancardNo")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{PancardNo.error}</div>
+                                            </Stack>
+                                        </div>
+                                        <div className='box'>
                                             <Stack direction='column' sx={{ ml: 2, }}>
                                                 {ProfileImage.data !== ""
                                                     ? <div>
@@ -1858,6 +1879,7 @@ export default function AddMemberPage() {
                                                 </Button>
                                                 <div style={{ marginLeft: "10px", marginTop: "0px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ProfileImage.error}</div>
                                             </Stack>
+                                         </div>
                                         </Stack>}
                                     <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                         <div className='box'>
@@ -2099,27 +2121,7 @@ export default function AddMemberPage() {
                                             </Stack>
                                         </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                        <div className='box'>
-                                            <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                                    PanCard Number
-                                                </Typography>
-                                                <Stack direction='row' sx={{ ml: 0, }}>
-                                                    <TextField
-                                                        className='input-box1'
-                                                        // required
-                                                        id="outlined-required"
-                                                        disabled={screen === "view"}
-                                                        label="Pancard Number"
-                                                        value={PancardNo.data}
-                                                        onChange={(e) => MemberInfoTextValidate(e, "PancardNo")}
-                                                        style={{}} />
-                                                </Stack>
-                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{PancardNo.error}</div>
-                                            </Stack>
-                                        </div>
-                                    </Stack>
+                                  
                                 </TabPanel>}
                             {MemberLoading
                                 ? null

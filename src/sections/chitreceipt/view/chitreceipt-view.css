@@ -10,6 +10,11 @@
   .input-box{
     width: 100%;
   }
+  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+    font-size: 15px;
+  
+}
+
   @media(max-width:768px){
     .mbl-view{
       display: flex;

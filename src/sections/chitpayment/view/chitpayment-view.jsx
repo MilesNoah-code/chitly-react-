@@ -207,7 +207,7 @@ export default function ChitPaymentView() {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker']} >
               <DatePicker
-                label="From Date"
+              
                 value={FromDate.data}
                 onChange={HandleFromDateChange}
                 disabled={ChitPaymentLoading}
@@ -217,7 +217,7 @@ export default function ChitPaymentView() {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker']}>
               <DatePicker
-                label="To Date"
+             
                 value={ToDate.data}
                 onChange={HandleToDateChange}
                 disabled={ChitPaymentLoading}

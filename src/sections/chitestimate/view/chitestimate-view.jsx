@@ -201,6 +201,14 @@ export default function ChitEstimateView() {
                 </InputAdornment>
               ),
             }}
+            sx={{
+              '& .MuiInputBase-input': {
+                padding: '8px', 
+              },
+              '& .MuiInputAdornment-root': {
+                padding: '8px', 
+              },
+            }}
           />
           <TextField select size="small" value={ActiveFilter} onChange={(e) => handleFilterByActive(e)}>
             {options.map((option) => (

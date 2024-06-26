@@ -210,7 +210,7 @@ export default function ReportView() {
                                 </TabList>
                             </Box>
                             <TabPanel value="1">
-                                <Stack mb={2} mr={3} direction="row" alignItems="center" gap='40px' className='mbl-view'>
+                                <Stack mb={2} mr={3} direction="row" alignItems="center" gap='30px' className='mbl-view'>
                                     <TextField
                                         placeholder="Search Group..."
                                         value={GroupNoSearch}
@@ -225,6 +225,7 @@ export default function ReportView() {
                                                 </InputAdornment>
                                             ),
                                         }}
+                                     
                                     />
                                 </Stack>
                                 {PayableReportLoading

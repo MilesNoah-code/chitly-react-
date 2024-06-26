@@ -151,7 +151,7 @@ export default function GroupMemberView() {
         <Typography variant="h6" sx={{ color: '#637381' }}>Group Member List</Typography>
       </Stack>
       <Card>
-        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" justifyContent="space-between" className='mbl-view'>
+        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='30px' className='mbl-view'>
           <TextField
             placeholder="Search Group..."
             value={filterName}
@@ -165,6 +165,14 @@ export default function GroupMemberView() {
                   />
                 </InputAdornment>
               ),
+            }}
+            sx={{
+              '& .MuiInputBase-input': {
+                padding: '8px', 
+              },
+              '& .MuiInputAdornment-root': {
+                padding: '8px', 
+              },
             }}
           />
         </Stack>

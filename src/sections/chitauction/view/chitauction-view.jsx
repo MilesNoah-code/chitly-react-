@@ -171,6 +171,14 @@ export default function ChitAuctionView() {
                 </InputAdornment>
               ),
             }}
+            sx={{
+              '& .MuiInputBase-input': {
+                padding: '8px', 
+              },
+              '& .MuiInputAdornment-root': {
+                padding: '8px', 
+              },
+            }}
           />
         </Stack>
         {ChitAuctionLoading

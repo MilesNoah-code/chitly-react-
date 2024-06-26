@@ -100,3 +100,6 @@
      margin-top: 10px;
     }
     }
+        .rowExists {
+          background-color: rgba(24, 119, 242, 0.16);
+        }

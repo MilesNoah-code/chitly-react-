@@ -14,7 +14,7 @@ import { bgBlur } from 'src/theme/css';
 import Iconify from 'src/components/iconify';
 
 import './header.css';
-import { NAV, HEADER } from './config-layout';
+import { HEADER } from './config-layout';
 import AccountPopover from './common/account-popover';
 // import LanguagePopover from './common/language-popover';
 // import NotificationsPopover from './common/notifications-popover';

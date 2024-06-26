@@ -1,7 +1,7 @@
 .custom-button{
     background-color: #edf4fe;
    font-size: 15px;
-   padding: 5px;
+   /* padding: 5px; */
     color: #1877f2;
     transition: background-color 0.3s ease;
   }

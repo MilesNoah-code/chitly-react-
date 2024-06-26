@@ -175,12 +175,12 @@ export default function GroupView() {
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
         <Typography variant="h6" sx={{ color: '#637381' }}>Group List</Typography>
-        <Button variant="contained" className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddGroupClick} sx={{ cursor: 'pointer' }}>
+        <Button variant="contained" className='custom-button'  onClick={HandleAddGroupClick} sx={{ cursor: 'pointer' }}>
           Add Group
         </Button>
       </Stack>
       <Card>
-        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" justifyContent="space-between" className='mbl-view'>
+        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='30px' className='mbl-view'>
           <TextField
             placeholder="Search Group..."
             value={filterName}
@@ -194,6 +194,14 @@ export default function GroupView() {
                   />
                 </InputAdornment>
               ),
+            }}
+            sx={{
+              '& .MuiInputBase-input': {
+                padding: '8px', 
+              },
+              '& .MuiInputAdornment-root': {
+                padding: '8px', 
+              },
             }}
           />
           <TextField select size="small" value={ActiveFilter} onChange={(e) => handleFilterByActive(e)}>

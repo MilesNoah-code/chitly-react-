@@ -151,7 +151,7 @@ export default function ChitAuctionView() {
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
         <Typography variant="h6" sx={{ color: '#637381' }}>Chit Auction List</Typography>
-        <Button variant="contained" className='custom-button' sx={{ display: 'none' }} startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddChitAuctionClick}>
+        <Button variant="contained" className='custom-button' sx={{ display: 'none' }}  onClick={HandleAddChitAuctionClick}>
           Add Chit Auction
         </Button>
       </Stack>
@@ -170,6 +170,14 @@ export default function ChitAuctionView() {
                   />
                 </InputAdornment>
               ),
+            }}
+            sx={{
+              '& .MuiInputBase-input': {
+                padding: '8px', 
+              },
+              '& .MuiInputAdornment-root': {
+                padding: '8px', 
+              },
             }}
           />
         </Stack>

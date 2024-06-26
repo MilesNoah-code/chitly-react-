@@ -160,7 +160,7 @@ export default function MemberTableRow({
               </Typography>
             </Stack>
           </TableCell>
-          <TableCell>{item.accno}</TableCell>
+          <TableCell>{item.id}</TableCell>
           <TableCell>{item.mapped_phone}</TableCell>
           <TableCell>
             <Label color={(item.status === 'banned' && 'error') || 'success'}>{item.status}</Label>

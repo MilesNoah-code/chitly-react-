@@ -33,7 +33,6 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
           fontWeight: 'bold',
           color: '#333',
         },
-        offsetY: 5, // Adjust the vertical position of the x-axis label
       },
       labels: {
         style: {

@@ -3,7 +3,7 @@
    font-size: 15px;
     color: #1877f2;
     transition: background-color 0.3s ease;
-    padding: 5px;
+  
   }
   .custom-button:hover{
     background: rgba(24, 119, 242, 0.16);

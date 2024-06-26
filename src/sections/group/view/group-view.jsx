@@ -175,7 +175,7 @@ export default function GroupView() {
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
         <Typography variant="h6" sx={{ color: '#637381' }}>Group List</Typography>
-        <Button variant="contained" className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddGroupClick} sx={{ cursor: 'pointer' }}>
+        <Button variant="contained" className='custom-button'  onClick={HandleAddGroupClick} sx={{ cursor: 'pointer' }}>
           Add Group
         </Button>
       </Stack>

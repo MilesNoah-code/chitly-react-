@@ -1,6 +1,6 @@
 .custom-button{
     background-color: #edf4fe;
-   font-size: 17px;
+   font-size: 15px;
     color: #1877f2;
     transition: background-color 0.3s ease;
   }
@@ -127,18 +127,32 @@ flex-wrap: wrap;
    
   }
   @media screen and (max-width: 1305px) and (min-width: 1200px) {
-    .radio-box  .MuiFormControlLabel-root{
+    /* .radio-box  .MuiFormControlLabel-root{
       margin-left: 10px;
       margin-right: 10px;
-    }
+    } */
     .radio-box .radio-control2.MuiFormControlLabel-root{
-      margin-left: 0px;
+      margin-left: 35px;
+    }
+    .radio-box .radio-control3.MuiFormControlLabel-root{
+      margin-left: -3px;
+    }
+    .radio-box .radio-control1.MuiFormControlLabel-root{
+      margin-left: 10px;
+    }
+  }
+  @media (min-width:769px) and (max-width:1017px){
+    .radio-box .radio-control2.MuiFormControlLabel-root{
+      margin-left: 15px;
     }
     .radio-box .radio-control3.MuiFormControlLabel-root{
       margin-left: 10px;
     }
     .radio-box .radio-control1.MuiFormControlLabel-root{
       margin-left: 10px;
+    }
+    .radio-box .radio-control.MuiFormControlLabel-root{
+      margin-left: 15px;
     }
   }
   @media (min-width:769px) and (max-width:894px){

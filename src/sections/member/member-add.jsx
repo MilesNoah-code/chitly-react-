@@ -2441,7 +2441,7 @@ export default function AddMemberPage() {
                                                         value={MaritalStatus.data}
                                                         onChange={(e) => { setMaritalStatus({ data: e.target.value, error: "" }); setScreenRefresh(pre => pre + 1); }}>
                                                         <FormControlLabel value="Single" control={<Radio />} label="Single" disabled={screen === "view"} />
-                                                        <FormControlLabel value="Married" control={<Radio />} label="Married" disabled={screen === "view"} />
+                                                        <FormControlLabel  value="Married" control={<Radio />} label="Married" disabled={screen === "view"} />
                                                         <FormControlLabel value="Married With Kids" control={<Radio />} label="Married with Kids" disabled={screen === "view"} />
                                                         <FormControlLabel value="Divorced" control={<Radio />} label="Divorced" disabled={screen === "view"} />
                                                         <FormControlLabel className="radio-control3" value="Separated" control={<Radio />} label="Separated" disabled={screen === "view"} />

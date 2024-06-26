@@ -198,7 +198,7 @@ export default function ChitReceiptView() {
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
         <Typography variant="h6" sx={{ color: '#637381' }}>Chit Receipt List</Typography>
-        <Button variant="contained" className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddChitReceiptClick}>
+        <Button variant="contained" className='custom-button'  onClick={HandleAddChitReceiptClick}>
           Add Chit Receipt
         </Button>
       </Stack>

@@ -198,7 +198,7 @@ export default function ChitPaymentView() {
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
         <Typography variant="h6" sx={{ color: '#637381' }}>Chit Payment List</Typography>
-        <Button variant="contained" className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddChitPaymentClick}>
+        <Button variant="contained" className='custom-button' onClick={HandleAddChitPaymentClick}>
           Add Chit Payment
         </Button>
       </Stack>

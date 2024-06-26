@@ -23,7 +23,7 @@ import { pxToRem } from 'src/theme/typography';
 
 // import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
-
+import './login-view.css';
 
 // ----------------------------------------------------------------------
 
@@ -216,7 +216,9 @@ export default function LoginView() {
           color: alpha(theme.palette.background.default, 0.9),
           imgUrl: '/assets/background/overlay_4.jpg',
         }),
-        height: 1,
+        minHeight: '100vh', // Ensure full viewport height
+      
+        padding: theme.spacing(1),
       }}
     >
       {/* <Logo
@@ -226,12 +228,15 @@ export default function LoginView() {
           left: { xs: 16, md: 24 },
         }}
       /> */}
-      <Stack>
-        <img src="/assets/images/img/chitly_logo.png" alt="Loading" style={{ width: 100, height: 80, marginTop: 20, marginLeft: 20 }} />
+      <Stack className="log-site">
+      <div className="log" style={{ width: 130, height: 70, marginTop: 20, marginLeft: 20}}>
+        <img src="/assets/images/img/chitly_logo.png" alt="Loading" style={{width:'100%', height:'100%' }} />
+        </div>
       </Stack>
 
-      <Stack alignItems="center" justifyContent="center" sx={{ height: 1 }}>
+      <Stack alignItems="center" justifyContent="flex-start" sx={{ height: 1 ,m:3}}>
         <Card
+        className="card-log"
           sx={{
             px: 5,
             pt: 2,

@@ -19,8 +19,8 @@ import { Box, Grid, Stack, Alert, Button, Dialog, styled, Divider, Snackbar, Typ
 
 import { GetHeader, PutHeader, PostHeader, DeleteHeader, } from 'src/hooks/AxiosApiFetch';
 
-import { MEMBER_VIEW, CHIT_AUCTION_SAVE, CHIT_AUCTION_LIST, CHIT_PAYMENT_LIST, CHIT_RECEIPT_LIST, REACT_APP_HOST_URL, CHIT_ESTIMATE_LIST, CHIT_AUCTION_UPDATE, STANDING_INSTRUCTION, 
-    CHIT_AUCTION_MEMBER_LIST, CHIT_AUCTION_ENTRY_DELETE, CHIT_AUCTION_MAPPED_UNMAPPED_MEMBER, } from 'src/utils/api-constant';
+import { CHIT_AUCTION_SAVE, CHIT_AUCTION_LIST, CHIT_PAYMENT_LIST, CHIT_RECEIPT_LIST, GROUP_MEMBER_LIST, REACT_APP_HOST_URL, CHIT_ESTIMATE_LIST, CHIT_AUCTION_UPDATE, STANDING_INSTRUCTION, 
+    CHIT_AUCTION_MEMBER_LIST, CHIT_AUCTION_ENTRY_DELETE, CHIT_PAYMENT_CHIT_PARAMETERS, CHIT_AUCTION_MAPPED_UNMAPPED_MEMBER, } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
 
@@ -117,14 +117,17 @@ export default function AddChitAuctionPage() {
     const [DeleteLoading, setDeleteLoading] = useState(false);
     const [ChitAuctionSelectedIndex, setChitAuctionSelectedIndex] = useState(0);
     const [SelectedId, setSelectedId] = useState(0);
+    const [ChitParameter, setChitParameter] = useState([]); 
+    // const [GroupMemberList, setGroupMemberList] = useState([]);
     
     useEffect(() => {
         console.log(data);
         setChitAuctionAddMemberList([]);
         setChitAuctionAddMemberListLoading(false);
         GetChitAuctionEntryList();
+        GetChitParameter();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [screen]);
+    }, []);
 
     useEffect(() => {
         const handleBeforeUnload = (event) => {
@@ -229,7 +232,8 @@ export default function AddChitAuctionPage() {
                         i += 1;
                     }
                     const additionalData = missingInstnos.map((instno, index) => ({
-                        id: `id_${instno}`,
+                        id: "0",
+                        primary_id: `id_${instno}`,
                         installno: instno,
                         tktno: instno,
                         auctiondate: null,
@@ -309,7 +313,7 @@ export default function AddChitAuctionPage() {
             .then((json) => {
                 // console.log(JSON.stringify(json));
                 if (json.success) {
-                    GetMemberView(json.list.id, datas)
+                    GetGroupMemberList(json.list.id, datas);
                 } else if (json.success === false) {
                     setChitAuctionMemberListLoading(false);
                     setAlertMessage(json.message);
@@ -329,8 +333,9 @@ export default function AddChitAuctionPage() {
             })
     }
 
-    const GetMemberView = (id, datas) => {
-        const url = `${REACT_APP_HOST_URL}${MEMBER_VIEW}${id}`;
+    const GetGroupMemberList = (companyMemberId, datas) => {
+        // setGroupMemberList([]);
+        const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}?groupId=${data.id}&start=0&limit=0`;
         console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -338,41 +343,50 @@ export default function AddChitAuctionPage() {
                 console.log(JSON.stringify(json));
                 setChitAuctionMemberListLoading(false);
                 if (json.success) {
-                    const updatedFirstItem = {
-                        ...datas,
-                        memberid: json.list.id,
-                        member_name: json.list.name,
-                        group_member_id: json.list.id,
-                        maxaucdisc: "0",
-                        signature: "",
-                        prized_amount: data.amount,
-                        is_prizedmember: json.list.prizedOrNot === "notPrized" ? 0 : 1,
-                        action: 'delete'
-                    };
-                    const updatedList = [updatedFirstItem];
-                    console.log(updatedList)
-                    setInstNo({
-                        data: updatedFirstItem.installno,
-                        error: ""
-                    });
-                    setDividend({
-                        data: updatedFirstItem.dividend,
-                        error: ""
-                    });
-                    setPrizedMember({
-                        data: updatedFirstItem.member_name,
-                        error: ""
-                    });
-                    setTktNo({
-                        data: updatedFirstItem.installno,
-                        error: ""
-                    });
-                    setMaxADisc({
-                        data: updatedFirstItem.maxaucdisc,
-                        error: ""
-                    });
-                    setSelectAuctionList(updatedFirstItem);
-                    setChitAuctionMemberList(updatedList);
+                    // setGroupMemberList(json.list);
+                    console.log("datas.installno ", datas.installno);
+                    console.log("data.fmprdue", data.fmprdue);
+                    if (datas.installno === data.fmprdue){
+                        if (json.list.length > 0){
+                            const CompanyMemberDetailList = json.list.filter(item => item.memberId === companyMemberId);
+                            console.log("CompanyMemberDetailList", CompanyMemberDetailList[0]);
+                            const updatedFirstItem = {
+                                ...datas,
+                                memberid: CompanyMemberDetailList[0].memberId,
+                                member_name: CompanyMemberDetailList[0].memberName,
+                                group_member_id: CompanyMemberDetailList[0].id,
+                                maxaucdisc: "0",
+                                signature: "",
+                                prized_amount: data.amount,
+                                is_prizedmember: "1",
+                                action: 'delete'
+                            };
+                            const updatedList = [updatedFirstItem];
+                            console.log("updatedList", updatedList)
+                            setInstNo({
+                                data: updatedFirstItem.installno,
+                                error: ""
+                            });
+                            setDividend({
+                                data: updatedFirstItem.dividend,
+                                error: ""
+                            });
+                            setPrizedMember({
+                                data: updatedFirstItem.member_name,
+                                error: ""
+                            });
+                            setTktNo({
+                                data: updatedFirstItem.installno,
+                                error: ""
+                            });
+                            setMaxADisc({
+                                data: updatedFirstItem.maxaucdisc,
+                                error: ""
+                            });
+                            setSelectAuctionList(updatedFirstItem);
+                            setChitAuctionMemberList(updatedList);
+                        }
+                    }
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
                     setAlertFrom("failed");
@@ -454,6 +468,34 @@ export default function AddChitAuctionPage() {
                 // console.log(JSON.stringify(json));
                 if (json.success) {
                     setChitReceiptListTotal(json.total);
+                } else if (json.success === false) {
+                    setAlertMessage(json.message);
+                    setAlertFrom("failed");
+                    HandleAlertShow();
+                } else {
+                    setErrorAlert(true);
+                    setErrorScreen("network");
+                }
+            })
+            .catch((error) => {
+                setErrorAlert(true);
+                setErrorScreen("error");
+                // console.log(error);
+            })
+    }
+
+    const GetChitParameter = () => {
+        setChitParameter([]);
+        const url = `${REACT_APP_HOST_URL}${CHIT_PAYMENT_CHIT_PARAMETERS}${data.id}`;
+        console.log(JSON.parse(Session) + url);
+        fetch(url, GetHeader(JSON.parse(Session)))
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(JSON.stringify(json));
+                if (json.success) {
+                    if(json.list.length > 0){
+                        setChitParameter(json.list);
+                    }
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
                     setAlertFrom("failed");
@@ -587,7 +629,7 @@ export default function AddChitAuctionPage() {
                 "is_active": 1,
             }));
             const ChitAuctionListParams = {
-                "id": 0,
+                "id": SelectAuctionList.id,
                 "branchid": 0,
                 "groupid": data.id,
                 "amount": data.amount,
@@ -673,6 +715,7 @@ export default function AddChitAuctionPage() {
                 "is_active": 1,
             }));
             const ChitAuctionListUpdateParams = {
+                "id": SelectAuctionList.id,
                 "branchid": 0,
                 "groupid": data.id,
                 "amount": data.amount,
@@ -991,7 +1034,9 @@ export default function AddChitAuctionPage() {
         // console.log(from);
         setChitAuctionMemberList(prevState => {
             const updatedList = prevState.map((prev, index) => {
-                const isEditable = String(item.id).includes('id_') || (index === prevState.length - 1 && !String(item.id).includes('id_'));
+                // const isEditable = String(item.id).includes('id_') || (index === prevState.length - 1 && !String(item.id).includes('id_'));
+                const isEditable = ChitParameter.length > 0;
+                console.log(isEditable)
 
                 if (prev === item && isEditable) {
                     if (from === "maxaucdisc") {
@@ -1065,8 +1110,27 @@ export default function AddChitAuctionPage() {
     const HandleAlertClose = () => {
         setAlertOpen(false);
         if (AlertFrom === "success") {
-            window.location.reload();
+            // window.location.reload();
             // navigate('/chitauction/list');
+            setChitAuctionAddMemberList([]);
+            setAucFromTime({
+                data: null,
+                data_save: "",
+                error: ""
+            });
+            setAucFromTime({
+                data: null,
+                data_save: "",
+                error: ""
+            });
+            setAucDate({
+                data: null,
+                data_save: "",
+                error: ""
+            });
+            HandleResetClick();
+            GetChitAuctionEntryList();
+            GetChitParameter();
         }
     }
 
@@ -1217,7 +1281,7 @@ export default function AddChitAuctionPage() {
     const HandleDeleteClick = (from) => {
         console.log(SelectAuctionList);
         if(from === "popup_delete"){
-            if (String(SelectAuctionList.id).includes('id_')) {
+            if (String(SelectAuctionList.primary_id).includes('id_')) {
                 setChitAuctionMemberList([]);
             } else {
                 setDeleteAlert(false);
@@ -1264,53 +1328,7 @@ export default function AddChitAuctionPage() {
                 setAlertFrom("error_alert");
                 HandleAlertShow();
             } else{
-                GetChitEstimateList(item.installno);
-                if (String(item.id).includes('id_')) {
-                    setSelectedId(item.id);
-                    if (item.installno === 1) {
-                        setChitAuctionMemberListLoading(true);
-                        GetStandingInstructionList(item);
-                    } else {
-                        HandleResetClick();
-                        setAucFromTime({
-                            data: null,
-                            data_save: "",
-                            error: ""
-                        });
-                        setAucToTime({
-                            data: null,
-                            data_save: "",
-                            error: ""
-                        });
-                        setAucDate({
-                            data: null,
-                            data_save: "",
-                            error: ""
-                        });
-                        setSelectAuctionList(item);
-                        setChitAuctionMemberList([]);
-                    }
-                } else {
-                    setDividend({
-                        data: item.dividend,
-                        error: ""
-                    });
-                    const times = item.auction_time.split(' to ');
-                    if (times.length === 2) {
-                        setAucFromTime({
-                            data: dayjs(times[0], 'hh:mm A'),
-                            data_save: dayjs(times[0], 'hh:mm A'),
-                            error: ""
-                        });
-                        setAucToTime({
-                            data: dayjs(times[1], 'hh:mm A'),
-                            data_save: dayjs(times[1], 'hh:mm A'),
-                            error: ""
-                        });
-                    }
-                    setSelectedId(item.id);
-                    GetChitAuctionMemberList(item.id, item);
-                }
+                HandlePaymentNotSettledAlert(item, index);
             }
         }else{
             const checkIdExists = id => ChitAuctionMemberList.some(items => items.prized_memid === id);
@@ -1367,7 +1385,66 @@ export default function AddChitAuctionPage() {
         }
     };
 
+    function HandlePaymentNotSettledAlert(item, index){
+        if (index === ChitAuctionListTotal && ChitParameter.length > 0) {
+            setAlertMessage("Payment not settled for previous auction entry");
+            setAlertFrom("error_alert");
+            HandleAlertShow();
+        } else {
+            GetChitEstimateList(item.installno);
+            if (String(item.primary_id).includes('id_')) {
+                setSelectedId(item.primary_id);
+                if (item.id === "0") {
+                    setChitAuctionMemberListLoading(true);
+                    GetStandingInstructionList(item);
+                } else {
+                    HandleResetClick();
+                    setAucFromTime({
+                        data: null,
+                        data_save: "",
+                        error: ""
+                    });
+                    setAucToTime({
+                        data: null,
+                        data_save: "",
+                        error: ""
+                    });
+                    setAucDate({
+                        data: null,
+                        data_save: "",
+                        error: ""
+                    });
+                    setSelectAuctionList(item);
+                    setChitAuctionMemberList([]);
+                }
+            } else {
+                setDividend({
+                    data: item.dividend,
+                    error: ""
+                });
+                if (item.auction_time !== null && item.auction_time !== ""){
+                    const times = item.auction_time.split(' to ');
+                    if (times.length === 2) {
+                        setAucFromTime({
+                            data: dayjs(times[0], 'hh:mm A'),
+                            data_save: dayjs(times[0], 'hh:mm A'),
+                            error: ""
+                        });
+                        setAucToTime({
+                            data: dayjs(times[1], 'hh:mm A'),
+                            data_save: dayjs(times[1], 'hh:mm A'),
+                            error: ""
+                        });
+                    }
+                }
+                setSelectedId(item.id);
+                GetChitAuctionMemberList(item.id, item);
+            }
+        }
+    }
+
     function handleItemUpdate(item){
+        console.log("handleItemUpdate", item )
         if (item.prizedOrNot === "Prized") {
             setAlertMessage("Already this member is added");
             setAlertFrom("error_alert");
@@ -1382,7 +1459,7 @@ export default function AddChitAuctionPage() {
                 maxaucdisc: "0",
                 signature: "",
                 prized_amount: item.amount,
-                is_prizedmember: "1",
+                is_prizedmember: item.is_prizedmember,
                 tktno: item.tktno,
                 action: 'delete'
             };
@@ -1804,7 +1881,9 @@ export default function AddChitAuctionPage() {
                                                     </Stack>
                                                     : <TableBody>
                                                         {ChitAuctionMemberList.map((row, index) => {
-                                                            const isEditable = String(row.id).includes('id_') || (index === ChitAuctionMemberList.length - 1 && !String(row.id).includes('id_'));
+                                                            // const isEditable = String(row.id).includes('id_') || (index === ChitAuctionMemberList.length - 1 && !String(row.id).includes('id_'));
+                                                            const isEditable = ChitParameter.length > 0;
+                                                            console.log(isEditable)
                                                             return (
                                                                 <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }} key={index}>
                                                                     <TableCell>{row.tktno}</TableCell>

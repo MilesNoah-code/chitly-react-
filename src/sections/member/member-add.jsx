@@ -2080,7 +2080,7 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                                    Whatsapp Number <span style={{ color: 'red' }}> *</span>
+                                                    Whatsapp Number
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
@@ -2659,7 +2659,8 @@ export default function AddMemberPage() {
                     </Stack>
                 </Box>
             </Card>
-            <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "upload_failed" ? 2000 : 1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+            <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "failed" || AlertFrom === "upload_failed" ? 2000 : 1000} onClose={HandleAlertClose}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center', }} sx={{ mt: '60px' }}>
                 <Alert
                     onClose={HandleAlertClose}
                     severity={AlertFrom === "failed" || AlertFrom === "upload_failed" ? "error" : "success"}

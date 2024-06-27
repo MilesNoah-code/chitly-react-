@@ -1186,7 +1186,8 @@ export default function AddChitPaymentPage() {
                         </Stack>}
                 </Box>
             </Card>
-            <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "alert_failed" ? 2000 :1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+            <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "alert_failed" ? 2000 :1000} onClose={HandleAlertClose} 
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
                 <Alert
                     onClose={HandleAlertClose}
                     severity={AlertFrom === "failed" || AlertFrom === "alert_failed" ? "error" : "success"}

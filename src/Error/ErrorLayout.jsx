@@ -20,7 +20,7 @@ const ErrorLayout = ({ screen }) => {
       <Stack style={{ flexDirection: 'column' }} alignItems="center" justifyContent="center">
         {screen === "network"
           ? <img src="/assets/images/img/network_alert.gif" alt="Loading" style={{ width: 100, height: 80, }} />
-          : <div className='reload-img' style={{ width: 350, height: 130, }}><img src="/assets/images/img/reload.png" alt="Loading" sx={{width:'100%',height:'100%'}} /></div>}
+          : <div className='reload-img' style={{ width: 350, height: 130, }}><img src="/assets/images/img/reload.png" alt="Loading" style={{width:'100%',height:'100%'}} /></div>}
       </Stack>
       <Typography variant="h6" gutterBottom mb={3} mt={5} color={screen === "network" ? "#1da1f2" :"#ef4444"} sx={{ color: "#000000" }}>
         {screen === "network" ? "Error in Network, Try Again" : "Oops! Something went wrong."}

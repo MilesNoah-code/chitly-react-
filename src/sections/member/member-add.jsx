@@ -1887,7 +1887,22 @@ export default function AddMemberPage() {
                                     {screen === "add"
                                         ? null
                                         : <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                      
+                                        <div className='box'>
+                                            <Stack direction='column' sx={{ ml: 2, }}>
+                                                {ProfileImage.data !== ""
+                                                    ? <div>
+                                                        <img src={ProfileImage.type === "local" ? `${ProfileImage.data}` : `${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${ProfileImage.data}`} alt="Loading" style={{ width: 100, height: 100, }} />
+                                                    </div>
+                                                    : <div>
+                                                        <img src="/assets/images/img/placeholder.png" alt="Loading" style={{ width: 100, height: 100, }} />
+                                                    </div>}
+                                                <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 130, height: 40, mt: 2 }}>
+                                                    Upload Photo
+                                                    <VisuallyHiddenInput type="file" onChange={HandleProfileImage} />
+                                                </Button>
+                                                <div style={{ marginLeft: "10px", marginTop: "0px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ProfileImage.error}</div>
+                                            </Stack>
+                                         </div>
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -1907,22 +1922,7 @@ export default function AddMemberPage() {
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{PancardNo.error}</div>
                                             </Stack>
                                         </div>
-                                        <div className='box'>
-                                            <Stack direction='column' sx={{ ml: 2, }}>
-                                                {ProfileImage.data !== ""
-                                                    ? <div>
-                                                        <img src={ProfileImage.type === "local" ? `${ProfileImage.data}` : `${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${ProfileImage.data}`} alt="Loading" style={{ width: 100, height: 100, }} />
-                                                    </div>
-                                                    : <div>
-                                                        <img src="/assets/images/img/placeholder.png" alt="Loading" style={{ width: 100, height: 100, }} />
-                                                    </div>}
-                                                <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 130, height: 40, mt: 2 }}>
-                                                    Upload Photo
-                                                    <VisuallyHiddenInput type="file" onChange={HandleProfileImage} />
-                                                </Button>
-                                                <div style={{ marginLeft: "10px", marginTop: "0px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ProfileImage.error}</div>
-                                            </Stack>
-                                         </div>
+                                      
                                         </Stack>}
                                     <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                         <div className='box'>

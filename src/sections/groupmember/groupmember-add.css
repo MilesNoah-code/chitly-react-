@@ -10,13 +10,29 @@
   }
 .stack-box {
     display: flex !important;
-    flex-wrap: wrap !important;
+   
   }
  .box-grp{
     flex: 1 0 49%;
     max-width: 49%;
     flex-wrap: wrap;
   } 
+  .detail {
+    border: 1px solid #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Example box shadow */
+    margin: 13px 0px;
+    border-radius: 8px solid;
+    padding: 10px 0px;
+  }
+  .detail-sub{
+    font-size: 17px !important;
+    font-weight: 400;
+  }
+  .detail-sub1{
+    font-size: 16px;
+    color: #b7adb0;
+    margin-top: 5px;
+  }
   .con{
     padding: 20px;
   }
@@ -57,11 +73,7 @@ input#outlined-required {
     .grid-UI table{
     width: 100%;
     }
-    .stack-box{
-        flex-direction: column !important;
-        width: 100% !important;
-        align-items:inherit;
-    }
+   
     .alert-msg{
       padding: 10px 15px 10px 15px;
       font-size: 15px;
@@ -70,11 +82,7 @@ input#outlined-required {
       width: calc(97% - 0px) !important; 
     }
    
-    .box-grp {
-      flex: 1 0 100%;
-      max-width: 100%;
-      margin-left: 0px !important; 
-    }
+   
    .stack-box .css-mxq89r-MuiTypography-root {
     margin-left: 16px !important;
     font-size: 13px;
@@ -113,5 +121,27 @@ input#outlined-required {
     .custom-button{
      font-size: 13px;
      margin-top: 10px;
+    }
+    }
+    @media (min-width:431px) and (max-width:768px){
+      .box-grp {
+        flex: 1 0 50%;
+        max-width: 100%;
+        height: auto;
+        margin: 4px;
+        margin-left: 0px !important; 
+      }
+    }
+    @media (min-width:320px) and (max-width:430px){
+      .box-grp {
+        flex: 1 0 100%;
+        max-width: 100%;
+        height: auto;
+        margin-left: 0px !important; 
+      }
+      .stack-box{
+        flex-direction: column !important;
+        width: 100% !important;
+        align-items:inherit;
     }
     }

@@ -11,15 +11,18 @@
 }
 
 .box-logo {
-    height: 80px;
+    height: 55px;
     width: 170px;
+    margin-left: 15px;
 }
 
 .logo-chitly {
     width: 100%;
     height: 100%;
 }
-
+.simplebar-content-wrapper {
+    scrollbar-width: thin;
+}
 @media (max-width:768px) {
     .box-logo {
         height: 45px;

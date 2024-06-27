@@ -498,17 +498,18 @@ export default function AddGroupMemberPage() {
                                     </Scrollbar>
                                 </Grid>
                                 <Grid  className='table-grid' item xs={12} md={7}>
-                                    <Typography variant="h5" sx={{ mt: 5, ml: 2, }}>
-                                        Group Detail
+                                <div className='detail'>
+                                    <Typography variant="h5" sx={{ mt: 0, ml: 2, }}>
+                                        Group Detail:
                                     </Typography>
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                         <div className='box-grp  grp-label'>
                                             <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                <Typography variant="subtitle1" className='detail-sub' sx={{ ml: 2, mr: 2, mt: 1, mb: '0px' }}>
                                                     Group No
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
-                                                <Typography variant="subtitle1" sx={{ ml: 0 }}>
+                                                <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0 }}>
                                                 {memberDetail.groupno || ''}
                                             </Typography>
                                                    
@@ -517,11 +518,11 @@ export default function AddGroupMemberPage() {
                                         </div>
                                         <div className='box-grp'>
                                             <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                                <Typography variant="subtitle1" className='detail-sub' sx={{ mt: 2, ml: 2 }}>
                                                     Amount
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
-                                                <Typography variant="subtitle1" sx={{ ml: 0,  }}>
+                                                <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
                                                 {memberDetail.amount || ''}
                                             </Typography>
                                                     
@@ -529,14 +530,14 @@ export default function AddGroupMemberPage() {
                                             </Stack>
                                         </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                         <div className='box-grp'>
                                             <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                <Typography variant="subtitle1" className='detail-sub' sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                                     Duration
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 2, }}>
-                                                <Typography variant="subtitle1" sx={{ ml: 0,  }}>
+                                                <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
                                                 {memberDetail.duration || ''}
                                             </Typography>
                                                       
@@ -545,11 +546,11 @@ export default function AddGroupMemberPage() {
                                         </div>
                                         <div className='box-grp'>
                                             <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                <Typography variant="subtitle1" className='detail-sub' sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                                     Auction Mode
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 2, }}>
-                                                <Typography variant="subtitle1" sx={{ ml: 0,  }}>
+                                                <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
                                                 {memberDetail.auction_mode || ''}
                                             </Typography>
                                                        
@@ -557,17 +558,19 @@ export default function AddGroupMemberPage() {
                                             </Stack>
                                         </div>
                                     </Stack>
-                                    <Typography variant="h5" sx={{ m: 2 }}>
-                                        Member Detail
+                                    </div>
+                                    <div className='detail'>
+                                    <Typography variant="h5" sx={{ mt: 0, ml: 2, }}>
+                                        Member Detail:
                                     </Typography>
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                         <div className='box-grp'>
                                             <Stack direction='column'>
-                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                                <Typography variant='subtitle1' className='detail-sub' sx={{ mt: 2, ml: 2 }} >
                                                     Member Name
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 2,}}>
-                                                <Typography className='input-box1'>
+                                                <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
                                                 {memberDetail.memberName || ''}
                                             </Typography>
                                                 </Stack>
@@ -575,25 +578,25 @@ export default function AddGroupMemberPage() {
                                         </div>
                                         <div className='box-grp'>
                                             <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                                <Typography variant="subtitle1" className='detail-sub' sx={{ mt: 2, ml: 2 }}>
                                                     Ticket No
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
-                                                <Typography className='input-box1'>
+                                                <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
                                                 {memberDetail.tktno || ''}
                                             </Typography>
                                                 </Stack>
                                             </Stack>
                                         </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                         <div className='box-grp'>
                                             <Stack direction='column'>
-                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                                <Typography variant='subtitle1' className='detail-sub' sx={{ mt: 2, ml: 2 }} >
                                                     Member Id
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 2, }}>
-                                                <Typography className='input-box1'>
+                                                <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
                                                 {memberDetail.memberId || ''}
                                             </Typography>
                                                 </Stack>
@@ -601,25 +604,25 @@ export default function AddGroupMemberPage() {
                                         </div>
                                         <div className='box-grp'>
                                             <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                                <Typography variant="subtitle1" className='detail-sub' sx={{ mt: 2, ml: 2 }}>
                                                     D.O.B
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
-                                                <Typography className='input-box1'>
+                                                <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
                                                 {memberDetail.memdob || ''}
                                             </Typography>
                                                 </Stack>
                                             </Stack>
                                         </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                         <div className='box-grp  grp-label'>
                                             <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                <Typography variant="subtitle1" className='detail-sub' sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                                     Mobile Number
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
-                                                <Typography className='input-box1'>
+                                                <Typography  variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
                                                 {memberDetail.mapped_phone || ''}
                                             </Typography>
                                                 </Stack>
@@ -627,24 +630,26 @@ export default function AddGroupMemberPage() {
                                         </div>
                                         <div className='box-grp grp-label'>
                                             <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2, mr:2 }}>
+                                                <Typography variant="subtitle1" className='detail-sub' sx={{ mt: 2, ml: 2, mr:2 }}>
                                                     Email
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 2, mt: 0, }}>
-                                                <Typography className='input-box1'>
+                                                <Typography  variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
                                                 {memberDetail.email || ''}
                                             </Typography>
                                                 </Stack>
                                             </Stack>
                                         </div>
                                     </Stack>
-                                    <Typography variant="h5" sx={{ m: 2 }}>
-                                        Address Detail
+                                    </div>
+                                    <div className='detail'>
+                                    <Typography variant="h5" sx={{ mt: 0, ml:2 }}>
+                                        Address Detail:
                                     </Typography>
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                         <div className='box-grp  grp-label'>
                                             <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 1, mb: '0px' }}>
                                                     Address
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
@@ -652,7 +657,7 @@ export default function AddGroupMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled
-                                                        label="Address"
+                                                      
                                                         value={memberDetail.addressline1 || ''}
                                                         onChange={handleInputChange} />
                                                 </Stack>
@@ -660,7 +665,7 @@ export default function AddGroupMemberPage() {
                                         </div>
                                         <div className='box-grp'>
                                             <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                                <Typography variant="subtitle1" sx={{ mt: 1, ml: 2 }}>
                                                     City
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
@@ -669,17 +674,17 @@ export default function AddGroupMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled
-                                                        label="City"
+                                                      
                                                         value={memberDetail.city || ''}
                                                         onChange={handleInputChange} />
                                                 </Stack>
                                             </Stack>
                                         </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                         <div className='box-grp  grp-label'>
                                             <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 1, mb: '0px' }}>
                                                     State
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
@@ -687,7 +692,7 @@ export default function AddGroupMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled
-                                                        label="State"
+                                                     
                                                         value={memberDetail.state || ''}
                                                         onChange={handleInputChange} />
                                                 </Stack>
@@ -695,7 +700,7 @@ export default function AddGroupMemberPage() {
                                         </div>
                                         <div className='box-grp'>
                                             <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                                <Typography variant="subtitle1" sx={{ mt: 1, ml: 2 }}>
                                                     Country
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
@@ -704,13 +709,14 @@ export default function AddGroupMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled
-                                                        label="Country"
+                                                    
                                                         value={memberDetail.country || ''}
                                                         onChange={handleInputChange} />
                                                 </Stack>
                                             </Stack>
                                         </div>
                                     </Stack>
+                                    </div>
                                 </Grid>
                             </Grid>
                             <Stack direction='column' alignItems='flex-end'>
@@ -736,11 +742,11 @@ export default function AddGroupMemberPage() {
             <Dialog
                 open={MemberListAlert}
                 fullWidth
-                maxWidth="lg"
-                sx={{ display: 'flex', justifyContent: 'center', flex: 1, minWidth: 800}}
+                maxWidth="xl"
+                sx={{ justifyContent: 'center', }}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description" >
-                <Card sx={{ maxWidth: '800px' }}>
+                <Card sx={{ width: '100%' }}>
                     <Stack sx={{ height: '100%', maxHeight: '100vh', overflow: 'hidden' }}>
                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 5, mt: 2 }}>
                             Member List
@@ -787,8 +793,8 @@ export default function AddGroupMemberPage() {
                                                 { id: 'Status', label: 'Status' },
                                             ]} />
                                         {MemberListLoading
-                                            ? <Stack mt={10} sx={{ alignItems: 'center' }}>
-                                                <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                                            ? <Stack  mt={10} sx={{ alignItems: 'center' }}>
+                                                <img className='load' src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                                             </Stack>
                                             : <TableBody>
                                                 {MemberList

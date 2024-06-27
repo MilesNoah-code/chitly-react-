@@ -485,7 +485,7 @@ export default function AddChitAuctionPage() {
                     if(json.list.length > 0){
                         let filteredList;
                         if (json.list.length === 1 && json.list[0].maxaucdisc === "0.00") {
-                            filteredList = json.list[0];
+                            filteredList = json.list;
                             console.log("filteredList")
                             console.log(filteredList)
                         } else {
@@ -595,7 +595,7 @@ export default function AddChitAuctionPage() {
                 "agreement_date": null,
                 "auctiondate": AucDate.data_save,
                 "date": AucDate.data_save,
-                "auction_time":` ${AucFromTime.data_save} to ${AucToTime.data_save}`,
+                "auction_time":`${AucFromTime.data_save} to ${AucToTime.data_save}`,
                 "holreason": "",
                 "installno": SelectAuctionList.installno,
                 "installvalue": "",
@@ -680,7 +680,7 @@ export default function AddChitAuctionPage() {
                 "agreement_date": null,
                 "auctiondate": AucDate.data_save,
                 "date": AucDate.data_save,
-                "auction_time": ` ${AucFromTime.data_save} to ${AucToTime.data_save}`,
+                "auction_time": `${AucFromTime.data_save ? dayjs(AucFromTime.data_save, 'hh:mm A').format('hh:mm A') : AucFromTime.data_save} to ${AucToTime.data_save ? dayjs(AucToTime.data_save, 'hh:mm A').format('hh:mm A') : AucToTime.data_save }`,
                 "holreason": "",
                 "installno": SelectAuctionList.installno,
                 "installvalue": "",
@@ -750,7 +750,7 @@ export default function AddChitAuctionPage() {
                 setScreenRefresh(0);
                 if (json.success) {
                     setAlertMessage(json.message);
-                    setAlertFrom("remove_success");
+                    setAlertFrom("success");
                     HandleAlertShow();
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
@@ -1012,35 +1012,50 @@ export default function AddChitAuctionPage() {
             });
 
             // Find the item with the highest maxaucdisc value
-            const highestItem = updatedList.reduce((maxItem, currItem) => {
-                const currMaxAucDisc = parseFloat(currItem.maxaucdisc) || 0;
-                return currMaxAucDisc > (parseFloat(maxItem.maxaucdisc) || 0) ? currItem : maxItem;
-            }, { maxaucdisc: "0" });
-            console.log(highestItem)
-            // Update aucDate state with the highest maxaucdisc item value
-            setInstNo({
-                data: highestItem.installno,
-                error: ""
-            });
-            setDividend({
-                data: highestItem.dividend,
-                error: ""
-            });
-            setPrizedMember({
-                data: highestItem.member_name,
-                error: ""
-            });
-            setTktNo({
-                data: highestItem.tktno,
-                error: ""
-            });
-            setMaxADisc({
-                data: highestItem.maxaucdisc,
-                error: ""
-            });
+            console.log(updatedList)
+            if (updatedList.length > 0) {
+                let highestItem;
+                if (updatedList.length === 1) {
+                    highestItem = updatedList[0];
+                } else {
+                    highestItem = updatedList.reduce((maxItem, currItem) => {
+                        const currMaxAucDisc = parseFloat(currItem.maxaucdisc) || 0;
+                        return currMaxAucDisc > (parseFloat(maxItem.maxaucdisc) || 0) ? currItem : maxItem;
+                    }, { maxaucdisc: "0" });
+                }
+
+                setInstNo({
+                    data: highestItem.installno,
+                    error: ""
+                });
+                setDividend({
+                    data: highestItem.dividend ? highestItem.dividend : "0",
+                    error: ""
+                });
+                setPrizedMember({
+                    data: highestItem.member_name,
+                    error: ""
+                });
+                setTktNo({
+                    data: highestItem.tktno,
+                    error: ""
+                });
+                setMaxADisc({
+                    data: highestItem.maxaucdisc,
+                    error: ""
+                });
+
+                // Update the prized_member value of the highestItem
+                const finalList = updatedList.map(items =>
+                    items === highestItem ? { ...items, is_prizedmember: "1" } : items
+                );
+
+                return finalList;
+            }
 
             return updatedList;
         });
+
     };
 
     const HandleAlertShow = () => {
@@ -1205,6 +1220,7 @@ export default function AddChitAuctionPage() {
             if (String(SelectAuctionList.id).includes('id_')) {
                 setChitAuctionMemberList([]);
             } else {
+                setDeleteAlert(false);
                 ChitAuctionEntryDeleteMethod(SelectedId);
             }
         } else{
@@ -1214,7 +1230,6 @@ export default function AddChitAuctionPage() {
                 setAlertFrom("error_alert");
                 HandleAlertShow();
             } else {
-                setChitAuctionMemberList([]);
                 GetChitPaymentList(SelectAuctionList.installno);
                 GetChitReceiptList(SelectAuctionList.installno);
                 setDeleteAlert(true);
@@ -1299,50 +1314,104 @@ export default function AddChitAuctionPage() {
             }
         }else{
             const checkIdExists = id => ChitAuctionMemberList.some(items => items.prized_memid === id);
-            if (checkIdExists(item.memberid)) {
-                setAlertMessage("Already this member is added");
-                setAlertFrom("error_alert");
-                HandleAlertShow();
+            const checkTktnoExists = tktno => ChitAuctionMemberList.some(items => String(items.tktno) === tktno);
+            console.log(checkIdExists(item.memberid), " -- ", checkTktnoExists(item.tktno));
+            // row.prizedOrNot === "notPrized"
+            if (String(item.id).includes('id_')){
+                if (checkIdExists(item.memberid) && checkTktnoExists(item.tktno)) {
+                    setAlertMessage("Already this member is added");
+                    setAlertFrom("error_alert");
+                    HandleAlertShow();
+                } else {
+                    const updatedItem = {
+                        ...item,
+                        ...SelectAuctionList,
+                        memberid: item.memberid,
+                        member_name: item.mem_name,
+                        group_member_id: item.id,
+                        maxaucdisc: "0",
+                        signature: "",
+                        prized_amount: item.amount,
+                        is_prizedmember: "1",
+                        tktno: item.tktno,
+                        action: 'delete'
+                    };
+                    console.log("updatedItem", updatedItem);
+                    setInstNo({
+                        data: updatedItem.installno,
+                        error: ""
+                    });
+                    setDividend({
+                        data: updatedItem.dividend,
+                        error: ""
+                    });
+                    setPrizedMember({
+                        data: updatedItem.member_name,
+                        error: ""
+                    });
+                    setTktNo({
+                        data: updatedItem.installno,
+                        error: ""
+                    });
+                    setMaxADisc({
+                        data: updatedItem.maxaucdisc,
+                        error: ""
+                    });
+                    setSelectAuctionList(updatedItem);
+                    setChitAuctionMemberList([...ChitAuctionMemberList, updatedItem]);
+                    setAddMemberListAlert(false);
+                } 
             }else{
-                const updatedItem = {
-                    ...item,
-                    ...SelectAuctionList,
-                    memberid: item.memberid,
-                    member_name: item.mem_name,
-                    group_member_id: item.id,
-                    maxaucdisc: "0",
-                    signature: "",
-                    prized_amount: item.amount,
-                    is_prizedmember: item.prizedOrNot === "notPrized" ? 0 : 1,
-                    tktno: item.tktno,
-                    action: 'delete'
-                };
-                console.log(updatedItem);
-                setInstNo({
-                    data: updatedItem.installno,
-                    error: ""
-                });
-                setDividend({
-                    data: updatedItem.dividend,
-                    error: ""
-                });
-                setPrizedMember({
-                    data: updatedItem.member_name,
-                    error: ""
-                });
-                setTktNo({
-                    data: updatedItem.installno,
-                    error: ""
-                });
-                setMaxADisc({
-                    data: updatedItem.maxaucdisc,
-                    error: ""
-                });
-                setChitAuctionMemberList([...ChitAuctionMemberList, updatedItem]);
-                setAddMemberListAlert(false);
-            } 
+                handleItemUpdate(item);
+            }
         }
     };
+
+    function handleItemUpdate(item){
+        if (item.prizedOrNot === "Prized") {
+            setAlertMessage("Already this member is added");
+            setAlertFrom("error_alert");
+            HandleAlertShow();
+        } else {
+            const updatedItem = {
+                ...item,
+                ...SelectAuctionList,
+                memberid: item.memberid,
+                member_name: item.mem_name,
+                group_member_id: item.id,
+                maxaucdisc: "0",
+                signature: "",
+                prized_amount: item.amount,
+                is_prizedmember: "1",
+                tktno: item.tktno,
+                action: 'delete'
+            };
+            console.log("updatedItem1", updatedItem);
+            setInstNo({
+                data: updatedItem.installno,
+                error: ""
+            });
+            setDividend({
+                data: updatedItem.dividend,
+                error: ""
+            });
+            setPrizedMember({
+                data: updatedItem.member_name,
+                error: ""
+            });
+            setTktNo({
+                data: updatedItem.installno,
+                error: ""
+            });
+            setMaxADisc({
+                data: updatedItem.maxaucdisc,
+                error: ""
+            });
+            setSelectAuctionList(updatedItem);
+            setChitAuctionMemberList([...ChitAuctionMemberList, updatedItem]);
+            setAddMemberListAlert(false);
+        } 
+    }
 
     const HandleFilterMemberName = (event) => {
         setPage(0);
@@ -1422,11 +1491,10 @@ export default function AddChitAuctionPage() {
                                 <div className='box-grp  grp-label'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Group No
+                                            Group No <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <TextField
-                                                // required
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
@@ -1441,11 +1509,10 @@ export default function AddChitAuctionPage() {
                                 <div className='box-grp'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
-                                            Amount
+                                            Amount <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <TextField
-                                                // required
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
@@ -1462,7 +1529,7 @@ export default function AddChitAuctionPage() {
                                 <div className='box-grp'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Auc From Time
+                                            Auc From Time <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -1483,7 +1550,7 @@ export default function AddChitAuctionPage() {
                                 <div className='box-grp'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Auc To Time
+                                            Auc To Time <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -1506,7 +1573,7 @@ export default function AddChitAuctionPage() {
                                 <div className='box-grp'>
                                     <Stack direction='column'>
                                         <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                            Auc Date
+                                            Auc Date <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -1527,11 +1594,10 @@ export default function AddChitAuctionPage() {
                                 <div className='box-grp'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
-                                            Inst No
+                                            Inst No <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <TextField
-                                                // required
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
@@ -1548,11 +1614,10 @@ export default function AddChitAuctionPage() {
                                 <div className='box-grp  grp-label'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Prized Member
+                                            Prized Member <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <TextField
-                                                // required
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
@@ -1567,11 +1632,10 @@ export default function AddChitAuctionPage() {
                                 <div className='box-grp'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
-                                            Tkt.No
+                                            Tkt.No <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <TextField
-                                                // required
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
@@ -1588,11 +1652,10 @@ export default function AddChitAuctionPage() {
                                 <div className='box-grp  grp-label'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Max.A.Disc
+                                            Max.A.Disc <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <TextField
-                                                // required
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
@@ -1627,11 +1690,10 @@ export default function AddChitAuctionPage() {
                                 <div className='box-grp'>
                                     <Stack direction='column'>
                                         <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                            Dividend
+                                            Dividend <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                // required
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
@@ -1793,12 +1855,12 @@ export default function AddChitAuctionPage() {
                                     <Button sx={{ mr: 3, height: 50, width: 100, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleResetClick}>
                                         Reset
                                     </Button>
-                                    <Button sx={{ mr: 3, height: 50, width: 140, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleAddMemberClick}>
+                                    {Object.keys(SelectAuctionList).length > 0 && <Button sx={{ mr: 3, height: 50, width: 140, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleAddMemberClick}>
                                         Add Member
-                                    </Button>
-                                    <Button sx={{ mr: 3, height: 50, width: 170, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleShowEstimateClick}>
+                                    </Button>}
+                                    {Object.keys(SelectAuctionList).length > 0 && <Button sx={{ mr: 3, height: 50, width: 170, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleShowEstimateClick}>
                                         Show Estimate
-                                    </Button>
+                                    </Button>}
                                     <Button sx={{ mr: 2, height: 50, width: 100, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={() => HandleDeleteClick("delete")}>
                                         Delete
                                     </Button>
@@ -1807,7 +1869,8 @@ export default function AddChitAuctionPage() {
                         </Stack>}
                 </Box>
             </Card>
-            <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "error_alert" ? 2000 : 1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+            <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "error_alert" ? 2000 : 1000} onClose={HandleAlertClose} 
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
                 <Alert
                     onClose={HandleAlertClose}
                     severity={AlertFrom === "failed" || AlertFrom === "error_alert" ? "error" : "success"}
@@ -2055,7 +2118,9 @@ export default function AddChitAuctionPage() {
                                         : <TableBody>
                                             {ChitAuctionAddMemberList
                                                 .map((row, index) => (
-                                                    <TableRow hover tabIndex={-1} role="checkbox" onClick={(event) => handleClick(event, row, "", index)} sx={{ cursor: 'pointer' }}>
+                                                        <TableRow hover={!(row.prizedOrNot === "Prized")} tabIndex={-1} role="checkbox"
+                                                            className={row.prizedOrNot === "Prized" && 'rowExists'} 
+                                                        onClick={(event) => handleClick(event, row, "", index)} sx={{ cursor: 'pointer' }}>
                                                         <TableCell>{row.mem_name}</TableCell>
                                                         <TableCell>{row.memberid}</TableCell>
                                                         <TableCell>{row.tktno}</TableCell>

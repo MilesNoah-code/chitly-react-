@@ -1,6 +1,6 @@
 .custom-button{
     background-color: #edf4fe;
-   font-size: 17px;
+   font-size: 15px;
     color: #1877f2;
     transition: background-color 0.3s ease;
   }
@@ -16,6 +16,11 @@
     max-width: 49%;
     flex-wrap: wrap;
   } 
+  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+    font-size: 15px;
+  
+}
+
   .con{
     padding: 20px;
   }
@@ -84,8 +89,7 @@
       }
       h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
         font-size: 15px;
-        margin-top: 2px;
-      margin-bottom: -9px;
+       
     }
     input#outlined-required {
       font-size: 13px !important;

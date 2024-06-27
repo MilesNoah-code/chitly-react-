@@ -20,19 +20,20 @@ const ErrorLayout = ({ screen }) => {
       <Stack style={{ flexDirection: 'column' }} alignItems="center" justifyContent="center">
         {screen === "network"
           ? <img src="/assets/images/img/network_alert.gif" alt="Loading" style={{ width: 100, height: 80, }} />
-          : <img src="/assets/images/img/error_alert.gif" alt="Loading" style={{ width: 80, height: 80, }} />}
+          : <div className='reload-img' style={{ width: 350, height: 130, }}><img src="/assets/images/img/reload.png" alt="Loading" style={{width:'100%',height:'100%'}} /></div>}
       </Stack>
-      <Typography variant="h4" gutterBottom mb={5} mt={1} color={screen === "network" ? "#1da1f2" :"#ef4444"}>
+      <Typography variant="h6" gutterBottom mb={3} mt={5} color={screen === "network" ? "#1da1f2" :"#ef4444"} sx={{ color: "#000000" }}>
         {screen === "network" ? "Error in Network, Try Again" : "Oops! Something went wrong."}
       </Typography>
       
       <Button variant="contained" color="primary" onClick={HandleRetry} 
         sx={{
-          backgroundColor: screen === "network" ? '#1da1f2' : '#ef4444',
-          '&:hover': {
-            backgroundColor: screen === "network" ? '#1da1f2' : '#ef4444',
-          },
-        }}>
+            backgroundColor: '#257ff1',
+            '&:hover': {
+              backgroundColor: '#1e6ed9', // darker shade of #257ff1 for hover effect
+            },
+          }}
+      >
         Reload
       </Button>
     </Box>

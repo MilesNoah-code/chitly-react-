@@ -180,13 +180,14 @@ export default function ChitEstimateView() {
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
         <Typography variant="h6" sx={{ color: '#637381' }}>Chit Estimate List</Typography>
-        <Button variant="contained" className='custom-button' sx={{ display: 'none' }} startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddChitEstimateClick}>
+        <Button variant="contained" className='custom-button' sx={{ display: 'none' }}  onClick={HandleAddChitEstimateClick}>
           Add Chit Estimate
         </Button>
       </Stack>
       <Card>
-        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='40px' className='mbl-view'>
+        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='30px' className='mbl-view'>
           <TextField
+          className='search-div'
             placeholder="Search Group Code..."
             value={filterName}
             onChange={(e) => handleFilterByName(e)}
@@ -199,6 +200,14 @@ export default function ChitEstimateView() {
                   />
                 </InputAdornment>
               ),
+            }}
+            sx={{
+              '& .MuiInputBase-input': {
+                padding: '8px', 
+              },
+              '& .MuiInputAdornment-root': {
+                padding: '8px', 
+              },
             }}
           />
           <TextField select size="small" value={ActiveFilter} onChange={(e) => handleFilterByActive(e)}>
@@ -274,7 +283,8 @@ export default function ChitEstimateView() {
             />}
           </Stack>}
       </Card>
-      <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+      <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} 
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
         <Alert
           onClose={HandleAlertClose}
           severity={AlertFrom === "failed" ? "error" : "success"}

@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
+import IconButton from '@mui/material/IconButton';
 import { TabList, TabPanel, TabContext } from '@mui/lab';
-import { Box, Tab, Stack, Alert, Table, Button, Snackbar, TableRow, TableCell, TableBody, TextField, Typography, TableContainer, InputAdornment, TablePagination } from '@mui/material';
+import { Box, Tab, Stack, Alert, Table, Button, Dialog, Snackbar, TableRow, TableCell, TableBody, TextField, Typography, TableContainer, InputAdornment, TablePagination } from '@mui/material';
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
 
@@ -44,6 +45,8 @@ export default function ReportView() {
     const [ErrorScreen, setErrorScreen] = useState('');
     const [GroupNoSearch, setGroupNoSearch] = useState('');
     const [GroupNoSearch1, setGroupNoSearch1] = useState('');
+    const [InstallmentDetailList, setInstallmentDetailList] = useState([]);
+    const [InstallmentDetailListAlert, setInstallmentDetailListAlert] = useState(false);
     
     useEffect(() => {
         GetPayableReportList(GroupNoSearch, page * rowsPerPage, rowsPerPage);
@@ -89,7 +92,7 @@ export default function ReportView() {
     const GetReceivableReportList = (groupno, start, limit) => {
         setReceivableReportLoading(true);
         setTotalCount1(0);
-        setPayableReportList([]);
+        setReceivableReportList([]);
         const url = `${REACT_APP_HOST_URL}${RECEIVABLE_REPORT_LIST}${groupno}&start=${start}&limit=${limit}`;
         console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
@@ -207,7 +210,7 @@ export default function ReportView() {
                                 </TabList>
                             </Box>
                             <TabPanel value="1">
-                                <Stack mb={2} mr={3} direction="row" alignItems="center" gap='40px' className='mbl-view'>
+                                <Stack mb={2} mr={3} direction="row" alignItems="center" gap='30px' className='mbl-view'>
                                     <TextField
                                         placeholder="Search Group..."
                                         value={GroupNoSearch}
@@ -222,6 +225,7 @@ export default function ReportView() {
                                                 </InputAdornment>
                                             ),
                                         }}
+                                     
                                     />
                                 </Stack>
                                 {PayableReportLoading
@@ -240,22 +244,24 @@ export default function ReportView() {
                                                         onRequestSort={handleSort}
                                                         onSelectAllClick={handleSelectAllClick}
                                                         headLabel={[
+                                                            { id: 'S.No', label: 'S.No' },
+                                                            { id: 'Customer Name', label: 'Customer Name' },
+                                                            { id: 'Acc No', label: 'Acc No' },
                                                             { id: 'Group No', label: 'Group No' },
                                                             { id: 'Ticket No', label: 'Ticket No' },
-                                                            { id: 'Member Name', label: 'Member Name' },
-                                                            { id: 'Amount', label: 'Amount' },
-                                                            { id: 'Arrear Amount', label: 'Arrear Amount' },
+                                                            { id: 'Total Amount', label: 'Total Amount' },
                                                         ]} />
                                                     <TableBody>
                                                         {PayableReportList
                                                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                                            .map((row) => (
+                                                            .map((row, index) => (
                                                                 <TableRow hover tabIndex={-1} role="checkbox">
-                                                                    <TableCell>{row.groupNo}</TableCell>
-                                                                    <TableCell>{row.tktno}</TableCell>
+                                                                    <TableCell>{(index+1)}</TableCell>
                                                                     <TableCell>{row.memberName}</TableCell>
+                                                                    <TableCell>{row.memberId}</TableCell>
+                                                                    <TableCell>{row.groupno}</TableCell>
+                                                                    <TableCell>{row.tktno}</TableCell>
                                                                     <TableCell>{row.chitAmount != null && row.chitAmount !== "" ? Math.round(row.chitAmount) : ""}</TableCell>
-                                                                    <TableCell>{row.arrears != null && row.arrears !== "" ? Math.round(row.arrears) : ""}</TableCell>
                                                                 </TableRow>
                                                             ))}
                                                         <TableEmptyRows
@@ -312,22 +318,30 @@ export default function ReportView() {
                                                         onRequestSort={handleSort}
                                                         onSelectAllClick={handleSelectAllClick}
                                                         headLabel={[
+                                                            { id: 'S.No', label: 'S.No' },
+                                                            { id: 'Customer Name', label: 'Customer Name' },
+                                                            { id: 'Acc No', label: 'Acc No' },
                                                             { id: 'Group No', label: 'Group No' },
                                                             { id: 'Ticket No', label: 'Ticket No' },
-                                                            { id: 'Member Name', label: 'Member Name' },
-                                                            { id: 'Amount', label: 'Amount' },
-                                                            { id: 'Arrear Amount', label: 'Arrear Amount' },
+                                                            { id: 'Amount Pending', label: 'Amount Pending' },
+                                                            { id: 'Action', label: 'Action' },
                                                         ]} />
                                                     <TableBody>
                                                         {ReceivableReportList
                                                             .slice(page1 * rowsPerPage1, page1 * rowsPerPage1 + rowsPerPage1)
-                                                            .map((row) => (
+                                                            .map((row, index) => (
                                                                 <TableRow hover tabIndex={-1} role="checkbox">
+                                                                    <TableCell>{(index+1)}</TableCell>
+                                                                    <TableCell>{row.memberName}</TableCell>
+                                                                    <TableCell>{row.memberId}</TableCell>
                                                                     <TableCell>{row.groupNo}</TableCell>
                                                                     <TableCell>{row.tktno}</TableCell>
-                                                                    <TableCell>{row.memberName}</TableCell>
-                                                                    <TableCell>{row.chitAmount != null && row.chitAmount !== "" ? Math.round(row.chitAmount) : ""}</TableCell>
                                                                     <TableCell>{row.arrears != null && row.arrears !== "" ? Math.round(row.arrears) : ""}</TableCell>
+                                                                    <TableCell>
+                                                                        <IconButton onClick={() => { setInstallmentDetailList(row.detail); setInstallmentDetailListAlert(true); }} sx={{ cursor: 'pointer' }}>
+                                                                            <Iconify icon="eva:eye-fill" />
+                                                                        </IconButton>
+                                                                    </TableCell>
                                                                 </TableRow>
                                                             ))}
                                                         <TableEmptyRows
@@ -354,7 +368,8 @@ export default function ReportView() {
                     </Stack>
                 </Box>
             </Card>
-            <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+            <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} 
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
                 <Alert
                     onClose={HandleAlertClose}
                     severity={AlertFrom === "failed" ? "error" : "success"}
@@ -363,6 +378,55 @@ export default function ReportView() {
                     {AlertMessage}
                 </Alert>
             </Snackbar>
+            <Dialog
+                open={InstallmentDetailListAlert}
+                fullWidth={false}  // Set fullWidth to false to control width manually
+                maxWidth="md"      // Set maxWidth to limit the width
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description">
+                <Card sx={{ width: 300 }}> {/* Adjust Card width */}
+                    <Stack>
+                        <Stack mt={2} ml={2} mr={1} direction="row" alignItems="center">
+                            <IconButton
+                                aria-label="close"
+                                className='btn-close'
+                                onClick={() => setInstallmentDetailListAlert(false)}
+                                sx={{ position: 'absolute', right: 2, top: 0, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }}>
+                                <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17 }} />
+                            </IconButton>
+                        </Stack>
+                        <Scrollbar>
+                            <TableContainer sx={{ mt: 2 }}>
+                                <Table sx={{ minWidth: 300 }} stickyHeader>
+                                    <TableHeader sx={{ width: '100%' }}
+                                        order="asc"
+                                        orderBy="name"
+                                        rowCount={InstallmentDetailList.length}
+                                        numSelected={InstallmentDetailList.length}
+                                        onRequestSort={handleSort}
+                                        onSelectAllClick={handleSelectAllClick}
+                                        headLabel={[
+                                            { id: 'Installment No', label: 'Installment No' },
+                                            { id: 'Amount', label: 'Amount' },
+                                        ]} />
+                                    <TableBody>
+                                        {InstallmentDetailList.map((row, index) => (
+                                            <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }}>
+                                                <TableCell>{row.installno}</TableCell>
+                                                <TableCell>{row.amount != null && row.amount !== "" ? Math.round(row.amount) : ""}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                        <TableEmptyRows
+                                            height={77}
+                                            emptyRows={emptyRows(page, 5, InstallmentDetailList.length)} />
+                                        {InstallmentDetailList.length === 0 && <TableNoData query="" />}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Scrollbar>
+                    </Stack>
+                </Card>
+            </Dialog>
         </Container>
     );
 }

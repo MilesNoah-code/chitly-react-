@@ -1,7 +1,8 @@
 .custom-button{
     background-color: #edf4fe;
-   font-size: 17px;
+   font-size: 15px !important;
     color: #1877f2;
+  
     transition: background-color 0.3s ease;
   }
   .custom-button:hover{
@@ -37,7 +38,14 @@
   .Muipopper-root{
     background-color: #ccc !important;
   }
-
+  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+    font-size: 15px;
+  
+}
+input#outlined-required {
+  font-size: 13px !important;
+  height: 1.00em !important;
+}
   @media screen and (max-width: 768px) {
     .table-grid{
       width: 100%;
@@ -61,6 +69,7 @@
     .grp-label{
       width: calc(97% - 0px) !important; 
     }
+   
     .box-grp {
       flex: 1 0 100%;
       max-width: 100%;
@@ -95,8 +104,7 @@
       }
       h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
         font-size: 15px;
-        margin-top: 2px;
-      margin-bottom: -9px;
+       
     }
     input#outlined-required {
       font-size: 13px !important;

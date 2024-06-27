@@ -38,14 +38,17 @@ export default function AddGroupPage() {
     });
     const [FMPRDue, setFMPRDue] = useState({
         data: screen === "add" ? "" : data.fmprdue,
+        placeholder: "Select",
         error: ""
     });
     const [Dividend, setDividend] = useState({
         data: screen === "add" ? "" : data.divident_distribute,
+        placeholder: "Select",
         error: ""
     });
     const [AuctionMode, setAuctionMode] = useState({
         data: screen === "add" ? "" : data.auction_mode,
+        placeholder: "Select",
         error: ""
     });
 
@@ -63,9 +66,9 @@ export default function AddGroupPage() {
 
     useEffect(() => {
         console.log(data);
-        if(screen === "edit" || screen === "view"){
-            if (!Number.isNaN(data.duration)) {
-                const intValue = parseInt(data.duration, 10);
+        if (screen === "edit" || screen === "view") {
+            if (!Number.isNaN(Duration.data)) {
+                const intValue = parseInt(Duration.data, 10);
                 const newList = [];
                 for (let i = 1; i <= intValue;) {
                     newList.push(i);
@@ -87,7 +90,7 @@ export default function AddGroupPage() {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ScreenRefresh]);
+    }, [ScreenRefresh, Duration.data]);
 
     const GroupInfoParams = {
         "duration": Duration.data,
@@ -236,18 +239,21 @@ export default function AddGroupPage() {
             setFMPRDue(prevState => ({
                 ...prevState,
                 data: text !== "" ? text : "",
+                placeholder: "FM. PR. Due",
                 error: text === "" ? "* Required" : ""
             }));
         } else if (from === "Dividend") {
             setDividend(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
+                placeholder: "Dividend",
                 error: text.trim() === "" ? "* Required" : ""
             }));
         } else if (from === "AuctionMode") {
             setAuctionMode(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
+                placeholder: "Auction Mode",
                 error: text.trim() === "" ? "* Required" : ""
             }));
         }
@@ -406,18 +412,16 @@ export default function AddGroupPage() {
                             <div className='box-grp'>
                                 <Stack direction='column'>
                                     <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                        Group Code
+                                        Group Code <span style={{ color: 'red' }}> *</span>
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
                                             className='input-box1'
-                                            required
                                             id="outlined-required"
                                             disabled={screen === "view"}
-                                            label="Group Code"
+                                            // label="Group Code"
                                             value={GroupCode.data}
-                                            onChange={(e) => GroupTextValidate(e, "GroupCode")}
-                                            style={{}} />
+                                            onChange={(e) => GroupTextValidate(e, "GroupCode")} />
                                     </Stack>
                                     <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupCode.error}</div>
                                 </Stack>
@@ -425,18 +429,17 @@ export default function AddGroupPage() {
                             <div className='box-grp'>
                                 <Stack direction='column'>
                                     <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                        Amount
+                                        Amount <span style={{ color: 'red' }}> *</span>
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
                                             className='input-box1'
-                                            required
                                             id="outlined-required"
                                             disabled={screen === "view"}
-                                            label="Amount"
+                                            // label="Amount"
                                             value={Amount.data}
                                             onChange={(e) => GroupTextValidate(e, "Amount")}
-                                            style={{}} />
+                                            type='number' />
                                     </Stack>
                                     <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Amount.error}</div>
                                 </Stack>
@@ -446,18 +449,17 @@ export default function AddGroupPage() {
                             <div className='box-grp'>
                                 <Stack direction='column'>
                                     <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                        Duration
+                                        Duration <span style={{ color: 'red' }}> *</span>
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
                                             className='input-box1'
-                                            required
                                             id="outlined-required"
                                             disabled={screen === "view"}
-                                            label="Duration"
+                                            // label="Duration"
                                             value={Duration.data}
                                             onChange={(e) => GroupTextValidate(e, "Duration")}
-                                            style={{}} />
+                                            type='number' />
                                     </Stack>
                                     <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Duration.error}</div>
                                 </Stack>
@@ -465,18 +467,17 @@ export default function AddGroupPage() {
                             <div className='box-grp'>
                                 <Stack direction='column'>
                                     <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                        EM Due
+                                        EM Due <span style={{ color: 'red' }}> *</span>
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
                                             className='input-box1'
-                                            required
                                             id="outlined-required"
                                             disabled
-                                            label="EM Due"
+                                            // label="EM Due"
                                             value={EMDue.data}
                                             onChange={(e) => GroupTextValidate(e, "EMDue")}
-                                            style={{}} />
+                                            type='number' />
                                     </Stack>
                                     <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{EMDue.error}</div>
                                 </Stack>
@@ -486,19 +487,22 @@ export default function AddGroupPage() {
                             <div className='box-grp'>
                                 <Stack direction='column'>
                                     <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                        FM. PR. Due
+                                        FM. PR. Due <span style={{ color: 'red' }}> *</span>
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
-                                            required
                                             className='input-box1'
                                             id="outlined-required"
                                             select
                                             disabled={screen === "view"}
-                                            label="Select"
+                                            // label={FMPRDue.placeholder}
+                                            // onFocus={() => setFMPRDue(prevState => ({
+                                            //     ...prevState,
+                                            //     placeholder: "FM. PR. Due"
+                                            // }))}
                                             value={FMPRDue.data}
                                             onChange={(e) => GroupTextValidate(e, "FMPRDue")}
-                                            style={{}}>
+                                            type='number' >
                                             {FMPRDUEArray.map((option) => (
                                                 <MenuItem key={option} value={option}>
                                                     {option}
@@ -511,19 +515,21 @@ export default function AddGroupPage() {
                             <div className='box-grp'>
                                 <Stack direction='column'>
                                     <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                        Dividend
+                                        Dividend <span style={{ color: 'red' }}> *</span>
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
-                                            required
                                             className='input-box1'
                                             id="outlined-required"
                                             select
                                             disabled={screen === "view"}
-                                            label="Select"
+                                            // label={Dividend.placeholder}
+                                            // onFocus={() => setDividend(prevState => ({
+                                            //     ...prevState,
+                                            //     placeholder: "Dividend"
+                                            // }))}
                                             value={Dividend.data}
-                                            onChange={(e) => GroupTextValidate(e, "Dividend")}
-                                            style={{}}>
+                                            onChange={(e) => GroupTextValidate(e, "Dividend")} >
                                             {DividendArray.map((option) => (
                                                 <MenuItem key={option} value={option}>
                                                     {option}
@@ -538,20 +544,22 @@ export default function AddGroupPage() {
                             <div className='box-grp'>
                                 <Stack direction='column'>
                                     <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                        Auction Mode
+                                        Auction Mode <span style={{ color: 'red' }}> *</span>
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
                                         <TextField
-                                            required
                                             className='input-box1'
                                             id="outlined-select-currency"
                                             select
                                             disabled={screen === "view"}
-                                            label="Select"
+                                            // label={AuctionMode.placeholder}
+                                            // onFocus={() => setAuctionMode(prevState => ({
+                                            //     ...prevState,
+                                            //     placeholder: "Auction Mode"
+                                            // }))}
                                             variant="outlined"
                                             value={AuctionMode.data}
-                                            onChange={(e) => GroupTextValidate(e, "AuctionMode")}
-                                            style={{}}>
+                                            onChange={(e) => GroupTextValidate(e, "AuctionMode")} >
                                             {AuctionModeArray.map((option) => (
                                                 <MenuItem key={option} value={option}>
                                                     {option}
@@ -575,7 +583,8 @@ export default function AddGroupPage() {
                     </Stack>
                 </Box>
             </Card>
-            <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+            <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} 
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
                 <Alert
                     onClose={HandleAlertClose}
                     severity={AlertFrom === "failed" ? "error" : "success"}

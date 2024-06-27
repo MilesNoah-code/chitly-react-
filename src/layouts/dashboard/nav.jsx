@@ -1,39 +1,41 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
+// import Drawer from '@mui/material/Drawer';
+// import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
 import ListItemButton from '@mui/material/ListItemButton';
 
 import { usePathname } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 
-import { PostHeader } from 'src/hooks/AxiosApiFetch';
-import { useResponsive } from 'src/hooks/use-responsive';
+// import { PostHeader } from 'src/hooks/AxiosApiFetch';
+// import { useResponsive } from 'src/hooks/use-responsive';
 
-import { LOGOUT_URL, REACT_APP_HOST_URL } from 'src/utils/api-constant';
+// import { LOGOUT_URL, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
-// import Logo from 'src/components/logo';
+import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
-import { NAV } from './config-layout';
 import navConfig from './config-navigation';
 
 export default function Nav({ openNav, onCloseNav }) {
   const location = useLocation();
-  const upLg = useResponsive('up', 'lg');
+  // const upLg = useResponsive('up', 'lg');
   const UserDetail = JSON.parse(localStorage.getItem('userDetails'));
-  const Session = localStorage.getItem('apiToken');
-  const navigate = useNavigate();
-  const [Loading, setLoading] = useState(false);
+  // const Session = localStorage.getItem('apiToken');
+  // const navigate = useNavigate();
+  // const [Loading, setLoading] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isClicked, setIsClicked] = useState(false); // Changed state name for clarity
 
-  const LogOutMethod = () => {
+  /* const LogOutMethod = () => {
     setLoading(true);
     const url = `${REACT_APP_HOST_URL}${LOGOUT_URL}`;
     // console.log(JSON.parse(Session)  + url);
@@ -52,29 +54,53 @@ export default function Nav({ openNav, onCloseNav }) {
         setLoading(false);
         // console.log(error);
       });
-  };
+  }; */
 
   useEffect(() => {
     if (openNav) {
       onCloseNav();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.pathname, openNav, onCloseNav]);
+
+  const handleMouseEnter = () => {
+    if (!isClicked) {
+      setIsHovered(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!isClicked) {
+      setIsHovered(false);
+    }
+  };
+
+  const handleIconClick = () => {
+    setIsClicked(!isClicked);
+    setIsHovered(false); // Ensure hover state is reset when clicked
+  };
 
   const renderAccount = (
     <Box
       sx={{
-        my: 3,
-        mx: 2.5,
-        py: 2,
-        px: 2.5,
+        my: 2,
+        py: '10px',
+        px: 1.5,
         display: 'flex',
         borderRadius: 1.5,
         alignItems: 'center',
-        bgcolor: (theme) => alpha(theme.palette.grey[500], 0.12),
+        bgcolor: (theme) => isClicked || isHovered ? alpha(theme.palette.grey[500], 0.12) : alpha(theme.palette.grey[500], 0),
       }}
     >
-      <Avatar src={UserDetail.photoURL} alt={UserDetail.first_name} >
+      <Avatar
+        src={UserDetail.photoURL}
+        alt={UserDetail.first_name}
+        sx={{
+          ...(isClicked || isHovered && {
+            width: 40,
+            height: 40,
+          }),
+        }}
+      >
         {UserDetail.first_name[0]}
       </Avatar>
 
@@ -92,12 +118,12 @@ export default function Nav({ openNav, onCloseNav }) {
   const renderMenu = (
     <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
       {navConfig.map((item, index) => (
-        <NavItem key={item.title} item={item} isFirstItem={index === 0} />
+        <NavItem key={item.title} item={item} isFirstItem={index === 0} onMouseEnter={handleMouseEnter} />
       ))}
     </Stack>
   );
 
-  const renderUpgrade = (
+  /* const renderUpgrade = (
     <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
       <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
         <Button
@@ -111,7 +137,7 @@ export default function Nav({ openNav, onCloseNav }) {
         </Button>
       </Stack>
     </Box>
-  );
+  ); */
 
   const renderContent = (
     <Scrollbar
@@ -124,9 +150,19 @@ export default function Nav({ openNav, onCloseNav }) {
         },
       }}
     >
-      <Stack>
-        <img src="/assets/images/img/chitly_logo.png" alt="Loading" style={{ width: 170, height: 80, marginTop: 20, marginLeft: 20 }} />
-      </Stack>
+      <Box
+        sx={{
+          mt: 2,
+          ml: 2,
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <IconButton onClick={handleIconClick} sx={{ mr: 1 }}>
+          <Iconify icon="eva:menu-2-fill" />
+        </IconButton>
+       {/* <img src="/assets/images/img/chitly_logo.png" alt="Loading" style={{ width: 170, height: 80 }} /> */}
+      </Box>
 
       {renderAccount}
 
@@ -134,7 +170,7 @@ export default function Nav({ openNav, onCloseNav }) {
 
       <Box sx={{ flexGrow: 1 }} />
 
-      {renderUpgrade}
+      {/* renderUpgrade */}
     </Scrollbar>
   );
 
@@ -142,46 +178,61 @@ export default function Nav({ openNav, onCloseNav }) {
     <Box
       sx={{
         flexShrink: { lg: 0 },
-        width: { lg: NAV.WIDTH },
+        width: { lg: isClicked || isHovered ? '280px' : '55px' },
         backgroundColor: 'white',
+        transition: 'width 0.3s ease-in-out',
+        zIndex: 1200, // Ensure the Nav drawer appears above other content
+        '&:hover': {
+          width: isClicked || isHovered ? '280px' : '55px', // Maintain expanded width on hover if clicked
+        },
       }}
+      onMouseLeave={handleMouseLeave}
     >
-      {upLg ? (
-        <Box
-          sx={{
-            height: 1,
-            position: 'fixed',
-            width: NAV.WIDTH,
-            borderRight: (theme) => `dashed 1px ${theme.palette.divider}`,
-          }}
-        >
-          {renderContent}
-        </Box>
-      ) : (
-        <Drawer
+      {/* {upLg ?  */}
+      <Box
+        sx={{
+          height: 1,
+          position: 'fixed',
+          width: isClicked || isHovered ? '280px' : '55px',
+          transition: 'width 0.3s ease-in-out',
+            '&:hover': {
+              width: '270px',
+              zIndex: 9999999,
+              backgroundColor: 'white',
+            },
+          borderRight: (theme) => `dashed 1px ${theme.palette.divider}`,
+        }}
+      >
+        {renderContent}
+      </Box>
+      {/* <Drawer
           open={openNav}
           onClose={onCloseNav}
           PaperProps={{
             sx: {
-              width: NAV.WIDTH,
+                transition: 'width 0.3s ease-in-out',
+                width: '280px',
+                padding: '0 16px',
+                zIndex: 100,
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                height: '100%',
             },
           }}
         >
           {renderContent}
-        </Drawer>
-      )}
+        </Drawer>} */}
     </Box>
   );
-}
-
+};
 Nav.propTypes = {
   openNav: PropTypes.bool,
   onCloseNav: PropTypes.func,
 };
 
-// ----------------------------------------------------------------------
 
-function NavItem({ item, isFirstItem }) {
+function NavItem({ item, isFirstItem, onMouseEnter }) {
   const pathname = usePathname();
   const location = useLocation();
   const active = location.pathname.startsWith(item.path) || (isFirstItem && pathname === '/');
@@ -191,6 +242,8 @@ function NavItem({ item, isFirstItem }) {
       component={RouterLink}
       to={item.path}
       sx={{
+        display: 'flex',
+        alignItems: 'center',
         minHeight: 44,
         borderRadius: 0.75,
         typography: 'body2',
@@ -206,17 +259,53 @@ function NavItem({ item, isFirstItem }) {
             bgcolor: (theme) => alpha(theme.palette.primary.main, 0.16),
           },
         }),
+        position: 'relative',
+        overflow: 'hidden',
+        transition: 'min-width 0.3s ease-in-out',
+        minWidth: '280px',
+        padding: '0 16px',
+        '&:hover': {
+          '& .navItemIcon': {
+            width: '18px', 
+          },
+
+        },
       }}
+      onMouseEnter={onMouseEnter}
     >
-      <Box component="span" sx={{ width: 24, height: 24, mr: 2 }}>
+      <Box
+        component="span"
+        className="navItemIcon"
+        sx={{
+          width: '24px',
+          height: '24px',
+          mr: 2, ml:-2,
+          transition: 'width 0.3s ease-in-out',
+        }}
+      >
         {item.icon}
       </Box>
-      <Box component="span">{item.title} </Box>
+
+      {/* Title */}
+      <Box
+        component="span"
+        className="navItemTitle"
+        sx={{
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          maxWidth: '100%',
+          transition: 'max-width 0.3s ease-in-out, margin-left 0.3s ease-in-out',
+        }}
+      >
+        {item.title}
+      </Box>
     </ListItemButton>
   );
 }
 
 NavItem.propTypes = {
-  item: PropTypes.object,
-  isFirstItem: PropTypes.bool
+  item: PropTypes.object.isRequired,
+  isFirstItem: PropTypes.bool,
+  onMouseEnter: PropTypes.func.isRequired,
 };

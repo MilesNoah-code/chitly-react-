@@ -33,7 +33,7 @@ export default function AddMemberPage() {
     const Session = localStorage.getItem('apiToken');
 
     const Prefix = [{ value: "MR", data: "Mr" }, { value: "MRS", data: "Mrs" }, { value: "MS", data: "Ms" }, { value: "M/s", data: "M/s" }, { value: "Master", data: "Master" }];
-    const RelationShipPrefix = [{ value: "S/O", data: "S/O" }, { value: "D/O", data: "D/O" }, { value: "W/O", data: "W/O" }, { value: "C/O", data: "C/O" },];
+    const RelationShipPrefix = [{ value: "S/O", data: "S/o" }, { value: "D/O", data: "D/o" }, { value: "W/O", data: "W/o" }, { value: "C/O", data: "C/O" },];
     const GenderArray = ["Male", "Female"];
     const TypeOfAccountArray = ["Savings account", "Current account"];
     const CurrentOccupationArray = ["Public Sector", "Private Sector", "Business"];
@@ -226,6 +226,9 @@ export default function AddMemberPage() {
     const [ProofLoading, setProofLoading] = useState(false);
     const [ProfileMediaId, setProfileMediaId] = useState('');
     const [ScreenRefresh, setScreenRefresh] = useState(0);
+    const [MemberSaveId, setMemberSaveId] = useState({
+        id: ''
+    });
 
     useEffect(() => {
         if (screen === "view" || screen === "edit") {
@@ -247,6 +250,19 @@ export default function AddMemberPage() {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
     }, [ScreenRefresh]);
+
+    useEffect(() => {
+        const handleBackButton = (event) => {
+            console.log('Back button pressed!', event);
+            navigate('/member/list');
+        };
+        window.addEventListener('popstate', handleBackButton);
+        return () => {
+            window.removeEventListener('popstate', handleBackButton);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
 
     const GetMemberView = () => {
         setMemberLoading(true);
@@ -319,6 +335,7 @@ export default function AddMemberPage() {
                     });
 
                     if (json.list && json.list.address) {
+                        setAddressDetailEmpty("");
                         setAddressId(json.list.address.id != null ? json.list.address.id : "");
                         setAddress({
                             data: json.list.address.addressline1 != null ? json.list.address.addressline1 : "",
@@ -347,6 +364,7 @@ export default function AddMemberPage() {
                     }
 
                     if (json.list && json.list.bankDetails) {
+                        setBankDetailEmpty("");
                         setBankId(json.list.bankDetails.id != null ? json.list.bankDetails.id : "");
                         setNameOnAccount({
                             data: json.list.bankDetails.name_on_account != null ? json.list.bankDetails.name_on_account : "",
@@ -381,6 +399,7 @@ export default function AddMemberPage() {
                     }
 
                     if (json.list && json.list.education) {
+                        setEducationDetailEmpty("");
                         setEducationId(json.list.education.id != null ? json.list.education.id : "");
                         setEducation({
                             data: json.list.education.education != null ? json.list.education.education : "",
@@ -399,6 +418,7 @@ export default function AddMemberPage() {
                     }
 
                     if (json.list && json.list.occupation) {
+                        setOccupationDetailEmpty("");
                         setOccupationId(json.list.occupation.id != null ? json.list.occupation.id : "");
                         setCurrentOccupation({
                             data: json.list.occupation.occupation_name != null ? json.list.occupation.occupation_name : "",
@@ -534,7 +554,7 @@ export default function AddMemberPage() {
             } else if (TabIndex === '4') {
                 url = `${REACT_APP_HOST_URL}${MEMBER_EDUCATION_DETAIL_SAVE}`;
                 Params = EducationDetailParams;
-            } else if (TabIndex === '6') {
+            } else if (TabIndex === '5') {
                 url = `${REACT_APP_HOST_URL}${MEMBER_OCCUPATION_DETAIL_SAVE}`;
                 Params = OccupationDetailParams;
             }
@@ -547,6 +567,9 @@ export default function AddMemberPage() {
                     setScreenRefresh(0);
                     if (json.success) {
                         setAlertMessage(json.message);
+                        setMemberSaveId({
+                            id: json.id
+                        })
                         if (screen === "add" || TabIndex === '1') {
                             setAlertFrom("add_success");
                         } else {
@@ -588,7 +611,7 @@ export default function AddMemberPage() {
             } else if (TabIndex === '4') {
                 url = `${REACT_APP_HOST_URL}${MEMBER_EDUCATION_DETAIL_UPDATE}${EducationId}`;
                 Params = EducationDetailParams;
-            } else if (TabIndex === '6') {
+            } else if (TabIndex === '5') {
                 url = `${REACT_APP_HOST_URL}${MEMBER_OCCUPATION_DETAIL_UPDATE}${OccupationId}`;
                 Params = OccupationDetailParams;
             }
@@ -632,8 +655,8 @@ export default function AddMemberPage() {
                 setMediaListLoading(false);
                 if (json.success) {
                     if (json.list.length > 0) {
+                        setProfileMediaId(json.list[0].id);
                         if (entryMappedtypeNo !== "") {
-                            setProfileMediaId(json.list[0].id);
                             if (file !== "") {
                                 MemberImageUpload(file, "MEMBER_PROFILE");
                             }
@@ -849,12 +872,12 @@ export default function AddMemberPage() {
                 // console.log(JSON.stringify(json));
                 if (json.success) {
                     setStateList(json.list);
-                    if (State.data === "") {
+                    /* if (State.data === "") {
                         setState({
                             data: json.list && json.list.length > 0 ? json.list[0].state_name : "",
                             error: ""
                         });
-                    }
+                    } */
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
                     setAlertFrom("failed");
@@ -1434,6 +1457,7 @@ export default function AddMemberPage() {
                 error: ""
             }));
         } */
+        console.log(BankDetailEmpty)
         if (BankDetailEmpty === "no_data") {
             MemberAddMethod(IsValidate);
         } else {
@@ -1528,8 +1552,10 @@ export default function AddMemberPage() {
                 }));
             }
         }
-        setProofLoading(true);
-        MemberMediaSave(IsValidate, ProofImage)
+        if (IsValidate) {
+            setProofLoading(true);
+            MemberMediaSave(IsValidate, ProofImage)
+        }
     }
 
     const OccupationDetailsTextValidate = (e, from) => {
@@ -1661,7 +1687,14 @@ export default function AddMemberPage() {
             GetMediaList("", "");
             // window.location.reload();
         } else if (AlertFrom === "add_success") {
-            navigate('/member/list')
+            // navigate('/member/list');
+            console.log(MemberSaveId);
+            navigate(`/member/edit/${MemberSaveId.id}`, {
+                state: {
+                    screen: 'edit',
+                    data: MemberSaveId,
+                },
+            });
         }
     };
 
@@ -1676,7 +1709,7 @@ export default function AddMemberPage() {
             }
         } else {
             setTabIndex(newValue);
-        }  
+        }
     };
 
     const HandleSubmitClick = () => {
@@ -1689,7 +1722,7 @@ export default function AddMemberPage() {
             validateBankDetails();
         } else if (TabIndex === '4') {
             validateEducationDetails();
-        } else if (TabIndex === '6') {
+        } else if (TabIndex === '5') {
             validateOccupationDetails();
         }
     };
@@ -1707,10 +1740,15 @@ export default function AddMemberPage() {
     });
 
     const HandleProfileImage = (event) => {
-        setScreenRefresh(pre => pre + 1);
         const file = event.target.files[0];
-        // console.log(file);
-        if (file) {
+        const fileSizeLimit = 1 * 1024 * 1024;
+        console.log("file", file.size, " fileSizeLimit", fileSizeLimit);
+        if (file.size > fileSizeLimit) {
+            setAlertMessage("Please choose a file smaller than 1 MB.");
+            setAlertFrom("upload_failed");
+            HandleAlertShow();
+        } else {
+            setScreenRefresh(pre => pre + 1);
             const filePath = URL.createObjectURL(file);
             setProfileImage({
                 data: filePath,
@@ -1730,8 +1768,13 @@ export default function AddMemberPage() {
     const HandleProofImage = (event) => {
         setScreenRefresh(pre => pre + 1);
         const file = event.target.files[0];
-        // console.log(file);
-        if (file) {
+        const fileSizeLimit = 1 * 1024 * 1024;
+        console.log("file", file.size, " fileSizeLimit", fileSizeLimit);
+        if (file.size > fileSizeLimit) {
+            setAlertMessage("Please choose a file smaller than 1 MB.");
+            setAlertFrom("upload_failed");
+            HandleAlertShow();
+        } else {
             const filePath = URL.createObjectURL(file);
             setProofImage({
                 data: filePath,
@@ -1790,7 +1833,7 @@ export default function AddMemberPage() {
             }
         } else {
             navigate('/member/list');
-        }  
+        }
     }
 
     const currentDate = dayjs();
@@ -1843,7 +1886,28 @@ export default function AddMemberPage() {
                                 : <TabPanel value="1">
                                     {screen === "add"
                                         ? null
-                                        : <Stack spacing={2} sx={{ mb: 3, alignItems: 'flex-end', mr: 3 }}>
+                                        : <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                      
+                                        <div className='box'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    PanCard Number
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        // required
+                                                        id="outlined-required"
+                                                        disabled={screen === "view"}
+                                                        label="Pancard Number"
+                                                        value={PancardNo.data}
+                                                        onChange={(e) => MemberInfoTextValidate(e, "PancardNo")}
+                                                        style={{}} />
+                                                </Stack>
+                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{PancardNo.error}</div>
+                                            </Stack>
+                                        </div>
+                                        <div className='box'>
                                             <Stack direction='column' sx={{ ml: 2, }}>
                                                 {ProfileImage.data !== ""
                                                     ? <div>
@@ -1858,12 +1922,13 @@ export default function AddMemberPage() {
                                                 </Button>
                                                 <div style={{ marginLeft: "10px", marginTop: "0px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ProfileImage.error}</div>
                                             </Stack>
+                                         </div>
                                         </Stack>}
                                     <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                                    Member Name
+                                                    Member Name <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
@@ -1883,7 +1948,6 @@ export default function AddMemberPage() {
                                                     </TextField>
                                                     <TextField
                                                         className='input-box1'
-                                                        required
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         label="Member Name"
@@ -1897,7 +1961,7 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                                    RelationShip Name
+                                                    Relationship Name <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
@@ -1917,10 +1981,9 @@ export default function AddMemberPage() {
                                                     </TextField>
                                                     <TextField
                                                         className='input-box1'
-                                                        required
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="Relationhsip"
+                                                        label="Relationship"
                                                         value={Relationship.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "Relationship")} />
                                                 </Stack>
@@ -1937,15 +2000,13 @@ export default function AddMemberPage() {
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        // required
                                                         id="outlined-select-currency"
                                                         select
                                                         disabled={screen === "view"}
                                                         label="Select"
                                                         variant="outlined"
                                                         value={Gender.data}
-                                                        onChange={(e) => MemberInfoTextValidate(e, "Gender")}
-                                                        style={{}}>
+                                                        onChange={(e) => MemberInfoTextValidate(e, "Gender")} >
                                                         {GenderArray.map((option) => (
                                                             <MenuItem key={option} value={option}>
                                                                 {option}
@@ -1959,18 +2020,17 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                                    Mobile Number
+                                                    Mobile Number <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        required
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         label="Mobile Number"
                                                         value={MobileNumber.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "MobileNumber")}
-                                                        style={{}} />
+                                                        type='number' />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{MobileNumber.error}</div>
                                             </Stack>
@@ -1991,8 +2051,7 @@ export default function AddMemberPage() {
                                                                 onChange={HandleDateChange}
                                                                 format="DD-MM-YYYY"
                                                                 maxDate={maxDate}
-                                                                renderInput={(params) => <TextField {...params} />}
-                                                                sx={{}} />
+                                                                renderInput={(params) => <TextField {...params} />} />
                                                         </DemoContainer>
                                                     </LocalizationProvider>
                                                 </Stack>
@@ -2007,13 +2066,11 @@ export default function AddMemberPage() {
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        // required
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         label="Email"
                                                         value={Email.data}
-                                                        onChange={(e) => MemberInfoTextValidate(e, "Email")}
-                                                        style={{}} />
+                                                        onChange={(e) => MemberInfoTextValidate(e, "Email")} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{Email.error}</div>
                                             </Stack>
@@ -2027,14 +2084,13 @@ export default function AddMemberPage() {
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
-                                                        required
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         label="Whatsapp Number"
                                                         value={WhatsappNo.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "WhatsappNo")}
-                                                        style={{}} />
+                                                        type='number' />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{WhatsappNo.error}</div>
                                             </Stack>
@@ -2046,14 +2102,12 @@ export default function AddMemberPage() {
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
-                                                        // required
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         label="Guardian Name"
                                                         value={GuardName.data}
-                                                        onChange={(e) => MemberInfoTextValidate(e, "GuardName")}
-                                                        style={{}} />
+                                                        onChange={(e) => MemberInfoTextValidate(e, "GuardName")} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{GuardName.error}</div>
                                             </Stack>
@@ -2068,13 +2122,11 @@ export default function AddMemberPage() {
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        // required
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         label="Guardian Relation"
                                                         value={GuardRelationship.data}
-                                                        onChange={(e) => MemberInfoTextValidate(e, "GuardRelationship")}
-                                                        style={{}} />
+                                                        onChange={(e) => MemberInfoTextValidate(e, "GuardRelationship")} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GuardRelationship.error}</div>
                                             </Stack>
@@ -2087,39 +2139,17 @@ export default function AddMemberPage() {
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        // required
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         label="Aadhar Number"
                                                         value={AadharNo.data}
-                                                        onChange={(e) => MemberInfoTextValidate(e, "AadharNo")}
-                                                        style={{}} />
+                                                        onChange={(e) => MemberInfoTextValidate(e, "AadharNo")} />
                                                 </Stack>
                                                 <div style={{ marginTop: "-10px", marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AadharNo.error}</div>
                                             </Stack>
                                         </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                        <div className='box'>
-                                            <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                                    PanCard Number
-                                                </Typography>
-                                                <Stack direction='row' sx={{ ml: 0, }}>
-                                                    <TextField
-                                                        className='input-box1'
-                                                        // required
-                                                        id="outlined-required"
-                                                        disabled={screen === "view"}
-                                                        label="Pancard Number"
-                                                        value={PancardNo.data}
-                                                        onChange={(e) => MemberInfoTextValidate(e, "PancardNo")}
-                                                        style={{}} />
-                                                </Stack>
-                                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{PancardNo.error}</div>
-                                            </Stack>
-                                        </div>
-                                    </Stack>
+                                  
                                 </TabPanel>}
                             {MemberLoading
                                 ? null
@@ -2128,18 +2158,16 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                                    Address
+                                                    Address <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        required
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         label="Address"
                                                         value={Address.data}
-                                                        onChange={(e) => AddressDetailsTextValidate(e, "Address")}
-                                                        style={{}} />
+                                                        onChange={(e) => AddressDetailsTextValidate(e, "Address")} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Address.error}</div>
                                             </Stack>
@@ -2147,18 +2175,16 @@ export default function AddMemberPage() {
                                         <div className='box' style={{display: 'none'}}>
                                             <Stack direction='column'>
                                                 <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                                    Area Name
+                                                    Area Name <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        required
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         label="Area Name"
                                                         value={AreaName.data}
-                                                        onChange={(e) => AddressDetailsTextValidate(e, "AreaName")}
-                                                        style={{}} />
+                                                        onChange={(e) => AddressDetailsTextValidate(e, "AreaName")} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AreaName.error}</div>
                                             </Stack>
@@ -2166,18 +2192,16 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mt: 2, }}>
-                                                    City
+                                                    City <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        required
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         label="City"
                                                         value={City.data}
-                                                        onChange={(e) => AddressDetailsTextValidate(e, "City")}
-                                                        style={{}} />
+                                                        onChange={(e) => AddressDetailsTextValidate(e, "City")} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{City.error}</div>
                                             </Stack>
@@ -2187,20 +2211,18 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant='subtitle1' sx={{ mt: 2, ml: 2, mr: 2, mb: '0px' }} >
-                                                    Country
+                                                    Country <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        required
                                                         id="outlined-select-currency"
                                                         select
                                                         disabled={screen === "view"}
                                                         label="Select"
                                                         variant="outlined"
                                                         value={Country.data}
-                                                        onChange={(e) => AddressDetailsTextValidate(e, "Country")}
-                                                        style={{}}>
+                                                        onChange={(e) => AddressDetailsTextValidate(e, "Country")} >
                                                         {CountryList.map((option) => (
                                                             <MenuItem key={option} value={option.country_name}>
                                                                 {option.country_name}
@@ -2214,20 +2236,18 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                                    State
+                                                    State <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        required
                                                         id="outlined-select-currency"
                                                         select
                                                         disabled={screen === "view"}
                                                         label="Select"
                                                         variant="outlined"
                                                         value={State.data}
-                                                        onChange={(e) => AddressDetailsTextValidate(e, "State")}
-                                                        style={{}}>
+                                                        onChange={(e) => AddressDetailsTextValidate(e, "State")} >
                                                         {StateList.map((option) => (
                                                             <MenuItem key={option} value={option.state_name}>
                                                                 {option.state_name}
@@ -2247,18 +2267,16 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                                    Name on Account
+                                                    Name on Account <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        required
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         label="Name on Account"
                                                         value={NameOnAccount.data}
-                                                        onChange={(e) => BankDetailsTextValidate(e, "NameOnAccount")}
-                                                        style={{}} />
+                                                        onChange={(e) => BankDetailsTextValidate(e, "NameOnAccount")} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{NameOnAccount.error}</div>
                                             </Stack>
@@ -2266,18 +2284,16 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                                    Account Number
+                                                    Account Number <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        required
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         label="Account Number"
                                                         value={AccountNumber.data}
-                                                        onChange={(e) => BankDetailsTextValidate(e, "AccountNumber")}
-                                                        style={{}} />
+                                                        onChange={(e) => BankDetailsTextValidate(e, "AccountNumber")} />
                                                 </Stack>
                                                 <div style={{ marginTop: "-10px", marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AccountNumber.error}</div>
                                             </Stack>
@@ -2287,18 +2303,16 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                                    IFSC Code
+                                                    IFSC Code <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        required
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         label="IFSC Code"
                                                         value={IFSCCode.data}
-                                                        onChange={(e) => BankDetailsTextValidate(e, "IFSCCode")}
-                                                        style={{}} />
+                                                        onChange={(e) => BankDetailsTextValidate(e, "IFSCCode")} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{IFSCCode.error}</div>
                                             </Stack>
@@ -2306,20 +2320,18 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                                    Type of Account
+                                                    Type of Account <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        required
                                                         id="outlined-select-currency"
                                                         select
                                                         disabled={screen === "view"}
                                                         label="Select"
                                                         variant="outlined"
                                                         value={TypeOfAccount.data}
-                                                        onChange={(e) => BankDetailsTextValidate(e, "TypeOfAccount")}
-                                                        style={{}}>
+                                                        onChange={(e) => BankDetailsTextValidate(e, "TypeOfAccount")} >
                                                         {TypeOfAccountArray.map((option) => (
                                                             <MenuItem key={option} value={option}>
                                                                 {option}
@@ -2335,18 +2347,16 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                                    Bank Name
+                                                    Bank Name <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        required
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         label="Bank Name"
                                                         value={BankName.data}
-                                                        onChange={(e) => BankDetailsTextValidate(e, "BankName")}
-                                                        style={{}} />
+                                                        onChange={(e) => BankDetailsTextValidate(e, "BankName")} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{BankName.error}</div>
                                             </Stack>
@@ -2354,18 +2364,16 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                                    Branch
+                                                    Branch <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        required
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         label="Branch"
                                                         value={Branch.data}
-                                                        onChange={(e) => BankDetailsTextValidate(e, "Branch")}
-                                                        style={{}} />
+                                                        onChange={(e) => BankDetailsTextValidate(e, "Branch")} />
                                                 </Stack>
                                                 <div style={{ marginTop: "-10px", marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Branch.error}</div>
                                             </Stack>
@@ -2380,13 +2388,11 @@ export default function AddMemberPage() {
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        // required
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         label="UPI"
                                                         value={UPI.data}
-                                                        onChange={(e) => BankDetailsTextValidate(e, "UPI")}
-                                                        style={{}} />
+                                                        onChange={(e) => BankDetailsTextValidate(e, "UPI")} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{UPI.error}</div>
                                             </Stack>
@@ -2400,7 +2406,7 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 3, mr: 2, mt: 2, mb: 1 }}>
-                                                    Education
+                                                    Education <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }} className='radio-box'>
                                                     <RadioGroup
@@ -2424,7 +2430,7 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 3, mr: 2, mt: 2, mb: 1 }}>
-                                                    Marital Status
+                                                    Marital Status <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }} className='radio-box'>
                                                     <RadioGroup
@@ -2435,7 +2441,7 @@ export default function AddMemberPage() {
                                                         value={MaritalStatus.data}
                                                         onChange={(e) => { setMaritalStatus({ data: e.target.value, error: "" }); setScreenRefresh(pre => pre + 1); }}>
                                                         <FormControlLabel value="Single" control={<Radio />} label="Single" disabled={screen === "view"} />
-                                                        <FormControlLabel value="Married" control={<Radio />} label="Married" disabled={screen === "view"} />
+                                                        <FormControlLabel  value="Married" control={<Radio />} label="Married" disabled={screen === "view"} />
                                                         <FormControlLabel value="Married With Kids" control={<Radio />} label="Married with Kids" disabled={screen === "view"} />
                                                         <FormControlLabel value="Divorced" control={<Radio />} label="Divorced" disabled={screen === "view"} />
                                                         <FormControlLabel className="radio-control3" value="Separated" control={<Radio />} label="Separated" disabled={screen === "view"} />
@@ -2450,7 +2456,7 @@ export default function AddMemberPage() {
                                             <div className='box'>
                                                 <Stack direction='column'>
                                                     <Typography variant="subtitle1" sx={{ ml:3, mr: 2, mt: 2, mb: 1 }}>
-                                                        Spouse Education
+                                                        Spouse Education <span style={{ color: 'red' }}> *</span>
                                                     </Typography>
                                                     <Stack direction='row' sx={{ ml: 0, }}  className='radio-box'>
                                                         <RadioGroup
@@ -2480,20 +2486,18 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                                    Current Occupation
+                                                    Current Occupation <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        required
                                                         id="outlined-select-currency"
                                                         select
                                                         disabled={screen === "view"}
                                                         label="Select"
                                                         variant="outlined"
                                                         value={CurrentOccupation.data}
-                                                        onChange={(e) => OccupationDetailsTextValidate(e, "CurrentOccupation")}
-                                                        style={{}}>
+                                                        onChange={(e) => OccupationDetailsTextValidate(e, "CurrentOccupation")} >
                                                         {CurrentOccupationArray.map((option) => (
                                                             <MenuItem key={option} value={option}>
                                                                 {option}
@@ -2507,18 +2511,16 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                                    Current Employer
+                                                    Current Employer <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        required
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         label="Current Employer"
                                                         value={CurrentEmployer.data}
-                                                        onChange={(e) => OccupationDetailsTextValidate(e, "CurrentEmployer")}
-                                                        style={{}} />
+                                                        onChange={(e) => OccupationDetailsTextValidate(e, "CurrentEmployer")} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "15px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{CurrentEmployer.error}</div>
                                             </Stack>
@@ -2528,18 +2530,16 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                                    Years at Current Employer
+                                                    Years at Current Employer <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        required
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         label="Years at Current Employer"
                                                         value={YearsAtCurrentEmployer.data}
-                                                        onChange={(e) => OccupationDetailsTextValidate(e, "YearsAtCurrentEmployer")}
-                                                        style={{}} />
+                                                        onChange={(e) => OccupationDetailsTextValidate(e, "YearsAtCurrentEmployer")} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{YearsAtCurrentEmployer.error}</div>
                                             </Stack>
@@ -2547,18 +2547,16 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                                    Monthly Income
+                                                    Monthly Income <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        required
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         label="Monthly Income"
                                                         value={MonthlyIncome.data}
-                                                        onChange={(e) => OccupationDetailsTextValidate(e, "MonthlyIncome")}
-                                                        style={{}} />
+                                                        onChange={(e) => OccupationDetailsTextValidate(e, "MonthlyIncome")} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{MonthlyIncome.error}</div>
                                             </Stack>
@@ -2568,7 +2566,7 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                                    Living in Rented House/Own House
+                                                    Living in Rented House/Own House <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 2, mt: 2 }}>
                                                     <RadioGroup
@@ -2588,18 +2586,16 @@ export default function AddMemberPage() {
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                                    Years at Current Residence
+                                                    Years at Current Residence <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <TextField
                                                         className='input-box1'
-                                                        required
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         label="Years at Current Residence"
                                                         value={YearsAtCurrentResidence.data}
-                                                        onChange={(e) => OccupationDetailsTextValidate(e, "YearsAtCurrentResidence")}
-                                                        style={{}} />
+                                                        onChange={(e) => OccupationDetailsTextValidate(e, "YearsAtCurrentResidence")} />
                                                 </Stack>
                                             </Stack>
                                             <div style={{ marginLeft: "25px",marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{YearsAtCurrentResidence.error}</div>
@@ -2651,7 +2647,7 @@ export default function AddMemberPage() {
                                     </Stack>
                                 </TabPanel>}
                         </TabContext>
-                        {!MemberLoading && (screen === "view" || TabIndex === "5"
+                        {!MemberLoading && (screen === "view" || TabIndex === "6"
                             ? null
                             : <Stack direction='column' alignItems='flex-end'>
                                 <Button sx={{ mr: 5, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
@@ -2663,10 +2659,11 @@ export default function AddMemberPage() {
                     </Stack>
                 </Box>
             </Card>
-            <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+            <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "failed" || AlertFrom === "upload_failed" ? 2000 : 1000} onClose={HandleAlertClose}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center', }} sx={{ mt: '60px' }}>
                 <Alert
                     onClose={HandleAlertClose}
-                    severity={AlertFrom === "failed" ? "error" : "success"}
+                    severity={AlertFrom === "failed" || AlertFrom === "upload_failed" ? "error" : "success"}
                     variant="filled"
                     sx={{ width: '100%' }} >
                     {AlertMessage}
@@ -2769,7 +2766,6 @@ export default function AddMemberPage() {
             </Dialog>
             <Dialog
                 open={ConfirmAlert}
-                onClose={HandleAlertClose}
                 maxWidth
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description" >

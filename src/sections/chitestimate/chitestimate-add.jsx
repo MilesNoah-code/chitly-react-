@@ -14,7 +14,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Box, Stack, Alert, Button, Dialog, styled, Snackbar, Typography, IconButton, DialogTitle, DialogActions, InputAdornment, TablePagination } from '@mui/material';
+import { Box, Grid, Alert, Stack, Button, Dialog, styled, Snackbar, IconButton, Typography, DialogTitle, DialogActions, InputAdornment, TablePagination } from '@mui/material';
 
 import { GetHeader, PutHeader, PostHeader, DeleteHeader, } from 'src/hooks/AxiosApiFetch';
 
@@ -875,7 +875,9 @@ export default function AddChitEstimatePage() {
         // console.log(item);
         // console.log(ChitEstimateMemberList);
         const checkIdExists = id => ChitEstimateMemberList.some(items => items.member_id === id);
-        if (checkIdExists(item.memberId)) {
+        const checkTktnoExists = tktno => ChitEstimateMemberList.some(items => String(items.ticket_no) === tktno);
+        // console.log(checkIdExists(item.memberId), " -- ", checkTktnoExists(item.tktno));
+        if (checkIdExists(item.memberId) && checkTktnoExists(item.tktno)) {
             setChitEstimateMemberListAdd(false);
             setAlertMessage("Already this member is added");
             setAlertFrom("save_alert");
@@ -887,7 +889,7 @@ export default function AddChitEstimatePage() {
                 comments: "",
                 memberProfile: item.memberProfile,
                 memberName: item.memberName,
-                accno: item.accno,
+                accno: item.memberId,
                 action: "delete"
             };
             const updatedList = [
@@ -902,7 +904,7 @@ export default function AddChitEstimatePage() {
                 member_edit: 'true'
             }));
             setGroupMemberListAlert(false);
-        } 
+        }
     };
 
     const handleChangePage = (event, newPage) => {
@@ -973,7 +975,7 @@ export default function AddChitEstimatePage() {
             fontSize: '1rem',
         },
     }));
-    
+
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
     return (
@@ -989,7 +991,7 @@ export default function AddChitEstimatePage() {
             <Card>
                 <Box className="con" component="form"
                     sx={{
-                        '& .MuiTextField-root': {  width: '20ch', },
+                        '& .MuiTextField-root': {  width: '20ch'},
                     }}
                     noValidate
                     autoComplete="off">
@@ -998,10 +1000,10 @@ export default function AddChitEstimatePage() {
                             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
-                            <Stack direction='row' spacing={1} alignItems='center' gap='20px' justifyContent="center" className='stack-box1'>
+                            <Stack direction='row' spacing={1} alignItems='center' gap='20px' justifyContent="flex-start" sx={{px:3,py:2}} className='stack-box1'>
                                 <div className='box-grp  grp-label'>
                                     <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 2, mb: '7px' }}>
+                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 0, mb: '7px' }}>
                                             Group No
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
@@ -1009,17 +1011,15 @@ export default function AddChitEstimatePage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Group No"
                                                 value={GroupNo.data}
-                                                onChange={(e) => ChitEstimateTextValidate(e, "GroupNo")}
-                                                style={{}} />
+                                                onChange={(e) => ChitEstimateTextValidate(e, "GroupNo")} />
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupNo.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='box-grp'>
                                     <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 0, mb:'7px' }}>
+                                        <Typography variant="subtitle1" sx={{ mt: 0, ml: 0, mb:'7px' }}>
                                             Foreman Pr.Due
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
@@ -1027,55 +1027,47 @@ export default function AddChitEstimatePage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Foreman Pr.Due"
                                                 value={ForemanPrDue.data}
-                                                onChange={(e) => ChitEstimateTextValidate(e, "ForemanPrDue")}
-                                                style={{}} />
+                                                onChange={(e) => ChitEstimateTextValidate(e, "ForemanPrDue")} />
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ForemanPrDue.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='box-grp'>
                                     <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 2, mb: '7px' }}>
-                                            Amount
+                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 0, mb: '7px' }}>
+                                            Amount <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                required
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Amount"
                                                 value={Amount.data}
-                                                onChange={(e) => ChitEstimateTextValidate(e, "Amount")}
-                                                style={{}} />
+                                                onChange={(e) => ChitEstimateTextValidate(e, "Amount")} />
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Amount.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 2, mb: '7px' }}>
-                                            Dividend
+                                    <Stack direction='column' >
+                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 0, mt: 0, mb: '7px' }}>
+                                            Dividend <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                required
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Dividend"
                                                 value={Dividend.data}
-                                                onChange={(e) => ChitEstimateTextValidate(e, "Dividend")}
-                                                style={{}} />
+                                                onChange={(e) => ChitEstimateTextValidate(e, "Dividend")} />
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Dividend.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='box-grp'>
                                     <Stack direction='column'>
-                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 0,mb:'7px'}} >
+                                        <Typography variant='subtitle1' sx={{ mt: 0, ml: 0,mb:'7px'}} >
                                             Duration
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
@@ -1083,16 +1075,16 @@ export default function AddChitEstimatePage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Duration"
                                                 value={Duration.data}
-                                                onChange={(e) => ChitEstimateTextValidate(e, "Duration")}
-                                                style={{}} />
+                                                onChange={(e) => ChitEstimateTextValidate(e, "Duration")} />
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Duration.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>
-                            <Scrollbar>
+                            <Grid container spacing={2}>
+                            <Grid item md={6} xs={12}>
+                            <Scrollbar className="table-one">
                                 <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
                                     <Table sx={{ minWidth: 450 }}>
                                         <TableHeader
@@ -1116,10 +1108,11 @@ export default function AddChitEstimatePage() {
                                                 .map((row, index) => (
                                                     <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }}>
                                                         <TableCell>{row.Instno}</TableCell>
-                                                        <TableCell sx={{ width: 100 }}>
+                                                        <TableCell sx={{ width: '13%' }}>
                                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                                <DemoContainer components={['DatePicker']} sx={{ width: 250, overflow: 'hidden' }}>
+                                                                <DemoContainer components={['DatePicker']} sx={{ width:200, overflow: 'hidden' }}>
                                                                     <DatePicker
+                                                                       className='input-box-date'
                                                                         id="filled-hidden-label-normal"
                                                                         value={row.auctiondate != null ? dayjs(row.auctiondate) : null}
                                                                         onChange={(e) => HandleDateChange(e, "auctiondate", row)}
@@ -1134,10 +1127,11 @@ export default function AddChitEstimatePage() {
                                                                 </DemoContainer>
                                                             </LocalizationProvider>
                                                         </TableCell>
-                                                        <TableCell sx={{ ml: -2 , width: 20 }}>
+                                                        <TableCell sx={{ ml: -2 , width: '13%' }}>
                                                             <TextField
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
+                                                                className='input-box'
                                                                 value={row.dueamount}
                                                                 onChange={(e) => ChitEstimateListTextValidate(e, row, index, "dueamount")}
                                                                 sx={{
@@ -1157,10 +1151,11 @@ export default function AddChitEstimatePage() {
                                                                     '& .Mui-disabled': {
                                                                         '-webkit-text-fill-color': 'currentColor',
                                                                     },
-                                                                }} />  
+                                                                }} />
                                                         </TableCell>
-                                                        <TableCell sx={{  width: 20 }}>
+                                                        <TableCell sx={{  width: '14%' }}>
                                                             <TextField
+                                                               className='input-box'
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 value={row.less_amount}
@@ -1184,8 +1179,9 @@ export default function AddChitEstimatePage() {
                                                                     },
                                                                 }} />
                                                         </TableCell>
-                                                        <TableCell sx={{  width: 20 }}>
+                                                        <TableCell sx={{  width: '15%' }}>
                                                             <TextField
+                                                               className='input-box'
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 value={row.fm_commission}
@@ -1209,8 +1205,9 @@ export default function AddChitEstimatePage() {
                                                                     },
                                                                 }} />
                                                         </TableCell>
-                                                        <TableCell sx={{  width: 20 }}>
+                                                        <TableCell sx={{  width: '15%' }}>
                                                             <TextField
+                                                               className='input-box'
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 value={row.gst_value}
@@ -1234,8 +1231,9 @@ export default function AddChitEstimatePage() {
                                                                     },
                                                                 }} />
                                                         </TableCell>
-                                                        <TableCell sx={{  width: 20 }}>
+                                                        <TableCell sx={{  width: '15%' }}>
                                                             <TextField
+                                                               className='input-box'
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 value={row.payment}
@@ -1271,7 +1269,9 @@ export default function AddChitEstimatePage() {
                                     </Table>
                                 </TableContainer>
                             </Scrollbar>
-                            <Scrollbar>
+                            </Grid>
+                            <Grid item md={6} xs={12}>
+                            <Scrollbar className="table-one1">
                                 <TableContainer sx={{ overflow: 'unset' }}>
                                     <Table sx={{ minWidth: 450 ,mt:5}}>
                                         <TableHeader
@@ -1307,6 +1307,7 @@ export default function AddChitEstimatePage() {
                                                         </TableCell>
                                                         <TableCell>
                                                             <TextField
+                                                             className='input-box'
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 disabled
@@ -1333,10 +1334,11 @@ export default function AddChitEstimatePage() {
                                                         </TableCell>
                                                         <TableCell>
                                                             <TextField
+                                                             className='input-box'
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 disabled
-                                                                value={row.accno}
+                                                                value={String(row.id).startsWith('id_') ? row.accno : row.id}
                                                                 onChange={(e) => ChitEstimateMemberListTextValidate(e, row, "accno")}
                                                                 sx={{
                                                                     backgroundColor: 'transparent',
@@ -1358,6 +1360,7 @@ export default function AddChitEstimatePage() {
                                                         </TableCell>
                                                         <TableCell>
                                                             <TextField
+                                                             className='input-box'
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 value={row.comments}
@@ -1402,6 +1405,8 @@ export default function AddChitEstimatePage() {
                                     </Table>
                                 </TableContainer>
                             </Scrollbar>
+                            </Grid>
+                            </Grid>
                             <Stack direction='column' alignItems='flex-end'>
                                 <Button sx={{ mr: 5, mt: 2, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                     {Loading
@@ -1484,12 +1489,16 @@ export default function AddChitEstimatePage() {
                                             </Stack>
                                             : <TableBody>
                                                 {GroupMemberList
-                                                    .map((row) => (
-                                                        <TableRow hover tabIndex={-1} role="checkbox" selected={selected.indexOf(row.name) !== -1} onClick={(event) => handleClick(event, row)}>
-                                                            <TableCell>{row.memberName}</TableCell>
-                                                            <TableCell>{row.installfrom}</TableCell>
-                                                            <TableCell>{row.tktno}</TableCell>
-                                                        </TableRow>))}
+                                                    .map((row) => {
+                                                        const checkIdExists = id => ChitEstimateMemberList.some(items => items.member_id === id);
+                                                        const checkTktnoExists = tktno => ChitEstimateMemberList.some(items => String(items.ticket_no) === tktno);
+                                                        return (
+                                                            <TableRow hover={!checkIdExists(row.memberId) || !checkTktnoExists(row.tktno)} tabIndex={-1} role="checkbox" selected={selected.indexOf(row.name) !== -1}
+                                                                className={(checkIdExists(row.memberId) && checkTktnoExists(row.tktno)) && 'rowExists'} onClick={(event) => handleClick(event, row)}>
+                                                                <TableCell>{row.memberName}</TableCell>
+                                                                <TableCell>{row.memberId}</TableCell>
+                                                                <TableCell>{row.tktno}</TableCell>
+                                                            </TableRow>) })}
                                                 <TableEmptyRows
                                                     height={77}
                                                     emptyRows={emptyRows(page, 5, GroupMemberList.length)} />
@@ -1529,7 +1538,8 @@ export default function AddChitEstimatePage() {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "save_alert" ? 2000 : 1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+            <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "save_alert" ? 2000 : 1000} onClose={HandleAlertClose} 
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
                 <Alert
                     onClose={HandleAlertClose}
                     severity={AlertFrom === "failed" || AlertFrom === "save_alert" ? "error" : "success"}

@@ -3,3 +3,6 @@
 }
 .toppadding{padding-top: 20px;}
 .groupN .MuiPaper-root{border-radius: 0px;}
+.pop-dialog .MuiTableCell-root {
+    padding: 6px !important;
+  }

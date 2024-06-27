@@ -640,7 +640,8 @@ export default function GroupMemberView() {
             </Button>
           </Stack>
       </Box> }
-      <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "save_alert" ? 2000 : 1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+      <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "save_alert" ? 2000 : 1000} onClose={HandleAlertClose} 
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
         <Alert
           onClose={HandleAlertClose}
           severity={AlertFrom === "failed" || AlertFrom === "save_alert" ? "error" : "success"}
@@ -650,13 +651,15 @@ export default function GroupMemberView() {
         </Alert>
       </Snackbar>
       <Dialog
+       
         open={MemberListAlert}
         fullWidth
         maxWidth="md"
         sx={{ display: 'flex', justifyContent: 'center', flex: 1, }}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description" >
-        <Card sx={{ maxWidth: '800px' }}>
+        <Card   sx={{ maxWidth: '800px' }}>
+          
           <Stack sx={{ height: '100%', maxHeight: '100vh', overflow: 'hidden' }}>
             <Typography variant="subtitle1" sx={{ ml: 2, mr: 5, mt: 2 }}>
               Member List
@@ -688,8 +691,9 @@ export default function GroupMemberView() {
             <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 1 }}>
               <Scrollbar>
                 <TableContainer sx={{ overflow: '', mt: 2 }}>
-                  <Table sx={{ minWidth: 800 }} stickyHeader>
+                  <Table className='pop-dialog' sx={{ minWidth: 800 }} stickyHeader>
                     <TableHeader
+                 
                       order={order}
                       orderBy={orderBy}
                       rowCount={MemberList.length}
@@ -710,6 +714,7 @@ export default function GroupMemberView() {
                         {MemberList
                           .map((row) => (
                             <GroupMemberTableRow
+                         
                               key={row.id}
                               selected={selected.indexOf(row.name) !== -1}
                               handleClick={(event) => handleClick(event, row)}

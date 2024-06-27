@@ -198,7 +198,7 @@ export default function ChitPaymentView() {
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
         <Typography variant="h6" sx={{ color: '#637381' }}>Chit Payment List</Typography>
-        <Button variant="contained" className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddChitPaymentClick}>
+        <Button variant="contained" className='custom-button' onClick={HandleAddChitPaymentClick}>
           Add Chit Payment
         </Button>
       </Stack>
@@ -207,7 +207,7 @@ export default function ChitPaymentView() {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker']} >
               <DatePicker
-                label="From Date"
+              
                 value={FromDate.data}
                 onChange={HandleFromDateChange}
                 disabled={ChitPaymentLoading}
@@ -217,7 +217,7 @@ export default function ChitPaymentView() {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker']}>
               <DatePicker
-                label="To Date"
+             
                 value={ToDate.data}
                 onChange={HandleToDateChange}
                 disabled={ChitPaymentLoading}
@@ -296,7 +296,8 @@ export default function ChitPaymentView() {
             />}
           </Stack>}
       </Card>
-      <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+      <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} 
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
         <Alert
           onClose={HandleAlertClose}
           severity={AlertFrom === "failed" ? "error" : "success"}

@@ -1,3 +1,11 @@
+3.3.1
+Date : 27/06/2024
+Type : Development
+Description :  
+        1.when Refresh Chrome Page through not found issue fix
+        2.Dashboard navigation menu click and hover changes
+        3.snackbar hide inside the header ui issue
+        4.group, member and group member test doc bug fix
 3.3.0
 Date : 22/06/2024
 Type : Development

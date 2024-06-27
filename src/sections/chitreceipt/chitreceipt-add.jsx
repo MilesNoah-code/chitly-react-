@@ -835,7 +835,6 @@ export default function AddChitReceiptPage() {
                                                 disabled={screen === "view"}
                                                 getOptionLabel={(option) => option.groupno}
                                                 onChange={HandleGroupNoSearch}
-                                                sx={{}}
                                                 renderOption={(props, option) => (
                                                     <ListItem {...props} key={option.id}>
                                                         <ListItemText
@@ -854,18 +853,16 @@ export default function AddChitReceiptPage() {
                                 <div className='box-grp'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Member Name
+                                            Member Name <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                required
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
                                                 label="Member Name"
                                                 value={MemberName.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "MemberName")}
-                                                style={{}} />
+                                                onChange={(e) => ChitReceiptTextValidate(e, "MemberName")} />
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{MemberName.error}</div>
                                     </Stack>
@@ -873,18 +870,16 @@ export default function AddChitReceiptPage() {
                                 <div className='box-grp'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Receipt No
+                                            Receipt No <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                required
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
                                                 label="Receipt No"
                                                 value={ReceiptNo.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "ReceiptNo")}
-                                                style={{}} />
+                                                onChange={(e) => ChitReceiptTextValidate(e, "ReceiptNo")} />
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{ReceiptNo.error}</div>
                                     </Stack>
@@ -900,13 +895,11 @@ export default function AddChitReceiptPage() {
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
                                                 className='input-box1'
-                                                // required
                                                 id="outlined-required"
                                                 disabled
                                                 label="Ticket No"
                                                 value={TicketNo.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "TicketNo")}
-                                                style={{}} />
+                                                onChange={(e) => ChitReceiptTextValidate(e, "TicketNo")} />
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{TicketNo.error}</div>
                                     </Stack>
@@ -918,21 +911,17 @@ export default function AddChitReceiptPage() {
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                // required
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
                                                 label="Auction Mode"
                                                 value={AuctionMode.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "AuctionMode")}
-                                                style={{}} />
+                                                onChange={(e) => ChitReceiptTextValidate(e, "AuctionMode")} />
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AuctionMode.error}</div>
                                     </Stack>
                                 </div>
-
                             </Stack>
-
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                 <div className='box-grp'>
                                     <Stack direction='column'>
@@ -941,14 +930,12 @@ export default function AddChitReceiptPage() {
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                // required
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
                                                 label="Duration"
                                                 value={Duration.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "Duration")}
-                                                style={{}} />
+                                                onChange={(e) => ChitReceiptTextValidate(e, "Duration")} />
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Duration.error}</div>
                                     </Stack>
@@ -960,14 +947,12 @@ export default function AddChitReceiptPage() {
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                // required
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
                                                 label="Account No"
                                                 value={AccountNo.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "AccountNo")}
-                                                style={{}} />
+                                                onChange={(e) => ChitReceiptTextValidate(e, "AccountNo")} />
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AccountNo.error}</div>
                                     </Stack>
@@ -981,14 +966,12 @@ export default function AddChitReceiptPage() {
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                // required
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
                                                 label="Inst. From"
                                                 value={InstFrom.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "InstFrom")}
-                                                style={{}} />
+                                                onChange={(e) => ChitReceiptTextValidate(e, "InstFrom")} />
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{InstFrom.error}</div>
                                     </Stack>
@@ -1000,14 +983,12 @@ export default function AddChitReceiptPage() {
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                // required
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
                                                 label="Inst. To"
                                                 value={InstTo.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "InstTo")}
-                                                style={{}} />
+                                                onChange={(e) => ChitReceiptTextValidate(e, "InstTo")} />
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{InstTo.error}</div>
                                     </Stack>
@@ -1017,18 +998,17 @@ export default function AddChitReceiptPage() {
                                 <div className='box-grp'>
                                     <Stack direction='column'>
                                         <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                            Value
+                                            Value <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                required
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled={screen === "view"}
                                                 label="Value"
                                                 value={Values.data}
                                                 onChange={(e) => ChitReceiptTextValidate(e, "Values")}
-                                                style={{}} />
+                                                type='number' />
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Values.error}</div>
                                     </Stack>
@@ -1046,7 +1026,8 @@ export default function AddChitReceiptPage() {
                         </Stack>}
                 </Box>
             </Card>
-            <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+            <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} 
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
                 <Alert
                     onClose={HandleAlertClose}
                     severity={AlertFrom === "failed" ? "error" : "success"}

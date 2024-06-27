@@ -1,6 +1,6 @@
 .custom-button{
     background-color: #edf4fe;
-   font-size: 17px;
+   font-size: 15px;
     color: #1877f2;
     transition: background-color 0.3s ease;
   }
@@ -23,6 +23,8 @@
     
     width: calc(100% - 20px); 
   }
+  
+
   .alert-msg{
     display: flex;
     align-items: center;

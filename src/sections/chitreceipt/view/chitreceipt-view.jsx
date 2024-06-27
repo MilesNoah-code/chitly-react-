@@ -198,7 +198,7 @@ export default function ChitReceiptView() {
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
         <Typography variant="h6" sx={{ color: '#637381' }}>Chit Receipt List</Typography>
-        <Button variant="contained" className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddChitReceiptClick}>
+        <Button variant="contained" className='custom-button'  onClick={HandleAddChitReceiptClick}>
           Add Chit Receipt
         </Button>
       </Stack>
@@ -296,7 +296,8 @@ export default function ChitReceiptView() {
             />}
           </Stack>}
       </Card>
-      <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+      <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} 
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
         <Alert
           onClose={HandleAlertClose}
           severity={AlertFrom === "failed" ? "error" : "success"}

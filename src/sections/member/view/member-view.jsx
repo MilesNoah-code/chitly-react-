@@ -175,7 +175,7 @@ export default function MemberView() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2}>
         <Typography variant="h6" sx={{ color: '#637381' }}>Member List</Typography>
 
-        <Button variant="contained" className='custom-button' startIcon={<Iconify icon="eva:plus-fill" />} onClick={HandleAddMemberClick} sx={{ cursor: 'pointer' }}>
+        <Button variant="contained" className='custom-button' onClick={HandleAddMemberClick} sx={{ cursor: 'pointer' }}>
           Add Member
         </Button>
       </Stack>
@@ -257,7 +257,8 @@ export default function MemberView() {
             />}
           </Stack>}
       </Card>
-      <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+      <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} 
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
         <Alert
           onClose={HandleAlertClose}
           severity={AlertFrom === "failed" ? "error" : "success"}

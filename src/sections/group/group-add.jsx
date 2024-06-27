@@ -583,7 +583,8 @@ export default function AddGroupPage() {
                     </Stack>
                 </Box>
             </Card>
-            <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+            <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} 
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
                 <Alert
                     onClose={HandleAlertClose}
                     severity={AlertFrom === "failed" ? "error" : "success"}

@@ -1538,7 +1538,8 @@ export default function AddChitEstimatePage() {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "save_alert" ? 2000 : 1000} onClose={HandleAlertClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+            <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "save_alert" ? 2000 : 1000} onClose={HandleAlertClose} 
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
                 <Alert
                     onClose={HandleAlertClose}
                     severity={AlertFrom === "failed" || AlertFrom === "save_alert" ? "error" : "success"}

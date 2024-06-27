@@ -16,7 +16,7 @@ import { usePathname } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
 
 // import { PostHeader } from 'src/hooks/AxiosApiFetch';
-import { useResponsive } from 'src/hooks/use-responsive';
+// import { useResponsive } from 'src/hooks/use-responsive';
 
 // import { LOGOUT_URL, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
@@ -27,7 +27,7 @@ import navConfig from './config-navigation';
 
 export default function Nav({ openNav, onCloseNav }) {
   const location = useLocation();
-  const upLg = useResponsive('up', 'lg');
+  // const upLg = useResponsive('up', 'lg');
   const UserDetail = JSON.parse(localStorage.getItem('userDetails'));
   // const Session = localStorage.getItem('apiToken');
   // const navigate = useNavigate();
@@ -231,10 +231,6 @@ Nav.propTypes = {
   onCloseNav: PropTypes.func,
 };
 
-// ----------------------------------------------------------------------
-
-
-// ----------------------------------------------------------------------
 
 function NavItem({ item, isFirstItem, onMouseEnter }) {
   const pathname = usePathname();

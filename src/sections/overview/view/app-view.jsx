@@ -151,7 +151,13 @@ export default function AppView() {
 
   return (
     <Container maxWidth="xl">
-      <Typography variant="h4" className='welcome' sx={{ mb: { xs: 1, sm: 5 } }}>
+
+      <Typography variant="h4" sx={{ 
+        mb: 1,        
+        '@media (min-width:769px)': {  
+            mb: 5,
+        },
+    }}>
         Hi, Welcome back 👋
       </Typography>
       {ActivityLogListLoading || DashBoardCountLoading || CustomerCountBasedGroupListLoading

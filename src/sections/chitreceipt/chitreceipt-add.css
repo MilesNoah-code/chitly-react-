@@ -83,6 +83,13 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
       right: -1px;
       top: -2px;
     }
+
+  
+   
+    .custom-button{
+     font-size: 13px;
+     margin-top: 10px;
+    }
     .btn-close img{
       width: 14px !important;
       height: 14px !important;
@@ -91,14 +98,9 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
       font-size: 15px;
      
   }
-  input#outlined-required {
-    font-size: 13px !important;
-  }
+
  
-  .custom-button{
-   font-size: 13px;
-   margin-top: 10px;
-  }
+
   }
   @media (min-width: 0px) {
     .box-grp  .box-d .MuiStack-root {
@@ -107,6 +109,7 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
         flex-direction: column;
         width: 100% !important; 
         padding-top: 0px !important;
+
     }
     .box-grp  .box-d .MuiStack-root>.MuiTextField-root{
       min-width: -webkit-fill-available !important;

@@ -230,8 +230,8 @@ export default function LoginView() {
         }}
       /> */}
       <Stack className="log-site">
-      <div className="log" style={{ width: 130, height: 70, marginTop: 20, marginLeft: 20}}>
-        <img src="/assets/images/img/chitly_logo.png" alt="Loading" style={{width:'100%', height:'100%' }} />
+      <div className="log" style={{  marginTop: 20, marginLeft: 20}}>
+       <img src="/assets/images/img/chit1.png" alt="Loading"  />
         </div>
       </Stack>
 

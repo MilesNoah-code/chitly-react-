@@ -29,7 +29,7 @@ export default function Header({ onOpenNav }) {
     <>
     <Stack>
     <div className='box-logo'>
-    <img className="logo-chitly" src="/assets/images/img/chitly_logo.png" alt="Loading"  />
+    <img className="logo-chitly" src="/assets/images/img/chit.png" alt="Loading"  />
     </div>
     </Stack>
    

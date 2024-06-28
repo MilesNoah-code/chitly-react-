@@ -2046,7 +2046,7 @@ export default function AddMemberPage() {
                                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                         <DemoContainer components={['DatePicker']} sx={{ width: 550 }} className="date-pick">
                                                             <DatePicker
-                                                                className='input-box1'
+                                                                className="date-picker-width"
                                                                 value={Dob.data}
                                                                 onChange={HandleDateChange}
                                                                 format="DD-MM-YYYY"

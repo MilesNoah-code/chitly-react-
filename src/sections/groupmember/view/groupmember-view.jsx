@@ -708,7 +708,7 @@ export default function GroupMemberView() {
                       ]} />
                     {MemberListLoading
                       ? <Stack mt={10} sx={{ alignItems: 'center' }}>
-                        <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                        <img className="load" src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                       </Stack>
                       : <TableBody>
                         {MemberList

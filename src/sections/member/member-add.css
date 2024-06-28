@@ -1,208 +1,227 @@
 .custom-button{
-    background-color: #edf4fe;
-   font-size: 15px;
-    color: #1877f2;
-    transition: background-color 0.3s ease;
-  }
-  .custom-button:hover{
-    background: rgba(24, 119, 242, 0.16);
-  }
+  background-color: #edf4fe;
+ font-size: 15px;
+  color: #1877f2;
+  transition: background-color 0.3s ease;
+}
+.custom-button:hover{
+  background: rgba(24, 119, 242, 0.16);
+}
 .stack-box {
-    display: flex !important;
-    flex-wrap: wrap !important;
-  }
- .box {
-    flex: 1 0 49%;
-    max-width: 49%;
-    flex-wrap: wrap;
-  } 
-  .alert-msg{
-    display: flex;
-    align-items: center;
-    text-align-last: center;
-    font-size: 18px;
-    padding: 10px;
-  }
-   .box  .input-box {
-    width: 150px !important;
-    height: 1.00em !important;
-  }
-  .box  .input-box1 {
-    
-    width: calc(100% - 20px); 
-  }
- .image-top{
-  position: relative;
-  margin-top: 20px;
- }
- .btn-click {
-  position: absolute;
-    right: -21px;
-    top: -47px;
-    border-radius: 50%;
-    background-color: transparent;
-    border: 1px solid #eee;
-    padding: 7px;
-    cursor: pointer;
-    min-width: 30px !important;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    
+  display: flex !important;
+  flex-wrap: wrap !important;
+}
+.box {
+  flex: 1 0 49%;
+  max-width: 49%;
+  flex-wrap: wrap;
+} 
+.alert-msg{
+  display: flex;
+  align-items: center;
+  text-align-last: center;
+  font-size: 18px;
+  padding: 10px;
+}
+ .box  .input-box {
+  width: 150px !important;
+  height: 1.00em !important;
+}
+.box  .input-box1 {
+  
+  width: calc(100% - 20px); 
+}
+.image-top{
+position: relative;
+margin-top: 20px;
+}
+.btn-click {
+position: absolute;
+  right: -21px;
+  top: -47px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 1px solid #eee;
+  padding: 7px;
+  cursor: pointer;
+  min-width: 30px !important;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  
 }
 
 .row-box{
 display: flex;
 flex-wrap: wrap;
 }
- 
- .boxing {
-  border: 1px solid #eee;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 15px 10px;
-  margin: 8px !important;
-  flex-wrap: wrap;
+
+.boxing {
+border: 1px solid #eee;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+padding: 15px 10px;
+margin: 8px !important;
+flex-wrap: wrap;
 }
 .radio-box .radio-control3.MuiFormControlLabel-root{
-  margin-left: -2px;
+margin-left: -2px;
 }
 .radio-box .radio-control2.MuiFormControlLabel-root{
-  margin-left: 27px;
+margin-left: 27px;
 }
 .radio-box .radio-control.MuiFormControlLabel-root{
-  margin-left: 5px;
+margin-left: 5px;
 }
 .radio-box .radio-control1.MuiFormControlLabel-root{
-  margin-left: 3px;
+margin-left: 3px;
 }
 .radio-box  .MuiFormControlLabel-root{
-  margin-left: 15px;
-  margin-right: 15px;
+margin-left: 15px;
+margin-right: 15px;
 }
 .dialog .MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
-  font-size: 13px !important;
-  padding: 9.5px 14px !important; 
+font-size: 13px !important;
+padding: 9.5px 14px !important; 
 }
 
-.date-picker-width {
-width: calc(100% - 33px) !important;
-}
-
-  @media screen and (max-width: 768px) {
-    .stack-box{
-        flex-direction: column !important;
-        width: 100% !important;
-        align-items:inherit;
-    }
-   
-    .box {
-      flex: 1 0 100%;
-      max-width: 100%;
-      margin-left: 0px !important;
-    }
-    .alert-msg{
-      padding: 10px 15px 10px 15px;
-      font-size: 15px;
-    }
-    /* .date-box .date-pick{
+@media screen and (max-width: 768px) {
+  .stack-box{
+      flex-direction: column !important;
       width: 100% !important;
-      overflow-x: hidden !important;
-     } */
-     /* .date-box .MuiStack-root{
-      overflow: hidden !important;
-      width: 100%  !important;
-     }  */
-  .box  .input-box1 {
-        width: calc(100% - 0px) !important; 
-      }
-      .box  .input-box {
-        width: 110px !important;
-
-      }
-      .MuiTabPanel-root {
-        padding: 10px !important;
-      }
-     .req{
-        margin-left: 15px !important;
-     }
-     .radio-box .radio-control3.MuiFormControlLabel-root{
-      margin-left: 15px;
-    }
-    .radio-box .radio-control2.MuiFormControlLabel-root{
-      margin-left: 15px;
-    }
-    .radio-box .radio-control.MuiFormControlLabel-root{
-      margin-left: 15px;
-    }
-    .radio-box .radio-control1.MuiFormControlLabel-root{
-      margin-left: 15px;
-    }
-   
-  }
-  @media screen and (max-width: 1305px) and (min-width: 1200px) {
-    /* .radio-box  .MuiFormControlLabel-root{
-      margin-left: 10px;
-      margin-right: 10px;
-    } */
-    .radio-box .radio-control2.MuiFormControlLabel-root{
-      margin-left: 35px;
-    }
-    .radio-box .radio-control3.MuiFormControlLabel-root{
-      margin-left: -3px;
-    }
-    .radio-box .radio-control1.MuiFormControlLabel-root{
-      margin-left: 10px;
-    }
-  }
-  @media (min-width:769px) and (max-width:1017px){
-    .radio-box .radio-control2.MuiFormControlLabel-root{
-      margin-left: 15px;
-    }
-    .radio-box .radio-control3.MuiFormControlLabel-root{
-      margin-left: 10px;
-    }
-    .radio-box .radio-control1.MuiFormControlLabel-root{
-      margin-left: 10px;
-    }
-    .radio-box .radio-control.MuiFormControlLabel-root{
-      margin-left: 15px;
-    }
-  }
-  @media (min-width:769px) and (max-width:894px){
-    .box {
-      flex: 1 0 48%;
-      max-width: 48%;
-      flex-wrap: wrap;
-    } 
-  }
-  @media (min-width:370px) and (max-width:540px){
-    h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
-      font-size: 14.5px;
-      /* margin-top: 2px;
-    margin-bottom: -9px; */
-  }
-  input#outlined-required {
-    font-size: 13px !important;
-    
-  }
-  .box  .input-box {
-    font-size: 13px !important;
-   
+      align-items:inherit;
   }
  
-  .custom-button{
-   font-size: 13px;
-   margin-top: 10px;
+  .box {
+    flex: 1 0 100%;
+    max-width: 100%;
+    margin-left: 0px !important;
   }
-  .inf{
-    margin-top:15px !important;
-  margin-bottom: 0px !important;
+  .alert-msg{
+    padding: 10px 15px 10px 15px;
+    font-size: 15px;
+  }
+  /* .date-box .date-pick{
+    width: 100% !important;
+    overflow-x: hidden !important;
+   } */
+   /* .date-box .MuiStack-root{
+    overflow: hidden !important;
+    width: 100%  !important;
+   }  */
+.box  .input-box1 {
+      width: calc(100% - 0px) !important; 
+    }
+    .box  .input-box {
+      width: 110px !important;
+
+    }
+    .MuiTabPanel-root {
+      padding: 10px !important;
+    }
+   .req{
+      margin-left: 15px !important;
+   }
+   .radio-box .radio-control3.MuiFormControlLabel-root{
+    margin-left: 15px;
+  }
+  .radio-box .radio-control2.MuiFormControlLabel-root{
+    margin-left: 15px;
+  }
+  .radio-box .radio-control.MuiFormControlLabel-root{
+    margin-left: 15px;
+  }
+  .radio-box .radio-control1.MuiFormControlLabel-root{
+    margin-left: 15px;
+  }
+ 
+}
+@media screen and (max-width: 1305px) and (min-width: 1200px) {
+  /* .radio-box  .MuiFormControlLabel-root{
+    margin-left: 10px;
+    margin-right: 10px;
+  } */
+  .radio-box .radio-control2.MuiFormControlLabel-root{
+    margin-left: 35px;
+  }
+  .radio-box .radio-control3.MuiFormControlLabel-root{
+    margin-left: -3px;
+  }
+  .radio-box .radio-control1.MuiFormControlLabel-root{
+    margin-left: 10px;
+  }
+}
+@media (min-width:769px) and (max-width:1017px){
+  .radio-box .radio-control2.MuiFormControlLabel-root{
+    margin-left: 15px;
+  }
+  .radio-box .radio-control3.MuiFormControlLabel-root{
+    margin-left: 10px;
+  }
+  .radio-box .radio-control1.MuiFormControlLabel-root{
+    margin-left: 10px;
+  }
+  .radio-box .radio-control.MuiFormControlLabel-root{
+    margin-left: 15px;
+  }
+}
+@media (min-width:769px) and (max-width:894px){
+  .box {
+    flex: 1 0 48%;
+    max-width: 48%;
+    flex-wrap: wrap;
+  } 
+}
+@media (min-width:370px) and (max-width:540px){
+  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+    font-size: 14.5px;
+    /* margin-top: 2px;
+  margin-bottom: -9px; */
+}
+input#outlined-required {
+  font-size: 13px !important;
+  
+}
+.box  .input-box {
+  font-size: 13px !important;
+ 
+}
+
+.custom-button{
+ font-size: 13px;
+ margin-top: 10px;
+}
+.inf{
+  margin-top:15px !important;
+margin-bottom: 0px !important;
 font-size: 16px !important; 
 margin-left: 25px !important; }
 .radio-box .MuiTypography-root{
-  font-size: 14px !important;
+font-size: 14px !important;
 }
 .radio-box .MuiSvgIcon-root{
-  font-size: 1.5rem;
-  width: 15px;
-  height: 19px;
+font-size: 1.5rem;
+width: 15px;
+height: 19px;
 } 
+}
+@media (max-width: 1100px) {
+  .date-pick {
+      width: 100%; /* Adjust as needed for mobile view */
   }
+}
+
+/* @media (min-width: 1101px) {
+  .date-pick {
+      width: 550px; 
+  }
+} */
+@media (min-width: 0px) {
+.box .box-d .MuiStack-root {
+     -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100% !important; 
+    padding-top: 0px !important;
+}
+.box .box-d .MuiStack-root>.MuiTextField-root{
+  min-width: -webkit-fill-available !important;
+}
+}

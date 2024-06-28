@@ -696,75 +696,87 @@ export default function AddChitEstimatePage() {
         );
     };
 
+    const ensureNumber = (value) => {
+        const num = Number(value);
+        return Number.isNaN(num) ? "" : num;
+    };
+
     const ChitEstimateListTextValidate = (e, item, index, from) => {
         const text = e.target.value;
-        const TextValue = text.trim() !== "" ? parseFloat(text) : 0; // Ensure TextValue is a number
+        const TextValue = text.trim() !== "" ? parseFloat(text) : ""; // Ensure TextValue is a number
         console.log(from);
-        setChitEstimateList(prevState =>
+        setChitEstimateList((prevState) =>
             prevState.map((prev, idx, array) => {
                 if (text.trim() !== "") {
-                    setChitEstimateListAdd(pre => pre + 1);
+                    setChitEstimateListAdd((pre) => pre + 1);
                 } else {
                     setChitEstimateListAdd(0);
                 }
 
                 const ids = String(item.id).startsWith('id_') ? item.id.replace(/^id_/, '') : item.id;
-                let CaculateLessAmount = prev.less_amount;
-                let CaculatePayment = prev.payment;
-                let CaculateDueAmount = prev.dueamount;
-                console.log("data.emdue--> ", data.emdue);
+                let CaculateLessAmount = ensureNumber(prev.less_amount);
+                let CaculatePayment = ensureNumber(prev.payment);
+                let CaculateDueAmount = ensureNumber(prev.dueamount);
+                const TextValueNumber = ensureNumber(TextValue);
+                const DurationValue = ensureNumber(data.duration);
+                const AmountValue = ensureNumber(data.amount);
+                const EmDueValue = ensureNumber(data.emdue);
+                console.log("DurationValue--> ", DurationValue, "TextValueNumber", TextValueNumber);
                 if (data.divident_distribute === "Current Month") {
                     if (from === "dueamount") {
-                        CaculateLessAmount = data.amount - (TextValue * data.duration) - prev.fm_commission;
-                        CaculateDueAmount = TextValue;
-                        console.log("CaculateLessAmount--> ", CaculateLessAmount);
+                        CaculateLessAmount = AmountValue - ((TextValueNumber * DurationValue) - ensureNumber(prev.fm_commission));
+                        CaculateDueAmount = TextValueNumber;
+                        CaculatePayment = (TextValueNumber * DurationValue) + ensureNumber(prev.fm_commission) + ensureNumber(prev.gst_value);
+                        if (CaculateDueAmount > EmDueValue) {
+                            CaculateDueAmount = "";
+                            CaculatePayment = "";
+                            CaculateLessAmount = "";
+                            setAlertMessage("Due amount can't be greater than Em Due");
+                            setAlertFrom("save_alert");
+                            HandleAlertShow();
+                        }
+                        console.log("dueamount--> ", CaculateLessAmount, "CaculatePayment--> ", CaculatePayment);
                     } else if (from === "fm_commission") {
-                        console.log("TextValue--> ", TextValue);
-                        CaculateLessAmount = prev.less_amount;
-                        CaculateDueAmount = data.emdue - ((CaculateLessAmount - TextValue) / data.duration);
-                        console.log("CaculateDueAmount--> ", CaculateDueAmount);
+                        CaculateLessAmount = AmountValue - ((CaculateDueAmount * DurationValue) - TextValueNumber);
+                        CaculatePayment = (CaculateDueAmount * DurationValue) - TextValueNumber - ensureNumber(prev.gst_value);
+                        console.log("fm_commission--> ", CaculateDueAmount, "CaculatePayment--> ", CaculatePayment);
                     } else if (from === "less_amount") {
-                        console.log("TextValue--> ", TextValue);
-                        CaculateLessAmount = TextValue;
-                        CaculateDueAmount = data.emdue - ((TextValue - prev.fm_commission) / data.duration);
-                        console.log("CaculateDueAmount--> ", CaculateDueAmount);
+                        CaculateLessAmount = TextValueNumber;
                     }
-                    CaculatePayment = data.amount - CaculateLessAmount - prev.gst_value - prev.doc_charge_value;
-                    console.log("CaculatePayment--> ", CaculatePayment);
                 } else if (data.divident_distribute === "Next Month") {
                     if (from === "dueamount") {
                         if (index - 1 >= 0 && index + 1 < array.length) {
-                            array[index - 1].dueamount = data.amount - (TextValue * data.duration) - array[index + 1].fm_commission;
+                            array[index - 1].less_amount = data.amount - ((TextValueNumber * DurationValue) - array[index + 1].fm_commission);
+                            array[index - 1].payment = (TextValueNumber * DurationValue) - ensureNumber(array[index - 1].fm_commission) + ensureNumber(array[index - 1].gst_value);
                         }
-                        CaculateDueAmount = TextValue;
-                        console.log("CaculateLessAmount--> ", CaculateLessAmount);
+                        CaculateDueAmount = TextValueNumber;
+                        if (CaculateDueAmount > EmDueValue) {
+                            CaculateDueAmount = "";
+                            setAlertMessage("Due amount can't be greater than Em Due");
+                            setAlertFrom("save_alert");
+                            HandleAlertShow();
+                        }
+                        console.log("dueamount1--> ", array[index - 1].less_amount, "array[index - 1].payment", array[index - 1].payment);
                     } else if (from === "fm_commission") {
                         if (index + 1 < array.length) {
-                            console.log("TextValue--> ", TextValue);
-                            CaculateLessAmount = ((data.emdue - array[index + 1].dueamount) * data.duration) + TextValue;
-                            console.log("CaculateDueAmount--> ", CaculateDueAmount);
+                            CaculateLessAmount = data.amount - ((array[index + 1].dueamount * DurationValue) - TextValueNumber);
+                            CaculatePayment = (array[index + 1].dueamount * DurationValue) - TextValueNumber + ensureNumber(prev.gst_value);
+                            console.log("fm_commission1--> ", CaculateLessAmount, "CaculatePayment", CaculatePayment);
                         }
                     } else if (from === "less_amount") {
-                        if (index + 1 < array.length) {
-                            console.log("TextValue--> ", TextValue);
-                            CaculateLessAmount = TextValue;
-                            array[index + 1].dueamount = data.emdue - ((TextValue - prev.fm_commission) / data.duration);
-                            console.log("CaculateDueAmount--> ", CaculateDueAmount);
-                        }
+                        CaculateLessAmount = TextValue;
                     }
-                    CaculatePayment = data.amount - CaculateLessAmount - prev.gst_value - prev.doc_charge_value;
-                    console.log("CaculatePayment--> ", CaculatePayment);
                 }
                 if (prev === item) {
                     return {
                         ...prev,
                         id: ids,
-                        dueamount: from === "dueamount" || from === "fm_commission" ? Math.round(CaculateDueAmount) : prev.dueamount,
-                        less_amount: from === "less_amount" || from === "dueamount" ? Math.round(CaculateLessAmount) : prev.less_amount,
-                        fm_commission: from === "fm_commission" ? TextValue : prev.fm_commission,
-                        gst_value: from === "gst_value" ? TextValue : prev.gst_value,
-                        doc_charge_value: from === "doc_charge_value" ? TextValue : prev.doc_charge_value,
-                        payment: from === "payment" || from === "dueamount" || from === "fm_commission" ? Math.round(CaculatePayment) : prev.payment,
+                        dueamount: from === "dueamount" ? Math.round(ensureNumber(CaculateDueAmount)) : Math.round(ensureNumber(prev.dueamount)),
+                        less_amount: from === "less_amount" || from === "dueamount" || from === "fm_commission" ? Math.round(ensureNumber(CaculateLessAmount)) : Math.round(ensureNumber(prev.less_amount)),
+                        fm_commission: from === "fm_commission" ? ensureNumber(TextValue) : Math.round(ensureNumber(prev.fm_commission)),
+                        gst_value: from === "gst_value" ? ensureNumber(TextValue) : Math.round(ensureNumber(prev.gst_value)),
+                            doc_charge_value: from === "doc_charge_value" ? ensureNumber(TextValue) : Math.round(ensureNumber(prev.doc_charge_value)),
+                        payment: from === "payment" || from === "dueamount" || from === "fm_commission" ? Math.round(ensureNumber(CaculatePayment)) : Math.round(ensureNumber(prev.payment)),
                     };
                 }
                 return prev;
@@ -990,11 +1002,7 @@ export default function AddChitEstimatePage() {
             </Stack>
             <Card>
                 <Box className="con" component="form"
-                    sx={{
-                        '& .MuiTextField-root': {  width: '20ch'},
-                    }}
-                    noValidate
-                    autoComplete="off">
+                    sx={{ '& .MuiTextField-root': {  width: '20ch'}, }} noValidate autoComplete="off">
                     {ChitEstimateLoading || ChitEstimateMemberLoading
                         ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
                             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
@@ -1242,7 +1250,8 @@ export default function AddChitEstimatePage() {
                                                                className='input-box'
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
-                                                                value={row.gst_value}
+                                                                disabled
+                                                                value={row.gst_value != null && row.gst_value !== "" ? Math.round(row.gst_value) : ""}
                                                                 onChange={(e) => ChitEstimateListTextValidate(e, row, index, "gst_value")}
                                                                 sx={{
                                                                     backgroundColor: 'transparent',

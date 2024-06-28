@@ -1575,7 +1575,7 @@ export default function AddChitAuctionPage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Group No"
+                                               
                                                 value={GroupNo.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "GroupNo")}
                                                 style={{}} />
@@ -1593,7 +1593,7 @@ export default function AddChitAuctionPage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Amount"
+                                              
                                                 value={Amount.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "Amount")}
                                                 style={{}} />
@@ -1603,17 +1603,17 @@ export default function AddChitAuctionPage() {
                                 </div>
                             </Stack>
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
+                                <div className='box-grp box'>
+                                    <Stack direction='column' className='box-d'>
                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                             Auc From Time <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                <DemoContainer components={['MobileTimePicker',]} sx={{ width: 550 }}>
+                                                <DemoContainer components={['MobileTimePicker',]} className="date-pick">
                                                     <MobileTimePicker
-                                                        className='input-box1'
-                                                        label="Auc From Time"
+                                                   
+                                                       
                                                         disabled={screen === "view"}
                                                         defaultValue={dayjs()}
                                                         value={AucFromTime.data}
@@ -1624,17 +1624,17 @@ export default function AddChitAuctionPage() {
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AucFromTime.error}</div>
                                     </Stack>
                                 </div>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
+                                <div className='box-grp box'>
+                                    <Stack direction='column' className='box-d'>
                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                             Auc To Time <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                <DemoContainer components={['MobileTimePicker',]} sx={{ width: 550 }}>
+                                                <DemoContainer components={['MobileTimePicker',]} className="date-pick">
                                                     <MobileTimePicker
-                                                        className='input-box1'
-                                                        label="Auc To Time"
+                                                      
+                                                       
                                                         disabled={screen === "view"}
                                                         defaultValue={dayjs()}
                                                         value={AucToTime.data}
@@ -1647,17 +1647,17 @@ export default function AddChitAuctionPage() {
                                 </div>
                             </Stack>
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
+                                <div className='box-grp box'>
+                                    <Stack direction='column' className='box-d'>
                                         <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
                                             Auc Date <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                <DemoContainer components={['DatePicker']} sx={{ width: 550 }}>
+                                                <DemoContainer components={['DatePicker']} className="date-pick">
                                                     <DatePicker
-                                                        className='input-box1'
-                                                        label="Auc Date"
+                                                      
+                                                      
                                                         disabled={screen === "view"}
                                                         value={AucDate.data}
                                                         onChange={(date) => HandleDateChange(date, "AucDate")}
@@ -1678,7 +1678,7 @@ export default function AddChitAuctionPage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Inst No"
+                                             
                                                 value={InstNo.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "InstNo")}
                                                 style={{}} />
@@ -1698,7 +1698,7 @@ export default function AddChitAuctionPage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Prized Member"
+                                              
                                                 value={PrizedMember.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "PrizedMember")}
                                                 style={{}} />
@@ -1716,7 +1716,7 @@ export default function AddChitAuctionPage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Tkt.No"
+                                               
                                                 value={TktNo.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "TktNo")}
                                                 style={{}} />
@@ -1736,7 +1736,7 @@ export default function AddChitAuctionPage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Max.A.Disc"
+                                             
                                                 value={MaxADisc.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "MaxADisc")}
                                                 style={{}} />
@@ -1754,7 +1754,7 @@ export default function AddChitAuctionPage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                                label="F.M/A.F.M Commission"
+                                             
                                                 value={FM_AFMCommission.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "FM_AFMCommission")}
                                                 style={{}} />
@@ -1774,7 +1774,7 @@ export default function AddChitAuctionPage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Dividend"
+                                             
                                                 value={Dividend.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "Dividend")}
                                                 style={{}} />
@@ -1785,7 +1785,7 @@ export default function AddChitAuctionPage() {
                             </Stack>
                             <Grid container spacing={2}>
                                 <Grid item xs={5}>
-                                    <Scrollbar>
+                                    <Scrollbar className="table-one">
                                         <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
                                             <Table sx={{ minWidth: 450 }}>
                                                 <TableHeader
@@ -1815,8 +1815,8 @@ export default function AddChitAuctionPage() {
                                                                     event.stopPropagation();
                                                                     handleClick(event, row, "auction_list_click", index);
                                                                 }} >
-                                                                <TableCell sx={{ width: '10%' }}>{row.installno}</TableCell>
-                                                                <TableCell sx={{ width: '30%', padding: 0 }}>
+                                                                <TableCell sx={{ width: '6%' }}>{row.installno}</TableCell>
+                                                                <TableCell sx={{ width: '40%', padding: 0 }}>
                                                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                                         <button
                                                                             type="button"
@@ -1831,6 +1831,7 @@ export default function AddChitAuctionPage() {
                                                                             style={{ border: 'none', outline: 'none', backgroundColor: 'transparent',
                                                                                 padding: 0, cursor: 'pointer', }} >
                                                                             <DatePicker
+                                                                            className='date-pick'
                                                                                 id="filled-hidden-label-normal"
                                                                                 value={row.auctiondate != null ? dayjs(row.auctiondate) : null}
                                                                                 onChange={(date) => { HandleDateChange(date, "auctiondate", row) }}
@@ -1839,12 +1840,23 @@ export default function AddChitAuctionPage() {
                                                                                     <CustomTextField
                                                                                         {...params}
                                                                                         variant="filled"
-                                                                                        sx={{ width: '100%', height: '32px' }} />
-                                                                                )} />
+                                                                                        sx={{ width: '100%', height: '20px'}} />
+                                                                                )} 
+                                                                                
+                                                                                sx={{
+                                                                                    '& .MuiInputBase-input': {
+                                                                                        padding: '8px',
+                                                                                        fontSize: '14px',
+                                                                                       
+                                                                                      },
+                                                                                      '& .MuiInputAdornment-root': {
+                                                                                        padding: '8px', 
+                                                                                      }
+                                                                                    }}/>
                                                                         </button>
                                                                     </LocalizationProvider>
                                                                 </TableCell>
-                                                                <TableCell sx={{ width: '60%' }}>{row.prized_member_name}</TableCell>
+                                                                <TableCell sx={{ width: '50%' }}>{row.prized_member_name}</TableCell>
                                                             </TableRow>
                                                         ))}
                                                     <TableEmptyRows
@@ -1858,7 +1870,7 @@ export default function AddChitAuctionPage() {
                                     </Scrollbar>
                                 </Grid>
                                 <Grid item xs={7}>
-                                    <Scrollbar>
+                                    <Scrollbar className="table-one">
                                         <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
                                             <Table sx={{ minWidth: 550 }}>
                                                 <TableHeader
@@ -1894,8 +1906,17 @@ export default function AddChitAuctionPage() {
                                                                             id="outlined-required"
                                                                             value={row.maxaucdisc}
                                                                             onChange={isEditable ? (e) => ChitAuctionMemberListTextValidate(e, row, "maxaucdisc") : null}
-                                                                            style={{ width: 100, height: 30 }}
-                                                                            disabled={!isEditable} />
+                                                                            style={{ width: 100, height: 20 }}
+                                                                            disabled={!isEditable} 
+                                                                            sx={{
+                                                                            '& .MuiInputBase-input': {
+                                                                                padding: '8px',
+                                                                                fontSize: '14px', 
+                                                                              },
+                                                                              '& .MuiInputAdornment-root': {
+                                                                                padding: '8px', 
+                                                                              }
+                                                                            }}/>
                                                                     </TableCell>
                                                                     <TableCell>
                                                                         <Stack justifyContent='center'>
@@ -1904,8 +1925,18 @@ export default function AddChitAuctionPage() {
                                                                                 id="outlined-required"
                                                                                 value={row.signature}
                                                                                 onChange={isEditable ? (e) => ChitAuctionMemberListTextValidate(e, row, "signature") : null}
-                                                                                style={{ width: 100, height: 30 }}
-                                                                                disabled={!isEditable} />
+                                                                                style={{ width: 100, height: 20 }}
+                                                                                disabled={!isEditable} 
+                                                                                
+                                                                                sx={{
+                                                                                    '& .MuiInputBase-input': {
+                                                                                        padding: '8px',
+                                                                                        fontSize: '14px', 
+                                                                                      },
+                                                                                      '& .MuiInputAdornment-root': {
+                                                                                        padding: '8px', 
+                                                                                      }
+                                                                                    }}/>
                                                                         </Stack>
                                                                     </TableCell>
                                                                     <TableCell>{row.action === "delete" && 

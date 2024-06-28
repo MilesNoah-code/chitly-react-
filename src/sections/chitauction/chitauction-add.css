@@ -103,3 +103,22 @@
         .rowExists {
           background-color: rgba(24, 119, 242, 0.16);
         }
+.table-one .MuiTextField-root {
+  margin: 0px !important;
+ 
+}
+        @media (min-width: 0px) {
+          .box-grp  .box-d .MuiStack-root {
+               -webkit-flex-direction: column;
+              -ms-flex-direction: column;
+              flex-direction: column;
+              width: 100% !important; 
+              padding-top: 0px !important;
+          }
+          .box-grp  .box-d .MuiStack-root>.MuiTextField-root{
+            min-width: -webkit-fill-available !important;
+        }
+        }
+        .MuiTableCell-root {
+          padding: 6px !important;
+        }     

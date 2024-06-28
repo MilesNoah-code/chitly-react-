@@ -2473,7 +2473,7 @@ export default function AddMemberPage() {
                                                             <FormControlLabel className="radio-control1" value="Doctrate" control={<Radio />} label="Doctorate" disabled={screen === "view"} />
                                                         </RadioGroup>
                                                     </Stack>
-                                                    <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{SpouseEducation.error}</div>
+                                                    <div style={{ marginLeft: "25px", marginTop: "1px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{SpouseEducation.error}</div>
                                                 </Stack>
                                             </div>
                                         </Stack>
@@ -2685,9 +2685,17 @@ export default function AddMemberPage() {
             </Dialog>
             <Dialog
                 open={ProofAlert}
-                fullWidth={500}
+                fullWidth={false}  
+                maxWidth="xs"
                 aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description" >
+                aria-describedby="alert-dialog-description" 
+                PaperProps={{
+                    style: {
+                        maxWidth: '100%', 
+                        overflow: 'hidden' 
+                    },
+                }}
+              >
                 <IconButton
                     aria-label="close"
                     onClick={HandleProofAlertClose}

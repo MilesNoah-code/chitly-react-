@@ -16,13 +16,8 @@
     font-size: 15px;
   
 }
-input#outlined-required {
-  font-size: 13px !important;
-  height: 1.00em !important;
-}
-.MuiInputBase-input-MuiFilledInput-input{
-  height: 0.453em !important;
-}
+
+
 .MuiTableCell-root {
   padding: 6px !important;
 }
@@ -47,23 +42,13 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
   font-size: 15px;
 
 }
-input#outlined-required {
-font-size: 13px !important;
-height: 1.00em !important;
-}
-.MuiInputBase-input-MuiOutlinedInput-input {
-  height: 1.00em !important;
-  font-size: 16px !important;
- }
+
+
 .table-one .input-box.MuiInputBase-input-MuiFilledInput-input{
   height: 0.453em !important;
 }
-.MuiTableRow-root {
- font-size: 15px !important;
-  vertical-align: top !important;
- 
-}
-.table-one1 .MuiTableRow-root {
+
+.table-one .MuiTableRow-root {
   font-size: 15px !important;
    vertical-align: middle !important;
   

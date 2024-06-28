@@ -17,10 +17,7 @@
     font-size: 15px;
   
 }
-input#outlined-required {
-  font-size: 13px !important;
-  height: 1.00em !important;
-}
+
   @media(max-width:768px){
     .mbl-view{
       display: flex;

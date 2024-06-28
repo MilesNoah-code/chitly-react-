@@ -1,3 +1,9 @@
+3.4.2
+Date : 28/06/2024
+Type : Development
+Description :  
+        1.Chit Estimate Current Month and Next Month Calculation
+----------------------------------------------------------------
 3.4.1
 Date : 27/06/2024
 Type : Development

@@ -82,6 +82,10 @@ flex-wrap: wrap;
   padding: 9.5px 14px !important; 
 }
 
+.date-picker-width {
+width: calc(100% - 33px) !important;
+}
+
   @media screen and (max-width: 768px) {
     .stack-box{
         flex-direction: column !important;

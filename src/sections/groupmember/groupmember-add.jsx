@@ -646,76 +646,81 @@ export default function AddGroupMemberPage() {
                                     <Typography variant="h5" sx={{ mt: 0, ml:2 }}>
                                         Address Detail:
                                     </Typography>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                        <div className='box-grp  grp-label'>
-                                            <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 1, mb: '0px' }}>
-                                                    Address
-                                                </Typography>
-                                                <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                                    <TextField
-                                                        className='input-box1'
-                                                        id="outlined-required"
-                                                        disabled
-                                                      
-                                                        value={memberDetail.addressline1 || ''}
-                                                        onChange={handleInputChange} />
-                                                </Stack>
-                                            </Stack>
-                                        </div>
-                                        <div className='box-grp'>
-                                            <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ mt: 1, ml: 2 }}>
-                                                    City
-                                                </Typography>
-                                                <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                                    <TextField
-                                                        // required
-                                                        className='input-box1'
-                                                        id="outlined-required"
-                                                        disabled
-                                                      
-                                                        value={memberDetail.city || ''}
-                                                        onChange={handleInputChange} />
-                                                </Stack>
-                                            </Stack>
-                                        </div>
-                                    </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                        <div className='box-grp  grp-label'>
-                                            <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 1, mb: '0px' }}>
-                                                    State
-                                                </Typography>
-                                                <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                                    <TextField
-                                                        className='input-box1'
-                                                        id="outlined-required"
-                                                        disabled
-                                                     
-                                                        value={memberDetail.state || ''}
-                                                        onChange={handleInputChange} />
-                                                </Stack>
-                                            </Stack>
-                                        </div>
-                                        <div className='box-grp'>
-                                            <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ mt: 1, ml: 2 }}>
-                                                    Country
-                                                </Typography>
-                                                <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                                    <TextField
-                                                        // required
-                                                        className='input-box1'
-                                                        id="outlined-required"
-                                                        disabled
-                                                    
-                                                        value={memberDetail.country || ''}
-                                                        onChange={handleInputChange} />
-                                                </Stack>
-                                            </Stack>
-                                        </div>
-                                    </Stack>
+                                        {(memberDetail.addressline1 == null || memberDetail.addressline1 === '') && (memberDetail.city == null || memberDetail.city === '') &&
+                                            (memberDetail.state == null || memberDetail.state === '') && (memberDetail.country == null || memberDetail.country === '')
+                                            ? null
+                                            : <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                                <div className='box-grp  grp-label'>
+                                                    <Stack direction='column'>
+                                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 1, mb: '0px' }}>
+                                                            Address
+                                                        </Typography>
+                                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                                            <TextField
+                                                                className='input-box1'
+                                                                id="outlined-required"
+                                                                disabled
+                                                                value={memberDetail.addressline1 || '--'}
+                                                                onChange={handleInputChange} />
+                                                        </Stack>
+                                                    </Stack>
+                                                </div>
+                                                <div className='box-grp'>
+                                                    <Stack direction='column'>
+                                                        <Typography variant="subtitle1" sx={{ mt: 1, ml: 2 }}>
+                                                            City
+                                                        </Typography>
+                                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                                            <TextField
+                                                                className='input-box1'
+                                                                id="outlined-required"
+                                                                disabled-
+                                                                value={memberDetail.city || '--'}
+                                                                onChange={handleInputChange} />
+                                                        </Stack>
+                                                    </Stack>
+                                                </div>
+                                            </Stack>}
+                                        {(memberDetail.addressline1 == null || memberDetail.addressline1 === '') && (memberDetail.city == null || memberDetail.city === '') &&
+                                            (memberDetail.state == null || memberDetail.state === '') && (memberDetail.country == null || memberDetail.country === '')
+                                            ? null
+                                            : <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                                <div className='box-grp  grp-label'>
+                                                    <Stack direction='column'>
+                                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 1, mb: '0px' }}>
+                                                            State
+                                                        </Typography>
+                                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                                            <TextField
+                                                                className='input-box1'
+                                                                id="outlined-required"
+                                                                disabled
+                                                                value={memberDetail.state || '--'}
+                                                                onChange={handleInputChange} />
+                                                        </Stack>
+                                                    </Stack>
+                                                </div>
+                                                <div className='box-grp'>
+                                                    <Stack direction='column'>
+                                                        <Typography variant="subtitle1" sx={{ mt: 1, ml: 2 }}>
+                                                            Country
+                                                        </Typography>
+                                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                                            <TextField
+                                                                className='input-box1'
+                                                                id="outlined-required"
+                                                                disabled
+                                                                value={memberDetail.country || '--'}
+                                                                onChange={handleInputChange} />
+                                                        </Stack>
+                                                    </Stack>
+                                                </div>
+                                            </Stack>}
+                                        {((memberDetail.addressline1 == null || memberDetail.addressline1 === '') && (memberDetail.city == null || memberDetail.city === '') &&
+                                            (memberDetail.state == null || memberDetail.state === '') && (memberDetail.country == null || memberDetail.country === ''))
+                                            && <Typography variant="subtitle1" sx={{ mt: 1, display: 'flex', justifyContent: 'center' }}>
+                                                No address mapped
+                                            </Typography>}
                                     </div>
                                 </Grid>
                             </Grid>

@@ -1110,7 +1110,7 @@ export default function AddChitEstimatePage() {
                                                         <TableCell>{row.Instno}</TableCell>
                                                         <TableCell sx={{ width: '13%' }}>
                                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                                <DemoContainer components={['DatePicker']} sx={{ width:200, overflow: 'hidden' }}>
+                                                                <DemoContainer components={['DatePicker']} sx={{ width:200, overflow: 'hidden', paddingTop: '1px' }}>
                                                                     <DatePicker
                                                                        className='input-box-date'
                                                                         id="filled-hidden-label-normal"
@@ -1123,6 +1123,17 @@ export default function AddChitEstimatePage() {
                                                                                 variant="filled"
                                                                             />
                                                                         )}
+                                                                        sx={{
+                                                                            
+                                                                            '& .MuiInputBase-input': {
+                                                                              padding: '8px',
+                                                                              fontSize: '14px',
+                                                                            },
+                                                                            '& .MuiInputAdornment-root': {
+                                                                              padding: '8px',
+                                                                            },
+                                                                          }}
+                                                                          
                                                                     />
                                                                 </DemoContainer>
                                                             </LocalizationProvider>
@@ -1151,6 +1162,13 @@ export default function AddChitEstimatePage() {
                                                                     '& .Mui-disabled': {
                                                                         '-webkit-text-fill-color': 'currentColor',
                                                                     },
+                                                                    '& .MuiInputBase-input': {
+                                                                        padding: '8px',
+                                                                        fontSize: '14px', 
+                                                                      },
+                                                                      '& .MuiInputAdornment-root': {
+                                                                        padding: '8px', 
+                                                                      }
                                                                 }} />
                                                         </TableCell>
                                                         <TableCell sx={{  width: '14%' }}>
@@ -1177,6 +1195,13 @@ export default function AddChitEstimatePage() {
                                                                     '& .Mui-disabled': {
                                                                         '-webkit-text-fill-color': 'currentColor',
                                                                     },
+                                                                    '& .MuiInputBase-input': {
+                                                                        padding: '8px', 
+                                                                        fontSize: '14px',
+                                                                      },
+                                                                      '& .MuiInputAdornment-root': {
+                                                                        padding: '8px', 
+                                                                      }
                                                                 }} />
                                                         </TableCell>
                                                         <TableCell sx={{  width: '15%' }}>
@@ -1203,6 +1228,13 @@ export default function AddChitEstimatePage() {
                                                                     '& .Mui-disabled': {
                                                                         '-webkit-text-fill-color': 'currentColor',
                                                                     },
+                                                                    '& .MuiInputBase-input': {
+                                                                        padding: '8px', 
+                                                                        fontSize: '14px',
+                                                                      },
+                                                                      '& .MuiInputAdornment-root': {
+                                                                        padding: '8px', 
+                                                                      }
                                                                 }} />
                                                         </TableCell>
                                                         <TableCell sx={{  width: '15%' }}>
@@ -1229,6 +1261,13 @@ export default function AddChitEstimatePage() {
                                                                     '& .Mui-disabled': {
                                                                         '-webkit-text-fill-color': 'currentColor',
                                                                     },
+                                                                    '& .MuiInputBase-input': {
+                                                                        padding: '8px', 
+                                                                        fontSize: '14px',
+                                                                      },
+                                                                      '& .MuiInputAdornment-root': {
+                                                                        padding: '8px', 
+                                                                      }
                                                                 }} />
                                                         </TableCell>
                                                         <TableCell sx={{  width: '15%' }}>
@@ -1256,6 +1295,13 @@ export default function AddChitEstimatePage() {
                                                                     '& .Mui-disabled': {
                                                                         '-webkit-text-fill-color': 'currentColor',
                                                                     },
+                                                                    '& .MuiInputBase-input': {
+                                                                        padding: '8px',
+                                                                        fontSize: '14px', 
+                                                                      },
+                                                                      '& .MuiInputAdornment-root': {
+                                                                        padding: '8px', 
+                                                                      }
                                                                 }}/>
                                                         </TableCell>
                                                     </TableRow>
@@ -1271,7 +1317,7 @@ export default function AddChitEstimatePage() {
                             </Scrollbar>
                             </Grid>
                             <Grid item md={6} xs={12}>
-                            <Scrollbar className="table-one1">
+                            <Scrollbar className="table-one">
                                 <TableContainer sx={{ overflow: 'unset' }}>
                                     <Table sx={{ minWidth: 450 ,mt:5}}>
                                         <TableHeader
@@ -1302,7 +1348,7 @@ export default function AddChitEstimatePage() {
                                                                     <img src={`${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${row.memberProfile}`} alt="Loading" style={{ width: 40, height: 40, }} />
                                                                 </div>
                                                                 : <div>
-                                                                    <img src="/assets/images/img/placeholder.png" alt="Loading" style={{ width: 40, height: 40, }} />
+                                                                    <img src="/assets/images/img/placeholder.png" alt="Loading" style={{ width: 35, height: 35, }} />
                                                                 </div>}
                                                         </TableCell>
                                                         <TableCell>
@@ -1330,11 +1376,19 @@ export default function AddChitEstimatePage() {
                                                                     '& .Mui-disabled': {
                                                                         '-webkit-text-fill-color': 'currentColor',
                                                                     },
-                                                                }} />
+                                                                    '& .MuiInputBase-input': {
+                                                                      padding: '8px', 
+                                                                      fontSize: '14px',
+                                                                    },
+                                                                    '& .MuiInputAdornment-root': {
+                                                                      padding: '8px', 
+                                                                    }
+                                                                }}
+                                                                />
                                                         </TableCell>
-                                                        <TableCell>
+                                                        <TableCell >
                                                             <TextField
-                                                             className='input-box'
+                                                             className='input-box ac-cell'
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 disabled
@@ -1356,7 +1410,16 @@ export default function AddChitEstimatePage() {
                                                                     },
                                                                     '& .Mui-disabled': {
                                                                         '-webkit-text-fill-color': 'currentColor',
-                                                                    }, }} />
+                                                                    }, 
+                                                                    '& .MuiInputBase-input': {
+                                                                        padding: '8px', 
+                                                                        fontSize: '14px',
+                                                                      },
+                                                                      '& .MuiInputAdornment-root': {
+                                                                        padding: '8px', 
+                                                                      }
+                                                                    }} 
+                                                                   />
                                                         </TableCell>
                                                         <TableCell>
                                                             <TextField
@@ -1376,7 +1439,15 @@ export default function AddChitEstimatePage() {
                                                                             backgroundColor: 'transparent',
                                                                         },
                                                                     },
-                                                                }} />
+                                                                    '& .MuiInputBase-input': {
+                                                                        padding: '8px',
+                                                                        fontSize: '14px', 
+                                                                      },
+                                                                      '& .MuiInputAdornment-root': {
+                                                                        padding: '8px', 
+                                                                      },
+                                                                }} 
+                                                              />
                                                         </TableCell>
                                                         <TableCell>
                                                             {row.action === "add"
@@ -1391,7 +1462,7 @@ export default function AddChitEstimatePage() {
                                                                         remove_data: row,
                                                                         member_edit: 'false'
                                                                     });}} sx={{ cursor: 'pointer' }}>
-                                                                    <Iconify icon="streamline:delete-1-solid" />
+                                                                    <Iconify icon="streamline:delete-1-solid"  sx={{ width:13,height:13}}/>
                                                                 </IconButton>)}
                                                         </TableCell>
                                                     </TableRow>

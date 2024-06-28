@@ -81,12 +81,14 @@ flex-wrap: wrap;
   font-size: 13px !important;
   padding: 9.5px 14px !important; 
 }
+
   @media screen and (max-width: 768px) {
     .stack-box{
         flex-direction: column !important;
         width: 100% !important;
         align-items:inherit;
     }
+   
     .box {
       flex: 1 0 100%;
       max-width: 100%;
@@ -96,9 +98,14 @@ flex-wrap: wrap;
       padding: 10px 15px 10px 15px;
       font-size: 15px;
     }
-    .date-pick {
-      width: 100px!important; 
-      }
+    /* .date-box .date-pick{
+      width: 100% !important;
+      overflow-x: hidden !important;
+     } */
+     /* .date-box .MuiStack-root{
+      overflow: hidden !important;
+      width: 100%  !important;
+     }  */
   .box  .input-box1 {
         width: calc(100% - 0px) !important; 
       }
@@ -176,6 +183,7 @@ flex-wrap: wrap;
     font-size: 13px !important;
    
   }
+ 
   .custom-button{
    font-size: 13px;
    margin-top: 10px;

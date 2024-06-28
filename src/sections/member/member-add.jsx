@@ -2038,20 +2038,21 @@ export default function AddMemberPage() {
                                     </Stack>
                                     <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                         <div className='box'>
-                                            <Stack direction='column'>
+                                            <Stack direction='column' className='box-d'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                                     Date of Birth
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                        <DemoContainer components={['DatePicker']} sx={{ width: 550 }} className="date-pick">
+                                                        <DemoContainer components={['DatePicker']}  className="date-pick">
                                                             <DatePicker
-                                                                className="date-picker-width"
+                                                              
                                                                 value={Dob.data}
                                                                 onChange={HandleDateChange}
                                                                 format="DD-MM-YYYY"
                                                                 maxDate={maxDate}
-                                                                renderInput={(params) => <TextField {...params} />} />
+                                                                renderInput={(params) => <TextField {...params} />}
+                                                           />
                                                         </DemoContainer>
                                                     </LocalizationProvider>
                                                 </Stack>

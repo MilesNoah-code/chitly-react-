@@ -810,7 +810,6 @@ export default function AddChitReceiptPage() {
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                 <DemoContainer components={['DatePicker']} className="date-pick">
                                                     <DatePicker
-                                                       
                                                         label="From Date"
                                                         disabled={screen === "view"}
                                                         value={ReceiptDate.data}
@@ -824,7 +823,7 @@ export default function AddChitReceiptPage() {
                                 <div className='box-grp  grp-label'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
-                                            Group No
+                                            Group No <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0,  mt:-1}}>
                                             <Autocomplete

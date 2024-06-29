@@ -108,7 +108,7 @@ export default function DashboardLayout({ children }) {
         </div>
       </Stack>
       {!lgUp && (<IconButton onClick={handleIconClick} sx={{ mr: 2, }}>
-        <Iconify icon="eva:menu-2-fill" />
+        <Iconify icon="eva:menu-2-fill" style={{ width: '25px', height: '25px' }} />
       </IconButton>)}
       <Box sx={{ flexGrow: 1 }} />
       <Stack direction="row" alignItems="center" spacing={1}>

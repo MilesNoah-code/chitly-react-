@@ -141,7 +141,7 @@ margin-right: 15px;
     .radio-box .radio-control1.MuiFormControlLabel-root{
       margin-left: 10px;
     }
-
+  }
 @media (min-width:769px) and (max-width:1017px){
   .radio-box .radio-control2.MuiFormControlLabel-root{
     margin-left: 15px;

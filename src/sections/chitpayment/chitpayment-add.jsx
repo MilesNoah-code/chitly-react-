@@ -897,7 +897,6 @@ export default function AddChitPaymentPage() {
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                 <DemoContainer components={['DatePicker']} className="date-pick">
                                                     <DatePicker
-                                                      
                                                         // label="From Date"
                                                         disabled={screen === "view"}
                                                         value={ReceiptDate.data}

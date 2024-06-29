@@ -117,9 +117,10 @@ export default function AddChitAuctionPage() {
     const [DeleteLoading, setDeleteLoading] = useState(false);
     const [ChitAuctionSelectedIndex, setChitAuctionSelectedIndex] = useState(0);
     const [SelectedId, setSelectedId] = useState(0);
-    const [ChitParameter, setChitParameter] = useState([]); 
+    const [ChitParameter, setChitParameter] = useState([]);
     // const [GroupMemberList, setGroupMemberList] = useState([]);
-    
+    const [CompanyMemberId, setCompanyMemberId] = useState(0);
+
     useEffect(() => {
         console.log(data);
         setChitAuctionAddMemberList([]);
@@ -346,8 +347,9 @@ export default function AddChitAuctionPage() {
                     // setGroupMemberList(json.list);
                     console.log("datas.installno ", datas.installno);
                     console.log("data.fmprdue", data.fmprdue);
-                    if (datas.installno === data.fmprdue){
+                    if (datas.installno === Number(data.fmprdue)){
                         if (json.list.length > 0){
+                            setCompanyMemberId(companyMemberId);
                             const CompanyMemberDetailList = json.list.filter(item => item.memberId === companyMemberId);
                             console.log("CompanyMemberDetailList", CompanyMemberDetailList[0]);
                             const updatedFirstItem = {
@@ -560,7 +562,7 @@ export default function AddChitAuctionPage() {
                                 data_save: filteredList[0].auctiondate !== null && filteredList[0].auctiondate !== "" ? dayjs(filteredList[0].auctiondate).format('YYYY-MM-DD') : "",
                                 error: ""
                             });
-                        }  
+                        }
                     }
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
@@ -642,7 +644,7 @@ export default function AddChitAuctionPage() {
                 "installno": SelectAuctionList.installno,
                 "installvalue": "",
                 "ledger_id": "",
-                "foreman_commission": data.fm_afm !== null && data.fm_afm !== "" ? data.fm_afm : "0", 
+                "foreman_commission": data.fm_afm !== null && data.fm_afm !== "" ? data.fm_afm : "0",
                 "fmcode": "",
                 "dividend": SelectAuctionList.dividend,
                 "filingdate": null,
@@ -652,7 +654,7 @@ export default function AddChitAuctionPage() {
                 "tktno": SelectAuctionList.tktno,
                 "tkt_suffix": "A",
                 "tkt_percentage": "100",
-                "maxaucdisc": SelectAuctionList.maxaucdisc !== "" && SelectAuctionList.maxaucdisc != null ? 
+                "maxaucdisc": SelectAuctionList.maxaucdisc !== "" && SelectAuctionList.maxaucdisc != null ?
                     SelectAuctionList.maxaucdisc : "", // if empty pass 0
                 "prized_amount": SelectAuctionList.prized_amount,
                 "doc_charge": "0",
@@ -663,7 +665,7 @@ export default function AddChitAuctionPage() {
                 "min_auc_value": "0",
                 "max_auc_value": "0",
                 "auctionMemberDetails": ChitAuctionMemberListParams,
-                
+
             };
             const url = `${REACT_APP_HOST_URL}${CHIT_AUCTION_SAVE}`;
             console.log(JSON.stringify(ChitAuctionListParams) + url);
@@ -674,6 +676,7 @@ export default function AddChitAuctionPage() {
                     console.log(JSON.stringify(json));
                     setLoading(false);
                     setScreenRefresh(0);
+                    setCompanyMemberId(0);
                     if (json.success) {
                         setAlertMessage(json.message);
                         setAlertFrom("success");
@@ -759,6 +762,7 @@ export default function AddChitAuctionPage() {
                     console.log(JSON.stringify(json));
                     setLoading(false);
                     setScreenRefresh(0);
+                    setCompanyMemberId(0);
                     if (json.success) {
                         setAlertMessage(json.message);
                         setAlertFrom("success");
@@ -791,6 +795,7 @@ export default function AddChitAuctionPage() {
                 console.log(JSON.stringify(json));
                 setDeleteLoading(false);
                 setScreenRefresh(0);
+                setCompanyMemberId(0);
                 if (json.success) {
                     setAlertMessage(json.message);
                     setAlertFrom("success");
@@ -898,7 +903,7 @@ export default function AddChitAuctionPage() {
                 ...prevState,
                 error: ""
             }));
-        } 
+        }
         if (!Amount.data) {
             IsValidate = false;
             setAmount(prevState => ({
@@ -1187,14 +1192,12 @@ export default function AddChitAuctionPage() {
         }
     };
 
-    const HandleTimeChange = (time, from) => {
+    const HandleOnAcceptTimeChange = (from) => {
         setScreenRefresh(prev => prev + 1);
-        const DateForSave = time.format('h:mm A');
-        console.log('Time to save:', DateForSave, ' ', time);
         const isValidTimeRange = (fromTime, toTime) => fromTime.isBefore(toTime);
-        if (from === "AucFromTime") {
-            console.log('Time to save1:', AucToTime.data, ' ', isValidTimeRange(time, AucToTime.data));
-            if (AucToTime.data && !isValidTimeRange(time, AucToTime.data)) {
+        if (from === "Accept_AucFromTime") {
+            console.log('AucToTime.data1 ', AucToTime.data, ' AucFromTime.data ', AucFromTime.data, "isValidTimeRange1 ", isValidTimeRange(AucFromTime.data, AucToTime.data));
+            if (AucToTime.data && !isValidTimeRange(AucFromTime.data, AucToTime.data)) {
                 setAlertMessage("From time must be earlier than To time");
                 setAlertFrom("failed");
                 HandleAlertShow();
@@ -1204,31 +1207,62 @@ export default function AddChitAuctionPage() {
                     error: ""
                 });
             } else {
+                setAucFromTime(prevState => ({
+                    ...prevState,
+                }));
+            }
+        } else if (from === "Accept_AucToTime") {
+            console.log('AucFromTime.data2', AucFromTime.data, ' AucToTime.data ', AucToTime.data, "isValidTimeRange2 ", isValidTimeRange(AucToTime.data, AucFromTime.data));
+            if (AucFromTime.data && !isValidTimeRange(AucFromTime.data, AucToTime.data)) {
+                setAlertMessage("From time must be earlier than To time");
+                setAlertFrom("failed");
+                HandleAlertShow();
+                setAucToTime({
+                    data: null,
+                    data_save: "",
+                    error: ""
+                });
+            } else {
+                setAucToTime(prevState => ({
+                    ...prevState,
+                }));
+            }
+        }
+    };
+
+    const HandleTimeChange = (time, from) => {
+        if (time) {
+            const DateForSave = time.format('h:mm A');
+            console.log('Time to save:', DateForSave, ' ', time);
+            if (from === "AucFromTime") {
                 setAucFromTime({
                     data: time,
                     data_save: DateForSave,
                     error: ""
                 });
-            }
-        } else if (from === "AucToTime") {
-            console.log('Time to save3:', AucFromTime.data, ' ', isValidTimeRange(time, AucFromTime.data));
-            if (AucFromTime.data && !isValidTimeRange(AucFromTime.data, time)) {
-                setAlertMessage("From time must be earlier than To time");
-                setAlertFrom("failed");
-                HandleAlertShow();
-                setAucFromTime({
-                    data: null,
-                    data_save: "",
-                    error: ""
-                });
-            } else {
+            } else if (from === "AucToTime") {
                 setAucToTime({
                     data: time,
                     data_save: DateForSave,
                     error: ""
                 });
             }
-        } 
+        } else {
+            console.log('Time is null, clearing the value.');
+            if (from === "AucFromTime") {
+                setAucFromTime({
+                    data: null,
+                    data_save: "",
+                    error: ""
+                });
+            } else if (from === "AucToTime") {
+                setAucToTime({
+                    data: null,
+                    data_save: "",
+                    error: ""
+                });
+            }
+        }
     };
 
     const HandleShowEstimateClick = () => {
@@ -1237,16 +1271,13 @@ export default function AddChitAuctionPage() {
     };
 
     const HandleAddMemberClick = () => {
-        const isEmptyObject = (obj) =>  Object.keys(obj).length === 0; 
-        if (!isEmptyObject(SelectAuctionList)){
-            if (SelectAuctionList.installno === 1) {
-                setAlertMessage("Can't add member for this auction, This Auction allotted for company.");
-                setAlertFrom("error_alert");
-                HandleAlertShow();
-            } else {
-                setAddMemberListAlert(true);
-                GetChitAuctionAddMemberList(filterTicketNo, filterName)
-            }
+        if (CompanyMemberId > 0) {
+            setAlertMessage("Can't add member for this auction, This Auction allotted for company.");
+            setAlertFrom("error_alert");
+            HandleAlertShow();
+        } else {
+            setAddMemberListAlert(true);
+            GetChitAuctionAddMemberList(filterTicketNo, filterName)
         }
     };
 
@@ -1300,7 +1331,6 @@ export default function AddChitAuctionPage() {
             }
         }
     };
-
 
     const handleClick = (event, item, from, index) => {
         const selectedIndex = selected.indexOf(item.name);
@@ -1378,7 +1408,7 @@ export default function AddChitAuctionPage() {
                     setSelectAuctionList(updatedItem);
                     setChitAuctionMemberList([...ChitAuctionMemberList, updatedItem]);
                     setAddMemberListAlert(false);
-                } 
+                }
             }else{
                 handleItemUpdate(item);
             }
@@ -1394,6 +1424,7 @@ export default function AddChitAuctionPage() {
             GetChitEstimateList(item.installno);
             if (String(item.primary_id).includes('id_')) {
                 setSelectedId(item.primary_id);
+                setSelectAuctionList(item);
                 if (item.id === "0") {
                     setChitAuctionMemberListLoading(true);
                     GetStandingInstructionList(item);
@@ -1414,7 +1445,6 @@ export default function AddChitAuctionPage() {
                         data_save: "",
                         error: ""
                     });
-                    setSelectAuctionList(item);
                     setChitAuctionMemberList([]);
                 }
             } else {
@@ -1487,7 +1517,7 @@ export default function AddChitAuctionPage() {
             setSelectAuctionList(updatedItem);
             setChitAuctionMemberList([...ChitAuctionMemberList, updatedItem]);
             setAddMemberListAlert(false);
-        } 
+        }
     }
 
     const HandleFilterMemberName = (event) => {
@@ -1575,7 +1605,7 @@ export default function AddChitAuctionPage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                               
+                                                // label="Group No"
                                                 value={GroupNo.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "GroupNo")}
                                                 style={{}} />
@@ -1593,7 +1623,7 @@ export default function AddChitAuctionPage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                              
+                                                // label="Amount"
                                                 value={Amount.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "Amount")}
                                                 style={{}} />
@@ -1612,11 +1642,11 @@ export default function AddChitAuctionPage() {
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                 <DemoContainer components={['MobileTimePicker',]} className="date-pick">
                                                     <MobileTimePicker
-                                                   
-                                                       
+                                                        // label="Auc From Time"
                                                         disabled={screen === "view"}
                                                         defaultValue={dayjs()}
                                                         value={AucFromTime.data}
+                                                        onAccept={() => HandleOnAcceptTimeChange("Accept_AucFromTime")}
                                                         onChange={(time) => HandleTimeChange(time, "AucFromTime")} />
                                                 </DemoContainer>
                                             </LocalizationProvider>
@@ -1633,11 +1663,11 @@ export default function AddChitAuctionPage() {
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                 <DemoContainer components={['MobileTimePicker',]} className="date-pick">
                                                     <MobileTimePicker
-                                                      
-                                                       
+                                                        // label="Auc To Time"
                                                         disabled={screen === "view"}
                                                         defaultValue={dayjs()}
                                                         value={AucToTime.data}
+                                                        onAccept={() => HandleOnAcceptTimeChange("Accept_AucToTime")}
                                                         onChange={(time) => HandleTimeChange(time, "AucToTime")} />
                                                 </DemoContainer>
                                             </LocalizationProvider>
@@ -1656,8 +1686,7 @@ export default function AddChitAuctionPage() {
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                 <DemoContainer components={['DatePicker']} className="date-pick">
                                                     <DatePicker
-                                                      
-                                                      
+                                                        // label="Auc Date"
                                                         disabled={screen === "view"}
                                                         value={AucDate.data}
                                                         onChange={(date) => HandleDateChange(date, "AucDate")}
@@ -1678,7 +1707,7 @@ export default function AddChitAuctionPage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                             
+                                                // label="Inst No"
                                                 value={InstNo.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "InstNo")}
                                                 style={{}} />
@@ -1698,7 +1727,7 @@ export default function AddChitAuctionPage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                              
+                                                // label="Prized Member"
                                                 value={PrizedMember.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "PrizedMember")}
                                                 style={{}} />
@@ -1716,7 +1745,7 @@ export default function AddChitAuctionPage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                               
+                                                // label="Tkt.No"
                                                 value={TktNo.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "TktNo")}
                                                 style={{}} />
@@ -1736,7 +1765,7 @@ export default function AddChitAuctionPage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                             
+                                                // label="Max.A.Disc"
                                                 value={MaxADisc.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "MaxADisc")}
                                                 style={{}} />
@@ -1754,7 +1783,7 @@ export default function AddChitAuctionPage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                             
+                                                // label="F.M/A.F.M Commission"
                                                 value={FM_AFMCommission.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "FM_AFMCommission")}
                                                 style={{}} />
@@ -1774,7 +1803,7 @@ export default function AddChitAuctionPage() {
                                                 className='input-box1'
                                                 id="outlined-required"
                                                 disabled
-                                             
+                                                // label="Dividend"
                                                 value={Dividend.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "Dividend")}
                                                 style={{}} />
@@ -1939,10 +1968,10 @@ export default function AddChitAuctionPage() {
                                                                                     }}/>
                                                                         </Stack>
                                                                     </TableCell>
-                                                                    <TableCell>{row.action === "delete" && 
-                                                                            <IconButton onClick={() => setChitAuctionMemberList(prevList => prevList.filter((_, i) => i !== index))} sx={{ cursor: 'pointer' }}>
-                                                                                <Iconify icon="streamline:delete-1-solid" />
-                                                                            </IconButton>}
+                                                                    <TableCell>{row.action === "delete" &&
+                                                                        <IconButton onClick={() => setChitAuctionMemberList(prevList => prevList.filter((_, i) => i !== index))} sx={{ cursor: 'pointer' }}>
+                                                                            <Iconify icon="streamline:delete-1-solid" />
+                                                                        </IconButton>}
                                                                     </TableCell>
                                                                 </TableRow> ); })}
                                                         <TableEmptyRows
@@ -1979,7 +2008,7 @@ export default function AddChitAuctionPage() {
                         </Stack>}
                 </Box>
             </Card>
-            <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "error_alert" ? 2000 : 1000} onClose={HandleAlertClose} 
+            <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "error_alert" ? 2000 : 1000} onClose={HandleAlertClose}
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
                 <Alert
                     onClose={HandleAlertClose}
@@ -2228,8 +2257,8 @@ export default function AddChitAuctionPage() {
                                         : <TableBody>
                                             {ChitAuctionAddMemberList
                                                 .map((row, index) => (
-                                                        <TableRow hover={!(row.prizedOrNot === "Prized")} tabIndex={-1} role="checkbox"
-                                                            className={row.prizedOrNot === "Prized" && 'rowExists'} 
+                                                    <TableRow hover={!(row.prizedOrNot === "Prized")} tabIndex={-1} role="checkbox"
+                                                        className={row.prizedOrNot === "Prized" && 'rowExists'}
                                                         onClick={(event) => handleClick(event, row, "", index)} sx={{ cursor: 'pointer' }}>
                                                         <TableCell>{row.mem_name}</TableCell>
                                                         <TableCell>{row.memberid}</TableCell>

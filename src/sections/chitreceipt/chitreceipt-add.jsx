@@ -801,16 +801,15 @@ export default function AddChitReceiptPage() {
                         </Stack>
                         : <Stack direction='column'>
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
+                                <div className='box-grp box'>
+                                    <Stack direction='column' className='box-d'>
                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                             Receipt Date
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                <DemoContainer components={['DatePicker']} sx={{ width: 550 }}>
+                                                <DemoContainer components={['DatePicker']} className="date-pick">
                                                     <DatePicker
-                                                        className='input-box1'
                                                         label="From Date"
                                                         disabled={screen === "view"}
                                                         value={ReceiptDate.data}
@@ -824,9 +823,9 @@ export default function AddChitReceiptPage() {
                                 <div className='box-grp  grp-label'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
-                                            Group No
+                                            Group No <span style={{ color: 'red' }}> *</span>
                                         </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                        <Stack direction='row' sx={{ ml: 0,  mt:-1}}>
                                             <Autocomplete
                                                 className='input-box1'
                                                 disablePortal

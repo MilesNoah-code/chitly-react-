@@ -1914,7 +1914,7 @@ export default function AddMemberPage() {
                                                         // required
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="Pancard Number"
+                                                     
                                                         value={PancardNo.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "PancardNo")}
                                                         style={{}} />
@@ -1950,7 +1950,7 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="Member Name"
+                                                     
                                                         variant="outlined"
                                                         value={MemberName.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "MemberName")} />
@@ -1983,7 +1983,7 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="Relationship"
+                                                     
                                                         value={Relationship.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "Relationship")} />
                                                 </Stack>
@@ -2003,7 +2003,7 @@ export default function AddMemberPage() {
                                                         id="outlined-select-currency"
                                                         select
                                                         disabled={screen === "view"}
-                                                        label="Select"
+                                                   
                                                         variant="outlined"
                                                         value={Gender.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "Gender")} >
@@ -2027,7 +2027,7 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="Mobile Number"
+                                                     
                                                         value={MobileNumber.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "MobileNumber")}
                                                         type='number' />
@@ -2038,20 +2038,21 @@ export default function AddMemberPage() {
                                     </Stack>
                                     <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                         <div className='box'>
-                                            <Stack direction='column'>
+                                            <Stack direction='column' className='box-d'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                                     Date of Birth
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
                                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                        <DemoContainer components={['DatePicker']} sx={{ width: 550 }} className="date-pick">
+                                                        <DemoContainer components={['DatePicker']}  className="date-pick">
                                                             <DatePicker
-                                                                className="date-picker-width"
+                                                              
                                                                 value={Dob.data}
                                                                 onChange={HandleDateChange}
                                                                 format="DD-MM-YYYY"
                                                                 maxDate={maxDate}
-                                                                renderInput={(params) => <TextField {...params} />} />
+                                                                renderInput={(params) => <TextField {...params} />}
+                                                           />
                                                         </DemoContainer>
                                                     </LocalizationProvider>
                                                 </Stack>
@@ -2068,7 +2069,7 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="Email"
+                                                   
                                                         value={Email.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "Email")} />
                                                 </Stack>
@@ -2087,7 +2088,7 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="Whatsapp Number"
+                                                     
                                                         value={WhatsappNo.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "WhatsappNo")}
                                                         type='number' />
@@ -2105,7 +2106,7 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="Guardian Name"
+                                                      
                                                         value={GuardName.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "GuardName")} />
                                                 </Stack>
@@ -2124,7 +2125,7 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="Guardian Relation"
+                                                      
                                                         value={GuardRelationship.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "GuardRelationship")} />
                                                 </Stack>
@@ -2141,7 +2142,7 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="Aadhar Number"
+                                                      
                                                         value={AadharNo.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "AadharNo")} />
                                                 </Stack>
@@ -2165,7 +2166,7 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="Address"
+                                                      
                                                         value={Address.data}
                                                         onChange={(e) => AddressDetailsTextValidate(e, "Address")} />
                                                 </Stack>
@@ -2182,7 +2183,7 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="Area Name"
+                                                      
                                                         value={AreaName.data}
                                                         onChange={(e) => AddressDetailsTextValidate(e, "AreaName")} />
                                                 </Stack>
@@ -2199,7 +2200,7 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="City"
+                                                       
                                                         value={City.data}
                                                         onChange={(e) => AddressDetailsTextValidate(e, "City")} />
                                                 </Stack>
@@ -2219,7 +2220,7 @@ export default function AddMemberPage() {
                                                         id="outlined-select-currency"
                                                         select
                                                         disabled={screen === "view"}
-                                                        label="Select"
+                                                   
                                                         variant="outlined"
                                                         value={Country.data}
                                                         onChange={(e) => AddressDetailsTextValidate(e, "Country")} >
@@ -2244,7 +2245,7 @@ export default function AddMemberPage() {
                                                         id="outlined-select-currency"
                                                         select
                                                         disabled={screen === "view"}
-                                                        label="Select"
+                                                    
                                                         variant="outlined"
                                                         value={State.data}
                                                         onChange={(e) => AddressDetailsTextValidate(e, "State")} >
@@ -2274,7 +2275,7 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="Name on Account"
+                                                      
                                                         value={NameOnAccount.data}
                                                         onChange={(e) => BankDetailsTextValidate(e, "NameOnAccount")} />
                                                 </Stack>
@@ -2291,7 +2292,7 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="Account Number"
+                                                     
                                                         value={AccountNumber.data}
                                                         onChange={(e) => BankDetailsTextValidate(e, "AccountNumber")} />
                                                 </Stack>
@@ -2310,7 +2311,7 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="IFSC Code"
+                                                     
                                                         value={IFSCCode.data}
                                                         onChange={(e) => BankDetailsTextValidate(e, "IFSCCode")} />
                                                 </Stack>
@@ -2328,7 +2329,7 @@ export default function AddMemberPage() {
                                                         id="outlined-select-currency"
                                                         select
                                                         disabled={screen === "view"}
-                                                        label="Select"
+                                                     
                                                         variant="outlined"
                                                         value={TypeOfAccount.data}
                                                         onChange={(e) => BankDetailsTextValidate(e, "TypeOfAccount")} >
@@ -2354,7 +2355,7 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="Bank Name"
+                                                    
                                                         value={BankName.data}
                                                         onChange={(e) => BankDetailsTextValidate(e, "BankName")} />
                                                 </Stack>
@@ -2371,7 +2372,7 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="Branch"
+                                                      
                                                         value={Branch.data}
                                                         onChange={(e) => BankDetailsTextValidate(e, "Branch")} />
                                                 </Stack>
@@ -2390,7 +2391,7 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="UPI"
+                                                      
                                                         value={UPI.data}
                                                         onChange={(e) => BankDetailsTextValidate(e, "UPI")} />
                                                 </Stack>
@@ -2473,7 +2474,7 @@ export default function AddMemberPage() {
                                                             <FormControlLabel className="radio-control1" value="Doctrate" control={<Radio />} label="Doctorate" disabled={screen === "view"} />
                                                         </RadioGroup>
                                                     </Stack>
-                                                    <div style={{ marginLeft: "25px", marginTop: "-20px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{SpouseEducation.error}</div>
+                                                    <div style={{ marginLeft: "25px", marginTop: "1px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{SpouseEducation.error}</div>
                                                 </Stack>
                                             </div>
                                         </Stack>
@@ -2685,9 +2686,17 @@ export default function AddMemberPage() {
             </Dialog>
             <Dialog
                 open={ProofAlert}
-                fullWidth={500}
+                fullWidth={false}  
+                maxWidth="xs"
                 aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description" >
+                aria-describedby="alert-dialog-description" 
+                PaperProps={{
+                    style: {
+                        maxWidth: '100%', 
+                        overflow: 'hidden' 
+                    },
+                }}
+              >
                 <IconButton
                     aria-label="close"
                     onClick={HandleProofAlertClose}

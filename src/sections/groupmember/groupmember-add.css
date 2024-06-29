@@ -58,10 +58,7 @@
     font-size: 15px;
   
 }
-input#outlined-required {
-  font-size: 13px !important;
-  height: 1.00em !important;
-}
+
   @media screen and (max-width: 768px) {
     .table-grid{
       width: 100%;
@@ -114,9 +111,7 @@ input#outlined-required {
         font-size: 15px;
        
     }
-    input#outlined-required {
-      font-size: 13px !important;
-    }
+  
    
     .custom-button{
      font-size: 13px;

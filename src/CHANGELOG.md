@@ -1,3 +1,11 @@
+3.4.3
+Date : 29/06/2024
+Type : Development
+Description :  
+        1.login ui fix
+        2.label issue fix
+        3.estimate & auction ui fix
+----------------------------------------------------------------
 3.4.2
 Date : 28/06/2024
 Type : Development

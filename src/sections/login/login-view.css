@@ -1,6 +1,15 @@
 input:-webkit-autofill{
     -webkit-box-shadow: 0 0 0px 1000px white inset !important;
     }
+    .log-site{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+     }
+     .log-site img{
+     width: 100%;
+     height: 100%;
+     }
     @media (max-width:768px){
        .card-log{
         margin: 5px 15px;

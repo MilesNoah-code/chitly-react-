@@ -47,7 +47,7 @@ export default function AddGroupMemberPage() {
     const [MemberListAlert, setMemberListAlert] = useState(false);
     const [MemberListLoading, setMemberListLoading] = useState(true);
     const [MemberList, setMemberList] = useState([]);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const [page, setPage] = useState(0);
     const [order, setOrder] = useState('asc');
     const [selected, setSelected] = useState([]);
@@ -56,14 +56,14 @@ export default function AddGroupMemberPage() {
     const [TotalCount, setTotalCount] = useState('');
     const [SelectedIndex, setSelectedIndex] = useState('');
     const [TicketNoClick, setTicketNoClick] = useState(false);
-    
+
     const [GroupMemberId, setGroupMemberId] = useState('');
 
     useEffect(() => {
         GetGroupMemberList();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [screen]);
-    
+
     useEffect(() => {
         const handleBeforeUnload = (event) => {
             if (ScreenRefresh) {
@@ -364,30 +364,29 @@ export default function AddGroupMemberPage() {
         console.log(item);
         console.log("item")
         console.log(GroupMemberList)
-        const checkIdExists = id => GroupMemberList.some(items => items.memberId === id);
-        if (checkIdExists(item.id)) {
+        // const checkIdExists = id => GroupMemberList.some(items => items.memberId === id);
+        setTicketNoClick(true);
+        const updatedGroupMemberList = [...GroupMemberList];
+        if (SelectedIndex >= 0 && SelectedIndex < updatedGroupMemberList.length) {
+            const updatedItem = {
+                ...updatedGroupMemberList[SelectedIndex],
+                ...item,
+                memberName: item.name,
+                memberId: item.id,
+                memdob: item.dob,
+                action: "edit"
+            };
+            console.log(updatedItem)
+            updatedGroupMemberList[SelectedIndex] = updatedItem;
+            setGroupMemberList(updatedGroupMemberList);
+            GetAddressView(item.id, updatedItem);
+        }
+        setMemberListAlert(false);
+        /* if (checkIdExists(item.id)) {
             setAlertMessage("Already this member is added");
             setAlertFrom("save_alert");
             HandleAlertShow();
-        }else{
-            setTicketNoClick(true);
-            const updatedGroupMemberList = [...GroupMemberList];
-            if (SelectedIndex >= 0 && SelectedIndex < updatedGroupMemberList.length) {
-                const updatedItem = {
-                    ...updatedGroupMemberList[SelectedIndex],
-                    ...item,
-                    memberName: item.name,
-                    memberId: item.id,
-                    memdob: item.dob,
-                    action: "edit"
-                };
-                console.log(updatedItem)
-                updatedGroupMemberList[SelectedIndex] = updatedItem;
-                setGroupMemberList(updatedGroupMemberList);
-                GetAddressView(item.id, updatedItem);
-            }
-            setMemberListAlert(false);
-        }
+        } */
     };
 
     const handleFilterByName = (event) => {
@@ -478,10 +477,10 @@ export default function AddGroupMemberPage() {
                                                                 <TableCell sx={{ width: '10%' }}>
                                                                     {row.tktno !== "1" &&
                                                                         (row.action === "add"
-                                                                        ? <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); setMemberListAlert(true); GetMemberDetail(1, row.id, 3, index); setSelectedIndex(index); }}>
+                                                                            ? <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); setMemberListAlert(true); GetMemberDetail(1, row.id, 3, index); setSelectedIndex(index); }}>
                                                                                 <Iconify icon="icon-park-solid:add-one" />
                                                                             </IconButton>
-                                                                        : <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); setMemberListAlert(true); GetMemberDetail(1, row.id, 3, index); setSelectedIndex(index); }}>
+                                                                            : <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); setMemberListAlert(true); GetMemberDetail(1, row.id, 3, index); setSelectedIndex(index); }}>
                                                                                 <Iconify icon="eva:edit-fill" />
                                                                             </IconButton>)}
                                                                 </TableCell>
@@ -498,154 +497,154 @@ export default function AddGroupMemberPage() {
                                     </Scrollbar>
                                 </Grid>
                                 <Grid  className='table-grid' item xs={12} md={7}>
-                                <div className='detail'>
-                                    <Typography variant="h5" sx={{ mt: 0, ml: 2, }}>
-                                        Group Detail:
-                                    </Typography>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                        <div className='box-grp  grp-label'>
-                                            <Stack direction='column'>
-                                                <Typography variant="subtitle1" className='detail-sub' sx={{ ml: 2, mr: 2, mt: 1, mb: '0px' }}>
-                                                    Group No
-                                                </Typography>
-                                                <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
-                                                <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0 }}>
-                                                {memberDetail.groupno || ''}
-                                            </Typography>
-                                                   
+                                    <div className='detail'>
+                                        <Typography variant="h5" sx={{ mt: 0, ml: 2, }}>
+                                            Group Detail:
+                                        </Typography>
+                                        <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                            <div className='box-grp  grp-label'>
+                                                <Stack direction='column'>
+                                                    <Typography variant="subtitle1" className='detail-sub' sx={{ ml: 2, mr: 2, mt: 1, mb: '0px' }}>
+                                                        Group No
+                                                    </Typography>
+                                                    <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
+                                                        <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0 }}>
+                                                            {memberDetail.groupno || ''}
+                                                        </Typography>
+
+                                                    </Stack>
                                                 </Stack>
-                                            </Stack>
-                                        </div>
-                                        <div className='box-grp'>
-                                            <Stack direction='column'>
-                                                <Typography variant="subtitle1" className='detail-sub' sx={{ mt: 2, ml: 2 }}>
-                                                    Amount
-                                                </Typography>
-                                                <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
+                                            </div>
+                                            <div className='box-grp'>
+                                                <Stack direction='column'>
+                                                    <Typography variant="subtitle1" className='detail-sub' sx={{ mt: 2, ml: 2 }}>
+                                                        Amount
+                                                    </Typography>
+                                                    <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
                                                 <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
-                                                {memberDetail.amount || ''}
-                                            </Typography>
-                                                    
+                                                            {memberDetail.amount || ''}
+                                                        </Typography>
+
+                                                    </Stack>
                                                 </Stack>
-                                            </Stack>
-                                        </div>
-                                    </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                        <div className='box-grp'>
-                                            <Stack direction='column'>
-                                                <Typography variant="subtitle1" className='detail-sub' sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                                    Duration
-                                                </Typography>
-                                                <Stack direction='row' sx={{ ml: 2, }}>
+                                            </div>
+                                        </Stack>
+                                        <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                            <div className='box-grp'>
+                                                <Stack direction='column'>
+                                                    <Typography variant="subtitle1" className='detail-sub' sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                        Duration
+                                                    </Typography>
+                                                    <Stack direction='row' sx={{ ml: 2, }}>
                                                 <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
-                                                {memberDetail.duration || ''}
-                                            </Typography>
-                                                      
+                                                            {memberDetail.duration || ''}
+                                                        </Typography>
+
+                                                    </Stack>
                                                 </Stack>
-                                            </Stack>
-                                        </div>
-                                        <div className='box-grp'>
-                                            <Stack direction='column'>
-                                                <Typography variant="subtitle1" className='detail-sub' sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                                    Auction Mode
-                                                </Typography>
-                                                <Stack direction='row' sx={{ ml: 2, }}>
+                                            </div>
+                                            <div className='box-grp'>
+                                                <Stack direction='column'>
+                                                    <Typography variant="subtitle1" className='detail-sub' sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                        Auction Mode
+                                                    </Typography>
+                                                    <Stack direction='row' sx={{ ml: 2, }}>
                                                 <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
-                                                {memberDetail.auction_mode || ''}
-                                            </Typography>
-                                                       
+                                                            {memberDetail.auction_mode || ''}
+                                                        </Typography>
+
+                                                    </Stack>
                                                 </Stack>
-                                            </Stack>
-                                        </div>
-                                    </Stack>
+                                            </div>
+                                        </Stack>
                                     </div>
                                     <div className='detail'>
-                                    <Typography variant="h5" sx={{ mt: 0, ml: 2, }}>
-                                        Member Detail:
-                                    </Typography>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                        <div className='box-grp'>
-                                            <Stack direction='column'>
-                                                <Typography variant='subtitle1' className='detail-sub' sx={{ mt: 2, ml: 2 }} >
-                                                    Member Name
-                                                </Typography>
+                                        <Typography variant="h5" sx={{ mt: 0, ml: 2, }}>
+                                            Member Detail:
+                                        </Typography>
+                                        <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                            <div className='box-grp'>
+                                                <Stack direction='column'>
+                                                    <Typography variant='subtitle1' className='detail-sub' sx={{ mt: 2, ml: 2 }} >
+                                                        Member Name
+                                                    </Typography>
                                                 <Stack direction='row' sx={{ ml: 2,}}>
                                                 <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
-                                                {memberDetail.memberName || ''}
-                                            </Typography>
+                                                            {memberDetail.memberName || ''}
+                                                        </Typography>
+                                                    </Stack>
                                                 </Stack>
-                                            </Stack>
-                                        </div>
-                                        <div className='box-grp'>
-                                            <Stack direction='column'>
-                                                <Typography variant="subtitle1" className='detail-sub' sx={{ mt: 2, ml: 2 }}>
-                                                    Ticket No
-                                                </Typography>
-                                                <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
+                                            </div>
+                                            <div className='box-grp'>
+                                                <Stack direction='column'>
+                                                    <Typography variant="subtitle1" className='detail-sub' sx={{ mt: 2, ml: 2 }}>
+                                                        Ticket No
+                                                    </Typography>
+                                                    <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
                                                 <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
-                                                {memberDetail.tktno || ''}
-                                            </Typography>
+                                                            {memberDetail.tktno || ''}
+                                                        </Typography>
+                                                    </Stack>
                                                 </Stack>
-                                            </Stack>
-                                        </div>
-                                    </Stack>
+                                            </div>
+                                        </Stack>
                                     <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                        <div className='box-grp'>
+                                            <div className='box-grp'>
                                             <Stack direction='column'>
                                                 <Typography variant='subtitle1' className='detail-sub' sx={{ mt: 2, ml: 2 }} >
                                                     Member Id
-                                                </Typography>
-                                                <Stack direction='row' sx={{ ml: 2, }}>
+                                                    </Typography>
+                                                    <Stack direction='row' sx={{ ml: 2, }}>
                                                 <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
-                                                {memberDetail.memberId || ''}
-                                            </Typography>
+                                                            {memberDetail.memberId || ''}
+                                                        </Typography>
+                                                    </Stack>
                                                 </Stack>
-                                            </Stack>
-                                        </div>
-                                        <div className='box-grp'>
+                                            </div>
+                                            <div className='box-grp'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" className='detail-sub' sx={{ mt: 2, ml: 2 }}>
                                                     D.O.B
-                                                </Typography>
+                                                    </Typography>
                                                 <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
                                                 <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
-                                                {memberDetail.memdob || ''}
-                                            </Typography>
+                                                            {memberDetail.memdob || ''}
+                                                        </Typography>
+                                                    </Stack>
                                                 </Stack>
-                                            </Stack>
-                                        </div>
-                                    </Stack>
+                                            </div>
+                                        </Stack>
                                     <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                        <div className='box-grp  grp-label'>
+                                            <div className='box-grp  grp-label'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" className='detail-sub' sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                                     Mobile Number
-                                                </Typography>
-                                                <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
+                                                    </Typography>
+                                                    <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
                                                 <Typography  variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
-                                                {memberDetail.mapped_phone || ''}
-                                            </Typography>
+                                                            {memberDetail.mapped_phone || ''}
+                                                        </Typography>
+                                                    </Stack>
                                                 </Stack>
-                                            </Stack>
-                                        </div>
-                                        <div className='box-grp grp-label'>
+                                            </div>
+                                            <div className='box-grp grp-label'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" className='detail-sub' sx={{ mt: 2, ml: 2, mr:2 }}>
                                                     Email
-                                                </Typography>
-                                                <Stack direction='row' sx={{ ml: 2, mt: 0, }}>
+                                                    </Typography>
+                                                    <Stack direction='row' sx={{ ml: 2, mt: 0, }}>
                                                 <Typography  variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
-                                                {memberDetail.email || ''}
-                                            </Typography>
+                                                            {memberDetail.email || ''}
+                                                        </Typography>
+                                                    </Stack>
                                                 </Stack>
-                                            </Stack>
-                                        </div>
-                                    </Stack>
+                                            </div>
+                                        </Stack>
                                     </div>
                                     <div className='detail'>
                                     <Typography variant="h5" sx={{ mt: 0, ml:2 }}>
-                                        Address Detail:
-                                    </Typography>
+                                            Address Detail:
+                                        </Typography>
                                         {(memberDetail.addressline1 == null || memberDetail.addressline1 === '') && (memberDetail.city == null || memberDetail.city === '') &&
                                             (memberDetail.state == null || memberDetail.state === '') && (memberDetail.country == null || memberDetail.country === '')
                                             ? null
@@ -734,7 +733,7 @@ export default function AddGroupMemberPage() {
                         </Stack>}
                 </Box>
             </Card>
-            <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "save_alert" ? 2000 : 1000} onClose={HandleAlertClose} 
+            <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "save_alert" ? 2000 : 1000} onClose={HandleAlertClose}
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
                 <Alert
                     onClose={HandleAlertClose}
@@ -747,7 +746,7 @@ export default function AddGroupMemberPage() {
             <Dialog
                 open={MemberListAlert}
                 fullWidth
-                maxWidth="xl"
+                maxWidth='sm'
                 sx={{ justifyContent: 'center', }}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description" >
@@ -783,7 +782,7 @@ export default function AddGroupMemberPage() {
                         <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 1 }}>
                             <Scrollbar>
                                 <TableContainer sx={{ overflow: '', mt: 2 }}>
-                                    <Table sx={{ minWidth: 800 }} stickyHeader>
+                                    <Table sx={{ minWidth: 500 }} stickyHeader>
                                         <TableHeader
                                             order={order}
                                             orderBy={orderBy}
@@ -795,12 +794,13 @@ export default function AddGroupMemberPage() {
                                                 { id: 'Member Name', label: 'Member Name' },
                                                 { id: 'Acc No', label: 'Acc No' },
                                                 { id: 'Mobile Number', label: 'Mobile Number' },
-                                                { id: 'Status', label: 'Status' },
                                             ]} />
                                         {MemberListLoading
-                                            ? <Stack  mt={10} sx={{ alignItems: 'center' }}>
-                                                <img className='load' src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
-                                            </Stack>
+                                            ? <TableRow>
+                                                <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                                                    <img className='load' src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                                                </TableCell>
+                                            </TableRow>
                                             : <TableBody>
                                                 {MemberList
                                                     .map((row) => (
@@ -811,7 +811,7 @@ export default function AddGroupMemberPage() {
                                                             item={row} />))}
                                                 <TableEmptyRows
                                                     height={77}
-                                                    emptyRows={emptyRows(page, 5, MemberList.length)} />
+                                                    emptyRows={emptyRows(page, 10, MemberList.length)} />
                                                 {MemberList.length === 0 && <TableNoData query={filterName} />}
                                             </TableBody>}
                                     </Table>
@@ -824,7 +824,7 @@ export default function AddGroupMemberPage() {
                             count={TotalCount}
                             rowsPerPage={rowsPerPage}
                             onPageChange={handleChangePage}
-                            rowsPerPageOptions={[5, 10, 20]}
+                            rowsPerPageOptions={[10, 20, 50]}
                             onRowsPerPageChange={handleChangeRowsPerPage}
                             sx={{ borderTop: '1px solid #e0e0e0' }}
                         />}

@@ -33,12 +33,12 @@ export default function TableHeader({
           />
         </TableCell>
 
-        {headLabel.map((headCell) => (
+        {headLabel.map((headCell, index) => (
           <TableCell
             key={headCell.id}
             align={headCell.align || 'left'}
             sortDirection={orderBy === headCell.id ? order : false}
-            sx={{ width: headCell.width, minWidth: headCell.minWidth, background: '#edf4fe', color: '#1877f2' }}
+            sx={{ width: headCell.width, minWidth: headCell.minWidth, background: '#edf4fe', color: '#1877f2', ml: index === 0 ? 10 : 0 }}
           >
             <TableSortLabel
               hideSortIcon

@@ -173,14 +173,14 @@ export default function MemberView() {
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2}>
-        <Typography variant="h6" sx={{ color: '#637381' }}>Member List</Typography>
+        <Typography variant="h6" sx={{fontWeight:'600'}}>Member List</Typography>
 
         <Button variant="contained" className='custom-button' onClick={HandleAddMemberClick} sx={{ cursor: 'pointer' }}>
           Add Member
         </Button>
       </Stack>
       <Card>
-        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='30px' className='mbl-view'>
+        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='20px' className='mbl-view'>
           <TextField
             className='search-field'
             placeholder="Search member..."

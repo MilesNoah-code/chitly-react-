@@ -2040,8 +2040,8 @@ export default function AddChitAuctionPage() {
                             </IconButton>
                         </Stack>
                         <Divider sx={{ mt: 3, }}/>
-                        <Scrollbar style={{ height: '650px', Scrollbar: 'none' }}>
-                            <Stack direction='column' sx={{ m: 4 }}>
+                        <Scrollbar style={{ maxHeight: '650px',overflowY: 'auto' }}>
+                            <Stack direction='column' sx={{ m: 4 ,overflowY: 'auto'}} >
                                 <Stack direction='row' spacing={2} alignItems='center'>
                                     <div className='box-grp  grp-label'>
                                         <Stack direction='column'>

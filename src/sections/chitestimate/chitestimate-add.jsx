@@ -1002,21 +1002,21 @@ export default function AddChitEstimatePage() {
             </Stack>
             <Card>
                 <Box className="con" component="form"
-                    sx={{ '& .MuiTextField-root': {  width: '20ch'}, }} noValidate autoComplete="off">
+                    sx={{ '& .MuiTextField-root': {  width: '19ch'}, }} noValidate autoComplete="off">
                     {ChitEstimateLoading || ChitEstimateMemberLoading
                         ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
                             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
-                            <Stack direction='row' spacing={1} alignItems='center' gap='20px' justifyContent="flex-start" sx={{px:3,py:2}} className='stack-box1'>
-                                <div className='box-grp  grp-label'>
+                            <Stack direction='row' spacing={1} alignItems='center'  gap='10px' justifyContent="flex-start" sx={{}} className='stack-box'>
+                                <div className='grp'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 0, mb: '7px' }}>
                                             Group No
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <TextField
-                                                className='input-box1'
+                                                // className='input-box1'
                                                 id="outlined-required"
                                                 disabled
                                                 value={GroupNo.data}
@@ -1025,14 +1025,14 @@ export default function AddChitEstimatePage() {
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupNo.error}</div>
                                     </Stack>
                                 </div>
-                                <div className='box-grp'>
+                                <div className='grp'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ mt: 0, ml: 0, mb:'7px' }}>
                                             Foreman Pr.Due
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <TextField
-                                                className='input-box1'
+                                                // className='input-box1'
                                                 id="outlined-required"
                                                 disabled
                                                 value={ForemanPrDue.data}
@@ -1041,14 +1041,14 @@ export default function AddChitEstimatePage() {
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ForemanPrDue.error}</div>
                                     </Stack>
                                 </div>
-                                <div className='box-grp'>
+                                <div className='grp'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 0, mb: '7px' }}>
                                             Amount <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                className='input-box1'
+                                                // className='input-box1'
                                                 id="outlined-required"
                                                 disabled
                                                 value={Amount.data}
@@ -1057,14 +1057,14 @@ export default function AddChitEstimatePage() {
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Amount.error}</div>
                                     </Stack>
                                 </div>
-                                <div className='box-grp'>
+                                <div className='grp'>
                                     <Stack direction='column' >
                                         <Typography variant="subtitle1" sx={{ ml: 0, mr: 0, mt: 0, mb: '7px' }}>
                                             Dividend <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                className='input-box1'
+                                                // className='input-box1'
                                                 id="outlined-required"
                                                 disabled
                                                 value={Dividend.data}
@@ -1073,14 +1073,14 @@ export default function AddChitEstimatePage() {
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Dividend.error}</div>
                                     </Stack>
                                 </div>
-                                <div className='box-grp'>
+                                <div className='grp'>
                                     <Stack direction='column'>
                                         <Typography variant='subtitle1' sx={{ mt: 0, ml: 0,mb:'7px'}} >
                                             Duration
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                className='input-box1'
+                                                // className='input-box1'
                                                 id="outlined-required"
                                                 disabled
                                                 value={Duration.data}

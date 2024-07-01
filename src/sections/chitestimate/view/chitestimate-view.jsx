@@ -185,7 +185,7 @@ export default function ChitEstimateView() {
         </Button>
       </Stack>
       <Card>
-        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='30px' className='mbl-view'>
+        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='20px' className='mbl-view'>
           <TextField
           className='search-div'
             placeholder="Search Group Code..."

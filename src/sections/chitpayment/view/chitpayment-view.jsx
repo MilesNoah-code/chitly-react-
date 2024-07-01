@@ -203,7 +203,7 @@ export default function ChitPaymentView() {
         </Button>
       </Stack>
       <Card>
-        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='40px' className='mbl-view'>
+        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='20px' className='mbl-view'>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker']} >
               <DatePicker
@@ -211,7 +211,15 @@ export default function ChitPaymentView() {
                 value={FromDate.data}
                 onChange={HandleFromDateChange}
                 disabled={ChitPaymentLoading}
-                format="DD-MM-YYYY" />
+                format="DD-MM-YYYY" 
+                sx={{
+                  '& .MuiInputBase-input': {
+                    padding: '8px', 
+                  },
+                  '& .MuiInputAdornment-root': {
+                    padding: '8px', 
+                  },
+                }}/>
             </DemoContainer>
           </LocalizationProvider>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -221,11 +229,20 @@ export default function ChitPaymentView() {
                 value={ToDate.data}
                 onChange={HandleToDateChange}
                 disabled={ChitPaymentLoading}
-                format="DD-MM-YYYY" />
+                format="DD-MM-YYYY" 
+                sx={{
+                  '& .MuiInputBase-input': {
+                    padding: '8px', 
+                  },
+                  '& .MuiInputAdornment-root': {
+                    padding: '8px', 
+                  },
+                }} />
             </DemoContainer>
           </LocalizationProvider>
           <TextField
             placeholder="Search..."
+         
             value={filterName}
             onChange={(e) => handleFilterByName(e)}
             disabled={ChitPaymentLoading}
@@ -238,6 +255,15 @@ export default function ChitPaymentView() {
                   />
                 </InputAdornment>
               ),
+            }}
+            sx={{
+              paddingTop:'8px',
+              '& .MuiInputBase-input': {
+                padding: '8px', 
+              },
+              '& .MuiInputAdornment-root': {
+                padding: '8px', 
+              },
             }}
           />
         </Stack>

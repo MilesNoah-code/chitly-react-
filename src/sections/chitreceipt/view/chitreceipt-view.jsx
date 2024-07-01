@@ -203,25 +203,41 @@ export default function ChitReceiptView() {
         </Button>
       </Stack>
       <Card>
-        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='40px' className='mbl-view'>
+        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='20px' className='mbl-view'>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker']} >
               <DatePicker
-                label="From Date"
+              
                 value={FromDate.data}
                 onChange={HandleFromDateChange}
                 disabled={ChitReceiptLoading}
-                format="DD-MM-YYYY" />
+                format="DD-MM-YYYY" 
+                sx={{
+                  '& .MuiInputBase-input': {
+                    padding: '8px', 
+                  },
+                  '& .MuiInputAdornment-root': {
+                    padding: '8px', 
+                  },
+                }}/>
             </DemoContainer>
           </LocalizationProvider>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker']}>
               <DatePicker
-                label="To Date"
+               
                 value={ToDate.data}
                 onChange={HandleToDateChange}
                 disabled={ChitReceiptLoading}
-                format="DD-MM-YYYY" />
+                format="DD-MM-YYYY" 
+                sx={{
+                  '& .MuiInputBase-input': {
+                    padding: '8px', 
+                  },
+                  '& .MuiInputAdornment-root': {
+                    padding: '8px', 
+                  },
+                }}/>
             </DemoContainer>
           </LocalizationProvider>
           <TextField
@@ -233,11 +249,21 @@ export default function ChitReceiptView() {
                 <InputAdornment position="start">
                   <Iconify
                     icon="eva:search-fill"
-                    sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
-                  />
+                    sx={{ ml: 0, width: 20, height: 20, color: 'text.disabled' }}
+                  
+                   />
                 </InputAdornment>
               ),
             }}
+            sx={{
+              paddingTop:'8px',
+              '& .MuiInputBase-input': {
+                padding: '8px', 
+              },
+              '& .MuiInputAdornment-root': {
+                padding: '8px', 
+              },
+            }} 
           />
         </Stack>
         {ChitReceiptLoading

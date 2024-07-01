@@ -197,7 +197,7 @@ export default function ReportView() {
             </Stack>
             <Card>
                 <Box component="form"
-                    sx={{ '& .MuiTextField-root': {  width: '20ch', }, }}
+                    sx={{ '& .MuiTextField-root': {  width: '21ch', }, }}
                     noValidate
                     autoComplete="off">
                     <Stack direction='column'>
@@ -220,12 +220,20 @@ export default function ReportView() {
                                                 <InputAdornment position="start">
                                                     <Iconify
                                                         icon="eva:search-fill"
-                                                        sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
+                                                        sx={{ ml: 0, width: 20, height: 20, color: 'text.disabled' }}
                                                     />
                                                 </InputAdornment>
                                             ),
                                         }}
-                                     
+                                        sx={{
+                                           
+                                            '& .MuiInputBase-input': {
+                                              padding: '8px', 
+                                            },
+                                            '& .MuiInputAdornment-root': {
+                                              padding: '8px', 
+                                            },
+                                          }}
                                     />
                                 </Stack>
                                 {PayableReportLoading

@@ -4,7 +4,6 @@ import { useState, useEffect, } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
-import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import { TabList, TabPanel, TabContext } from '@mui/lab';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -1848,7 +1847,7 @@ export default function AddMemberPage() {
     };
 
     return (
-        <Container>
+        <div style={{ marginLeft: '35px', marginRight: '35px' }}>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
                 <Typography variant="h6" sx={{fontWeight:'600'}} >
                     {screenLabel[screen] || "Add Member"}
@@ -2971,6 +2970,6 @@ export default function AddMemberPage() {
                     </Button>
                 </DialogActions>
             </Dialog>
-        </Container>
+        </div>
     );
 }

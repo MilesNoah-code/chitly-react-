@@ -5,12 +5,11 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
 import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-import { Alert, Snackbar, MenuItem, TextField, InputAdornment } from '@mui/material';
+import { Alert, Snackbar, MenuItem, TableRow, TableCell, TextField, InputAdornment, } from '@mui/material';
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
 
@@ -21,7 +20,6 @@ import Scrollbar from 'src/components/scrollbar';
 
 import './member-view.css';
 import { emptyRows, } from '../utils';
-import TableHeader from '../table-head';
 import TableNoData from '../table-no-data';
 import MemberTableRow from '../member-list';
 import TableEmptyRows from '../table-empty-rows';
@@ -31,9 +29,7 @@ export default function MemberView() {
 
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
-  const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(15);
   const Session = localStorage.getItem('apiToken');
@@ -84,23 +80,6 @@ export default function MemberView() {
         // console.log(error);
       })
   }
-
-  const handleSort = (event, id) => {
-    const isAsc = orderBy === id && order === 'asc';
-    if (id !== '') {
-      setOrder(isAsc ? 'desc' : 'asc');
-      setOrderBy(id);
-    }
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = MemberList.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
 
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
@@ -171,7 +150,7 @@ export default function MemberView() {
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
   return (
-    <Container>
+    <div style={{ marginLeft: '35px', marginRight: '35px' }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2}>
         <Typography variant="h6" sx={{fontWeight:'600'}}>Member List</Typography>
 
@@ -180,7 +159,9 @@ export default function MemberView() {
         </Button>
       </Stack>
       <Card>
+
         <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='20px' className='mbl-view'>
+
           <TextField
             className='search-field'
             placeholder="Search member..."
@@ -216,25 +197,18 @@ export default function MemberView() {
           ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
           </Stack>
-          : <Stack>
+          : <Stack sx={{ paddingLeft: 3, paddingRight: 3 }}>
             <Scrollbar>
               <div className="table-container" >
                 <TableContainer sx={{ overflow: 'unset' }}>
                   <Table sx={{ minWidth: 800 }}>
-                    <TableHeader
-                      sx={{ background: 'rgba(24, 119, 242, 0.16)', color: '#1877f2' }}
-                      order={order}
-                      orderBy={orderBy}
-                      rowCount={MemberList.length}
-                      numSelected={selected.length}
-                      onRequestSort={handleSort}
-                      onSelectAllClick={handleSelectAllClick}
-                      headLabel={[
-                        { id: 'Member Name', label: 'Member Name' },
-                        { id: 'Acc No', label: 'Acc No' },
-                        { id: 'Mobile Number', label: 'Mobile Number' },
-                        { id: 'Status', label: 'Status' },
-                        { id: '' },]} />
+                    <TableRow hover tabIndex={-1}>
+                      <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
+                      <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Acc No</TableCell>
+                      <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Mobile Number</TableCell>
+                      <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Status</TableCell>
+                      <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
+                    </TableRow>
                     <TableBody>
                       {MemberList
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -275,6 +249,6 @@ export default function MemberView() {
           {AlertMessage}
         </Alert>
       </Snackbar>
-    </Container>
+    </div>
   );
 }

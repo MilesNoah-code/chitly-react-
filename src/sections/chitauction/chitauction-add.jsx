@@ -1046,7 +1046,7 @@ export default function AddChitAuctionPage() {
         setChitAuctionMemberList(prevState => {
             const updatedList = prevState.map((prev, index) => {
                 // const isEditable = String(item.id).includes('id_') || (index === prevState.length - 1 && !String(item.id).includes('id_'));
-                const isEditable = ChitParameter.length > 0;
+                const isEditable = (ChitAuctionSelectedIndex + 1) === ChitAuctionListTotal && ChitParameter.length > 0;
                 console.log(isEditable)
 
                 if (prev === item && isEditable) {
@@ -1121,27 +1121,8 @@ export default function AddChitAuctionPage() {
     const HandleAlertClose = () => {
         setAlertOpen(false);
         if (AlertFrom === "success") {
-            // window.location.reload();
+            window.location.reload();
             // navigate('/chitauction/list');
-            setChitAuctionAddMemberList([]);
-            setAucFromTime({
-                data: null,
-                data_save: "",
-                error: ""
-            });
-            setAucFromTime({
-                data: null,
-                data_save: "",
-                error: ""
-            });
-            setAucDate({
-                data: null,
-                data_save: "",
-                error: ""
-            });
-            HandleResetClick();
-            GetChitAuctionEntryList();
-            GetChitParameter();
         }
     }
 
@@ -1926,7 +1907,7 @@ export default function AddChitAuctionPage() {
                                                     : <TableBody>
                                                         {ChitAuctionMemberList.map((row, index) => {
                                                             // const isEditable = String(row.id).includes('id_') || (index === ChitAuctionMemberList.length - 1 && !String(row.id).includes('id_'));
-                                                            const isEditable = (!String(row.id).includes('id_')) && ChitParameter.length > 0;
+                                                            const isEditable = (ChitAuctionSelectedIndex+1) === ChitAuctionListTotal && ChitParameter.length > 0;
                                                             console.log("isEditable", isEditable)
                                                             return (
                                                                 <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }} key={index}>
@@ -2232,9 +2213,11 @@ export default function AddChitAuctionPage() {
                                         <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Tkt No</TableCell>
                                     </TableRow>
                                     {ChitAuctionAddMemberListLoading
-                                        ? <Stack mt={10} sx={{ alignItems: 'center', justifyContent: 'center' }}>
-                                            <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
-                                        </Stack>
+                                        ? <TableRow>
+                                            <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                                                <img className='load' src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                                            </TableCell>
+                                        </TableRow>
                                         : <TableBody>
                                             {ChitAuctionAddMemberList
                                                 .map((row, index) => (

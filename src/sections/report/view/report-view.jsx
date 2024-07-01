@@ -187,7 +187,7 @@ export default function ReportView() {
                     Back
                 </Button>
             </Stack>
-            <Card>
+            <Card>            
                     <Stack direction='column'>
                         <TabContext value={TabIndex}>
                             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -225,6 +225,7 @@ export default function ReportView() {
                                     />
 
                                 </Stack>
+                                
                                 : <Stack>
                                     <Scrollbar>
                                         <TableContainer sx={{ overflow: 'unset' }}>

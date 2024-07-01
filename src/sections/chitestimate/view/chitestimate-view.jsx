@@ -5,7 +5,6 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
 import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
@@ -22,7 +21,6 @@ import Scrollbar from 'src/components/scrollbar';
 import { emptyRows } from 'src/sections/member/utils';
 
 import './chitestimate-view.css';
-import TableHeader from '../../member/table-head';
 import TableNoData from '../../member/table-no-data';
 import ErrorLayout from '../../../Error/ErrorLayout';
 import TableEmptyRows from '../../member/table-empty-rows';
@@ -31,9 +29,6 @@ export default function ChitEstimateView() {
 
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
-  const [order, setOrder] = useState('asc');
-  const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(15);
   const Session = localStorage.getItem('apiToken');
@@ -85,23 +80,6 @@ export default function ChitEstimateView() {
         // console.log(error);
       })
   }
-
-  const handleSort = (event, id) => {
-    const isAsc = orderBy === id && order === 'asc';
-    if (id !== '') {
-      setOrder(isAsc ? 'desc' : 'asc');
-      setOrderBy(id);
-    }
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = ChitEstimateList.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -174,10 +152,12 @@ export default function ChitEstimateView() {
     });
   };
 
+  const formatNumber = (number) => new Intl.NumberFormat('en-IN').format(number);
+
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
   return (
-    <Container>
+    <div style={{ marginLeft: '35px', marginRight: '35px' }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
         <Typography variant="h6" sx={{ color: '#637381' }}>Chit Estimate List</Typography>
         <Button variant="contained" className='custom-button' sx={{ display: 'none' }}  onClick={HandleAddChitEstimateClick}>
@@ -185,7 +165,7 @@ export default function ChitEstimateView() {
         </Button>
       </Stack>
       <Card>
-        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='30px' className='mbl-view'>
+        <Stack m={3} direction="row" alignItems="center" gap='30px' className='mbl-view'>
           <TextField
           className='search-div'
             placeholder="Search Group Code..."
@@ -201,15 +181,9 @@ export default function ChitEstimateView() {
                 </InputAdornment>
               ),
             }}
-            sx={{
-              '& .MuiInputBase-input': {
-                padding: '8px', 
-              },
-              '& .MuiInputAdornment-root': {
-                padding: '8px', 
-              },
-            }}
-          />
+            sx={{ '& .MuiInputBase-input': { padding: '8px',  },
+              '& .MuiInputAdornment-root': { padding: '8px',  },
+            }} />
           <TextField select size="small" value={ActiveFilter} onChange={(e) => handleFilterByActive(e)}>
             {options.map((option) => (
               <MenuItem key={option.value} value={option.value}>
@@ -229,31 +203,24 @@ export default function ChitEstimateView() {
           ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
           </Stack>
-          : <Stack>
+          : <Stack sx={{ paddingLeft: 3, paddingRight: 3 }}>
             <Scrollbar>
               <TableContainer sx={{ overflow: 'unset' }}>
                 <Table sx={{ minWidth: 800 }}>
-                  <TableHeader
-                    order={order}
-                    orderBy={orderBy}
-                    rowCount={ChitEstimateList.length}
-                    numSelected={selected.length}
-                    onRequestSort={handleSort}
-                    onSelectAllClick={handleSelectAllClick}
-                    headLabel={[
-                      { id: 'Group Code', label: 'Group Code' },
-                      { id: 'Amount', label: 'Amount' },
-                      { id: 'Duration', label: 'Duration' },
-                      { id: 'Auction Mode', label: 'Auction Mode' },
-                      { id: '' },
-                    ]} />
+                  <TableRow hover tabIndex={-1}>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group Code</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Amount</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Duration</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Auction Mode</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
+                  </TableRow>
                   <TableBody>
                     {ChitEstimateList
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => (
-                        <TableRow hover tabIndex={-1} role="checkbox" selected={selected.indexOf(row.name) !== -1}>
+                        <TableRow hover tabIndex={-1} role="checkbox">
                           <TableCell>{row.groupno}</TableCell>
-                          <TableCell>{row.amount != null && row.amount !== "" ? Math.round(row.amount) : ""}</TableCell>
+                          <TableCell>{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
                           <TableCell>{row.duration}</TableCell>
                           <TableCell>{row.auction_mode}</TableCell>
                           <TableCell align="right">
@@ -293,7 +260,7 @@ export default function ChitEstimateView() {
           {AlertMessage}
         </Alert>
       </Snackbar>
-    </Container>
+    </div>
   );
 }
 

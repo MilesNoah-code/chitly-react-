@@ -5,7 +5,6 @@ import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
-import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
@@ -23,7 +22,6 @@ import Scrollbar from 'src/components/scrollbar';
 
 import './groupmember-add.css';
 import { emptyRows } from '../member/utils';
-import TableHeader from '../member/table-head';
 import TableNoData from '../member/table-no-data';
 import TableEmptyRows from '../member/table-empty-rows';
 import GroupMemberTableRow from './groupmember-member-list';
@@ -49,13 +47,11 @@ export default function AddGroupMemberPage() {
     const [MemberList, setMemberList] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [page, setPage] = useState(0);
-    const [order, setOrder] = useState('asc');
     const [selected, setSelected] = useState([]);
-    const [orderBy, setOrderBy] = useState('name');
     const [filterName, setFilterName] = useState('');
     const [TotalCount, setTotalCount] = useState('');
     const [SelectedIndex, setSelectedIndex] = useState('');
-    const [TicketNoClick, setTicketNoClick] = useState(false);
+    const [TicketNoClick, setTicketNoClick] = useState('');
 
     const [GroupMemberId, setGroupMemberId] = useState('');
 
@@ -63,6 +59,13 @@ export default function AddGroupMemberPage() {
         GetGroupMemberList();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [screen]);
+
+    useEffect(() => {
+        setTotalCount(0);
+        setMemberList([]);
+        GetMemberList(1, filterName, page * rowsPerPage, rowsPerPage);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page, rowsPerPage, filterName]);
 
     useEffect(() => {
         const handleBeforeUnload = (event) => {
@@ -136,43 +139,37 @@ export default function AddGroupMemberPage() {
 
     const GetMemberDetail = (isActive, id, from, index) => {
         setMemberListLoading(true);
-        setTotalCount(0);
-        setMemberList([]);
         const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}?id=${id}`;
         // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
                 // console.log(JSON.stringify(json));
+                setMemberListLoading(false);
                 if (json.success) {
-                    setTicketNoClick(false);
+                    setTicketNoClick('');
                     if (json.list.length > 0) {
                         setMemberDetail(json.list[0]);
+                        setGroupMemberId(json.list[0].id);
+                    } else {
+                        setGroupMemberId('');
                     }
+                    console.log("from", from);
                     if (from === 3) {
-                        if (TicketNoClick) {
+                        /* if (TicketNoClick) {
                             setAlertMessage("please save the already selected Ticket No");
                             setAlertFrom("save_alert");
                             HandleAlertShow();
-                        } else {
-                            // console.log(index)
-                            if (index !== 0) {
-                                GetMemberList(1, filterName, page * rowsPerPage, rowsPerPage);
-                            }
-                            if (json.list.length > 0) {
-                                setGroupMemberId(json.list[0].id)
-                            } else {
-                                setGroupMemberId('');
-                            }
                         }
+                        if (index !== 0) {
+                            GetMemberList(1, filterName, page * rowsPerPage, rowsPerPage);
+                        } */
                     }
                 } else if (json.success === false) {
-                    setMemberListLoading(false);
                     setAlertMessage(json.message);
                     setAlertFrom("failed");
                     HandleAlertShow();
                 } else {
-                    setMemberListLoading(false);
                     setErrorAlert(true);
                     setErrorScreen("network");
                 }
@@ -187,6 +184,7 @@ export default function AddGroupMemberPage() {
     };
 
     const GetMemberList = (isActive, text, start, limit) => {
+        setMemberListLoading(true);
         setTotalCount(0);
         setMemberList([]);
         const url = `${REACT_APP_HOST_URL}${MEMBER_LIST}${isActive}&search=${text}&start=${start}&limit=${limit}`;
@@ -195,6 +193,7 @@ export default function AddGroupMemberPage() {
             .then((response) => response.json())
             .then((json) => {
                 // console.log(JSON.stringify(json));
+                console.log("MemberList", MemberList.length);
                 setMemberListLoading(false);
                 if (json.success) {
                     setTotalCount(json.total);
@@ -328,23 +327,6 @@ export default function AddGroupMemberPage() {
         GroupMemberAddMethod(true);
     };
 
-    const handleSort = (event, id) => {
-        const isAsc = orderBy === id && order === 'asc';
-        if (id !== '') {
-            setOrder(isAsc ? 'desc' : 'asc');
-            setOrderBy(id);
-        }
-    };
-
-    const handleSelectAllClick = (event) => {
-        if (event.target.checked) {
-            const newSelecteds = GroupMemberList.map((n) => n.name);
-            setSelected(newSelecteds);
-            return;
-        }
-        setSelected([]);
-    };
-
     const handleClick = (event, item) => {
         const selectedIndex = selected.indexOf(item.name);
         let newSelected = [];
@@ -365,7 +347,6 @@ export default function AddGroupMemberPage() {
         console.log("item")
         console.log(GroupMemberList)
         // const checkIdExists = id => GroupMemberList.some(items => items.memberId === id);
-        setTicketNoClick(true);
         const updatedGroupMemberList = [...GroupMemberList];
         if (SelectedIndex >= 0 && SelectedIndex < updatedGroupMemberList.length) {
             const updatedItem = {
@@ -376,6 +357,7 @@ export default function AddGroupMemberPage() {
                 memdob: item.dob,
                 action: "edit"
             };
+            setTicketNoClick(updatedItem.tktno);
             console.log(updatedItem)
             updatedGroupMemberList[SelectedIndex] = updatedItem;
             setGroupMemberList(updatedGroupMemberList);
@@ -429,10 +411,33 @@ export default function AddGroupMemberPage() {
         }
     }
 
+    const HandleGroupMemberClick = (event, item, index, from) => {
+        if(from === "3"){
+            event.stopPropagation();
+        }
+        console.log("item1", item, "TicketNoClick1111", TicketNoClick);
+        if (TicketNoClick !== "") {
+            console.log("TicketNoClick", TicketNoClick, "item.tktno", item.tktno);
+            if (TicketNoClick === item.tktno){
+                setMemberListAlert(true);
+                GetMemberDetail(1, item.id, 3, index);
+                setSelectedIndex(index);
+            } else {
+                setAlertMessage("please save the already selected Ticket No");
+                setAlertFrom("save_alert");
+                HandleAlertShow();
+            }
+        } else {
+            setMemberListAlert(true);
+            GetMemberDetail(1, item.id, 3, index);
+            setSelectedIndex(index);
+        }
+    }
+
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
     return (
-        <Container>
+        <div style={{ marginLeft: '35px', marginRight: '35px' }}>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
                 <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
                     Group Member
@@ -456,31 +461,24 @@ export default function AddGroupMemberPage() {
                                     <Scrollbar>
                                         <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
                                             <Table sx={{ minWidth: 350 }}>
-                                                <TableHeader
-                                                    order="asc"
-                                                    orderBy="name"
-                                                    rowCount={GroupMemberList.length}
-                                                    numSelected={selected.length}
-                                                    onRequestSort={handleSort}
-                                                    onSelectAllClick={handleSelectAllClick}
-                                                    headLabel={[
-                                                        { id: 'Ticket No', label: 'Ticket No' },
-                                                        { id: 'Member Name', label: 'Member Name' },
-                                                        { id: 'Action', label: 'Action' },
-                                                    ]} />
+                                                <TableRow hover tabIndex={-1}>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Ticket No</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
+                                                </TableRow>
                                                 <TableBody>
                                                     {GroupMemberList
                                                         .map((row, index) => (
-                                                            <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }} onClick={() => { GetMemberDetail(1, row.id, 2, index); setSelectedIndex(index); }}>
+                                                            <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }} onClick={(event) => HandleGroupMemberClick(event, row, index, "2")}>
                                                                 <TableCell sx={{ width: '25%' }}>{row.tktno}</TableCell>
                                                                 <TableCell sx={{ width: '65%' }}>{row.memberName}</TableCell>
                                                                 <TableCell sx={{ width: '10%' }}>
                                                                     {row.tktno !== "1" &&
                                                                         (row.action === "add"
-                                                                            ? <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); setMemberListAlert(true); GetMemberDetail(1, row.id, 3, index); setSelectedIndex(index); }}>
+                                                                        ? <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => HandleGroupMemberClick(event, row,index, "3")}>
                                                                                 <Iconify icon="icon-park-solid:add-one" />
                                                                             </IconButton>
-                                                                            : <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); setMemberListAlert(true); GetMemberDetail(1, row.id, 3, index); setSelectedIndex(index); }}>
+                                                                        : <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => HandleGroupMemberClick(event, row, index, "3")}>
                                                                                 <Iconify icon="eva:edit-fill" />
                                                                             </IconButton>)}
                                                                 </TableCell>
@@ -783,18 +781,11 @@ export default function AddGroupMemberPage() {
                             <Scrollbar>
                                 <TableContainer sx={{ overflow: '', mt: 2 }}>
                                     <Table sx={{ minWidth: 500 }} stickyHeader>
-                                        <TableHeader
-                                            order={order}
-                                            orderBy={orderBy}
-                                            rowCount={MemberList.length}
-                                            numSelected={selected.length}
-                                            onRequestSort={handleSort}
-                                            onSelectAllClick={handleSelectAllClick}
-                                            headLabel={[
-                                                { id: 'Member Name', label: 'Member Name' },
-                                                { id: 'Acc No', label: 'Acc No' },
-                                                { id: 'Mobile Number', label: 'Mobile Number' },
-                                            ]} />
+                                        <TableRow hover tabIndex={-1}>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Acc No</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Mobile Number</TableCell>
+                                        </TableRow>
                                         {MemberListLoading
                                             ? <TableRow>
                                                 <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
@@ -803,6 +794,7 @@ export default function AddGroupMemberPage() {
                                             </TableRow>
                                             : <TableBody>
                                                 {MemberList
+                                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                                     .map((row) => (
                                                         <GroupMemberTableRow
                                                             key={row.id}
@@ -811,7 +803,7 @@ export default function AddGroupMemberPage() {
                                                             item={row} />))}
                                                 <TableEmptyRows
                                                     height={77}
-                                                    emptyRows={emptyRows(page, 10, MemberList.length)} />
+                                                    emptyRows={emptyRows(page, rowsPerPage, MemberList.length)} />
                                                 {MemberList.length === 0 && <TableNoData query={filterName} />}
                                             </TableBody>}
                                     </Table>
@@ -831,6 +823,6 @@ export default function AddGroupMemberPage() {
                     </Stack>
                 </Card>
             </Dialog>
-        </Container>
+        </div>
     );
 }

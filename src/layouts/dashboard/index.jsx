@@ -136,7 +136,7 @@ export default function DashboardLayout({ children }) {
         <Box
           sx={{ flexShrink: { lg: 0 }, width: { lg: isClicked || isHovered ? '280px' : '55px' }, backgroundColor: 'white',
             transition: 'width 0.3s ease-in-out', zIndex: 1200, // Ensure the Nav drawer appears above other content
-            '&:hover': { width: isClicked || isHovered ? '280px' : '55px', // Maintain expanded width on hover if clicked
+            '&:hover': { width: '55px', // Maintain expanded width on hover if clicked
             }, }} onMouseLeave={handleMouseLeave} >
           {upLg ?
             <Box

@@ -55,7 +55,7 @@ height: 0.453em !important;
 .table-one1 .MuiTableRow-root {
 font-size: 15px !important;
  vertical-align: middle !important;
-
+}
 
 @media (max-width:768px){
 .stack-box1{
@@ -84,3 +84,6 @@ padding: 0px 10px;
       .rowExists {
         background-color: rgba(24, 119, 242, 0.16);
       }
+                        .input-box-date.error {
+                          outline: 2px solid red;
+                        }

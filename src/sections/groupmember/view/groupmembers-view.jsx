@@ -3,12 +3,11 @@ import { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
-import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-import { Alert, Snackbar, TextField, InputAdornment } from '@mui/material';
+import { Alert, Snackbar, TableRow, TableCell, TextField, InputAdornment } from '@mui/material';
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
 
@@ -20,7 +19,6 @@ import Scrollbar from 'src/components/scrollbar';
 import { emptyRows } from 'src/sections/member/utils';
 
 import './groupmember-view.css';
-import TableHeader from '../../member/table-head';
 import TableNoData from '../../member/table-no-data';
 import ErrorLayout from '../../../Error/ErrorLayout';
 import GroupMemberTableRow from '../groupmember-list';
@@ -29,9 +27,7 @@ import TableEmptyRows from '../../member/table-empty-rows';
 export default function GroupMemberView() {
 
   const [page, setPage] = useState(0);
-  const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('name');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(15);
   const Session = localStorage.getItem('apiToken');
@@ -82,23 +78,6 @@ export default function GroupMemberView() {
       })
   }
 
-  const handleSort = (event, id) => {
-    const isAsc = orderBy === id && order === 'asc';
-    if (id !== '') {
-      setOrder(isAsc ? 'desc' : 'asc');
-      setOrderBy(id);
-    }
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = GroupMemberList.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
@@ -146,12 +125,12 @@ export default function GroupMemberView() {
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
   return (
-    <Container>
+    <div style={{ marginLeft: '35px', marginRight: '35px' }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
         <Typography variant="h6" sx={{ color: '#637381' }}>Group Member List</Typography>
       </Stack>
       <Card>
-        <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='30px' className='mbl-view'>
+        <Stack m={3} direction="row" alignItems="center" gap='30px' className='mbl-view'>
           <TextField
             placeholder="Search Group..."
             value={filterName}
@@ -180,25 +159,18 @@ export default function GroupMemberView() {
           ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
           </Stack>
-          : <Stack>
+          : <Stack sx={{ paddingLeft: 3, paddingRight: 3 }}>
             <Scrollbar>
               <TableContainer sx={{ overflow: 'unset' }}>
                 <Table sx={{ minWidth: 800 }}>
-                  <TableHeader
-                    order={order}
-                    orderBy={orderBy}
-                    rowCount={GroupMemberList.length}
-                    numSelected={selected.length}
-                    onRequestSort={handleSort}
-                    onSelectAllClick={handleSelectAllClick}
-                    headLabel={[
-                      { id: 'Group Id', label: 'Group Id' },
-                      { id: 'Group Name', label: 'Group Name' },
-                      { id: 'Duration', label: 'Duration' },
-                      { id: 'Auction Mode', label: 'Auction Mode' },
-                      { id: 'Amount', label: 'Amount' },
-                      { id: '' },
-                    ]} />
+                  <TableRow hover tabIndex={-1}>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group Id</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group Name</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Duration</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Auction Mode</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Amount</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
+                  </TableRow>
                   <TableBody>
                     {GroupMemberList
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -240,6 +212,6 @@ export default function GroupMemberView() {
           {AlertMessage}
         </Alert>
       </Snackbar>
-    </Container>
+    </div>
   );
 }

@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
-import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import TextField from '@mui/material/TextField';
 import TableContainer from '@mui/material/TableContainer';
@@ -12,7 +11,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Box, Stack, Alert, Button, Dialog, ListItem, Snackbar, IconButton, Typography, Autocomplete, ListItemText, InputAdornment } from '@mui/material';
+import { Box, Stack, Alert, Button, Dialog, ListItem, Snackbar, TableRow, TableCell, IconButton, Typography, Autocomplete, ListItemText, InputAdornment } from '@mui/material';
 
 import { GetHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 
@@ -26,7 +25,6 @@ import Scrollbar from 'src/components/scrollbar';
 import { emptyRows } from 'src/sections/member/utils';
 
 import './chitreceipt-add.css';
-import TableHeader from '../member/table-head';
 import TableNoData from '../member/table-no-data';
 import TableEmptyRows from '../member/table-empty-rows';
 import ChitReceiptMemberTableRow from './chitreceipt-member-list';
@@ -93,9 +91,7 @@ export default function AddChitReceiptPage() {
     const [MemberList, setMemberList] = useState([]);
     const [PaidMemberList, setPaidMemberList] = useState([]);
     const [page, setPage] = useState(0);
-    const [order, setOrder] = useState('asc');
     const [selected, setSelected] = useState([]);
-    const [orderBy, setOrderBy] = useState('name');
     const [filterName, setFilterName] = useState('');
     const [SelectMemberList, setSelectMemberList] = useState([]);
     const [filterTicketNo, setfilterTicketNo] = useState('');
@@ -681,23 +677,6 @@ export default function AddChitReceiptPage() {
         });
     };
 
-    const handleSort = (event, id) => {
-        const isAsc = orderBy === id && order === 'asc';
-        if (id !== '') {
-            setOrder(isAsc ? 'desc' : 'asc');
-            setOrderBy(id);
-        }
-    };
-
-    const handleSelectAllClick = (event) => {
-        if (event.target.checked) {
-            const newSelecteds = MemberList.map((n) => n.name);
-            setSelected(newSelecteds);
-            return;
-        }
-        setSelected([]);
-    };
-
     const handleClick = (event, item) => {
         const selectedIndex = selected.indexOf(item.name);
         let newSelected = [];
@@ -779,7 +758,7 @@ export default function AddChitReceiptPage() {
     };
 
     return (
-        <Container>
+        <div style={{ marginLeft: '35px', marginRight: '35px' }}>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
                 <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
                     {screenLabel[screen] || "Add Chit Receipt"}
@@ -1081,21 +1060,14 @@ export default function AddChitReceiptPage() {
                         <Scrollbar>
                             <TableContainer sx={{ overflow: '', mt: 2 }}>
                                 <Table sx={{ minWidth: 530 }} stickyHeader>
-                                    <TableHeader sx={{ width: '100%' }}
-                                        order={order}
-                                        orderBy={orderBy}
-                                        rowCount={MemberList.length}
-                                        numSelected={selected.length}
-                                        onRequestSort={handleSort}
-                                        onSelectAllClick={handleSelectAllClick}
-                                        headLabel={[
-                                            { id: 'Group', label: 'Group' },
-                                            { id: 'Ticket No', label: 'Ticket No' },
-                                            { id: 'Name', label: 'Name' },
-                                            { id: 'Phone', label: 'Phone' },
-                                            { id: 'F.Code', label: 'F.Code' },
-                                            { id: 'Status', label: 'Status' },
-                                        ]} />
+                                    <TableRow hover tabIndex={-1}>
+                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group</TableCell>
+                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Ticket No</TableCell>
+                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Name</TableCell>
+                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Phone</TableCell>
+                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>F.Code</TableCell>
+                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Status</TableCell>
+                                    </TableRow>
                                     {MemberListLoading
                                         ? <Stack mt={10} sx={{ alignItems: 'center' ,justifyContent:'center'}}>
                                             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
@@ -1126,6 +1098,6 @@ export default function AddChitReceiptPage() {
                     </Stack>
                 </Card>
             </Dialog>
-        </Container>
+        </div>
     );
 }

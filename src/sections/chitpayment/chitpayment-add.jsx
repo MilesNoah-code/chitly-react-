@@ -4,7 +4,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
-import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import TextField from '@mui/material/TextField';
 import TableContainer from '@mui/material/TableContainer';
@@ -13,7 +12,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Box, Stack, Alert, Button, Dialog, Divider, Snackbar, IconButton, Typography, InputAdornment } from '@mui/material';
+import { Box, Stack, Alert, Button, Dialog, Divider, Snackbar, TableRow, TableCell, IconButton, Typography, InputAdornment } from '@mui/material';
 
 import { GetHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 
@@ -27,7 +26,6 @@ import Scrollbar from 'src/components/scrollbar';
 import { emptyRows } from 'src/sections/member/utils';
 
 import './chitpayment-add.css';
-import TableHeader from '../member/table-head';
 import TableNoData from '../member/table-no-data';
 import TableEmptyRows from '../member/table-empty-rows';
 import ChitPaymentMemberTableRow from './chitpayment-member-list';
@@ -91,9 +89,7 @@ export default function AddChitPaymentPage() {
     const [UnPaidGroupAlert, setUnPaidGroupAlert] = useState(false);
     const [UnPaidGroupLoading, setUnPaidGroupLoading] = useState(true);
     const [page, setPage] = useState(0);
-    const [order, setOrder] = useState('asc');
     const [selected, setSelected] = useState([]);
-    const [orderBy, setOrderBy] = useState('name');
     const [filterName, setFilterName] = useState('');
     const [SelectUnPaidGroup, setSelectUnPaidGroup] = useState({});
     const [filterGroupCode, setfilterGroupCode] = useState('');
@@ -470,7 +466,7 @@ export default function AddChitPaymentPage() {
             setParticulars(prevState => ({
                 ...prevState,
                 data: text.trim() !== "" ? text : "",
-                error: text.trim() === "" ? "" : ""
+                error: text.trim() === "" ? "* Required" : ""
             }));
         } else if (from === "Values") {
             setValues(prevState => ({
@@ -579,7 +575,7 @@ export default function AddChitPaymentPage() {
                 error: ""
             }));
         }
-        /* if (!Particulars.data) {
+        if (!Particulars.data) {
             IsValidate = false;
             setParticulars(prevState => ({
                 ...prevState,
@@ -590,7 +586,7 @@ export default function AddChitPaymentPage() {
                 ...prevState,
                 error: ""
             }));
-        } */
+        }
         const isLedgerListValid = validateLedgerList();
         if (SelectUnPaidGroup.memberid !== 1){
             if (SelectLedgerList.length === 0) {
@@ -663,23 +659,6 @@ export default function AddChitPaymentPage() {
 
     const HandleUnPaidGroupAlertClose = () => {
         setUnPaidGroupAlert(false);
-    };
-
-    const handleSort = (event, id) => {
-        const isAsc = orderBy === id && order === 'asc';
-        if (id !== '') {
-            setOrder(isAsc ? 'desc' : 'asc');
-            setOrderBy(id);
-        }
-    };
-
-    const handleSelectAllClick = (event) => {
-        if (event.target.checked) {
-            const newSelecteds = UnPaidGroupList.map((n) => n.name);
-            setSelected(newSelecteds);
-            return;
-        }
-        setSelected([]);
     };
 
     const handleClick = (event, item) => {
@@ -865,7 +844,7 @@ export default function AddChitPaymentPage() {
     };
 
     return (
-        <Container>
+        <div style={{ marginLeft: '35px', marginRight: '35px' }}>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
                 <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
                     {screenLabel[screen] || "Add Chit Payment"}
@@ -1243,21 +1222,14 @@ export default function AddChitPaymentPage() {
                         <Scrollbar>
                             <TableContainer sx={{ overflow: '', mt: 2 }}>
                                 <Table sx={{ minWidth: 530 }} stickyHeader>
-                                    <TableHeader sx={{ width: '100%' }}
-                                        order={order}
-                                        orderBy={orderBy}
-                                        rowCount={UnPaidGroupList.length}
-                                        numSelected={selected.length}
-                                        onRequestSort={handleSort}
-                                        onSelectAllClick={handleSelectAllClick}
-                                        headLabel={[
-                                            { id: 'Group No', label: 'Group No' },
-                                            { id: 'Member Name', label: 'Member Name' },
-                                            { id: 'Member Id', label: 'Member Id' },
-                                            { id: 'Auction Date', label: 'Auction Date' },
-                                            { id: 'Ticket No', label: 'Ticket No' },
-                                            { id: 'Install No', label: 'Install No' },
-                                        ]} />
+                                    <TableRow hover tabIndex={-1}>
+                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group No</TableCell>
+                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
+                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Id</TableCell>
+                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Auction Date</TableCell>
+                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Ticket No</TableCell>
+                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Install No</TableCell>
+                                    </TableRow>
                                     {UnPaidGroupLoading
                                         ? <Stack mt={10} sx={{ alignItems: 'center' }}>
                                             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
@@ -1359,6 +1331,6 @@ export default function AddChitPaymentPage() {
                     </Stack>
                 </Card>
             </Dialog>
-        </Container>
+        </div>
     );
 }

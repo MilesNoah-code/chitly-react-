@@ -2,7 +2,6 @@ import { useState, useEffect, } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
-import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
 import { TabList, TabPanel, TabContext } from '@mui/lab';
 import { Box, Tab, Stack, Alert, Table, Button, Dialog, Snackbar, TableRow, TableCell, TableBody, TextField, Typography, TableContainer, InputAdornment, TablePagination } from '@mui/material';
@@ -17,7 +16,6 @@ import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
 import { emptyRows } from 'src/sections/member/utils';
-import TableHeader from 'src/sections/member/table-head';
 import TableNoData from 'src/sections/member/table-no-data';
 import TableEmptyRows from 'src/sections/member/table-empty-rows';
 
@@ -124,14 +122,6 @@ export default function ReportView() {
         setAlertOpen(true);
     };
 
-    const handleSort = (event, id) => {
-        
-    };
-
-    const handleSelectAllClick = (event) => {
-        
-    };
-
     const handleChangePage = (newPage, from) => {
         if (from === "") {
             setPage(newPage);
@@ -183,10 +173,12 @@ export default function ReportView() {
         navigate('/'); 
     }
 
+    const formatNumber = (number) => new Intl.NumberFormat('en-IN').format(number);
+
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
     return (
-        <Container>
+        <div style={{ marginLeft: '35px', marginRight: '35px' }}>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
                 <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 2, mb: 2 }}>
                     Report
@@ -196,10 +188,6 @@ export default function ReportView() {
                 </Button>
             </Stack>
             <Card>
-                <Box component="form"
-                    sx={{ '& .MuiTextField-root': {  width: '21ch', }, }}
-                    noValidate
-                    autoComplete="off">
                     <Stack direction='column'>
                         <TabContext value={TabIndex}>
                             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -235,146 +223,128 @@ export default function ReportView() {
                                             },
                                           }}
                                     />
+
                                 </Stack>
-                                {PayableReportLoading
-                                    ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-                                        <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
-                                    </Stack>
-                                    : <Stack>
-                                        <Scrollbar>
-                                            <TableContainer sx={{ overflow: 'unset' }}>
-                                                <Table sx={{ minWidth: 800 }}>
-                                                    <TableHeader
-                                                        order='asc'
-                                                        orderBy='name'
-                                                        rowCount={PayableReportList.length}
-                                                        numSelected={0}
-                                                        onRequestSort={handleSort}
-                                                        onSelectAllClick={handleSelectAllClick}
-                                                        headLabel={[
-                                                            { id: 'S.No', label: 'S.No' },
-                                                            { id: 'Customer Name', label: 'Customer Name' },
-                                                            { id: 'Acc No', label: 'Acc No' },
-                                                            { id: 'Group No', label: 'Group No' },
-                                                            { id: 'Ticket No', label: 'Ticket No' },
-                                                            { id: 'Total Amount', label: 'Total Amount' },
-                                                        ]} />
-                                                    <TableBody>
-                                                        {PayableReportList
-                                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                                            .map((row, index) => (
-                                                                <TableRow hover tabIndex={-1} role="checkbox">
-                                                                    <TableCell>{(index+1)}</TableCell>
-                                                                    <TableCell>{row.memberName}</TableCell>
-                                                                    <TableCell>{row.memberId}</TableCell>
-                                                                    <TableCell>{row.groupno}</TableCell>
-                                                                    <TableCell>{row.tktno}</TableCell>
-                                                                    <TableCell>{row.chitAmount != null && row.chitAmount !== "" ? Math.round(row.chitAmount) : ""}</TableCell>
-                                                                </TableRow>
-                                                            ))}
-                                                        <TableEmptyRows
-                                                            height={77}
-                                                            emptyRows={emptyRows(page, rowsPerPage, PayableReportList.length)}
-                                                        />
-                                                        {PayableReportList.length === 0 && <TableNoData query="" />}
-                                                    </TableBody>
-                                                </Table>
-                                            </TableContainer>
-                                        </Scrollbar>
-                                        {PayableReportList.length > 0 && <TablePagination
-                                            page={page}
-                                            component="div"
-                                            count={TotalCount}
-                                            rowsPerPage={rowsPerPage}
-                                            onPageChange={(e) => handleChangePage(e, "PayableReportList")}
-                                            rowsPerPageOptions={[15, 30, 50]}
-                                            onRowsPerPageChange={(e) => handleChangeRowsPerPage(e, "PayableReportList")}
-                                        />}
-                                    </Stack>}
-                            </TabPanel>
-                            <TabPanel value="2">
-                                <Stack mb={2} mr={3} direction="row" alignItems="center" gap='40px' className='mbl-view'>
-                                    <TextField
-                                        placeholder="Search Group..."
-                                        value={GroupNoSearch1}
-                                        onChange={(e) => handleFilterByGroupNo(e, "ReceivableReportList")}
-                                        InputProps={{
-                                            startAdornment: (
-                                                <InputAdornment position="start">
-                                                    <Iconify
-                                                        icon="eva:search-fill"
-                                                        sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
+                                : <Stack>
+                                    <Scrollbar>
+                                        <TableContainer sx={{ overflow: 'unset' }}>
+                                            <Table sx={{ minWidth: 800 }}>
+                                                <TableRow hover tabIndex={-1}>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>S.No</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Customer Name</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Acc No</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group No</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Ticket No</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Total Amount</TableCell>
+                                                </TableRow>
+                                                <TableBody>
+                                                    {PayableReportList
+                                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                        .map((row, index) => (
+                                                            <TableRow hover tabIndex={-1} role="checkbox">
+                                                                <TableCell>{(index + 1)}</TableCell>
+                                                                <TableCell>{row.memberName}</TableCell>
+                                                                <TableCell>{row.memberId}</TableCell>
+                                                                <TableCell>{row.groupno}</TableCell>
+                                                                <TableCell>{row.tktno}</TableCell>
+                                                                <TableCell>{row.chitAmount != null && row.chitAmount !== "" ? formatNumber(Math.round(row.chitAmount)) : ""}</TableCell>
+                                                            </TableRow>
+                                                        ))}
+                                                    <TableEmptyRows
+                                                        height={77}
+                                                        emptyRows={emptyRows(page, rowsPerPage, PayableReportList.length)}
                                                     />
-                                                </InputAdornment>
-                                            ),
-                                        }}
-                                    />
+                                                    {PayableReportList.length === 0 && <TableNoData query="" />}
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+                                    </Scrollbar>
+                                    {PayableReportList.length > 0 && <TablePagination
+                                        page={page}
+                                        component="div"
+                                        count={TotalCount}
+                                        rowsPerPage={rowsPerPage}
+                                        onPageChange={(e) => handleChangePage(e, "PayableReportList")}
+                                        rowsPerPageOptions={[15, 30, 50]}
+                                        onRowsPerPageChange={(e) => handleChangeRowsPerPage(e, "PayableReportList")}
+                                    />}
+                                </Stack>}
+                        </TabPanel>
+                        <TabPanel value="2">
+                            <Stack mb={2} mr={3} direction="row" alignItems="center" gap='40px' className='mbl-view'>
+                                <TextField
+                                    placeholder="Search Group..."
+                                    value={GroupNoSearch1}
+                                    onChange={(e) => handleFilterByGroupNo(e, "ReceivableReportList")}
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <Iconify
+                                                    icon="eva:search-fill"
+                                                    sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
+                                                />
+                                            </InputAdornment>
+                                        ),
+                                    }}
+                                />
+                            </Stack>
+                            {ReceivableReportLoading
+                                ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
+                                    <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                                 </Stack>
-                                {ReceivableReportLoading
-                                    ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-                                        <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
-                                    </Stack>
-                                    : <Stack>
-                                        <Scrollbar>
-                                            <TableContainer sx={{ overflow: 'unset' }}>
-                                                <Table sx={{ minWidth: 800 }}>
-                                                    <TableHeader
-                                                        order='asc'
-                                                        orderBy='name'
-                                                        rowCount={ReceivableReportList.length}
-                                                        numSelected={0}
-                                                        onRequestSort={handleSort}
-                                                        onSelectAllClick={handleSelectAllClick}
-                                                        headLabel={[
-                                                            { id: 'S.No', label: 'S.No' },
-                                                            { id: 'Customer Name', label: 'Customer Name' },
-                                                            { id: 'Acc No', label: 'Acc No' },
-                                                            { id: 'Group No', label: 'Group No' },
-                                                            { id: 'Ticket No', label: 'Ticket No' },
-                                                            { id: 'Amount Pending', label: 'Amount Pending' },
-                                                            { id: 'Action', label: 'Action' },
-                                                        ]} />
-                                                    <TableBody>
-                                                        {ReceivableReportList
-                                                            .slice(page1 * rowsPerPage1, page1 * rowsPerPage1 + rowsPerPage1)
-                                                            .map((row, index) => (
-                                                                <TableRow hover tabIndex={-1} role="checkbox">
-                                                                    <TableCell>{(index+1)}</TableCell>
-                                                                    <TableCell>{row.memberName}</TableCell>
-                                                                    <TableCell>{row.memberId}</TableCell>
-                                                                    <TableCell>{row.groupNo}</TableCell>
-                                                                    <TableCell>{row.tktno}</TableCell>
-                                                                    <TableCell>{row.arrears != null && row.arrears !== "" ? Math.round(row.arrears) : ""}</TableCell>
-                                                                    <TableCell>
-                                                                        <IconButton onClick={() => { setInstallmentDetailList(row.detail); setInstallmentDetailListAlert(true); }} sx={{ cursor: 'pointer' }}>
-                                                                            <Iconify icon="eva:eye-fill" />
-                                                                        </IconButton>
-                                                                    </TableCell>
-                                                                </TableRow>
-                                                            ))}
-                                                        <TableEmptyRows
-                                                            height={77}
-                                                            emptyRows={emptyRows(page1, rowsPerPage1, ReceivableReportList.length)}
-                                                        />
-                                                        {ReceivableReportList.length === 0 && <TableNoData query="" />}
-                                                    </TableBody>
-                                                </Table>
-                                            </TableContainer>
-                                        </Scrollbar>
-                                        {ReceivableReportList.length > 0 && <TablePagination
-                                            page={page1}
-                                            component="div"
-                                            count={TotalCount1}
-                                            rowsPerPage={rowsPerPage1}
-                                            onPageChange={(e) => handleChangePage(e, "ReceivableReportList")}
-                                            rowsPerPageOptions={[15, 30, 50]}
-                                            onRowsPerPageChange={(e) => handleChangeRowsPerPage(e, "ReceivableReportList")}
-                                        />}
-                                    </Stack>}
-                            </TabPanel>
-                        </TabContext>
-                    </Stack>
-                </Box>
+                                : <Stack>
+                                    <Scrollbar>
+                                        <TableContainer sx={{ overflow: 'unset' }}>
+                                            <Table sx={{ minWidth: 800 }}>
+                                                <TableRow hover tabIndex={-1}>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>S.No</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Customer Name</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Acc No</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group No</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Ticket No</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Amount Pending</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
+                                                </TableRow>
+                                                <TableBody>
+                                                    {ReceivableReportList
+                                                        .slice(page1 * rowsPerPage1, page1 * rowsPerPage1 + rowsPerPage1)
+                                                        .map((row, index) => (
+                                                            <TableRow hover tabIndex={-1} role="checkbox">
+                                                                <TableCell>{(index + 1)}</TableCell>
+                                                                <TableCell>{row.memberName}</TableCell>
+                                                                <TableCell>{row.memberId}</TableCell>
+                                                                <TableCell>{row.groupNo}</TableCell>
+                                                                <TableCell>{row.tktno}</TableCell>
+                                                                <TableCell>{row.arrears != null && row.arrears !== "" ? formatNumber(Math.round(row.arrears)) : ""}</TableCell>
+                                                                <TableCell>
+                                                                    <IconButton onClick={() => { setInstallmentDetailList(row.detail); setInstallmentDetailListAlert(true); }} sx={{ cursor: 'pointer' }}>
+                                                                        <Iconify icon="eva:eye-fill" />
+                                                                    </IconButton>
+                                                                </TableCell>
+                                                            </TableRow>
+                                                        ))}
+                                                    <TableEmptyRows
+                                                        height={77}
+                                                        emptyRows={emptyRows(page1, rowsPerPage1, ReceivableReportList.length)}
+                                                    />
+                                                    {ReceivableReportList.length === 0 && <TableNoData query="" />}
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+                                    </Scrollbar>
+                                    {ReceivableReportList.length > 0 && <TablePagination
+                                        page={page1}
+                                        component="div"
+                                        count={TotalCount1}
+                                        rowsPerPage={rowsPerPage1}
+                                        onPageChange={(e) => handleChangePage(e, "ReceivableReportList")}
+                                        rowsPerPageOptions={[15, 30, 50]}
+                                        onRowsPerPageChange={(e) => handleChangeRowsPerPage(e, "ReceivableReportList")}
+                                    />}
+                                </Stack>}
+                        </TabPanel>
+                    </TabContext>
+                </Stack>
             </Card>
             <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} 
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
@@ -406,22 +376,15 @@ export default function ReportView() {
                         <Scrollbar>
                             <TableContainer sx={{ mt: 2 }}>
                                 <Table sx={{ minWidth: 300 }} stickyHeader>
-                                    <TableHeader sx={{ width: '100%' }}
-                                        order="asc"
-                                        orderBy="name"
-                                        rowCount={InstallmentDetailList.length}
-                                        numSelected={InstallmentDetailList.length}
-                                        onRequestSort={handleSort}
-                                        onSelectAllClick={handleSelectAllClick}
-                                        headLabel={[
-                                            { id: 'Installment No', label: 'Installment No' },
-                                            { id: 'Amount', label: 'Amount' },
-                                        ]} />
+                                    <TableRow hover tabIndex={-1}>
+                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Installment No</TableCell>
+                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Amount</TableCell>
+                                    </TableRow>
                                     <TableBody>
                                         {InstallmentDetailList.map((row, index) => (
                                             <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }}>
                                                 <TableCell>{row.installno}</TableCell>
-                                                <TableCell>{row.amount != null && row.amount !== "" ? Math.round(row.amount) : ""}</TableCell>
+                                                <TableCell>{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
                                             </TableRow>
                                         ))}
                                         <TableEmptyRows
@@ -435,6 +398,6 @@ export default function ReportView() {
                     </Stack>
                 </Card>
             </Dialog>
-        </Container>
+        </div>
     );
 }

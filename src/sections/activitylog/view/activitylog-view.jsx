@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
-import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
@@ -24,7 +23,6 @@ import Scrollbar from 'src/components/scrollbar';
 import { emptyRows } from 'src/sections/member/utils';
 
 import './activitylog-view.css';
-import TableHeader from '../../member/table-head';
 import TableNoData from '../../member/table-no-data';
 import ErrorLayout from '../../../Error/ErrorLayout';
 import TableEmptyRows from '../../member/table-empty-rows';
@@ -32,9 +30,6 @@ import TableEmptyRows from '../../member/table-empty-rows';
 export default function ActivityLogView() {
 
   const [page, setPage] = useState(0);
-  const [order, setOrder] = useState('asc');
-  const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('name');
   const [rowsPerPage, setRowsPerPage] = useState(15);
   const Session = localStorage.getItem('apiToken');
   const [ActivityLogList, setActivityLogList] = useState([]);
@@ -92,23 +87,6 @@ export default function ActivityLogView() {
       })
   }
 
-  const handleSort = (event, id) => {
-    const isAsc = orderBy === id && order === 'asc';
-    if (id !== '') {
-      setOrder(isAsc ? 'desc' : 'asc');
-      setOrderBy(id);
-    }
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = ActivityLogList.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -152,10 +130,12 @@ export default function ActivityLogView() {
     });
   };
 
+  const formatNumber = (number) => new Intl.NumberFormat('en-IN').format(number);
+
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
   return (
-    <Container>
+    <div style={{ marginLeft: '35px', marginRight: '35px' }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
         <Typography variant="h6" sx={{ color: '#637381' }}>Activity Log List</Typography>
       </Stack>
@@ -186,40 +166,29 @@ export default function ActivityLogView() {
           ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
           </Stack>
-          : <Stack>
+          : <Stack sx={{ paddingLeft: 3, paddingRight: 3 }}>
             <Scrollbar>
               <TableContainer sx={{ overflow: 'unset' }}>
                 <Table sx={{ minWidth: 800 }}>
-                  <TableHeader
-                    order={order}
-                    orderBy={orderBy}
-                    rowCount={ActivityLogList.length}
-                    numSelected={selected.length}
-                    onRequestSort={handleSort}
-                    onSelectAllClick={handleSelectAllClick}
-                    headLabel={[
-                      { id: 'Created On', label: 'Created On' },
-                      { id: 'Entry Date', label: 'Entry Date' },
-                      { id: 'Created By', label: 'Created By' },
-                      { id: 'Domain', label: 'Domain' },
-                      { id: 'Description', label: 'Description' },
-                      { id: 'Type', label: 'Type' },
-                      { id: 'Reference', label: 'Reference' },
-                      { id: 'Amount', label: 'Amount' },
-                    ]} />
+                  <TableRow hover tabIndex={-1}>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Created On</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Created By</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Description</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Type</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Reference</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Amount</TableCell>
+                  </TableRow>
                   <TableBody>
                     {ActivityLogList
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => (
-                        <TableRow hover tabIndex={-1} role="checkbox" selected={selected.indexOf(row.name) !== -1}>
+                        <TableRow hover tabIndex={-1} role="checkbox">
                           <TableCell>{row.created_on ? dayjs(row.created_on).format('DD-MM-YYYY') : ""}</TableCell>
-                          <TableCell>{row.date ? dayjs(row.date).format('DD-MM-YYYY') : ""}</TableCell>
                           <TableCell>{row.username}</TableCell>
-                          <TableCell>{row.domain}</TableCell>
                           <TableCell>{row.description}</TableCell>
                           <TableCell>{row.type}</TableCell>
                           <TableCell>{row.ref_type}</TableCell>
-                          <TableCell>{row.amount != null && row.amount !== "" ? Math.round(row.amount) : ""}</TableCell>
+                          <TableCell>{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
                         </TableRow>
                       ))}
                     <TableEmptyRows
@@ -252,7 +221,7 @@ export default function ActivityLogView() {
           {AlertMessage}
         </Alert>
       </Snackbar>
-    </Container>
+    </div>
   );
 }
 

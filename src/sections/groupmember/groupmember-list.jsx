@@ -28,6 +28,8 @@ export default function GroupMemberTableRow({
     });
   };
 
+  const formatNumber = (number) => new Intl.NumberFormat('en-IN').format(number);
+
   return (
     <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
       <TableCell padding="checkbox" style={{ display: 'none' }}>
@@ -43,7 +45,7 @@ export default function GroupMemberTableRow({
       </TableCell>
       <TableCell>{item.duration}</TableCell>
       <TableCell>{item.auction_mode}</TableCell>
-      <TableCell>{item.amount}</TableCell>
+      <TableCell>{item.amount != null && item.amount !== "" ? formatNumber(Math.round(item.amount)) : ""}</TableCell>
       <TableCell align="right">
         <IconButton onClick={HandleSelectEdit} sx={{ cursor: 'pointer' }}>
           <Iconify icon="eva:edit-fill" />

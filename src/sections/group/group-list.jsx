@@ -140,6 +140,8 @@ export default function GroupTableRow({
     setConfirmAlert(false);
   };
 
+  const formatNumber = (number) => new Intl.NumberFormat('en-IN').format(number);
+
   return (
     <>
       {ErrorAlert
@@ -160,7 +162,7 @@ export default function GroupTableRow({
           </TableCell>
           <TableCell>{item.duration}</TableCell>
           <TableCell>{item.auction_mode}</TableCell>
-          <TableCell>{item.amount}</TableCell>
+          <TableCell>{item.amount != null && item.amount !== "" ? formatNumber(Math.round(item.amount)) : ""}</TableCell>
           <TableCell align="right">
             <IconButton onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>
               <Iconify icon="eva:more-vertical-fill" />

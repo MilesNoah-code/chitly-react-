@@ -14,7 +14,6 @@ import ErrorLayout from 'src/Error/ErrorLayout';
 import AppOrderTimeline from '../app-order-timeline';
 import AppWebsiteVisits from '../app-website-visits';
 import AppWidgetSummary from '../app-widget-summary';
-import './app-view.css';
 export default function AppView() {
 
   const Session = localStorage.getItem('apiToken');

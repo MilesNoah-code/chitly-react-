@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
-import Container from '@mui/material/Container';
 import TextField from '@mui/material/TextField';
 import { Box, Stack, Alert, Button, MenuItem, Snackbar, Typography } from '@mui/material';
 
@@ -391,7 +390,7 @@ export default function AddGroupPage() {
     };
 
     return (
-        <Container>
+        <div style={{ marginLeft: '35px', marginRight: '35px' }}>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
                 <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
                     {screenLabel[screen] || "Add Group"}
@@ -593,6 +592,6 @@ export default function AddGroupPage() {
                     {AlertMessage}
                 </Alert>
             </Snackbar>
-        </Container>
+        </div>
     );
 }

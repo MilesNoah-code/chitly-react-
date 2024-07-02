@@ -111,6 +111,8 @@ export default function ChitEstimateTableRow({
     setConfirmAlert(false);
   };
 
+  const formatNumber = (number) => new Intl.NumberFormat('en-IN').format(number);
+
   return (
     <>
       {ErrorAlert
@@ -122,7 +124,7 @@ export default function ChitEstimateTableRow({
             <Checkbox disableRipple checked={selected} onChange={handleClick} />
           </TableCell>
           <TableCell>{item.groupno}</TableCell>
-          <TableCell>{item.amount != null && item.amount !== "" ? Math.round(item.amount) : ""}</TableCell>
+          <TableCell>{item.amount != null && item.amount !== "" ? formatNumber(Math.round(item.amount)) : ""}</TableCell>
           <TableCell>{item.installfrom}</TableCell>
           <TableCell>{item.auction_mode}</TableCell>
           <TableCell align="right">

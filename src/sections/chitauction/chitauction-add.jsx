@@ -1611,7 +1611,9 @@ export default function AddChitAuctionPage() {
                             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                        <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6} md={6} className='box-grid'>
+                            <Stack direction='row' spacing={1} alignItems='center' className='stack-box'>
                                 <div className='box-grp  grp-label'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -1619,7 +1621,7 @@ export default function AddChitAuctionPage() {
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <TextField
-                                                className='input-box1'
+                                                className='input-box1 md'
                                                 id="outlined-required"
                                                 disabled
                                                 // label="Group No"
@@ -1661,7 +1663,7 @@ export default function AddChitAuctionPage() {
                                     </Stack>
                                 </div>
                             </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                            <Stack direction='row' spacing={1} alignItems='center' className='stack-box'>
                                 <div className='box-grp box'>
                                     <Stack direction='column' className='box-d'>
                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -1722,7 +1724,7 @@ export default function AddChitAuctionPage() {
                                     </Stack>
                                 </div>
                             </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                            <Stack direction='row' spacing={1} alignItems='center' className='stack-box'>
                                 <div className='box-grp box'>
                                     <Stack direction='column' className='box-d'>
                                         <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
@@ -1776,7 +1778,7 @@ export default function AddChitAuctionPage() {
                                     </Stack>
                                 </div>
                             </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                            <Stack direction='row' spacing={1} alignItems='center' className='stack-box'>
                                 <div className='box-grp  grp-label'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -1784,7 +1786,7 @@ export default function AddChitAuctionPage() {
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <TextField
-                                                className='input-box1'
+                                                className='input-box1 md'
                                                 id="outlined-required"
                                                 disabled
                                                 // label="Prized Member"
@@ -1824,7 +1826,7 @@ export default function AddChitAuctionPage() {
                                     </Stack>
                                 </div>
                             </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                            <Stack direction='row' spacing={1} alignItems='center' className='stack-box'>
                                 <div className='box-grp  grp-label'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -1832,7 +1834,7 @@ export default function AddChitAuctionPage() {
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <TextField
-                                                className='input-box1'
+                                                className='input-box1 md'
                                                 id="outlined-required"
                                                 disabled
                                                 // label="Max.A.Disc"
@@ -1872,7 +1874,7 @@ export default function AddChitAuctionPage() {
                                     </Stack>
                                 </div>
                             </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                            <Stack direction='row' spacing={1} alignItems='center' className='stack-box'>
                                 <div className='box-grp'>
                                     <Stack direction='column'>
                                         <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
@@ -1897,10 +1899,12 @@ export default function AddChitAuctionPage() {
                                     </Stack>
                                 </div>
                             </Stack>
-                            <Grid container spacing={2}>
-                                <Grid item xs={5}>
+                            </Grid>
+                          
+                            <Grid item xs={12} sm={6} md={6} className='box-grid'>
+                                <stack direction="column" className="st">
                                     <Scrollbar className="table-one">
-                                        <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
+                                        <TableContainer sx={{ overflow: 'unset', mt: 1 }}>
                                             <Table sx={{ minWidth: 450 }}>
                                                 <TableRow hover tabIndex={-1}>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Inst.No</TableCell>
@@ -1966,11 +1970,10 @@ export default function AddChitAuctionPage() {
                                             </Table>
                                         </TableContainer>
                                     </Scrollbar>
-                                </Grid>
-                                <Grid item xs={7}>
+                              
                                     <Scrollbar className="table-one">
                                         <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
-                                            <Table sx={{ minWidth: 550 }}>
+                                            <Table sx={{ minWidth: 490 }}>
                                                 <TableRow hover tabIndex={-1}>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Tkt.No</TableCell>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
@@ -2035,6 +2038,7 @@ export default function AddChitAuctionPage() {
                                             </Table>
                                         </TableContainer>
                                     </Scrollbar>
+                                    </stack>
                                 </Grid>
                             </Grid>
                             <Stack direction='column' alignItems='flex-end' gap='10px' sx={{ mt: 4, mb: 3, }}>

@@ -1048,7 +1048,7 @@ export default function AddChitAuctionPage() {
         setChitAuctionMemberList(prevState => {
             const updatedList = prevState.map((prev, index) => {
                 // const isEditable = String(item.id).includes('id_') || (index === prevState.length - 1 && !String(item.id).includes('id_'));
-                const isEditable = ((ChitAuctionSelectedIndex + 1) === ChitAuctionListTotal) && ChitParameter.length > 0;;
+                const isEditable = ChitParameter.length > 0;;
                 console.log("isEditable", isEditable)
 
                 if (prev === item && isEditable) {
@@ -1917,7 +1917,7 @@ export default function AddChitAuctionPage() {
                                                     : <TableBody>
                                                         {ChitAuctionMemberList.map((row, index) => {
                                                             // const isEditable = String(row.id).includes('id_') || (index === ChitAuctionMemberList.length - 1 && !String(row.id).includes('id_'));
-                                                            const isEditable = (ChitAuctionSelectedIndex === ChitAuctionListTotal) && ChitParameter.length === 0;;
+                                                            const isEditable = ChitParameter.length > 0;;
                                                             
                                                             console.log("isEditable", isEditable);
                                                             console.log("ChitAuctionSelectedIndex", (ChitAuctionSelectedIndex+1));

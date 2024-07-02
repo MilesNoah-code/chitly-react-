@@ -140,7 +140,7 @@ export default function DashboardLayout({ children }) {
             }, }} onMouseLeave={handleMouseLeave} >
           {upLg ?
             <Box
-              sx={{ height: 1, position: 'fixed', width: isClicked || isHovered ? '280px' : '55px',
+              sx={{ height: 1, position: 'fixed', width: isClicked || isHovered ? '280px' : '55px', backgroundColor: 'white',
                 transition: 'width 0.3s ease-in-out',
                 '&:hover': { width: '270px', zIndex: 9999999, backgroundColor: 'white', },
                 borderRight: (theme) => `dashed 1px ${theme.palette.divider}`, }} >

@@ -1033,7 +1033,7 @@ export default function AddChitEstimatePage() {
     return (
         <div style={{ marginLeft: '35px', marginRight: '35px' }}>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
-                <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
+                <Typography variant="h6" sx={{ fontWeight:'600'}}>
                     Chit Estimate
                 </Typography>
                 <Button variant="contained" className='custom-button' onClick={HandleBack} sx={{ cursor: 'pointer' }}>
@@ -1041,102 +1041,132 @@ export default function AddChitEstimatePage() {
                 </Button>
             </Stack>
             <Card>
-                <Box className="con" component="form"
-                    sx={{ '& .MuiTextField-root': {  width: '20ch'}, }} noValidate autoComplete="off">
+                <Box  component="form"
+                    sx={{ '& .MuiTextField-root': {  width: '19ch'}, }} noValidate autoComplete="off">
                     {ChitEstimateLoading || ChitEstimateMemberLoading
                         ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
                             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
-                            <Stack direction='row' spacing={1} alignItems='center' gap='20px' justifyContent="flex-start" sx={{px:3,py:2}} className='stack-box1'>
-                                <div className='box-grp  grp-label'>
+                            <Stack direction='row' spacing={1} alignItems='center'  gap='20px' justifyContent="flex-start" sx={{m:3, mb:2}} className='stack-box'>
+                                <div className='grp'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 0, mb: '7px' }}>
                                             Group No
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <TextField
-                                                className='input-box1'
+                                                 className='input'
                                                 id="outlined-required"
                                                 disabled
                                                 value={GroupNo.data}
-                                                onChange={(e) => ChitEstimateTextValidate(e, "GroupNo")} />
+                                                onChange={(e) => ChitEstimateTextValidate(e, "GroupNo")} 
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                      fontSize:'14px',
+                                                    }
+                                                  }}/>
                                         </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupNo.error}</div>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500",  }}>{GroupNo.error}</div>
                                     </Stack>
                                 </div>
-                                <div className='box-grp'>
+                                <div className='grp'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ mt: 0, ml: 0, mb:'7px' }}>
                                             Foreman Pr.Due
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <TextField
-                                                className='input-box1'
+                                                className='input'
                                                 id="outlined-required"
                                                 disabled
                                                 value={ForemanPrDue.data}
-                                                onChange={(e) => ChitEstimateTextValidate(e, "ForemanPrDue")} />
+                                                onChange={(e) => ChitEstimateTextValidate(e, "ForemanPrDue")} 
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                      fontSize:'14px',
+                                                    }
+                                                  }}/>
                                         </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{ForemanPrDue.error}</div>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500",  }}>{ForemanPrDue.error}</div>
                                     </Stack>
                                 </div>
-                                <div className='box-grp'>
+                                <div className='grp'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 0, mb: '7px' }}>
                                             Amount <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                className='input-box1'
+                                                className='input'
                                                 id="outlined-required"
                                                 disabled
                                                 value={Amount.data}
-                                                onChange={(e) => ChitEstimateTextValidate(e, "Amount")} />
+                                                onChange={(e) => ChitEstimateTextValidate(e, "Amount")} 
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                      fontSize:'14px',
+                                                    }
+                                                  }}/>
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Amount.error}</div>
                                     </Stack>
                                 </div>
-                                <div className='box-grp'>
+                                <div className='grp'>
                                     <Stack direction='column' >
                                         <Typography variant="subtitle1" sx={{ ml: 0, mr: 0, mt: 0, mb: '7px' }}>
                                             Dividend <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                className='input-box1'
+                                                className='input'
                                                 id="outlined-required"
                                                 disabled
                                                 value={Dividend.data}
-                                                onChange={(e) => ChitEstimateTextValidate(e, "Dividend")} />
+                                                onChange={(e) => ChitEstimateTextValidate(e, "Dividend")} 
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                      fontSize:'14px',
+                                                    }
+                                                  }}/>
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Dividend.error}</div>
                                     </Stack>
                                 </div>
-                                <div className='box-grp'>
+                                <div className='grp'>
                                     <Stack direction='column'>
                                         <Typography variant='subtitle1' sx={{ mt: 0, ml: 0,mb:'7px'}} >
                                             Duration
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                className='input-box1'
+                                                className='input'
                                                 id="outlined-required"
                                                 disabled
                                                 value={Duration.data}
-                                                onChange={(e) => ChitEstimateTextValidate(e, "Duration")} />
+                                                onChange={(e) => ChitEstimateTextValidate(e, "Duration")} 
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                      fontSize:'14px',
+                                                    }
+                                                  }}/>
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Duration.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>
-                            <Grid container spacing={2}>
-                            <Grid item md={6} xs={12}>
+                         
                             <Scrollbar className="table-one">
                                 <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
-                                    <Table sx={{ minWidth: 450 }}>
+                                <Stack sx={{ paddingLeft: 3, paddingRight: 3 }}>
+                                    <Table sx={{ minWidth: 450 }} className='tab-wid'>
                                                 <TableRow hover tabIndex={-1}>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Inst.No</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', width: '8%'}}>Inst.No</TableCell>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Auc.Date</TableCell>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Due.Amt</TableCell>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Less.Amt</TableCell>
@@ -1148,10 +1178,10 @@ export default function AddChitEstimatePage() {
                                             {ChitEstimateList
                                                 .map((row, index) => (
                                                     <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }}>
-                                                        <TableCell>{row.Instno}</TableCell>
+                                                        <TableCell className='no' style={{ width: '30px' }}>{row.Instno}</TableCell>
                                                         <TableCell sx={{ width: '13%' }}>
                                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                                <DemoContainer components={['DatePicker']} sx={{ width:200, overflow: 'hidden', paddingTop: '1px' }}>
+                                                                <DemoContainer components={['DatePicker']} sx={{  overflow: 'hidden', paddingTop: '1px' }}>
                                                                     <DatePicker
                                                                         className={`input-box-date ${row.auctiondate_error && row.auctiondate_error !== "" ? 'error' : ''}`}
                                                                         id="filled-hidden-label-normal"
@@ -1263,23 +1293,28 @@ export default function AddChitEstimatePage() {
                                                                       '& .MuiInputAdornment-root': { padding: '8px', }
                                                                 }}/>
                                                         </TableCell>
+                                                      
                                                     </TableRow>
+                                                   
                                                 ))}
+<
                                                     <div style={{ marginTop: "15px" }} />
-                                                    <div style={{ marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "160px", marginBottom: '10px', }}>{AuctionDateError}</div>
+                                                    <div style={{ marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "160px", marginBottom: '10px', }}>{AuctionDateError}</div
                                             <TableEmptyRows
                                                 height={77}
                                                 emptyRows={emptyRows(0, 15, ChitEstimateList.length)}
                                             />
                                             {ChitEstimateList.length === 0 && <TableNoData query="" />}
                                         </TableBody>
+                                        
                                     </Table>
+                                    </Stack>
                                 </TableContainer>
                             </Scrollbar>
-                            </Grid>
-                            <Grid item md={6} xs={12}>
+                          
                             <Scrollbar className="table-one">
                                 <TableContainer sx={{ overflow: 'unset' }}>
+                                <Stack sx={{ paddingLeft: 3, paddingRight: 3 }}>
                                     <Table sx={{ minWidth: 450 ,mt:5}}>
                                                 <TableRow hover tabIndex={-1}>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Inst.No</TableCell>
@@ -1288,7 +1323,7 @@ export default function AddChitEstimatePage() {
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Name</TableCell>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Acc No</TableCell>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Particulars</TableCell>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Action</TableCell>
                                                 </TableRow>
                                         <TableBody>
                                             {ChitEstimateMemberList
@@ -1384,12 +1419,12 @@ export default function AddChitEstimatePage() {
                                             {ChitEstimateMemberList.length === 0 && <TableNoData query="" />}
                                         </TableBody>
                                     </Table>
+                                    </Stack>
                                 </TableContainer>
                             </Scrollbar>
-                            </Grid>
-                            </Grid>
+                          
                             <Stack direction='column' alignItems='flex-end'>
-                                <Button sx={{ mr: 5, mt: 2, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
+                                <Button sx={{ mr: 3, mt: 2, mb: 3,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                     {Loading
                                         ? (<img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                         : ("Submit")}
@@ -1410,7 +1445,7 @@ export default function AddChitEstimatePage() {
                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 5, mt: 2 }}>
                             Group Member List
                         </Typography>
-                        <Stack mt={1} ml={2} mr={1} direction="row" alignItems="center">
+                        <Stack mt={2} ml={2} mr={1} direction="row" alignItems="center" gap='10px'>
                             <TextField
                                 placeholder="Member Name..."
                                 value={FilterName}
@@ -1425,6 +1460,15 @@ export default function AddChitEstimatePage() {
                                         </InputAdornment>
                                     ),
                                 }}
+                                sx={{
+                                    '& .MuiInputBase-input': {
+                                      padding: '8px',
+                                      fontSize:'14px' 
+                                    },
+                                    '& .MuiInputAdornment-root': {
+                                      padding: '8px', 
+                                    },
+                                  }}
                             />
                             <TextField
                                 placeholder="Ticket No..."
@@ -1438,18 +1482,30 @@ export default function AddChitEstimatePage() {
                                                 icon="eva:search-fill"
                                                 sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
                                             />
-                                        </InputAdornment>),
-                                }} />
+                                        </InputAdornment>
+                                    ),
+                                }} 
+                                  sx={{
+                                    '& .MuiInputBase-input': {
+                                      padding: '8px',
+                                      fontSize:'14px' 
+                                    },
+                                    '& .MuiInputAdornment-root': {
+                                      padding: '8px', 
+                                    },
+                                  }}
+                                  />
                             <IconButton
                                 aria-label="close"
                                 onClick={HandleGroupMemberListAlertClose}
-                                sx={{ position: 'absolute', right: 15, top: 5, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }}
+                                sx={{ position: 'absolute', right: 15, top: 7, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }}
                             >
                                 <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17 }} />
                             </IconButton>
                         </Stack>
                         <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 1 }}>
                             <Scrollbar>
+                            <div style={{ marginLeft: '15px', marginRight: '15px' }}>
                                 <TableContainer sx={{ overflow: '', mt: 2 }}>
                                     <Table sx={{ minWidth: 530 }} stickyHeader>
                                         <TableRow hover tabIndex={-1}>
@@ -1480,6 +1536,7 @@ export default function AddChitEstimatePage() {
                                             </TableBody>}
                                     </Table>
                                 </TableContainer>
+                                </div>
                             </Scrollbar>
                         </Box>
                         {GroupMemberList.length > 0 && <TablePagination

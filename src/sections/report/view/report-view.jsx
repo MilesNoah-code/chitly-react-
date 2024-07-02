@@ -187,39 +187,45 @@ export default function ReportView() {
                     Back
                 </Button>
             </Stack>
-            <Card>
-                <Stack direction='column'>
-                    <TabContext value={TabIndex}>
-                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                            <TabList onChange={handleChange} aria-label="lab API tabs example"
-                                variant="scrollable" scrollButtons="auto">
-                                <Tab label="Payable Report" value="1" />
-                                <Tab label="Receivable Report" value="2" />
-                            </TabList>
-                        </Box>
-                        <TabPanel value="1">
-                            <Stack mb={2} mr={3} direction="row" alignItems="center" gap='30px' className='mbl-view'>
-                                <TextField
-                                    placeholder="Search Group..."
-                                    value={GroupNoSearch}
-                                    onChange={(e) => handleFilterByGroupNo(e, "PayableReportList")}
-                                    InputProps={{
-                                        startAdornment: (
-                                            <InputAdornment position="start">
-                                                <Iconify
-                                                    icon="eva:search-fill"
-                                                    sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
-                                                />
-                                            </InputAdornment>
-                                        ),
-                                    }}
+            <Card>            
+                    <Stack direction='column'>
+                        <TabContext value={TabIndex}>
+                            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                <TabList onChange={handleChange} aria-label="lab API tabs example"
+                                    variant="scrollable" scrollButtons="auto">
+                                    <Tab label="Payable Report" value="1" />
+                                    <Tab label="Receivable Report" value="2" />
+                                </TabList>
+                            </Box>
+                            <TabPanel value="1">
+                                <Stack mb={2} mr={3} direction="row" alignItems="center" gap='30px' className='mbl-view'>
+                                    <TextField
+                                        placeholder="Search Group..."
+                                        value={GroupNoSearch}
+                                        onChange={(e) => handleFilterByGroupNo(e, "PayableReportList")}
+                                        InputProps={{
+                                            startAdornment: (
+                                                <InputAdornment position="start">
+                                                    <Iconify
+                                                        icon="eva:search-fill"
+                                                        sx={{ ml: 0, width: 20, height: 20, color: 'text.disabled' }}
+                                                    />
+                                                </InputAdornment>
+                                            ),
+                                        }}
+                                        sx={{
+                                           
+                                            '& .MuiInputBase-input': {
+                                              padding: '8px', 
+                                            },
+                                            '& .MuiInputAdornment-root': {
+                                              padding: '8px', 
+                                            },
+                                          }}
+                                    />
 
-                                />
-                            </Stack>
-                            {PayableReportLoading
-                                ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-                                    <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                                 </Stack>
+                                
                                 : <Stack>
                                     <Scrollbar>
                                         <TableContainer sx={{ overflow: 'unset' }}>

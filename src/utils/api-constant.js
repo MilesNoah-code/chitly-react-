@@ -71,4 +71,4 @@ export const PAYABLE_REPORT_LIST = "api/reports/payableReport?groupNo=";
 export const RECEIVABLE_REPORT_LIST = "api/reports/receivableReport?groupNo=";
 export const CHIT_AUCTION_MEMBER_LIST = "api/auctionMemberDetail/listAll?auctionEntryId=";
 export const CHIT_AUCTION_ENTRY_DELETE = "api/auction/delete/";
-export const ESTIMATE_LIST_BASED_INSTALL_TKT = "api/chitEstimate/listBasedInstAndTkt";
+export const ESTIMATE_LIST_BASED_INSTALL_TKT = "api/chitEstimate/listBasedInstAndTkt?";

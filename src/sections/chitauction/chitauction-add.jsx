@@ -393,6 +393,8 @@ export default function AddChitAuctionPage() {
                             setSelectAuctionList(updatedFirstItem);
                             setChitAuctionMemberList(updatedList);
                         }
+                    } else {
+                        setCompanyMemberId(0);
                     }
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
@@ -412,7 +414,7 @@ export default function AddChitAuctionPage() {
     }
 
     const GetChitEstimateList = (install_no) => {
-        const url = `${REACT_APP_HOST_URL}${ESTIMATE_LIST_BASED_INSTALL_TKT}`;
+        const url = `${REACT_APP_HOST_URL}${ESTIMATE_LIST_BASED_INSTALL_TKT}groupId=${data.id}&installNo=${install_no}`;
         console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -1046,8 +1048,8 @@ export default function AddChitAuctionPage() {
         setChitAuctionMemberList(prevState => {
             const updatedList = prevState.map((prev, index) => {
                 // const isEditable = String(item.id).includes('id_') || (index === prevState.length - 1 && !String(item.id).includes('id_'));
-                const isEditable = (ChitAuctionSelectedIndex + 1) === ChitAuctionListTotal && ChitParameter.length > 0;
-                console.log(isEditable)
+                const isEditable = ((ChitAuctionSelectedIndex + 1) === ChitAuctionListTotal) && ChitParameter.length > 0;;
+                console.log("isEditable", isEditable)
 
                 if (prev === item && isEditable) {
                     if (from === "maxaucdisc") {
@@ -1369,7 +1371,8 @@ export default function AddChitAuctionPage() {
                 HandlePaymentNotSettledAlert(item, index);
             }
         }else{
-            const checkIdExists = id => ChitAuctionMemberList.some(items => items.prized_memid === id);
+            console.log("ChitAuctionMemberList", ChitAuctionMemberList);
+            const checkIdExists = id => ChitAuctionMemberList.some(items => items.memberid === id);
             const checkTktnoExists = tktno => ChitAuctionMemberList.some(items => String(items.tktno) === tktno);
             console.log(checkIdExists(item.memberid), " -- ", checkTktnoExists(item.tktno));
             // row.prizedOrNot === "notPrized"
@@ -1483,8 +1486,15 @@ export default function AddChitAuctionPage() {
     }
 
     function handleItemUpdate(item){
-        console.log("handleItemUpdate", item )
+        console.log("handleItemUpdate", item );
+        const checkIdExists = id => ChitAuctionMemberList.some(items => items.memberid === id);
+        const checkTktnoExists = tktno => ChitAuctionMemberList.some(items => String(items.tktno) === tktno);
+        console.log(checkIdExists(item.memberid), " --- ", checkTktnoExists(item.tktno));
         if (item.prizedOrNot === "Prized") {
+            setAlertMessage("Already this member is added");
+            setAlertFrom("error_alert");
+            HandleAlertShow();
+        } else if (checkIdExists(item.memberid) && checkTktnoExists(item.tktno)) {
             setAlertMessage("Already this member is added");
             setAlertFrom("error_alert");
             HandleAlertShow();
@@ -1907,8 +1917,12 @@ export default function AddChitAuctionPage() {
                                                     : <TableBody>
                                                         {ChitAuctionMemberList.map((row, index) => {
                                                             // const isEditable = String(row.id).includes('id_') || (index === ChitAuctionMemberList.length - 1 && !String(row.id).includes('id_'));
-                                                            const isEditable = (ChitAuctionSelectedIndex+1) === ChitAuctionListTotal && ChitParameter.length > 0;
-                                                            console.log("isEditable", isEditable)
+                                                            const isEditable = (ChitAuctionSelectedIndex === ChitAuctionListTotal) && ChitParameter.length === 0;;
+                                                            
+                                                            console.log("isEditable", isEditable);
+                                                            console.log("ChitAuctionSelectedIndex", (ChitAuctionSelectedIndex+1));
+                                                            console.log("ChitAuctionListTotal", ChitAuctionListTotal);
+                                                            // console.log("ChitParameter.length", ChitParameter.length);
                                                             return (
                                                                 <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }} key={index}>
                                                                     <TableCell>{row.tktno}</TableCell>
@@ -1994,7 +2008,7 @@ export default function AddChitAuctionPage() {
                 aria-describedby="alert-dialog-description" >
                 <Card>
                     <Stack>
-                        <Stack mt={2} ml={2} mr={1} direction="row" alignItems="center" >
+                        <Stack ml={1} mr={1} direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
                             <Stack direction='column'>
                                 <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
                                     { `Group No - ${GroupNo.data}`}
@@ -2004,26 +2018,23 @@ export default function AddChitAuctionPage() {
                                 aria-label="close"
                                 className='btn-close'
                                 onClick={() => setShowEstimateListAlert(false)}
-                                sx={{ position: 'absolute', right: 2, top: 0, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
+                                sx={{ position: 'absolute', right: 10, top: 12, color: (theme) => theme.palette.grey[500], cursor: 'pointer', }} >
                                 <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                             </IconButton>
                         </Stack>
-                        <Divider sx={{ mt: 3, }}/>
-                        <Scrollbar style={{ height: '650px', Scrollbar: 'none' }}>
-                            <Stack direction='column' sx={{ m: 4 }}>
+                        <Divider sx={{ mt: 2, }}/>
+                        <Scrollbar style={{ Scrollbar: 'none' }}>
+                            <Stack direction='column' sx={{ m: 3 }}>
                                 <Stack direction='row' spacing={2} alignItems='center'>
                                     <div className='box-grp  grp-label'>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 Chit Amount
                                             </Typography>
-                                            <Stack direction='row' sx={{ mt: 2 }}>
-                                                <TextField
-                                                    className='input-box2'
-                                                    id="outlined-required"
-                                                    disabled
-                                                    label="Chit Amount"
-                                                    value={ChitEstimateList.payment || ""} />
+                                            <Stack direction='row'>
+                                                <Typography variant="subtitle1" className='show-estimate'>
+                                                    {ChitEstimateList.payment || "--"}
+                                                </Typography>
                                             </Stack>
                                         </Stack>
                                     </div>
@@ -2032,30 +2043,24 @@ export default function AddChitAuctionPage() {
                                             <Typography variant="subtitle1">
                                                 Ticket No
                                             </Typography>
-                                            <Stack direction='row' sx={{ mt: 2 }}>
-                                                <TextField
-                                                    className='input-box2'
-                                                    id="outlined-required"
-                                                    disabled
-                                                    label="Ticket No"
-                                                    value={ChitEstimateList.Instno || ""} />
+                                            <Stack direction='row'>
+                                                <Typography variant="subtitle1" className='show-estimate'>
+                                                    {ChitEstimateList.ticket_no || "--"}
+                                                </Typography>
                                             </Stack>
                                         </Stack>
                                     </div>
                                 </Stack>
-                                <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 3 }}>
+                                <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 1 }}>
                                     <div className='box-grp  grp-label'>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 Installment No
                                             </Typography>
-                                            <Stack direction='row' sx={{ mt: 2 }}>
-                                                <TextField
-                                                    className='input-box2'
-                                                    id="outlined-required"
-                                                    disabled
-                                                    label="Installment No"
-                                                    value={ChitEstimateList.Instno || ""} />
+                                            <Stack direction='row'>
+                                                <Typography variant="subtitle1" className='show-estimate'>
+                                                    {ChitEstimateList.Instno || "--"}
+                                                </Typography>
                                             </Stack>
                                         </Stack>
                                     </div>
@@ -2064,30 +2069,24 @@ export default function AddChitAuctionPage() {
                                             <Typography variant="subtitle1">
                                                 Member Name
                                             </Typography>
-                                            <Stack direction='row' sx={{ mt: 2 }}>
-                                                <TextField
-                                                    className='input-box2'
-                                                    id="outlined-required"
-                                                    disabled
-                                                    label="Member Name"
-                                                    value={ChitEstimateList.name || ""} />
+                                            <Stack direction='row'>
+                                                <Typography variant="subtitle1" className='show-estimate'>
+                                                    {ChitEstimateList.member_names || "--"}
+                                                </Typography>
                                             </Stack>
                                         </Stack>
                                     </div>
                                 </Stack>
-                                <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 3 }}>
+                                <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 1 }}>
                                     <div className='box-grp  grp-label'>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1" >
                                                 Auction Date
                                             </Typography>
-                                            <Stack direction='row' sx={{ mt: 2 }}>
-                                                <TextField
-                                                    className='input-box2'
-                                                    id="outlined-required"
-                                                    disabled
-                                                    label="Auction Date"
-                                                    value={ChitEstimateList.auctiondate ? dayjs(ChitEstimateList.auctiondate).format('DD-MM-YYYY') : ""} />
+                                            <Stack direction='row'>
+                                                <Typography variant="subtitle1" className='show-estimate'>
+                                                    {ChitEstimateList.auctiondate ? dayjs(ChitEstimateList.auctiondate).format('DD-MM-YYYY') : "--"}
+                                                </Typography>
                                             </Stack>
                                         </Stack>
                                     </div>
@@ -2096,30 +2095,24 @@ export default function AddChitAuctionPage() {
                                             <Typography variant="subtitle1">
                                                 Less Amount
                                             </Typography>
-                                            <Stack direction='row' sx={{ mt: 2 }}>
-                                                <TextField
-                                                    className='input-box2'
-                                                    id="outlined-required"
-                                                    disabled
-                                                    label="Less Amount"
-                                                    value={ChitEstimateList.less_amount || ""} />
+                                            <Stack direction='row'>
+                                                <Typography variant="subtitle1" className='show-estimate'>
+                                                    {ChitEstimateList.less_amount || "--"}
+                                                </Typography>
                                             </Stack>
                                         </Stack>
                                     </div>
                                 </Stack>
-                                <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 3 }}>
+                                <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 1 }}>
                                     <div className='box-grp  grp-label'>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 Payment Amount
                                             </Typography>
-                                            <Stack direction='row' sx={{ mt: 2 }}>
-                                                <TextField
-                                                    className='input-box2'
-                                                    id="outlined-required"
-                                                    disabled
-                                                    label="Payment Amount"
-                                                    value={ChitEstimateList.payment || ""} />
+                                            <Stack direction='row'>
+                                                <Typography variant="subtitle1" className='show-estimate'>
+                                                    {ChitEstimateList.payment || "--"}
+                                                </Typography>
                                             </Stack>
                                         </Stack>
                                     </div>
@@ -2128,30 +2121,24 @@ export default function AddChitAuctionPage() {
                                             <Typography variant="subtitle1">
                                                 Particulars
                                             </Typography>
-                                            <Stack direction='row' sx={{ mt: 2 }}>
-                                                <TextField
-                                                    className='input-box2'
-                                                    id="outlined-required"
-                                                    disabled
-                                                    label="Particulars"
-                                                    value={ChitEstimateList.particulars || ""} />
+                                            <Stack direction='row'>
+                                                <Typography variant="subtitle1" className='show-estimate'>
+                                                    {ChitEstimateList.particulars || "--"} 
+                                                </Typography>
                                             </Stack>
                                         </Stack>
                                     </div>
                                 </Stack>
-                                <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 3 }}>
+                                <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 1 }}>
                                     <div className='box-grp  grp-label'>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 Due Amount
                                             </Typography>
-                                            <Stack direction='row' sx={{ mt: 2 }}>
-                                                <TextField
-                                                    className='input-box2'
-                                                    id="outlined-required"
-                                                    disabled
-                                                    label="Due Amount"
-                                                    value={ChitEstimateList.dueamount || ""} />
+                                            <Stack direction='row'>
+                                                <Typography variant="subtitle1" className='show-estimate'>
+                                                    {ChitEstimateList.dueamount || "--"}
+                                                </Typography>
                                             </Stack>
                                         </Stack>
                                     </div>
@@ -2220,14 +2207,17 @@ export default function AddChitAuctionPage() {
                                         </TableRow>
                                         : <TableBody>
                                             {ChitAuctionAddMemberList
-                                                .map((row, index) => (
-                                                    <TableRow hover={!(row.prizedOrNot === "Prized")} tabIndex={-1} role="checkbox"
-                                                        className={row.prizedOrNot === "Prized" && 'rowExists'}
+                                                .map((row, index) => {
+                                                    const checkIdExists = id => ChitAuctionMemberList.some(items => items.memberid === id);
+                                                    const checkTktnoExists = tktno => ChitAuctionMemberList.some(items => String(items.tktno) === tktno);
+                                                    return(
+                                                        <TableRow hover={!(row.prizedOrNot === "Prized")} tabIndex={-1} role="checkbox"
+                                                            className={(row.prizedOrNot === "Prized" || (checkIdExists(row.memberid) && checkTktnoExists(row.tktno))) && 'rowExists'}
                                                         onClick={(event) => handleClick(event, row, "", index)} sx={{ cursor: 'pointer' }}>
                                                         <TableCell>{row.mem_name}</TableCell>
                                                         <TableCell>{row.memberid}</TableCell>
                                                         <TableCell>{row.tktno}</TableCell>
-                                                    </TableRow>))}
+                                                    </TableRow>)})}
                                             <TableEmptyRows
                                                 height={77}
                                                 emptyRows={emptyRows(page, 5, ChitAuctionAddMemberList.length)} />

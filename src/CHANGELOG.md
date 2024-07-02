@@ -1,3 +1,17 @@
+3.4.5
+Date : 02/07/2024
+Type : Development
+Description :  
+        1.auction -> company member kum foreman commission issue fix
+        2.group member -> group member update id not pass issue fix
+        3.chit payment -> particulars -> required not working
+        4.Auction screen -> Show estimate api change
+        5.chit estimate -> except gst add mandatory for all
+        6.Auction -> Company member auction entry edit not allow member to add restriction add
+        7.All View Screen amount Need thousand separator
+        8.All Screen container start and end set
+        9.Auction Add Member popup loading not center
+----------------------------------------------------------------
 3.4.4
 Date : 29/06/2024
 Type : Development

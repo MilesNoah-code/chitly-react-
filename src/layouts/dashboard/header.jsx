@@ -26,7 +26,7 @@ export default function Header({ onOpenNav }) {
   
    
   const renderContent = (
-    <>
+    <div>
     <Stack>
     <div className='box-logo'>
     <img className="logo-chitly" src="/assets/images/img/chit.png" alt="Loading"  />
@@ -45,18 +45,19 @@ export default function Header({ onOpenNav }) {
         <AccountPopover />
         
       </Stack>
-    </>
+    </div>
   );
 
   return (
-    <AppBar  className="custom-header"
+    <AppBar  className="custom-header head-box"
       sx={{
-        boxShadow: 'none',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1) !important' , // Adding box-shadow effect
         height: HEADER.H_MOBILE,
         zIndex: theme.zIndex.appBar + 1,
         backgroundColor: 'white',
         ...bgBlur({
           color: theme.palette.background.default,
+          
         }),
         transition: theme.transitions.create(['height'], {
           duration: theme.transitions.duration.shorter,
@@ -68,7 +69,9 @@ export default function Header({ onOpenNav }) {
       }}
     >
       <Toolbar
+    
         sx={{
+         
           height: 1,
           px: { lg: 5 },
           justifyContent: 'space-between',

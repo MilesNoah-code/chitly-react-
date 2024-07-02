@@ -392,7 +392,7 @@ export default function AddGroupPage() {
     return (
         <div style={{ marginLeft: '35px', marginRight: '35px' }}>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
-                <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
+                <Typography variant="h6" sx={{fontWeight:'600'}}>
                     {screenLabel[screen] || "Add Group"}
                 </Typography>
                 <Button variant="contained" className='custom-button' onClick={HandleBack} sx={{ cursor: 'pointer' }}>
@@ -420,7 +420,13 @@ export default function AddGroupPage() {
                                             disabled={screen === "view"}
                                             // label="Group Code"
                                             value={GroupCode.data}
-                                            onChange={(e) => GroupTextValidate(e, "GroupCode")} />
+                                            onChange={(e) => GroupTextValidate(e, "GroupCode")} 
+                                            sx={{
+                                                '& .MuiInputBase-input': {
+                                                  padding: '8px',
+                                                  fontSize:'14px' ,
+                                                }
+                                              }} />
                                     </Stack>
                                     <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupCode.error}</div>
                                 </Stack>
@@ -438,7 +444,13 @@ export default function AddGroupPage() {
                                             // label="Amount"
                                             value={Amount.data}
                                             onChange={(e) => GroupTextValidate(e, "Amount")}
-                                            type='number' />
+                                            type='number' 
+                                            sx={{
+                                                '& .MuiInputBase-input': {
+                                                  padding: '8px',
+                                                  fontSize:'14px' ,
+                                                }
+                                              }} />
                                     </Stack>
                                     <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Amount.error}</div>
                                 </Stack>
@@ -458,7 +470,13 @@ export default function AddGroupPage() {
                                             // label="Duration"
                                             value={Duration.data}
                                             onChange={(e) => GroupTextValidate(e, "Duration")}
-                                            type='number' />
+                                            type='number' 
+                                            sx={{
+                                                '& .MuiInputBase-input': {
+                                                  padding: '8px',
+                                                  fontSize:'14px' ,
+                                                }
+                                              }}  />
                                     </Stack>
                                     <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Duration.error}</div>
                                 </Stack>
@@ -476,7 +494,13 @@ export default function AddGroupPage() {
                                             // label="EM Due"
                                             value={EMDue.data}
                                             onChange={(e) => GroupTextValidate(e, "EMDue")}
-                                            type='number' />
+                                            type='number' 
+                                            sx={{
+                                                '& .MuiInputBase-input': {
+                                                  padding: '8px',
+                                                  fontSize:'14px' ,
+                                                }
+                                              }} />
                                     </Stack>
                                     <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{EMDue.error}</div>
                                 </Stack>
@@ -501,7 +525,13 @@ export default function AddGroupPage() {
                                             // }))}
                                             value={FMPRDue.data}
                                             onChange={(e) => GroupTextValidate(e, "FMPRDue")}
-                                            type='number' >
+                                            type='number' 
+                                            sx={{
+                                                '& .MuiInputBase-input': {
+                                                  padding: '8px',
+                                                  fontSize:'14px' ,
+                                                }
+                                              }} >
                                             {FMPRDUEArray.map((option) => (
                                                 <MenuItem key={option} value={option}>
                                                     {option}
@@ -528,7 +558,12 @@ export default function AddGroupPage() {
                                             //     placeholder: "Dividend"
                                             // }))}
                                             value={Dividend.data}
-                                            onChange={(e) => GroupTextValidate(e, "Dividend")} >
+                                            onChange={(e) => GroupTextValidate(e, "Dividend")} s sx={{
+                                                '& .MuiInputBase-input': {
+                                                  padding: '8px',
+                                                  fontSize:'14px' ,
+                                                }
+                                              }}>
                                             {DividendArray.map((option) => (
                                                 <MenuItem key={option} value={option}>
                                                     {option}
@@ -558,7 +593,13 @@ export default function AddGroupPage() {
                                             // }))}
                                             variant="outlined"
                                             value={AuctionMode.data}
-                                            onChange={(e) => GroupTextValidate(e, "AuctionMode")} >
+                                            onChange={(e) => GroupTextValidate(e, "AuctionMode")} 
+                                            s sx={{
+                                                '& .MuiInputBase-input': {
+                                                  padding: '8px',
+                                                  fontSize:'14px' ,
+                                                }
+                                              }}>
                                             {AuctionModeArray.map((option) => (
                                                 <MenuItem key={option} value={option}>
                                                     {option}
@@ -573,7 +614,7 @@ export default function AddGroupPage() {
                         {screen === "view"
                             ? null
                             : <Stack direction='column' alignItems='flex-end'>
-                                <Button sx={{ mr: 5, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
+                                <Button sx={{ mr: 2.5, mb: 3,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                     {Loading
                                         ? (<img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                         : ("Submit")}

@@ -127,7 +127,7 @@ export default function GroupMemberView() {
   return (
     <div style={{ marginLeft: '35px', marginRight: '35px' }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
-        <Typography variant="h6" sx={{ color: '#637381' }}>Group Member List</Typography>
+        <Typography variant="h6" sx={{fontWeight:'600'}}>Group Member List</Typography>
       </Stack>
       <Card>
         <Stack m={3} direction="row" alignItems="center" gap='30px' className='mbl-view'>

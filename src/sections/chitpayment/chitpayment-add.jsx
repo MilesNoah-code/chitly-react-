@@ -872,7 +872,7 @@ export default function AddChitPaymentPage() {
                             <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
                                 <div className='box-grp box'>
                                     <Stack direction='column' className='box-d'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '-8px' }}>
+                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                             Receipt Date
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
@@ -1472,7 +1472,7 @@ export default function AddChitPaymentPage() {
                                                     sx={{ mt: 0.5, cursor: 'pointer' }}
                                                     onClick={(event) => HandleLedgerClick(event, row)}
                                                 >
-                                                    <Typography sx={{ ml: 4, mr: 5, mb: 0.5, fontSize: 11 }}>
+                                                    <Typography sx={{ ml: 4, mr: 5, mb: 0.5, fontSize: 13 }}>
                                                         {row.ledgername}
                                                     </Typography>
                                                     <Divider sx={{ flexGrow: 1 }} />

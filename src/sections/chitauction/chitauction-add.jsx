@@ -2271,7 +2271,11 @@ export default function AddChitAuctionPage() {
                 aria-describedby="alert-dialog-description" >
                 <Card>
                     <Stack>
-                        <Stack mt={2} ml={2} mr={1} direction="row" alignItems="center" >
+                     
+                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 5, mt: 2 }}>
+                        Member List
+                        </Typography>
+                        <Stack mt={2} ml={2} mr={1} direction="row" alignItems="center" gap="10px">
                             <TextField
                                 placeholder="Member Name..."
                                 value={filterName}
@@ -2284,7 +2288,16 @@ export default function AddChitAuctionPage() {
                                                 sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
                                             />
                                         </InputAdornment>),
-                                }} />
+                                }} 
+                                sx={{
+                                    '& .MuiInputBase-input': {
+                                      padding: '8px',
+                                      fontSize:'14px' 
+                                    },
+                                    '& .MuiInputAdornment-root': {
+                                      padding: '8px', 
+                                    },
+                                  }}/>
                             <TextField
                                 placeholder="Ticket No..."
                                 value={filterTicketNo}
@@ -2298,16 +2311,26 @@ export default function AddChitAuctionPage() {
                                                 sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
                                             />
                                         </InputAdornment>),
-                                }} />
+                                }} 
+                                sx={{
+                                    '& .MuiInputBase-input': {
+                                      padding: '8px',
+                                      fontSize:'14px' 
+                                    },
+                                    '& .MuiInputAdornment-root': {
+                                      padding: '8px', 
+                                    },
+                                  }}/>
                             <IconButton
                                 aria-label="close"
                                 className='btn-close'
                                 onClick={HandleMemberListAlertClose}
-                                sx={{ position: 'absolute', right: 2, top: 0, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
+                                sx={{ position: 'absolute', right: 10, top: 12, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
                                 <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                             </IconButton>
                         </Stack>
                         <Scrollbar>
+                        <div style={{ marginLeft: '15px', marginRight: '15px' }}>
                             <TableContainer sx={{ overflow: '', mt: 2 }}>
                                 <Table sx={{ minWidth: 530 }} stickyHeader>
                                     <TableRow hover tabIndex={-1}>
@@ -2316,9 +2339,11 @@ export default function AddChitAuctionPage() {
                                         <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Tkt No</TableCell>
                                     </TableRow>
                                     {ChitAuctionAddMemberListLoading
-                                        ? <Stack mt={10} sx={{ alignItems: 'center', justifyContent: 'center' }}>
-                                            <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
-                                        </Stack>
+                                        ? <TableRow>
+                                        <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                                            <img className='load' src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                                        </TableCell>
+                                    </TableRow>
                                         : <TableBody>
                                             {ChitAuctionAddMemberList
                                                 .map((row, index) => (
@@ -2336,6 +2361,7 @@ export default function AddChitAuctionPage() {
                                         </TableBody>}
                                 </Table>
                             </TableContainer>
+                            </div>
                         </Scrollbar>
                     </Stack>
                 </Card>

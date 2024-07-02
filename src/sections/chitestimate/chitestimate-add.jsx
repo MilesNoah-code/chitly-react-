@@ -1434,7 +1434,7 @@ export default function AddChitEstimatePage() {
                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 5, mt: 2 }}>
                             Group Member List
                         </Typography>
-                        <Stack mt={1} ml={2} mr={1} direction="row" alignItems="center">
+                        <Stack mt={2} ml={2} mr={1} direction="row" alignItems="center" gap='10px'>
                             <TextField
                                 placeholder="Member Name..."
                                 value={FilterName}
@@ -1449,6 +1449,15 @@ export default function AddChitEstimatePage() {
                                         </InputAdornment>
                                     ),
                                 }}
+                                sx={{
+                                    '& .MuiInputBase-input': {
+                                      padding: '8px',
+                                      fontSize:'14px' 
+                                    },
+                                    '& .MuiInputAdornment-root': {
+                                      padding: '8px', 
+                                    },
+                                  }}
                             />
                             <TextField
                                 placeholder="Ticket No..."
@@ -1462,18 +1471,30 @@ export default function AddChitEstimatePage() {
                                                 icon="eva:search-fill"
                                                 sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
                                             />
-                                        </InputAdornment>),
-                                }} />
+                                        </InputAdornment>
+                                    ),
+                                }} 
+                                  sx={{
+                                    '& .MuiInputBase-input': {
+                                      padding: '8px',
+                                      fontSize:'14px' 
+                                    },
+                                    '& .MuiInputAdornment-root': {
+                                      padding: '8px', 
+                                    },
+                                  }}
+                                  />
                             <IconButton
                                 aria-label="close"
                                 onClick={HandleGroupMemberListAlertClose}
-                                sx={{ position: 'absolute', right: 15, top: 5, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }}
+                                sx={{ position: 'absolute', right: 15, top: 7, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }}
                             >
                                 <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17 }} />
                             </IconButton>
                         </Stack>
                         <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 1 }}>
                             <Scrollbar>
+                            <div style={{ marginLeft: '15px', marginRight: '15px' }}>
                                 <TableContainer sx={{ overflow: '', mt: 2 }}>
                                     <Table sx={{ minWidth: 530 }} stickyHeader>
                                         <TableRow hover tabIndex={-1}>
@@ -1504,6 +1525,7 @@ export default function AddChitEstimatePage() {
                                             </TableBody>}
                                     </Table>
                                 </TableContainer>
+                                </div>
                             </Scrollbar>
                         </Box>
                         {GroupMemberList.length > 0 && <TablePagination

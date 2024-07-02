@@ -1988,9 +1988,11 @@ export default function AddChitAuctionPage() {
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
                                                 </TableRow>
                                                 {ChitAuctionMemberListLoading
-                                                    ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-                                                        <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
-                                                    </Stack>
+                                                    ? <TableRow>
+                                                    <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                                                        <img className='load' src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                                                    </TableCell>
+                                                </TableRow>
                                                     : <TableBody>
                                                         {ChitAuctionMemberList.map((row, index) => {
                                                             // const isEditable = String(row.id).includes('id_') || (index === ChitAuctionMemberList.length - 1 && !String(row.id).includes('id_'));
@@ -2006,7 +2008,7 @@ export default function AddChitAuctionPage() {
                                                                             id="outlined-required"
                                                                             value={row.maxaucdisc}
                                                                             onChange={isEditable ? (e) => ChitAuctionMemberListTextValidate(e, row, "maxaucdisc") : null}
-                                                                            style={{ width: 100, height: 20 }}
+                                                                            style={{ width: 100, }}
                                                                             disabled={!isEditable} 
                                                                             sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px',  },
                                                                               '& .MuiInputAdornment-root': { padding: '8px', } }}/>
@@ -2018,7 +2020,7 @@ export default function AddChitAuctionPage() {
                                                                                 id="outlined-required"
                                                                                 value={row.signature}
                                                                                 onChange={isEditable ? (e) => ChitAuctionMemberListTextValidate(e, row, "signature") : null}
-                                                                                style={{ width: 100, height: 20 }}
+                                                                                style={{ width: 100,  }}
                                                                                 disabled={!isEditable} 
                                                                                 sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', },
                                                                                       '& .MuiInputAdornment-root': { padding: '8px', } }}/>

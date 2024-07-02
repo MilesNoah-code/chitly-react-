@@ -768,6 +768,15 @@ export default function AddGroupMemberPage() {
                                         </InputAdornment>
                                     ),
                                 }}
+                                sx={{
+                                    '& .MuiInputBase-input': {
+                                      padding: '8px',
+                                      fontSize:'14px' 
+                                    },
+                                    '& .MuiInputAdornment-root': {
+                                      padding: '8px', 
+                                    },
+                                  }}
                             />
                             <IconButton
                                 aria-label="close"
@@ -779,12 +788,13 @@ export default function AddGroupMemberPage() {
                         </Stack>
                         <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 1 }}>
                             <Scrollbar>
+                            <div style={{ marginLeft: '15px', marginRight: '15px' }}>
                                 <TableContainer sx={{ overflow: '', mt: 2 }}>
                                     <Table sx={{ minWidth: 500 }} stickyHeader>
                                         <TableRow hover tabIndex={-1}>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Acc No</TableCell>
-                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Mobile Number</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Mobile Number</TableCell>
                                         </TableRow>
                                         {MemberListLoading
                                             ? <TableRow>
@@ -808,6 +818,7 @@ export default function AddGroupMemberPage() {
                                             </TableBody>}
                                     </Table>
                                 </TableContainer>
+                                </div>
                             </Scrollbar>
                         </Box>
                         {MemberList.length > 0 && <TablePagination

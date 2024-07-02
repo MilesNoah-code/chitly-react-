@@ -1612,7 +1612,7 @@ export default function AddChitAuctionPage() {
                         </Stack>
                         : <Stack direction='column'>
                         <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6} md={6} className='box-grid'>
+                        <Grid item xs={12} sm={6} md={6} className='box-grid pd'>
                             <Stack direction='row' spacing={1} alignItems='center' className='stack-box'>
                                 <div className='box-grp  grp-label'>
                                     <Stack direction='column'>

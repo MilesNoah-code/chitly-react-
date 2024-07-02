@@ -14,6 +14,9 @@
 .table-one { 
 height: auto !important;
 }
+.pd{
+  padding-right: 0px !important;
+}
 .box-grid{
   border: 1px solid #ccc;
   margin-left: 17px;

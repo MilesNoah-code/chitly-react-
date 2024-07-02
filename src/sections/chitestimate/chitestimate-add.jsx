@@ -87,6 +87,7 @@ export default function AddChitEstimatePage() {
         remove_data: '',
         member_edit: 'false'
     });
+    const [AuctionDateError, setAuctionDateError] = useState('')
 
     useEffect(() => {
         console.log(data)
@@ -628,6 +629,15 @@ export default function AddChitEstimatePage() {
         const isChitEstimateListValid = validateChitEstimateList();
         if (!isChitEstimateListValid) {
                 IsValidate = false;
+        }
+        const AuctionDateRequired = checkAuctionDate();
+        if(AuctionDateRequired !== ""){
+            IsValidate = false;
+            // console.log("AuctionDateRequired", AuctionDateRequired)
+            setAuctionDateError(AuctionDateRequired);
+        }else{
+            // console.log("AuctionDateRequired111", AuctionDateRequired)
+            setAuctionDateError('');
         }
         console.log("ChitEstimateListAdd_submit", ChitEstimateListAdd)
         if (ChitEstimateList.length > 0 && ChitEstimateListAdd !== 0){
@@ -1287,8 +1297,9 @@ export default function AddChitEstimatePage() {
                                                     </TableRow>
                                                    
                                                 ))}
-                                                <div style={{ marginTop: "15px" }} />
-                                                <div style={{ width:'100%' ,marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500",  marginBottom: '10px', }}>{checkAuctionDate()}</div>  
+<
+                                                    <div style={{ marginTop: "15px" }} />
+                                                    <div style={{ marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "160px", marginBottom: '10px', }}>{AuctionDateError}</div
                                             <TableEmptyRows
                                                 height={77}
                                                 emptyRows={emptyRows(0, 15, ChitEstimateList.length)}

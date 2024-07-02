@@ -108,6 +108,11 @@ margin-top: 5px;
 margin: 0px !important;
 
 }
+.show-estimate {
+  font-size: 16px;
+  color: #b7adb0;
+  margin-top: 5px;
+}
       @media (min-width: 0px) {
         .box-grp  .box-d .MuiStack-root {
              -webkit-flex-direction: column;

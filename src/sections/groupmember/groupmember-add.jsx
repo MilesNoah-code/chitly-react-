@@ -439,7 +439,7 @@ export default function AddGroupMemberPage() {
     return (
         <div style={{ marginLeft: '35px', marginRight: '35px' }}>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
-                <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
+                <Typography variant="h6" sx={{fontWeight:'600'}}>
                     Group Member
                 </Typography>
                 <Button variant="contained" className='custom-button' onClick={HandleBack} sx={{ cursor: 'pointer' }}>
@@ -459,10 +459,10 @@ export default function AddGroupMemberPage() {
                             <Grid className='grid-UI' container spacing={2}>
                                 <Grid className='table-grid' item xs={12} md={5}>
                                     <Scrollbar>
-                                        <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
+                                        <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
                                             <Table sx={{ minWidth: 350 }}>
                                                 <TableRow hover tabIndex={-1}>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Ticket No</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Tkt No</TableCell>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
                                                 </TableRow>
@@ -496,11 +496,11 @@ export default function AddGroupMemberPage() {
                                 </Grid>
                                 <Grid  className='table-grid' item xs={12} md={7}>
                                     <div className='detail'>
-                                        <Typography variant="h5" sx={{ mt: 0, ml: 2, }}>
+                                        <Typography variant="h6" className='detail-head' sx={{ mt: 0, ml: 2, }}>
                                             Group Detail:
                                         </Typography>
                                         <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                            <div className='box-grp  grp-label'>
+                                            <div className='box-grp'>
                                                 <Stack direction='column'>
                                                     <Typography variant="subtitle1" className='detail-sub' sx={{ ml: 2, mr: 2, mt: 1, mb: '0px' }}>
                                                         Group No
@@ -557,7 +557,7 @@ export default function AddGroupMemberPage() {
                                         </Stack>
                                     </div>
                                     <div className='detail'>
-                                        <Typography variant="h5" sx={{ mt: 0, ml: 2, }}>
+                                        <Typography variant="h6" className='detail-head' sx={{ mt: 0, ml: 2, }}>
                                             Member Detail:
                                         </Typography>
                                         <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
@@ -640,7 +640,7 @@ export default function AddGroupMemberPage() {
                                         </Stack>
                                     </div>
                                     <div className='detail'>
-                                    <Typography variant="h5" sx={{ mt: 0, ml:2 }}>
+                                    <Typography variant="h6" className='detail-head' sx={{ mt: 0, ml:2 }}>
                                             Address Detail:
                                         </Typography>
                                         {(memberDetail.addressline1 == null || memberDetail.addressline1 === '') && (memberDetail.city == null || memberDetail.city === '') &&
@@ -722,7 +722,7 @@ export default function AddGroupMemberPage() {
                                 </Grid>
                             </Grid>
                             <Stack direction='column' alignItems='flex-end'>
-                                <Button sx={{ mr: 5, mt: 2, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
+                                <Button sx={{ mr: 3, mt: 2, mb: 3,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                     {Loading
                                         ? (<img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                         : ("Submit")}

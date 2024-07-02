@@ -1603,7 +1603,7 @@ export default function AddChitAuctionPage() {
     return (
         <div style={{ marginLeft: '35px', marginRight: '35px' }}>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
-                <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
+                <Typography variant="h6" sx={{ fontWeight:'600px'}}>
                     Chit Auction
                 </Typography>
                 <Button variant="contained" className='custom-button' onClick={HandleBack} sx={{ cursor: 'pointer' }}>
@@ -1634,7 +1634,13 @@ export default function AddChitAuctionPage() {
                                                 // label="Group No"
                                                 value={GroupNo.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "GroupNo")}
-                                                style={{}} />
+                                                style={{}} 
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                      fontSize:'14px' ,
+                                                    }
+                                                  }}/>
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupNo.error}</div>
                                     </Stack>
@@ -1652,7 +1658,13 @@ export default function AddChitAuctionPage() {
                                                 // label="Amount"
                                                 value={Amount.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "Amount")}
-                                                style={{}} />
+                                                style={{}} 
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                      fontSize:'14px' ,
+                                                    }
+                                                  }}/>
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Amount.error}</div>
                                     </Stack>
@@ -1673,7 +1685,16 @@ export default function AddChitAuctionPage() {
                                                         defaultValue={dayjs()}
                                                         value={AucFromTime.data}
                                                         onAccept={() => HandleOnAcceptTimeChange("Accept_AucFromTime")}
-                                                        onChange={(time) => HandleTimeChange(time, "AucFromTime")} />
+                                                        onChange={(time) => HandleTimeChange(time, "AucFromTime")} 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px'
+                                                            },
+                                                            '& .MuiInputAdornment-root': {
+                                                              padding: '8px',
+                                                            },
+                                                          }}/>
                                                 </DemoContainer>
                                             </LocalizationProvider>
                                         </Stack>
@@ -1694,7 +1715,15 @@ export default function AddChitAuctionPage() {
                                                         defaultValue={dayjs()}
                                                         value={AucToTime.data}
                                                         onAccept={() => HandleOnAcceptTimeChange("Accept_AucToTime")}
-                                                        onChange={(time) => HandleTimeChange(time, "AucToTime")} />
+                                                        onChange={(time) => HandleTimeChange(time, "AucToTime")} 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                            },
+                                                            '& .MuiInputAdornment-root': {
+                                                              padding: '8px',
+                                                            },
+                                                          }}/>
                                                 </DemoContainer>
                                             </LocalizationProvider>
                                         </Stack>
@@ -1716,7 +1745,16 @@ export default function AddChitAuctionPage() {
                                                         disabled={screen === "view"}
                                                         value={AucDate.data}
                                                         onChange={(date) => HandleDateChange(date, "AucDate")}
-                                                        format="DD-MM-YYYY" />
+                                                        format="DD-MM-YYYY" 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px',
+                                                            },
+                                                            '& .MuiInputAdornment-root': {
+                                                              padding: '8px',
+                                                            },
+                                                          }}/>
                                                 </DemoContainer>
                                             </LocalizationProvider>
                                         </Stack>
@@ -1736,7 +1774,12 @@ export default function AddChitAuctionPage() {
                                                 // label="Inst No"
                                                 value={InstNo.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "InstNo")}
-                                                style={{}} />
+                                                style={{}} 
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                    }
+                                                  }}/>
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{InstNo.error}</div>
                                     </Stack>
@@ -1756,7 +1799,12 @@ export default function AddChitAuctionPage() {
                                                 // label="Prized Member"
                                                 value={PrizedMember.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "PrizedMember")}
-                                                style={{}} />
+                                                style={{}} 
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                    }
+                                                  }}/>
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{PrizedMember.error}</div>
                                     </Stack>
@@ -1774,7 +1822,12 @@ export default function AddChitAuctionPage() {
                                                 // label="Tkt.No"
                                                 value={TktNo.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "TktNo")}
-                                                style={{}} />
+                                                style={{}} 
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                    }
+                                                  }}/>
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{TktNo.error}</div>
                                     </Stack>
@@ -1794,7 +1847,12 @@ export default function AddChitAuctionPage() {
                                                 // label="Max.A.Disc"
                                                 value={MaxADisc.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "MaxADisc")}
-                                                style={{}} />
+                                                style={{}} 
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                    }
+                                                  }}/>
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{MaxADisc.error}</div>
                                     </Stack>
@@ -1812,7 +1870,12 @@ export default function AddChitAuctionPage() {
                                                 // label="F.M/A.F.M Commission"
                                                 value={FM_AFMCommission.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "FM_AFMCommission")}
-                                                style={{}} />
+                                                style={{}} 
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                    }
+                                                  }}/>
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{FM_AFMCommission.error}</div>
                                     </Stack>
@@ -1832,7 +1895,12 @@ export default function AddChitAuctionPage() {
                                                 // label="Dividend"
                                                 value={Dividend.data}
                                                 onChange={(e) => ChitAuctionTextValidate(e, "Dividend")}
-                                                style={{}} />
+                                                style={{}} 
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                    }
+                                                  }}/>
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Dividend.error}</div>
                                     </Stack>
@@ -1972,23 +2040,37 @@ export default function AddChitAuctionPage() {
                                     </Scrollbar>
                                 </Grid>
                             </Grid>
-                            <Stack direction='column' alignItems='flex-end' sx={{ mt: 4, mb: 3, }}>
+                            <Stack direction='column' alignItems='flex-end' gap='10px' sx={{ mt: 4, mb: 3, }}>
                                 <Stack direction='row'>
-                                    <Button sx={{ mr: 5, height: 50, width: 100, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
+                                    <Button sx={{ mr:2,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                         {Loading
                                             ? (<img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                             : ("Submit")}
                                     </Button>
-                                    <Button sx={{ mr: 3, height: 50, width: 100, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleResetClick}>
+                                    <Button variant="contained"   sx={{
+                                        mr: 2,  cursor: 'pointer',
+                                        backgroundColor: '#33b647',
+                                        color:'white',
+                                        '&:hover': {
+                                            backgroundColor: '#66bb6a',
+                                        },
+                                      }} onClick={HandleResetClick}>
                                         Reset
                                     </Button>
-                                    {Object.keys(SelectAuctionList).length > 0 && <Button sx={{ mr: 3, height: 50, width: 140, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleAddMemberClick}>
+                                    {Object.keys(SelectAuctionList).length > 0 && <Button sx={{ mr: 2,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleAddMemberClick}>
                                         Add Member
                                     </Button>}
-                                    {Object.keys(SelectAuctionList).length > 0 && <Button sx={{ mr: 3, height: 50, width: 170, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleShowEstimateClick}>
+                                    {Object.keys(SelectAuctionList).length > 0 && <Button sx={{ mr: 2,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleShowEstimateClick}>
                                         Show Estimate
                                     </Button>}
-                                    <Button sx={{ mr: 2, height: 50, width: 100, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={() => HandleDeleteClick("delete")}>
+                                    <Button sx={{ mr: 2,  cursor: 'pointer' }} variant="contained"  sx={{
+                                        backgroundColor: '#d32f2f',
+                                        color:'white', 
+                                        '&:hover': {
+                                         backgroundColor: '#b71c1c',
+                                        },
+                                       
+                                      }} onClick={() => HandleDeleteClick("delete")}>
                                         Delete
                                     </Button>
                                 </Stack>

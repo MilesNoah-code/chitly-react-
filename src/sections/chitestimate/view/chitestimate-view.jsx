@@ -159,7 +159,7 @@ export default function ChitEstimateView() {
   return (
     <div style={{ marginLeft: '35px', marginRight: '35px' }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
-        <Typography variant="h6" sx={{ color: '#637381' }}>Chit Estimate List</Typography>
+        <Typography variant="h6" sx={{ fontWeight:'600'}}>Chit Estimate List</Typography>
         <Button variant="contained" className='custom-button' sx={{ display: 'none' }}  onClick={HandleAddChitEstimateClick}>
           Add Chit Estimate
         </Button>
@@ -191,7 +191,7 @@ export default function ChitEstimateView() {
               </MenuItem>
             ))}
           </TextField>
-          <TextField select size="small" value={ChitEstimateFilter} onChange={(e) => handleFilterByChitEstimate(e)}>
+          <TextField select size="small" value={ChitEstimateFilter} onChange={(e) => handleFilterByChitEstimate(e)} >
             {options1.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}

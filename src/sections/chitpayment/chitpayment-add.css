@@ -17,16 +17,22 @@
   flex-wrap: wrap !important;
 }
 .box-grp{
-  flex: 1 0 49%;
-  max-width: 49%;
+  flex: 1 0 48%;
+  max-width: 48%;
   flex-wrap: wrap;
 } 
-
+.grp{
+  width: 29%;
+}
+.grp .MuiTextField-root {
+  width: 100% !important;
+  margin: 0px;
+}
 .con{
   padding: 20px;
 }
 .box-grp .input-box1 {
-  
+  margin-top: 5px;
   width: calc(100% - 20px); 
 }
  .box-popfix{
@@ -34,11 +40,23 @@
 }
 .cancel-btn {
   position: absolute;
-  top: 80px;
-  right: -11px;
-
+  top: 47px;
+  right: -25px;
   cursor: pointer;
  
+}
+.box-one{
+  border: 1px solid #ccc;
+  margin-left: 24px;
+  margin-right: -17px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  max-width: 48% !important;
+  padding-bottom: 20px;
+}
+.bor{
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 35px;
 }
 .box-grp .MuiAutocomplete-root  .MuiTextField-root  {
   width: calc(100% - 20px) !important; 
@@ -57,6 +75,13 @@
 } 
 .grp-mbl .width-inp{
   width: calc(96.5% - 20px); 
+}
+@media (max-width:991px){
+  .box-one {
+    max-width: 100% !important;
+    padding-bottom: 20px;
+    margin: 15px;
+}
 }
 @media screen and (max-width: 768px) {
  .grp-mbl{
@@ -128,6 +153,7 @@
 
     }
     .box-grp  .box-d .MuiStack-root>.MuiTextField-root{
+      margin-top: 5px;
       min-width: -webkit-fill-available !important;
   }
   }

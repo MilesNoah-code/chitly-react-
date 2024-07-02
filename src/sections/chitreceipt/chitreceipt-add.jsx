@@ -768,9 +768,9 @@ export default function AddChitReceiptPage() {
                 </Button>
             </Stack>
             <Card>
-                <Box className="con" component="form"
+                <Box  component="form"
                     sx={{
-                        '& .MuiTextField-root': { m: 2, width: '20ch', },
+                        '& .MuiTextField-root': { width: '34ch', },
                     }}
                     noValidate
                     autoComplete="off">
@@ -779,34 +779,41 @@ export default function AddChitReceiptPage() {
                             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                <div className='box-grp box'>
+                            <Stack direction='row' spacing={1} alignItems='center'  gap='15px' justifyContent="flex-start" sx={{m:3, mb:2}} className='stack-box'>
+                                <div className="grp grp1">
                                     <Stack direction='column' className='box-d'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                        <Typography variant="subtitle1"  sx={{ ml: 0, mr: 2, mt: 0, mb: '0px' }}>
                                             Receipt Date
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                <DemoContainer components={['DatePicker']} className="date-pick">
+                                                <DemoContainer components={['DatePicker']} className="date-pick" >
                                                     <DatePicker
-                                                        label="From Date"
-                                                        disabled={screen === "view"}
+                                                     disabled={screen === "view"}
                                                         value={ReceiptDate.data}
                                                         onChange={HandleDateChange}
-                                                        format="DD-MM-YYYY" />
+                                                        format="DD-MM-YYYY" 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px', 
+                                                            },
+                                                            '& .MuiInputAdornment-root': {
+                                                              padding: '8px', 
+                                                            },
+                                                          }}/>
                                                 </DemoContainer>
                                             </LocalizationProvider>
                                         </Stack>
                                     </Stack>
                                 </div>
-                                <div className='box-grp  grp-label'>
+                                <div className='grp'>
                                     <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 0, mb: '7px' }}>
                                             Group No <span style={{ color: 'red' }}> *</span>
                                         </Typography>
-                                        <Stack direction='row' sx={{ ml: 0,  mt:-1}}>
+                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
                                             <Autocomplete
-                                                className='input-box1'
+                                                className='input'
                                                 disablePortal
                                                 id="combo-box-demo"
                                                 options={PendingGroupList}
@@ -817,176 +824,246 @@ export default function AddChitReceiptPage() {
                                                     <ListItem {...props} key={option.id}>
                                                         <ListItemText
                                                             primary={option.groupno}
-                                                            secondary={`${option.auction_mode},  ${Math.round(option.amount)}`} />
+                                                            secondary={`${option.auction_mode},  ${Math.round(option.amount)}`} 
+                                                             />
                                                     </ListItem>
                                                 )}
-                                                renderInput={(params) => <TextField {...params} label={screen === "view" ? GroupNoSearch.data : "Search"} />}
-                                            />
+                                               
+                                                renderInput={(params) => <TextField {...params} label={screen === "view" ? GroupNoSearch.data : "Search"}   
+                                                sx={{
+                                                    '& .MuiAutocomplete-root  .MuiTextField-root': {
+                                                      padding: '8px',
+                                                      backgroundColor:'#ccc',
+                                                      fontSize:'14px',
+                                                    }
+                                                  }}  />}
+                                           
+                                                />
+                                                
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupNoSearch.error}</div>
                                     </Stack>
                                 </div>
-                            </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                <div className='box-grp'>
+                          
+                         
+                                <div className='grp'>
                                     <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                        <Typography variant="subtitle1"  sx={{ ml: 0, mr: 2, mt: 0, mb: '7px' }}>
                                             Member Name <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                className='input-box1'
+                                                 className='input'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Member Name"
+                                             
                                                 value={MemberName.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "MemberName")} />
+                                                onChange={(e) => ChitReceiptTextValidate(e, "MemberName")} 
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                      fontSize:'14px',
+                                                    }
+                                                  }}/>
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{MemberName.error}</div>
                                     </Stack>
                                 </div>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Receipt No <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <TextField
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                label="Receipt No"
-                                                value={ReceiptNo.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "ReceiptNo")} />
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{ReceiptNo.error}</div>
-                                    </Stack>
-                                </div>
-
+                              
+                              
                             </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                <div className='box-grp'>
+                            <Stack direction='row' spacing={1} alignItems='center'  gap='15px' justifyContent="flex-start" sx={{m:3, mb:2}} className='stack-box  mbl-st'>
+                            <div className='grp grp1'>
+                            <Stack direction='column' >
+                                <Typography variant="subtitle1"  sx={{ ml: 0, mr: 2, mt: 0, mb: '7px' }}>
+                                    Receipt No <span style={{ color: 'red' }}> *</span>
+                                </Typography>
+                                <Stack direction='row' sx={{ ml: 0, }}>
+                                    <TextField
+                                         className='input'
+                                        id="outlined-required"
+                                        disabled
+                                     
+                                        value={ReceiptNo.data}
+                                        onChange={(e) => ChitReceiptTextValidate(e, "ReceiptNo")} 
+                                        sx={{
+                                            '& .MuiInputBase-input': {
+                                              padding: '8px',
+                                              fontSize:'14px',
+                                            }
+                                          }}/>
+                                </Stack>
+                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{ReceiptNo.error}</div>
+                            </Stack>
+                        </div>
+                            <div className='grp'>
+                            <Stack direction='column'>
+                                <Typography variant='subtitle1'  sx={{ ml: 0, mr: 2, mt: 0, mb: '7px' }}>
+                                    Ticket No
+                                </Typography>
+                                <Stack direction='row' sx={{ ml: 0, }}>
+                                    <TextField
+                                         className='input'
+                                        id="outlined-required"
+                                        disabled
+                                      
+                                        value={TicketNo.data}
+                                        onChange={(e) => ChitReceiptTextValidate(e, "TicketNo")} 
+                                        sx={{
+                                            '& .MuiInputBase-input': {
+                                              padding: '8px',
+                                              fontSize:'14px',
+                                            }
+                                          }}/>
+                                </Stack>
+                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{TicketNo.error}</div>
+                            </Stack>
+                        </div>
+                                <div className='grp'>
                                     <Stack direction='column'>
-                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                            Ticket No
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <TextField
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                label="Ticket No"
-                                                value={TicketNo.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "TicketNo")} />
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{TicketNo.error}</div>
-                                    </Stack>
-                                </div>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 2, mb: '0px' }}>
                                             Auction Mode
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                className='input-box1'
+                                                className='input'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Auction Mode"
+                                            
                                                 value={AuctionMode.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "AuctionMode")} />
+                                                onChange={(e) => ChitReceiptTextValidate(e, "AuctionMode")} 
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                      fontSize:'14px',
+                                                    }
+                                                  }}/>
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AuctionMode.error}</div>
                                     </Stack>
                                 </div>
+                            
+                          
+                               
+                              
                             </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                            Duration
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <TextField
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                label="Duration"
-                                                value={Duration.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "Duration")} />
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Duration.error}</div>
-                                    </Stack>
-                                </div>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant='subtitle1' sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }} >
-                                            Account No
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <TextField
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                label="Account No"
-                                                value={AccountNo.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "AccountNo")} />
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AccountNo.error}</div>
-                                    </Stack>
-                                </div>
+                            <Stack direction='row' spacing={1} alignItems='center'  gap='15px' justifyContent="flex-start" sx={{m:3, mb:2}} className='stack-box mbl-st'>
+                            <div className='grp grp1'>
+                            <Stack direction='column'>
+                                <Typography variant='subtitle1' sx={{ ml: 0, mr: 2, mt: 2, mb: '0px' }} >
+                                    Account No
+                                </Typography>
+                                <Stack direction='row' sx={{ ml: 0, }}>
+                                    <TextField
+                                        className='input'
+                                        id="outlined-required"
+                                        disabled
+                                   
+                                        value={AccountNo.data}
+                                        onChange={(e) => ChitReceiptTextValidate(e, "AccountNo")} 
+                                        sx={{
+                                            '& .MuiInputBase-input': {
+                                              padding: '8px',
+                                              fontSize:'14px',
+                                            }
+                                          }}/>
+                                </Stack>
+                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AccountNo.error}</div>
                             </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                <div className='box-grp'>
+                        </div>
+                            <div className='grp'>
+                            <Stack direction='column'>
+                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 0}} >
+                                    Duration
+                                </Typography>
+                                <Stack direction='row' sx={{ ml: 0, }}>
+                                    <TextField
+                                        className='input'
+                                        id="outlined-required"
+                                        disabled
+                                    
+                                        value={Duration.data}
+                                        onChange={(e) => ChitReceiptTextValidate(e, "Duration")} 
+                                        sx={{
+                                            '& .MuiInputBase-input': {
+                                              padding: '8px',
+                                              fontSize:'14px',
+                                            }
+                                          }}/>
+                                </Stack>
+                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Duration.error}</div>
+                            </Stack>
+                        </div>
+                                <div className='grp'>
                                     <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 0 }}>
                                             Inst. From
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                className='input-box1'
+                                                className='input'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Inst. From"
+                                             
                                                 value={InstFrom.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "InstFrom")} />
+                                                onChange={(e) => ChitReceiptTextValidate(e, "InstFrom")}
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                      fontSize:'14px',
+                                                    }
+                                                  }}/>
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{InstFrom.error}</div>
                                     </Stack>
                                 </div>
-                                <div className='box-grp'>
+                                </Stack>
+                                <Stack direction='row' spacing={1} alignItems='center'  gap='15px' justifyContent="flex-start" sx={{m:3, mb:2}} className='stack-box mbl-st'>
+                                <div className='grp grp1'>
                                     <Stack direction='column'>
-                                        <Typography variant='subtitle1' sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}  >
+                                        <Typography variant='subtitle1' sx={{ ml: 0, mr: 2, mt: 2, mb: '0px' }}  >
                                             Inst. To
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                className='input-box1'
+                                                className='input'
                                                 id="outlined-required"
                                                 disabled
-                                                label="Inst. To"
+                                             
                                                 value={InstTo.data}
-                                                onChange={(e) => ChitReceiptTextValidate(e, "InstTo")} />
+                                                onChange={(e) => ChitReceiptTextValidate(e, "InstTo")} 
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                      fontSize:'14px',
+                                                    }
+                                                  }}/>
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{InstTo.error}</div>
                                     </Stack>
                                 </div>
-                            </Stack>
-                            <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                <div className='box-grp'>
+                            
+                           
+                                <div className='grp'>
                                     <Stack direction='column'>
-                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 0 }} >
                                             Value <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>
                                             <TextField
-                                                className='input-box1'
+                                                className='input'
                                                 id="outlined-required"
                                                 disabled={screen === "view"}
-                                                label="Value"
+                                              
                                                 value={Values.data}
                                                 onChange={(e) => ChitReceiptTextValidate(e, "Values")}
-                                                type='number' />
+                                                type='number' 
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                      fontSize:'14px',
+                                                    }
+                                                  }}/>
                                         </Stack>
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Values.error}</div>
                                     </Stack>
@@ -995,7 +1072,7 @@ export default function AddChitReceiptPage() {
                             {screen === "view"
                                 ? null
                                 : <Stack direction='column' alignItems='flex-end'>
-                                    <Button sx={{ mr: 5, mt: 2, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
+                                    <Button sx={{ mr: 3, mt: 2, mb: 3,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                         {Loading
                                             ? (<img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                             : ("Submit")}

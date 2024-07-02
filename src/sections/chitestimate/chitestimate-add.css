@@ -27,6 +27,9 @@ padding: 6px !important;
 .table-one .input-box-date{
 width: 200px !important;
 }
+.table-one .MuiTableCell-root:nth-child(1).no {
+  width: 40px;
+}
 
 .table-one .input-box{
 width: 100px !important;
@@ -39,6 +42,10 @@ width: 60px !important;
 padding: 0px !important;
 /* height: 1em !important; */
 }
+.tab-wid tr td:nth-child(1) {
+  width: 30px !important;
+}
+
 h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
 font-size: 15px;
 
@@ -78,6 +85,21 @@ padding: 0px 10px;
   margin-left: 16px !important;
   font-size: 13px;
  }
+ .grp .MuiTextField-root {
+  width: 100% !important;
+}
+.grp{
+  width: calc(100% - 0px) !important; 
+}
+ .grp  .input {
+  width: calc(100% - 0px) !important;
+  margin-bottom: 5px; 
+  
+}
+h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+  font-size: 15px;
+  margin-left: 0px !important;
+}
 .box-grp  .input-box1 {
       width: calc(100% - 0px) !important; 
     }
@@ -85,9 +107,25 @@ padding: 0px 10px;
       padding: 10px;
     }
   }
-      .rowExists {
-        background-color: rgba(24, 119, 242, 0.16);
-      }
-                        .input-box-date.error {
-                          outline: 2px solid red;
-                        }
+.rowExists {
+  background-color: rgba(24, 119, 242, 0.16);
+}
+.input-box-date.error {
+  outline: 2px solid red;
+}
+
+@media (min-width:769px) and (max-width:869px){
+  .grp .MuiTextField-root{
+      width: 20ch !important;
+  } 
+}
+@media (min-width:869px) and (max-width:991px){
+  .grp .MuiTextField-root{
+      width: 24ch !important;
+  } 
+}
+@media (min-width:992px) and (max-width:1218px){
+  .grp .MuiTextField-root{
+      width: 26ch !important;
+  } 
+}

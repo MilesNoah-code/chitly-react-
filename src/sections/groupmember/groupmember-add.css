@@ -16,8 +16,8 @@
    
   }
  .box-grp{
-    flex: 1 0 49%;
-    max-width: 49%;
+    flex: 1 0 48%;
+    max-width: 48%;
     flex-wrap: wrap;
   } 
   .detail {

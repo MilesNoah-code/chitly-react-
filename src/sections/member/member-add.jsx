@@ -21,6 +21,7 @@ import { MEMBER_ADD, STATE_LIST, MEMBER_VIEW, COUNTRY_LIST, MEMBER_UPDATE, MEMBE
 } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
+import ScreenError from 'src/Error/ScreenError';
 
 import './member-add.css';
 
@@ -28,7 +29,7 @@ export default function AddMemberPage() {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const { screen, data } = location.state;
+    const { screen, data } = location.state || {};
     const Session = localStorage.getItem('apiToken');
 
     const Prefix = [{ value: "MR", data: "Mr" }, { value: "MRS", data: "Mrs" }, { value: "MS", data: "Ms" }, { value: "M/s", data: "M/s" }, { value: "Master", data: "Master" }];
@@ -265,7 +266,7 @@ export default function AddMemberPage() {
 
     const GetMemberView = () => {
         setMemberLoading(true);
-        const url = `${REACT_APP_HOST_URL}${MEMBER_VIEW}${data.id}`;
+        const url = `${REACT_APP_HOST_URL}${MEMBER_VIEW}${data?.id ? data.id : ""}`;
         console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -471,7 +472,7 @@ export default function AddMemberPage() {
         "name": MemberName.data,
         "accno": "",
         "gender": Gender.data,
-        "status": screen === "add" ? "approved" : data.status,
+        "status": screen === "add" ? "approved" : data?.status,
         "branchid": 0,
         "dob": Dob.datesave != null ? Dob.datesave : "",
         "email": Email.data,
@@ -495,7 +496,7 @@ export default function AddMemberPage() {
     }
 
     const AddressDetailParams = {
-        "mappedid": data.id,
+        "mappedid": data?.id ? data.id : "",
         "addressline1": Address.data,
         "addressline2": "",
         "city": City.data,
@@ -508,7 +509,7 @@ export default function AddMemberPage() {
     }
 
     const BankDetailParams = {
-        "mappedid": data.id,
+        "mappedid": data?.id ? data.id : "",
         "bankname": BankName.data,
         "ifsccode": IFSCCode.data,
         "accno": AccountNumber.data,
@@ -519,14 +520,14 @@ export default function AddMemberPage() {
     }
 
     const EducationDetailParams = {
-        "member_id": data.id,
+        "member_id": data?.id ? data.id : "",
         "education": Education.data,
         "marital_status": MaritalStatus.data,
         "spouse_education": SpouseEducation.data ? SpouseEducation.data : "",
     }
 
     const OccupationDetailParams = {
-        "member_id": data.id,
+        "member_id": data?.id ? data.id : "",
         "occupation_name": CurrentOccupation.data,
         "current_employer_name": CurrentEmployer.data,
         "no_of_years": YearsAtCurrentEmployer.data,
@@ -645,7 +646,7 @@ export default function AddMemberPage() {
 
     const GetMediaList = (entryMappedtypeNo, file) => {
         setMediaListLoading(true);
-        const url = `${REACT_APP_HOST_URL}${MEMBER_MEDIA_LIST}${data.id}&entryMappedtypeNo=${entryMappedtypeNo}`;
+        const url = `${REACT_APP_HOST_URL}${MEMBER_MEDIA_LIST}${data?.id ? data.id : ""}&entryMappedtypeNo=${entryMappedtypeNo}`;
         // console.log(JSON.parse(Session) + url);;
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -735,7 +736,7 @@ export default function AddMemberPage() {
 
     const MediaSaveParams = {
         id: 0,
-        master_mappedid: data.id,
+        master_mappedid: data?.id ? data.id : "",
         master_mappedtype: "MEMBER",
         master_mappedtypeno: 1,
         entry_mappedtype: "",
@@ -1838,6 +1839,14 @@ export default function AddMemberPage() {
     const currentDate = dayjs();
     const maxDate = currentDate.subtract(18, 'year');
 
+    const HandlePreviousScreen = () => {
+        navigate('/member/list');
+    }
+
+    if (!location.state) {
+        return <ScreenError HandlePreviousScreen={HandlePreviousScreen} />
+    }
+
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
     const screenLabel = {
@@ -1849,7 +1858,7 @@ export default function AddMemberPage() {
     return (
         <div style={{ marginLeft: '35px', marginRight: '35px' }}>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
-                <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 2, mb: 2 }}>
+                <Typography variant="h6" sx={{fontWeight:'600'}} >
                     {screenLabel[screen] || "Add Member"}
                 </Typography>
                 <Button variant="contained" className='custom-button' onClick={HandleBack} sx={{ cursor: 'pointer' }}>
@@ -1858,16 +1867,13 @@ export default function AddMemberPage() {
             </Stack>
             <Card>
                 <Box component="form"
-                    sx={{ '& .MuiTextField-root': { m: 2, width: '20ch', }, }}
+                    sx={{ '& .MuiTextField-root': { m:2, width: '20ch', }, }}
                     noValidate
                     autoComplete="off">
                     <Stack direction='column'>
                         <TabContext value={TabIndex}>
-                            {screen === "add"
-                                ? <Typography className="inf" variant="subtitle1" sx={{ ml: 4, mr: 5, mt: 3 }}>
-                                    Member Information
-                                </Typography>
-                                : <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        {screen !== "add" && (
+                                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                                     <TabList onChange={handleChange} aria-label="lab API tabs example"
                                         variant="scrollable" scrollButtons="auto">
                                         <Tab label="Member Information" value="1" />
@@ -1877,7 +1883,7 @@ export default function AddMemberPage() {
                                         <Tab label="Occupation Details" value="5" />
                                         <Tab label="Proof Details" value="6" />
                                     </TabList>
-                                </Box>}
+                                </Box>)}
                             {MemberLoading
                                 ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
                                     <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
@@ -1916,7 +1922,13 @@ export default function AddMemberPage() {
                                                      
                                                         value={PancardNo.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "PancardNo")}
-                                                        style={{}} />
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }}
+                                                      />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{PancardNo.error}</div>
                                             </Stack>
@@ -1938,12 +1950,19 @@ export default function AddMemberPage() {
                                                         variant="outlined"
                                                         value={NamePrefix.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "NamePrefix")}
-                                                        style={{ width: 90, marginRight: -10, color: 'black' }} >
+                                                        style={{ width: 90, marginRight: -10, color: 'black' }} 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '7px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }}>
                                                         {Prefix.map((option) => (
                                                             <MenuItem key={option} value={option.value}>
                                                                 {option.data}
                                                             </MenuItem>
                                                         ))}
+                                                     
                                                     </TextField>
                                                     <TextField
                                                         className='input-box1'
@@ -1952,7 +1971,14 @@ export default function AddMemberPage() {
                                                      
                                                         variant="outlined"
                                                         value={MemberName.data}
-                                                        onChange={(e) => MemberInfoTextValidate(e, "MemberName")} />
+                                                        onChange={(e) => MemberInfoTextValidate(e, "MemberName")} 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }}
+                                                     />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{MemberName.error || NamePrefix.error}</div>
                                             </Stack>
@@ -1971,12 +1997,19 @@ export default function AddMemberPage() {
                                                         variant="outlined"
                                                         value={RelationPrefix.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "RelationPrefix")}
-                                                        style={{ width: 90, marginRight: -10 }} >
+                                                        style={{ width: 90, marginRight: -10 }} 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '7px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }}>
                                                         {RelationShipPrefix.map((option) => (
                                                             <MenuItem key={option} value={option.value}>
                                                                 {option.data}
                                                             </MenuItem>
                                                         ))}
+                                                      
                                                     </TextField>
                                                     <TextField
                                                         className='input-box1'
@@ -1984,7 +2017,13 @@ export default function AddMemberPage() {
                                                         disabled={screen === "view"}
                                                      
                                                         value={Relationship.data}
-                                                        onChange={(e) => MemberInfoTextValidate(e, "Relationship")} />
+                                                        onChange={(e) => MemberInfoTextValidate(e, "Relationship")} 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }}/>
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }} className='req'>{Relationship.error || RelationPrefix.error}</div>
                                             </Stack>
@@ -2005,12 +2044,19 @@ export default function AddMemberPage() {
                                                    
                                                         variant="outlined"
                                                         value={Gender.data}
-                                                        onChange={(e) => MemberInfoTextValidate(e, "Gender")} >
+                                                        onChange={(e) => MemberInfoTextValidate(e, "Gender")}
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }} >
                                                         {GenderArray.map((option) => (
                                                             <MenuItem key={option} value={option}>
                                                                 {option}
                                                             </MenuItem>
                                                         ))}
+                                                       
                                                     </TextField>
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Gender.error}</div>
@@ -2029,7 +2075,14 @@ export default function AddMemberPage() {
                                                      
                                                         value={MobileNumber.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "MobileNumber")}
-                                                        type='number' />
+                                                        type='number' 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }}
+                                                     />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{MobileNumber.error}</div>
                                             </Stack>
@@ -2051,7 +2104,16 @@ export default function AddMemberPage() {
                                                                 format="DD-MM-YYYY"
                                                                 maxDate={maxDate}
                                                                 renderInput={(params) => <TextField {...params} />}
-                                                           />
+                                                           
+                                                                sx={{
+                                                                    '& .MuiInputBase-input': {
+                                                                      padding: '8px',
+                                                                      fontSize:'14px' 
+                                                                    },
+                                                                    '& .MuiInputAdornment-root': {
+                                                                      padding: '8px', 
+                                                                    },
+                                                                  }} />
                                                         </DemoContainer>
                                                     </LocalizationProvider>
                                                 </Stack>
@@ -2070,7 +2132,14 @@ export default function AddMemberPage() {
                                                         disabled={screen === "view"}
                                                    
                                                         value={Email.data}
-                                                        onChange={(e) => MemberInfoTextValidate(e, "Email")} />
+                                                        onChange={(e) => MemberInfoTextValidate(e, "Email")} 
+                                                      
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{Email.error}</div>
                                             </Stack>
@@ -2090,7 +2159,13 @@ export default function AddMemberPage() {
                                                      
                                                         value={WhatsappNo.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "WhatsappNo")}
-                                                        type='number' />
+                                                        type='number' 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }}/>
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{WhatsappNo.error}</div>
                                             </Stack>
@@ -2107,7 +2182,13 @@ export default function AddMemberPage() {
                                                         disabled={screen === "view"}
                                                       
                                                         value={GuardName.data}
-                                                        onChange={(e) => MemberInfoTextValidate(e, "GuardName")} />
+                                                        onChange={(e) => MemberInfoTextValidate(e, "GuardName")} 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{GuardName.error}</div>
                                             </Stack>
@@ -2126,7 +2207,13 @@ export default function AddMemberPage() {
                                                         disabled={screen === "view"}
                                                       
                                                         value={GuardRelationship.data}
-                                                        onChange={(e) => MemberInfoTextValidate(e, "GuardRelationship")} />
+                                                        onChange={(e) => MemberInfoTextValidate(e, "GuardRelationship")} 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GuardRelationship.error}</div>
                                             </Stack>
@@ -2143,7 +2230,13 @@ export default function AddMemberPage() {
                                                         disabled={screen === "view"}
                                                       
                                                         value={AadharNo.data}
-                                                        onChange={(e) => MemberInfoTextValidate(e, "AadharNo")} />
+                                                        onChange={(e) => MemberInfoTextValidate(e, "AadharNo")} 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }}/>
                                                 </Stack>
                                                 <div style={{ marginTop: "-10px", marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AadharNo.error}</div>
                                             </Stack>
@@ -2167,7 +2260,13 @@ export default function AddMemberPage() {
                                                         disabled={screen === "view"}
                                                       
                                                         value={Address.data}
-                                                        onChange={(e) => AddressDetailsTextValidate(e, "Address")} />
+                                                        onChange={(e) => AddressDetailsTextValidate(e, "Address")}
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }}  />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Address.error}</div>
                                             </Stack>
@@ -2184,7 +2283,13 @@ export default function AddMemberPage() {
                                                         disabled={screen === "view"}
                                                       
                                                         value={AreaName.data}
-                                                        onChange={(e) => AddressDetailsTextValidate(e, "AreaName")} />
+                                                        onChange={(e) => AddressDetailsTextValidate(e, "AreaName")} 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AreaName.error}</div>
                                             </Stack>
@@ -2201,7 +2306,12 @@ export default function AddMemberPage() {
                                                         disabled={screen === "view"}
                                                        
                                                         value={City.data}
-                                                        onChange={(e) => AddressDetailsTextValidate(e, "City")} />
+                                                        onChange={(e) => AddressDetailsTextValidate(e, "City")}   sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }}/>
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{City.error}</div>
                                             </Stack>
@@ -2222,7 +2332,12 @@ export default function AddMemberPage() {
                                                    
                                                         variant="outlined"
                                                         value={Country.data}
-                                                        onChange={(e) => AddressDetailsTextValidate(e, "Country")} >
+                                                        onChange={(e) => AddressDetailsTextValidate(e, "Country")}   sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }} >
                                                         {CountryList.map((option) => (
                                                             <MenuItem key={option} value={option.country_name}>
                                                                 {option.country_name}
@@ -2247,7 +2362,12 @@ export default function AddMemberPage() {
                                                     
                                                         variant="outlined"
                                                         value={State.data}
-                                                        onChange={(e) => AddressDetailsTextValidate(e, "State")} >
+                                                        onChange={(e) => AddressDetailsTextValidate(e, "State")}  sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px', 
+                                                              fontSize:'14px',
+                                                            }
+                                                          }} >
                                                         {StateList.map((option) => (
                                                             <MenuItem key={option} value={option.state_name}>
                                                                 {option.state_name}
@@ -2276,7 +2396,13 @@ export default function AddMemberPage() {
                                                         disabled={screen === "view"}
                                                       
                                                         value={NameOnAccount.data}
-                                                        onChange={(e) => BankDetailsTextValidate(e, "NameOnAccount")} />
+                                                        onChange={(e) => BankDetailsTextValidate(e, "NameOnAccount")} 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{NameOnAccount.error}</div>
                                             </Stack>
@@ -2293,7 +2419,13 @@ export default function AddMemberPage() {
                                                         disabled={screen === "view"}
                                                      
                                                         value={AccountNumber.data}
-                                                        onChange={(e) => BankDetailsTextValidate(e, "AccountNumber")} />
+                                                        onChange={(e) => BankDetailsTextValidate(e, "AccountNumber")} 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }} />
                                                 </Stack>
                                                 <div style={{ marginTop: "-10px", marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{AccountNumber.error}</div>
                                             </Stack>
@@ -2312,7 +2444,13 @@ export default function AddMemberPage() {
                                                         disabled={screen === "view"}
                                                      
                                                         value={IFSCCode.data}
-                                                        onChange={(e) => BankDetailsTextValidate(e, "IFSCCode")} />
+                                                        onChange={(e) => BankDetailsTextValidate(e, "IFSCCode")} 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{IFSCCode.error}</div>
                                             </Stack>
@@ -2331,7 +2469,13 @@ export default function AddMemberPage() {
                                                      
                                                         variant="outlined"
                                                         value={TypeOfAccount.data}
-                                                        onChange={(e) => BankDetailsTextValidate(e, "TypeOfAccount")} >
+                                                        onChange={(e) => BankDetailsTextValidate(e, "TypeOfAccount")} 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }} >
                                                         {TypeOfAccountArray.map((option) => (
                                                             <MenuItem key={option} value={option}>
                                                                 {option}
@@ -2356,7 +2500,13 @@ export default function AddMemberPage() {
                                                         disabled={screen === "view"}
                                                     
                                                         value={BankName.data}
-                                                        onChange={(e) => BankDetailsTextValidate(e, "BankName")} />
+                                                        onChange={(e) => BankDetailsTextValidate(e, "BankName")} 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{BankName.error}</div>
                                             </Stack>
@@ -2373,7 +2523,13 @@ export default function AddMemberPage() {
                                                         disabled={screen === "view"}
                                                       
                                                         value={Branch.data}
-                                                        onChange={(e) => BankDetailsTextValidate(e, "Branch")} />
+                                                        onChange={(e) => BankDetailsTextValidate(e, "Branch")} 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }} />
                                                 </Stack>
                                                 <div style={{ marginTop: "-10px", marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Branch.error}</div>
                                             </Stack>
@@ -2392,7 +2548,13 @@ export default function AddMemberPage() {
                                                         disabled={screen === "view"}
                                                       
                                                         value={UPI.data}
-                                                        onChange={(e) => BankDetailsTextValidate(e, "UPI")} />
+                                                        onChange={(e) => BankDetailsTextValidate(e, "UPI")} 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }} />
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{UPI.error}</div>
                                             </Stack>
@@ -2403,7 +2565,7 @@ export default function AddMemberPage() {
                                 ? null
                                 : <TabPanel value="4">
                                     <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                        <div className='box'>
+                                        <div className='box rd_bx'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 3, mr: 2, mt: 2, mb: 1 }}>
                                                     Education <span style={{ color: 'red' }}> *</span>
@@ -2417,7 +2579,7 @@ export default function AddMemberPage() {
                                                         value={Education.data}
                                                         onChange={(e) => { setEducation({ data: e.target.value, error: "" }); setScreenRefresh(pre => pre + 1); }}>
                                                         <FormControlLabel value="Primary" control={<Radio />} label="Primary" disabled={screen === "view"} />
-                                                        <FormControlLabel value="Secondary" control={<Radio />} label="Secondary" disabled={screen === "view"} />
+                                                        <FormControlLabel className="radio-sec" value="Secondary" control={<Radio />} label="Secondary" disabled={screen === "view"} />
                                                         <FormControlLabel className="radio-control2" value="Diploma" control={<Radio />} label="Diploma" disabled={screen === "view"} />
                                                         <FormControlLabel value="Graduate" control={<Radio />} label="Graduate" disabled={screen === "view"} />
                                                         <FormControlLabel className="radio-control" value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view"} />
@@ -2427,7 +2589,7 @@ export default function AddMemberPage() {
                                                 <div style={{ marginLeft: "25px", marginTop: "0px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Education.error}</div>
                                             </Stack>
                                         </div>
-                                        <div className='box'>
+                                        <div className='box rd_bx'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 3, mr: 2, mt: 2, mb: 1 }}>
                                                     Marital Status <span style={{ color: 'red' }}> *</span>
@@ -2453,7 +2615,7 @@ export default function AddMemberPage() {
                                     </Stack>
                                     {MaritalStatus.data === "Married" || MaritalStatus.data === "Married With Kids"
                                         ? <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                            <div className='box'>
+                                            <div className='box  one-1 rd_bx'>
                                                 <Stack direction='column'>
                                                     <Typography variant="subtitle1" sx={{ ml:3, mr: 2, mt: 2, mb: 1 }}>
                                                         Spouse Education <span style={{ color: 'red' }}> *</span>
@@ -2466,10 +2628,10 @@ export default function AddMemberPage() {
                                                             value={SpouseEducation.data}
                                                             onChange={(e) => { setSpouseEducation({ data: e.target.value, error: "" }); setScreenRefresh(pre => pre + 1); }}>
                                                             <FormControlLabel value="Primary" control={<Radio />} label="Primary" disabled={screen === "view"} />
-                                                            <FormControlLabel value="Secondary" control={<Radio />} label="Secondary" disabled={screen === "view"} />
+                                                            <FormControlLabel className="radio-con radio-sec" value="Secondary" control={<Radio />} label="Secondary" disabled={screen === "view"} />
                                                             <FormControlLabel className="radio-control2" value="Diploma" control={<Radio />} label="Diploma" disabled={screen === "view"} />
                                                             <FormControlLabel value="Graduate" control={<Radio />} label="Graduate" disabled={screen === "view"} />
-                                                            <FormControlLabel className="radio-control" value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view"} />
+                                                            <FormControlLabel className="radio-control radio-sub" value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view"} />
                                                             <FormControlLabel className="radio-control1" value="Doctrate" control={<Radio />} label="Doctorate" disabled={screen === "view"} />
                                                         </RadioGroup>
                                                     </Stack>
@@ -2494,10 +2656,15 @@ export default function AddMemberPage() {
                                                         id="outlined-select-currency"
                                                         select
                                                         disabled={screen === "view"}
-                                                        label="Select"
+                                                       
                                                         variant="outlined"
                                                         value={CurrentOccupation.data}
-                                                        onChange={(e) => OccupationDetailsTextValidate(e, "CurrentOccupation")} >
+                                                        onChange={(e) => OccupationDetailsTextValidate(e, "CurrentOccupation")}  sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px', 
+                                                            }
+                                                          }}>
                                                         {CurrentOccupationArray.map((option) => (
                                                             <MenuItem key={option} value={option}>
                                                                 {option}
@@ -2518,9 +2685,15 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="Current Employer"
+                                                     
                                                         value={CurrentEmployer.data}
-                                                        onChange={(e) => OccupationDetailsTextValidate(e, "CurrentEmployer")} />
+                                                        onChange={(e) => OccupationDetailsTextValidate(e, "CurrentEmployer")} 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }}/>
                                                 </Stack>
                                                 <div style={{ marginLeft: "15px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{CurrentEmployer.error}</div>
                                             </Stack>
@@ -2537,9 +2710,14 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="Years at Current Employer"
+                                                      
                                                         value={YearsAtCurrentEmployer.data}
-                                                        onChange={(e) => OccupationDetailsTextValidate(e, "YearsAtCurrentEmployer")} />
+                                                        onChange={(e) => OccupationDetailsTextValidate(e, "YearsAtCurrentEmployer")}  sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px', 
+                                                              fontSize:'14px'
+                                                            }
+                                                          }}/>
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{YearsAtCurrentEmployer.error}</div>
                                             </Stack>
@@ -2554,9 +2732,15 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="Monthly Income"
+                                                      
                                                         value={MonthlyIncome.data}
-                                                        onChange={(e) => OccupationDetailsTextValidate(e, "MonthlyIncome")} />
+                                                        onChange={(e) => OccupationDetailsTextValidate(e, "MonthlyIncome")} 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }}/>
                                                 </Stack>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }} className='req'>{MonthlyIncome.error}</div>
                                             </Stack>
@@ -2593,9 +2777,15 @@ export default function AddMemberPage() {
                                                         className='input-box1'
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
-                                                        label="Years at Current Residence"
+                                                     
                                                         value={YearsAtCurrentResidence.data}
-                                                        onChange={(e) => OccupationDetailsTextValidate(e, "YearsAtCurrentResidence")} />
+                                                        onChange={(e) => OccupationDetailsTextValidate(e, "YearsAtCurrentResidence")} 
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px' ,
+                                                            }
+                                                          }}/>
                                                 </Stack>
                                             </Stack>
                                             <div style={{ marginLeft: "25px",marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{YearsAtCurrentResidence.error}</div>
@@ -2650,9 +2840,9 @@ export default function AddMemberPage() {
                         {!MemberLoading && (screen === "view" || TabIndex === "6"
                             ? null
                             : <Stack direction='column' alignItems='flex-end'>
-                                <Button sx={{ mr: 5, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
+                                <Button sx={{ mr: 5, mb: 3,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                     {Loading
-                                        ? (<img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                                        ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                         : ("Submit")}
                                 </Button>
                             </Stack>)}

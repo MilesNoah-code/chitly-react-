@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useLocation, } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
@@ -16,6 +16,7 @@ import { GetHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 import { MEMBER_LIST, ADDRESS_DETAIL, GROUP_MEMBER_LIST, GROUP_MEMBER_SAVE, REACT_APP_HOST_URL, } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
+import ScreenError from 'src/Error/ScreenError';
 
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
@@ -28,8 +29,9 @@ import GroupMemberTableRow from './groupmember-member-list';
 
 export default function AddGroupMemberPage() {
 
+    const navigate = useNavigate();
     const location = useLocation();
-    const { screen, data } = location.state;
+    const { screen, data } = location.state || {};
     const Session = localStorage.getItem('apiToken');
     const [Loading, setLoading] = useState(false);
     const [AlertOpen, setAlertOpen] = useState(false);
@@ -83,7 +85,7 @@ export default function AddGroupMemberPage() {
     const GetGroupMemberList = () => {
         // const memberId = '';
         setGroupMemberLoading(true);
-        const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}?id=&groupId=${data.id}`;
+        const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}?id=&groupId=${data?.id ? data.id : ""}`;
         console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -230,7 +232,7 @@ export default function AddGroupMemberPage() {
                         };
                         // console.log(updatedItem)
                         setMemberDetail(updatedItem);
-                    }else{
+                    } else {
                         setMemberDetail(memberDetails);
                     }
                 } else if (json.success === false) {
@@ -407,18 +409,18 @@ export default function AddGroupMemberPage() {
                 window.location.reload();
             }
         } else {
-            window.location.reload();
+            navigate('/groupMember/list');
         }
     }
 
     const HandleGroupMemberClick = (event, item, index, from) => {
-        if(from === "3"){
+        if (from === "3") {
             event.stopPropagation();
         }
         console.log("item1", item, "TicketNoClick1111", TicketNoClick);
         if (TicketNoClick !== "") {
             console.log("TicketNoClick", TicketNoClick, "item.tktno", item.tktno);
-            if (TicketNoClick === item.tktno){
+            if (TicketNoClick === item.tktno) {
                 setMemberListAlert(true);
                 GetMemberDetail(1, item.id, 3, index);
                 setSelectedIndex(index);
@@ -434,12 +436,20 @@ export default function AddGroupMemberPage() {
         }
     }
 
+    const HandlePreviousScreen = () => {
+        navigate('/groupMember/list');
+    }
+
+    if (!location.state) {
+        return <ScreenError HandlePreviousScreen={HandlePreviousScreen} />
+    }
+
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
     return (
         <div style={{ marginLeft: '35px', marginRight: '35px' }}>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
-                <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
+                <Typography variant="h6" sx={{ fontWeight: '600' }}>
                     Group Member
                 </Typography>
                 <Button variant="contained" className='custom-button' onClick={HandleBack} sx={{ cursor: 'pointer' }}>
@@ -459,10 +469,11 @@ export default function AddGroupMemberPage() {
                             <Grid className='grid-UI' container spacing={2}>
                                 <Grid className='table-grid' item xs={12} md={5}>
                                     <Scrollbar>
-                                        <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
+                                    <div style={{ marginLeft: '15px', marginRight: '0px' }}>
+                                        <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
                                             <Table sx={{ minWidth: 350 }}>
                                                 <TableRow hover tabIndex={-1}>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Ticket No</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Tkt No</TableCell>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
                                                 </TableRow>
@@ -492,15 +503,16 @@ export default function AddGroupMemberPage() {
                                                 </TableBody>
                                             </Table>
                                         </TableContainer>
+                                        </div>
                                     </Scrollbar>
                                 </Grid>
                                 <Grid  className='table-grid' item xs={12} md={7}>
                                     <div className='detail'>
-                                        <Typography variant="h5" sx={{ mt: 0, ml: 2, }}>
+                                        <Typography variant="h6" className='detail-head' sx={{ mt: 0, ml: 2, }}>
                                             Group Detail:
                                         </Typography>
                                         <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                            <div className='box-grp  grp-label'>
+                                            <div className='box-grp'>
                                                 <Stack direction='column'>
                                                     <Typography variant="subtitle1" className='detail-sub' sx={{ ml: 2, mr: 2, mt: 1, mb: '0px' }}>
                                                         Group No
@@ -557,7 +569,7 @@ export default function AddGroupMemberPage() {
                                         </Stack>
                                     </div>
                                     <div className='detail'>
-                                        <Typography variant="h5" sx={{ mt: 0, ml: 2, }}>
+                                        <Typography variant="h6" className='detail-head' sx={{ mt: 0, ml: 2, }}>
                                             Member Detail:
                                         </Typography>
                                         <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
@@ -640,7 +652,7 @@ export default function AddGroupMemberPage() {
                                         </Stack>
                                     </div>
                                     <div className='detail'>
-                                    <Typography variant="h5" sx={{ mt: 0, ml:2 }}>
+                                    <Typography variant="h6" className='detail-head' sx={{ mt: 0, ml:2 }}>
                                             Address Detail:
                                         </Typography>
                                         {(memberDetail.addressline1 == null || memberDetail.addressline1 === '') && (memberDetail.city == null || memberDetail.city === '') &&
@@ -722,9 +734,9 @@ export default function AddGroupMemberPage() {
                                 </Grid>
                             </Grid>
                             <Stack direction='column' alignItems='flex-end'>
-                                <Button sx={{ mr: 5, mt: 2, mb: 3, height: 50, width: 150, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
+                                <Button sx={{ mr: 3, mt: 2, mb: 3,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                     {Loading
-                                        ? (<img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                                        ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                         : ("Submit")}
                                 </Button>
                             </Stack>
@@ -768,6 +780,15 @@ export default function AddGroupMemberPage() {
                                         </InputAdornment>
                                     ),
                                 }}
+                                sx={{
+                                    '& .MuiInputBase-input': {
+                                      padding: '8px',
+                                      fontSize:'14px' 
+                                    },
+                                    '& .MuiInputAdornment-root': {
+                                      padding: '8px', 
+                                    },
+                                  }}
                             />
                             <IconButton
                                 aria-label="close"
@@ -779,12 +800,13 @@ export default function AddGroupMemberPage() {
                         </Stack>
                         <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 1 }}>
                             <Scrollbar>
+                            <div style={{ marginLeft: '15px', marginRight: '15px' }}>
                                 <TableContainer sx={{ overflow: '', mt: 2 }}>
                                     <Table sx={{ minWidth: 500 }} stickyHeader>
                                         <TableRow hover tabIndex={-1}>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Acc No</TableCell>
-                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Mobile Number</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Mobile Number</TableCell>
                                         </TableRow>
                                         {MemberListLoading
                                             ? <TableRow>
@@ -808,6 +830,7 @@ export default function AddGroupMemberPage() {
                                             </TableBody>}
                                     </Table>
                                 </TableContainer>
+                                </div>
                             </Scrollbar>
                         </Box>
                         {MemberList.length > 0 && <TablePagination

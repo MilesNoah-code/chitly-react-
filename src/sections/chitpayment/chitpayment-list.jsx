@@ -101,6 +101,7 @@ export default function ChitPaymentTableRow({
     setOpen(null);
     setConfirmAlert(false);
   };
+  const formatNumber = (number) => new Intl.NumberFormat('en-IN').format(number);
 
   return (
     <>
@@ -124,7 +125,7 @@ export default function ChitPaymentTableRow({
           <TableCell>{item.membername}</TableCell>
           <TableCell>{item.tktno}</TableCell>
           <TableCell>{item.installment_no}</TableCell>
-          <TableCell>{item.credit_value != null && item.credit_value !== "" ? Math.round(item.credit_value) : ""}</TableCell>
+          <TableCell>{item.debit_value != null && item.debit_value !== "" ? formatNumber(Math.round(item.debit_value)) : ""}</TableCell>
 
           <TableCell align="right">
             <IconButton onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>

@@ -80,9 +80,9 @@ export default function DashboardLayout({ children }) {
   );
 
   const renderMenu = (
-    <Stack component="nav" spacing={0.5} sx={{ px: 2 }}>
+    <Stack component="nav" spacing={0.5} sx={{ pr:2, pl:0 }}>
       {navConfig.map((item, index) => (
-        <NavItem key={item.title} item={item} isFirstItem={index === 0} onMouseEnter={handleMouseEnter} onClick={handleIconClick} />
+        <NavItem key={item.title} item={item} isFirstItem={index === 0} onMouseEnter={handleMouseEnter} onClick={handleIconClick}  sx={{ marginLeft: '-3px', marginRight: '18px' }}/>
       ))}
     </Stack>
   );
@@ -120,7 +120,7 @@ export default function DashboardLayout({ children }) {
   return (
     <>
       <AppBar className="custom-header"
-        sx={{ boxShadow: 'none', height: HEADER.H_MOBILE, zIndex: themes.zIndex.appBar + 1,
+        sx={{   boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1) !important' , height: HEADER.H_MOBILE, zIndex: themes.zIndex.appBar + 1,
           ...bgBlur({ color: themes.palette.background.default, }),
           transition: themes.transitions.create(['height'], { duration: themes.transitions.duration.shorter, }),
           ...(lgUp && { width: `calc(100% - ${1}px)`, height: HEADER.H_DESKTOP, }),
@@ -140,7 +140,7 @@ export default function DashboardLayout({ children }) {
             }, }} onMouseLeave={handleMouseLeave} >
           {upLg ?
             <Box
-              sx={{ height: 1, position: 'fixed', width: isClicked || isHovered ? '280px' : '55px',
+              sx={{ height: 1, position: 'fixed', width: isClicked || isHovered ? '280px' : '55px', backgroundColor: 'white',
                 transition: 'width 0.3s ease-in-out',
                 '&:hover': { width: '270px', zIndex: 9999999, backgroundColor: 'white', },
                 borderRight: (theme) => `dashed 1px ${theme.palette.divider}`, }} >
@@ -210,7 +210,7 @@ function NavItem({ item, isFirstItem, onMouseEnter, onClick }) {
       <Box
         component="span"
         className="navItemIcon"
-        sx={{ width: '24px', height: '24px', mr: 2, ml: -2, transition: 'width 0.3s ease-in-out', }} >
+        sx={{ width: '24px', height: '24px', mr: '18px', ml: '-3px', transition: 'width 0.3s ease-in-out', }} >
         {item.icon}
       </Box>
 

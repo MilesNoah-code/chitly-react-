@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
-import Typography from '@mui/material/Typography';
 import { Alert, Stack, Snackbar } from '@mui/material';
 
 import { GetHeader, } from 'src/hooks/AxiosApiFetch';
@@ -152,21 +151,23 @@ export default function AppView() {
   return (
     <Container maxWidth="xl">
 
-      <Typography variant="h4" sx={{ 
-        mb: 1,        
-        '@media (min-width:769px)': {  
-            mb: 5,
-        },
-    }}>
-        Hi, Welcome back 👋
-      </Typography>
+ 
       {ActivityLogListLoading || DashBoardCountLoading || CustomerCountBasedGroupListLoading
         ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
           <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
         </Stack>
-        : <Grid container spacing={3}>
-          <Grid xs={12} sm={6} md={3}>
+        : <Grid container spacing={3} sx={{mt:1}}>
+          <Grid xs={12} sm={6} md={3} className="grid-dash"
+         >
             <AppWidgetSummary
+            sx={{ 
+              paddingLeft: '15px',
+              paddingRight: '15px',
+              paddingTop: '20px',
+              paddingBottom: '20px',
+              borderRadius: '16px',
+              height: '120px',
+            }}
               title="Number of Customers"
               total={DashBoardCount && DashBoardCount.memberCount ? DashBoardCount.memberCount : "0"}
               color="success"
@@ -176,6 +177,14 @@ export default function AppView() {
 
           <Grid xs={12} sm={6} md={3}>
             <AppWidgetSummary
+            sx={{ 
+              paddingLeft: '15px',
+              paddingRight: '15px',
+              paddingTop: '20px',
+              paddingBottom: '20px',
+              borderRadius: '16px',
+              height: '120px',
+            }}
               title="Number of Active Groups"
               total={DashBoardCount && DashBoardCount.groupCount ? DashBoardCount.groupCount : "0"}
               color="info"
@@ -185,6 +194,14 @@ export default function AppView() {
 
           <Grid xs={12} sm={6} md={3}>
             <AppWidgetSummary
+            sx={{ 
+              paddingLeft: '15px',
+              paddingRight: '15px',
+              paddingTop: '20px',
+              paddingBottom: '20px',
+              borderRadius: '16px',
+              height: '120px',
+            }}
               title="Total Receipt this Month"
               total={DashBoardCount && DashBoardCount.receiptCount ? DashBoardCount.receiptCount : "0"}
               color="warning"
@@ -194,6 +211,14 @@ export default function AppView() {
 
           <Grid xs={12} sm={6} md={3}>
             <AppWidgetSummary
+            sx={{ 
+              paddingLeft: '15px',
+              paddingRight: '15px',
+              paddingTop: '20px',
+              paddingBottom: '20px',
+              borderRadius: '16px',
+              height: '120px',
+            }}
               title="Total Payment this Month"
               total={DashBoardCount && DashBoardCount.paymentCount ? DashBoardCount.paymentCount : "0"}
               color="error"
@@ -203,6 +228,7 @@ export default function AppView() {
 
           <Grid xs={12} md={6} lg={8}>
             <AppWebsiteVisits
+          
               title="Chit Amount Based Customers Count"
               chart={chartData}
             />

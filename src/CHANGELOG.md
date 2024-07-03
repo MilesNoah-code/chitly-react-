@@ -1,3 +1,10 @@
+3.4.6
+Date : 03/07/2024
+Type : Development
+Description :  
+        1.All screen ui fix
+        2.All screen wrong path url handle
+----------------------------------------------------------------
 3.4.5
 Date : 02/07/2024
 Type : Development

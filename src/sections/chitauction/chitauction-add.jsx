@@ -1049,9 +1049,12 @@ export default function AddChitAuctionPage() {
         setChitAuctionMemberList(prevState => {
             const updatedList = prevState.map((prev, index) => {
                 // const isEditable = String(item.id).includes('id_') || (index === prevState.length - 1 && !String(item.id).includes('id_'));
-                const isEditable = ChitParameter.length > 0;;
-                console.log("isEditable", isEditable)
-
+                const isEditable = true;
+                if(prev.id !==0 && prev.id !=="0")
+                    {
+                        const isEditable = ChitParameter.length > 0;
+                        console.log("isEditable", isEditable)
+                    }            
                 if (prev === item && isEditable) {
                     if (from === "maxaucdisc") {
                         return {
@@ -2010,9 +2013,9 @@ export default function AddChitAuctionPage() {
                                                                             className='input-box2'
                                                                             id="outlined-required"
                                                                             value={row.maxaucdisc}
-                                                                            onChange={isEditable ? (e) => ChitAuctionMemberListTextValidate(e, row, "maxaucdisc") : null}
+                                                                            onChange={isEditable || row.id ==="0" || row.id ===0 ? (e) => ChitAuctionMemberListTextValidate(e, row, "maxaucdisc") : null}
                                                                             style={{ width: 100, }}
-                                                                            disabled={!isEditable}
+                                                                            disabled={!isEditable && row.id !=="0" && row.id !==0}
                                                                             sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px',  },
                                                                                 '& .MuiInputAdornment-root': { padding: '8px', } }}/>
                                                                     </TableCell>
@@ -2022,9 +2025,9 @@ export default function AddChitAuctionPage() {
                                                                                 className='input-box2'
                                                                                 id="outlined-required"
                                                                                 value={row.signature}
-                                                                                onChange={isEditable ? (e) => ChitAuctionMemberListTextValidate(e, row, "signature") : null}
+                                                                                onChange={isEditable || row.id ==="0" || row.id ===0 ? (e) => ChitAuctionMemberListTextValidate(e, row, "signature") : null}
                                                                                 style={{ width: 100,  }}
-                                                                                disabled={!isEditable}
+                                                                                disabled={!isEditable && row.id !=="0" && row.id !==0}
                                                                                 sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', },
                                                                                     '& .MuiInputAdornment-root': { padding: '8px', } }}/>
                                                                         </Stack>

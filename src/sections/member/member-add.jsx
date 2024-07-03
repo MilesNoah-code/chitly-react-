@@ -21,6 +21,7 @@ import { MEMBER_ADD, STATE_LIST, MEMBER_VIEW, COUNTRY_LIST, MEMBER_UPDATE, MEMBE
 } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
+import ScreenError from 'src/Error/ScreenError';
 
 import './member-add.css';
 
@@ -28,7 +29,7 @@ export default function AddMemberPage() {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const { screen, data } = location.state;
+    const { screen, data } = location.state || {};
     const Session = localStorage.getItem('apiToken');
 
     const Prefix = [{ value: "MR", data: "Mr" }, { value: "MRS", data: "Mrs" }, { value: "MS", data: "Ms" }, { value: "M/s", data: "M/s" }, { value: "Master", data: "Master" }];
@@ -265,7 +266,7 @@ export default function AddMemberPage() {
 
     const GetMemberView = () => {
         setMemberLoading(true);
-        const url = `${REACT_APP_HOST_URL}${MEMBER_VIEW}${data.id}`;
+        const url = `${REACT_APP_HOST_URL}${MEMBER_VIEW}${data?.id ? data.id : ""}`;
         console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -471,7 +472,7 @@ export default function AddMemberPage() {
         "name": MemberName.data,
         "accno": "",
         "gender": Gender.data,
-        "status": screen === "add" ? "approved" : data.status,
+        "status": screen === "add" ? "approved" : data?.status,
         "branchid": 0,
         "dob": Dob.datesave != null ? Dob.datesave : "",
         "email": Email.data,
@@ -495,7 +496,7 @@ export default function AddMemberPage() {
     }
 
     const AddressDetailParams = {
-        "mappedid": data.id,
+        "mappedid": data?.id ? data.id : "",
         "addressline1": Address.data,
         "addressline2": "",
         "city": City.data,
@@ -508,7 +509,7 @@ export default function AddMemberPage() {
     }
 
     const BankDetailParams = {
-        "mappedid": data.id,
+        "mappedid": data?.id ? data.id : "",
         "bankname": BankName.data,
         "ifsccode": IFSCCode.data,
         "accno": AccountNumber.data,
@@ -519,14 +520,14 @@ export default function AddMemberPage() {
     }
 
     const EducationDetailParams = {
-        "member_id": data.id,
+        "member_id": data?.id ? data.id : "",
         "education": Education.data,
         "marital_status": MaritalStatus.data,
         "spouse_education": SpouseEducation.data ? SpouseEducation.data : "",
     }
 
     const OccupationDetailParams = {
-        "member_id": data.id,
+        "member_id": data?.id ? data.id : "",
         "occupation_name": CurrentOccupation.data,
         "current_employer_name": CurrentEmployer.data,
         "no_of_years": YearsAtCurrentEmployer.data,
@@ -645,7 +646,7 @@ export default function AddMemberPage() {
 
     const GetMediaList = (entryMappedtypeNo, file) => {
         setMediaListLoading(true);
-        const url = `${REACT_APP_HOST_URL}${MEMBER_MEDIA_LIST}${data.id}&entryMappedtypeNo=${entryMappedtypeNo}`;
+        const url = `${REACT_APP_HOST_URL}${MEMBER_MEDIA_LIST}${data?.id ? data.id : ""}&entryMappedtypeNo=${entryMappedtypeNo}`;
         // console.log(JSON.parse(Session) + url);;
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -735,7 +736,7 @@ export default function AddMemberPage() {
 
     const MediaSaveParams = {
         id: 0,
-        master_mappedid: data.id,
+        master_mappedid: data?.id ? data.id : "",
         master_mappedtype: "MEMBER",
         master_mappedtypeno: 1,
         entry_mappedtype: "",
@@ -1838,6 +1839,14 @@ export default function AddMemberPage() {
     const currentDate = dayjs();
     const maxDate = currentDate.subtract(18, 'year');
 
+    const HandlePreviousScreen = () => {
+        navigate('/member/list');
+    }
+
+    if (!location.state) {
+        return <ScreenError HandlePreviousScreen={HandlePreviousScreen} />
+    }
+
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
     const screenLabel = {
@@ -2833,7 +2842,7 @@ export default function AddMemberPage() {
                             : <Stack direction='column' alignItems='flex-end'>
                                 <Button sx={{ mr: 5, mb: 3,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                     {Loading
-                                        ? (<img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                                        ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                         : ("Submit")}
                                 </Button>
                             </Stack>)}

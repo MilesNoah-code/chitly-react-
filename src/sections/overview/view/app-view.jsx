@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
-import Typography from '@mui/material/Typography';
 import { Alert, Stack, Snackbar } from '@mui/material';
 
 import { GetHeader, } from 'src/hooks/AxiosApiFetch';
@@ -14,6 +13,7 @@ import ErrorLayout from 'src/Error/ErrorLayout';
 import AppOrderTimeline from '../app-order-timeline';
 import AppWebsiteVisits from '../app-website-visits';
 import AppWidgetSummary from '../app-widget-summary';
+
 export default function AppView() {
 
   const Session = localStorage.getItem('apiToken');

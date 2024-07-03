@@ -213,19 +213,13 @@ export default function ReportView() {
                                                 </InputAdornment>
                                             ),
                                         }}
-                                        sx={{
-                                           
-                                            '& .MuiInputBase-input': {
-                                              padding: '8px', 
-                                            },
-                                            '& .MuiInputAdornment-root': {
-                                              padding: '8px', 
-                                            },
-                                          }}
-                                    />
-
+                                        sx={{ '& .MuiInputBase-input': { padding: '8px', },
+                                            '& .MuiInputAdornment-root': { padding: '8px', }, }} />
                                 </Stack>
-                                
+                            {PayableReportLoading
+                                ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
+                                    <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                                </Stack>
                                 : <Stack>
                                     <Scrollbar>
                                         <TableContainer sx={{ overflow: 'unset' }}>
@@ -267,9 +261,9 @@ export default function ReportView() {
                                         rowsPerPage={rowsPerPage}
                                         onPageChange={(e) => handleChangePage(e, "PayableReportList")}
                                         rowsPerPageOptions={[15, 30, 50]}
-                                        onRowsPerPageChange={(e) => handleChangeRowsPerPage(e, "PayableReportList")}
-                                    />}
+                                        onRowsPerPageChange={(e) => handleChangeRowsPerPage(e, "PayableReportList")} />}
                                 </Stack>}
+                                
                         </TabPanel>
                         <TabPanel value="2">
                             <Stack mb={2} mr={3} direction="row" alignItems="center" gap='40px' className='mbl-view'>

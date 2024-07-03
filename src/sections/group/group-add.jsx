@@ -10,6 +10,7 @@ import { PutHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 import { GROUP_SAVE, GROUP_UPDATE, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
+import ScreenError from 'src/Error/ScreenError';
 
 import './group-add.css';
 
@@ -17,36 +18,36 @@ export default function AddGroupPage() {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const { screen, data } = location.state;
+    const { screen, data } = location.state || {};
     const Session = localStorage.getItem('apiToken');
     const [GroupCode, setGroupCode] = useState({
-        data: screen === "add" ? "" : data.groupno,
+        data: screen === "add" ? "" : data?.groupno,
         error: ""
     });
     const [Amount, setAmount] = useState({
-        data: screen === "add" ? "" : data.amount,
+        data: screen === "add" ? "" : data?.amount,
         error: ""
     });
     const [Duration, setDuration] = useState({
-        data: screen === "add" ? "" : data.duration,
+        data: screen === "add" ? "" : data?.duration,
         error: ""
     });
     const [EMDue, setEMDue] = useState({
-        data: screen === "add" ? "" : data.emdue,
+        data: screen === "add" ? "" : data?.emdue,
         error: ""
     });
     const [FMPRDue, setFMPRDue] = useState({
-        data: screen === "add" ? "" : data.fmprdue,
+        data: screen === "add" ? "" : data?.fmprdue,
         placeholder: "Select",
         error: ""
     });
     const [Dividend, setDividend] = useState({
-        data: screen === "add" ? "" : data.divident_distribute,
+        data: screen === "add" ? "" : data?.divident_distribute,
         placeholder: "Select",
         error: ""
     });
     const [AuctionMode, setAuctionMode] = useState({
-        data: screen === "add" ? "" : data.auction_mode,
+        data: screen === "add" ? "" : data?.auction_mode,
         placeholder: "Select",
         error: ""
     });
@@ -147,7 +148,7 @@ export default function AddGroupPage() {
             setLoading(true);
             let url = '';
             let Params = '';
-            url = `${REACT_APP_HOST_URL}${GROUP_UPDATE}${data.id}`;
+            url = `${REACT_APP_HOST_URL}${GROUP_UPDATE}${data?.id}`;
             Params = GroupInfoParams;
             // console.log(JSON.stringify(Params) + url);
             fetch(url, PutHeader(JSON.parse(Session), Params))
@@ -381,6 +382,14 @@ export default function AddGroupPage() {
         }
     }
 
+    const HandlePreviousScreen = () => {
+        navigate('/group/list');
+    }
+
+    if (!location.state) {
+        return <ScreenError HandlePreviousScreen={HandlePreviousScreen} />
+    }
+
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
     const screenLabel = {
@@ -401,9 +410,7 @@ export default function AddGroupPage() {
             </Stack>
             <Card>
                 <Box className="con" component="form"
-                    sx={{
-                        '& .MuiTextField-root': { m: 2, width: '20ch', },
-                    }}
+                    sx={{ '& .MuiTextField-root': { m: 2, width: '20ch', }, }}
                     noValidate
                     autoComplete="off">
                     <Stack direction='column' >
@@ -616,14 +623,14 @@ export default function AddGroupPage() {
                             : <Stack direction='column' alignItems='flex-end'>
                                 <Button sx={{ mr: 2.5, mb: 3,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                     {Loading
-                                        ? (<img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                                        ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                         : ("Submit")}
                                 </Button>
                             </Stack>}
                     </Stack>
                 </Box>
             </Card>
-            <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} 
+            <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose}
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
                 <Alert
                     onClose={HandleAlertClose}

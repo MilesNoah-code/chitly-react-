@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import IconButton from '@mui/material/IconButton';
 import { TabList, TabPanel, TabContext } from '@mui/lab';
-import { Box, Tab, Stack, Alert, Table, Button, Dialog, Snackbar, TableRow, TableCell, TableBody, TextField, Typography, TableContainer, InputAdornment, TablePagination } from '@mui/material';
+import { Box, Tab, Stack, Alert, Table, Button, Dialog, Divider ,Snackbar, TableRow, TableCell, TableBody, TextField, Typography, TableContainer, InputAdornment, TablePagination } from '@mui/material';
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
 
@@ -213,7 +213,7 @@ export default function ReportView() {
                                                 </InputAdornment>
                                             ),
                                         }}
-                                        sx={{ '& .MuiInputBase-input': { padding: '8px', },
+                                        sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize:'14px' },
                                             '& .MuiInputAdornment-root': { padding: '8px', }, }} />
                                 </Stack>
                             {PayableReportLoading
@@ -230,7 +230,7 @@ export default function ReportView() {
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Acc No</TableCell>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group No</TableCell>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Ticket No</TableCell>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Total Amount</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Total Amount</TableCell>
                                                 </TableRow>
                                                 <TableBody>
                                                     {PayableReportList
@@ -242,7 +242,7 @@ export default function ReportView() {
                                                                 <TableCell>{row.memberId}</TableCell>
                                                                 <TableCell>{row.groupno}</TableCell>
                                                                 <TableCell>{row.tktno}</TableCell>
-                                                                <TableCell>{row.chitAmount != null && row.chitAmount !== "" ? formatNumber(Math.round(row.chitAmount)) : ""}</TableCell>
+                                                                <TableCell align='right'>{row.chitAmount != null && row.chitAmount !== "" ? formatNumber(Math.round(row.chitAmount)) : ""}</TableCell>
                                                             </TableRow>
                                                         ))}
                                                     <TableEmptyRows
@@ -281,6 +281,8 @@ export default function ReportView() {
                                             </InputAdornment>
                                         ),
                                     }}
+                                    sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize:'14px' },
+                                    '& .MuiInputAdornment-root': { padding: '8px', }, }}
                                 />
                             </Stack>
                             {ReceivableReportLoading
@@ -297,7 +299,7 @@ export default function ReportView() {
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Acc No</TableCell>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group No</TableCell>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Ticket No</TableCell>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Amount Pending</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Amount Pending</TableCell>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
                                                 </TableRow>
                                                 <TableBody>
@@ -310,8 +312,8 @@ export default function ReportView() {
                                                                 <TableCell>{row.memberId}</TableCell>
                                                                 <TableCell>{row.groupNo}</TableCell>
                                                                 <TableCell>{row.tktno}</TableCell>
-                                                                <TableCell>{row.arrears != null && row.arrears !== "" ? formatNumber(Math.round(row.arrears)) : ""}</TableCell>
-                                                                <TableCell>
+                                                                <TableCell align='right'>{row.arrears != null && row.arrears !== "" ? formatNumber(Math.round(row.arrears)) : ""}</TableCell>
+                                                                <TableCell align='right'>
                                                                     <IconButton onClick={() => { setInstallmentDetailList(row.detail); setInstallmentDetailListAlert(true); }} sx={{ cursor: 'pointer' }}>
                                                                         <Iconify icon="eva:eye-fill" />
                                                                     </IconButton>
@@ -359,18 +361,28 @@ export default function ReportView() {
                 aria-describedby="alert-dialog-description">
                 <Card sx={{ width: 300 }}> {/* Adjust Card width */}
                     <Stack>
+                    <Stack ml={1} mr={1} pb={1}direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
+                    <Stack direction='column'>
+                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                          Member List
+                        </Typography>
+                    </Stack>
+                    <IconButton
+                    aria-label="close"
+                    className='btn-close'
+                    onClick={() => setInstallmentDetailListAlert(false)}
+                    sx={{ position: 'absolute', right: 12, top: 10, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }}>
+                    <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 14, height: 14 }} />
+                </IconButton>
+                </Stack>
+                <Divider sx={{ mt: 2, mb:1}}/>
                         <Stack mt={2} ml={2} mr={1} direction="row" alignItems="center">
-                            <IconButton
-                                aria-label="close"
-                                className='btn-close'
-                                onClick={() => setInstallmentDetailListAlert(false)}
-                                sx={{ position: 'absolute', right: 2, top: 0, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }}>
-                                <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17 }} />
-                            </IconButton>
-                        </Stack>
+                           
+                   
                         <Scrollbar>
-                            <TableContainer sx={{ mt: 2 }}>
-                                <Table sx={{ minWidth: 300 }} stickyHeader>
+                        <div className='' sx={{pl:2 , pr:2}}>
+                            <TableContainer sx={{ overflow: 'unset',mt: 2  }}>
+                                <Table sx={{ minWidth: 280 }} stickyHeader>
                                     <TableRow hover tabIndex={-1}>
                                         <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Installment No</TableCell>
                                         <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Amount</TableCell>
@@ -389,7 +401,9 @@ export default function ReportView() {
                                     </TableBody>
                                 </Table>
                             </TableContainer>
+                            </div>
                         </Scrollbar>
+                    </Stack>
                     </Stack>
                 </Card>
             </Dialog>

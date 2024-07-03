@@ -125,7 +125,7 @@ export default function ChitPaymentTableRow({
           <TableCell>{item.membername}</TableCell>
           <TableCell>{item.tktno}</TableCell>
           <TableCell>{item.installment_no}</TableCell>
-          <TableCell>{item.debit_value != null && item.debit_value !== "" ? formatNumber(Math.round(item.debit_value)) : ""}</TableCell>
+          <TableCell align="right">{item.debit_value != null && item.debit_value !== "" ? formatNumber(Math.round(item.debit_value)) : ""}</TableCell>
 
           <TableCell align="right">
             <IconButton onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>

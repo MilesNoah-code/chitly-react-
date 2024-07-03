@@ -196,6 +196,7 @@ export default function ChitReceiptView() {
                 sx={{
                   '& .MuiInputBase-input': {
                     padding: '8px', 
+                    fontSize:'14px'
                   },
                   '& .MuiInputAdornment-root': {
                     padding: '8px', 
@@ -214,6 +215,7 @@ export default function ChitReceiptView() {
                 sx={{
                   '& .MuiInputBase-input': {
                     padding: '8px', 
+                    fontSize:'14px'
                   },
                   '& .MuiInputAdornment-root': {
                     padding: '8px', 
@@ -239,7 +241,8 @@ export default function ChitReceiptView() {
             sx={{
               paddingTop:'8px',
               '& .MuiInputBase-input': {
-                padding: '8px', 
+                padding: '8px',
+                fontSize:'14px' 
               },
               '& .MuiInputAdornment-root': {
                 padding: '8px', 
@@ -262,7 +265,7 @@ export default function ChitReceiptView() {
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Ticket No</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Inst No</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Credit Amount</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Credit Amount</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
                   </TableRow>
                   <TableBody>

@@ -12,7 +12,7 @@ import TableContainer from '@mui/material/TableContainer';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Box, Alert, Stack, Button, Dialog, styled, Snackbar, IconButton, Typography, DialogTitle, DialogActions, InputAdornment, TablePagination } from '@mui/material';
+import { Box, Alert, Stack, Button, Dialog, styled, Snackbar, Divider ,IconButton, Typography, DialogTitle, DialogActions, InputAdornment, TablePagination } from '@mui/material';
 
 import { GetHeader, PutHeader, PostHeader, DeleteHeader, } from 'src/hooks/AxiosApiFetch';
 
@@ -1011,11 +1011,11 @@ export default function AddChitEstimatePage() {
     const CustomTextField = styled(TextField)(({ theme }) => ({
         '& .MuiInputBase-root': {
             borderBottom: '1px solid',
-            borderRadius: 0,
+            borderRadius: 5,
             padding: '4px',
             backgroundColor: 'transparent',
             fontSize: '0.75rem',
-            height: '32px',
+            height: '25px',
             width: '100%',
         },
         '& .MuiInputBase-input': {
@@ -1050,14 +1050,14 @@ export default function AddChitEstimatePage() {
             </Stack>
             <Card>
                 <Box component="form"
-                    sx={{ '& .MuiTextField-root': { width: '19ch' }, }} noValidate autoComplete="off">
+                    sx={{ '& .MuiTextField-root': { } }} noValidate autoComplete="off">
                     {ChitEstimateLoading || ChitEstimateMemberLoading
                         ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
                             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
-                            <Stack direction='row' spacing={1} alignItems='center' gap='20px' justifyContent="flex-start" sx={{ m: 3, mb: 2 }} className='stack-box'>
-                                <div className='grp'>
+                            <Stack direction='row' spacing={1} alignItems='center' gap='20px' justifyContent="flex-start" sx={{ m: 3, mb: 2 }} className='estimate-box'>
+                                <div className='estimate-grp'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 0, mb: '7px' }}>
                                             Group No
@@ -1074,7 +1074,7 @@ export default function AddChitEstimatePage() {
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{GroupNo.error}</div>
                                     </Stack>
                                 </div>
-                                <div className='grp'>
+                                <div className='estimate-grp'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ mt: 0, ml: 0, mb: '7px' }}>
                                             Foreman Pr.Due
@@ -1091,7 +1091,7 @@ export default function AddChitEstimatePage() {
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{ForemanPrDue.error}</div>
                                     </Stack>
                                 </div>
-                                <div className='grp'>
+                                <div className='estimate-grp'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 0, mb: '7px' }}>
                                             Amount <span style={{ color: 'red' }}> *</span>
@@ -1108,7 +1108,7 @@ export default function AddChitEstimatePage() {
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Amount.error}</div>
                                     </Stack>
                                 </div>
-                                <div className='grp'>
+                                <div className='estimate-grp'>
                                     <Stack direction='column' >
                                         <Typography variant="subtitle1" sx={{ ml: 0, mr: 0, mt: 0, mb: '7px' }}>
                                             Dividend <span style={{ color: 'red' }}> *</span>
@@ -1125,7 +1125,7 @@ export default function AddChitEstimatePage() {
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Dividend.error}</div>
                                     </Stack>
                                 </div>
-                                <div className='grp'>
+                                <div className='estimate-grp'>
                                     <Stack direction='column'>
                                         <Typography variant='subtitle1' sx={{ mt: 0, ml: 0, mb: '7px' }} >
                                             Duration
@@ -1419,11 +1419,23 @@ export default function AddChitEstimatePage() {
                 sx={{ display: 'flex', justifyContent: 'center', flex: 1, }}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description" >
-                <Card sx={{ maxWidth: '800px' }}>
-                    <Stack sx={{ height: '100%', maxHeight: '100vh', overflow: 'hidden' }}>
-                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 5, mt: 2 }}>
-                            Group Member List
-                        </Typography>
+                <Card sx={{ maxWidth: '900px' }}>
+                    <Stack>
+                     <Stack ml={1} mr={1} pb={1}direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
+                            <Stack direction='column'>
+                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                  Group Member List
+                                </Typography>
+                            </Stack>
+                            <IconButton
+                                aria-label="close"
+                                onClick={HandleGroupMemberListAlertClose}
+                                sx={{ position: 'absolute', right: 10, top: 12, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
+                                <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 14, height: 14 }} />
+                            </IconButton>
+                        </Stack>
+                        <Divider sx={{ mt: 2, mb:1}}/>
+                       
                         <Stack mt={2} ml={2} mr={1} direction="row" alignItems="center" gap='10px'>
                             <TextField
                                 placeholder="Member Name..."
@@ -1473,12 +1485,7 @@ export default function AddChitEstimatePage() {
                                     },
                                   }}
                                   />
-                            <IconButton
-                                aria-label="close"
-                                onClick={HandleGroupMemberListAlertClose}
-                                sx={{ position: 'absolute', right: 15, top: 7, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
-                                <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17 }} />
-                            </IconButton>
+                          
                         </Stack>
                         <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 1 }}>
                             <Scrollbar>

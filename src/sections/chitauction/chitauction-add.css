@@ -27,11 +27,11 @@ height: auto !important;
   padding-bottom: 20px;
   padding-right: 10px;
 }
-.stack-box {
+.auction-box {
   display: flex !important;
   flex-wrap: wrap !important;
 }
-.box-grp{
+.auction-grp{
   flex: 1 0 47%;
   max-width: 47%;
   flex-wrap: wrap;
@@ -39,16 +39,16 @@ height: auto !important;
 .con{
   padding: 20px;
 }
-.box-grp .input-box1 {
-margin-top: 5px;
-  width: calc(100% - 20px); 
+.auction-grp .input-box1 {
+margin-top: 5px !important;
+  width: calc(100% - 20px) !important; 
 }
-.box-grp .input-box2 {
+.auction-grp .input-box2 {
   width: calc(100% - 30px);
  
 }
 
-.box-grp .MuiAutocomplete-root  .MuiTextField-root  {
+.auction-grp .MuiAutocomplete-root  .MuiTextField-root  {
   width: calc(100% - 20px) !important; 
 }
 .alert-msg{
@@ -73,7 +73,7 @@ margin-top: 5px;
 .pd{
   padding-right: 15px !important;
 }
-.box-grp .input-box1.md {
+.auction-grp .input-box1.md {
   margin-right: 0px !important;
  
 }
@@ -85,7 +85,7 @@ margin-top: 5px;
 }
 }
 @media screen and (max-width: 768px) {
-  .stack-box{
+  .auction-box{
       flex-direction: column !important;
       width: 100% !important;
       align-items:inherit;
@@ -97,16 +97,16 @@ margin-top: 5px;
   .grp-label{
     width: calc(97% - 0px) !important; 
   }
-  .box-grp {
+  .auction-grp {
     flex: 1 0 100%;
     max-width: 100%;
     margin-left: 0px !important; 
   }
- .stack-box .MuiTypography-root {
+ .auction-box .MuiTypography-root {
   margin-left: 16px !important;
   font-size: 13px;
  }
-.box-grp  .input-box1 {
+.auction-grp  .input-box1 {
       width: calc(100% - 0px) !important; 
     }
     .con{
@@ -114,7 +114,7 @@ margin-top: 5px;
     }
   }
   @media (min-width:769px) and (max-width:894px){
-    .box-grp {
+    .auction-grp {
       flex: 1 0 48%;
       max-width: 48%;
       flex-wrap: wrap;
@@ -152,14 +152,14 @@ margin: 0px !important;
   margin-top: 5px;
 }
       @media (min-width: 0px) {
-        .box-grp  .box-d .MuiStack-root {
+        .auction-grp  .box-d .MuiStack-root {
              -webkit-flex-direction: column;
             -ms-flex-direction: column;
             flex-direction: column;
             width: 100% !important; 
             padding-top: 0px !important;
         }
-        .box-grp  .box-d .MuiStack-root>.MuiTextField-root{
+        .auction-grp  .box-d .MuiStack-root>.MuiTextField-root{
           margin-top: 5px;
           min-width: -webkit-fill-available !important;
       }

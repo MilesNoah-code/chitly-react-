@@ -18,6 +18,7 @@ import { GetHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 import { CHIT_RECEIPT_SAVE, REACT_APP_HOST_URL, CHIT_RECEIPT_DETAIL, CHIT_GET_RECEIPT_NUMBER, CHIT_RECEIPT_PAID_UNPAID_LIST, CHIT_RECEPT_PENDING_GROUP_LIST, } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
+import ScreenError from 'src/Error/ScreenError';
 
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
@@ -29,12 +30,11 @@ import TableNoData from '../member/table-no-data';
 import TableEmptyRows from '../member/table-empty-rows';
 import ChitReceiptMemberTableRow from './chitreceipt-member-list';
 
-
 export default function AddChitReceiptPage() {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const { screen, data } = location.state;
+    const { screen, data } = location.state || {};
     const Session = localStorage.getItem('apiToken');
     const [ReceiptNo, setReceiptNo] = useState({
         data: "",
@@ -128,7 +128,7 @@ export default function AddChitReceiptPage() {
 
     const GetChitReceiptView = () => {
         setGroupListLoading(true);
-        const url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_DETAIL}${data.id}`;
+        const url = `${REACT_APP_HOST_URL}${CHIT_RECEIPT_DETAIL}${data?.id ? data.id : ""}`;
         // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -606,10 +606,10 @@ export default function AddChitReceiptPage() {
                 data: value.duration !== "" && value.duration != null ? value.duration : "",
                 error: ""
             });
-            setValues({
+            /* setValues({
                 data: value.amount !== "" && value.amount != null ? value.amount : "",
                 error: ""
-            });
+            }); */
             GetReceiptNumberList(value.id);
             GetMemberList(value.id, "", "")
         } else {
@@ -719,6 +719,11 @@ export default function AddChitReceiptPage() {
                 data: item.name !== "" && item.name != null ? item.name : "",
                 error: ""
             });
+            const AmmountData = item.installment_amounts.reduce((acc, curr) => acc + curr.amount, 0);
+            setValues({
+                data: AmmountData !== "" && AmmountData != null ? AmmountData : "",
+                error: ""
+            })
             setMemberListAlert(false);
         }
     };
@@ -749,6 +754,14 @@ export default function AddChitReceiptPage() {
         }
     }
 
+    const HandlePreviousScreen = () => {
+        navigate('/chitreceipt/list');
+    }
+
+    if (!location.state) {
+        return <ScreenError HandlePreviousScreen={HandlePreviousScreen} />
+    }
+
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
     const screenLabel = {
@@ -768,10 +781,8 @@ export default function AddChitReceiptPage() {
                 </Button>
             </Stack>
             <Card>
-                <Box  component="form"
-                    sx={{
-                        '& .MuiTextField-root': { width: '34ch', },
-                    }}
+                <Box component="form"
+                    sx={{ '& .MuiTextField-root': { width: '34ch', }, }}
                     noValidate
                     autoComplete="off">
                     {GroupListLoading
@@ -789,7 +800,8 @@ export default function AddChitReceiptPage() {
                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                 <DemoContainer components={['DatePicker']} className="date-pick" >
                                                     <DatePicker
-                                                     disabled={screen === "view"}
+                                                        // label="From Date"
+                                                        disabled={screen === "view"}
                                                         value={ReceiptDate.data}
                                                         onChange={HandleDateChange}
                                                         format="DD-MM-YYYY" 
@@ -844,8 +856,6 @@ export default function AddChitReceiptPage() {
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupNoSearch.error}</div>
                                     </Stack>
                                 </div>
-                          
-                         
                                 <div className='grp'>
                                     <Stack direction='column'>
                                         <Typography variant="subtitle1"  sx={{ ml: 0, mr: 2, mt: 0, mb: '7px' }}>
@@ -856,7 +866,7 @@ export default function AddChitReceiptPage() {
                                                  className='input'
                                                 id="outlined-required"
                                                 disabled
-                                             
+                                                // label="Member Name"
                                                 value={MemberName.data}
                                                 onChange={(e) => ChitReceiptTextValidate(e, "MemberName")} 
                                                 sx={{
@@ -869,8 +879,6 @@ export default function AddChitReceiptPage() {
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{MemberName.error}</div>
                                     </Stack>
                                 </div>
-                              
-                              
                             </Stack>
                             <Stack direction='row' spacing={1} alignItems='center'  gap='15px' justifyContent="flex-start" sx={{m:3, mb:2}} className='stack-box  mbl-st'>
                             <div className='grp grp1'>
@@ -883,7 +891,7 @@ export default function AddChitReceiptPage() {
                                          className='input'
                                         id="outlined-required"
                                         disabled
-                                     
+                                                // label="Receipt No"
                                         value={ReceiptNo.data}
                                         onChange={(e) => ChitReceiptTextValidate(e, "ReceiptNo")} 
                                         sx={{
@@ -906,7 +914,7 @@ export default function AddChitReceiptPage() {
                                          className='input'
                                         id="outlined-required"
                                         disabled
-                                      
+                                                // label="Ticket No"
                                         value={TicketNo.data}
                                         onChange={(e) => ChitReceiptTextValidate(e, "TicketNo")} 
                                         sx={{
@@ -929,7 +937,7 @@ export default function AddChitReceiptPage() {
                                                 className='input'
                                                 id="outlined-required"
                                                 disabled
-                                            
+                                                // label="Auction Mode"
                                                 value={AuctionMode.data}
                                                 onChange={(e) => ChitReceiptTextValidate(e, "AuctionMode")} 
                                                 sx={{
@@ -942,10 +950,6 @@ export default function AddChitReceiptPage() {
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AuctionMode.error}</div>
                                     </Stack>
                                 </div>
-                            
-                          
-                               
-                              
                             </Stack>
                             <Stack direction='row' spacing={1} alignItems='center'  gap='15px' justifyContent="flex-start" sx={{m:3, mb:2}} className='stack-box mbl-st'>
                             <div className='grp grp1'>
@@ -958,7 +962,7 @@ export default function AddChitReceiptPage() {
                                         className='input'
                                         id="outlined-required"
                                         disabled
-                                   
+                                                // label="Account No"
                                         value={AccountNo.data}
                                         onChange={(e) => ChitReceiptTextValidate(e, "AccountNo")} 
                                         sx={{
@@ -981,7 +985,7 @@ export default function AddChitReceiptPage() {
                                         className='input'
                                         id="outlined-required"
                                         disabled
-                                    
+                                                // label="Duration"
                                         value={Duration.data}
                                         onChange={(e) => ChitReceiptTextValidate(e, "Duration")} 
                                         sx={{
@@ -1004,7 +1008,7 @@ export default function AddChitReceiptPage() {
                                                 className='input'
                                                 id="outlined-required"
                                                 disabled
-                                             
+                                                // label="Inst. From"
                                                 value={InstFrom.data}
                                                 onChange={(e) => ChitReceiptTextValidate(e, "InstFrom")}
                                                 sx={{
@@ -1029,7 +1033,7 @@ export default function AddChitReceiptPage() {
                                                 className='input'
                                                 id="outlined-required"
                                                 disabled
-                                             
+                                                // label="Inst. To"
                                                 value={InstTo.data}
                                                 onChange={(e) => ChitReceiptTextValidate(e, "InstTo")} 
                                                 sx={{
@@ -1042,8 +1046,6 @@ export default function AddChitReceiptPage() {
                                         <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{InstTo.error}</div>
                                     </Stack>
                                 </div>
-                            
-                           
                                 <div className='grp'>
                                     <Stack direction='column'>
                                         <Typography variant='subtitle1' sx={{ mt: 2, ml: 0 }} >
@@ -1054,7 +1056,7 @@ export default function AddChitReceiptPage() {
                                                 className='input'
                                                 id="outlined-required"
                                                 disabled={screen === "view"}
-                                              
+                                                // label="Value"
                                                 value={Values.data}
                                                 onChange={(e) => ChitReceiptTextValidate(e, "Values")}
                                                 type='number' 
@@ -1074,7 +1076,7 @@ export default function AddChitReceiptPage() {
                                 : <Stack direction='column' alignItems='flex-end'>
                                     <Button sx={{ mr: 3, mt: 2, mb: 3,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                         {Loading
-                                            ? (<img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                                            ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                             : ("Submit")}
                                     </Button>
                                 </Stack>}
@@ -1103,7 +1105,6 @@ export default function AddChitReceiptPage() {
                     Member List
                      </Typography>
                         <Stack mt={2} ml={2} mr={1} direction="row" alignItems="center" gap="10px" >
-                       
                             <TextField
                                 placeholder="Member Name..."
                                 value={filterName}
@@ -1130,7 +1131,6 @@ export default function AddChitReceiptPage() {
                                 placeholder="Ticket No..."
                                 value={filterTicketNo}
                                 onChange={(e) => HandleFilterTicketNo(e)}
-                                sx={{ ml: 2 }}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -1139,8 +1139,8 @@ export default function AddChitReceiptPage() {
                                                 sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
                                             />
                                         </InputAdornment>),
-                                }} 
-                                sx={{
+                                }}
+                                sx={{ ml: 2,
                                     '& .MuiInputBase-input': {
                                       padding: '8px',
                                       fontSize:'14px' 

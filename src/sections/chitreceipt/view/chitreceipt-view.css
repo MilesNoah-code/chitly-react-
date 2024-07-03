@@ -29,3 +29,11 @@
     }
    
   }
+    @media (min-width: 1200px) {
+      .css-10o2lyd-MuiStack-root {
+        -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        scrollbar-width: none;
+      }
+    }

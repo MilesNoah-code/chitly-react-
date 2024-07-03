@@ -78,7 +78,7 @@ margin-top: 5px;
  
 }
 }
-@media (min-width:1360px) and (max-width:2000px){
+@media (min-width:1600px) and (max-width:2000px){
 
   .box-grid {
     margin-left: 22px;

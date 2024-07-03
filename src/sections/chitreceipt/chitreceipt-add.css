@@ -17,7 +17,7 @@
   flex-wrap: wrap !important;
 }
  .grp{
-  
+  width: 32% !important;
   flex-wrap: wrap;
 }   
 h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
@@ -30,13 +30,25 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
 } */
 .grp .input-box1 {
   margin-top: 5px;
-   width: calc(100% - 20px);  
+   width: calc(100% - 10px);  
 }
-
+.grp .MuiAutocomplete-root {
+  width: 100% !important;
+   padding: -27px; */
+}  
+.grp .MuiTextField-root  {
+  width: calc(100% - 0px) !important; 
+ margin-top: 5px;
+  
+}
 .box-grp .MuiAutocomplete-root  .MuiTextField-root  {
   width: calc(100% - 20px) !important; 
  margin-top: 5px;
   
+}
+.grp .MuiAutocomplete-root .MuiOutlinedInput-root {
+   padding: 1px !important; 
+   font-size: 14px ;
 }
 .alert-msg{
   display: flex;
@@ -94,7 +106,7 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
       padding: 10px;
     }
   }
-  @media (min-width:769px) and (max-width:869px){
+  /* @media (min-width:769px) and (max-width:869px){
     .grp .MuiTextField-root{
        width: 20ch !important;
     } 
@@ -108,7 +120,42 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
     .grp .MuiTextField-root{
        width: 26ch !important;
     } 
-  }
+  } */
+  @media (max-width:991px) and (min-width:769px){
+    .grp  .input {
+      width: calc(90% - 0px) !important;
+      margin-bottom: 5px; 
+      
+    }
+    .con{
+      padding: 10px;
+    }
+  
+    .grp .MuiTextField-root {
+      width: 100% !important;
+    }
+    .grp{
+      width: calc(100% - 0px) !important; 
+    }
+    .stack-box{
+        flex-direction: column !important;
+        width: 100% !important;
+        align-items:inherit;
+        margin: 15px;
+    }
+   }
+   @media (min-width:992px) and (max-width:1322px){
+  
+    .grp{
+      width: 31.5% !important;
+      flex-wrap: wrap;
+    } 
+    .grp  .input {
+      width: calc(100% - 0px) !important;
+      margin-bottom: 5px; 
+      
+    } 
+   }
   @media (min-width:370px) and (max-width:540px){
     .btn-close{
       right: -1px;

@@ -11,7 +11,10 @@
   background-color: #0C44AE;
   box-shadow: 0px 2px 4px -1px rgba(145, 158, 171, 0.2), 0px 4px 5px 0px rgba(145, 158, 171, 0.14), 0px 1px 10px 0px rgba(145, 158, 171, 0.12);
 }
-
+.rd-bx h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+  font-size: 15px;
+  margin-left: 25px !important;
+}
 .stack-box {
 
     display: flex !important;
@@ -133,6 +136,57 @@ margin-right: 15px;
     }
    
   }
+  @media screen and (max-width: 1404px) and (min-width: 1300px)  {
+    .radio-box .radio-con.MuiFormControlLabel-root {
+      margin-left: 27px;
+  }
+  .radio-box .radio-control.MuiFormControlLabel-root {
+    margin-left: 2px;
+}
+.radio-box .radio-sub.MuiFormControlLabel-root {
+  margin-left: 15px !important;
+}
+.rd_bx {
+  flex: 0 0 46%;
+  max-width: 46%;
+  }
+} 
+@media screen and (max-width: 2000px) and (min-width: 1600px)  {
+  .rd_bx  .radio-box {
+    flex: 0 0 80%;
+    max-width: 80%;
+    }
+    .radio-box .radio-sub.MuiFormControlLabel-root {
+      margin-left: 15px !important;
+    }
+    .radio-box .radio-control.MuiFormControlLabel-root {
+      margin-left: 15px;
+    }
+    .radio-box .radio-control3.MuiFormControlLabel-root {
+      margin-left: 15px;
+  }
+  .radio-box .radio-sec.MuiFormControlLabel-root {
+    margin-left: 50px;
+}
+}
+@media screen and (max-width: 1600px) and (min-width: 1405px)  {
+  .radio-box .radio-con.MuiFormControlLabel-root {
+    margin-left: 27px;
+}
+.radio-box .radio-sub.MuiFormControlLabel-root {
+  margin-left: 15px !important;
+}
+.radio-box .radio-control.MuiFormControlLabel-root {
+  margin-left: 2px;
+}
+.rd_bx .radio-box .MuiStack-root { 
+  width: 90%;
+  }
+ .rd_bx  .radio-box {
+    flex: 0 0 80%;
+    max-width: 80%;
+    }
+} 
   @media screen and (max-width: 1305px) and (min-width: 1200px) {
     /* .radio-box  .MuiFormControlLabel-root{
       margin-left: 10px;

@@ -70,13 +70,19 @@ margin-top: 5px;
     padding-bottom: 20px;
    
 }
+.pd{
+  padding-right: 15px !important;
+}
 .box-grp .input-box1.md {
   margin-right: 0px !important;
  
 }
 }
-@media (max-width:1143px) and (min-width:900px){
- 
+@media (min-width:1600px) and (max-width:2000px){
+
+  .box-grid {
+    margin-left: 22px;
+}
 }
 @media screen and (max-width: 768px) {
   .stack-box{

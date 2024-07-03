@@ -808,7 +808,7 @@ export default function AddChitReceiptPage() {
                                 </div>
                                 <div className='grp'>
                                     <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 0, mb: '7px' }}>
+                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 0, mb: '0px' }}>
                                             Group No <span style={{ color: 'red' }}> *</span>
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
@@ -829,15 +829,15 @@ export default function AddChitReceiptPage() {
                                                     </ListItem>
                                                 )}
                                                
-                                                renderInput={(params) => <TextField {...params} label={screen === "view" ? GroupNoSearch.data : "Search"}   
+                                                renderInput={(params) => <TextField {...params} label={screen === "view" ? GroupNoSearch.data : ""}   
+                                                />}
                                                 sx={{
                                                     '& .MuiAutocomplete-root  .MuiTextField-root': {
                                                       padding: '8px',
                                                       backgroundColor:'#ccc',
                                                       fontSize:'14px',
                                                     }
-                                                  }}  />}
-                                           
+                                                  }} 
                                                 />
                                                 
                                         </Stack>
@@ -921,7 +921,7 @@ export default function AddChitReceiptPage() {
                         </div>
                                 <div className='grp'>
                                     <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 2, mb: '0px' }}>
+                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 0, mb: '0px' }}>
                                             Auction Mode
                                         </Typography>
                                         <Stack direction='row' sx={{ ml: 0, }}>

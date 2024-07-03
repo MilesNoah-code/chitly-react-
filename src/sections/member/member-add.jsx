@@ -2556,7 +2556,7 @@ export default function AddMemberPage() {
                                 ? null
                                 : <TabPanel value="4">
                                     <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                        <div className='box'>
+                                        <div className='box rd_bx'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 3, mr: 2, mt: 2, mb: 1 }}>
                                                     Education <span style={{ color: 'red' }}> *</span>
@@ -2570,7 +2570,7 @@ export default function AddMemberPage() {
                                                         value={Education.data}
                                                         onChange={(e) => { setEducation({ data: e.target.value, error: "" }); setScreenRefresh(pre => pre + 1); }}>
                                                         <FormControlLabel value="Primary" control={<Radio />} label="Primary" disabled={screen === "view"} />
-                                                        <FormControlLabel value="Secondary" control={<Radio />} label="Secondary" disabled={screen === "view"} />
+                                                        <FormControlLabel className="radio-sec" value="Secondary" control={<Radio />} label="Secondary" disabled={screen === "view"} />
                                                         <FormControlLabel className="radio-control2" value="Diploma" control={<Radio />} label="Diploma" disabled={screen === "view"} />
                                                         <FormControlLabel value="Graduate" control={<Radio />} label="Graduate" disabled={screen === "view"} />
                                                         <FormControlLabel className="radio-control" value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view"} />
@@ -2580,7 +2580,7 @@ export default function AddMemberPage() {
                                                 <div style={{ marginLeft: "25px", marginTop: "0px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Education.error}</div>
                                             </Stack>
                                         </div>
-                                        <div className='box'>
+                                        <div className='box rd_bx'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 3, mr: 2, mt: 2, mb: 1 }}>
                                                     Marital Status <span style={{ color: 'red' }}> *</span>
@@ -2606,7 +2606,7 @@ export default function AddMemberPage() {
                                     </Stack>
                                     {MaritalStatus.data === "Married" || MaritalStatus.data === "Married With Kids"
                                         ? <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
-                                            <div className='box'>
+                                            <div className='box  one-1 rd_bx'>
                                                 <Stack direction='column'>
                                                     <Typography variant="subtitle1" sx={{ ml:3, mr: 2, mt: 2, mb: 1 }}>
                                                         Spouse Education <span style={{ color: 'red' }}> *</span>
@@ -2619,10 +2619,10 @@ export default function AddMemberPage() {
                                                             value={SpouseEducation.data}
                                                             onChange={(e) => { setSpouseEducation({ data: e.target.value, error: "" }); setScreenRefresh(pre => pre + 1); }}>
                                                             <FormControlLabel value="Primary" control={<Radio />} label="Primary" disabled={screen === "view"} />
-                                                            <FormControlLabel value="Secondary" control={<Radio />} label="Secondary" disabled={screen === "view"} />
+                                                            <FormControlLabel className="radio-con radio-sec" value="Secondary" control={<Radio />} label="Secondary" disabled={screen === "view"} />
                                                             <FormControlLabel className="radio-control2" value="Diploma" control={<Radio />} label="Diploma" disabled={screen === "view"} />
                                                             <FormControlLabel value="Graduate" control={<Radio />} label="Graduate" disabled={screen === "view"} />
-                                                            <FormControlLabel className="radio-control" value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view"} />
+                                                            <FormControlLabel className="radio-control radio-sub" value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view"} />
                                                             <FormControlLabel className="radio-control1" value="Doctrate" control={<Radio />} label="Doctorate" disabled={screen === "view"} />
                                                         </RadioGroup>
                                                     </Stack>

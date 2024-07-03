@@ -459,6 +459,7 @@ export default function AddGroupMemberPage() {
                             <Grid className='grid-UI' container spacing={2}>
                                 <Grid className='table-grid' item xs={12} md={5}>
                                     <Scrollbar>
+                                    <div style={{ marginLeft: '15px', marginRight: '0px' }}>
                                         <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
                                             <Table sx={{ minWidth: 350 }}>
                                                 <TableRow hover tabIndex={-1}>
@@ -492,6 +493,7 @@ export default function AddGroupMemberPage() {
                                                 </TableBody>
                                             </Table>
                                         </TableContainer>
+                                        </div>
                                     </Scrollbar>
                                 </Grid>
                                 <Grid  className='table-grid' item xs={12} md={7}>

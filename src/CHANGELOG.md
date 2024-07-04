@@ -1,6 +1,6 @@
 3.4.7
 Date : 04/07/2024
-Type : Bug
+Type : Changes
 Description :  
         1.review bug ui fix (like change to chitbiz)
 ----------------------------------------------------------------

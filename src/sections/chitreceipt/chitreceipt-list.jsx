@@ -129,7 +129,7 @@ export default function ChitReceiptTableRow({
 
           <TableCell>{item.tktno}</TableCell>
           <TableCell>{item.installfrom}</TableCell>
-          <TableCell>{item.credit_value != null && item.credit_value !== "" ? formatNumber(Math.round(item.credit_value)) : ""}</TableCell>
+          <TableCell align="right">{item.credit_value != null && item.credit_value !== "" ? formatNumber(Math.round(item.credit_value)) : ""}</TableCell>
 
           <TableCell align="right">
             <IconButton onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>

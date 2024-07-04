@@ -144,21 +144,39 @@ export default function ActivityLogView() {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker']} >
               <DatePicker
-                label="From Date"
+              
                 value={FromDate.data}
                 onChange={HandleFromDateChange}
                 disabled={ActivityLogLoading}
-                format="DD-MM-YYYY" />
+                format="DD-MM-YYYY" 
+                sx={{
+                  '& .MuiInputBase-input': {
+                    padding: '8px',
+                    fontSize:'14px' 
+                  },
+                  '& .MuiInputAdornment-root': {
+                    padding: '8px', 
+                  },
+                }}/>
             </DemoContainer>
           </LocalizationProvider>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DemoContainer components={['DatePicker']}>
               <DatePicker
-                label="To Date"
+           
                 value={ToDate.data}
                 onChange={HandleToDateChange}
                 disabled={ActivityLogLoading}
-                format="DD-MM-YYYY" />
+                format="DD-MM-YYYY" 
+                sx={{
+                  '& .MuiInputBase-input': {
+                    padding: '8px',
+                    fontSize:'14px' 
+                  },
+                  '& .MuiInputAdornment-root': {
+                    padding: '8px', 
+                  },
+                }}/>
             </DemoContainer>
           </LocalizationProvider>
         </Stack>
@@ -176,7 +194,7 @@ export default function ActivityLogView() {
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Description</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Type</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Reference</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Amount</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Amount</TableCell>
                   </TableRow>
                   <TableBody>
                     {ActivityLogList
@@ -188,7 +206,7 @@ export default function ActivityLogView() {
                           <TableCell>{row.description}</TableCell>
                           <TableCell>{row.type}</TableCell>
                           <TableCell>{row.ref_type}</TableCell>
-                          <TableCell>{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
+                          <TableCell align='right'>{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
                         </TableRow>
                       ))}
                     <TableEmptyRows

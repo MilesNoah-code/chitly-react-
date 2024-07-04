@@ -45,7 +45,7 @@ export default function GroupMemberTableRow({
       </TableCell>
       <TableCell>{item.duration}</TableCell>
       <TableCell>{item.auction_mode}</TableCell>
-      <TableCell>{item.amount != null && item.amount !== "" ? formatNumber(Math.round(item.amount)) : ""}</TableCell>
+      <TableCell align="right">{item.amount != null && item.amount !== "" ? formatNumber(Math.round(item.amount)) : ""}</TableCell>
       <TableCell align="right">
         <IconButton onClick={HandleSelectEdit} sx={{ cursor: 'pointer' }}>
           <Iconify icon="eva:edit-fill" />

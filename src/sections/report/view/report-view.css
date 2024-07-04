@@ -33,7 +33,7 @@
   }
   .box  .input-box1 {
     
-    width: calc(100% - 20px); 
+    width: calc(100% - 20px) !important; 
   }
  .image-top{
   position: relative;

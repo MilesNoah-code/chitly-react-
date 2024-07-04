@@ -1867,7 +1867,7 @@ export default function AddMemberPage() {
             </Stack>
             <Card>
                 <Box component="form"
-                    sx={{ '& .MuiTextField-root': { m:2, width: '20ch', }, }}
+                    sx={{ '& .MuiTextField-root': { m:2 }, }}
                     noValidate
                     autoComplete="off">
                     <Stack direction='column'>
@@ -2564,7 +2564,7 @@ export default function AddMemberPage() {
                             {MemberLoading
                                 ? null
                                 : <TabPanel value="4">
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-boxing'>
                                         <div className='box rd_bx'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 3, mr: 2, mt: 2, mb: 1 }}>
@@ -2614,7 +2614,7 @@ export default function AddMemberPage() {
                                         </div>
                                     </Stack>
                                     {MaritalStatus.data === "Married" || MaritalStatus.data === "Married With Kids"
-                                        ? <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                        ? <Stack direction='row' spacing={2} alignItems='center' className='stack-boxing'>
                                             <div className='box  one-1 rd_bx'>
                                                 <Stack direction='column'>
                                                     <Typography variant="subtitle1" sx={{ ml:3, mr: 2, mt: 2, mb: 1 }}>
@@ -2839,8 +2839,8 @@ export default function AddMemberPage() {
                         </TabContext>
                         {!MemberLoading && (screen === "view" || TabIndex === "6"
                             ? null
-                            : <Stack direction='column' alignItems='flex-end'>
-                                <Button sx={{ mr: 5, mb: 3,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
+                            : <Stack direction='column' alignItems='flex-start'>
+                                <Button sx={{ ml: 5, mb: 3,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                     {Loading
                                         ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                         : ("Submit")}

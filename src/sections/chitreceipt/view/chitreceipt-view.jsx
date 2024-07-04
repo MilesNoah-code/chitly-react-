@@ -176,7 +176,7 @@ export default function ChitReceiptView() {
   return (
     <div style={{ marginLeft: '35px', marginRight: '35px' }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
-        <Typography variant="h6" sx={{ color: '#637381' }}>Chit Receipt List</Typography>
+      <Typography variant="h6" sx={{ fontWeight:'600'}}>Chit Receipt List</Typography>
         <Button variant="contained" className='custom-button'  onClick={HandleAddChitReceiptClick}>
           Add Chit Receipt
         </Button>
@@ -196,6 +196,7 @@ export default function ChitReceiptView() {
                 sx={{
                   '& .MuiInputBase-input': {
                     padding: '8px', 
+                    fontSize:'14px'
                   },
                   '& .MuiInputAdornment-root': {
                     padding: '8px', 
@@ -214,6 +215,7 @@ export default function ChitReceiptView() {
                 sx={{
                   '& .MuiInputBase-input': {
                     padding: '8px', 
+                    fontSize:'14px'
                   },
                   '& .MuiInputAdornment-root': {
                     padding: '8px', 
@@ -239,7 +241,8 @@ export default function ChitReceiptView() {
             sx={{
               paddingTop:'8px',
               '& .MuiInputBase-input': {
-                padding: '8px', 
+                padding: '8px',
+                fontSize:'14px' 
               },
               '& .MuiInputAdornment-root': {
                 padding: '8px', 
@@ -262,7 +265,7 @@ export default function ChitReceiptView() {
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Ticket No</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Inst No</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Credit Amount</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Credit Amount</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
                   </TableRow>
                   <TableBody>

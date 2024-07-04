@@ -153,7 +153,7 @@ export default function MemberTableRow({
             <Checkbox disableRipple checked={selected} onChange={handleClick} />
           </TableCell>
           <TableCell component="th" scope="row" >
-            <Stack direction="row" alignItems="center" spacing={2} marginLeft={2}>
+            <Stack direction="row" alignItems="center" spacing={2} marginLeft={0}>
               <Avatar alt={item.name} src={`${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${item.mapped_photo}`} >{item.name[0]}</Avatar>
               <Typography variant="subtitle2" noWrap>
                 {item.name}

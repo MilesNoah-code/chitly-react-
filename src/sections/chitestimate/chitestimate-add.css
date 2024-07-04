@@ -12,7 +12,7 @@
   box-shadow: 0px 2px 4px -1px rgba(145, 158, 171, 0.2), 0px 4px 5px 0px rgba(145, 158, 171, 0.14), 0px 1px 10px 0px rgba(145, 158, 171, 0.12);
 }
 
-.stack-box{
+.estimate-box{
 display: flex;
   flex-wrap: wrap;
 } 
@@ -20,7 +20,9 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
   font-size: 15px;
 
 }
-
+.estimate-grp {
+  width: 17.3% !important;
+}
 .MuiTableCell-root {
 padding: 6px !important;
 }
@@ -51,9 +53,11 @@ font-size: 15px;
 
 }
 
-/* .table-one .input-box.MuiInputBase-input-MuiFilledInput-input{
-height: 0.453em !important;
-} */
+.estimate-grp  .input {
+  width: calc(100% - 0px) !important;
+  margin-bottom: 5px; 
+  
+}
 
 
 .table-one .MuiTableRow-root {
@@ -68,35 +72,35 @@ font-size: 15px !important;
  vertical-align: middle !important;
 }
 
-.css-2qvby9-MuiTableContainer-root {
+.MuiTableContainer-root {
   width: 100%;
   margin-top: 16px;
 }
 
 @media (max-width:768px){
-.stack-box1{
+.estimate-box1{
       flex-direction: column !important;
       width: 100% !important;
       align-items:inherit;
       padding: 3px;
   }
-  .box-grp {
+  .box-estimate-grp {
     flex: 1 0 100%;
     max-width: 100%;
     margin-left: 0px !important; 
 padding: 0px 10px;
   }
- .stack-box .MuiTypography-root {
+ .estimate-box .MuiTypography-root {
   margin-left: 16px !important;
   font-size: 13px;
  }
- .grp .MuiTextField-root {
+ .estimate-grp .MuiTextField-root {
   width: 100% !important;
 }
-.grp{
+.estimate-grp{
   width: calc(100% - 0px) !important; 
 }
- .grp  .input {
+ .estimate-grp  .input {
   width: calc(100% - 0px) !important;
   margin-bottom: 5px; 
   
@@ -105,7 +109,7 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
   font-size: 15px;
   margin-left: 0px !important;
 }
-.box-grp  .input-box1 {
+.box-estimate-grp  .input-box1 {
       width: calc(100% - 0px) !important; 
     }
     .con{
@@ -119,18 +123,18 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
   outline: 2px solid red;
 }
 
-@media (min-width:769px) and (max-width:869px){
-  .grp .MuiTextField-root{
+/* @media (min-width:769px) and (max-width:869px){
+  .estimate-grp .MuiTextField-root{
       width: 20ch !important;
   } 
 }
 @media (min-width:869px) and (max-width:991px){
-  .grp .MuiTextField-root{
+  .estimate-grp .MuiTextField-root{
       width: 24ch !important;
   } 
 }
 @media (min-width:992px) and (max-width:1218px){
-  .grp .MuiTextField-root{
+  .estimate-grp .MuiTextField-root{
       width: 26ch !important;
   } 
-}
+} */

@@ -1615,7 +1615,7 @@ export default function AddChitAuctionPage() {
             </Stack>
             <Card>
                 <Box className="con" component="form"
-                    sx={{ '& .MuiTextField-root': { m: 2, width: '20ch', }, }}
+                    sx={{ '& .MuiTextField-root': { m: 2 }, }}
                     noValidate
                     autoComplete="off">
                     {ChitAuctionLoading
@@ -1623,296 +1623,8 @@ export default function AddChitAuctionPage() {
                             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
-                        <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6} md={6} className='box-grid pd'>
-                            <Stack direction='row' spacing={1} alignItems='center' className='stack-box'>
-                                <div className='box-grp  grp-label'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Group No <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                            <TextField
-                                                className='input-box1 md'
-                                                id="outlined-required"
-                                                disabled
-                                                // label="Group No"
-                                                value={GroupNo.data}
-                                                onChange={(e) => ChitAuctionTextValidate(e, "GroupNo")}
-                                                style={{}}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                      fontSize:'14px' ,
-                                                    }
-                                                  }}/>
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupNo.error}</div>
-                                    </Stack>
-                                </div>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
-                                            Amount <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                            <TextField
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                // label="Amount"
-                                                value={Amount.data}
-                                                onChange={(e) => ChitAuctionTextValidate(e, "Amount")}
-                                                style={{}}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                      fontSize:'14px' ,
-                                                    }
-                                                  }}/>
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Amount.error}</div>
-                                    </Stack>
-                                </div>
-                            </Stack>
-                            <Stack direction='row' spacing={1} alignItems='center' className='stack-box'>
-                                <div className='box-grp box'>
-                                    <Stack direction='column' className='box-d'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Auc From Time <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                <DemoContainer components={['MobileTimePicker',]} className="date-pick">
-                                                    <MobileTimePicker
-                                                        // label="Auc From Time"
-                                                        disabled={screen === "view"}
-                                                        defaultValue={dayjs()}
-                                                        value={AucFromTime.data}
-                                                        onAccept={() => HandleOnAcceptTimeChange("Accept_AucFromTime")}
-                                                        onChange={(time) => HandleTimeChange(time, "AucFromTime")}
-                                                        sx={{
-                                                            '& .MuiInputBase-input': {
-                                                              padding: '8px',
-                                                              fontSize:'14px'
-                                                            },
-                                                            '& .MuiInputAdornment-root': {
-                                                              padding: '8px',
-                                                            },
-                                                          }}/>
-                                                </DemoContainer>
-                                            </LocalizationProvider>
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AucFromTime.error}</div>
-                                    </Stack>
-                                </div>
-                                <div className='box-grp box'>
-                                    <Stack direction='column' className='box-d'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Auc To Time <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                <DemoContainer components={['MobileTimePicker',]} className="date-pick">
-                                                    <MobileTimePicker
-                                                        // label="Auc To Time"
-                                                        disabled={screen === "view"}
-                                                        defaultValue={dayjs()}
-                                                        value={AucToTime.data}
-                                                        onAccept={() => HandleOnAcceptTimeChange("Accept_AucToTime")}
-                                                        onChange={(time) => HandleTimeChange(time, "AucToTime")}
-                                                        sx={{
-                                                            '& .MuiInputBase-input': {
-                                                              padding: '8px',
-                                                            },
-                                                            '& .MuiInputAdornment-root': {
-                                                              padding: '8px',
-                                                            },
-                                                          }}/>
-                                                </DemoContainer>
-                                            </LocalizationProvider>
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AucToTime.error}</div>
-                                    </Stack>
-                                </div>
-                            </Stack>
-                            <Stack direction='row' spacing={1} alignItems='center' className='stack-box'>
-                                <div className='box-grp box'>
-                                    <Stack direction='column' className='box-d'>
-                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                            Auc Date <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                <DemoContainer components={['DatePicker']} className="date-pick">
-                                                    <DatePicker
-                                                        // label="Auc Date"
-                                                        disabled={screen === "view"}
-                                                        value={AucDate.data}
-                                                        onChange={(date) => HandleDateChange(date, "AucDate")}
-                                                        format="DD-MM-YYYY"
-                                                        sx={{
-                                                            '& .MuiInputBase-input': {
-                                                              padding: '8px',
-                                                              fontSize:'14px',
-                                                            },
-                                                            '& .MuiInputAdornment-root': {
-                                                              padding: '8px',
-                                                            },
-                                                          }}/>
-                                                </DemoContainer>
-                                            </LocalizationProvider>
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AucDate.error}</div>
-                                    </Stack>
-                                </div>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
-                                            Inst No <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                            <TextField
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                // label="Inst No"
-                                                value={InstNo.data}
-                                                onChange={(e) => ChitAuctionTextValidate(e, "InstNo")}
-                                                style={{}}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                    }
-                                                  }}/>
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{InstNo.error}</div>
-                                    </Stack>
-                                </div>
-                            </Stack>
-                            <Stack direction='row' spacing={1} alignItems='center' className='stack-box'>
-                                <div className='box-grp  grp-label'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Prized Member <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                            <TextField
-                                                className='input-box1 md'
-                                                id="outlined-required"
-                                                disabled
-                                                // label="Prized Member"
-                                                value={PrizedMember.data}
-                                                onChange={(e) => ChitAuctionTextValidate(e, "PrizedMember")}
-                                                style={{}}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                    }
-                                                  }}/>
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{PrizedMember.error}</div>
-                                    </Stack>
-                                </div>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
-                                            Tkt.No <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                            <TextField
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                // label="Tkt.No"
-                                                value={TktNo.data}
-                                                onChange={(e) => ChitAuctionTextValidate(e, "TktNo")}
-                                                style={{}}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                    }
-                                                  }}/>
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{TktNo.error}</div>
-                                    </Stack>
-                                </div>
-                            </Stack>
-                            <Stack direction='row' spacing={1} alignItems='center' className='stack-box'>
-                                <div className='box-grp  grp-label'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Max.A.Disc <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                            <TextField
-                                                className='input-box1 md'
-                                                id="outlined-required"
-                                                disabled
-                                                // label="Max.A.Disc"
-                                                value={MaxADisc.data}
-                                                onChange={(e) => ChitAuctionTextValidate(e, "MaxADisc")}
-                                                style={{}}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                    }
-                                                  }}/>
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{MaxADisc.error}</div>
-                                    </Stack>
-                                </div>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
-                                            F.M/A.F.M Commission
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                            <TextField
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                // label="F.M/A.F.M Commission"
-                                                value={FM_AFMCommission.data}
-                                                onChange={(e) => ChitAuctionTextValidate(e, "FM_AFMCommission")}
-                                                style={{}}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                    }
-                                                  }}/>
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{FM_AFMCommission.error}</div>
-                                    </Stack>
-                                </div>
-                            </Stack>
-                            <Stack direction='row' spacing={1} alignItems='center' className='stack-box'>
-                                <div className='box-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                            Dividend <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <TextField
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                // label="Dividend"
-                                                value={Dividend.data}
-                                                onChange={(e) => ChitAuctionTextValidate(e, "Dividend")}
-                                                style={{}}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                    }
-                                                  }}/>
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Dividend.error}</div>
-                                    </Stack>
-                                </div>
-                            </Stack>
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={6} className='box-grid'>
+                        <Grid container spacing={2} class="mb-grid">
+                         <Grid item xs={12} sm={6} md={6} className='box-grid'>
                                 <stack direction="column" className="st">
                                     <Scrollbar className="table-one">
                                         <TableContainer sx={{ overflow: 'unset', mt: 1 }}>
@@ -2048,6 +1760,302 @@ export default function AddChitAuctionPage() {
                                     </Scrollbar>
                                     </stack>
                                 </Grid>
+                        <Grid item xs={12} sm={6} md={6} className='box-grid pd'>
+                            <Stack direction='row' spacing={1} alignItems='center' className='auction-box'>
+                                <div className='auction-grp  grp-label'>
+                                    <Stack direction='column'>
+                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                            Group No <span style={{ color: 'red' }}> *</span>
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                            <TextField
+                                                className='input-box1 md'
+                                                id="outlined-required"
+                                                disabled
+                                                // label="Group No"
+                                                value={GroupNo.data}
+                                                onChange={(e) => ChitAuctionTextValidate(e, "GroupNo")}
+                                                style={{}}
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                      fontSize:'14px' ,
+                                                    }
+                                                  }}/>
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupNo.error}</div>
+                                    </Stack>
+                                </div>
+                                <div className='auction-grp'>
+                                    <Stack direction='column'>
+                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                            Amount <span style={{ color: 'red' }}> *</span>
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                            <TextField
+                                                className='input-box1'
+                                                id="outlined-required"
+                                                disabled
+                                                // label="Amount"
+                                                value={Amount.data}
+                                                onChange={(e) => ChitAuctionTextValidate(e, "Amount")}
+                                                style={{}}
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                      fontSize:'14px' ,
+                                                    }
+                                                  }}/>
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Amount.error}</div>
+                                    </Stack>
+                                </div>
+                            </Stack>
+                            <Stack direction='row' spacing={1} alignItems='center' className='auction-box'>
+                                <div className='auction-grp box'>
+                                    <Stack direction='column' className='box-d'>
+                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                            Auc From Time <span style={{ color: 'red' }}> *</span>
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, }}>
+                                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                <DemoContainer components={['MobileTimePicker',]} className="date-pick">
+                                                    <MobileTimePicker
+                                                        // label="Auc From Time"
+                                                        disabled={screen === "view"}
+                                                        defaultValue={dayjs()}
+                                                        value={AucFromTime.data}
+                                                        onAccept={() => HandleOnAcceptTimeChange("Accept_AucFromTime")}
+                                                        onChange={(time) => HandleTimeChange(time, "AucFromTime")}
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px'
+                                                            },
+                                                            '& .MuiInputAdornment-root': {
+                                                              padding: '8px',
+                                                            },
+                                                          }}/>
+                                                </DemoContainer>
+                                            </LocalizationProvider>
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AucFromTime.error}</div>
+                                    </Stack>
+                                </div>
+                                <div className='auction-grp box'>
+                                    <Stack direction='column' className='box-d'>
+                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                            Auc To Time <span style={{ color: 'red' }}> *</span>
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, }}>
+                                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                <DemoContainer components={['MobileTimePicker',]} className="date-pick">
+                                                    <MobileTimePicker
+                                                        // label="Auc To Time"
+                                                        disabled={screen === "view"}
+                                                        defaultValue={dayjs()}
+                                                        value={AucToTime.data}
+                                                        onAccept={() => HandleOnAcceptTimeChange("Accept_AucToTime")}
+                                                        onChange={(time) => HandleTimeChange(time, "AucToTime")}
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                               fontSize:'14px' ,
+                                                            },
+                                                            '& .MuiInputAdornment-root': {
+                                                              padding: '8px',
+                                                            },
+                                                          }}/>
+                                                </DemoContainer>
+                                            </LocalizationProvider>
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AucToTime.error}</div>
+                                    </Stack>
+                                </div>
+                            </Stack>
+                            <Stack direction='row' spacing={1} alignItems='center' className='auction-box'>
+                                <div className='auction-grp box'>
+                                    <Stack direction='column' className='box-d'>
+                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                            Auc Date <span style={{ color: 'red' }}> *</span>
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, }}>
+                                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                <DemoContainer components={['DatePicker']} className="date-pick">
+                                                    <DatePicker
+                                                        // label="Auc Date"
+                                                        disabled={screen === "view"}
+                                                        value={AucDate.data}
+                                                        onChange={(date) => HandleDateChange(date, "AucDate")}
+                                                        format="DD-MM-YYYY"
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                              padding: '8px',
+                                                              fontSize:'14px',
+                                                            },
+                                                            '& .MuiInputAdornment-root': {
+                                                              padding: '8px',
+                                                            },
+                                                          }}/>
+                                                </DemoContainer>
+                                            </LocalizationProvider>
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AucDate.error}</div>
+                                    </Stack>
+                                </div>
+                                <div className='auction-grp'>
+                                    <Stack direction='column'>
+                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                            Inst No <span style={{ color: 'red' }}> *</span>
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                            <TextField
+                                                className='input-box1'
+                                                id="outlined-required"
+                                                disabled
+                                                // label="Inst No"
+                                                value={InstNo.data}
+                                                onChange={(e) => ChitAuctionTextValidate(e, "InstNo")}
+                                                style={{}}
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                       fontSize:'14px' ,
+                                                    }
+                                                  }}/>
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{InstNo.error}</div>
+                                    </Stack>
+                                </div>
+                            </Stack>
+                            <Stack direction='row' spacing={1} alignItems='center' className='auction-box'>
+                                <div className='auction-grp  grp-label'>
+                                    <Stack direction='column'>
+                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                            Prized Member <span style={{ color: 'red' }}> *</span>
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                            <TextField
+                                                className='input-box1 md'
+                                                id="outlined-required"
+                                                disabled
+                                                // label="Prized Member"
+                                                value={PrizedMember.data}
+                                                onChange={(e) => ChitAuctionTextValidate(e, "PrizedMember")}
+                                                style={{}}
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                       fontSize:'14px' ,
+                                                    }
+                                                  }}/>
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{PrizedMember.error}</div>
+                                    </Stack>
+                                </div>
+                                <div className='auction-grp'>
+                                    <Stack direction='column'>
+                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                            Tkt.No <span style={{ color: 'red' }}> *</span>
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                            <TextField
+                                                className='input-box1'
+                                                id="outlined-required"
+                                                disabled
+                                                // label="Tkt.No"
+                                                value={TktNo.data}
+                                                onChange={(e) => ChitAuctionTextValidate(e, "TktNo")}
+                                                style={{}}
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                       fontSize:'14px' ,
+                                                    }
+                                                  }}/>
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{TktNo.error}</div>
+                                    </Stack>
+                                </div>
+                            </Stack>
+                            <Stack direction='row' spacing={1} alignItems='center' className='auction-box'>
+                                <div className='auction-grp  grp-label'>
+                                    <Stack direction='column'>
+                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                            Max.A.Disc <span style={{ color: 'red' }}> *</span>
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                            <TextField
+                                                className='input-box1 md'
+                                                id="outlined-required"
+                                                disabled
+                                                // label="Max.A.Disc"
+                                                value={MaxADisc.data}
+                                                onChange={(e) => ChitAuctionTextValidate(e, "MaxADisc")}
+                                                style={{}}
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                       fontSize:'14px' ,
+                                                    }
+                                                  }}/>
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{MaxADisc.error}</div>
+                                    </Stack>
+                                </div>
+                                <div className='auction-grp'>
+                                    <Stack direction='column'>
+                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                            F.M/A.F.M Commission
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                            <TextField
+                                                className='input-box1'
+                                                id="outlined-required"
+                                                disabled
+                                                // label="F.M/A.F.M Commission"
+                                                value={FM_AFMCommission.data}
+                                                onChange={(e) => ChitAuctionTextValidate(e, "FM_AFMCommission")}
+                                                style={{}}
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                       fontSize:'14px' ,
+                                                    }
+                                                  }}/>
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{FM_AFMCommission.error}</div>
+                                    </Stack>
+                                </div>
+                            </Stack>
+                            <Stack direction='row' spacing={1} alignItems='center' className='auction-box'>
+                                <div className='auction-grp'>
+                                    <Stack direction='column'>
+                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                            Dividend <span style={{ color: 'red' }}> *</span>
+                                        </Typography>
+                                        <Stack direction='row' sx={{ ml: 0, }}>
+                                            <TextField
+                                                className='input-box1'
+                                                id="outlined-required"
+                                                disabled
+                                                // label="Dividend"
+                                                value={Dividend.data}
+                                                onChange={(e) => ChitAuctionTextValidate(e, "Dividend")}
+                                                style={{}}
+                                                sx={{
+                                                    '& .MuiInputBase-input': {
+                                                      padding: '8px',
+                                                       fontSize:'14px' ,
+                                                    }
+                                                  }}/>
+                                        </Stack>
+                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Dividend.error}</div>
+                                    </Stack>
+                                </div>
+                            </Stack>
+                            </Grid>
+                           
                             </Grid>
                             <Stack direction='column' alignItems='flex-end' gap='10px' sx={{ mt: 4, mb: 3, }}>
                                 <Stack direction='row'>
@@ -2058,10 +2066,10 @@ export default function AddChitAuctionPage() {
                                     </Button>
                                     <Button variant="contained"   sx={{
                                         mr: 2,  cursor: 'pointer',
-                                        backgroundColor: '#33b647',
-                                        color:'white',
+                                        backgroundColor: '#e9e9e9',
+                                        color:'#7e8299',
                                         '&:hover': {
-                                            backgroundColor: '#66bb6a',
+                                            backgroundColor: '#cccccc',
                                         },
                                     }} onClick={HandleResetClick}>
                                         Reset
@@ -2104,7 +2112,7 @@ export default function AddChitAuctionPage() {
                 aria-describedby="alert-dialog-description" >
                 <Card>
                     <Stack>
-                        <Stack ml={1} mr={1} direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
+                        <Stack ml={1} mr={1} pb={1}direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
                             <Stack direction='column'>
                                 <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
                                     { `Group No - ${GroupNo.data}`}
@@ -2114,15 +2122,15 @@ export default function AddChitAuctionPage() {
                                 aria-label="close"
                                 className='btn-close'
                                 onClick={() => setShowEstimateListAlert(false)}
-                                sx={{ position: 'absolute', right: 10, top: 12, color: (theme) => theme.palette.grey[500], cursor: 'pointer', }} >
-                                <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
+                                sx={{ position: 'absolute', right: 10, top: 11, color: (theme) => theme.palette.grey[500], cursor: 'pointer', }} >
+                                <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 14, height: 14, }} />
                             </IconButton>
                         </Stack>
-                        <Divider sx={{ mt: 2, }}/>
+                        <Divider sx={{ mt: 1, }}/>
                         <Scrollbar style={{ Scrollbar: 'none' }}>
                             <Stack direction='column' sx={{ m: 3 }}>
                                 <Stack direction='row' spacing={2} alignItems='center'>
-                                    <div className='box-grp  grp-label'>
+                                    <div className='auction-grp  grp-label'>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 Chit Amount
@@ -2134,7 +2142,7 @@ export default function AddChitAuctionPage() {
                                             </Stack>
                                         </Stack>
                                     </div>
-                                    <div className='box-grp'>
+                                    <div className='auction-grp'>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 Ticket No
@@ -2148,7 +2156,7 @@ export default function AddChitAuctionPage() {
                                     </div>
                                 </Stack>
                                 <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 1 }}>
-                                    <div className='box-grp  grp-label'>
+                                    <div className='auction-grp  grp-label'>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 Installment No
@@ -2160,7 +2168,7 @@ export default function AddChitAuctionPage() {
                                             </Stack>
                                         </Stack>
                                     </div>
-                                    <div className='box-grp'>
+                                    <div className='auction-grp'>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 Member Name
@@ -2174,7 +2182,7 @@ export default function AddChitAuctionPage() {
                                     </div>
                                 </Stack>
                                 <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 1 }}>
-                                    <div className='box-grp  grp-label'>
+                                    <div className='auction-grp  grp-label'>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1" >
                                                 Auction Date
@@ -2186,7 +2194,7 @@ export default function AddChitAuctionPage() {
                                             </Stack>
                                         </Stack>
                                     </div>
-                                    <div className='box-grp'>
+                                    <div className='auction-grp'>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 Less Amount
@@ -2200,7 +2208,7 @@ export default function AddChitAuctionPage() {
                                     </div>
                                 </Stack>
                                 <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 1 }}>
-                                    <div className='box-grp  grp-label'>
+                                    <div className='auction-grp  grp-label'>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 Payment Amount
@@ -2212,7 +2220,7 @@ export default function AddChitAuctionPage() {
                                             </Stack>
                                         </Stack>
                                     </div>
-                                    <div className='box-grp'>
+                                    <div className='auction-grp'>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 Particulars
@@ -2226,7 +2234,7 @@ export default function AddChitAuctionPage() {
                                     </div>
                                 </Stack>
                                 <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 1 }}>
-                                    <div className='box-grp  grp-label'>
+                                    <div className='auction-grp  grp-label'>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 Due Amount
@@ -2251,10 +2259,21 @@ export default function AddChitAuctionPage() {
                 aria-describedby="alert-dialog-description" >
                 <Card>
                     <Stack>
-
-                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 5, mt: 2 }}>
-                            Member List
-                        </Typography>
+                        <Stack ml={1} mr={1} pb={1}direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
+                         <Stack direction='column'>
+                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                 Member List
+                                </Typography>
+                            </Stack>
+                            <IconButton
+                                aria-label="close"
+                                className='btn-close'
+                                onClick={HandleMemberListAlertClose}
+                                sx={{ position: 'absolute', right: 10, top: 11, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
+                                <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 14, height: 14, }} />
+                            </IconButton>
+                        </Stack>
+                        <Divider sx={{ mt: 1, }}/>
                         <Stack mt={2} ml={2} mr={1} direction="row" alignItems="center" gap="10px">
                             <TextField
                                 placeholder="Member Name..."
@@ -2291,7 +2310,7 @@ export default function AddChitAuctionPage() {
                                             />
                                         </InputAdornment>),
                                 }}
-                                sx={{ ml: 2,
+                                sx={{ ml: 1,
                                     '& .MuiInputBase-input': {
                                       padding: '8px',
                                       fontSize:'14px' 
@@ -2300,17 +2319,11 @@ export default function AddChitAuctionPage() {
                                       padding: '8px', 
                                     },
                                   }}/>
-                            <IconButton
-                                aria-label="close"
-                                className='btn-close'
-                                onClick={HandleMemberListAlertClose}
-                                sx={{ position: 'absolute', right: 10, top: 12, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
-                                <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
-                            </IconButton>
+                          
                         </Stack>
-                        <Scrollbar>
-                            <div style={{ marginLeft: '15px', marginRight: '15px' }}>
-                                <TableContainer sx={{ overflow: '', mt: 2 }}>
+                        <Scrollbar style={{ maxHeight: '70vh'}}>
+                            <div style={{ marginLeft: '15px', marginRight: '15px' ,marginBottom:'15px'}}>
+                                <TableContainer sx={{ overflow: 'unset', mt:2 }}>
                                     <Table sx={{ minWidth: 530 }} stickyHeader>
                                         <TableRow hover tabIndex={-1}>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
@@ -2373,14 +2386,14 @@ export default function AddChitAuctionPage() {
                         <Scrollbar>
                             <Stack direction='column' sx={{ m: 4 }}>
                                 <Stack direction='row' spacing={2} alignItems='center'>
-                                    <div className='box-grp  grp-label'>
+                                    <div className='auction-grp  grp-label'>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 No. of Auction(s) after this Auction:
                                             </Typography>
                                         </Stack>
                                     </div>
-                                    <div className='box-grp'>
+                                    <div className='auction-grp'>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 {ChitAuctionListTotal - (ChitAuctionSelectedIndex + 1)}
@@ -2389,14 +2402,14 @@ export default function AddChitAuctionPage() {
                                     </div>
                                 </Stack>
                                 <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 3 }}>
-                                    <div className='box-grp  grp-label'>
+                                    <div className='auction-grp  grp-label'>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 No.of Chit Receipt(s) for this Auction:
                                             </Typography>
                                         </Stack>
                                     </div>
-                                    <div className='box-grp'>
+                                    <div className='auction-grp'>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 {ChitReceiptListTotal}
@@ -2405,14 +2418,14 @@ export default function AddChitAuctionPage() {
                                     </div>
                                 </Stack>
                                 <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 3 }}>
-                                    <div className='box-grp  grp-label'>
+                                    <div className='auction-grp  grp-label'>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1" >
                                                 No.of Chit Payment for this Auction:
                                             </Typography>
                                         </Stack>
                                     </div>
-                                    <div className='box-grp'>
+                                    <div className='auction-grp'>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 {ChitPaymentListTotal}
@@ -2421,7 +2434,7 @@ export default function AddChitAuctionPage() {
                                     </div>
                                 </Stack>
                                 <Stack direction='row' alignItems='center' sx={{ mt: 3 }}>
-                                    <div className='box-grp  grp-label'>
+                                    <div className='auction-grp  grp-label'>
                                         {((ChitAuctionListTotal - (ChitAuctionSelectedIndex + 1)) !== 0 && ChitReceiptListTotal !== 0 && ChitPaymentListTotal !== 0)
                                             && <Stack direction='column' justifyContent='center' alignItems='center'>
                                                 <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "14px", fontWeight: "500", }}>*Delete above listed transaction(s).</div>

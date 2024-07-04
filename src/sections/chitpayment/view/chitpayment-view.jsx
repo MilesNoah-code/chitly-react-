@@ -176,7 +176,7 @@ export default function ChitPaymentView() {
   return (
     <div style={{ marginLeft: '35px', marginRight: '35px' }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
-        <Typography variant="h6" sx={{ color: '#637381' }}>Chit Payment List</Typography>
+        <Typography variant="h6" sx={{ fontWeight:'600'}}>Chit Payment List</Typography>
         <Button variant="contained" className='custom-button' onClick={HandleAddChitPaymentClick}>
           Add Chit Payment
         </Button>
@@ -196,6 +196,7 @@ export default function ChitPaymentView() {
                 sx={{
                   '& .MuiInputBase-input': {
                     padding: '8px', 
+                    fontSize:'14 !important',
                   },
                   '& .MuiInputAdornment-root': {
                     padding: '8px', 
@@ -213,7 +214,8 @@ export default function ChitPaymentView() {
                 format="DD-MM-YYYY" 
                 sx={{
                   '& .MuiInputBase-input': {
-                    padding: '8px', 
+                    padding: '8px',
+                    fontSize:'14 !important', 
                   },
                   '& .MuiInputAdornment-root': {
                     padding: '8px', 
@@ -241,6 +243,7 @@ export default function ChitPaymentView() {
               paddingTop:'8px',
               '& .MuiInputBase-input': {
                 padding: '8px', 
+                fontSize:'14',
               },
               '& .MuiInputAdornment-root': {
                 padding: '8px', 
@@ -263,7 +266,7 @@ export default function ChitPaymentView() {
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Ticket No</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Inst No</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Debit</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Debit</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
                   </TableRow>
                   <TableBody>

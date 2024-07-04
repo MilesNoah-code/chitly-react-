@@ -204,7 +204,7 @@ export default function GroupView() {
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group Name</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Duration</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Auction Mode</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Amount</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Amount</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
                   </TableRow>
                   <TableBody>

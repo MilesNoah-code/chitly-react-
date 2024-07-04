@@ -132,7 +132,7 @@ export default function ChitAuctionView() {
   return (
     <div style={{ marginLeft: '35px', marginRight: '35px' }}>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
-        <Typography variant="h6" sx={{ color: '#637381' }}>Chit Auction List</Typography>
+      <Typography variant="h6" sx={{ fontWeight:'600'}}>Chit Auction List</Typography>
         <Button variant="contained" className='custom-button' sx={{ display: 'none' }}  onClick={HandleAddChitAuctionClick}>
           Add Chit Auction
         </Button>
@@ -175,7 +175,7 @@ export default function ChitAuctionView() {
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group Code</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Duration</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Auction Mode</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Amount</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Amount</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Status</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
                   </TableRow>
@@ -187,7 +187,7 @@ export default function ChitAuctionView() {
                           <TableCell>{row.groupno}</TableCell>
                           <TableCell>{row.duration}</TableCell>
                           <TableCell>{row.auction_mode}</TableCell>
-                          <TableCell>{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
+                          <TableCell align="right">{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
                           <TableCell>{row.status}</TableCell>
                           <TableCell align="right">
                             <IconButton onClick={() => handleOpenScreen(row)} sx={{ cursor: 'pointer' }}>

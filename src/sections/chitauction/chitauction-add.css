@@ -90,6 +90,11 @@ margin-top: 5px !important;
       width: 100% !important;
       align-items:inherit;
   }
+  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+    font-size: 15px;
+    margin-left: 15px !important;
+   
+}
   .alert-msg{
     padding: 10px 15px 10px 15px;
     font-size: 15px;

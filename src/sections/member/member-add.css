@@ -108,7 +108,11 @@ margin-right: 15px;
         width: 100% !important;
         align-items:inherit;
     }
-   
+    .stack-boxing{
+      flex-direction: column !important;
+      width: 100% !important;
+      align-items:inherit;
+  }
     .box {
       flex: 1 0 100%;
       max-width: 100%;

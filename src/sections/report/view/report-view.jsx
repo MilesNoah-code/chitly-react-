@@ -380,7 +380,7 @@ export default function ReportView() {
                            
                    
                         <Scrollbar>
-                        <div className='' sx={{pl:2 , pr:2}}>
+                        <div className='' style={{pl:2 , pr:2}}>
                             <TableContainer sx={{ overflow: 'unset',mt: 2  }}>
                                 <Table sx={{ minWidth: 280 }} stickyHeader>
                                     <TableRow hover tabIndex={-1}>

@@ -1385,7 +1385,7 @@ export default function AddChitPaymentPage() {
                           
                         </Stack>
                         <Scrollbar  style={{ maxHeight: '70vh'}}>
-                        <div className="" sx={{ paddingLeft: 2, paddingRight: 2 }}>
+                        <div  style={{ paddingLeft: 2, paddingRight: 2 }}>
                             <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
                                 <Table stickyHeader>
                                     <TableRow hover tabIndex={-1}>

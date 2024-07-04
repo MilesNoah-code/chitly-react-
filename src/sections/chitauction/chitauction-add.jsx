@@ -1857,6 +1857,7 @@ export default function AddChitAuctionPage() {
                                                         sx={{
                                                             '& .MuiInputBase-input': {
                                                               padding: '8px',
+                                                               fontSize:'14px' ,
                                                             },
                                                             '& .MuiInputAdornment-root': {
                                                               padding: '8px',
@@ -1916,6 +1917,7 @@ export default function AddChitAuctionPage() {
                                                 sx={{
                                                     '& .MuiInputBase-input': {
                                                       padding: '8px',
+                                                       fontSize:'14px' ,
                                                     }
                                                   }}/>
                                         </Stack>
@@ -1941,6 +1943,7 @@ export default function AddChitAuctionPage() {
                                                 sx={{
                                                     '& .MuiInputBase-input': {
                                                       padding: '8px',
+                                                       fontSize:'14px' ,
                                                     }
                                                   }}/>
                                         </Stack>
@@ -1964,6 +1967,7 @@ export default function AddChitAuctionPage() {
                                                 sx={{
                                                     '& .MuiInputBase-input': {
                                                       padding: '8px',
+                                                       fontSize:'14px' ,
                                                     }
                                                   }}/>
                                         </Stack>
@@ -1989,6 +1993,7 @@ export default function AddChitAuctionPage() {
                                                 sx={{
                                                     '& .MuiInputBase-input': {
                                                       padding: '8px',
+                                                       fontSize:'14px' ,
                                                     }
                                                   }}/>
                                         </Stack>
@@ -2012,6 +2017,7 @@ export default function AddChitAuctionPage() {
                                                 sx={{
                                                     '& .MuiInputBase-input': {
                                                       padding: '8px',
+                                                       fontSize:'14px' ,
                                                     }
                                                   }}/>
                                         </Stack>
@@ -2037,6 +2043,7 @@ export default function AddChitAuctionPage() {
                                                 sx={{
                                                     '& .MuiInputBase-input': {
                                                       padding: '8px',
+                                                       fontSize:'14px' ,
                                                     }
                                                   }}/>
                                         </Stack>

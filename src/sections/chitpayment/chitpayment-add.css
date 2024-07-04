@@ -11,7 +11,15 @@
   background-color: #0C44AE;
   box-shadow: 0px 2px 4px -1px rgba(145, 158, 171, 0.2), 0px 4px 5px 0px rgba(145, 158, 171, 0.14), 0px 1px 10px 0px rgba(145, 158, 171, 0.12);
 }
-
+.pad-r{
+  padding-left: 14px;
+}
+.value-width{
+  width: 20% !important;
+}
+.name-width{
+  width: 35.5% !important;
+}
 .pay-box {
   display: flex !important;
   flex-wrap: wrap !important;
@@ -22,8 +30,11 @@
   max-width: 48%;
   flex-wrap: wrap;
 } 
+.view-one{
+  border:none !important;
+}
 .pay-grp{
-  width: 29%;
+  width: 30.5%;
 }
 .pay-grp .MuiTextField-root {
   width: 100% !important;

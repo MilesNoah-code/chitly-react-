@@ -11,7 +11,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Box, Stack, Alert, Button, Dialog, ListItem, Snackbar, TableRow, TableCell, IconButton, Typography, Autocomplete, ListItemText, InputAdornment } from '@mui/material';
+import { Box, Stack, Alert, Button, Dialog, Divider,ListItem,  Snackbar, TableRow, TableCell, IconButton, Typography, Autocomplete, ListItemText, InputAdornment } from '@mui/material';
 
 import { GetHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 
@@ -773,7 +773,7 @@ export default function AddChitReceiptPage() {
     return (
         <div style={{ marginLeft: '35px', marginRight: '35px' }}>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
-                <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 5, mb: 3 }}>
+                <Typography variant="h6" sx={{ fontWeight:'600'}}>
                     {screenLabel[screen] || "Add Chit Receipt"}
                 </Typography>
                 <Button variant="contained" className='custom-button' onClick={HandleBack} sx={{ cursor: 'pointer' }}>
@@ -1109,10 +1109,22 @@ export default function AddChitReceiptPage() {
                 aria-describedby="alert-dialog-description" >
                 <Card>
                     <Stack>
-                    <Typography variant="subtitle1" sx={{ ml: 2, mr: 5, mt: 2 }}>
-                    Member List
-                     </Typography>
-                        <Stack mt={2} ml={2} mr={1} direction="row" alignItems="center" gap="10px" >
+                  <Stack ml={1} mr={1} pb={1}direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
+                            <Stack direction='column'>
+                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                  Member list
+                                </Typography>
+                            </Stack>
+                            <IconButton
+                                aria-label="close"
+                                className='btn-close'
+                                onClick={HandleMemberListAlertClose}
+                                sx={{ position: 'absolute', right: 10, top: 11, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
+                                <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 14, height: 14, }} />
+                            </IconButton>
+                        </Stack>
+                        <Divider sx={{ mt: 0.5, mb:1}}/>
+                        <Stack mt={1} ml={2} mr={1} direction="row" alignItems="center" gap="10px" >
                             <TextField
                                 placeholder="Member Name..."
                                 value={filterName}
@@ -1157,16 +1169,10 @@ export default function AddChitReceiptPage() {
                                       padding: '8px', 
                                     },
                                   }}/>
-                            <IconButton
-                                aria-label="close"
-                                className='btn-close'
-                                onClick={HandleMemberListAlertClose}
-                                sx={{ position: 'absolute', right: 10, top: 12, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
-                                <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
-                            </IconButton>
+                         
                         </Stack>
-                        <Scrollbar>
-                        <div style={{ marginLeft: '15px', marginRight: '15px' }}>
+                        <Scrollbar style={{ maxHeight: '70vh'}}>
+                        <div style={{ marginLeft: '15px', marginRight: '15px',marginBottom:'15px' }}>
                             <TableContainer sx={{ overflow: '', mt: 2 }}>
                                 <Table sx={{ minWidth: 600 }} stickyHeader>
                                     <TableRow hover tabIndex={-1}>

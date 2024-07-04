@@ -771,12 +771,12 @@ export default function AddGroupMemberPage() {
                             <IconButton
                                 aria-label="close"
                                 onClick={() => setMemberListAlert(false)}
-                                sx={{ position: 'absolute', right: 10, top: 12, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }}
+                                sx={{ position: 'absolute', right: 10, top: 11, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }}
                             >
                                 <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 14, height: 14 }} />
                             </IconButton>
                         </Stack>
-                        <Divider sx={{ mt: 2, mb:1}}/>
+                        <Divider sx={{ mt: 0.5, mb:1}}/>
                         <Stack mt={1} ml={2} mr={1} direction="row" alignItems="center">
                             <TextField
                                 placeholder="Member Name..."
@@ -804,9 +804,9 @@ export default function AddGroupMemberPage() {
                             />
                           
                         </Stack>
-                        <Box sx={{ flexGrow: 1,  mt: 1 }}>
-                            <Scrollbar>
-                            <div style={{ marginLeft: '15px', marginRight: '15px' }}>
+                        <Box sx={{ flexGrow: 1,  mt: 0.3}}>
+                            <Scrollbar  style={{ maxHeight: '70vh'}}>
+                            <div style={{ marginLeft: '15px', marginRight: '15px' ,marginBottom:'15px'}}>
                                 <TableContainer sx={{ overflow: 'unset'  }}>
                                     <Table sx={{ minWidth: 500 }} stickyHeader>
                                         <TableRow hover tabIndex={-1}>
@@ -837,8 +837,7 @@ export default function AddGroupMemberPage() {
                                     </Table>
                                 </TableContainer>
                                 </div>
-                            </Scrollbar>
-                        </Box>
+                          
                         {MemberList.length > 0 && <TablePagination
                             page={page}
                             component="div"
@@ -847,8 +846,10 @@ export default function AddGroupMemberPage() {
                             onPageChange={handleChangePage}
                             rowsPerPageOptions={[10, 20, 50]}
                             onRowsPerPageChange={handleChangeRowsPerPage}
-                            sx={{ borderTop: '1px solid #e0e0e0' }}
+                            sx={{ borderTop: '1px solid #e0e0e0' ,pt:0}}
                         />}
+                          </Scrollbar>
+                        </Box>
                     </Stack>
                 </Card>
             </Dialog>

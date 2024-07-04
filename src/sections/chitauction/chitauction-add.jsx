@@ -2119,11 +2119,11 @@ export default function AddChitAuctionPage() {
                                 aria-label="close"
                                 className='btn-close'
                                 onClick={() => setShowEstimateListAlert(false)}
-                                sx={{ position: 'absolute', right: 10, top: 12, color: (theme) => theme.palette.grey[500], cursor: 'pointer', }} >
+                                sx={{ position: 'absolute', right: 10, top: 11, color: (theme) => theme.palette.grey[500], cursor: 'pointer', }} >
                                 <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 14, height: 14, }} />
                             </IconButton>
                         </Stack>
-                        <Divider sx={{ mt: 2, }}/>
+                        <Divider sx={{ mt: 1, }}/>
                         <Scrollbar style={{ Scrollbar: 'none' }}>
                             <Stack direction='column' sx={{ m: 3 }}>
                                 <Stack direction='row' spacing={2} alignItems='center'>
@@ -2266,11 +2266,11 @@ export default function AddChitAuctionPage() {
                                 aria-label="close"
                                 className='btn-close'
                                 onClick={HandleMemberListAlertClose}
-                                sx={{ position: 'absolute', right: 10, top: 12, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
+                                sx={{ position: 'absolute', right: 10, top: 11, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
                                 <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 14, height: 14, }} />
                             </IconButton>
                         </Stack>
-                        <Divider sx={{ mt: 2, }}/>
+                        <Divider sx={{ mt: 1, }}/>
                         <Stack mt={2} ml={2} mr={1} direction="row" alignItems="center" gap="10px">
                             <TextField
                                 placeholder="Member Name..."
@@ -2307,7 +2307,7 @@ export default function AddChitAuctionPage() {
                                             />
                                         </InputAdornment>),
                                 }}
-                                sx={{ ml: 2,
+                                sx={{ ml: 1,
                                     '& .MuiInputBase-input': {
                                       padding: '8px',
                                       fontSize:'14px' 
@@ -2318,8 +2318,8 @@ export default function AddChitAuctionPage() {
                                   }}/>
                           
                         </Stack>
-                        <Scrollbar>
-                            <div style={{ marginLeft: '15px', marginRight: '15px' }}>
+                        <Scrollbar style={{ maxHeight: '70vh'}}>
+                            <div style={{ marginLeft: '15px', marginRight: '15px' ,marginBottom:'15px'}}>
                                 <TableContainer sx={{ overflow: 'unset', mt:2 }}>
                                     <Table sx={{ minWidth: 530 }} stickyHeader>
                                         <TableRow hover tabIndex={-1}>

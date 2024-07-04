@@ -435,7 +435,7 @@ export default function AddGroupPage() {
                                                 }
                                               }} />
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupCode.error}</div>
+                                    <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupCode.error}</div>
                                 </Stack>
                             </div>
                             <div className='box-grp'>
@@ -459,7 +459,7 @@ export default function AddGroupPage() {
                                                 }
                                               }} />
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Amount.error}</div>
+                                    <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Amount.error}</div>
                                 </Stack>
                             </div>
                         </Stack>
@@ -485,7 +485,7 @@ export default function AddGroupPage() {
                                                 }
                                               }}  />
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Duration.error}</div>
+                                    <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Duration.error}</div>
                                 </Stack>
                             </div>
                             <div className='box-grp'>
@@ -509,7 +509,7 @@ export default function AddGroupPage() {
                                                 }
                                               }} />
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{EMDue.error}</div>
+                                    <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{EMDue.error}</div>
                                 </Stack>
                             </div>
                         </Stack>
@@ -545,7 +545,7 @@ export default function AddGroupPage() {
                                                 </MenuItem>))}
                                         </TextField>
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{FMPRDue.error}</div>
+                                    <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{FMPRDue.error}</div>
                                 </Stack>
                             </div>
                             <div className='box-grp'>
@@ -578,7 +578,7 @@ export default function AddGroupPage() {
                                         </TextField>
                                     </Stack>
                                 </Stack>
-                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Dividend.error}</div>
+                                <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Dividend.error}</div>
                             </div>
                         </Stack>
                         <Stack direction='row' spacing={2} alignItems='center' className='group-box'>
@@ -614,7 +614,7 @@ export default function AddGroupPage() {
                                             ))}
                                         </TextField>
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{AuctionMode.error}</div>
+                                    <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{AuctionMode.error}</div>
                                 </Stack>
                             </div>
                         </Stack>

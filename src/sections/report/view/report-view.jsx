@@ -355,11 +355,11 @@ export default function ReportView() {
             </Snackbar>
             <Dialog
                 open={InstallmentDetailListAlert}
-                fullWidth={false}  // Set fullWidth to false to control width manually
-                maxWidth="md"      // Set maxWidth to limit the width
+                fullWidth  // Set fullWidth to false to control width manually
+                maxWidth="sm"      // Set maxWidth to limit the width
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
-                <Card sx={{ width: 300 }}> {/* Adjust Card width */}
+                <Card > {/* Adjust Card width */}
                     <Stack>
                     <Stack ml={1} mr={1} pb={1}direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
                     <Stack direction='column'>
@@ -371,27 +371,25 @@ export default function ReportView() {
                     aria-label="close"
                     className='btn-close'
                     onClick={() => setInstallmentDetailListAlert(false)}
-                    sx={{ position: 'absolute', right: 12, top: 10, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }}>
+                    sx={{ position: 'absolute', right: 12, top: 11, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }}>
                     <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 14, height: 14 }} />
                 </IconButton>
                 </Stack>
-                <Divider sx={{ mt: 2, mb:1}}/>
-                        <Stack mt={2} ml={2} mr={1} direction="row" alignItems="center">
-                           
-                   
-                        <Scrollbar>
-                        <div className='' style={{pl:2 , pr:2}}>
-                            <TableContainer sx={{ overflow: 'unset',mt: 2  }}>
-                                <Table sx={{ minWidth: 280 }} stickyHeader>
+                <Divider sx={{ mt: 1, mb:1}}/>
+                        <Stack mt={0} ml={1} mr={1} direction="row" alignItems="center">
+                        <Scrollbar style={{ maxHeight: '70vh'}}>
+                        <div className='' style={{margin:'15px'}}>
+                            <TableContainer sx={{ overflow: 'unset',mt: 1  }}>
+                                <Table  stickyHeader>
                                     <TableRow hover tabIndex={-1}>
                                         <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Installment No</TableCell>
-                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Amount</TableCell>
+                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align="right">Amount</TableCell>
                                     </TableRow>
                                     <TableBody>
                                         {InstallmentDetailList.map((row, index) => (
                                             <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }}>
                                                 <TableCell>{row.installno}</TableCell>
-                                                <TableCell>{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
+                                                <TableCell align="right">{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
                                             </TableRow>
                                         ))}
                                         <TableEmptyRows

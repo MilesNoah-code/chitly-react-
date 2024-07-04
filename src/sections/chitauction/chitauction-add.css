@@ -95,6 +95,9 @@ margin-top: 5px !important;
     margin-left: 15px !important;
    
 }
+.mb-grid{
+  margin: 0px;
+}
   .alert-msg{
     padding: 10px 15px 10px 15px;
     font-size: 15px;

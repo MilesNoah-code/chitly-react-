@@ -1620,7 +1620,7 @@ export default function AddChitAuctionPage() {
                             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
-                        <Grid container spacing={2}>
+                        <Grid container spacing={2} class="mb-grid">
                          <Grid item xs={12} sm={6} md={6} className='box-grid'>
                                 <stack direction="column" className="st">
                                     <Scrollbar className="table-one">

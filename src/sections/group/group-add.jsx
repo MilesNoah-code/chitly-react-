@@ -410,11 +410,11 @@ export default function AddGroupPage() {
             </Stack>
             <Card>
                 <Box className="con" component="form"
-                    sx={{ '& .MuiTextField-root': { m: 2, width: '20ch', }, }}
+                    sx={{ '& .MuiTextField-root': { m: 2 }, }}
                     noValidate
                     autoComplete="off">
                     <Stack direction='column' >
-                        <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                        <Stack direction='row' spacing={2} alignItems='center' className='group-box'>
                             <div className='box-grp'>
                                 <Stack direction='column'>
                                     <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -435,7 +435,7 @@ export default function AddGroupPage() {
                                                 }
                                               }} />
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupCode.error}</div>
+                                    <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupCode.error}</div>
                                 </Stack>
                             </div>
                             <div className='box-grp'>
@@ -459,11 +459,11 @@ export default function AddGroupPage() {
                                                 }
                                               }} />
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Amount.error}</div>
+                                    <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Amount.error}</div>
                                 </Stack>
                             </div>
                         </Stack>
-                        <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                        <Stack direction='row' spacing={2} alignItems='center' className='group-box'>
                             <div className='box-grp'>
                                 <Stack direction='column'>
                                     <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -485,7 +485,7 @@ export default function AddGroupPage() {
                                                 }
                                               }}  />
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Duration.error}</div>
+                                    <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Duration.error}</div>
                                 </Stack>
                             </div>
                             <div className='box-grp'>
@@ -509,11 +509,11 @@ export default function AddGroupPage() {
                                                 }
                                               }} />
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{EMDue.error}</div>
+                                    <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{EMDue.error}</div>
                                 </Stack>
                             </div>
                         </Stack>
-                        <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                        <Stack direction='row' spacing={2} alignItems='center' className='group-box'>
                             <div className='box-grp'>
                                 <Stack direction='column'>
                                     <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -545,7 +545,7 @@ export default function AddGroupPage() {
                                                 </MenuItem>))}
                                         </TextField>
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{FMPRDue.error}</div>
+                                    <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{FMPRDue.error}</div>
                                 </Stack>
                             </div>
                             <div className='box-grp'>
@@ -578,10 +578,10 @@ export default function AddGroupPage() {
                                         </TextField>
                                     </Stack>
                                 </Stack>
-                                <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Dividend.error}</div>
+                                <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Dividend.error}</div>
                             </div>
                         </Stack>
-                        <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                        <Stack direction='row' spacing={2} alignItems='center' className='group-box'>
                             <div className='box-grp'>
                                 <Stack direction='column'>
                                     <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -614,14 +614,14 @@ export default function AddGroupPage() {
                                             ))}
                                         </TextField>
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{AuctionMode.error}</div>
+                                    <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{AuctionMode.error}</div>
                                 </Stack>
                             </div>
                         </Stack>
                         {screen === "view"
                             ? null
-                            : <Stack direction='column' alignItems='flex-end'>
-                                <Button sx={{ mr: 2.5, mb: 3,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
+                            : <Stack direction='column' alignItems='flex-start'>
+                                <Button sx={{ ml: 2.5, mb: 3, mt:2, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                     {Loading
                                         ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                         : ("Submit")}

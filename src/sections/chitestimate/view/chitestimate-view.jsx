@@ -209,7 +209,7 @@ export default function ChitEstimateView() {
                 <Table sx={{ minWidth: 800 }}>
                   <TableRow hover tabIndex={-1}>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group Code</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Amount</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Amount</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Duration</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Auction Mode</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
@@ -220,7 +220,7 @@ export default function ChitEstimateView() {
                       .map((row) => (
                         <TableRow hover tabIndex={-1} role="checkbox">
                           <TableCell>{row.groupno}</TableCell>
-                          <TableCell>{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
+                          <TableCell align="right">{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
                           <TableCell>{row.duration}</TableCell>
                           <TableCell>{row.auction_mode}</TableCell>
                           <TableCell align="right">

@@ -33,7 +33,21 @@ function Router() {
         path="/"
         element={isSessionAvailable ? (
           <DashboardLayout>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={  <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              // position: 'fixed',
+              // top: '20%',
+              // left: 0,
+              width: '100%',
+              height: '100%',
+              background: 'rgba(255, 255, 255, 0.8)',
+            
+            }}>
+              <img className='load' src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70 }} />
+            </div>
+          }>
               <Outlet />
             </Suspense>
           </DashboardLayout>

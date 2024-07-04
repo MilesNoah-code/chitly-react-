@@ -9,7 +9,7 @@ import TextField from '@mui/material/TextField';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-import { Box, Grid, Stack, Alert, Button, Dialog, Snackbar, Typography, IconButton, InputAdornment } from '@mui/material';
+import { Box, Grid, Stack, Alert, Button, Dialog, Divider, Snackbar, Typography, IconButton, InputAdornment } from '@mui/material';
 
 import { GetHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 
@@ -458,7 +458,7 @@ export default function AddGroupMemberPage() {
             </Stack>
             <Card>
                 <Box className="con" component="form"
-                    sx={{ '& .MuiTextField-root': { m: 2, width: '20ch', }, }}
+                    sx={{ '& .MuiTextField-root': { m: 2 }, }}
                     noValidate
                     autoComplete="off">
                     {GroupMemberLoading
@@ -469,7 +469,7 @@ export default function AddGroupMemberPage() {
                             <Grid className='grid-UI' container spacing={2}>
                                 <Grid className='table-grid' item xs={12} md={5}>
                                     <Scrollbar>
-                                    <div style={{ marginLeft: '15px', marginRight: '0px' }}>
+                                    <div style={{ marginLeft: '10px', marginRight: '0px' }}>
                                         <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
                                             <Table sx={{ minWidth: 350 }}>
                                                 <TableRow hover tabIndex={-1}>
@@ -511,7 +511,7 @@ export default function AddGroupMemberPage() {
                                         <Typography variant="h6" className='detail-head' sx={{ mt: 0, ml: 2, }}>
                                             Group Detail:
                                         </Typography>
-                                        <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                        <Stack direction='row' spacing={2} alignItems='center' className='member-box'>
                                             <div className='box-grp'>
                                                 <Stack direction='column'>
                                                     <Typography variant="subtitle1" className='detail-sub' sx={{ ml: 2, mr: 2, mt: 1, mb: '0px' }}>
@@ -539,7 +539,7 @@ export default function AddGroupMemberPage() {
                                                 </Stack>
                                             </div>
                                         </Stack>
-                                        <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                        <Stack direction='row' spacing={2} alignItems='center' className='member-box'>
                                             <div className='box-grp'>
                                                 <Stack direction='column'>
                                                     <Typography variant="subtitle1" className='detail-sub' sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -572,7 +572,7 @@ export default function AddGroupMemberPage() {
                                         <Typography variant="h6" className='detail-head' sx={{ mt: 0, ml: 2, }}>
                                             Member Detail:
                                         </Typography>
-                                        <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                        <Stack direction='row' spacing={2} alignItems='center' className='member-box'>
                                             <div className='box-grp'>
                                                 <Stack direction='column'>
                                                     <Typography variant='subtitle1' className='detail-sub' sx={{ mt: 2, ml: 2 }} >
@@ -598,7 +598,7 @@ export default function AddGroupMemberPage() {
                                                 </Stack>
                                             </div>
                                         </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='member-box'>
                                             <div className='box-grp'>
                                             <Stack direction='column'>
                                                 <Typography variant='subtitle1' className='detail-sub' sx={{ mt: 2, ml: 2 }} >
@@ -624,7 +624,7 @@ export default function AddGroupMemberPage() {
                                                 </Stack>
                                             </div>
                                         </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='member-box'>
                                             <div className='box-grp  grp-label'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" className='detail-sub' sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -658,7 +658,7 @@ export default function AddGroupMemberPage() {
                                         {(memberDetail.addressline1 == null || memberDetail.addressline1 === '') && (memberDetail.city == null || memberDetail.city === '') &&
                                             (memberDetail.state == null || memberDetail.state === '') && (memberDetail.country == null || memberDetail.country === '')
                                             ? null
-                                            : <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                            : <Stack direction='row' spacing={2} alignItems='center' className='member-box'>
                                                 <div className='box-grp  grp-label'>
                                                     <Stack direction='column'>
                                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 1, mb: '0px' }}>
@@ -693,7 +693,7 @@ export default function AddGroupMemberPage() {
                                         {(memberDetail.addressline1 == null || memberDetail.addressline1 === '') && (memberDetail.city == null || memberDetail.city === '') &&
                                             (memberDetail.state == null || memberDetail.state === '') && (memberDetail.country == null || memberDetail.country === '')
                                             ? null
-                                            : <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                            : <Stack direction='row' spacing={2} alignItems='center' className='member-box'>
                                                 <div className='box-grp  grp-label'>
                                                     <Stack direction='column'>
                                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 1, mb: '0px' }}>
@@ -760,11 +760,23 @@ export default function AddGroupMemberPage() {
                 sx={{ justifyContent: 'center', }}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description" >
-                <Card sx={{ width: '100%' }}>
-                    <Stack sx={{ height: '100%', maxHeight: '100vh', overflow: 'hidden' }}>
-                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 5, mt: 2 }}>
-                            Member List
-                        </Typography>
+                <Card>      
+                    <Stack>
+                           <Stack ml={1} mr={1} pb={1}direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
+                            <Stack direction='column'>
+                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                  Member list
+                                </Typography>
+                            </Stack>
+                            <IconButton
+                                aria-label="close"
+                                onClick={() => setMemberListAlert(false)}
+                                sx={{ position: 'absolute', right: 10, top: 11, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }}
+                            >
+                                <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 14, height: 14 }} />
+                            </IconButton>
+                        </Stack>
+                        <Divider sx={{ mt: 0.5, mb:1}}/>
                         <Stack mt={1} ml={2} mr={1} direction="row" alignItems="center">
                             <TextField
                                 placeholder="Member Name..."
@@ -790,18 +802,12 @@ export default function AddGroupMemberPage() {
                                     },
                                   }}
                             />
-                            <IconButton
-                                aria-label="close"
-                                onClick={() => setMemberListAlert(false)}
-                                sx={{ position: 'absolute', right: 15, top: 5, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }}
-                            >
-                                <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17 }} />
-                            </IconButton>
+                          
                         </Stack>
-                        <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 1 }}>
-                            <Scrollbar>
-                            <div style={{ marginLeft: '15px', marginRight: '15px' }}>
-                                <TableContainer sx={{ overflow: '', mt: 2 }}>
+                        <Box sx={{ flexGrow: 1,  mt: 0.3}}>
+                            <Scrollbar  style={{ maxHeight: '70vh'}}>
+                            <div style={{ marginLeft: '15px', marginRight: '15px' ,marginBottom:'15px'}}>
+                                <TableContainer sx={{ overflow: 'unset'  }}>
                                     <Table sx={{ minWidth: 500 }} stickyHeader>
                                         <TableRow hover tabIndex={-1}>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
@@ -831,8 +837,7 @@ export default function AddGroupMemberPage() {
                                     </Table>
                                 </TableContainer>
                                 </div>
-                            </Scrollbar>
-                        </Box>
+                          
                         {MemberList.length > 0 && <TablePagination
                             page={page}
                             component="div"
@@ -841,8 +846,10 @@ export default function AddGroupMemberPage() {
                             onPageChange={handleChangePage}
                             rowsPerPageOptions={[10, 20, 50]}
                             onRowsPerPageChange={handleChangeRowsPerPage}
-                            sx={{ borderTop: '1px solid #e0e0e0' }}
+                            sx={{ borderTop: '1px solid #e0e0e0' ,pt:0}}
                         />}
+                          </Scrollbar>
+                        </Box>
                     </Stack>
                 </Card>
             </Dialog>

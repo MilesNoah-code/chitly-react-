@@ -73,19 +73,31 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
     flex: 1 0 100%;
       max-width: 100%;
       flex-wrap: wrap;
-  }   
+  } 
+  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+    font-size: 15px;
+   margin-left: 0px;
+}  
+.date-mbl{
+  margin-top: 12px !important;
+}
   .receipt-grp .MuiTextField-root {
     width: 100% !important;
   }
   .receipt-grp{
     width: calc(100% - 0px) !important; 
   }
+  .grp-mbl{
+    margin-top: 10px !important;
+  }
   .receipt-box{
       flex-direction: column !important;
       width: 100% !important;
       align-items:inherit;
-      margin: 5px 12px;
+      margin: 3px 14px !important;
+      gap: 0px;
   }
+  
   .alert-msg{
     padding: 10px 15px 10px 15px;
     font-size: 15px;
@@ -129,7 +141,10 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
     .con{
       padding: 10px;
     }
-  
+    h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+      font-size: 15px;
+     margin-left: 0px;
+  }
     .receipt-grp .MuiTextField-root {
       width: 100% !important;
     }

@@ -106,10 +106,11 @@
     font-size: 15px;
   }
   .pay-box{
-      flex-direction: column !important;
+   
       width: 100% !important;
       align-items:inherit;
   }
+  
   .box-pay-grp {
     flex: 1 0 100%;
     max-width: 100%;
@@ -141,6 +142,11 @@
       max-width: 48%;
       flex-wrap: wrap;
     } 
+    h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+      font-size: 15px;
+      margin-left: 15px !important;
+     
+  }
   }
 
  

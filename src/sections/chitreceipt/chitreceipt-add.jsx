@@ -791,7 +791,7 @@ export default function AddChitReceiptPage() {
                         </Stack>
                         : <Stack direction='column' pb="35px">
                             <Stack direction='row' spacing={1} alignItems='center'  gap='10px' justifyContent="flex-start" sx={{m:3, mb:2}} className='receipt-box'>
-                                <div className="receipt-grp receipt-grp1">
+                                <div className="receipt-grp receipt-grp1 date-mbl">
                                     <Stack direction='column' className='box-d'>
                                         <Typography variant="subtitle1"  sx={{ ml: 0, mr: 2, mt: 0, mb: '0px' }}>
                                             Receipt Date
@@ -819,7 +819,7 @@ export default function AddChitReceiptPage() {
                                         </Stack>
                                     </Stack>
                                 </div>
-                                <div className='receipt-grp' >
+                                <div className='receipt-grp  grp-mbl' >
                                     <Stack direction='column' >
                                         <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 0, mb: '0px' }}>
                                             Group No <span style={{ color: 'red' }}> *</span>

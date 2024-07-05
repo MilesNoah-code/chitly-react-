@@ -12,7 +12,7 @@ import TableContainer from '@mui/material/TableContainer';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Box, Alert, Stack, Button, Dialog, styled, Snackbar, Divider ,IconButton, Typography, DialogTitle, DialogActions, InputAdornment, TablePagination } from '@mui/material';
+import { Box, Alert, Stack, Button, Dialog, styled,Divider , Snackbar, IconButton, Typography, DialogTitle, DialogActions, InputAdornment, TablePagination } from '@mui/material';
 
 import { GetHeader, PutHeader, PostHeader, DeleteHeader, } from 'src/hooks/AxiosApiFetch';
 
@@ -1387,7 +1387,7 @@ export default function AddChitEstimatePage() {
                                                                             remove_data: row,
                                                                             member_edit: 'false'
                                                                     });}} sx={{ cursor: 'pointer' }}>
-                                                                    <Iconify icon="streamline:delete-1-solid"  sx={{ width:13,height:13}}/>
+                                                                    <Iconify icon="streamline:delete-1-solid"  sx={{ width:11,height:11}}/>
                                                                     </IconButton>)}
                                                             </TableCell>
                                                         </TableRow>

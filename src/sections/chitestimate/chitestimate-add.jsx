@@ -1387,7 +1387,7 @@ export default function AddChitEstimatePage() {
                                                                             remove_data: row,
                                                                             member_edit: 'false'
                                                                     });}} sx={{ cursor: 'pointer' }}>
-                                                                    <Iconify icon="streamline:delete-1-solid"  sx={{ width:13,height:13}}/>
+                                                                    <Iconify icon="streamline:delete-1-solid"  sx={{ width:11,height:11}}/>
                                                                     </IconButton>)}
                                                             </TableCell>
                                                         </TableRow>

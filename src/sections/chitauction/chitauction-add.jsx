@@ -1638,6 +1638,7 @@ export default function AddChitAuctionPage() {
                          <Grid item xs={12} sm={6} md={6} className='box-grid'>
                                 <Stack direction="column" className="st">
                                     <Scrollbar className="table-one">
+                                    <div style={{paddingLeft:'10px'}}>
                                         <TableContainer sx={{ overflow: 'unset', mt: 1 }}>
                                             <Table sx={{ minWidth: 450 }}>
                                                 <TableRow hover tabIndex={-1}>
@@ -1701,8 +1702,10 @@ export default function AddChitAuctionPage() {
                                                 </TableBody>
                                             </Table>
                                         </TableContainer>
+                                        </div>
                                     </Scrollbar>
                                     <Scrollbar className="table-one">
+                                      <div style={{paddingLeft:'10px'}}>
                                         <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
                                             <Table sx={{ minWidth: 490 }}>
                                                 <TableRow hover tabIndex={-1}>
@@ -1762,8 +1765,8 @@ export default function AddChitAuctionPage() {
                                                                         </Stack>
                                                                     </TableCell>
                                                                     <TableCell>{row.action === "delete" &&
-                                                                        <IconButton onClick={() => setChitAuctionMemberList(prevList => prevList.filter((_, i) => i !== index))} sx={{ cursor: 'pointer' }}>
-                                                                            <Iconify icon="streamline:delete-1-solid" />
+                                                                        <IconButton onClick={() => setChitAuctionMemberList(prevList => prevList.filter((_, i) => i !== index))} sx={{ cursor: 'pointer'}}>
+                                                                            <Iconify icon="streamline:delete-1-solid" sx={{ width:12,height:12}} />
                                                                         </IconButton>}
                                                                     </TableCell>
                                                                 </TableRow> ); })}
@@ -1774,6 +1777,7 @@ export default function AddChitAuctionPage() {
                                                     </TableBody>}
                                             </Table>
                                         </TableContainer>
+                                    </div>
                                     </Scrollbar>
                                     </Stack>
                                 </Grid>
@@ -2074,7 +2078,7 @@ export default function AddChitAuctionPage() {
                             </Grid>
                            
                             </Grid>
-                            <Stack direction='column' alignItems='flex-end' gap='10px' sx={{ mt: 4, mb: 3, }}>
+                            <Stack direction='column' alignItems='flex-start' gap='10px' sx={{ mt: 1, mb: 3, ml:2}}>
                                 <Stack direction='row'>
                                     <Button sx={{ mr:2,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                         {Loading

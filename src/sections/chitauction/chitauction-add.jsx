@@ -1441,11 +1441,11 @@ export default function AddChitAuctionPage() {
         } else {
                 if(index < ChitAuctionListTotal -1)
                 {
-                    setEditable(true);
-                }else if(index === ChitAuctionListTotal - 1 && ChitParameter.length > 0){
                     setEditable(false);
-                }else{
+                }else if(index === ChitAuctionListTotal - 1 && ChitParameter.length > 0){
                     setEditable(true);
+                }else{
+                    setEditable(false);
                 }
             GetChitEstimateList(item.installno);
             if (String(item.primary_id).includes('id_')) {

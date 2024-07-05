@@ -118,6 +118,7 @@ export default function AddChitAuctionPage() {
     // const [GroupMemberList, setGroupMemberList] = useState([]);
     const [CompanyMemberId, setCompanyMemberId] = useState(0);
     const [SelectedDateId, setSelectedDateId] = useState(0);
+    const [isEditable, setEditable] = useState(true);
 
     useEffect(() => {
         console.log(data);
@@ -1049,12 +1050,14 @@ export default function AddChitAuctionPage() {
         setChitAuctionMemberList(prevState => {
             const updatedList = prevState.map((prev, index) => {
                 // const isEditable = String(item.id).includes('id_') || (index === prevState.length - 1 && !String(item.id).includes('id_'));
-                const isEditable = true;
-                if(prev.id !==0 && prev.id !=="0")
-                    {
-                        const isEditable = ChitParameter.length > 0;
-                        console.log("isEditable", isEditable)
-                    }            
+                
+                // if(prev.id !==0 && prev.id !=="0")
+                //     {
+                //         if( ChitParameter.length > 0)
+                //         {
+                //             setEditable(true);
+                //         } 
+                //     }            
                 if (prev === item && isEditable) {
                     if (from === "maxaucdisc") {
                         return {
@@ -1436,6 +1439,14 @@ export default function AddChitAuctionPage() {
             setAlertFrom("error_alert");
             HandleAlertShow();
         } else {
+                if(index < ChitAuctionListTotal -1)
+                {
+                    setEditable(true);
+                }else if(index === ChitAuctionListTotal - 1 && ChitParameter.length > 0){
+                    setEditable(false);
+                }else{
+                    setEditable(true);
+                }
             GetChitEstimateList(item.installno);
             if (String(item.primary_id).includes('id_')) {
                 setSelectedId(item.primary_id);
@@ -1625,7 +1636,7 @@ export default function AddChitAuctionPage() {
                         : <Stack direction='column'>
                         <Grid container spacing={2} class="mb-grid">
                          <Grid item xs={12} sm={6} md={6} className='box-grid'>
-                                <stack direction="column" className="st">
+                                <Stack direction="column" className="st">
                                     <Scrollbar className="table-one">
                                         <TableContainer sx={{ overflow: 'unset', mt: 1 }}>
                                             <Table sx={{ minWidth: 450 }}>
@@ -1710,8 +1721,14 @@ export default function AddChitAuctionPage() {
                                                     : <TableBody>
                                                         {ChitAuctionMemberList.map((row, index) => {
                                                             // const isEditable = String(row.id).includes('id_') || (index === ChitAuctionMemberList.length - 1 && !String(row.id).includes('id_'));
-                                                            const isEditable = ChitParameter.length > 0;;
-
+                                                                                                                        
+                                                            // if(row.id !==0 && row.id !=="0")
+                                                            // {
+                                                            //     if( ChitParameter.length > 0)
+                                                            //     {
+                                                            //         setEditable(true);
+                                                            //     }                                                                
+                                                            // } 
                                                             console.log("isEditable", isEditable);
                                                             console.log("ChitAuctionSelectedIndex", (ChitAuctionSelectedIndex+1));
                                                             console.log("ChitAuctionListTotal", ChitAuctionListTotal);
@@ -1758,7 +1775,7 @@ export default function AddChitAuctionPage() {
                                             </Table>
                                         </TableContainer>
                                     </Scrollbar>
-                                    </stack>
+                                    </Stack>
                                 </Grid>
                         <Grid item xs={12} sm={6} md={6} className='box-grid pd'>
                             <Stack direction='row' spacing={1} alignItems='center' className='auction-box'>

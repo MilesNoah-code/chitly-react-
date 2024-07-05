@@ -2057,7 +2057,7 @@ export default function AddChitAuctionPage() {
                             </Grid>
                            
                             </Grid>
-                            <Stack direction='column' alignItems='flex-end' gap='10px' sx={{ mt: 4, mb: 3, }}>
+                            <Stack direction='column' alignItems='flex-start' gap='10px' sx={{ mt: 1, mb: 3, ml:2}}>
                                 <Stack direction='row'>
                                     <Button sx={{ mr:2,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                         {Loading

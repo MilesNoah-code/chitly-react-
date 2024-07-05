@@ -1748,8 +1748,8 @@ export default function AddChitAuctionPage() {
                                                                         </Stack>
                                                                     </TableCell>
                                                                     <TableCell>{row.action === "delete" &&
-                                                                        <IconButton onClick={() => setChitAuctionMemberList(prevList => prevList.filter((_, i) => i !== index))} sx={{ cursor: 'pointer' }}>
-                                                                            <Iconify icon="streamline:delete-1-solid" />
+                                                                        <IconButton onClick={() => setChitAuctionMemberList(prevList => prevList.filter((_, i) => i !== index))} sx={{ cursor: 'pointer'}}>
+                                                                            <Iconify icon="streamline:delete-1-solid" sx={{ width:12,height:12}} />
                                                                         </IconButton>}
                                                                     </TableCell>
                                                                 </TableRow> ); })}

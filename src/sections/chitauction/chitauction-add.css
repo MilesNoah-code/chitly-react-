@@ -82,12 +82,12 @@ margin-top: 5px !important;
  
 }
 }
- @media (min-width:1600px) and (max-width:2000px){
+ /* @media (min-width:1600px) and (max-width:2000px){
 
   .box-grid {
     margin-left: 22px;
 }
-} 
+}  */
 @media screen and (max-width: 768px) {
   .auction-box{
       flex-direction: column !important;

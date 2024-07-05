@@ -1627,6 +1627,7 @@ export default function AddChitAuctionPage() {
                          <Grid item xs={12} sm={6} md={6} className='box-grid'>
                                 <stack direction="column" className="st">
                                     <Scrollbar className="table-one">
+                                    <div style={{paddingLeft:'10px'}}>
                                         <TableContainer sx={{ overflow: 'unset', mt: 1 }}>
                                             <Table sx={{ minWidth: 450 }}>
                                                 <TableRow hover tabIndex={-1}>
@@ -1690,8 +1691,10 @@ export default function AddChitAuctionPage() {
                                                 </TableBody>
                                             </Table>
                                         </TableContainer>
+                                        </div>
                                     </Scrollbar>
                                     <Scrollbar className="table-one">
+                                      <div style={{paddingLeft:'10px'}}>
                                         <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
                                             <Table sx={{ minWidth: 490 }}>
                                                 <TableRow hover tabIndex={-1}>
@@ -1757,6 +1760,7 @@ export default function AddChitAuctionPage() {
                                                     </TableBody>}
                                             </Table>
                                         </TableContainer>
+                                    </div>
                                     </Scrollbar>
                                     </stack>
                                 </Grid>

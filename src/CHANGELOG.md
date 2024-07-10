@@ -1,3 +1,9 @@
+3.4.8
+Date : 10/07/2024
+Type : Bug fix
+Description :  
+        1.auction member max.auc.disc not edit issue fix
+----------------------------------------------------------------
 3.4.7
 Date : 04/07/2024
 Type : Changes

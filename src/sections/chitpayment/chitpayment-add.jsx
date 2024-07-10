@@ -1237,7 +1237,7 @@ export default function AddChitPaymentPage() {
                                                                         <TextField
                                                                             className='ledg-in'
                                                                             id="outlined-required"
-                                                                            disabled
+                                                                            disabled={screen === "view"}
                                                                             // label="Value"
                                                                             value={row.value}
                                                                             onChange={(e) => ChitPaymentLedgerTextValidate(e, row, "LedgerValues")}

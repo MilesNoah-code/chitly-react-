@@ -1615,7 +1615,7 @@ export default function AddChitAuctionPage() {
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
     return (
-        <div style={{ marginLeft: '35px', marginRight: '35px' }}>
+        <div style={{ marginLeft: '35px', marginRight: '35px' }} className='chitauction-add-screen'>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
                 <Typography variant="h6" sx={{ fontWeight:'600px'}}>
                     Chit Auction
@@ -1804,7 +1804,7 @@ export default function AddChitAuctionPage() {
                                                     }
                                                   }}/>
                                         </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{GroupNo.error}</div>
+                                        <div  className='error_txt'>{GroupNo.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='auction-grp'>
@@ -1828,7 +1828,7 @@ export default function AddChitAuctionPage() {
                                                     }
                                                   }}/>
                                         </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{Amount.error}</div>
+                                        <div  className='error_txt'>{Amount.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>
@@ -1860,7 +1860,7 @@ export default function AddChitAuctionPage() {
                                                 </DemoContainer>
                                             </LocalizationProvider>
                                         </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AucFromTime.error}</div>
+                                        <div  className='error_txt'>{AucFromTime.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='auction-grp box'>
@@ -1890,7 +1890,7 @@ export default function AddChitAuctionPage() {
                                                 </DemoContainer>
                                             </LocalizationProvider>
                                         </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AucToTime.error}</div>
+                                        <div  className='error_txt'>{AucToTime.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>
@@ -1921,7 +1921,7 @@ export default function AddChitAuctionPage() {
                                                 </DemoContainer>
                                             </LocalizationProvider>
                                         </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{AucDate.error}</div>
+                                        <div  className='error_txt'>{AucDate.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='auction-grp'>
@@ -1936,7 +1936,7 @@ export default function AddChitAuctionPage() {
                                                 disabled
                                                 // label="Inst No"
                                                 value={InstNo.data}
-                                                onChange={(e) => ChitAuctionTextValidate(e, "InstNo")}
+                                                 onChange={(e) => ChitAuctionTextValidate(e, "InstNo")}
                                                 style={{}}
                                                 sx={{
                                                     '& .MuiInputBase-input': {
@@ -1945,7 +1945,7 @@ export default function AddChitAuctionPage() {
                                                     }
                                                   }}/>
                                         </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{InstNo.error}</div>
+                                        <div  className='error_txt'>{InstNo.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>
@@ -1971,7 +1971,7 @@ export default function AddChitAuctionPage() {
                                                     }
                                                   }}/>
                                         </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{PrizedMember.error}</div>
+                                        <div  className='error_txt'>{PrizedMember.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='auction-grp'>
@@ -1995,7 +1995,7 @@ export default function AddChitAuctionPage() {
                                                     }
                                                   }}/>
                                         </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{TktNo.error}</div>
+                                        <div  className='error_txt'>{TktNo.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>
@@ -2021,7 +2021,7 @@ export default function AddChitAuctionPage() {
                                                     }
                                                   }}/>
                                         </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{MaxADisc.error}</div>
+                                        <div  className='error_txt'>{MaxADisc.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='auction-grp'>
@@ -2045,7 +2045,7 @@ export default function AddChitAuctionPage() {
                                                     }
                                                   }}/>
                                         </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", width: "100px" }}>{FM_AFMCommission.error}</div>
+                                        <div  className='error_txt'>{FM_AFMCommission.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>
@@ -2071,7 +2071,7 @@ export default function AddChitAuctionPage() {
                                                     }
                                                   }}/>
                                         </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Dividend.error}</div>
+                                        <div className='error_txt'>{Dividend.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>

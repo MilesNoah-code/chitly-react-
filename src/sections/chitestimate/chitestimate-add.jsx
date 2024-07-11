@@ -1071,7 +1071,7 @@ export default function AddChitEstimatePage() {
                                                 onChange={(e) => ChitEstimateTextValidate(e, "GroupNo")}
                                                 sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} />
                                         </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{GroupNo.error}</div>
+                                        <div  className='error_txt'>{GroupNo.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='estimate-grp'>
@@ -1279,7 +1279,7 @@ export default function AddChitEstimatePage() {
                                                             </TableCell>
                                                         </TableRow> ))}
                                                 <div style={{ marginTop: "15px" }} />
-                                                <div style={{ marginLeft: "25px", color: 'red', fontSize: "12px", fontWeight: "500", width: "160px", marginBottom: '10px', }}>{AuctionDateError}</div>
+                                                <div className='error_txt'>{AuctionDateError}</div>
                                                 <TableEmptyRows
                                                     height={77}
                                                     emptyRows={emptyRows(0, 15, ChitEstimateList.length)} />

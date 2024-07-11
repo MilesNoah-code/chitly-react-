@@ -1,85 +1,106 @@
-..custom-button{
+.custom-button {
   color: #FFFFFF;
   background-color: #1877F2;
   box-shadow: 0px 3px 1px -2px rgba(145, 158, 171, 0.2), 0px 2px 2px 0px rgba(145, 158, 171, 0.14), 0px 1px 5px 0px rgba(145, 158, 171, 0.12);
- font-size: 15px;
- 
-  
+  font-size: 15px;
+
+
 }
-.custom-button:hover{
+
+.custom-button:hover {
   text-decoration: none;
   background-color: #0C44AE;
   box-shadow: 0px 2px 4px -1px rgba(145, 158, 171, 0.2), 0px 4px 5px 0px rgba(145, 158, 171, 0.14), 0px 1px 10px 0px rgba(145, 158, 171, 0.12);
 }
 
 .group-box {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    width: 60%;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  width: 60%;
+}
+
+.box-grp {
+  flex: 1 0 48%;
+  max-width: 48%;
+  flex-wrap: wrap;
+}
+
+.con {
+  padding: 20px;
+}
+
+.box-grp .input-box1 {
+  margin-top: 5px !important;
+  width: calc(100% - 20px) !important;
+}
+
+
+.alert-msg {
+  display: flex;
+  align-items: center;
+  text-align-last: center;
+  font-size: 18px;
+  padding: 10px;
+}
+
+.group-add-screen .error_txt {
+  margin-left: 14px;
+  margin-top: -10px;
+  color: red;
+  font-size: 12px;
+  font-weight: 500;
+  width: 100px;
+
+}
+
+@media screen and (max-width: 768px) {
+  .group-box {
+    flex-direction: column !important;
+    width: 100% !important;
+    align-items: inherit;
   }
- .box-grp{
+
+  .box-grp {
+    flex: 1 0 100%;
+    max-width: 100%;
+    margin-left: 0px !important;
+  }
+
+  .group-box .css-mxq89r-MuiTypography-root {
+    margin-left: 16px !important;
+    font-size: 13px;
+  }
+
+  .box-grp .input-box1 {
+    width: calc(100% - 0px) !important;
+  }
+
+  .con {
+    padding: 10px;
+  }
+}
+
+@media (min-width:769px) and (max-width:894px) {
+  .box-grp {
     flex: 1 0 48%;
     max-width: 48%;
     flex-wrap: wrap;
-  } 
-  .con{
-    padding: 20px;
   }
-  .box-grp .input-box1 {
-    margin-top: 5px !important;
-    width: calc(100% - 20px) !important; 
-  }
-  
 
-  .alert-msg{
-    display: flex;
-    align-items: center;
-    text-align-last: center;
-    font-size: 18px;
-    padding: 10px;
+  .group-box {
+    width: 70%;
   }
- 
-  @media screen and (max-width: 768px) {
-    .group-box{
-        flex-direction: column !important;
-        width: 100% !important;
-        align-items:inherit;
-    }
-    .box-grp {
-      flex: 1 0 100%;
-      max-width: 100%;
-      margin-left: 0px !important; 
-    }
-   .group-box .css-mxq89r-MuiTypography-root {
-    margin-left: 16px !important;
-    font-size: 13px;
-   }
-  .box-grp  .input-box1 {
-        width: calc(100% - 0px) !important; 
-      }
-      .con{
-        padding: 10px;
-      }
-    }
-    @media (min-width:769px) and (max-width:894px){
-      .box-grp {
-        flex: 1 0 48%;
-        max-width: 48%;
-        flex-wrap: wrap;
-      } 
-      .group-box{
-        width: 70%;
-     }
-    }
-    @media (min-width:370px) and (max-width:540px){
-      h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
-        font-size: 14.5px;
-        /* margin-top: 2px;
+}
+
+@media (min-width:370px) and (max-width:540px) {
+  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+    font-size: 14.5px;
+    /* margin-top: 2px;
       margin-bottom: -9px; */
-    }
-  
-    .custom-button{
-     font-size: 13px;
-     margin-top: 10px;
-    }
-    }
+  }
+
+  .custom-button {
+    font-size: 13px;
+    margin-top: 10px;
+  }
+}

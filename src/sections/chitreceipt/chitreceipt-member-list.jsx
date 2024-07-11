@@ -6,7 +6,7 @@ import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
 
 export default function ChitReceiptMemberTableRow({
-  key,
+  keyvalue,
   selected,
   handleClick,
   item,
@@ -23,7 +23,7 @@ export default function ChitReceiptMemberTableRow({
       <TableCell>{item.sms_phoneno}</TableCell>
       <TableCell>{item.fcno}</TableCell>
       <TableCell>
-        {key === "paidmember"
+        {keyvalue === "paidmember"
           ? <Avatar alt='Loading' src='/assets/images/img/green_tick.png' sx={{ width: 20, height: 20 }} />
           : <Avatar alt='Loading' src='/assets/images/img/pending.png' sx={{ width: 20, height: 20 }} />}
       </TableCell>
@@ -33,7 +33,7 @@ export default function ChitReceiptMemberTableRow({
 }
 
 ChitReceiptMemberTableRow.propTypes = {
-  key: PropTypes.any,
+  keyvalue: PropTypes.any,
   selected: PropTypes.any,
   handleClick: PropTypes.func,
   item: PropTypes.object

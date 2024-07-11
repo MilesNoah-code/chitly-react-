@@ -1,63 +1,77 @@
-.custom-button{
+.custom-button {
   color: #FFFFFF;
   background-color: #1877F2;
   box-shadow: 0px 3px 1px -2px rgba(145, 158, 171, 0.2), 0px 2px 2px 0px rgba(145, 158, 171, 0.14), 0px 1px 5px 0px rgba(145, 158, 171, 0.12);
- font-size: 15px;
- 
-  
+  font-size: 15px;
+
+
 }
-.custom-button:hover{
+
+.custom-button:hover {
   text-decoration: none;
   background-color: #0C44AE;
   box-shadow: 0px 2px 4px -1px rgba(145, 158, 171, 0.2), 0px 4px 5px 0px rgba(145, 158, 171, 0.14), 0px 1px 10px 0px rgba(145, 158, 171, 0.12);
 }
-.pad-r{
+
+.pad-r {
   padding-left: 14px;
 }
-.value-width{
+
+.value-width {
   width: 20% !important;
 }
-.name-width{
+
+.name-width {
   width: 35.5% !important;
 }
+
 .pay-box {
   display: flex !important;
   flex-wrap: wrap !important;
   width: 100% !important;
 }
-.box-pay-grp{
+
+.box-pay-grp {
   flex: 1 0 48%;
   max-width: 48%;
   flex-wrap: wrap;
-} 
-.view-one{
-  border:none !important;
 }
-.pay-grp{
+
+.view-one {
+  border: none !important;
+}
+
+.pay-grp {
   width: 30.5%;
 }
+
 .pay-grp .MuiTextField-root {
   width: 100% !important;
   margin: 0px;
 }
-.con{
+
+.con {
   padding: 20px;
 }
+
 .box-pay-grp .input-box1 {
   margin-top: 5px;
-  width: calc(100% - 20px); 
+  width: calc(100% - 20px);
 }
- .box-popfix{
+
+.box-popfix {
   position: relative;
 }
+
 .cancel-btn {
   position: absolute;
   top: 47px;
   right: -25px;
   cursor: pointer;
- 
+
 }
-.box-one{
+
+.box-one {
   border: 1px solid #ccc;
   margin-left: 24px;
   margin-right: -17px;
@@ -66,113 +80,143 @@
   max-width: 48% !important;
   padding-bottom: 20px;
 }
-.bor{
+
+.bor {
   border-bottom: 1px solid #ccc;
   padding-bottom: 35px;
 }
-.box-pay-grp .MuiAutocomplete-root  .MuiTextField-root  {
-  width: calc(100% - 20px) !important; 
+
+.box-pay-grp .MuiAutocomplete-root .MuiTextField-root {
+  width: calc(100% - 20px) !important;
 }
-.alert-msg{
+
+.alert-msg {
   display: flex;
   align-items: center;
   text-align-last: center;
   font-size: 18px;
   padding: 10px;
 }
-.pay-grp-mbl{
+
+.pay-grp-mbl {
   flex: 1 0 49%;
   max-width: 49%;
   flex-wrap: wrap;
-} 
-.pay-grp-mbl .width-inp{
-  width: calc(96.5% - 20px); 
 }
-@media (max-width:991px){
+
+.pay-grp-mbl .width-inp {
+  width: calc(96.5% - 20px);
+}
+
+.chitpayment-add-screen .error_txt {
+  margin-left: 15px;
+  margin-top: -10px;
+  color: red;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.chitpayment-add-screen .ledger_error {
+  margin-left: 5px;
+  margin-top: 5px;
+
+}
+
+@media (max-width:991px) {
   .box-one {
     max-width: 100% !important;
     padding-bottom: 20px;
     margin: 15px;
-}
-}
-@media screen and (max-width: 768px) {
- .pay-grp-mbl{
-  flex: 0 0 96% !important;
-      max-width: 96% !important;
-      margin-left: 20px !important;
   }
-  .alert-msg{
+}
+
+@media screen and (max-width: 768px) {
+  .pay-grp-mbl {
+    flex: 0 0 96% !important;
+    max-width: 96% !important;
+    margin-left: 20px !important;
+  }
+
+  .alert-msg {
     padding: 10px 15px 10px 15px;
     font-size: 15px;
   }
-  .pay-box{
-   
-      width: 100% !important;
-      align-items:inherit;
+
+  .pay-box {
+
+    width: 100% !important;
+    align-items: inherit;
   }
-  
+
   .box-pay-grp {
     flex: 1 0 100%;
     max-width: 100%;
-    margin-left: 0px !important; 
-  }
- .pay-box .css-mxq89r-MuiTypography-root {
-  margin-left: 16px !important;
-  font-size: 13px;
- }
- 
-.box-pay-grp  .input-box1 {
-      width: calc(100% - 0px) !important; 
-    }
-    .con{
-      padding: 10px;
-    }
-}
-  @media (min-width:769px) and (max-width:894px){
-    .btn-close{
-      right: -1px;
-      top: -2px;
-    }
-    .btn-close img{
-      width: 14px !important;
-      height: 14px !important;
-    }
-    .box-pay-grp {
-      flex: 1 0 48%;
-      max-width: 48%;
-      flex-wrap: wrap;
-    } 
-    h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
-      font-size: 15px;
-      margin-left: 15px !important;
-     
-  }
+    margin-left: 0px !important;
   }
 
- 
-    @media (min-width:370px) and (max-width:540px){
-      h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
-        font-size: 15px;
-       
-    }
-    .custom-button{
-     font-size: 13px;
-     margin-top: 10px;
-      }
-}
- 
-  @media (min-width: 0px) {
-    .box-pay-grp  .box-d .MuiStack-root {
-         -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        width: 100% !important; 
-         /* padding-top: 0px !important;  */
+  .pay-box .css-mxq89r-MuiTypography-root {
+    margin-left: 16px !important;
+    font-size: 13px;
+  }
 
-    }
-    .box-pay-grp  .box-d .MuiStack-root>.MuiTextField-root{
-      margin-top: 5px;
-      min-width: -webkit-fill-available !important;
+  .box-pay-grp .input-box1 {
+    width: calc(100% - 0px) !important;
   }
+
+  .con {
+    padding: 10px;
   }
-  
+}
+
+@media (min-width:769px) and (max-width:894px) {
+  .btn-close {
+    right: -1px;
+    top: -2px;
+  }
+
+  .btn-close img {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  .box-pay-grp {
+    flex: 1 0 48%;
+    max-width: 48%;
+    flex-wrap: wrap;
+  }
+
+  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+    font-size: 15px;
+    margin-left: 15px !important;
+
+  }
+}
+
+
+@media (min-width:370px) and (max-width:540px) {
+  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+    font-size: 15px;
+
+  }
+
+  .custom-button {
+    font-size: 13px;
+    margin-top: 10px;
+  }
+}
+
+@media (min-width: 0px) {
+  .box-pay-grp .box-d .MuiStack-root {
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100% !important;
+    /* padding-top: 0px !important;  */
+
+  }
+
+  .box-pay-grp .box-d .MuiStack-root>.MuiTextField-root {
+    margin-top: 5px;
+    min-width: -webkit-fill-available !important;
+  }
+}

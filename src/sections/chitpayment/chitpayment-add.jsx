@@ -853,7 +853,7 @@ export default function AddChitPaymentPage() {
     };
 
     return (
-        <div style={{ marginLeft: '35px', marginRight: '35px' }}>
+        <div style={{ marginLeft: '35px', marginRight: '35px' }} className='chitpayment-add-screen'>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
                 <Typography variant="h6" sx={{ fontWeight:'600'}}>
                     {screenLabel[screen] || "Add Chit Payment"}
@@ -927,7 +927,7 @@ export default function AddChitPaymentPage() {
                                                     },
                                                   }}/>
                                                 </Stack>
-                                                <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{GroupNoSearch.error}</div>
+                                                <div className='error_txt'>{GroupNoSearch.error}</div>
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -955,7 +955,7 @@ export default function AddChitPaymentPage() {
                                                     },
                                                   }}/>
                                                 </Stack>
-                                                <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{MemberName.error}</div>
+                                                <div className='error_txt'>{MemberName.error}</div>
                                             </Stack>
                                         </div>
                                         <div className='box-pay-grp'>
@@ -981,7 +981,7 @@ export default function AddChitPaymentPage() {
                                                     },
                                                   }} />
                                                 </Stack>
-                                                <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{TicketNo.error}</div>
+                                                <div className='error_txt'>{TicketNo.error}</div>
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -1009,7 +1009,7 @@ export default function AddChitPaymentPage() {
                                                     },
                                                   }}/>
                                                 </Stack>
-                                                <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{ReceiptNo.error}</div>
+                                                <div className='error_txt'>{ReceiptNo.error}</div>
                                             </Stack>
                                         </div>
                                         <div className='box-pay-grp'>
@@ -1035,7 +1035,7 @@ export default function AddChitPaymentPage() {
                                                     },
                                                   }}/>
                                                 </Stack>
-                                                <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{InstallmentNo.error}</div>
+                                                <div className='error_txt'>{InstallmentNo.error}</div>
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -1066,7 +1066,7 @@ export default function AddChitPaymentPage() {
                                                         },
                                                       }}/>
                                                     </Stack>
-                                                    <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{MobileNo.error}</div>
+                                                    <div className='error_txt'>{MobileNo.error}</div>
                                                 </Stack>
                                             </div>}
                                         <div className='box-pay-grp'>
@@ -1092,7 +1092,7 @@ export default function AddChitPaymentPage() {
                                                     },
                                                   }}/>
                                                 </Stack>
-                                                <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{AccountNo.error}</div>
+                                                <div className='error_txt'>{AccountNo.error}</div>
                                             </Stack>
                                         </div>
                                         {screen === "view"
@@ -1119,7 +1119,7 @@ export default function AddChitPaymentPage() {
                                                         },
                                                       }}/>
                                                     </Stack>
-                                                    <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{Values.error}</div>
+                                                    <div className='error_txt'>{Values.error}</div>
                                                 </Stack>
                                             </div>
                                             : null}
@@ -1150,7 +1150,7 @@ export default function AddChitPaymentPage() {
                                                         },
                                                       }}/>
                                                     </Stack>
-                                                    <div style={{ marginLeft:"20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{Values.error}</div>
+                                                    <div className='error_txt'>{Values.error}</div>
                                                 </Stack>
                                             </div>}
                                         <div className='box-pay-grp'>
@@ -1176,7 +1176,7 @@ export default function AddChitPaymentPage() {
                                                     },
                                                   }}/>
                                                 </Stack>
-                                                <div style={{ marginLeft: "20px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{Particulars.error}</div>
+                                                <div className='error_txt'>{Particulars.error}</div>
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -1198,7 +1198,7 @@ export default function AddChitPaymentPage() {
                                                 </Stack>}
                                             {SelectUnPaidGroup.memberid === 1
                                                 ? null
-                                                : <div style={{ marginLeft: "10px", marginTop: "10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{LedgerNameError}</div>}
+                                                : <div className='error_txt ledger_error'>{LedgerNameError}</div>}
                                             <Stack>
                                                 {SelectLedgerList
                                                     .map((row, index) => (

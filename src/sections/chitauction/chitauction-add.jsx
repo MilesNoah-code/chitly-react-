@@ -316,8 +316,10 @@ export default function AddChitAuctionPage() {
                     if (from === "2") {
                         if (datas.prized_memid === json.list.id) {
                             setCompanyMemberId(json.list.id);
+                            setEditable(false);
                         } else {
                             setCompanyMemberId(0);
+                            console.log("setEditable");
                         }
                     } else {
                         GetGroupMemberList(json.list.id, datas);
@@ -397,6 +399,7 @@ export default function AddChitAuctionPage() {
                         }
                     } else {
                         setCompanyMemberId(0);
+                        setChitAuctionMemberList([]);
                     }
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
@@ -1058,7 +1061,7 @@ export default function AddChitAuctionPage() {
                 //             setEditable(true);
                 //         } 
                 //     }            
-                if (prev === item && isEditable) {
+                if (prev === item && (isEditable || item.id === "0" || item.id === 0)) {
                     if (from === "maxaucdisc") {
                         return {
                             ...prev,
@@ -1439,6 +1442,7 @@ export default function AddChitAuctionPage() {
             setAlertFrom("error_alert");
             HandleAlertShow();
         } else {
+            // console.log("index", index, "ChitAuctionListTotal", ChitAuctionListTotal, "ChitParameter.length", ChitParameter.length);
                 if(index < ChitAuctionListTotal -1)
                 {
                     setEditable(false);
@@ -1734,7 +1738,7 @@ export default function AddChitAuctionPage() {
                                                             // } 
                                                             console.log("isEditable", isEditable);
                                                             console.log("ChitAuctionSelectedIndex", (ChitAuctionSelectedIndex+1));
-                                                            console.log("ChitAuctionListTotal", ChitAuctionListTotal);
+                                                            console.log("row.id", row.id);
                                                             // console.log("ChitParameter.length", ChitParameter.length);
                                                             return (
                                                                 <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }} key={index}>
@@ -2133,7 +2137,7 @@ export default function AddChitAuctionPage() {
                 aria-describedby="alert-dialog-description" >
                 <Card>
                     <Stack>
-                        <Stack ml={1} mr={1} pb={1}direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
+                        <Stack ml={1} mr={1} pb={1} direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
                             <Stack direction='column'>
                                 <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
                                     { `Group No - ${GroupNo.data}`}

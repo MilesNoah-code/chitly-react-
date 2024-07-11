@@ -1189,14 +1189,14 @@ export default function AddChitReceiptPage() {
                                                 {MemberList
                                                     .map((row) => (
                                                         <ChitReceiptMemberTableRow
-                                                            key="unpaidmember"
+                                                            keyvalue="unpaidmember"
                                                             selected={selected.indexOf(row.name) !== -1}
                                                             handleClick={(event) => handleClick(event, row)}
                                                             item={row} />))}
                                                 {PaidMemberList
                                                     .map((row) => (
                                                         <ChitReceiptMemberTableRow
-                                                            key="paidmember"
+                                                            keyvalue="paidmember"
                                                             selected={selected.indexOf(row.name) !== -1}
                                                             handleClick={(event) => handleClick(event, row)}
                                                             item={row} />))}

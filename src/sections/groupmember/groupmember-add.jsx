@@ -9,11 +9,11 @@ import TextField from '@mui/material/TextField';
 import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-import { Box, Grid, Stack, Alert, Button, Dialog, Divider, Snackbar, Typography, IconButton, InputAdornment } from '@mui/material';
+import { Box, Grid, Stack, Alert, Button, Dialog, Divider, Snackbar, Typography, IconButton, DialogTitle, DialogActions, InputAdornment } from '@mui/material';
 
-import { GetHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
+import { GetHeader, PostHeader, DeleteHeader, } from 'src/hooks/AxiosApiFetch';
 
-import { MEMBER_LIST, ADDRESS_DETAIL, GROUP_MEMBER_LIST, GROUP_MEMBER_SAVE, REACT_APP_HOST_URL, } from 'src/utils/api-constant';
+import { MEMBER_LIST, ADDRESS_DETAIL, GROUP_MEMBER_LIST, GROUP_MEMBER_SAVE, REACT_APP_HOST_URL, GROUP_MEMBER_DELETE } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
 import ScreenError from 'src/Error/ScreenError';
@@ -56,6 +56,8 @@ export default function AddGroupMemberPage() {
     const [TicketNoClick, setTicketNoClick] = useState('');
 
     const [GroupMemberId, setGroupMemberId] = useState('');
+    const [MemberDeleteAlert, setMemberDeleteAlert] = useState(false);
+    const [SelectedMember, setSelectedMember] = useState({});
 
     useEffect(() => {
         GetGroupMemberList();
@@ -116,7 +118,7 @@ export default function AddGroupMemberPage() {
                     list.forEach((member) => {
                         const index = member.tktno - 1; // Adjust tktno to be 0-based index
                         if (index >= 0 && index < list[0].duration) {
-                            newList[index] = { ...newList[index], ...member, action: "edit" };
+                            newList[index] = { ...newList[index], ...member, action: "delete" };
                         }
                     });
                     // console.log(JSON.stringify(newList));
@@ -312,6 +314,33 @@ export default function AddGroupMemberPage() {
         }
     }
 
+    const GroupMemberDeleteMethod = (id) => {
+        const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_DELETE}${id}`;
+        console.log(JSON.parse(Session) + url);
+        fetch(url, DeleteHeader(JSON.parse(Session)))
+            .then((response) => response.json())
+            .then((json) => {
+                // console.log(JSON.stringify(json));
+                if (json.success) {
+                    setAlertMessage(json.message);
+                    setAlertFrom("success");
+                    HandleAlertShow();
+                } else if (json.success === false) {
+                    setAlertMessage(json.message);
+                    setAlertFrom("failed");
+                    HandleAlertShow();
+                } else {
+                    setErrorAlert(true);
+                    setErrorScreen("network");
+                }
+            })
+            .catch((error) => {
+                setErrorAlert(true);
+                setErrorScreen("error");
+                // console.log(error);
+            })
+    }
+
     const HandleAlertShow = () => {
         setAlertOpen(true);
     };
@@ -325,8 +354,14 @@ export default function AddGroupMemberPage() {
     }
 
     const HandleSubmitClick = () => {
-        console.log("submitclick11");
-        GroupMemberAddMethod(true);
+        console.log("submitclick11" , memberDetail);
+        if (memberDetail && Object.keys(memberDetail).length > 0){
+            GroupMemberAddMethod(true);
+        } else {
+            setAlertMessage("please select a member");
+            setAlertFrom("failed");
+            HandleAlertShow();
+        }
     };
 
     const handleClick = (event, item) => {
@@ -416,13 +451,33 @@ export default function AddGroupMemberPage() {
     const HandleGroupMemberClick = (event, item, index, from) => {
         if (from === "3") {
             event.stopPropagation();
+            setSelectedMember(item);
+        }
+        if(item && item.action === "delete"){
+            console.log("item12", item);
+            setSelectedMember(item);
         }
         console.log("item1", item, "TicketNoClick1111", TicketNoClick);
+        if (from === "delete"){
+            setMemberDeleteAlert(true);
+        }else {
+            HandleEditMember(event, item, index, from);
+        }
+    }
+
+    const HandleEditMember = (event, item, index, from) => {
         if (TicketNoClick !== "") {
             console.log("TicketNoClick", TicketNoClick, "item.tktno", item.tktno);
             if (TicketNoClick === item.tktno) {
-                setMemberListAlert(true);
-                GetMemberDetail(1, item.id, 3, index);
+                if (from === "3") {
+                    setMemberListAlert(true);
+                }
+                if (item.id && String(item.id).includes('empty_')){
+                    //
+                } else {
+                    GetMemberDetail(1, item.id, 3, index);
+                }
+                
                 setSelectedIndex(index);
             } else {
                 setAlertMessage("please save the already selected Ticket No");
@@ -430,8 +485,15 @@ export default function AddGroupMemberPage() {
                 HandleAlertShow();
             }
         } else {
-            setMemberListAlert(true);
-            GetMemberDetail(1, item.id, 3, index);
+            if (from === "3") {
+                setMemberListAlert(true);
+            }
+            if (item.id && String(item.id).includes('empty_')){
+                //
+            } else {
+                GetMemberDetail(1, item.id, 3, index);
+            }
+            
             setSelectedIndex(index);
         }
     }
@@ -439,6 +501,33 @@ export default function AddGroupMemberPage() {
     const HandlePreviousScreen = () => {
         navigate('/groupMember/list');
     }
+
+    const HandleMemberDeleteAlertClose = () => {
+        setMemberDeleteAlert(false);
+        if (AlertFrom === "success") {
+            window.location.reload();
+        }
+    };
+
+    const HandleConfirmYesClick = () => {
+        setMemberDeleteAlert(false);
+        console.log("SelectedMember", SelectedMember, "SelectedIndex", SelectedIndex);
+        if (SelectedMember && String(SelectedMember.id).includes('empty_')){
+            setGroupMemberList(prevList => prevList.map((item, i) => {
+                if (i === SelectedIndex) {
+                    return {
+                        ...item,
+                        memberName: '',
+                        action: "add",
+                    };
+                }
+                return item;
+            }));
+            GetGroupMemberList();
+        } else {
+            GroupMemberDeleteMethod(SelectedMember.id);
+        }
+    };
 
     if (!location.state) {
         return <ScreenError HandlePreviousScreen={HandlePreviousScreen} />
@@ -489,8 +578,8 @@ export default function AddGroupMemberPage() {
                                                                         ? <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => HandleGroupMemberClick(event, row,index, "3")}>
                                                                                 <Iconify icon="icon-park-solid:add-one" />
                                                                             </IconButton>
-                                                                        : <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => HandleGroupMemberClick(event, row, index, "3")}>
-                                                                                <Iconify icon="eva:edit-fill" />
+                                                                        : <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => HandleGroupMemberClick(event, row, index, "delete")}>
+                                                                            <Iconify icon="eva:trash-2-outline" />
                                                                             </IconButton>)}
                                                                 </TableCell>
                                                             </TableRow>
@@ -852,6 +941,24 @@ export default function AddGroupMemberPage() {
                         </Box>
                     </Stack>
                 </Card>
+            </Dialog>
+            <Dialog
+                open={MemberDeleteAlert}
+                onClose={HandleMemberDeleteAlertClose}
+                maxWidth
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description" >
+                <DialogTitle id="responsive-dialog-title">
+                    Are you sure you want to delete this Member ?
+                </DialogTitle>
+                <DialogActions>
+                    <Button autoFocus onClick={HandleConfirmYesClick} sx={{ cursor: 'pointer' }}>
+                        Yes
+                    </Button>
+                    <Button onClick={() => setMemberDeleteAlert(false)} autoFocus sx={{ cursor: 'pointer' }}>
+                        No
+                    </Button>
+                </DialogActions>
             </Dialog>
         </div>
     );

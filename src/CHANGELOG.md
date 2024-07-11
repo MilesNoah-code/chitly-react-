@@ -1,3 +1,13 @@
+3.4.9
+Date : 11/07/2024
+Type : Bug fix
+Description :  
+        1.auction member max.auc.disc not edit issue fix
+        2.Group member -> edit icon click open popup otherwise not open the popup
+        3.After company member auction save -> auction update before payment able to edit
+        4.After select the first row and select the second row first row data is showing in the detail
+        5.group member delete api integration
+----------------------------------------------------------------
 3.4.8
 Date : 10/07/2024
 Type : Bug fix

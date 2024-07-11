@@ -1,23 +1,27 @@
-.custom-button{
+.custom-button {
   color: #FFFFFF;
   background-color: #1877F2;
   box-shadow: 0px 3px 1px -2px rgba(145, 158, 171, 0.2), 0px 2px 2px 0px rgba(145, 158, 171, 0.14), 0px 1px 5px 0px rgba(145, 158, 171, 0.12);
- font-size: 15px;
- 
-  
+  font-size: 15px;
+
+
 }
-.custom-button:hover{
+
+.custom-button:hover {
   text-decoration: none;
   background-color: #0C44AE;
   box-shadow: 0px 2px 4px -1px rgba(145, 158, 171, 0.2), 0px 4px 5px 0px rgba(145, 158, 171, 0.14), 0px 1px 10px 0px rgba(145, 158, 171, 0.12);
 }
-.table-one { 
-height: auto !important;
+
+.table-one {
+  height: auto !important;
 }
-.pd{
+
+.pd {
   padding-right: 0px !important;
 }
-.box-grid{
+
+.box-grid {
   border: 1px solid #ccc;
   /* margin-left: 17px;
   margin-right: 4px; */
@@ -27,156 +31,196 @@ height: auto !important;
   padding-bottom: 20px;
   padding-right: 10px;
 }
+
 .auction-box {
   display: flex !important;
   flex-wrap: wrap !important;
 }
-.auction-grp{
+
+.auction-grp {
   flex: 1 0 47%;
   max-width: 47%;
   flex-wrap: wrap;
-} 
-.mb-grid{
+}
+
+.mb-grid {
   display: flex;
   justify-content: space-around;
 }
-.con{
+
+.con {
   padding: 20px;
 }
+
 .auction-grp .input-box1 {
-margin-top: 5px !important;
-  width: calc(100% - 20px) !important; 
-}
-.auction-grp .input-box2 {
-  width: calc(100% - 30px);
- 
+  margin-top: 5px !important;
+  width: calc(100% - 20px) !important;
 }
 
-.auction-grp .MuiAutocomplete-root  .MuiTextField-root  {
-  width: calc(100% - 20px) !important; 
+.auction-grp .input-box2 {
+  width: calc(100% - 30px);
+
 }
-.alert-msg{
+
+.auction-grp .MuiAutocomplete-root .MuiTextField-root {
+  width: calc(100% - 20px) !important;
+}
+
+.alert-msg {
   display: flex;
   align-items: center;
   text-align-last: center;
   font-size: 18px;
   padding: 10px;
 }
-.st .css-jjtu05{
+
+.st .css-jjtu05 {
   height: auto !important;
-} 
-.Muipopper-root{
+}
+
+.Muipopper-root {
   background-color: #ccc !important;
 }
-@media (max-width:991px){
+
+@media (max-width:991px) {
   .box-grid {
     max-width: 100% !important;
     padding-bottom: 20px;
-   
+
+  }
+
+  .pd {
+    padding-right: 15px !important;
+  }
+
+  .auction-grp .input-box1.md {
+    margin-right: 0px !important;
+
+  }
 }
-.pd{
-  padding-right: 15px !important;
+
+.chitauction-add-screen .error_txt {
+  margin-left: 17px;
+  margin-top: -10px;
+  color: red;
+  font-size: 12px;
+  font-weight: 500
 }
-.auction-grp .input-box1.md {
-  margin-right: 0px !important;
- 
-}
-}
- /* @media (min-width:1600px) and (max-width:2000px){
+
+
+/* @media (min-width:1600px) and (max-width:2000px){
 
   .box-grid {
     margin-left: 22px;
 }
 }  */
 @media screen and (max-width: 768px) {
-  .auction-box{
-      flex-direction: column !important;
-      width: 100% !important;
-      align-items:inherit;
+  .auction-box {
+    flex-direction: column !important;
+    width: 100% !important;
+    align-items: inherit;
   }
+
   h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
     font-size: 15px;
     margin-left: 15px !important;
-   
-}
-.mb-grid{
-  margin: 0px;
-  flex-direction: column;
-}
-  .alert-msg{
+
+  }
+
+  .mb-grid {
+    margin: 0px;
+    flex-direction: column;
+  }
+
+  .alert-msg {
     padding: 10px 15px 10px 15px;
     font-size: 15px;
   }
-  .grp-label{
-    width: calc(97% - 0px) !important; 
+
+  .grp-label {
+    width: calc(97% - 0px) !important;
   }
+
   .auction-grp {
     flex: 1 0 100%;
     max-width: 100%;
-    margin-left: 0px !important; 
-  }
- .auction-box .MuiTypography-root {
-  margin-left: 16px !important;
-  font-size: 13px;
- }
-.auction-grp  .input-box1 {
-      width: calc(100% - 0px) !important; 
-    }
-    .con{
-      padding: 10px;
-    }
-  }
-  @media (min-width:769px) and (max-width:894px){
-    .auction-grp {
-      flex: 1 0 48%;
-      max-width: 48%;
-      flex-wrap: wrap;
-    } 
-  }
-  @media (min-width:370px) and (max-width:540px){
-    .btn-close{
-      right: -1px;
-      top: -2px;
-    }
-    .btn-close img{
-      width: 14px !important;
-      height: 14px !important;
-    }
-    h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
-      font-size: 15px;
-     
+    margin-left: 0px !important;
   }
 
-  .custom-button{
-   font-size: 10px;
-   margin-top: 10px;
+  .auction-box .MuiTypography-root {
+    margin-left: 16px !important;
+    font-size: 13px;
   }
+
+  .auction-grp .input-box1 {
+    width: calc(100% - 0px) !important;
   }
-      .rowExists {
-        background-color: rgba(24, 119, 242, 0.16);
-      }
+
+  .con {
+    padding: 10px;
+  }
+}
+
+@media (min-width:769px) and (max-width:894px) {
+  .auction-grp {
+    flex: 1 0 48%;
+    max-width: 48%;
+    flex-wrap: wrap;
+  }
+}
+
+@media (min-width:370px) and (max-width:540px) {
+  .btn-close {
+    right: -1px;
+    top: -2px;
+  }
+
+  .btn-close img {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+    font-size: 15px;
+
+  }
+
+  .custom-button {
+    font-size: 10px;
+    margin-top: 10px;
+  }
+}
+
+.rowExists {
+  background-color: rgba(24, 119, 242, 0.16);
+}
+
 .table-one .MuiTextField-root {
-margin: 0px !important;
+  margin: 0px !important;
 
 }
+
 .show-estimate {
   font-size: 16px;
   color: #b7adb0;
   margin-top: 5px;
 }
-      @media (min-width: 0px) {
-        .auction-grp  .box-d .MuiStack-root {
-             -webkit-flex-direction: column;
-            -ms-flex-direction: column;
-            flex-direction: column;
-            width: 100% !important; 
-            padding-top: 0px !important;
-        }
-        .auction-grp  .box-d .MuiStack-root>.MuiTextField-root{
-          margin-top: 5px;
-          min-width: -webkit-fill-available !important;
-      }
-      }
-      .MuiTableCell-root {
-        padding: 6px !important;
-      }     
+
+@media (min-width: 0px) {
+  .auction-grp .box-d .MuiStack-root {
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    width: 100% !important;
+    padding-top: 0px !important;
+  }
+
+  .auction-grp .box-d .MuiStack-root>.MuiTextField-root {
+    margin-top: 5px;
+    min-width: -webkit-fill-available !important;
+  }
+}
+
+.MuiTableCell-root {
+  padding: 6px !important;
+}

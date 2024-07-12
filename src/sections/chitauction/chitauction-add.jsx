@@ -94,7 +94,7 @@ export default function AddChitAuctionPage() {
     const [ScreenRefresh, setScreenRefresh] = useState(0);
     // const ImageUrl = JSON.parse(localStorage.getItem('imageUrl'));
     const [ChitAuctionList, setChitAuctionList] = useState([]);
-    const [ChitAuctionLoading, setChitAuctionLoading] = useState(false);
+    const [ChitAuctionLoading, setChitAuctionLoading] = useState(true);
     const [ChitAuctionMemberList, setChitAuctionMemberList] = useState([]);
     const [ChitAuctionMemberListLoading, setChitAuctionMemberListLoading] = useState(false);
     const [selected, setSelected] = useState([]);
@@ -370,7 +370,8 @@ export default function AddChitAuctionPage() {
                                 signature: "",
                                 prized_amount: data.amount,
                                 is_prizedmember: "1",
-                                action: 'delete'
+                                action: 'delete',
+                                is_companymember: "companymember"
                             };
                             const updatedList = [updatedFirstItem];
                             console.log("updatedList", updatedList)
@@ -400,6 +401,22 @@ export default function AddChitAuctionPage() {
                     } else {
                         setCompanyMemberId(0);
                         setChitAuctionMemberList([]);
+                        setAucFromTime({
+                            data: null,
+                            data_save: "",
+                            error: ""
+                        });
+                        setAucToTime({
+                            data: null,
+                            data_save: "",
+                            error: ""
+                        });
+                        setAucDate({
+                            data: null,
+                            data_save: "",
+                            error: ""
+                        });
+                        HandleResetClick();
                     }
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
@@ -626,23 +643,27 @@ export default function AddChitAuctionPage() {
         if (IsValidate) {
             setLoading(true);
             console.log(SelectAuctionList)
-            const ChitAuctionMemberListParams = ChitAuctionMemberList.map(item => ({
-                "id": 0,
-                "auctionentryid": 0,
-                "tktno": item.tktno,
-                "tkt_suffix": "A",
-                "tkt_percentage": "100",
-                "memberid": item.memberid,
-                "member_name": item.member_name,
-                "group_member_id": item.group_member_id,
-                "maxaucdisc": item.maxaucdisc,
-                "signature": item.signature,
-                "is_prizedmember": item.is_prizedmember,
-                "entNo": 0,
-                "branchid": data.branchid,
-                "comments": "",
-                "is_active": 1,
-            }));
+            const ChitAuctionMemberListParams = ChitAuctionMemberList.map(item => {
+                const tktno = item.tktno !== null && item.tktno !== "" ? item.tktno : '';
+                const result = Number.isInteger(parseInt(tktno, 10)) ? parseInt(tktno, 10) : String(tktno);
+                return {
+                    "id": 0,
+                    "auctionentryid": 0,
+                    "tktno": result,
+                    "tkt_suffix": "A",
+                    "tkt_percentage": "100",
+                    "memberid": item.memberid,
+                    "member_name": item.member_name,
+                    "group_member_id": item.group_member_id,
+                    "maxaucdisc": item.maxaucdisc,
+                    "signature": item.signature,
+                    "is_prizedmember": item.is_prizedmember,
+                    "entNo": 0,
+                    "branchid": data.branchid,
+                    "comments": "",
+                    "is_active": 1,
+                };
+            });
             const ChitAuctionListParams = {
                 "id": SelectAuctionList.id,
                 "branchid": 0,
@@ -1333,7 +1354,7 @@ export default function AddChitAuctionPage() {
                 data_save: "",
                 error: ""
             });
-            setAucFromTime({
+            setAucToTime({
                 data: null,
                 data_save: "",
                 error: ""
@@ -1403,7 +1424,8 @@ export default function AddChitAuctionPage() {
                         prized_amount: item.amount,
                         is_prizedmember: "1",
                         tktno: item.tktno,
-                        action: 'delete'
+                        action: 'delete',
+                        is_companymember: "not_companymember"
                     };
                     console.log("updatedItem", updatedItem);
                     setInstNo({
@@ -1529,7 +1551,8 @@ export default function AddChitAuctionPage() {
                 prized_amount: item.amount,
                 is_prizedmember: item.is_prizedmember,
                 tktno: item.tktno,
-                action: 'delete'
+                action: 'delete',
+                is_companymember: "not_companymember"
             };
             console.log("updatedItem1", updatedItem);
             setInstNo({
@@ -1736,6 +1759,8 @@ export default function AddChitAuctionPage() {
                                                             //         setEditable(true);
                                                             //     }                                                                
                                                             // } 
+                                                            const validatemaxaucdisc = isEditable || row.id === "0" || row.id === 0 ? (e) => ChitAuctionMemberListTextValidate(e, row, "maxaucdisc") : null;
+                                                            const validatesignature = isEditable || row.id === "0" || row.id === 0 ? (e) => ChitAuctionMemberListTextValidate(e, row, "signature") : null
                                                             console.log("isEditable", isEditable);
                                                             console.log("ChitAuctionSelectedIndex", (ChitAuctionSelectedIndex+1));
                                                             console.log("row.id", row.id);
@@ -1749,7 +1774,7 @@ export default function AddChitAuctionPage() {
                                                                             className='input-box2'
                                                                             id="outlined-required"
                                                                             value={row.maxaucdisc}
-                                                                            onChange={isEditable || row.id ==="0" || row.id ===0 ? (e) => ChitAuctionMemberListTextValidate(e, row, "maxaucdisc") : null}
+                                                                            onChange={row.is_companymember === "companymember" ? null : validatemaxaucdisc}
                                                                             style={{ width: 100, }}
                                                                             disabled={!isEditable && row.id !=="0" && row.id !==0}
                                                                             sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px',  },
@@ -1761,7 +1786,7 @@ export default function AddChitAuctionPage() {
                                                                                 className='input-box2'
                                                                                 id="outlined-required"
                                                                                 value={row.signature}
-                                                                                onChange={isEditable || row.id ==="0" || row.id ===0 ? (e) => ChitAuctionMemberListTextValidate(e, row, "signature") : null}
+                                                                                onChange={row.is_companymember === "companymember" ? null : validatesignature}
                                                                                 style={{ width: 100,  }}
                                                                                 disabled={!isEditable && row.id !=="0" && row.id !==0}
                                                                                 sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', },

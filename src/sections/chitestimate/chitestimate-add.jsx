@@ -64,12 +64,11 @@ export default function AddChitEstimatePage() {
     const [ErrorScreen, setErrorScreen] = useState('');
     const [ScreenRefresh, setScreenRefresh] = useState(0);
     const ImageUrl = JSON.parse(localStorage.getItem('imageUrl'));
-    const [ChitEstimateLoading, setChitEstimateLoading] = useState(false);
+    const [ChitEstimateLoading, setChitEstimateLoading] = useState(true);
     const [ChitEstimateList, setChitEstimateList] = useState([]);
     const [ChitEstimateMemberLoading, setChitEstimateMemberLoading] = useState(false);
     const [ChitEstimateMemberList, setChitEstimateMemberList] = useState([]);
     const [ChitEstimateListAdd, setChitEstimateListAdd] = useState(0);
-    const [ChitEstimateMemberListAdd, setChitEstimateMemberListAdd] = useState(false);
     const [MemberDeleteClick, setMemberDeleteClick] = useState(false);
 
     const [page, setPage] = useState(0);
@@ -82,12 +81,11 @@ export default function AddChitEstimatePage() {
     const [filterTicketNo, setfilterTicketNo] = useState('');
     const [SelectGroupMemberList, setSelectGroupMemberList] = useState({
         add: 0,
-        add_data: '',
         remove: 0,
         remove_data: '',
-        member_edit: 'false'
     });
-    const [AuctionDateError, setAuctionDateError] = useState('')
+    const [AuctionDateError, setAuctionDateError] = useState('');
+    const [MemberUpdateLoading, setMemberUpdateLoading] = useState(false);
 
     useEffect(() => {
         console.log(data)
@@ -219,10 +217,8 @@ export default function AddChitEstimatePage() {
                     setChitEstimateMemberList(completeList);
                     setSelectGroupMemberList({
                         add: 0,
-                        add_data: json.list && json.list[0] ? json.list[0] : "",
                         remove: 0,
                         remove_data: '',
-                        member_edit: 'false'
                     });
                     if(json.list.length === 0){
                         GetStandingInstructionList(completeList);
@@ -299,10 +295,8 @@ export default function AddChitEstimatePage() {
                         // console.log('Updated list after updating first item:', updatedList);
                         setSelectGroupMemberList({
                             add: 0,
-                            add_data: updatedFirstItem,
                             remove: 0,
                             remove_data: '',
-                            member_edit: 'true'
                         });
                         setChitEstimateMemberList(updatedList);
                     }
@@ -386,7 +380,6 @@ export default function AddChitEstimatePage() {
                     console.log(JSON.stringify(json));
                     setLoading(false);
                     setScreenRefresh(0);
-                    setChitEstimateMemberListAdd(false);
                     if (json.success) {
                         setAlertMessage(json.message);
                         setAlertFrom("success");
@@ -409,18 +402,18 @@ export default function AddChitEstimatePage() {
         }
     }
 
-    const ChitEstimateMemberAddMethod = () => {
-        setLoading(true);
+    const ChitEstimateMemberAddMethod = (selectedmember) => {
+        setMemberUpdateLoading(true);
         const ChitEstimateMemberListParams = {
             "id": 0,
-            "group_id": ChitEstimateMemberList[SelectGroupMemberList.add].group_id,
-            "install_no": ChitEstimateMemberList[SelectGroupMemberList.add].install_no,
-            "ticket_no": ChitEstimateMemberList[SelectGroupMemberList.add].ticket_no,
-            "member_id": ChitEstimateMemberList[SelectGroupMemberList.add].member_id,
+            "group_id": selectedmember.group_id,
+            "install_no": selectedmember.install_no,
+            "ticket_no": selectedmember.ticket_no,
+            "member_id": selectedmember.member_id,
             "tkt_suffix": "A",
             "tkt_percentage": "100",
-            "is_active": ChitEstimateMemberList[SelectGroupMemberList.add].is_active,
-            "comments": ChitEstimateMemberList[SelectGroupMemberList.add].comments
+            "is_active": selectedmember.is_active,
+            "comments": selectedmember.comments
         };
         const url = `${REACT_APP_HOST_URL}${CHIT_ESTIMATE_MEMBER_SAVE}`;
         console.log(JSON.stringify(ChitEstimateMemberListParams) + url);
@@ -428,9 +421,8 @@ export default function AddChitEstimatePage() {
             .then((response) => response.json())
             .then((json) => {
                 console.log(JSON.stringify(json));
-                setLoading(false);
+                setMemberUpdateLoading(false);
                 setScreenRefresh(0);
-                setChitEstimateMemberListAdd(false);
                 if (json.success) {
                     setAlertMessage(json.message);
                     setAlertFrom("success");
@@ -445,26 +437,25 @@ export default function AddChitEstimatePage() {
                 }
             })
             .catch((error) => {
-                setChitEstimateMemberListAdd(false);
-                setLoading(false);
+                setMemberUpdateLoading(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
                 // console.log(error);
             })
     }
 
-    const ChitEstimateMemberUpdateMethod = (id) => {
-        setLoading(true);
+    const ChitEstimateMemberUpdateMethod = (id, selectedmember) => {
+        setMemberUpdateLoading(true);
         const ChitEstimateMemberListParams = {
             "id": 0,
-            "group_id": ChitEstimateMemberList[SelectGroupMemberList.add].group_id,
-            "install_no": ChitEstimateMemberList[SelectGroupMemberList.add].install_no,
-            "ticket_no": ChitEstimateMemberList[SelectGroupMemberList.add].ticket_no,
-            "member_id": ChitEstimateMemberList[SelectGroupMemberList.add].member_id,
+            "group_id": selectedmember.group_id,
+            "install_no": selectedmember.install_no,
+            "ticket_no": selectedmember.ticket_no,
+            "member_id": selectedmember.member_id,
             "tkt_suffix": "A",
             "tkt_percentage": "100",
-            "is_active": ChitEstimateMemberList[SelectGroupMemberList.add].is_active,
-            "comments": ChitEstimateMemberList[SelectGroupMemberList.add].comments
+            "is_active": selectedmember.is_active,
+            "comments": selectedmember.comments
         };
         const url = `${REACT_APP_HOST_URL}${CHIT_ESTIMATE_UPDATE}${id}`;
         console.log(JSON.stringify(ChitEstimateMemberListParams) + url);
@@ -472,9 +463,8 @@ export default function AddChitEstimatePage() {
             .then((response) => response.json())
             .then((json) => {
                 console.log(JSON.stringify(json));
-                setLoading(false);
+                setMemberUpdateLoading(false);
                 setScreenRefresh(0);
-                setChitEstimateMemberListAdd(false);
                 if (json.success) {
                     setAlertMessage(json.message);
                     setAlertFrom("success");
@@ -489,8 +479,7 @@ export default function AddChitEstimatePage() {
                 }
             })
             .catch((error) => {
-                setLoading(false);
-                setChitEstimateMemberListAdd(false);
+                setMemberUpdateLoading(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
                 // console.log(error);
@@ -644,16 +633,6 @@ export default function AddChitEstimatePage() {
             console.log("ChitEstimateList_submit", ChitEstimateList)
             ChitEstimateAddMethod(IsValidate);
         }
-        if (SelectGroupMemberList.member_edit === 'true') {
-            if (ChitEstimateMemberList.length > 0) {
-                console.log("SelectGroupMemberList_submit", SelectGroupMemberList)
-                if (typeof SelectGroupMemberList.add_data.id === 'string' && SelectGroupMemberList.add_data.id.includes('id_')) {
-                    ChitEstimateMemberAddMethod();
-                } else {
-                    ChitEstimateMemberUpdateMethod(SelectGroupMemberList.add_data.id);
-                }
-            }
-        }
     };
 
     const validateChitEstimateList = () => {
@@ -690,7 +669,7 @@ export default function AddChitEstimatePage() {
     const HandleAlertClose = () => {
         setAlertOpen(false);
         if (AlertFrom === "success") {
-            window.location.reload();
+            // window.location.reload();
             // navigate('/chitestimate/list');
         }
     }
@@ -820,10 +799,6 @@ export default function AddChitEstimatePage() {
         // console.log(from);
         setChitEstimateMemberList(prevState =>
             prevState.map(prev => {
-                setSelectGroupMemberList(prevs => ({
-                    ...prevs,
-                    member_edit: 'true'
-                }));
                 if(text.trim() !== ""){
                     setScreenRefresh(pre => pre + 1);
                 }else{
@@ -855,26 +830,21 @@ export default function AddChitEstimatePage() {
     };
 
     const HandleChitEstimateMemberAddClick = (item, index) => {
-        setChitEstimateMemberListAdd(true);
-        if(ChitEstimateMemberListAdd){
-            setAlertMessage("please save the already selected Member");
-            setAlertFrom("save_alert");
-            HandleAlertShow();
-        }else{
-            setSelectGroupMemberList({
-                add: index,
-                add_data: item,
-                remove: 0,
-                remove_data: '',
-                member_edit: 'true'
-            });
-            setGroupMemberListAlert(true);
-        }
+        setSelectGroupMemberList({
+            add: index,
+            remove: 0,
+            remove_data: '',
+        });
+        setGroupMemberListAlert(true);
+    }
+
+    const HandleChitEstimateParticularUpdate = (item, index) => {
+        console.log(item)
+        ChitEstimateMemberUpdateMethod(item.id, item);
     }
 
     const HandleChitEstimateMemberDeleteClick = (item) => {
         setMemberDeleteClick(false);
-        setChitEstimateMemberListAdd(false);
         const updatedFirstItem = {
             ...ChitEstimateMemberList[SelectGroupMemberList.remove],
             member_id: "",
@@ -921,7 +891,6 @@ export default function AddChitEstimatePage() {
         const checkTktnoExists = tktno => ChitEstimateMemberList.some(items => String(items.ticket_no) === tktno);
         // console.log(checkIdExists(item.memberId), " -- ", checkTktnoExists(item.tktno));
         if (checkIdExists(item.memberId) && checkTktnoExists(item.tktno)) {
-            setChitEstimateMemberListAdd(false);
             setAlertMessage("Already this member is added");
             setAlertFrom("save_alert");
             HandleAlertShow();
@@ -935,17 +904,8 @@ export default function AddChitEstimatePage() {
                 accno: item.memberId,
                 action: "delete"
             };
-            const updatedList = [
-                ...ChitEstimateMemberList.slice(0, SelectGroupMemberList.add),
-                updatedFirstItem,
-                ...ChitEstimateMemberList.slice(SelectGroupMemberList.add + 1)
-            ];
-            console.log(updatedList);
-            setChitEstimateMemberList(updatedList);
-            setSelectGroupMemberList(prevs => ({
-                ...prevs,
-                member_edit: 'true'
-            }));
+        
+            ChitEstimateMemberAddMethod(updatedFirstItem);
             setGroupMemberListAlert(false);
         }
     };
@@ -964,11 +924,6 @@ export default function AddChitEstimatePage() {
     const HandleGroupMemberListAlertClose = () => {
         setGroupMemberListAlert(false);
         setScreenRefresh(0);
-        setChitEstimateMemberListAdd(false);
-        setSelectGroupMemberList(prevs => ({
-            ...prevs,
-            member_edit: 'false'
-        }));
     };
 
     const HandleFilterMemberName = (event) => {
@@ -1289,8 +1244,15 @@ export default function AddChitEstimatePage() {
                                     </Stack>
                                 </TableContainer>
                             </Scrollbar>
+                            <Stack direction='column' alignItems='flex-end'>
+                                <Button sx={{ mr: 3, mt: 2, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
+                                    {Loading
+                                        ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                                        : ("Submit")}
+                                </Button>
+                            </Stack>
                             <Scrollbar className="table-one">
-                                <TableContainer sx={{ overflow: 'unset' }}>
+                                <TableContainer sx={{ overflow: 'unset', mb: 5 }}>
                                     <Stack sx={{ paddingLeft: 3, paddingRight: 3 }}>
                                         <Table sx={{ minWidth: 450, mt: 5 }}>
                                             <TableRow hover tabIndex={-1}>
@@ -1373,6 +1335,9 @@ export default function AddChitEstimatePage() {
                                                                         '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', },
                                                                         '& .MuiInputAdornment-root': { padding: '8px', },
                                                                     }} />
+                                                                <IconButton onClick={() => HandleChitEstimateParticularUpdate(row, index)} sx={{ cursor: 'pointer' }}>
+                                                                    <Iconify icon="charm:tick" style={{ color: "#05e147" }} />
+                                                                </IconButton>
                                                             </TableCell>
                                                             <TableCell>
                                                                 {row.action === "add"
@@ -1382,10 +1347,8 @@ export default function AddChitEstimatePage() {
                                                                     : (row.install_no !== 1 && <IconButton onClick={() => {
                                                                         setMemberDeleteClick(true); setSelectGroupMemberList({
                                                                             add: 0,
-                                                                            add_data: '',
                                                                             remove: index,
                                                                             remove_data: row,
-                                                                            member_edit: 'false'
                                                                     });}} sx={{ cursor: 'pointer' }}>
                                                                     <Iconify icon="streamline:delete-1-solid"  sx={{ width:11,height:11}}/>
                                                                     </IconButton>)}
@@ -1402,13 +1365,7 @@ export default function AddChitEstimatePage() {
                                     </Stack>
                                 </TableContainer>
                             </Scrollbar>
-                            <Stack direction='column' alignItems='flex-end'>
-                                <Button sx={{ mr: 3, mt: 2, mb: 3,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
-                                    {Loading
-                                        ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
-                                        : ("Submit")}
-                                </Button>
-                            </Stack>
+                            
                         </Stack>}
                 </Box>
             </Card>
@@ -1554,6 +1511,20 @@ export default function AddChitEstimatePage() {
                         No
                     </Button>
                 </DialogActions>
+            </Dialog>
+            <Dialog
+                open={MemberUpdateLoading}
+                onClose={() => setMemberUpdateLoading(false)}
+                fullWidth={500}
+                PaperProps={{
+                    style: {
+                        backgroundColor: 'transparent',
+                        boxShadow: 'none',
+                    },
+                }} >
+                <Stack style={{ alignItems: 'center' }} mt={5} mb={5}>
+                    <img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 70, height: 70 }} />
+                </Stack>
             </Dialog>
             <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "save_alert" ? 2000 : 1000} onClose={HandleAlertClose}
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>

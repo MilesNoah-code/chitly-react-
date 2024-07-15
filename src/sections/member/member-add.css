@@ -168,7 +168,8 @@
   }
 
   .req {
-    margin-left: 25px !important;
+    margin-left: 15px !important;
+    
   }
 
   .radio-box .radio-control3.MuiFormControlLabel-root {
@@ -310,7 +311,9 @@
     font-size: 13px;
     margin-top: 10px;
   }
-
+.dialog {
+  text-overflow: ellipsis;
+}
   .inf {
     margin-top: 15px !important;
     margin-bottom: 0px !important;

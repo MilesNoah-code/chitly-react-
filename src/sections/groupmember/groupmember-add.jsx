@@ -88,7 +88,7 @@ export default function AddGroupMemberPage() {
     const GetGroupMemberList = () => {
         // const memberId = '';
         setGroupMemberLoading(true);
-        const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}?id=&groupId=${data?.id ? data.id : ""}`;
+        const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}&id=&groupId=${data?.id ? data.id : ""}`;
         console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -144,7 +144,7 @@ export default function AddGroupMemberPage() {
 
     const GetMemberDetail = (isActive, id, from, index) => {
         setMemberListLoading(true);
-        const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}?id=${id}`;
+        const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}&id=${id}`;
         // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -433,13 +433,13 @@ export default function AddGroupMemberPage() {
         setRowsPerPage(parseInt(event.target.value, 10));
     };
 
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setMemberDetail((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }));
-    };
+    // const handleInputChange = (event) => {
+    //     const { name, value } = event.target;
+    //     setMemberDetail((prevState) => ({
+    //         ...prevState,
+    //         [name]: value,
+    //     }));
+    // };
 
     const HandleBack = () => {
         if (ScreenRefresh) {
@@ -765,13 +765,11 @@ export default function AddGroupMemberPage() {
                                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 1, mb: '0px' }}>
                                                             Address
                                                         </Typography>
-                                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                                            <TextField
-                                                                className='input-box1'
-                                                                id="outlined-required"
-                                                                disabled
-                                                                value={memberDetail.addressline1 || '--'}
-                                                                onChange={handleInputChange} />
+                                                        <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
+                                                        <Typography  variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
+                                                            {memberDetail.addressline1 || ''}
+                                                        </Typography>
+                                                            
                                                         </Stack>
                                                     </Stack>
                                                 </div>
@@ -780,14 +778,11 @@ export default function AddGroupMemberPage() {
                                                         <Typography variant="subtitle1" sx={{ mt: 1, ml: 2 }}>
                                                             City
                                                         </Typography>
-                                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                                            <TextField
-                                                                className='input-box1'
-                                                                id="outlined-required"
-                                                                disabled-
-                                                                value={memberDetail.city || '--'}
-                                                                onChange={handleInputChange} />
-                                                        </Stack>
+                                                        <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
+                                                        <Typography  variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
+                                                            {memberDetail.city || ''}
+                                                        </Typography>
+                                                                                                                   </Stack>
                                                     </Stack>
                                                 </div>
                                             </Stack>}
@@ -800,14 +795,11 @@ export default function AddGroupMemberPage() {
                                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 1, mb: '0px' }}>
                                                             State
                                                         </Typography>
-                                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                                            <TextField
-                                                                className='input-box1'
-                                                                id="outlined-required"
-                                                                disabled
-                                                                value={memberDetail.state || '--'}
-                                                                onChange={handleInputChange} />
-                                                        </Stack>
+                                                        <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
+                                                        <Typography  variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
+                                                            {memberDetail.state || ''}
+                                                        </Typography>
+                                                                                                             </Stack>
                                                     </Stack>
                                                 </div>
                                                 <div className='box-grp'>
@@ -815,13 +807,10 @@ export default function AddGroupMemberPage() {
                                                         <Typography variant="subtitle1" sx={{ mt: 1, ml: 2 }}>
                                                             Country
                                                         </Typography>
-                                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                                            <TextField
-                                                                className='input-box1'
-                                                                id="outlined-required"
-                                                                disabled
-                                                                value={memberDetail.country || '--'}
-                                                                onChange={handleInputChange} />
+                                                        <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
+                                                        <Typography  variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
+                                                            {memberDetail.country|| ''}
+                                                        </Typography>
                                                         </Stack>
                                                     </Stack>
                                                 </div>
@@ -865,7 +854,7 @@ export default function AddGroupMemberPage() {
                     <Stack>
                            <Stack ml={1} mr={1} pb={1}direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
                             <Stack direction='column'>
-                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 1 }}>
                                   Member list
                                 </Typography>
                             </Stack>

@@ -14,7 +14,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Box, Grid, Stack, Alert, Button, Dialog, styled, Divider, Snackbar, Typography, IconButton, InputAdornment } from '@mui/material';
+import { Box, Grid, Stack, Alert, Button, Dialog, styled, Divider, Snackbar, Typography, IconButton, InputAdornment, TablePagination } from '@mui/material';
 
 import { GetHeader, PutHeader, PostHeader, DeleteHeader, } from 'src/hooks/AxiosApiFetch';
 
@@ -119,6 +119,10 @@ export default function AddChitAuctionPage() {
     const [CompanyMemberId, setCompanyMemberId] = useState(0);
     const [SelectedDateId, setSelectedDateId] = useState(0);
     const [isEditable, setEditable] = useState(true);
+    const [TotalCount, setTotalCount] = useState(0);
+    const [dialogPage, setDialogPage] = useState(0);
+    const [dialogRowsPerPage, setDialogRowsPerPage] = useState(10);
+
 
     useEffect(() => {
         console.log(data);
@@ -143,9 +147,9 @@ export default function AddChitAuctionPage() {
     }, [ScreenRefresh]);
 
     useEffect(() => {
-        GetChitAuctionAddMemberList(filterTicketNo, filterName);
+        GetChitAuctionAddMemberList(filterTicketNo, filterName,dialogPage * dialogRowsPerPage, dialogRowsPerPage);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [filterTicketNo, filterName]);
+    }, [filterTicketNo, filterName,dialogPage, dialogRowsPerPage]);
 
 
     /* const AuctionDateArray = [
@@ -345,7 +349,7 @@ export default function AddChitAuctionPage() {
 
     const GetGroupMemberList = (companyMemberId, datas) => {
         // setGroupMemberList([]);
-        const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}?groupId=${data.id}&start=0&limit=0`;
+        const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}&groupId=${data.id}&start=0&limit=0`;
         console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -556,7 +560,7 @@ export default function AddChitAuctionPage() {
                 setChitAuctionMemberListLoading(false);
                 if (json.success) {
                     setChitAuctionMemberList(json.list);
-                    if (json.list.length > 0) {
+                        if (json.list.length > 0) {
                         let filteredList;
                         if (json.list.length === 1 && json.list[0].maxaucdisc === "0.00") {
                             filteredList = json.list;
@@ -611,9 +615,9 @@ export default function AddChitAuctionPage() {
             })
     }
 
-    const GetChitAuctionAddMemberList = (tktno, membername) => {
+    const GetChitAuctionAddMemberList = (tktno, membername ,start,limit) => {
         setChitAuctionAddMemberListLoading(true);
-        const url = `${REACT_APP_HOST_URL}${CHIT_AUCTION_MAPPED_UNMAPPED_MEMBER}${data?.id ? data.id : ""}&tokenNo=${tktno}&memberName=${membername}&start=0&limit=0`;
+        const url = `${REACT_APP_HOST_URL}${CHIT_AUCTION_MAPPED_UNMAPPED_MEMBER}${data?.id ? data.id : ""}&tokenNo=${tktno}&memberName=${membername}&start=${start}&limit=${limit}`;
         console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -622,6 +626,8 @@ export default function AddChitAuctionPage() {
                 setChitAuctionAddMemberListLoading(false);
                 if (json.success) {
                     setChitAuctionAddMemberList(json.list);
+                    setTotalCount(json.total)
+                    console.log('total:',json.total)
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
                     setAlertFrom("failed");
@@ -1293,7 +1299,7 @@ export default function AddChitAuctionPage() {
             HandleAlertShow();
         } else {
             setAddMemberListAlert(true);
-            GetChitAuctionAddMemberList(filterTicketNo, filterName)
+            GetChitAuctionAddMemberList(filterTicketNo, filterName,dialogPage * dialogRowsPerPage, dialogRowsPerPage)
         }
     };
 
@@ -1616,6 +1622,20 @@ export default function AddChitAuctionPage() {
             fontSize: '1rem', // Decrease icon size
         },
     }));
+
+
+    const handleChangeDialogPage = (event, newPage) => {
+        setDialogPage(newPage);
+    };
+
+    const handleChangeDialogRowsPerPage = (event) => {
+        setDialogPage(0);
+        setChitAuctionAddMemberList([]);
+        setDialogRowsPerPage(parseInt(event.target.value, 10));
+    };
+
+
+
 
     const HandleBack = () => {
         if (ScreenRefresh) {
@@ -2311,7 +2331,7 @@ export default function AddChitAuctionPage() {
                     <Stack>
                         <Stack ml={1} mr={1} pb={1}direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
                          <Stack direction='column'>
-                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 1 }}>
                                  Member List
                                 </Typography>
                             </Stack>
@@ -2387,7 +2407,7 @@ export default function AddChitAuctionPage() {
                                                 </TableCell>
                                             </TableRow>
                                             : <TableBody>
-                                                {ChitAuctionAddMemberList
+                                                {ChitAuctionAddMemberList.slice(dialogPage * dialogRowsPerPage, dialogPage * dialogRowsPerPage + dialogRowsPerPage)
                                                     .map((row, index) => {
                                                         const checkIdExists = id => ChitAuctionMemberList.some(items => items.memberid === id);
                                                         const checkTktnoExists = tktno => ChitAuctionMemberList.some(items => String(items.tktno) === tktno);
@@ -2407,7 +2427,19 @@ export default function AddChitAuctionPage() {
                                     </Table>
                                 </TableContainer>
                             </div>
-                        </Scrollbar>
+                            {ChitAuctionAddMemberList.length > 0 &&
+                                    <TablePagination
+                                        sx={{ mb: 3 }}
+                                        page={dialogPage}
+                                        component="div"
+                                        count={TotalCount}
+                                        rowsPerPage={dialogRowsPerPage}
+                                        onPageChange={handleChangeDialogPage}
+                                        rowsPerPageOptions={[5, 10, 15]}
+                                        onRowsPerPageChange={handleChangeDialogRowsPerPage}
+                                    />
+                                } 
+                        </Scrollbar>                     
                     </Stack>
                 </Card>
             </Dialog>
@@ -2505,6 +2537,8 @@ export default function AddChitAuctionPage() {
                                     </div>
                                 </Stack>
                             </Stack>
+
+                            
                         </Scrollbar>
                     </Stack>
                 </Card>

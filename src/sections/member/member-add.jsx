@@ -2840,34 +2840,29 @@ export default function AddMemberPage() {
             </Dialog>
             <Dialog
                 open={ProofAlert}
-                fullWidth={false}
-                maxWidth="xs"
+                maxWidth="sm"
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                PaperProps={{
-                    style: {
-                        maxWidth: '100%',
-                        overflow: 'hidden'
-                    },
-                }}>
+                // PaperProps={{
+                >
                 <IconButton
                     aria-label="close"
                     onClick={HandleProofAlertClose}
-                    sx={{ position: 'absolute', right: 15, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
+                    sx={{ position: 'absolute', right: 10, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
                     <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                 </IconButton>
-                <Stack flexDirection='row' sx={{ mt: 3, ml: 3 }}>
-                    <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 130, height: 40 }}>
+                <Stack flexDirection='row' sx={{ mt: 3, ml: 2}}>
+                    <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 120, height: 35 }}>
                         Upload Proof
                         <VisuallyHiddenInput type="file" onChange={HandleProofImage} />
                     </Button>
                 </Stack>
-                <Stack sx={{ mt: 2, ml: 3 }}>
+                <Stack sx={{ mt: 2, ml: 2 ,mr:2}}>
                     <Stack direction='row'>
                         {ProofImage.data
                             ? <img src={ProofImage.type === "local" ? `${ProofImage.data}` : `${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${ProofImage.data}`} alt="Loading" style={{ width: 120, height: 120, }} />
                             : <img src="/assets/images/img/image_placeholder.png" alt="Loading" style={{ width: 120, height: 120, }} />}
-                        <Stack flexDirection='column' sx={{ ml: 3, }}>
+                        <Stack flexDirection='column' sx={{ ml: 2, }}>
                             <Stack flexDirection='row'>
                                 <TextField
                                     className='dialog'
@@ -2880,7 +2875,7 @@ export default function AddMemberPage() {
                                         const KYCOtherTypeData = e.target.value === "OTHERS" ? OtherArray[0] : "";
                                         setKYCOtherType({ data: e.target.value === "KYC" ? KYCArray[0] : KYCOtherTypeData, error: "" })
                                     }}
-                                    style={{ width: 150, color: 'black', }} >
+                                    style={{ width: 140, color: 'black', }} >
                                     {ProofArray.map((option) => (
                                         <MenuItem key={option} value={option}>
                                             {option}
@@ -2898,7 +2893,7 @@ export default function AddMemberPage() {
                                         variant="outlined"
                                         value={KYCOtherType.data}
                                         onChange={(e) => setKYCOtherType({ data: e.target.value, error: "" })}
-                                        style={{ width: 150, color: 'black' }} >
+                                        style={{ width: 140, color: 'black' }} >
                                         {ProofType.data === "KYC"
                                             ? KYCArray.map((option) => (
                                                 <MenuItem key={option} value={option}>
@@ -2916,12 +2911,12 @@ export default function AddMemberPage() {
                             <div className='error_txt'>{KYCOtherType.error}</div>
                         </Stack>
                     </Stack>
-                    <div style={{ marginLeft: "8px", color: 'red', fontSize: "12px", marginTop: "3px", fontWeight: "500", width: "100px" }}>{ProofImage.error}</div>
+                    <div  className='error_txt'>{ProofImage.error}</div>
                 </Stack>
                 <Stack sx={{ alignItems: 'center', mt: 1, mb: 3 }}>
-                    <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 100, height: 40, cursor: 'pointer' }} onClick={ProofLoading ? null : validateProofDetails}>
+                    <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 100, height: 35, cursor: 'pointer' }} onClick={ProofLoading ? null : validateProofDetails}>
                         {ProofLoading
-                            ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                            ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 35, }} />)
                             : ("Save")}
                     </Button>
                 </Stack>

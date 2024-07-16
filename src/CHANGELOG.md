@@ -1,3 +1,10 @@
+3.4.10
+Date : 16/07/2024
+Type : Bug fix
+Description :  
+        1.popup ui fix
+        2.all list api is_active param add
+----------------------------------------------------------------
 3.4.9
 Date : 11/07/2024
 Type : Bug fix

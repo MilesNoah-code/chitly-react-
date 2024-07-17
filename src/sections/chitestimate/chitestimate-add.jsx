@@ -1107,12 +1107,12 @@ export default function AddChitEstimatePage() {
                         </Stack>}
                 </Box>
 
-                <Grid container spacing={1}  padding={1} >
-                    <Grid item xs={12} md={6} className='box-one ' marginBottom={1}>
-                        <Scrollbar className="table-one">
+                <Grid container spacing={1}  className='grid-container'>
+                    <Grid item xs={12} md={6} className='box-one' >
+                        <Scrollbar className="table-one tab-1" >
                             <Stack>
                                 <TableContainer>
-                                    <Table className='tab-wid'>
+                                    <Table className='tab-wid' >
                                         <TableRow hover tabIndex={-1}>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Inst.No</TableCell>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Auc.Date</TableCell>
@@ -1123,16 +1123,14 @@ export default function AddChitEstimatePage() {
                                             >GST</TableCell>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Payment</TableCell>
                                         </TableRow>
-                                        <TableBody>
+                                        <TableBody className='tab-body'>
                                             {ChitEstimateList
                                                 .map((row, index) => (
                                                     <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }}>
                                                         <TableCell className='no' > {row.Instno}
                                                         </TableCell>
                                                         <TableCell
-                                                            className='date-column '
-                                                        >
-                                                            <LocalizationProvider dateAdapter={AdapterDayjs} >
+                                                            className='date-column'> <LocalizationProvider dateAdapter={AdapterDayjs} >
                                                                 <DatePicker
                                                                     id="filled-hidden-label-normal"
                                                                     value={row.auctiondate != null ? dayjs(row.auctiondate) : null}
@@ -1156,7 +1154,7 @@ export default function AddChitEstimatePage() {
                                                                             width: '68px'
                                                                         },
                                                                         '& .MuiInputAdornment-root': { padding: '2px', },
-                                                                        '& .MuiButtonBase-root': { padding: '2px', width: '30px' },
+                                                                        '& .MuiButtonBase-root': { padding: '2px', width: '28px' },
                                                                         '& .MuiSvgIcon-root': {
                                                                             fontSize: '18px',
                                                                             paddingRight: '4px',
@@ -1258,8 +1256,7 @@ export default function AddChitEstimatePage() {
 
                                                                 }} />
                                                         </TableCell>
-                                                        <TableCell >
-                                                                                 
+                                                        <TableCell >                                                                                 
                                                             <TextField
                                                                 className='input-box'
                                                                 id="filled-hidden-label-normal"
@@ -1281,27 +1278,22 @@ export default function AddChitEstimatePage() {
                                                                 }} />
                                                         </TableCell>
                                                     </TableRow>))}
-                                          
-                                            
                                             <TableEmptyRows
                                                 height={77}
                                                 emptyRows={emptyRows(0, 15, ChitEstimateList.length)} />
                                             {ChitEstimateList.length === 0 && <TableNoData query="" />}
                                         </TableBody>
-                                        
-                                        <div
-                                                style={{ marginTop: "16px" }}/>
+                                        {/* <div
+                                            style={{ marginTop: "16px" }} /> */}
                                     </Table>
                                 </TableContainer>
-                               
                             </Stack>
-                            
                         </Scrollbar>
-                        <div className='error_txt' fontSize={14}>
-                        {AuctionDateError}</div>
+                        <div className='error_txt date_error' fontSize={12}>
+                            {AuctionDateError}</div>
 
                     </Grid>
-                    <Grid item xs={12} md={6} className='box-one' marginBottom={1} >
+                    <Grid item xs={12} md={6} className='box-one'>
                         <Scrollbar className="table-one table-two">
                             <TableContainer >
                                 <Stack >
@@ -1353,7 +1345,7 @@ export default function AddChitEstimatePage() {
                                                                     '& .MuiInputAdornment-root': { padding: '2px', }
                                                                 }} />
                                                         </TableCell>
-                                                        <TableCell  className='accno-width'>
+                                                        <TableCell className='accno-width'>
                                                             <TextField
                                                                 className='input-box acc-width'
                                                                 id="filled-hidden-label-normal"
@@ -1381,49 +1373,50 @@ export default function AddChitEstimatePage() {
                                                         </TableCell>
                                                         <TableCell >
                                                             <Grid container>
-                                                           <Grid item xs={10} >
-                                                           <TextField
-                                                                className='input-box4 particular-text'
-                                                                id="filled-hidden-label-normal"
-                                                                variant="filled"
-                                                                value={row.comments}
-                                                                onChange={(e) => ChitEstimateMemberListTextValidate(e, row, "comments")}
+                                                                <Grid item xs={10} >
+                                                                    <TextField
+                                                                        className='input-box4 particular-text'
+                                                                        id="filled-hidden-label-normal"
+                                                                        variant="filled"
+                                                                        value={row.comments}
+                                                                        onChange={(e) => ChitEstimateMemberListTextValidate(e, row, "comments")}
 
-                                                                sx={{
-                                                                    backgroundColor: 'transparent',
-                                                                    '& .MuiFilledInput-root': {
-                                                                        backgroundColor: 'transparent',
-                                                                        '&:hover': { backgroundColor: 'transparent', },
-                                                                        '&.Mui-focused': { backgroundColor: 'transparent', },
-                                                                        paddingInlineEnd: '2px',
-                                                                    },
-                                                                    '& .MuiInputBase-input': { padding: '2px', fontSize: '12px', },
-                                                                    '& .MuiInputAdornment-root': { padding: '2px', },
-                                                                }} />
+                                                                        sx={{
+                                                                            backgroundColor: 'transparent',
+                                                                            '& .MuiFilledInput-root': {
+                                                                                backgroundColor: 'transparent',
+                                                                                '&:hover': { backgroundColor: 'transparent', },
+                                                                                '&.Mui-focused': { backgroundColor: 'transparent', },
+                                                                                paddingInlineEnd: '2px',
+                                                                            },
+                                                                            '& .MuiInputBase-input': { padding: '2px', fontSize: '12px', },
+                                                                            '& .MuiInputAdornment-root': { padding: '2px', },
+                                                                        }} />
 
-                                                           </Grid>
-                                                           <Grid item xs={2} >
-                                                            <IconButton
-                                                            
-                                                            onClick={() => HandleChitEstimateParticularUpdate(row, index)} sx={{ cursor: 'pointer', 
-                                                                py: '2px' ,px:'1px'
-                                                            }}>
-                                                                <Iconify icon="charm:tick" style={{ color: "#05e147", width: 15, height: 18, }}  className='icon-width'/>
-                                                            </IconButton></Grid>
-                                                           
+                                                                </Grid>
+                                                                <Grid item xs={2} >
+                                                                    <IconButton
+
+                                                                        onClick={() => HandleChitEstimateParticularUpdate(row, index)} sx={{
+                                                                            cursor: 'pointer',
+                                                                            py: '2px', px: '1px'
+                                                                        }}>
+                                                                        <Iconify icon="charm:tick" style={{ color: "#05e147", width: 15, height: 18, }} className='icon-width' />
+                                                                    </IconButton></Grid>
+
                                                             </Grid>
-                                                         
-                                                            
+
+
                                                         </TableCell>
                                                         <TableCell >
-                                                                              
-                                                            {row.action === "add"
-                                                                ? <IconButton 
-                                                                className='icon-button'
-                                                                onClick={() => HandleChitEstimateMemberAddClick(row, index)} sx={{
-                                                                    cursor: 'pointer',
 
-                                                                }} InputProps={{ padding: '2px' }}>
+                                                            {row.action === "add"
+                                                                ? <IconButton
+                                                                    className='icon-button'
+                                                                    onClick={() => HandleChitEstimateMemberAddClick(row, index)} sx={{
+                                                                        cursor: 'pointer',
+
+                                                                    }} InputProps={{ padding: '2px' }}>
                                                                     <Iconify padding='2px'
                                                                         icon="icon-park-solid:add-one" />
                                                                 </IconButton>
@@ -1433,8 +1426,7 @@ export default function AddChitEstimatePage() {
                                                                         remove: index,
                                                                         remove_data: row,
                                                                     });
-                                                                }} sx={{ cursor: 'pointer' }}
-                                                                className='icon-button'>
+                                                                }} sx={{ cursor: 'pointer' }}>
                                                                     <Iconify icon="streamline:delete-1-solid" sx={{ width: 11, height: 11 }} />
                                                                 </IconButton>)}
                                                         </TableCell>
@@ -1455,8 +1447,8 @@ export default function AddChitEstimatePage() {
                     </Grid>
                 </Grid>
 
-                <Stack direction='column' >
-                    <Button variant="contained" className='custom-button sub-button' onClick={Loading ? null : HandleSubmitClick}>
+                <Stack direction='column' className='sub-button' >
+                    <Button variant="contained" className='custom-button  submit-button ' onClick={Loading ? null : HandleSubmitClick}>
                         {Loading
                             ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                             : ("Submit")}
@@ -1467,16 +1459,18 @@ export default function AddChitEstimatePage() {
             </Card>
             <Dialog
                 open={GroupMemberListAlert}
-                fullWidth
-                maxWidth='sm'
+                // fullWidth
+                maxWidth='md'
                 sx={{ display: 'flex', justifyContent: 'center', flex: 1, }}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description" >
-                <Card sx={{ maxWidth: '900px' }}>
+                <Card 
+                // sx={{ maxWidth: '900px' }}
+                >
                     <Stack>
                         <Stack ml={1} mr={1} pb={1} direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
                             <Stack direction='column'>
-                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 1 }}>
+                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 1 }} stick>
                                     Group Member List
                                 </Typography>
                             </Stack>
@@ -1487,7 +1481,7 @@ export default function AddChitEstimatePage() {
                                 <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 14, height: 14 }} />
                             </IconButton>
                         </Stack>
-                        <Divider sx={{ mt: 1, mb: 1 }} />
+                        <Divider sx={{ mt: 1, mb: 1 }}  />
 
                         <Stack mt={1} ml={2} mr={1} direction="row" alignItems="center" gap='10px'>
                             <TextField
@@ -1499,7 +1493,7 @@ export default function AddChitEstimatePage() {
                                         <InputAdornment position="start">
                                             <Iconify
                                                 icon="eva:search-fill"
-                                                sx={{ ml: 1, mt: 1, mb: 1, width: 20, height: 20, color: 'text.disabled' }}
+                                                sx={{ ml: 1, mt: 1, mb: 1, width: 16, height: 20, color: 'text.disabled' }}
                                             />
                                         </InputAdornment>
                                     ),
@@ -1523,7 +1517,7 @@ export default function AddChitEstimatePage() {
                                         <InputAdornment position="start">
                                             <Iconify
                                                 icon="eva:search-fill"
-                                                sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
+                                                sx={{ ml: 1, width: 16, height: 20, color: 'text.disabled' }}
                                             />
                                         </InputAdornment>
                                     ),

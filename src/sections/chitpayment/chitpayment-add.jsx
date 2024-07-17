@@ -1244,7 +1244,7 @@ export default function AddChitPaymentPage() {
                                                                                 },
                                                                             }} />
                                                                     </Stack>
-                                                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{row.nameerror}</div>
+                                                                    <div  className='ledger_error'>{row.nameerror}</div>
                                                                 </Stack>
                                                             </div>
                                                             <div className='pay-grp value-width'>
@@ -1270,7 +1270,7 @@ export default function AddChitPaymentPage() {
                                                                                 },
                                                                             }} />
                                                                     </Stack>
-                                                                    <div className='error_txt ledger_error1'>{row.valueerror} </div>
+                                                                    <div className='ledger_error1'>{row.valueerror} </div>
                                                                 </Stack>
                                                             </div>
                                                             <div className='pay-grp  box-popfix'>
@@ -1296,7 +1296,7 @@ export default function AddChitPaymentPage() {
                                                                                 },
                                                                             }} />
                                                                     </Stack>
-                                                                    <div className='error_txt ledger_error1'>{row.particularerror}</div>
+                                                                    <div className='ledger_error1'>{row.particularerror}</div>
                                                                 </Stack>
                                                                 <Stack direction='column' className='cancel-btn' sx={{ cursor: 'pointer' }} onClick={() => removeLedgerItem(index)}>
                                                                     <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 14, height: 14, }} />

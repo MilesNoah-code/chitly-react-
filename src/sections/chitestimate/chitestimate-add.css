@@ -1,3 +1,6 @@
+/* .grid-container{
+border: 0.5px solid #ccc;
+} */
 .custom-button {
   color: #FFFFFF;
   background-color: #1877F2;
@@ -36,16 +39,22 @@
 
 .MuiTableCell-root {
   padding: 6px !important;
+  height: 49px;
+}
+.date_error{
+ margin-top: 3px; 
 }
 
 .table-one .MuiTableCell-root:nth-child(1).no {
   font-size: 12px;
+  width:10%; 
 }
 .table-one .MuiTableCell-root:nth-child(2).no1 {
   font-size: 12px;
+  width:10%; 
 }
 .table-two .MuiTableCell-root:nth-child(3){
-  width:10%; ;
+  width:11%; 
 }
 .table-two .MuiTableCell-root:nth-child(5){
   /* width:63px ; */
@@ -94,13 +103,28 @@
 
 }
 @media (min-width:300px) and (max-width:600px){
-  .table-two .MuiTableCell-root:nth-child(1)  {
+  .table-one .MuiTableCell-root{
+    font-size: 12px;
+  }
+  .table-one .MuiTableCell-root:nth-child(4) .MuiInputBase-input {
+    width: 70px;
+  }
+  .table-one .MuiTableCell-root:nth-child(2) .MuiInputBase-input {
+    width: 80px;
+    
+  }
+  .table-one .MuiTableCell-root:nth-child(2) .MuiIconButton-root {
+    width:15px;
+    margin-right: 1px;
+  }
+  .table-one .MuiTableCell-root:nth-child(7) .MuiInputBase-input {
+    width: 70px;
+  }  
+ .table-two .MuiTableCell-root:nth-child(1)  {
     width: 40px;
-    padding: 4px;
   }
   .table-two .MuiTableCell-root:nth-child(2) .no1 {
     width: 40px;
-    padding: 4px;
   }
   .table-two .MuiTableCell-root:nth-child(4) .MuiInputBase-input {
     width: 90px;
@@ -116,59 +140,18 @@
     width: 80px;
     
   }
-  /* .table-two .MuiTableCell-root:nth-child(7) .icon-button{
-    width:60px ;
-  } */
-  .parent-div {
-    position: relative;
-    padding-bottom: 10%;
-  }
-  
   .sub-button {
-    position: absolute;
-    bottom: 1%;
-    left: 1%;
-    margin-left: 5%;
-    margin-bottom: 1%;
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    /* height: 10px; */
+    left: 10px;
+  }
+  
+  .submit-button {
+    position: absolute;  
+    left: 0;
   }
   
   
 }
-/* @media (max-width:768px) {
-  .estimate-box1 {
-    flex-direction: column !important;
-    width: 100% !important;
-    align-items: inherit;
-
-  }
-
-  .box-estimate-grp {
-    flex: 1 0 100%;
-    max-width: 100%;
-
-  }
-}
-
-.rowExists {
-  background-color: rgba(24, 119, 242, 0.16);
-}
-
-.input-box-date.error {
-  outline: 2px solid red;
-} */
-
-/* @media (min-width:769px) and (max-width:869px){
-  .estimate-grp .MuiTextField-root{
-      width: 20ch !important;
-  } 
-}
-@media (min-width:869px) and (max-width:991px){
-  .estimate-grp .MuiTextField-root{
-      width: 24ch !important;
-  } 
-}
-@media (min-width:992px) and (max-width:1218px){
-  .estimate-grp .MuiTextField-root{
-      width: 26ch !important;
-  } 
-} */

@@ -2838,32 +2838,45 @@ export default function AddMemberPage() {
                     <img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 70, height: 70 }} />
                 </Stack>
             </Dialog>
-            <Dialog
+            <Dialog className='dialog-sizing'
                 open={ProofAlert}
-                maxWidth="sm"
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                // PaperProps={{
+                sx={{
+                    "& .MuiDialog-container": {
+                      "& .MuiPaper-root": {
+                        width: "100%",
+                        fontSize:{
+                            xs:'11px',
+                            sm:'12px',
+                        },
+                        maxWidth:{
+                            // xs:'300px',
+                            md:"350px",
+                        }  // Set your width here
+                      },
+                    },
+                  }}              
                 >
                 <IconButton
                     aria-label="close"
                     onClick={HandleProofAlertClose}
-                    sx={{ position: 'absolute', right: 10, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
+                    sx={{ position: 'absolute', right: 14, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
                     <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                 </IconButton>
-                <Stack flexDirection='row' sx={{ mt: 3, ml: 2}}>
-                    <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 120, height: 35 }}>
+                <Stack flexDirection='row' sx={{ mt: 3, ml: 3}}>
+                    <Button component="label" variant="contained" tabIndex={-1} className='upload-btn'>
                         Upload Proof
                         <VisuallyHiddenInput type="file" onChange={HandleProofImage} />
                     </Button>
                 </Stack>
-                <Stack sx={{ mt: 2, ml: 2 ,mr:2}}>
-                    <Stack direction='row'>
+                <Stack sx={{ mt: 2, ml:3 ,mr:2}}>
+                    <Stack direction='row ' className='img-row' gap={1}>
                         {ProofImage.data
-                            ? <img src={ProofImage.type === "local" ? `${ProofImage.data}` : `${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${ProofImage.data}`} alt="Loading" style={{ width: 120, height: 120, }} />
-                            : <img src="/assets/images/img/image_placeholder.png" alt="Loading" style={{ width: 120, height: 120, }} />}
+                            ? <img src={ProofImage.type === "local" ? `${ProofImage.data}` : `${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${ProofImage.data}`} alt="Loading" style={{ width: 120, height: 120, }} className='proof_img' />
+                            : <img src="/assets/images/img/image_placeholder.png" alt="Loading" style={{ width: 120, height: 120, }} className='proof_img'/>}
                         <Stack flexDirection='column' sx={{ ml: 2, }}>
-                            <Stack flexDirection='row'>
+                            <Stack flexDirection='row dropdown'>
                                 <TextField
                                     className='dialog'
                                     id="outlined-select-currency"
@@ -2916,7 +2929,7 @@ export default function AddMemberPage() {
                 <Stack sx={{ alignItems: 'center', mt: 1, mb: 3 }}>
                     <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 100, height: 35, cursor: 'pointer' }} onClick={ProofLoading ? null : validateProofDetails}>
                         {ProofLoading
-                            ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 35, }} />)
+                            ? (<img className='save-btn' src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 35, }} />)
                             : ("Save")}
                     </Button>
                 </Stack>

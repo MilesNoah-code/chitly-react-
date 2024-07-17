@@ -83,7 +83,7 @@
 
 .bor {
   border-bottom: 1px solid #ccc;
-  padding-bottom: 35px;
+  padding-bottom: 1%;
 }
 
 .box-pay-grp .MuiAutocomplete-root .MuiTextField-root {
@@ -116,10 +116,19 @@
   font-weight: 500;
 }
 
+.chitpayment-add-screen .ledger_error {
+  margin-left: 8px;
+  margin-top: 10px;
+  color: red;
+  font-size: 12px;
+  font-weight: 500;
+}
 .chitpayment-add-screen .ledger_error1 {
-  margin-left: -1px;
-  margin-top: 5px;
 
+  margin-top: 8px;
+  color: red;
+  font-size: 12px;
+  font-weight: 500;
 }
 
 @media (max-width:991px) {

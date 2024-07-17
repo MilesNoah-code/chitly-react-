@@ -113,11 +113,110 @@
   margin-left: 23px !important;
   margin-top: -5px !important;
 }
+.img-stockc .proof_img{
+  width: 120px;
+  height: 120px;
+
+}
 
 /* .dialog .MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
   font-size: 13px !important;
   padding: 9.5px 14px !important; 
 } */
+ @media screen and (max-width:350px){
+  .dialog-sizing .MuiPaper-root{
+    width: 100%;
+    max-width:270px;
+    padding: 10% !important;
+                       
+  }
+  .btn-top{
+    margin-top: 5%;
+    /* margin-left: 5%; */
+  }
+  .upload-btn{
+    width: 95px;
+    font-size: 12px;
+  }
+  .save-btn{
+    font-size: 12px;
+  }
+  .MuiFormControl-root{
+    width: 95px !important;
+    /* margin-left: 5px !important; */
+  }
+  
+   .Muistack-root{
+    width: 95px;
+    margin-left: 10% !important;
+  }
+  .MuiTextField-root{
+    width: 95px;
+  }
+  .dialog .MuiInputBase-root{
+  width: 95px;
+  margin-right: 10%;
+  }
+  .dialog .MuiInputBase-input{
+    
+    width:80px;
+    font-size: 12px;
+    padding: 2px;
+    
+
+  }
+   .img-row .proof_img{
+    width: 110px !important;
+    height: 110px !important;
+    /* margin-left: 10% !important; */
+  }
+ }
+ @media (min-width:451px) and (max-width:899px){
+  .dialog-sizing .MuiPaper-root{
+    width: 100%;
+    max-width:300px;
+    
+                       
+  }
+  .btn-top{
+    margin-top: 5%;
+    /* margin-left: 5%; */
+  }
+  .upload-btn{
+    width: 120px;
+    font-size: 14px;
+  }
+  .save-btn{
+    font-size: 14px;
+  }
+  .MuiFormControl-root{
+    width: 120px !important;
+    /* margin-left: 5px !important; */
+  }
+  .MuiTextField-root{
+    width: 120px;
+  }
+   .Muistack-root{
+    width: 120px;
+    /* margin-left: 10px !important; */
+  }
+  .dialog .MuiInputBase-root{
+  width: 100px;
+  margin-right: 10%;
+  }
+  .dialog .MuiInputBase-input{
+    
+    width:80px;
+    font-size: 14px;
+    padding: 2px;
+    
+
+  }
+   .img-row .proof_img{
+    width: 120px !important;
+    height: 120px !important;
+  }
+ }
 @media (min-width:769px) and (max-width:990px) {
   .box-grp {
     flex: 1 0 48%;
@@ -168,7 +267,8 @@
   }
 
   .req {
-    margin-left: 25px !important;
+    margin-left: 15px !important;
+    
   }
 
   .radio-box .radio-control3.MuiFormControlLabel-root {
@@ -310,7 +410,13 @@
     font-size: 13px;
     margin-top: 10px;
   }
-
+  .upload-btn{
+    width: 120px;
+    height: 35px;
+  }
+.dialog {
+  text-overflow: ellipsis;
+}
   .inf {
     margin-top: 15px !important;
     margin-bottom: 0px !important;

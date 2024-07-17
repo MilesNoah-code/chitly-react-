@@ -104,16 +104,19 @@ export default function AddChitPaymentPage() {
     // const [ReqChitParameterList, setReqChitParameterList] = useState([]);
     const [LedgerNameError, setLedgerNameError] = useState('');
     const [ScreenRefresh, setScreenRefresh] = useState(0);
+    const [TotalCount, setTotalCount] = useState(0);
+    const [dialogPage, setDialogPage] = useState(0);
+    const [dialogRowsPerPage, setDialogRowsPerPage] = useState(10);
 
     useEffect(() => {
         if (screen === "add") {
-            GetUnPaidGroupList("", "");
+            GetUnPaidGroupList("", "", dialogPage * dialogRowsPerPage, dialogRowsPerPage);
             GetLedgerList("", page * rowsPerPage, rowsPerPage);
         } else if (screen === "view") {
             GetChitPaymentView();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [screen, page, rowsPerPage]);
+    }, [screen, page, rowsPerPage, dialogPage, dialogRowsPerPage]);
 
     useEffect(() => {
         const handleBeforeUnload = (event) => {
@@ -196,9 +199,11 @@ export default function AddChitPaymentPage() {
             })
     }
 
-    const GetUnPaidGroupList = (groupcode, memberid) => {
+    const GetUnPaidGroupList = (groupcode, memberid, start, limit) => {
         setUnPaidGroupLoading(true);
-        const url = `${REACT_APP_HOST_URL}${CHIT_PAYMENT_UNPAID_GROUP_LIST}${groupcode}&memberId=${memberid}`;
+        setTotalCount(0);
+        setUnPaidGroupList([]);
+        const url = `${REACT_APP_HOST_URL}${CHIT_PAYMENT_UNPAID_GROUP_LIST}${groupcode}&memberId=${memberid}&start=${start}&limit=${limit}`;
         console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -206,7 +211,10 @@ export default function AddChitPaymentPage() {
                 console.log(JSON.stringify(json));
                 setUnPaidGroupLoading(false);
                 if (json.success) {
-                    setUnPaidGroupList(json.list);
+                    console.log(json.list)
+                    console.log(json.total)
+                    setTotalCount(json.total);
+                    setUnPaidGroupList(json.list)
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
                     setAlertFrom("failed");
@@ -589,7 +597,7 @@ export default function AddChitPaymentPage() {
             }));
         }
         const isLedgerListValid = validateLedgerList();
-        if (SelectUnPaidGroup.memberid !== 1){
+        if (SelectUnPaidGroup.memberid !== 1) {
             if (SelectLedgerList.length === 0) {
                 IsValidate = false;
                 setLedgerNameError("* Add At least one Ledger Contra Entry Details");
@@ -746,6 +754,16 @@ export default function AddChitPaymentPage() {
         setLedgerList([]);
         setRowsPerPage(parseInt(event.target.value, 10));
     };
+    const handleChangeDialogPage = (event, newPage) => {
+        setDialogPage(newPage);
+    };
+
+    const handleChangeDialogRowsPerPage = (event) => {
+        setDialogPage(0);
+        setUnPaidGroupList([]);
+        setDialogRowsPerPage(parseInt(event.target.value, 10));
+    };
+
 
     const HandleLedgerListAlertClose = () => {
         setLedgerListAlert(false);
@@ -855,7 +873,7 @@ export default function AddChitPaymentPage() {
     return (
         <div style={{ marginLeft: '35px', marginRight: '35px' }} className='chitpayment-add-screen'>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
-                <Typography variant="h6" sx={{ fontWeight:'600'}}>
+                <Typography variant="h6" sx={{ fontWeight: '600' }}>
                     {screenLabel[screen] || "Add Chit Payment"}
                 </Typography>
                 <Button variant="contained" className='custom-button' onClick={HandleBack}>
@@ -889,15 +907,15 @@ export default function AddChitPaymentPage() {
                                                                 value={ReceiptDate.data}
                                                                 onChange={HandleDateChange}
                                                                 format="DD-MM-YYYY"
-                                                        sx={{
-                                                            '& .MuiInputBase-input': {
-                                                              padding: '8px',
-                                                              fontSize:'14px' 
-                                                            },
-                                                            '& .MuiInputAdornment-root': {
-                                                              padding: '8px', 
-                                                            },
-                                                          }}/>
+                                                                sx={{
+                                                                    '& .MuiInputBase-input': {
+                                                                        padding: '8px',
+                                                                        fontSize: '14px'
+                                                                    },
+                                                                    '& .MuiInputAdornment-root': {
+                                                                        padding: '8px',
+                                                                    },
+                                                                }} />
                                                         </DemoContainer>
                                                     </LocalizationProvider>
                                                 </Stack>
@@ -917,15 +935,16 @@ export default function AddChitPaymentPage() {
                                                         value={GroupNoSearch.data}
                                                         onChange={(e) => ChitPaymentTextValidate(e, "GroupNoSearch")}
                                                         onClick={HandleGroupNoSearch}
-                                                        sx={{ pointerEvents: 'auto',
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                      fontSize:'14px' 
-                                                    },
-                                                    '& .MuiInputAdornment-root': {
-                                                      padding: '8px', 
-                                                    },
-                                                  }}/>
+                                                        sx={{
+                                                            pointerEvents: 'auto',
+                                                            '& .MuiInputBase-input': {
+                                                                padding: '8px',
+                                                                fontSize: '14px'
+                                                            },
+                                                            '& .MuiInputAdornment-root': {
+                                                                padding: '8px',
+                                                            },
+                                                        }} />
                                                 </Stack>
                                                 <div className='error_txt'>{GroupNoSearch.error}</div>
                                             </Stack>
@@ -945,15 +964,15 @@ export default function AddChitPaymentPage() {
                                                         // label="Member Name"
                                                         value={MemberName.data}
                                                         onChange={(e) => ChitPaymentTextValidate(e, "MemberName")}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                      fontSize:'14px' 
-                                                    },
-                                                    '& .MuiInputAdornment-root': {
-                                                      padding: '8px', 
-                                                    },
-                                                  }}/>
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                                padding: '8px',
+                                                                fontSize: '14px'
+                                                            },
+                                                            '& .MuiInputAdornment-root': {
+                                                                padding: '8px',
+                                                            },
+                                                        }} />
                                                 </Stack>
                                                 <div className='error_txt'>{MemberName.error}</div>
                                             </Stack>
@@ -971,15 +990,15 @@ export default function AddChitPaymentPage() {
                                                         // label="Ticket No"
                                                         value={TicketNo.data}
                                                         onChange={(e) => ChitPaymentTextValidate(e, "TicketNo")}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                      fontSize:'14px' 
-                                                    },
-                                                    '& .MuiInputAdornment-root': {
-                                                      padding: '8px', 
-                                                    },
-                                                  }} />
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                                padding: '8px',
+                                                                fontSize: '14px'
+                                                            },
+                                                            '& .MuiInputAdornment-root': {
+                                                                padding: '8px',
+                                                            },
+                                                        }} />
                                                 </Stack>
                                                 <div className='error_txt'>{TicketNo.error}</div>
                                             </Stack>
@@ -999,15 +1018,15 @@ export default function AddChitPaymentPage() {
                                                         // label="Receipt No"
                                                         value={ReceiptNo.data}
                                                         onChange={(e) => ChitPaymentTextValidate(e, "ReceiptNo")}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                      fontSize:'14px' 
-                                                    },
-                                                    '& .MuiInputAdornment-root': {
-                                                      padding: '8px', 
-                                                    },
-                                                  }}/>
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                                padding: '8px',
+                                                                fontSize: '14px'
+                                                            },
+                                                            '& .MuiInputAdornment-root': {
+                                                                padding: '8px',
+                                                            },
+                                                        }} />
                                                 </Stack>
                                                 <div className='error_txt'>{ReceiptNo.error}</div>
                                             </Stack>
@@ -1025,15 +1044,15 @@ export default function AddChitPaymentPage() {
                                                         // label="Installment No"
                                                         value={InstallmentNo.data}
                                                         onChange={(e) => ChitPaymentTextValidate(e, "InstallmentNo")}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                      fontSize:'14px' 
-                                                    },
-                                                    '& .MuiInputAdornment-root': {
-                                                      padding: '8px', 
-                                                    },
-                                                  }}/>
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                                padding: '8px',
+                                                                fontSize: '14px'
+                                                            },
+                                                            '& .MuiInputAdornment-root': {
+                                                                padding: '8px',
+                                                            },
+                                                        }} />
                                                 </Stack>
                                                 <div className='error_txt'>{InstallmentNo.error}</div>
                                             </Stack>
@@ -1056,15 +1075,15 @@ export default function AddChitPaymentPage() {
                                                             value={MobileNo.data}
                                                             onChange={(e) => ChitPaymentTextValidate(e, "MobileNo")}
                                                             type='number'
-                                                    sx={{
-                                                        '& .MuiInputBase-input': {
-                                                          padding: '8px',
-                                                          fontSize:'14px' 
-                                                        },
-                                                        '& .MuiInputAdornment-root': {
-                                                          padding: '8px', 
-                                                        },
-                                                      }}/>
+                                                            sx={{
+                                                                '& .MuiInputBase-input': {
+                                                                    padding: '8px',
+                                                                    fontSize: '14px'
+                                                                },
+                                                                '& .MuiInputAdornment-root': {
+                                                                    padding: '8px',
+                                                                },
+                                                            }} />
                                                     </Stack>
                                                     <div className='error_txt'>{MobileNo.error}</div>
                                                 </Stack>
@@ -1082,15 +1101,15 @@ export default function AddChitPaymentPage() {
                                                         // label="Account No"
                                                         value={AccountNo.data}
                                                         onChange={(e) => ChitPaymentTextValidate(e, "AccountNo")}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                      fontSize:'14px' 
-                                                    },
-                                                    '& .MuiInputAdornment-root': {
-                                                      padding: '8px', 
-                                                    },
-                                                  }}/>
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                                padding: '8px',
+                                                                fontSize: '14px'
+                                                            },
+                                                            '& .MuiInputAdornment-root': {
+                                                                padding: '8px',
+                                                            },
+                                                        }} />
                                                 </Stack>
                                                 <div className='error_txt'>{AccountNo.error}</div>
                                             </Stack>
@@ -1109,15 +1128,15 @@ export default function AddChitPaymentPage() {
                                                             // label="Value"
                                                             value={Values.data}
                                                             onChange={(e) => ChitPaymentTextValidate(e, "Values")}
-                                                    sx={{
-                                                        '& .MuiInputBase-input': {
-                                                          padding: '8px',
-                                                          fontSize:'14px' 
-                                                        },
-                                                        '& .MuiInputAdornment-root': {
-                                                          padding: '8px', 
-                                                        },
-                                                      }}/>
+                                                            sx={{
+                                                                '& .MuiInputBase-input': {
+                                                                    padding: '8px',
+                                                                    fontSize: '14px'
+                                                                },
+                                                                '& .MuiInputAdornment-root': {
+                                                                    padding: '8px',
+                                                                },
+                                                            }} />
                                                     </Stack>
                                                     <div className='error_txt'>{Values.error}</div>
                                                 </Stack>
@@ -1140,15 +1159,15 @@ export default function AddChitPaymentPage() {
                                                             // label="Value"
                                                             value={Values.data}
                                                             onChange={(e) => ChitPaymentTextValidate(e, "Values")}
-                                                    sx={{
-                                                        '& .MuiInputBase-input': {
-                                                          padding: '8px',
-                                                          fontSize:'14px' 
-                                                        },
-                                                        '& .MuiInputAdornment-root': {
-                                                          padding: '8px', 
-                                                        },
-                                                      }}/>
+                                                            sx={{
+                                                                '& .MuiInputBase-input': {
+                                                                    padding: '8px',
+                                                                    fontSize: '14px'
+                                                                },
+                                                                '& .MuiInputAdornment-root': {
+                                                                    padding: '8px',
+                                                                },
+                                                            }} />
                                                     </Stack>
                                                     <div className='error_txt'>{Values.error}</div>
                                                 </Stack>
@@ -1166,22 +1185,22 @@ export default function AddChitPaymentPage() {
                                                         // label="Particulars"
                                                         value={Particulars.data}
                                                         onChange={(e) => ChitPaymentTextValidate(e, "Particulars")}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                      fontSize:'14px' 
-                                                    },
-                                                    '& .MuiInputAdornment-root': {
-                                                      padding: '8px', 
-                                                    },
-                                                  }}/>
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                                padding: '8px',
+                                                                fontSize: '14px'
+                                                            },
+                                                            '& .MuiInputAdornment-root': {
+                                                                padding: '8px',
+                                                            },
+                                                        }} />
                                                 </Stack>
                                                 <div className='error_txt'>{Particulars.error}</div>
                                             </Stack>
                                         </div>
                                     </Stack>
                                 </Grid>
-                             <Grid item xs={12} md={6} className={screen === "view" ? 'view-one' : 'box-one'}>
+                                <Grid item xs={12} md={6} className={screen === "view" ? 'view-one' : 'box-one'}>
 
                                     {screen === "view"
                                         ? null
@@ -1215,17 +1234,17 @@ export default function AddChitPaymentPage() {
                                                                             disabled
                                                                             value={row.name}
                                                                             onChange={(e) => ChitPaymentLedgerTextValidate(e, row, "LedgerName")}
-                                                                    sx={{
-                                                                        '& .MuiInputBase-input': {
-                                                                          padding: '8px',
-                                                                          fontSize:'14px' 
-                                                                        },
-                                                                        '& .MuiInputAdornment-root': {
-                                                                          padding: '8px', 
-                                                                        },
-                                                                      }}/>
+                                                                            sx={{
+                                                                                '& .MuiInputBase-input': {
+                                                                                    padding: '8px',
+                                                                                    fontSize: '14px'
+                                                                                },
+                                                                                '& .MuiInputAdornment-root': {
+                                                                                    padding: '8px',
+                                                                                },
+                                                                            }} />
                                                                     </Stack>
-                                                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{row.nameerror}</div>
+                                                                    <div  className='ledger_error'>{row.nameerror}</div>
                                                                 </Stack>
                                                             </div>
                                                             <div className='pay-grp value-width'>
@@ -1241,17 +1260,17 @@ export default function AddChitPaymentPage() {
                                                                             // label="Value"
                                                                             value={row.value}
                                                                             onChange={(e) => ChitPaymentLedgerTextValidate(e, row, "LedgerValues")}
-                                                                    sx={{
-                                                                        '& .MuiInputBase-input': {
-                                                                          padding: '8px',
-                                                                          fontSize:'14px' 
-                                                                        },
-                                                                        '& .MuiInputAdornment-root': {
-                                                                          padding: '8px', 
-                                                                        },
-                                                                      }}/>
+                                                                            sx={{
+                                                                                '& .MuiInputBase-input': {
+                                                                                    padding: '8px',
+                                                                                    fontSize: '14px'
+                                                                                },
+                                                                                '& .MuiInputAdornment-root': {
+                                                                                    padding: '8px',
+                                                                                },
+                                                                            }} />
                                                                     </Stack>
-                                                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{row.valueerror}</div>
+                                                                    <div className='ledger_error1'>{row.valueerror} </div>
                                                                 </Stack>
                                                             </div>
                                                             <div className='pay-grp  box-popfix'>
@@ -1267,17 +1286,17 @@ export default function AddChitPaymentPage() {
                                                                             // label="Particular"
                                                                             value={row.particular}
                                                                             onChange={(e) => ChitPaymentLedgerTextValidate(e, row, "LedgerParticular")}
-                                                                    sx={{
-                                                                        '& .MuiInputBase-input': {
-                                                                          padding: '8px',
-                                                                          fontSize:'14px' 
-                                                                        },
-                                                                        '& .MuiInputAdornment-root': {
-                                                                          padding: '8px', 
-                                                                        },
-                                                                      }}/>
+                                                                            sx={{
+                                                                                '& .MuiInputBase-input': {
+                                                                                    padding: '8px',
+                                                                                    fontSize: '14px'
+                                                                                },
+                                                                                '& .MuiInputAdornment-root': {
+                                                                                    padding: '8px',
+                                                                                },
+                                                                            }} />
                                                                     </Stack>
-                                                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500" }}>{row.particularerror}</div>
+                                                                    <div className='ledger_error1'>{row.particularerror}</div>
                                                                 </Stack>
                                                                 <Stack direction='column' className='cancel-btn' sx={{ cursor: 'pointer' }} onClick={() => removeLedgerItem(index)}>
                                                                     <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 14, height: 14, }} />
@@ -1313,17 +1332,25 @@ export default function AddChitPaymentPage() {
             </Snackbar>
             <Dialog
                 open={UnPaidGroupAlert}
-               fullWidth  
-                maxWidth={false} 
-                sx={{ display: 'flex', justifyContent: 'center', flex: 1, }}
+                fullWidth
+                maxWidth={false}
+                // sx={{ display: 'flex', justifyContent: 'center', flex: 1, }}
                 aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description" >
+                aria-describedby="alert-dialog-description"
+                sx={{
+                    "& .MuiDialog-container": {
+                        "& .MuiPaper-root": {
+                            width: "100%",
+                            maxWidth: "700px",  // Set your width here
+                        },
+                    },
+                }}>
                 <Card>
-                    <Stack>
-                        <Stack ml={1} mr={1} pb={1}direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
+                    <Stack sx={{ mr: 2 }}>
+                        <Stack ml={1} mr={1} direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
                             <Stack direction='column'>
-                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
-                                  Member list
+                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 1 }}>
+                                    Group Member list
                                 </Typography>
                             </Stack>
                             <IconButton
@@ -1334,8 +1361,8 @@ export default function AddChitPaymentPage() {
                                 <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 14, height: 14, }} />
                             </IconButton>
                         </Stack>
-                        <Divider sx={{ mt: 2, mb:1}}/>
-                        <Stack mt={2} ml={2} mr={1} direction="row" alignItems="center" >
+                        <Divider sx={{ mt: 2, mb: 1 }} />
+                        <Stack mt={1} ml={2} mr={1} direction="row" alignItems="center" >
                             <TextField
                                 placeholder="Group Code..."
                                 value={filterGroupCode}
@@ -1351,14 +1378,14 @@ export default function AddChitPaymentPage() {
                                 }}
                                 sx={{
                                     '& .MuiInputBase-input': {
-                                      padding: '8px',
-                                      fontSize: '14px',
+                                        padding: '8px',
+                                        fontSize: '14px',
                                     },
                                     '& .MuiInputAdornment-root': {
-                                      padding: '8px',
+                                        padding: '8px',
                                     },
-                                  }}
-                                />
+                                }}
+                            />
                             <TextField
                                 placeholder="Member Id..."
                                 value={filterName}
@@ -1371,52 +1398,64 @@ export default function AddChitPaymentPage() {
                                                 sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
                                             />
                                         </InputAdornment>),
-                                }} 
-                                sx={{ ml: 2,
+                                }}
+                                sx={{
+                                    ml: 2,
                                     '& .MuiInputBase-input': {
-                                      padding: '8px',
-                                      fontSize: '14px',
+                                        padding: '8px',
+                                        fontSize: '14px',
                                     },
                                     '& .MuiInputAdornment-root': {
-                                      padding: '8px',
+                                        padding: '8px',
                                     },
-                                  }}
-                                  />
-                          
+                                }}
+                            />
                         </Stack>
-                        <Scrollbar  style={{ maxHeight: '70vh'}}>
-                        <div  style={{ paddingLeft: 2, paddingRight: 2 }}>
-                            <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
-                                <Table stickyHeader>
-                                    <TableRow hover tabIndex={-1}>
-                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group No</TableCell>
-                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
-                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Id</TableCell>
-                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Auction Date</TableCell>
-                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Ticket No</TableCell>
-                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Install No</TableCell>
-                                    </TableRow>
-                                    {UnPaidGroupLoading
-                                        ? <TableRow>
-                                                        <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                                                            <img className='load' src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
-                                                        </TableCell>
-                                                    </TableRow>
-                                        : <TableBody>
-                                            {UnPaidGroupList
-                                                .map((row) => (
-                                                    <ChitPaymentMemberTableRow
-                                                        key={row.id}
-                                                        selected={selected.indexOf(row.name) !== -1}
-                                                        handleClick={(event) => handleClick(event, row)}
-                                                        item={row} />))}
-                                            <TableEmptyRows
-                                                height={77}
-                                                emptyRows={emptyRows(page, 5, UnPaidGroupList.length)} />
-                                            {UnPaidGroupList.length === 0 && <TableNoData query={filterName} />}
-                                        </TableBody>}
-                                </Table>
-                            </TableContainer>
+                        <Scrollbar style={{ maxHeight: '70vh' }}>
+                            <div style={{ paddingLeft: 2, paddingRight: 2 }}>
+                                <TableContainer sx={{ mt: 2, mb: 2, ml: 2, mr: 2 }}>
+                                    <Table stickyHeader>
+                                        <TableRow hover tabIndex={-1}>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group No</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Id</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Auction Date</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Ticket. No</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Install. No</TableCell>
+                                        </TableRow>
+                                        {UnPaidGroupLoading
+                                            ? <TableRow>
+                                                <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                                                    <img className='load' src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                                                </TableCell>
+                                            </TableRow>
+                                            : <TableBody>
+                                                {UnPaidGroupList.slice(dialogPage * dialogRowsPerPage, dialogPage * dialogRowsPerPage + dialogRowsPerPage)
+                                                    .map((row) => (
+                                                        <ChitPaymentMemberTableRow
+                                                            key={row.id}
+                                                            selected={selected.indexOf(row.name) !== -1}
+                                                            handleClick={(event) => handleClick(event, row)}
+                                                            item={row} />))}
+                                                <TableEmptyRows
+                                                    height={77}
+                                                    emptyRows={emptyRows(page, 5, UnPaidGroupList.length)} />
+                                                {UnPaidGroupList.length === 0 && <TableNoData query={filterName} />}
+                                            </TableBody>}
+                                    </Table>
+                                </TableContainer>
+                                {UnPaidGroupList.length > 0 &&
+                                    <TablePagination
+                                        sx={{ mb: 3 }}
+                                        page={dialogPage}
+                                        component="div"
+                                        count={TotalCount}
+                                        rowsPerPage={dialogRowsPerPage}
+                                        onPageChange={handleChangeDialogPage}
+                                        rowsPerPageOptions={[5, 10, 15]}
+                                        onRowsPerPageChange={handleChangeDialogRowsPerPage}
+                                    />
+                                }
                             </div>
                         </Scrollbar>
                     </Stack>
@@ -1426,15 +1465,14 @@ export default function AddChitPaymentPage() {
                 open={LedgerListAlert}
                 fullWidth
                 maxWidth="sm"
-              
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description" >
                 <Card >
                     <Stack>
-                    <Stack ml={1} mr={1} pb={1}direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
+                        <Stack ml={1} mr={1} pb={1} direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
                             <Stack direction='column'>
                                 <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
-                                  Account Ledger
+                                    Account Ledger
                                 </Typography>
                             </Stack>
                             <IconButton
@@ -1444,8 +1482,8 @@ export default function AddChitPaymentPage() {
                                 <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 14, height: 14 }} />
                             </IconButton>
                         </Stack>
-                        <Divider sx={{ mt: 1, mb:1}}/>
-                        <Stack mt={1} ml={2} mr={1}  pb={1}direction="row" alignItems="center">
+                        <Divider sx={{ mt: 1, mb: 1 }} />
+                        <Stack mt={1} ml={2} mr={1} pb={1} direction="row" alignItems="center">
                             <TextField
                                 placeholder="Ledger Name..."
                                 value={LedgerFilterName}
@@ -1458,22 +1496,21 @@ export default function AddChitPaymentPage() {
                                                 sx={{ ml: 1, mt: 1, mb: 1, width: 20, height: 20, color: 'text.disabled' }}
                                             />
                                         </InputAdornment>
-                          ),
-                        }}
-                        sx={{
-                          '& .MuiInputBase-input': {
-                            padding: '8px',
-                            fontSize: '14px',
-                          },
-                          '& .MuiInputAdornment-root': {
-                            padding: '8px',
-                          },
-                        }}
-                      />
-                           
+                                    ),
+                                }}
+                                sx={{
+                                    '& .MuiInputBase-input': {
+                                        padding: '8px',
+                                        fontSize: '14px',
+                                    },
+                                    '& .MuiInputAdornment-root': {
+                                        padding: '8px',
+                                    },
+                                }}
+                            />
                         </Stack>
-                        <Box sx={{ flexGrow: 2,  mt: 0 }}>
-                            <Scrollbar style={{ maxHeight: '70vh'}}>
+                        <Box sx={{ flexGrow: 2, mt: 0 }}>
+                            <Scrollbar style={{ maxHeight: '70vh' }}>
                                 {LedgerListLoading ? (
                                     <Stack mt={10} sx={{ alignItems: 'center' }}>
                                         <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70 }} />
@@ -1489,7 +1526,7 @@ export default function AddChitPaymentPage() {
                                                     sx={{ mt: 0.5, cursor: 'pointer' }}
                                                     onClick={(event) => HandleLedgerClick(event, row)}
                                                 >
-                                                    <Typography sx={{ ml: 4, mr: 5, mb: 1.5, p:1, fontSize: 14 }}>
+                                                    <Typography sx={{ ml: 4, mr: 5, mb: 1.5, p: 1, fontSize: 14 }}>
                                                         {row.ledgername}
                                                     </Typography>
                                                     <Divider sx={{ flexGrow: 1 }} />
@@ -1499,17 +1536,16 @@ export default function AddChitPaymentPage() {
                                         {LedgerList.length === 0 && <TableNoData query={LedgerFilterName} />}
                                     </Stack>
                                 )}
-                          
-                        {LedgerList.length > 0 && <TablePagination
-                            page={page}
-                            component="div"
-                            count={LedgerTotalCount}
-                            rowsPerPage={rowsPerPage}
-                            onPageChange={handleChangePage}
-                            rowsPerPageOptions={[15, 30, 50]}
-                            onRowsPerPageChange={handleChangeRowsPerPage}
-                            sx={{ borderTop: '1px solid #e0e0e0' }}/>}
-                              </Scrollbar>
+                                {LedgerList.length > 0 && <TablePagination
+                                    page={page}
+                                    component="div"
+                                    count={LedgerTotalCount}
+                                    rowsPerPage={rowsPerPage}
+                                    onPageChange={handleChangePage}
+                                    rowsPerPageOptions={[15, 30, 50]}
+                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                    sx={{ borderTop: '1px solid #e0e0e0' }} />}
+                            </Scrollbar>
                         </Box>
                     </Stack>
                 </Card>

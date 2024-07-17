@@ -17,11 +17,11 @@ export default function ChitReceiptMemberTableRow({
       <TableCell padding="checkbox" style={{ display: 'none' }}>
         <Checkbox disableRipple checked={selected} onChange={handleClick} />
       </TableCell>
-      <TableCell>{item.groupno}</TableCell>
-      <TableCell>{item.tktNo}</TableCell>
       <TableCell>{item.name}</TableCell>
-      <TableCell>{item.sms_phoneno}</TableCell>
+      <TableCell>{item.member_id}</TableCell>
+      <TableCell>{ item.tktNo}</TableCell>
       <TableCell>{item.fcno}</TableCell>
+      <TableCell>{ item.sms_phoneno }</TableCell>
       <TableCell>
         {keyvalue === "paidmember"
           ? <Avatar alt='Loading' src='/assets/images/img/green_tick.png' sx={{ width: 20, height: 20 }} />

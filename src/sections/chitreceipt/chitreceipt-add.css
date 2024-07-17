@@ -76,7 +76,9 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
   background-color: #ccc !important;
 }
 
-
+.with-reduce{
+  width:100px
+}
 @media screen and (max-width: 768px) {
   .top-pd {
     margin-top: 0px;

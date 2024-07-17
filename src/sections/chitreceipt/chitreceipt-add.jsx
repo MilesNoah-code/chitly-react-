@@ -195,7 +195,7 @@ export default function AddChitReceiptPage() {
 
     const GetPendingGroupList = (text) => {
         setGroupListLoading(true);
-        const url = `${REACT_APP_HOST_URL}${CHIT_RECEPT_PENDING_GROUP_LIST}1&search=${text}`;
+        const url = `${REACT_APP_HOST_URL}${CHIT_RECEPT_PENDING_GROUP_LIST}&search=${text}`;
         // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -1100,14 +1100,14 @@ export default function AddChitReceiptPage() {
             <Dialog
                 open={MemberListAlert}
                 fullWidth
-                maxWidth="lg"
+                maxWidth="md"
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description" >
                 <Card>
                     <Stack>
                         <Stack ml={1} mr={1} pb={1} direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
                             <Stack direction='column'>
-                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 1 }}>
                                     Member list
                                 </Typography>
                             </Stack>
@@ -1172,11 +1172,11 @@ export default function AddChitReceiptPage() {
                                 <TableContainer sx={{ overflow: '', mt: 2 }}>
                                     <Table sx={{ minWidth: 600 }} stickyHeader>
                                         <TableRow hover tabIndex={-1}>
-                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group</TableCell>
-                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Tkt No</TableCell>
-                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Name</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
+                                            <TableCell className='with-reduce' sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Id</TableCell>
+                                            <TableCell className='with-reduce' sx={{ background: '#edf4fe', color: '#1877f2', }}>Tkt. No</TableCell>
+                                            <TableCell className='with-reduce' sx={{ background: '#edf4fe', color: '#1877f2', }}>F.Code</TableCell>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Phone</TableCell>
-                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>F.Code</TableCell>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Status</TableCell>
                                         </TableRow>
                                         {MemberListLoading

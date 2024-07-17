@@ -12,7 +12,7 @@ import TableContainer from '@mui/material/TableContainer';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Box, Alert, Stack, Button, Dialog, styled,Divider , Snackbar, IconButton, Typography, DialogTitle, DialogActions, InputAdornment, TablePagination } from '@mui/material';
+import { Box, Grid, Alert, Stack, Button, Dialog, styled, Divider, Snackbar, IconButton, Typography, DialogTitle, DialogActions, InputAdornment, TablePagination, } from '@mui/material';
 
 import { GetHeader, PutHeader, PostHeader, DeleteHeader, } from 'src/hooks/AxiosApiFetch';
 
@@ -64,16 +64,15 @@ export default function AddChitEstimatePage() {
     const [ErrorScreen, setErrorScreen] = useState('');
     const [ScreenRefresh, setScreenRefresh] = useState(0);
     const ImageUrl = JSON.parse(localStorage.getItem('imageUrl'));
-    const [ChitEstimateLoading, setChitEstimateLoading] = useState(false);
+    const [ChitEstimateLoading, setChitEstimateLoading] = useState(true);
     const [ChitEstimateList, setChitEstimateList] = useState([]);
     const [ChitEstimateMemberLoading, setChitEstimateMemberLoading] = useState(false);
     const [ChitEstimateMemberList, setChitEstimateMemberList] = useState([]);
     const [ChitEstimateListAdd, setChitEstimateListAdd] = useState(0);
-    const [ChitEstimateMemberListAdd, setChitEstimateMemberListAdd] = useState(false);
     const [MemberDeleteClick, setMemberDeleteClick] = useState(false);
 
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(15);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
     const [GroupMemberListAlert, setGroupMemberListAlert] = useState(false);
     const [GroupMemberListLoading, setGroupMemberListLoading] = useState(true);
     const [GroupMemberList, setGroupMemberList] = useState([]);
@@ -82,12 +81,11 @@ export default function AddChitEstimatePage() {
     const [filterTicketNo, setfilterTicketNo] = useState('');
     const [SelectGroupMemberList, setSelectGroupMemberList] = useState({
         add: 0,
-        add_data: '',
         remove: 0,
         remove_data: '',
-        member_edit: 'false'
     });
-    const [AuctionDateError, setAuctionDateError] = useState('')
+    const [AuctionDateError, setAuctionDateError] = useState('');
+    const [MemberUpdateLoading, setMemberUpdateLoading] = useState(false);
 
     useEffect(() => {
         console.log(data)
@@ -219,14 +217,12 @@ export default function AddChitEstimatePage() {
                     setChitEstimateMemberList(completeList);
                     setSelectGroupMemberList({
                         add: 0,
-                        add_data: json.list && json.list[0] ? json.list[0] : "",
                         remove: 0,
                         remove_data: '',
-                        member_edit: 'false'
                     });
-                    if(json.list.length === 0){
+                    if (json.list.length === 0) {
                         GetStandingInstructionList(completeList);
-                    }else{
+                    } else {
                         setChitEstimateMemberLoading(false);
                     }
                 } else if (json.success === false) {
@@ -299,10 +295,8 @@ export default function AddChitEstimatePage() {
                         // console.log('Updated list after updating first item:', updatedList);
                         setSelectGroupMemberList({
                             add: 0,
-                            add_data: updatedFirstItem,
                             remove: 0,
                             remove_data: '',
-                            member_edit: 'true'
                         });
                         setChitEstimateMemberList(updatedList);
                     }
@@ -327,7 +321,7 @@ export default function AddChitEstimatePage() {
         setGroupMemberListLoading(true);
         setTotalCount(0);
         setGroupMemberList([]);
-        const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}?groupId=${data?.id ? data.id : ""}&memberName=${membername}&tktNo=${ticketno}&start=${start}&limit=${limit}`;
+        const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}&groupId=${data?.id ? data.id : ""}&memberName=${membername}&tktNo=${ticketno}&start=${start}&limit=${limit}`;
         console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -386,7 +380,6 @@ export default function AddChitEstimatePage() {
                     console.log(JSON.stringify(json));
                     setLoading(false);
                     setScreenRefresh(0);
-                    setChitEstimateMemberListAdd(false);
                     if (json.success) {
                         setAlertMessage(json.message);
                         setAlertFrom("success");
@@ -409,18 +402,18 @@ export default function AddChitEstimatePage() {
         }
     }
 
-    const ChitEstimateMemberAddMethod = () => {
-        setLoading(true);
+    const ChitEstimateMemberAddMethod = (selectedmember) => {
+        setMemberUpdateLoading(true);
         const ChitEstimateMemberListParams = {
             "id": 0,
-            "group_id": ChitEstimateMemberList[SelectGroupMemberList.add].group_id,
-            "install_no": ChitEstimateMemberList[SelectGroupMemberList.add].install_no,
-            "ticket_no": ChitEstimateMemberList[SelectGroupMemberList.add].ticket_no,
-            "member_id": ChitEstimateMemberList[SelectGroupMemberList.add].member_id,
+            "group_id": selectedmember.group_id,
+            "install_no": selectedmember.install_no,
+            "ticket_no": selectedmember.ticket_no,
+            "member_id": selectedmember.member_id,
             "tkt_suffix": "A",
             "tkt_percentage": "100",
-            "is_active": ChitEstimateMemberList[SelectGroupMemberList.add].is_active,
-            "comments": ChitEstimateMemberList[SelectGroupMemberList.add].comments
+            "is_active": selectedmember.is_active,
+            "comments": selectedmember.comments
         };
         const url = `${REACT_APP_HOST_URL}${CHIT_ESTIMATE_MEMBER_SAVE}`;
         console.log(JSON.stringify(ChitEstimateMemberListParams) + url);
@@ -428,9 +421,8 @@ export default function AddChitEstimatePage() {
             .then((response) => response.json())
             .then((json) => {
                 console.log(JSON.stringify(json));
-                setLoading(false);
+                setMemberUpdateLoading(false);
                 setScreenRefresh(0);
-                setChitEstimateMemberListAdd(false);
                 if (json.success) {
                     setAlertMessage(json.message);
                     setAlertFrom("success");
@@ -445,26 +437,25 @@ export default function AddChitEstimatePage() {
                 }
             })
             .catch((error) => {
-                setChitEstimateMemberListAdd(false);
-                setLoading(false);
+                setMemberUpdateLoading(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
                 // console.log(error);
             })
     }
 
-    const ChitEstimateMemberUpdateMethod = (id) => {
-        setLoading(true);
+    const ChitEstimateMemberUpdateMethod = (id, selectedmember) => {
+        setMemberUpdateLoading(true);
         const ChitEstimateMemberListParams = {
             "id": 0,
-            "group_id": ChitEstimateMemberList[SelectGroupMemberList.add].group_id,
-            "install_no": ChitEstimateMemberList[SelectGroupMemberList.add].install_no,
-            "ticket_no": ChitEstimateMemberList[SelectGroupMemberList.add].ticket_no,
-            "member_id": ChitEstimateMemberList[SelectGroupMemberList.add].member_id,
+            "group_id": selectedmember.group_id,
+            "install_no": selectedmember.install_no,
+            "ticket_no": selectedmember.ticket_no,
+            "member_id": selectedmember.member_id,
             "tkt_suffix": "A",
             "tkt_percentage": "100",
-            "is_active": ChitEstimateMemberList[SelectGroupMemberList.add].is_active,
-            "comments": ChitEstimateMemberList[SelectGroupMemberList.add].comments
+            "is_active": selectedmember.is_active,
+            "comments": selectedmember.comments
         };
         const url = `${REACT_APP_HOST_URL}${CHIT_ESTIMATE_UPDATE}${id}`;
         console.log(JSON.stringify(ChitEstimateMemberListParams) + url);
@@ -472,9 +463,8 @@ export default function AddChitEstimatePage() {
             .then((response) => response.json())
             .then((json) => {
                 console.log(JSON.stringify(json));
-                setLoading(false);
+                setMemberUpdateLoading(false);
                 setScreenRefresh(0);
-                setChitEstimateMemberListAdd(false);
                 if (json.success) {
                     setAlertMessage(json.message);
                     setAlertFrom("success");
@@ -489,8 +479,7 @@ export default function AddChitEstimatePage() {
                 }
             })
             .catch((error) => {
-                setLoading(false);
-                setChitEstimateMemberListAdd(false);
+                setMemberUpdateLoading(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
                 // console.log(error);
@@ -631,28 +620,18 @@ export default function AddChitEstimatePage() {
             IsValidate = false;
         }
         const AuctionDateRequired = checkAuctionDate();
-        if(AuctionDateRequired !== ""){
+        if (AuctionDateRequired !== "") {
             IsValidate = false;
             // console.log("AuctionDateRequired", AuctionDateRequired)
             setAuctionDateError(AuctionDateRequired);
-        }else{
+        } else {
             // console.log("AuctionDateRequired111", AuctionDateRequired)
             setAuctionDateError('');
         }
         console.log("ChitEstimateListAdd_submit", ChitEstimateListAdd)
-        if (ChitEstimateList.length > 0 && ChitEstimateListAdd !== 0){
+        if (ChitEstimateList.length > 0 && ChitEstimateListAdd !== 0) {
             console.log("ChitEstimateList_submit", ChitEstimateList)
             ChitEstimateAddMethod(IsValidate);
-        }
-        if (SelectGroupMemberList.member_edit === 'true') {
-            if (ChitEstimateMemberList.length > 0) {
-                console.log("SelectGroupMemberList_submit", SelectGroupMemberList)
-                if (typeof SelectGroupMemberList.add_data.id === 'string' && SelectGroupMemberList.add_data.id.includes('id_')) {
-                    ChitEstimateMemberAddMethod();
-                } else {
-                    ChitEstimateMemberUpdateMethod(SelectGroupMemberList.add_data.id);
-                }
-            }
         }
     };
 
@@ -820,13 +799,9 @@ export default function AddChitEstimatePage() {
         // console.log(from);
         setChitEstimateMemberList(prevState =>
             prevState.map(prev => {
-                setSelectGroupMemberList(prevs => ({
-                    ...prevs,
-                    member_edit: 'true'
-                }));
-                if(text.trim() !== ""){
+                if (text.trim() !== "") {
                     setScreenRefresh(pre => pre + 1);
-                }else{
+                } else {
                     setScreenRefresh(0);
                 }
                 if (prev === item) {
@@ -855,26 +830,26 @@ export default function AddChitEstimatePage() {
     };
 
     const HandleChitEstimateMemberAddClick = (item, index) => {
-        setChitEstimateMemberListAdd(true);
-        if(ChitEstimateMemberListAdd){
-            setAlertMessage("please save the already selected Member");
-            setAlertFrom("save_alert");
-            HandleAlertShow();
-        }else{
-            setSelectGroupMemberList({
-                add: index,
-                add_data: item,
-                remove: 0,
-                remove_data: '',
-                member_edit: 'true'
-            });
-            setGroupMemberListAlert(true);
+        setSelectGroupMemberList({
+            add: index,
+            remove: 0,
+            remove_data: '',
+        });
+        setGroupMemberListAlert(true);
+    }
+
+    const HandleChitEstimateParticularUpdate = (item, index) => {
+        console.log(item)
+        if (typeof item.id === 'string' && item.id.includes('id_')) {
+            console.log(item)
+        } else {
+            ChitEstimateMemberUpdateMethod(item.id, item);
         }
+
     }
 
     const HandleChitEstimateMemberDeleteClick = (item) => {
         setMemberDeleteClick(false);
-        setChitEstimateMemberListAdd(false);
         const updatedFirstItem = {
             ...ChitEstimateMemberList[SelectGroupMemberList.remove],
             member_id: "",
@@ -891,9 +866,9 @@ export default function AddChitEstimatePage() {
         ];
         // console.log(updatedList);
         setChitEstimateMemberList(updatedList);
-        if (typeof SelectGroupMemberList.remove_data.id === 'string' && SelectGroupMemberList.remove_data.id.includes('id_')){
+        if (typeof SelectGroupMemberList.remove_data.id === 'string' && SelectGroupMemberList.remove_data.id.includes('id_')) {
             // console.log(SelectGroupMemberList.remove_data.id);
-        }else{
+        } else {
             ChitEstimateMemberDeleteMethod(SelectGroupMemberList.remove_data.id)
         }
     }
@@ -921,11 +896,10 @@ export default function AddChitEstimatePage() {
         const checkTktnoExists = tktno => ChitEstimateMemberList.some(items => String(items.ticket_no) === tktno);
         // console.log(checkIdExists(item.memberId), " -- ", checkTktnoExists(item.tktno));
         if (checkIdExists(item.memberId) && checkTktnoExists(item.tktno)) {
-            setChitEstimateMemberListAdd(false);
             setAlertMessage("Already this member is added");
             setAlertFrom("save_alert");
             HandleAlertShow();
-        }else{
+        } else {
             const updatedFirstItem = {
                 ...ChitEstimateMemberList[SelectGroupMemberList.add],
                 member_id: item.memberId,
@@ -935,17 +909,8 @@ export default function AddChitEstimatePage() {
                 accno: item.memberId,
                 action: "delete"
             };
-            const updatedList = [
-                ...ChitEstimateMemberList.slice(0, SelectGroupMemberList.add),
-                updatedFirstItem,
-                ...ChitEstimateMemberList.slice(SelectGroupMemberList.add + 1)
-            ];
-            console.log(updatedList);
-            setChitEstimateMemberList(updatedList);
-            setSelectGroupMemberList(prevs => ({
-                ...prevs,
-                member_edit: 'true'
-            }));
+
+            ChitEstimateMemberAddMethod(updatedFirstItem);
             setGroupMemberListAlert(false);
         }
     };
@@ -964,11 +929,6 @@ export default function AddChitEstimatePage() {
     const HandleGroupMemberListAlertClose = () => {
         setGroupMemberListAlert(false);
         setScreenRefresh(0);
-        setChitEstimateMemberListAdd(false);
-        setSelectGroupMemberList(prevs => ({
-            ...prevs,
-            member_edit: 'false'
-        }));
     };
 
     const HandleFilterMemberName = (event) => {
@@ -1048,9 +1008,10 @@ export default function AddChitEstimatePage() {
                     Back
                 </Button>
             </Stack>
-            <Card>
+            <Card className='parent-div'>
+
                 <Box component="form"
-                    sx={{ '& .MuiTextField-root': { } }} noValidate autoComplete="off">
+                    sx={{ '& .MuiTextField-root': {} }} noValidate autoComplete="off">
                     {ChitEstimateLoading || ChitEstimateMemberLoading
                         ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
                             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
@@ -1071,7 +1032,7 @@ export default function AddChitEstimatePage() {
                                                 onChange={(e) => ChitEstimateTextValidate(e, "GroupNo")}
                                                 sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} />
                                         </Stack>
-                                        <div  className='error_txt'>{GroupNo.error}</div>
+                                        <div className='error_txt'>{GroupNo.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='estimate-grp'>
@@ -1143,288 +1104,374 @@ export default function AddChitEstimatePage() {
                                     </Stack>
                                 </div>
                             </Stack>
-                            <Scrollbar className="table-one">
-                                <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
-                                    <Stack sx={{ paddingLeft: 3, paddingRight: 3 }}>
-                                        <Table sx={{ minWidth: 450 }} className='tab-wid'>
-                                            <TableRow hover tabIndex={-1}>
-                                                <TableCell sx={{ background: '#edf4fe', color: '#1877f2', width: '8%' }}>Inst.No</TableCell>
-                                                <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Auc.Date</TableCell>
-                                                <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Due.Amt</TableCell>
-                                                <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Less.Amt</TableCell>
-                                                <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>FM.com.Amt</TableCell>
-                                                <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>GST</TableCell>
-                                                <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Payment</TableCell>
-                                            </TableRow>
-                                            <TableBody>
-                                                {ChitEstimateList
-                                                    .map((row, index) => (
-                                                        <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }}>
-                                                            <TableCell className='no' style={{ width: '30px' }}>{row.Instno}</TableCell>
-                                                            <TableCell sx={{ width: '13%' }}>
-                                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                                    <DatePicker
-                                                                        id="filled-hidden-label-normal"
-                                                                        value={row.auctiondate != null ? dayjs(row.auctiondate) : null}
-                                                                        onChange={(e) => HandleDateChange(e, "auctiondate", row)}
-                                                                        format="DD-MM-YYYY"
-                                                                        renderInput={(params) => (
-                                                                            <CustomTextField
-                                                                                {...params}
-                                                                                variant="filled"
-                                                                                sx={{ width: '100%', height: '20px', }} />
-                                                                        )}
-                                                                        sx={{ '& .MuiInputBase-input': { padding: '5px', fontSize: '14px', }, }} />
-                                                                </LocalizationProvider>
-                                                            </TableCell>
-                                                            <TableCell sx={{ ml: -2, width: '13%' }}>
-                                                                <TextField
-                                                                    error={(row.dueamount_error && row.dueamount_error !== "")}
-                                                                    id="filled-hidden-label-normal"
-                                                                    variant="filled"
-                                                                    className='input-box'
-                                                                    value={row.dueamount}
-                                                                    onChange={(e) => ChitEstimateListTextValidate(e, row, index, "dueamount")}
-                                                                    sx={{ backgroundColor: 'transparent',
-                                                                        '& .MuiFilledInput-root': {
-                                                                            backgroundColor: 'transparent',
-                                                                            '&:hover': { backgroundColor: 'transparent', },
-                                                                            '&.Mui-focused': { backgroundColor: 'transparent', },
-                                                                            '&.Mui-disabled': { backgroundColor: 'transparent', },
-                                                                        },
-                                                                        '& .Mui-disabled': { '-webkit-text-fill-color': 'currentColor', },
-                                                                        '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', },
-                                                                        '& .MuiInputAdornment-root': { padding: '8px', }
-                                                                    }} />
-                                                            </TableCell>
-                                                            <TableCell sx={{ width: '14%' }}>
-                                                                <TextField
-                                                                    className='input-box'
-                                                                    id="filled-hidden-label-normal"
-                                                                    variant="filled"
-                                                                    error={(row.less_amount_error && row.less_amount_error !== "")}
-                                                                    value={row.less_amount}
-                                                                    onChange={(e) => ChitEstimateListTextValidate(e, row, index, "less_amount")}
-                                                                    sx={{ backgroundColor: 'transparent',
-                                                                        '& .MuiFilledInput-root': {
-                                                                            backgroundColor: 'transparent',
-                                                                            '&:hover': { backgroundColor: 'transparent', },
-                                                                            '&.Mui-focused': { backgroundColor: 'transparent', },
-                                                                            '&.Mui-disabled': { backgroundColor: 'transparent', },
-                                                                        },
-                                                                        '& .Mui-disabled': { '-webkit-text-fill-color': 'currentColor', },
-                                                                        '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', },
-                                                                        '& .MuiInputAdornment-root': { padding: '8px', }
-                                                                    }} />
-                                                            </TableCell>
-                                                            <TableCell sx={{ width: '15%' }}>
-                                                                <TextField
-                                                                    error={(row.fm_commission_error && row.fm_commission_error !== "")}
-                                                                    className='input-box'
-                                                                    id="filled-hidden-label-normal"
-                                                                    variant="filled"
-                                                                    value={row.fm_commission}
-                                                                    onChange={(e) => ChitEstimateListTextValidate(e, row, index, "fm_commission")}
-                                                                    sx={{ backgroundColor: 'transparent',
-                                                                        '& .MuiFilledInput-root': {
-                                                                            backgroundColor: 'transparent',
-                                                                            '&:hover': { backgroundColor: 'transparent', },
-                                                                            '&.Mui-focused': { backgroundColor: 'transparent', },
-                                                                            '&.Mui-disabled': { backgroundColor: 'transparent', },
-                                                                        },
-                                                                        '& .Mui-disabled': { '-webkit-text-fill-color': 'currentColor', },
-                                                                        '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', },
-                                                                        '& .MuiInputAdornment-root': { padding: '8px', }
-                                                                    }} />
-                                                            </TableCell>
-                                                            <TableCell sx={{ width: '15%' }}>
-                                                                <TextField
-                                                                    className='input-box'
-                                                                    id="filled-hidden-label-normal"
-                                                                    variant="filled"
-                                                                    disabled
-                                                                    value={row.gst_value != null && row.gst_value !== "" ? Math.round(row.gst_value) : ""}
-                                                                    onChange={(e) => ChitEstimateListTextValidate(e, row, index, "gst_value")}
-                                                                    sx={{ backgroundColor: 'transparent',
-                                                                        '& .MuiFilledInput-root': {
-                                                                            backgroundColor: 'transparent',
-                                                                            '&:hover': { backgroundColor: 'transparent', },
-                                                                            '&.Mui-focused': { backgroundColor: 'transparent', },
-                                                                            '&.Mui-disabled': { backgroundColor: 'transparent', },
-                                                                        },
-                                                                        '& .Mui-disabled': { '-webkit-text-fill-color': 'currentColor', },
-                                                                        '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', },
-                                                                        '& .MuiInputAdornment-root': { padding: '8px', }
-                                                                    }} />
-                                                            </TableCell>
-                                                            <TableCell sx={{ width: '15%' }}>
-                                                                <TextField
-                                                                    className='input-box'
-                                                                    id="filled-hidden-label-normal"
-                                                                    variant="filled"
-                                                                    value={row.payment}
-                                                                    disabled
-                                                                    onChange={(e) => ChitEstimateListTextValidate(e, row, index, "payment")}
-                                                                    sx={{ backgroundColor: 'transparent',
-                                                                        '& .MuiFilledInput-root': {
-                                                                            backgroundColor: 'transparent',
-                                                                            '&:hover': { backgroundColor: 'transparent', },
-                                                                            '&.Mui-focused': { backgroundColor: 'transparent', },
-                                                                            '&.Mui-disabled': { backgroundColor: 'transparent', },
-                                                                        },
-                                                                        '& .Mui-disabled': { '-webkit-text-fill-color': 'currentColor', },
-                                                                        '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', },
-                                                                        '& .MuiInputAdornment-root': { padding: '8px', }
-                                                                    }} />
-                                                            </TableCell>
-                                                        </TableRow> ))}
-                                                <div style={{ marginTop: "15px" }} />
-                                                <div className='error_txt'>{AuctionDateError}</div>
-                                                <TableEmptyRows
-                                                    height={77}
-                                                    emptyRows={emptyRows(0, 15, ChitEstimateList.length)} />
-                                                {ChitEstimateList.length === 0 && <TableNoData query="" />}
-                                            </TableBody>
-                                        </Table>
-                                    </Stack>
-                                </TableContainer>
-                            </Scrollbar>
-                            <Scrollbar className="table-one">
-                                <TableContainer sx={{ overflow: 'unset' }}>
-                                    <Stack sx={{ paddingLeft: 3, paddingRight: 3 }}>
-                                        <Table sx={{ minWidth: 450, mt: 5 }}>
-                                            <TableRow hover tabIndex={-1}>
-                                                <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Inst.No</TableCell>
-                                                <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Tkt.No</TableCell>
-                                                <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Image</TableCell>
-                                                <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Name</TableCell>
-                                                <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Acc No</TableCell>
-                                                <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Particulars</TableCell>
-                                                <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Action</TableCell>
-                                            </TableRow>
-                                            <TableBody>
-                                                {ChitEstimateMemberList
-                                                    .map((row, index) => (
-                                                        <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }}>
-                                                            <TableCell>{row.install_no}</TableCell>
-                                                            <TableCell>{row.ticket_no}</TableCell>
-                                                            <TableCell>
-                                                                {row.memberProfile !== "" && row.memberProfile !== null && row.memberProfile !== undefined
-                                                                    ? <div>
-                                                                        <img src={`${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${row.memberProfile}`} alt="Loading" style={{ width: 40, height: 40, }} />
-                                                                    </div>
-                                                                    : <div>
-                                                                        <img src="/assets/images/img/placeholder.png" alt="Loading" style={{ width: 35, height: 35, }} />
-                                                                    </div>}
-                                                            </TableCell>
-                                                            <TableCell>
-                                                                <TextField
-                                                                    className='input-box'
-                                                                    id="filled-hidden-label-normal"
-                                                                    variant="filled"
-                                                                    disabled
-                                                                    value={row.memberName}
-                                                                    onChange={(e) => ChitEstimateMemberListTextValidate(e, row, "memberName")}
-                                                                    sx={{ backgroundColor: 'transparent',
-                                                                        '& .MuiFilledInput-root': {
-                                                                            backgroundColor: 'transparent',
-                                                                            '&:hover': { backgroundColor: 'transparent', },
-                                                                            '&.Mui-focused': { backgroundColor: 'transparent', },
-                                                                            '&.Mui-disabled': { backgroundColor: 'transparent', },
-                                                                        },
-                                                                        '& .Mui-disabled': { '-webkit-text-fill-color': 'currentColor', },
-                                                                        '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', },
-                                                                        '& .MuiInputAdornment-root': { padding: '8px', }
-                                                                    }} />
-                                                            </TableCell>
-                                                            <TableCell >
-                                                                <TextField
-                                                                    className='input-box ac-cell'
-                                                                    id="filled-hidden-label-normal"
-                                                                    variant="filled"
-                                                                    disabled
-                                                                    value={String(row.id).startsWith('id_') ? row.accno : row.id}
-                                                                    onChange={(e) => ChitEstimateMemberListTextValidate(e, row, "accno")}
-                                                                    sx={{ backgroundColor: 'transparent',
-                                                                        '& .MuiFilledInput-root': {
-                                                                            backgroundColor: 'transparent',
-                                                                            '&:hover': { backgroundColor: 'transparent', },
-                                                                            '&.Mui-focused': { backgroundColor: 'transparent', },
-                                                                            '&.Mui-disabled': { backgroundColor: 'transparent', },
-                                                                        },
-                                                                        '& .Mui-disabled': { '-webkit-text-fill-color': 'currentColor', },
-                                                                        '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', },
-                                                                        '& .MuiInputAdornment-root': { padding: '8px', }
-                                                                    }} />
-                                                            </TableCell>
-                                                            <TableCell>
-                                                                <TextField
-                                                                    className='input-box'
-                                                                    id="filled-hidden-label-normal"
-                                                                    variant="filled"
-                                                                    value={row.comments}
-                                                                    onChange={(e) => ChitEstimateMemberListTextValidate(e, row, "comments")}
-                                                                    sx={{ backgroundColor: 'transparent',
-                                                                        '& .MuiFilledInput-root': {
-                                                                            backgroundColor: 'transparent',
-                                                                            '&:hover': { backgroundColor: 'transparent', },
-                                                                            '&.Mui-focused': { backgroundColor: 'transparent', },
-                                                                        },
-                                                                        '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', },
-                                                                        '& .MuiInputAdornment-root': { padding: '8px', },
-                                                                    }} />
-                                                            </TableCell>
-                                                            <TableCell>
-                                                                {row.action === "add"
-                                                                    ? <IconButton onClick={() => HandleChitEstimateMemberAddClick(row, index)} sx={{ cursor: 'pointer' }}>
-                                                                        <Iconify icon="icon-park-solid:add-one" />
-                                                                    </IconButton>
-                                                                    : (row.install_no !== 1 && <IconButton onClick={() => {
-                                                                        setMemberDeleteClick(true); setSelectGroupMemberList({
-                                                                            add: 0,
-                                                                            add_data: '',
-                                                                            remove: index,
-                                                                            remove_data: row,
-                                                                            member_edit: 'false'
-                                                                    });}} sx={{ cursor: 'pointer' }}>
-                                                                    <Iconify icon="streamline:delete-1-solid"  sx={{ width:11,height:11}}/>
-                                                                    </IconButton>)}
-                                                            </TableCell>
-                                                        </TableRow>
-                                                    ))}
-                                                <TableEmptyRows
-                                                    height={77}
-                                                    emptyRows={emptyRows(0, 15, ChitEstimateMemberList.length)}
-                                                />
-                                                {ChitEstimateMemberList.length === 0 && <TableNoData query="" />}
-                                            </TableBody>
-                                        </Table>
-                                    </Stack>
-                                </TableContainer>
-                            </Scrollbar>
-                            <Stack direction='column' alignItems='flex-end'>
-                                <Button sx={{ mr: 3, mt: 2, mb: 3,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
-                                    {Loading
-                                        ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
-                                        : ("Submit")}
-                                </Button>
-                            </Stack>
                         </Stack>}
                 </Box>
+
+                <Grid container spacing={1}  className='grid-container'>
+                    <Grid item xs={12} md={6} className='box-one' >
+                        <Scrollbar className="table-one tab-1" >
+                            <Stack>
+                                <TableContainer>
+                                    <Table className='tab-wid' >
+                                        <TableRow hover tabIndex={-1}>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Inst.No</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Auc.Date</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Due.Amt</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Less.Amt</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>FM.com.Amt</TableCell>
+                                            <TableCell className='heading_width' sx={{ background: '#edf4fe', color: '#1877f2', }}
+                                            >GST</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Payment</TableCell>
+                                        </TableRow>
+                                        <TableBody className='tab-body'>
+                                            {ChitEstimateList
+                                                .map((row, index) => (
+                                                    <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }}>
+                                                        <TableCell className='no' > {row.Instno}
+                                                        </TableCell>
+                                                        <TableCell
+                                                            className='date-column'> <LocalizationProvider dateAdapter={AdapterDayjs} >
+                                                                <DatePicker
+                                                                    id="filled-hidden-label-normal"
+                                                                    value={row.auctiondate != null ? dayjs(row.auctiondate) : null}
+                                                                    onChange={(e) => HandleDateChange(e, "auctiondate", row)}
+                                                                    format="DD-MM-YYYY"
+                                                                    renderInput={(params) => (
+                                                                        <CustomTextField
+                                                                            {...params}
+                                                                            variant="filled" />
+
+                                                                    )}
+                                                                    sx={{
+                                                                        '& .MuiInputBase-input': {
+                                                                            padding: '2px', fontSize: '12px',
+
+                                                                        },
+                                                                        '& .MuiOutlinedInput-root': {
+                                                                            paddingRight: '2px',
+                                                                        },
+                                                                        '& .MuiOutlinedInput-input': {
+                                                                            width: '68px'
+                                                                        },
+                                                                        '& .MuiInputAdornment-root': { padding: '2px', },
+                                                                        '& .MuiButtonBase-root': { padding: '2px', width: '28px' },
+                                                                        '& .MuiSvgIcon-root': {
+                                                                            fontSize: '18px',
+                                                                            paddingRight: '4px',
+                                                                            alignContent: 'center'
+                                                                        }
+                                                                    }} />
+                                                            </LocalizationProvider>
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <TextField
+                                                                error={(row.dueamount_error && row.dueamount_error !== "")}
+                                                                id="filled-hidden-label-normal"
+                                                                variant="filled"
+                                                                className='input-box'
+                                                                value={row.dueamount}
+                                                                onChange={(e) => ChitEstimateListTextValidate(e, row, index, "dueamount")}
+                                                                sx={{
+                                                                    backgroundColor: 'transparent',
+                                                                    '& .MuiFilledInput-root': {
+                                                                        backgroundColor: 'transparent',
+                                                                        '&:hover': { backgroundColor: 'transparent', },
+                                                                        '&.Mui-focused': { backgroundColor: 'transparent', },
+                                                                        '&.Mui-disabled': { backgroundColor: 'transparent', },
+                                                                    },
+                                                                    '& .Mui-disabled': { '-webkit-text-fill-color': 'currentColor', },
+                                                                    '& .MuiInputBase-input': { padding: '2px', fontSize: '12px', },
+                                                                    '& .MuiInputAdornment-root': { padding: '1px', }
+                                                                }}
+                                                            />
+                                                        </TableCell>
+                                                        <TableCell
+                                                        //  sx={{ width: '14%' }}
+                                                        >
+                                                            <TextField
+                                                                className='input-box'
+                                                                id="filled-hidden-label-normal"
+                                                                variant="filled"
+                                                                error={(row.less_amount_error && row.less_amount_error !== "")}
+                                                                value={row.less_amount}
+                                                                onChange={(e) => ChitEstimateListTextValidate(e, row, index, "less_amount")}
+                                                                sx={{
+                                                                    backgroundColor: 'transparent',
+                                                                    '& .MuiFilledInput-root': {
+                                                                        backgroundColor: 'transparent',
+                                                                        '&:hover': { backgroundColor: 'transparent', },
+                                                                        '&.Mui-focused': { backgroundColor: 'transparent', },
+                                                                        '&.Mui-disabled': { backgroundColor: 'transparent', },
+                                                                    },
+                                                                    '& .Mui-disabled': { '-webkit-text-fill-color': 'currentColor', },
+                                                                    '& .MuiInputBase-input': { padding: '2px', fontSize: '12px', },
+                                                                    '& .MuiInputAdornment-root': { padding: '2px', }
+                                                                }} />
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <TextField
+                                                                error={(row.fm_commission_error && row.fm_commission_error !== "")}
+                                                                className='input-box'
+                                                                id="filled-hidden-label-normal"
+                                                                variant="filled"
+                                                                value={row.fm_commission}
+                                                                onChange={(e) => ChitEstimateListTextValidate(e, row, index, "fm_commission")}
+                                                                sx={{
+                                                                    backgroundColor: 'transparent',
+                                                                    '& .MuiFilledInput-root': {
+                                                                        backgroundColor: 'transparent',
+                                                                        '&:hover': { backgroundColor: 'transparent', },
+                                                                        '&.Mui-focused': { backgroundColor: 'transparent', },
+                                                                        '&.Mui-disabled': { backgroundColor: 'transparent', },
+                                                                    },
+                                                                    '& .Mui-disabled': { '-webkit-text-fill-color': 'currentColor', },
+                                                                    '& .MuiInputBase-input': { padding: '2px', fontSize: '12px', },
+                                                                    '& .MuiInputAdornment-root': { padding: '2px', }
+                                                                }} />
+                                                        </TableCell>
+                                                        <TableCell className='cell_width'>
+                                                            <TextField
+                                                                className='input-box3'
+                                                                id="filled-hidden-label-normal"
+                                                                variant="filled"
+                                                                disabled
+                                                                value={row.gst_value != null && row.gst_value !== "" ? Math.round(row.gst_value) : ""}
+                                                                onChange={(e) => ChitEstimateListTextValidate(e, row, index, "gst_value")}
+                                                                sx={{
+
+                                                                    backgroundColor: 'transparent',
+
+                                                                    '& .MuiFilledInput-root': {
+                                                                        backgroundColor: 'transparent',
+                                                                        '&:hover': { backgroundColor: 'transparent', },
+                                                                        '&.Mui-focused': { backgroundColor: 'transparent', },
+                                                                        '&.Mui-disabled': { backgroundColor: 'transparent', },
+                                                                        // width:'50px'
+                                                                    },
+
+                                                                    '& .Mui-disabled': { '-webkit-text-fill-color': 'currentColor', },
+                                                                    '& .MuiInputBase-input': { padding: '2px', fontSize: '12px', },
+                                                                    '& .MuiInputAdornment-root': { padding: '2px', },
+
+
+                                                                }} />
+                                                        </TableCell>
+                                                        <TableCell >                                                                                 
+                                                            <TextField
+                                                                className='input-box'
+                                                                id="filled-hidden-label-normal"
+                                                                variant="filled"
+                                                                value={row.payment}
+                                                                disabled
+                                                                onChange={(e) => ChitEstimateListTextValidate(e, row, index, "payment")}
+                                                                sx={{
+                                                                    backgroundColor: 'transparent',
+                                                                    '& .MuiFilledInput-root': {
+                                                                        backgroundColor: 'transparent',
+                                                                        '&:hover': { backgroundColor: 'transparent', },
+                                                                        '&.Mui-focused': { backgroundColor: 'transparent', },
+                                                                        '&.Mui-disabled': { backgroundColor: 'transparent', },
+                                                                    },
+                                                                    '& .Mui-disabled': { '-webkit-text-fill-color': 'currentColor', },
+                                                                    '& .MuiInputBase-input': { padding: '2px', fontSize: '12px', },
+                                                                    '& .MuiInputAdornment-root': { padding: '2px', }
+                                                                }} />
+                                                        </TableCell>
+                                                    </TableRow>))}
+                                            <TableEmptyRows
+                                                height={77}
+                                                emptyRows={emptyRows(0, 15, ChitEstimateList.length)} />
+                                            {ChitEstimateList.length === 0 && <TableNoData query="" />}
+                                        </TableBody>
+                                        {/* <div
+                                            style={{ marginTop: "16px" }} /> */}
+                                    </Table>
+                                </TableContainer>
+                            </Stack>
+                        </Scrollbar>
+                        <div className='error_txt date_error' fontSize={12}>
+                            {AuctionDateError}</div>
+
+                    </Grid>
+                    <Grid item xs={12} md={6} className='box-one'>
+                        <Scrollbar className="table-one table-two">
+                            <TableContainer >
+                                <Stack >
+                                    <Table >
+                                        <TableRow hover tabIndex={-1}>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} >Inst.No</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Tkt.No</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Image</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Name</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Acc No</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Particulars</TableCell>
+                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Action</TableCell>
+                                        </TableRow>
+                                        <TableBody>
+                                            {ChitEstimateMemberList
+                                                .map((row, index) => (
+                                                    <TableRow className='row-height'
+
+                                                        hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }}>
+                                                        <TableCell className='no '>{row.install_no}</TableCell>
+                                                        <TableCell className='no1'>{row.ticket_no}</TableCell>
+                                                        <TableCell>
+                                                            {row.memberProfile !== "" && row.memberProfile !== null && row.memberProfile !== undefined
+                                                                ? <div>
+                                                                    <img src={`${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${row.memberProfile}`} alt="Loading" style={{ width: 33, height: 33, }} />
+                                                                </div>
+                                                                : <div>
+                                                                    <img src="/assets/images/img/placeholder.png" alt="Loading" style={{ width: 33, height: 33, }} />
+                                                                </div>}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <TextField
+                                                                className='input-box4'
+                                                                id="filled-hidden-label-normal"
+                                                                variant="filled"
+                                                                disabled
+                                                                value={row.memberName}
+                                                                onChange={(e) => ChitEstimateMemberListTextValidate(e, row, "memberName")}
+                                                                sx={{
+                                                                    backgroundColor: 'transparent',
+                                                                    '& .MuiFilledInput-root': {
+                                                                        backgroundColor: 'transparent',
+                                                                        '&:hover': { backgroundColor: 'transparent', },
+                                                                        '&.Mui-focused': { backgroundColor: 'transparent', },
+                                                                        '&.Mui-disabled': { backgroundColor: 'transparent', },
+                                                                    },
+                                                                    '& .Mui-disabled': { '-webkit-text-fill-color': 'currentColor', },
+                                                                    '& .MuiInputBase-input': { padding: '2px', fontSize: '12px', },
+                                                                    '& .MuiInputAdornment-root': { padding: '2px', }
+                                                                }} />
+                                                        </TableCell>
+                                                        <TableCell className='accno-width'>
+                                                            <TextField
+                                                                className='input-box acc-width'
+                                                                id="filled-hidden-label-normal"
+                                                                variant="filled"
+                                                                disabled
+                                                                value={String(row.id).startsWith('id_') ? row.accno : row.id}
+                                                                onChange={(e) => ChitEstimateMemberListTextValidate(e, row, "accno")}
+                                                                sx={{
+
+                                                                    backgroundColor: 'transparent',
+                                                                    '& .MuiFilledInput-root': {
+                                                                        backgroundColor: 'transparent',
+                                                                        '&:hover': { backgroundColor: 'transparent', },
+                                                                        '&.Mui-focused': { backgroundColor: 'transparent', },
+                                                                        '&.Mui-disabled': { backgroundColor: 'transparent', },
+
+                                                                    },
+                                                                    '& .Mui-disabled': { '-webkit-text-fill-color': 'currentColor', },
+                                                                    '& .MuiInputBase-input': {
+                                                                        padding: '2px', fontSize: '12px',
+
+                                                                    },
+                                                                    '& .MuiInputAdornment-root': { padding: '2px', }
+                                                                }} />
+                                                        </TableCell>
+                                                        <TableCell >
+                                                            <Grid container>
+                                                                <Grid item xs={10} >
+                                                                    <TextField
+                                                                        className='input-box4 particular-text'
+                                                                        id="filled-hidden-label-normal"
+                                                                        variant="filled"
+                                                                        value={row.comments}
+                                                                        onChange={(e) => ChitEstimateMemberListTextValidate(e, row, "comments")}
+
+                                                                        sx={{
+                                                                            backgroundColor: 'transparent',
+                                                                            '& .MuiFilledInput-root': {
+                                                                                backgroundColor: 'transparent',
+                                                                                '&:hover': { backgroundColor: 'transparent', },
+                                                                                '&.Mui-focused': { backgroundColor: 'transparent', },
+                                                                                paddingInlineEnd: '2px',
+                                                                            },
+                                                                            '& .MuiInputBase-input': { padding: '2px', fontSize: '12px', },
+                                                                            '& .MuiInputAdornment-root': { padding: '2px', },
+                                                                        }} />
+
+                                                                </Grid>
+                                                                <Grid item xs={2} >
+                                                                    <IconButton
+
+                                                                        onClick={() => HandleChitEstimateParticularUpdate(row, index)} sx={{
+                                                                            cursor: 'pointer',
+                                                                            py: '2px', px: '1px'
+                                                                        }}>
+                                                                        <Iconify icon="charm:tick" style={{ color: "#05e147", width: 15, height: 18, }} className='icon-width' />
+                                                                    </IconButton></Grid>
+
+                                                            </Grid>
+
+
+                                                        </TableCell>
+                                                        <TableCell >
+
+                                                            {row.action === "add"
+                                                                ? <IconButton
+                                                                    className='icon-button'
+                                                                    onClick={() => HandleChitEstimateMemberAddClick(row, index)} sx={{
+                                                                        cursor: 'pointer',
+
+                                                                    }} InputProps={{ padding: '2px' }}>
+                                                                    <Iconify padding='2px'
+                                                                        icon="icon-park-solid:add-one" />
+                                                                </IconButton>
+                                                                : (row.install_no !== 1 && <IconButton onClick={() => {
+                                                                    setMemberDeleteClick(true); setSelectGroupMemberList({
+                                                                        add: 0,
+                                                                        remove: index,
+                                                                        remove_data: row,
+                                                                    });
+                                                                }} sx={{ cursor: 'pointer' }}>
+                                                                    <Iconify icon="streamline:delete-1-solid" sx={{ width: 11, height: 11 }} />
+                                                                </IconButton>)}
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            <TableEmptyRows
+                                                height={77}
+                                                emptyRows={emptyRows(0, 15, ChitEstimateMemberList.length)}
+                                            />
+                                            {ChitEstimateMemberList.length === 0 && <TableNoData query="" />}
+                                        </TableBody>
+                                    </Table>
+                                </Stack>
+                            </TableContainer>
+                        </Scrollbar>
+
+
+                    </Grid>
+                </Grid>
+
+                <Stack direction='column' className='sub-button' >
+                    <Button variant="contained" className='custom-button  submit-button ' onClick={Loading ? null : HandleSubmitClick}>
+                        {Loading
+                            ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
+                            : ("Submit")}
+                    </Button>
+                </Stack>
+
+
             </Card>
             <Dialog
                 open={GroupMemberListAlert}
-                fullWidth
-                maxWidth='sm'
+                // fullWidth
+                maxWidth='md'
                 sx={{ display: 'flex', justifyContent: 'center', flex: 1, }}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description" >
-                <Card sx={{ maxWidth: '900px' }}>
+                <Card 
+                // sx={{ maxWidth: '900px' }}
+                >
                     <Stack>
-                     <Stack ml={1} mr={1} pb={1}direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
+                        <Stack ml={1} mr={1} pb={1} direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
                             <Stack direction='column'>
-                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
-                                  Group Member List
+                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 1 }} stick>
+                                    Group Member List
                                 </Typography>
                             </Stack>
                             <IconButton
@@ -1434,8 +1481,8 @@ export default function AddChitEstimatePage() {
                                 <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 14, height: 14 }} />
                             </IconButton>
                         </Stack>
-                        <Divider sx={{ mt: 1, mb:1}}/>
-                       
+                        <Divider sx={{ mt: 1, mb: 1 }}  />
+
                         <Stack mt={1} ml={2} mr={1} direction="row" alignItems="center" gap='10px'>
                             <TextField
                                 placeholder="Member Name..."
@@ -1446,20 +1493,20 @@ export default function AddChitEstimatePage() {
                                         <InputAdornment position="start">
                                             <Iconify
                                                 icon="eva:search-fill"
-                                                sx={{ ml: 1, mt: 1, mb: 1, width: 20, height: 20, color: 'text.disabled' }}
+                                                sx={{ ml: 1, mt: 1, mb: 1, width: 16, height: 20, color: 'text.disabled' }}
                                             />
                                         </InputAdornment>
                                     ),
                                 }}
                                 sx={{
                                     '& .MuiInputBase-input': {
-                                      padding: '8px',
-                                      fontSize:'14px' 
+                                        padding: '8px',
+                                        fontSize: '14px'
                                     },
                                     '& .MuiInputAdornment-root': {
-                                      padding: '8px', 
+                                        padding: '8px',
                                     },
-                                  }}
+                                }}
                             />
                             <TextField
                                 placeholder="Ticket No..."
@@ -1470,25 +1517,26 @@ export default function AddChitEstimatePage() {
                                         <InputAdornment position="start">
                                             <Iconify
                                                 icon="eva:search-fill"
-                                                sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
+                                                sx={{ ml: 1, width: 16, height: 20, color: 'text.disabled' }}
                                             />
                                         </InputAdornment>
                                     ),
                                 }}
-                                sx={{ ml: 0,
+                                sx={{
+                                    ml: 0,
                                     '& .MuiInputBase-input': {
-                                      padding: '8px',
-                                      fontSize:'14px' 
+                                        padding: '8px',
+                                        fontSize: '14px'
                                     },
                                     '& .MuiInputAdornment-root': {
-                                      padding: '8px', 
+                                        padding: '8px',
                                     },
-                                  }}
-                                  />
-                          
+                                }}
+                            />
+
                         </Stack>
                         <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 0.5 }}>
-                            <Scrollbar style={{ maxHeight: '70vh'}}>
+                            <Scrollbar style={{ maxHeight: '70vh' }}>
                                 <div style={{ marginLeft: '15px', marginRight: '15px' }}>
                                     <TableContainer sx={{ overflow: '', mt: 2 }}>
                                         <Table sx={{ minWidth: 500 }} stickyHeader>
@@ -1499,10 +1547,10 @@ export default function AddChitEstimatePage() {
                                             </TableRow>
                                             {GroupMemberListLoading
                                                 ? <TableRow>
-                                                <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                                                    <img className='load' src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
-                                                </TableCell>
-                                            </TableRow>
+                                                    <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                                                        <img className='load' src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                                                    </TableCell>
+                                                </TableRow>
                                                 : <TableBody>
                                                     {GroupMemberList
                                                         .map((row) => {
@@ -1514,7 +1562,8 @@ export default function AddChitEstimatePage() {
                                                                     <TableCell>{row.memberName}</TableCell>
                                                                     <TableCell>{row.memberId}</TableCell>
                                                                     <TableCell>{row.tktno}</TableCell>
-                                                                </TableRow>) })}
+                                                                </TableRow>)
+                                                        })}
                                                     <TableEmptyRows
                                                         height={77}
                                                         emptyRows={emptyRows(page, 5, GroupMemberList.length)} />
@@ -1523,17 +1572,16 @@ export default function AddChitEstimatePage() {
                                         </Table>
                                     </TableContainer>
                                 </div>
-                           
-                        {GroupMemberList.length > 0 && <TablePagination
-                            page={page}
-                            component="div"
-                            count={TotalCount}
-                            rowsPerPage={rowsPerPage}
-                            onPageChange={handleChangePage}
-                            rowsPerPageOptions={[15, 30, 50]}
-                            onRowsPerPageChange={handleChangeRowsPerPage}
-                            sx={{ borderTop: '1px solid #e0e0e0' }} />}
-                             </Scrollbar>
+                                {GroupMemberList.length > 0 && <TablePagination
+                                    page={page}
+                                    component="div"
+                                    count={TotalCount}
+                                    rowsPerPage={rowsPerPage}
+                                    onPageChange={handleChangePage}
+                                    rowsPerPageOptions={[10, 15, 30, 50]}
+                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                    sx={{ borderTop: '1px solid #e0e0e0' }} />}
+                            </Scrollbar>
                         </Box>
                     </Stack>
                 </Card>
@@ -1554,6 +1602,20 @@ export default function AddChitEstimatePage() {
                         No
                     </Button>
                 </DialogActions>
+            </Dialog>
+            <Dialog
+                open={MemberUpdateLoading}
+                onClose={() => setMemberUpdateLoading(false)}
+                fullWidth={500}
+                PaperProps={{
+                    style: {
+                        backgroundColor: 'transparent',
+                        boxShadow: 'none',
+                    },
+                }} >
+                <Stack style={{ alignItems: 'center' }} mt={5} mb={5}>
+                    <img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 70, height: 70 }} />
+                </Stack>
             </Dialog>
             <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "save_alert" ? 2000 : 1000} onClose={HandleAlertClose}
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>

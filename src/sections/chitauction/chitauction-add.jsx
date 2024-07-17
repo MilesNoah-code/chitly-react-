@@ -14,7 +14,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Box, Grid, Stack, Alert, Button, Dialog, styled, Divider, Snackbar, Typography, IconButton, InputAdornment } from '@mui/material';
+import { Box, Grid, Stack, Alert, Button, Dialog, styled, Divider, Snackbar, Typography, IconButton, InputAdornment, TablePagination } from '@mui/material';
 
 import { GetHeader, PutHeader, PostHeader, DeleteHeader, } from 'src/hooks/AxiosApiFetch';
 
@@ -94,7 +94,7 @@ export default function AddChitAuctionPage() {
     const [ScreenRefresh, setScreenRefresh] = useState(0);
     // const ImageUrl = JSON.parse(localStorage.getItem('imageUrl'));
     const [ChitAuctionList, setChitAuctionList] = useState([]);
-    const [ChitAuctionLoading, setChitAuctionLoading] = useState(false);
+    const [ChitAuctionLoading, setChitAuctionLoading] = useState(true);
     const [ChitAuctionMemberList, setChitAuctionMemberList] = useState([]);
     const [ChitAuctionMemberListLoading, setChitAuctionMemberListLoading] = useState(false);
     const [selected, setSelected] = useState([]);
@@ -119,6 +119,10 @@ export default function AddChitAuctionPage() {
     const [CompanyMemberId, setCompanyMemberId] = useState(0);
     const [SelectedDateId, setSelectedDateId] = useState(0);
     const [isEditable, setEditable] = useState(true);
+    const [TotalCount, setTotalCount] = useState(0);
+    const [dialogPage, setDialogPage] = useState(0);
+    const [dialogRowsPerPage, setDialogRowsPerPage] = useState(10);
+
 
     useEffect(() => {
         console.log(data);
@@ -143,9 +147,9 @@ export default function AddChitAuctionPage() {
     }, [ScreenRefresh]);
 
     useEffect(() => {
-        GetChitAuctionAddMemberList(filterTicketNo, filterName);
+        GetChitAuctionAddMemberList(filterTicketNo, filterName,dialogPage * dialogRowsPerPage, dialogRowsPerPage);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [filterTicketNo, filterName]);
+    }, [filterTicketNo, filterName,dialogPage, dialogRowsPerPage]);
 
 
     /* const AuctionDateArray = [
@@ -345,7 +349,7 @@ export default function AddChitAuctionPage() {
 
     const GetGroupMemberList = (companyMemberId, datas) => {
         // setGroupMemberList([]);
-        const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}?groupId=${data.id}&start=0&limit=0`;
+        const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}&groupId=${data.id}&start=0&limit=0`;
         console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -370,7 +374,8 @@ export default function AddChitAuctionPage() {
                                 signature: "",
                                 prized_amount: data.amount,
                                 is_prizedmember: "1",
-                                action: 'delete'
+                                action: 'delete',
+                                is_companymember: "companymember"
                             };
                             const updatedList = [updatedFirstItem];
                             console.log("updatedList", updatedList)
@@ -400,6 +405,22 @@ export default function AddChitAuctionPage() {
                     } else {
                         setCompanyMemberId(0);
                         setChitAuctionMemberList([]);
+                        setAucFromTime({
+                            data: null,
+                            data_save: "",
+                            error: ""
+                        });
+                        setAucToTime({
+                            data: null,
+                            data_save: "",
+                            error: ""
+                        });
+                        setAucDate({
+                            data: null,
+                            data_save: "",
+                            error: ""
+                        });
+                        HandleResetClick();
                     }
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
@@ -539,7 +560,7 @@ export default function AddChitAuctionPage() {
                 setChitAuctionMemberListLoading(false);
                 if (json.success) {
                     setChitAuctionMemberList(json.list);
-                    if (json.list.length > 0) {
+                        if (json.list.length > 0) {
                         let filteredList;
                         if (json.list.length === 1 && json.list[0].maxaucdisc === "0.00") {
                             filteredList = json.list;
@@ -594,9 +615,9 @@ export default function AddChitAuctionPage() {
             })
     }
 
-    const GetChitAuctionAddMemberList = (tktno, membername) => {
+    const GetChitAuctionAddMemberList = (tktno, membername ,start,limit) => {
         setChitAuctionAddMemberListLoading(true);
-        const url = `${REACT_APP_HOST_URL}${CHIT_AUCTION_MAPPED_UNMAPPED_MEMBER}${data?.id ? data.id : ""}&tokenNo=${tktno}&memberName=${membername}&start=0&limit=0`;
+        const url = `${REACT_APP_HOST_URL}${CHIT_AUCTION_MAPPED_UNMAPPED_MEMBER}${data?.id ? data.id : ""}&tokenNo=${tktno}&memberName=${membername}&start=${start}&limit=${limit}`;
         console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -605,6 +626,8 @@ export default function AddChitAuctionPage() {
                 setChitAuctionAddMemberListLoading(false);
                 if (json.success) {
                     setChitAuctionAddMemberList(json.list);
+                    setTotalCount(json.total)
+                    console.log('total:',json.total)
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
                     setAlertFrom("failed");
@@ -626,23 +649,27 @@ export default function AddChitAuctionPage() {
         if (IsValidate) {
             setLoading(true);
             console.log(SelectAuctionList)
-            const ChitAuctionMemberListParams = ChitAuctionMemberList.map(item => ({
-                "id": 0,
-                "auctionentryid": 0,
-                "tktno": item.tktno,
-                "tkt_suffix": "A",
-                "tkt_percentage": "100",
-                "memberid": item.memberid,
-                "member_name": item.member_name,
-                "group_member_id": item.group_member_id,
-                "maxaucdisc": item.maxaucdisc,
-                "signature": item.signature,
-                "is_prizedmember": item.is_prizedmember,
-                "entNo": 0,
-                "branchid": data.branchid,
-                "comments": "",
-                "is_active": 1,
-            }));
+            const ChitAuctionMemberListParams = ChitAuctionMemberList.map(item => {
+                const tktno = item.tktno !== null && item.tktno !== "" ? item.tktno : '';
+                const result = Number.isInteger(parseInt(tktno, 10)) ? parseInt(tktno, 10) : String(tktno);
+                return {
+                    "id": 0,
+                    "auctionentryid": 0,
+                    "tktno": result,
+                    "tkt_suffix": "A",
+                    "tkt_percentage": "100",
+                    "memberid": item.memberid,
+                    "member_name": item.member_name,
+                    "group_member_id": item.group_member_id,
+                    "maxaucdisc": item.maxaucdisc,
+                    "signature": item.signature,
+                    "is_prizedmember": item.is_prizedmember,
+                    "entNo": 0,
+                    "branchid": data.branchid,
+                    "comments": "",
+                    "is_active": 1,
+                };
+            });
             const ChitAuctionListParams = {
                 "id": SelectAuctionList.id,
                 "branchid": 0,
@@ -1272,7 +1299,7 @@ export default function AddChitAuctionPage() {
             HandleAlertShow();
         } else {
             setAddMemberListAlert(true);
-            GetChitAuctionAddMemberList(filterTicketNo, filterName)
+            GetChitAuctionAddMemberList(filterTicketNo, filterName,dialogPage * dialogRowsPerPage, dialogRowsPerPage)
         }
     };
 
@@ -1333,7 +1360,7 @@ export default function AddChitAuctionPage() {
                 data_save: "",
                 error: ""
             });
-            setAucFromTime({
+            setAucToTime({
                 data: null,
                 data_save: "",
                 error: ""
@@ -1403,7 +1430,8 @@ export default function AddChitAuctionPage() {
                         prized_amount: item.amount,
                         is_prizedmember: "1",
                         tktno: item.tktno,
-                        action: 'delete'
+                        action: 'delete',
+                        is_companymember: "not_companymember"
                     };
                     console.log("updatedItem", updatedItem);
                     setInstNo({
@@ -1529,7 +1557,8 @@ export default function AddChitAuctionPage() {
                 prized_amount: item.amount,
                 is_prizedmember: item.is_prizedmember,
                 tktno: item.tktno,
-                action: 'delete'
+                action: 'delete',
+                is_companymember: "not_companymember"
             };
             console.log("updatedItem1", updatedItem);
             setInstNo({
@@ -1593,6 +1622,20 @@ export default function AddChitAuctionPage() {
             fontSize: '1rem', // Decrease icon size
         },
     }));
+
+
+    const handleChangeDialogPage = (event, newPage) => {
+        setDialogPage(newPage);
+    };
+
+    const handleChangeDialogRowsPerPage = (event) => {
+        setDialogPage(0);
+        setChitAuctionAddMemberList([]);
+        setDialogRowsPerPage(parseInt(event.target.value, 10));
+    };
+
+
+
 
     const HandleBack = () => {
         if (ScreenRefresh) {
@@ -1736,6 +1779,8 @@ export default function AddChitAuctionPage() {
                                                             //         setEditable(true);
                                                             //     }                                                                
                                                             // } 
+                                                            const validatemaxaucdisc = isEditable || row.id === "0" || row.id === 0 ? (e) => ChitAuctionMemberListTextValidate(e, row, "maxaucdisc") : null;
+                                                            const validatesignature = isEditable || row.id === "0" || row.id === 0 ? (e) => ChitAuctionMemberListTextValidate(e, row, "signature") : null
                                                             console.log("isEditable", isEditable);
                                                             console.log("ChitAuctionSelectedIndex", (ChitAuctionSelectedIndex+1));
                                                             console.log("row.id", row.id);
@@ -1749,7 +1794,7 @@ export default function AddChitAuctionPage() {
                                                                             className='input-box2'
                                                                             id="outlined-required"
                                                                             value={row.maxaucdisc}
-                                                                            onChange={isEditable || row.id ==="0" || row.id ===0 ? (e) => ChitAuctionMemberListTextValidate(e, row, "maxaucdisc") : null}
+                                                                            onChange={row.is_companymember === "companymember" ? null : validatemaxaucdisc}
                                                                             style={{ width: 100, }}
                                                                             disabled={!isEditable && row.id !=="0" && row.id !==0}
                                                                             sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px',  },
@@ -1761,7 +1806,7 @@ export default function AddChitAuctionPage() {
                                                                                 className='input-box2'
                                                                                 id="outlined-required"
                                                                                 value={row.signature}
-                                                                                onChange={isEditable || row.id ==="0" || row.id ===0 ? (e) => ChitAuctionMemberListTextValidate(e, row, "signature") : null}
+                                                                                onChange={row.is_companymember === "companymember" ? null : validatesignature}
                                                                                 style={{ width: 100,  }}
                                                                                 disabled={!isEditable && row.id !=="0" && row.id !==0}
                                                                                 sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', },
@@ -2286,7 +2331,7 @@ export default function AddChitAuctionPage() {
                     <Stack>
                         <Stack ml={1} mr={1} pb={1}direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
                          <Stack direction='column'>
-                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 1 }}>
                                  Member List
                                 </Typography>
                             </Stack>
@@ -2362,7 +2407,7 @@ export default function AddChitAuctionPage() {
                                                 </TableCell>
                                             </TableRow>
                                             : <TableBody>
-                                                {ChitAuctionAddMemberList
+                                                {ChitAuctionAddMemberList.slice(dialogPage * dialogRowsPerPage, dialogPage * dialogRowsPerPage + dialogRowsPerPage)
                                                     .map((row, index) => {
                                                         const checkIdExists = id => ChitAuctionMemberList.some(items => items.memberid === id);
                                                         const checkTktnoExists = tktno => ChitAuctionMemberList.some(items => String(items.tktno) === tktno);
@@ -2382,7 +2427,19 @@ export default function AddChitAuctionPage() {
                                     </Table>
                                 </TableContainer>
                             </div>
-                        </Scrollbar>
+                            {ChitAuctionAddMemberList.length > 0 &&
+                                    <TablePagination
+                                        sx={{ mb: 3 }}
+                                        page={dialogPage}
+                                        component="div"
+                                        count={TotalCount}
+                                        rowsPerPage={dialogRowsPerPage}
+                                        onPageChange={handleChangeDialogPage}
+                                        rowsPerPageOptions={[5, 10, 15]}
+                                        onRowsPerPageChange={handleChangeDialogRowsPerPage}
+                                    />
+                                } 
+                        </Scrollbar>                     
                     </Stack>
                 </Card>
             </Dialog>
@@ -2480,6 +2537,8 @@ export default function AddChitAuctionPage() {
                                     </div>
                                 </Stack>
                             </Stack>
+
+                            
                         </Scrollbar>
                     </Stack>
                 </Card>

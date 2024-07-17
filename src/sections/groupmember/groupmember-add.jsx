@@ -58,6 +58,7 @@ export default function AddGroupMemberPage() {
     const [GroupMemberId, setGroupMemberId] = useState('');
     const [MemberDeleteAlert, setMemberDeleteAlert] = useState(false);
     const [SelectedMember, setSelectedMember] = useState({});
+    const [DetailLoading, setDetailLoading] = useState(false);
 
     useEffect(() => {
         GetGroupMemberList();
@@ -87,7 +88,7 @@ export default function AddGroupMemberPage() {
     const GetGroupMemberList = () => {
         // const memberId = '';
         setGroupMemberLoading(true);
-        const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}?id=&groupId=${data?.id ? data.id : ""}`;
+        const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}&id=&groupId=${data?.id ? data.id : ""}`;
         console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -123,7 +124,7 @@ export default function AddGroupMemberPage() {
                     });
                     // console.log(JSON.stringify(newList));
                     setGroupMemberList(newList);
-                    GetMemberDetail(1, newList[0].id, 2, '')
+                    GetMemberDetail(1, newList[0].id, 2, '');
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
                     setAlertFrom("failed");
@@ -143,7 +144,7 @@ export default function AddGroupMemberPage() {
 
     const GetMemberDetail = (isActive, id, from, index) => {
         setMemberListLoading(true);
-        const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}?id=${id}`;
+        const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}&id=${id}`;
         // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -154,7 +155,9 @@ export default function AddGroupMemberPage() {
                     setTicketNoClick('');
                     if (json.list.length > 0) {
                         setMemberDetail(json.list[0]);
-                        setGroupMemberId(json.list[0].id);
+                        if (index !== '') {
+                            setGroupMemberId(json.list[0].id);
+                        }
                     } else {
                         setGroupMemberId('');
                     }
@@ -199,6 +202,7 @@ export default function AddGroupMemberPage() {
                 // console.log(JSON.stringify(json));
                 console.log("MemberList", MemberList.length);
                 setMemberListLoading(false);
+                setGroupMemberId('');
                 if (json.success) {
                     setTotalCount(json.total);
                     setMemberList([...MemberList, ...json.list]);
@@ -226,6 +230,7 @@ export default function AddGroupMemberPage() {
             .then((response) => response.json())
             .then((json) => {
                 // console.log(JSON.stringify(json));
+                setDetailLoading(false);
                 if (json.success) {
                     if (json.list !== null) {
                         const updatedItem = {
@@ -247,6 +252,7 @@ export default function AddGroupMemberPage() {
                 }
             })
             .catch((error) => {
+                setDetailLoading(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
                 // console.log(error);
@@ -398,6 +404,7 @@ export default function AddGroupMemberPage() {
             console.log(updatedItem)
             updatedGroupMemberList[SelectedIndex] = updatedItem;
             setGroupMemberList(updatedGroupMemberList);
+            setDetailLoading(true);
             GetAddressView(item.id, updatedItem);
         }
         setMemberListAlert(false);
@@ -426,13 +433,13 @@ export default function AddGroupMemberPage() {
         setRowsPerPage(parseInt(event.target.value, 10));
     };
 
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setMemberDetail((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }));
-    };
+    // const handleInputChange = (event) => {
+    //     const { name, value } = event.target;
+    //     setMemberDetail((prevState) => ({
+    //         ...prevState,
+    //         [name]: value,
+    //     }));
+    // };
 
     const HandleBack = () => {
         if (ScreenRefresh) {
@@ -473,7 +480,7 @@ export default function AddGroupMemberPage() {
                     setMemberListAlert(true);
                 }
                 if (item.id && String(item.id).includes('empty_')){
-                    //
+                    setGroupMemberId('');
                 } else {
                     GetMemberDetail(1, item.id, 3, index);
                 }
@@ -489,7 +496,7 @@ export default function AddGroupMemberPage() {
                 setMemberListAlert(true);
             }
             if (item.id && String(item.id).includes('empty_')){
-                //
+                setGroupMemberId('');
             } else {
                 GetMemberDetail(1, item.id, 3, index);
             }
@@ -595,6 +602,11 @@ export default function AddGroupMemberPage() {
                                         </div>
                                     </Scrollbar>
                                 </Grid>
+                                {DetailLoading
+                                    ? <Stack style={{ flex: 1, }} mt={10} alignItems="center" justifyContent="center">
+                                        <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                                    </Stack>
+                                    :
                                 <Grid  className='table-grid' item xs={12} md={7}>
                                     <div className='detail'>
                                         <Typography variant="h6" className='detail-head' sx={{ mt: 0, ml: 2, }}>
@@ -753,13 +765,11 @@ export default function AddGroupMemberPage() {
                                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 1, mb: '0px' }}>
                                                             Address
                                                         </Typography>
-                                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                                            <TextField
-                                                                className='input-box1'
-                                                                id="outlined-required"
-                                                                disabled
-                                                                value={memberDetail.addressline1 || '--'}
-                                                                onChange={handleInputChange} />
+                                                        <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
+                                                        <Typography  variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
+                                                            {memberDetail.addressline1 || ''}
+                                                        </Typography>
+                                                            
                                                         </Stack>
                                                     </Stack>
                                                 </div>
@@ -768,14 +778,11 @@ export default function AddGroupMemberPage() {
                                                         <Typography variant="subtitle1" sx={{ mt: 1, ml: 2 }}>
                                                             City
                                                         </Typography>
-                                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                                            <TextField
-                                                                className='input-box1'
-                                                                id="outlined-required"
-                                                                disabled-
-                                                                value={memberDetail.city || '--'}
-                                                                onChange={handleInputChange} />
-                                                        </Stack>
+                                                        <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
+                                                        <Typography  variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
+                                                            {memberDetail.city || ''}
+                                                        </Typography>
+                                                                                                                   </Stack>
                                                     </Stack>
                                                 </div>
                                             </Stack>}
@@ -788,14 +795,11 @@ export default function AddGroupMemberPage() {
                                                         <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 1, mb: '0px' }}>
                                                             State
                                                         </Typography>
-                                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                                            <TextField
-                                                                className='input-box1'
-                                                                id="outlined-required"
-                                                                disabled
-                                                                value={memberDetail.state || '--'}
-                                                                onChange={handleInputChange} />
-                                                        </Stack>
+                                                        <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
+                                                        <Typography  variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
+                                                            {memberDetail.state || ''}
+                                                        </Typography>
+                                                                                                             </Stack>
                                                     </Stack>
                                                 </div>
                                                 <div className='box-grp'>
@@ -803,13 +807,10 @@ export default function AddGroupMemberPage() {
                                                         <Typography variant="subtitle1" sx={{ mt: 1, ml: 2 }}>
                                                             Country
                                                         </Typography>
-                                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                                            <TextField
-                                                                className='input-box1'
-                                                                id="outlined-required"
-                                                                disabled
-                                                                value={memberDetail.country || '--'}
-                                                                onChange={handleInputChange} />
+                                                        <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
+                                                        <Typography  variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
+                                                            {memberDetail.country|| ''}
+                                                        </Typography>
                                                         </Stack>
                                                     </Stack>
                                                 </div>
@@ -820,7 +821,7 @@ export default function AddGroupMemberPage() {
                                                 No address mapped
                                             </Typography>}
                                     </div>
-                                </Grid>
+                                </Grid> }
                             </Grid>
                             <Stack direction='column' alignItems='flex-end'>
                                 <Button sx={{ mr: 3, mt: 2, mb: 3,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
@@ -853,7 +854,7 @@ export default function AddGroupMemberPage() {
                     <Stack>
                            <Stack ml={1} mr={1} pb={1}direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
                             <Stack direction='column'>
-                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 1 }}>
                                   Member list
                                 </Typography>
                             </Stack>

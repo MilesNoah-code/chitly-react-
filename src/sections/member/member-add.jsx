@@ -622,6 +622,7 @@ export default function AddMemberPage() {
                     // console.log(JSON.stringify(json));
                     setLoading(false);
                     setScreenRefresh(0);
+                    setProfileMediaId('');
                     if (json.success) {
                         setAlertMessage(json.message);
                         setAlertFrom("success");
@@ -654,15 +655,13 @@ export default function AddMemberPage() {
                 // console.log(JSON.stringify(json));
                 setMediaListLoading(false);
                 if (json.success) {
-                    if (json.list.length > 0) {
-                        setProfileMediaId(json.list[0].id);
-                        if (entryMappedtypeNo !== "") {
-                            if (file !== "") {
-                                MemberImageUpload(file, "MEMBER_PROFILE");
-                            }
+                    if (entryMappedtypeNo !== "") {
+                        if (json.list.length > 0) {
+                            setProfileMediaId(json.list[0].id);
                         }
-                    } else {
-                        MemberImageUpload(file, "MEMBER_PROFILE");
+                        if (file !== "") {
+                            MemberImageUpload(file, "MEMBER_PROFILE");
+                        }
                     }
                     setMediaList(json.list);
                 } else if (json.success === false) {
@@ -836,6 +835,7 @@ export default function AddMemberPage() {
             .then((json) => {
                 // console.log(JSON.stringify(json));
                 if (json.success) {
+                    setProfileMediaId('');
                     if (from === "1") {
                         MemberUpdateMethod(IsValidate);
                     } else {
@@ -1750,18 +1750,18 @@ export default function AddMemberPage() {
         } else {
             setScreenRefresh(pre => pre + 1);
             const filePath = URL.createObjectURL(file);
-            setProfileImage({
-                data: filePath,
-                savedata: "",
-                type: "local",
-                error: ""
-            });
             if (ProfileImage.data !== "") {
                 setProfileUploadLoading(true);
                 GetMediaList("106", file);
             } else {
                 MemberImageUpload(file, 'MEMBER_PROFILE');
             }
+            setProfileImage({
+                data: filePath,
+                savedata: "",
+                type: "local",
+                error: ""
+            });
         }
     };
 
@@ -2553,7 +2553,7 @@ export default function AddMemberPage() {
                                                         <FormControlLabel className="radio-control2" value="Diploma" control={<Radio />} label="Diploma" disabled={screen === "view"} />
                                                         <FormControlLabel value="Graduate" control={<Radio />} label="Graduate" disabled={screen === "view"} />
                                                         <FormControlLabel className="radio-control" value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view"} />
-                                                        <FormControlLabel className="radio-control1" value="Doctrate" control={<Radio />} label="Doctorate" onChange={() => setEducation('Doctrate')} disabled={screen === "view"} />
+                                                        <FormControlLabel className="radio-control1" value="Doctrate" control={<Radio />} label="Doctorate" disabled={screen === "view"} />
                                                     </RadioGroup>
                                                 </Stack>
                                                 <div className='error_txt add-margin'>{Education.error}</div>
@@ -2571,7 +2571,7 @@ export default function AddMemberPage() {
                                                         name="radio-buttons-group"
                                                         row
                                                         value={MaritalStatus.data}
-                                                        onChange={(e) => { setMaritalStatus({ data: e.target.value, error: "" }); setScreenRefresh(pre => pre + 1); }}>
+                                                        onChange={(e) => { setMaritalStatus({ data: e.target.value, error: "" }); setSpouseEducation({ data: "", error: "" }); setScreenRefresh(pre => pre + 1); }}>
                                                         <FormControlLabel value="Single" control={<Radio />} label="Single" disabled={screen === "view"} />
                                                         <FormControlLabel value="Married" control={<Radio />} label="Married" disabled={screen === "view"} />
                                                         <FormControlLabel value="Married With Kids" control={<Radio />} label="Married with Kids" disabled={screen === "view"} />
@@ -2791,11 +2791,9 @@ export default function AddMemberPage() {
                                                                     <img src="/assets/images/img/placeholder.png" alt="Loading" style={{ width: '100% ' }} />
                                                                 </div>
                                                             </Stack>}
-                                                        {row.name
-                                                            ? <Typography variant="subtitle1" sx={{ ml: 3, mr: 2, mt: 0, mb: '-5px' }}>
+                                                        {row.name && <Typography variant="subtitle1" sx={{ mt: 1, mb: '-4px', textAlign: 'center' }}>
                                                                 {row.name}
-                                                            </Typography>
-                                                            : null}
+                                                            </Typography> }
                                                     </Stack>
                                                 ))}
                                         </Stack>

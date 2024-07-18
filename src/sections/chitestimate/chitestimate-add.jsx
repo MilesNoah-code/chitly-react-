@@ -752,21 +752,21 @@ export default function AddChitEstimatePage() {
                 } else if (data.divident_distribute === "Next Month") {
                     if (from === "dueamount") {
                         if (index - 1 >= 0 && index + 1 < array.length) {
-                            array[index - 1].less_amount = data.amount - ((TextValueNumber * DurationValue) - array[index + 1].fm_commission);
-                            array[index - 1].payment = (TextValueNumber * DurationValue) - ensureNumber(array[index - 1].fm_commission) + ensureNumber(array[index - 1].gst_value);
+                            array[index - 1].less_amount = (data.amount ?? 0) - ((TextValueNumber ?? 0) * (DurationValue ?? 0) - (array[index + 1]?.fm_commission ?? 0));
+                            array[index - 1].payment = ((TextValueNumber ?? 0) * (DurationValue ?? 0)) - ensureNumber(array[index - 1]?.fm_commission ?? 0) + ensureNumber(array[index - 1]?.gst_value ?? 0);
                         }
-                        CaculateDueAmount = TextValueNumber;
+                        CaculateDueAmount = TextValueNumber ?? 0;
                         if (CaculateDueAmount > EmDueValue) {
-                            CaculateDueAmount = "";
+                            CaculateDueAmount = 0;
                             setAlertMessage("Due amount can't be greater than Em Due");
                             setAlertFrom("save_alert");
                             HandleAlertShow();
                         }
-                        console.log("dueamount1--> ", array[index - 1].less_amount, "array[index - 1].payment", array[index - 1].payment);
+                        console.log("dueamount1--> ", array[index - 1]?.less_amount || 0, "array[index - 1].payment", array[index - 1]?.payment || 0);
                     } else if (from === "fm_commission") {
                         if (index + 1 < array.length) {
                             CaculateLessAmount = data.amount - ((array[index + 1].dueamount * DurationValue) - TextValueNumber);
-                            CaculatePayment = (array[index + 1].dueamount * DurationValue) - TextValueNumber + ensureNumber(prev.gst_value);
+                            CaculatePayment = ((array[index + 1].dueamount || 0) * DurationValue) - TextValueNumber + ensureNumber(prev?.gst_value || 0);
                             console.log("fm_commission1--> ", CaculateLessAmount, "CaculatePayment", CaculatePayment);
                         }
                     } else if (from === "less_amount") {
@@ -1012,101 +1012,101 @@ export default function AddChitEstimatePage() {
 
                 <Box component="form"
                     sx={{ '& .MuiTextField-root': {} }} noValidate autoComplete="off">
-                    {ChitEstimateLoading || ChitEstimateMemberLoading
-                        ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
-                            <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                    <Stack direction='column'>
+                        <Stack direction='row' spacing={1} alignItems='center' gap='20px' justifyContent="flex-start" sx={{ m: 3, mb: 2 }} className='estimate-box'>
+                            <div className='estimate-grp'>
+                                <Stack direction='column'>
+                                    <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 0, mb: '7px' }}>
+                                        Group No
+                                    </Typography>
+                                    <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                        <TextField
+                                            className='input'
+                                            id="outlined-required"
+                                            disabled
+                                            value={GroupNo.data}
+                                            onChange={(e) => ChitEstimateTextValidate(e, "GroupNo")}
+                                            sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} />
+                                    </Stack>
+                                    <div className='error_txt'>{GroupNo.error}</div>
+                                </Stack>
+                            </div>
+                            <div className='estimate-grp'>
+                                <Stack direction='column'>
+                                    <Typography variant="subtitle1" sx={{ mt: 0, ml: 0, mb: '7px' }}>
+                                        Foreman Pr.Due
+                                    </Typography>
+                                    <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                        <TextField
+                                            className='input'
+                                            id="outlined-required"
+                                            disabled
+                                            value={ForemanPrDue.data}
+                                            onChange={(e) => ChitEstimateTextValidate(e, "ForemanPrDue")}
+                                            sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} />
+                                    </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{ForemanPrDue.error}</div>
+                                </Stack>
+                            </div>
+                            <div className='estimate-grp'>
+                                <Stack direction='column'>
+                                    <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 0, mb: '7px' }}>
+                                        Amount <span style={{ color: 'red' }}> *</span>
+                                    </Typography>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
+                                        <TextField
+                                            className='input'
+                                            id="outlined-required"
+                                            disabled
+                                            value={Amount.data}
+                                            onChange={(e) => ChitEstimateTextValidate(e, "Amount")}
+                                            sx={{ '& .MuiInputBase-input': { padding: '8px', ontSize: '14px', } }} />
+                                    </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Amount.error}</div>
+                                </Stack>
+                            </div>
+                            <div className='estimate-grp'>
+                                <Stack direction='column' >
+                                    <Typography variant="subtitle1" sx={{ ml: 0, mr: 0, mt: 0, mb: '7px' }}>
+                                        Dividend <span style={{ color: 'red' }}> *</span>
+                                    </Typography>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
+                                        <TextField
+                                            className='input'
+                                            id="outlined-required"
+                                            disabled
+                                            value={Dividend.data}
+                                            onChange={(e) => ChitEstimateTextValidate(e, "Dividend")}
+                                            sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} />
+                                    </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Dividend.error}</div>
+                                </Stack>
+                            </div>
+                            <div className='estimate-grp'>
+                                <Stack direction='column'>
+                                    <Typography variant='subtitle1' sx={{ mt: 0, ml: 0, mb: '7px' }} >
+                                        Duration
+                                    </Typography>
+                                    <Stack direction='row' sx={{ ml: 0, }}>
+                                        <TextField
+                                            className='input'
+                                            id="outlined-required"
+                                            disabled
+                                            value={Duration.data}
+                                            onChange={(e) => ChitEstimateTextValidate(e, "Duration")}
+                                            sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} />
+                                    </Stack>
+                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Duration.error}</div>
+                                </Stack>
+                            </div>
                         </Stack>
-                        : <Stack direction='column'>
-                            <Stack direction='row' spacing={1} alignItems='center' gap='20px' justifyContent="flex-start" sx={{ m: 3, mb: 2 }} className='estimate-box'>
-                                <div className='estimate-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 0, mb: '7px' }}>
-                                            Group No
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                            <TextField
-                                                className='input'
-                                                id="outlined-required"
-                                                disabled
-                                                value={GroupNo.data}
-                                                onChange={(e) => ChitEstimateTextValidate(e, "GroupNo")}
-                                                sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} />
-                                        </Stack>
-                                        <div className='error_txt'>{GroupNo.error}</div>
-                                    </Stack>
-                                </div>
-                                <div className='estimate-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ mt: 0, ml: 0, mb: '7px' }}>
-                                            Foreman Pr.Due
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                            <TextField
-                                                className='input'
-                                                id="outlined-required"
-                                                disabled
-                                                value={ForemanPrDue.data}
-                                                onChange={(e) => ChitEstimateTextValidate(e, "ForemanPrDue")}
-                                                sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} />
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{ForemanPrDue.error}</div>
-                                    </Stack>
-                                </div>
-                                <div className='estimate-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 2, mt: 0, mb: '7px' }}>
-                                            Amount <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <TextField
-                                                className='input'
-                                                id="outlined-required"
-                                                disabled
-                                                value={Amount.data}
-                                                onChange={(e) => ChitEstimateTextValidate(e, "Amount")}
-                                                sx={{ '& .MuiInputBase-input': { padding: '8px', ontSize: '14px', } }} />
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Amount.error}</div>
-                                    </Stack>
-                                </div>
-                                <div className='estimate-grp'>
-                                    <Stack direction='column' >
-                                        <Typography variant="subtitle1" sx={{ ml: 0, mr: 0, mt: 0, mb: '7px' }}>
-                                            Dividend <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <TextField
-                                                className='input'
-                                                id="outlined-required"
-                                                disabled
-                                                value={Dividend.data}
-                                                onChange={(e) => ChitEstimateTextValidate(e, "Dividend")}
-                                                sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} />
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Dividend.error}</div>
-                                    </Stack>
-                                </div>
-                                <div className='estimate-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant='subtitle1' sx={{ mt: 0, ml: 0, mb: '7px' }} >
-                                            Duration
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <TextField
-                                                className='input'
-                                                id="outlined-required"
-                                                disabled
-                                                value={Duration.data}
-                                                onChange={(e) => ChitEstimateTextValidate(e, "Duration")}
-                                                sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} />
-                                        </Stack>
-                                        <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Duration.error}</div>
-                                    </Stack>
-                                </div>
-                            </Stack>
-                        </Stack>}
+                    </Stack>
                 </Box>
-
+                {ChitEstimateLoading || ChitEstimateMemberLoading
+                    ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">
+                        <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
+                    </Stack>
+                    : 
                 <Grid container spacing={1}  className='grid-container'>
                     <Grid item xs={12} md={6} className='box-one' >
                         <Scrollbar className="table-one tab-1" >
@@ -1445,15 +1445,16 @@ export default function AddChitEstimatePage() {
 
 
                     </Grid>
-                </Grid>
-
-                <Stack direction='column' className='sub-button' >
+                </Grid> }
+                {ChitEstimateLoading || ChitEstimateMemberLoading
+                    ? null 
+                : <Stack direction='column' className='sub-button' >
                     <Button variant="contained" className='custom-button  submit-button ' onClick={Loading ? null : HandleSubmitClick}>
                         {Loading
                             ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                             : ("Submit")}
                     </Button>
-                </Stack>
+                </Stack> }
 
 
             </Card>

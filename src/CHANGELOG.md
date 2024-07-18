@@ -1,3 +1,10 @@
+3.4.12
+Date : 18/07/2024
+Type : Bug fix
+Description :  
+        1.chit request parameter api memberid and tktno number param pass
+        2.chit estimate set last payment as editable
+----------------------------------------------------------------
 3.4.11
 Date : 18/07/2024
 Type : Bug fix

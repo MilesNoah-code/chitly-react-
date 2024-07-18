@@ -260,9 +260,9 @@ export default function AddChitPaymentPage() {
             })
     }
 
-    const GetReqChitParameterList = (groupid) => {
+    const GetReqChitParameterList = (item) => {
         // setReqChitParameterList([]);
-        const url = `${REACT_APP_HOST_URL}${REQ_CHIT_PARAMETERS}${groupid}`;
+        const url = `${REACT_APP_HOST_URL}${REQ_CHIT_PARAMETERS}${item.id}&memberId=${item.memberid}&tktNo=${item.tktno}&tktSuffix=A`;
         console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -724,7 +724,7 @@ export default function AddChitPaymentPage() {
             error: ""
         }));
         GetReceiptNumberList(item.id);
-        GetReqChitParameterList(item.id);
+        GetReqChitParameterList(item);
         setUnPaidGroupAlert(false);
     };
 

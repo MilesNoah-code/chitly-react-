@@ -771,6 +771,8 @@ export default function AddChitEstimatePage() {
                         }
                     } else if (from === "less_amount") {
                         CaculateLessAmount = TextValue;
+                    } else if (from === "payment") {
+                        CaculatePayment = TextValue;
                     }
                 }
                 console.log(" Math.round(ensureNumber(prev.fm_commission))", Math.round(ensureNumber(prev.fm_commission)))
@@ -1262,7 +1264,7 @@ export default function AddChitEstimatePage() {
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 value={row.payment}
-                                                                disabled
+                                                                disabled={index !== ChitEstimateList.length - 1}
                                                                 onChange={(e) => ChitEstimateListTextValidate(e, row, index, "payment")}
                                                                 sx={{
                                                                     backgroundColor: 'transparent',

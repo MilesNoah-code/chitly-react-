@@ -1,3 +1,13 @@
+3.4.11
+Date : 18/07/2024
+Type : Bug fix
+Description :  
+        1.unwanted media delete api call in member submit fixed
+        2.Spouse Education not reset when change the Marital status fixed
+        3.member add -> proof detail name ui issue fix
+        4.chit estimate - can't able to do edit through issue
+        5.group member edit icon set and company member delete handle
+----------------------------------------------------------------
 3.4.10
 Date : 17/07/2024
 Type : Bug fix

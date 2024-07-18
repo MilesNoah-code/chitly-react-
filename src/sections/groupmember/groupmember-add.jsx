@@ -97,17 +97,17 @@ export default function AddGroupMemberPage() {
                 setGroupMemberLoading(false);
                 if (json.success) {
                     const { list } = json;
-                    const { groupno, groupId, groupAddressId, amount, duration, auction_mode } = list[0];
-                    const commonProperties = {
+                    const { groupno, groupId, groupAddressId, amount, duration, auction_mode } = json.list.length > 0 ? list[0] : [];
+                    const commonProperties = json.list.length > 0 ? {
                         groupno,
                         groupId,
                         groupAddressId,
                         amount,
                         duration,
                         auction_mode
-                    };
+                    } : {};
                     // Initialize newList with empty slots based on duration
-                    const newList = Array.from({ length: list[0].duration }, (_, index) => ({
+                    const newList = Array.from({ length: json.list.length > 0 ? list[0].duration : data.duration }, (_, index) => ({
                         id: `empty_${index}`,
                         memberName: '',
                         tktno: index + 1,
@@ -116,15 +116,19 @@ export default function AddGroupMemberPage() {
                     }));
 
                     // Place each member at the correct index based on tktno
-                    list.forEach((member) => {
-                        const index = member.tktno - 1; // Adjust tktno to be 0-based index
-                        if (index >= 0 && index < list[0].duration) {
-                            newList[index] = { ...newList[index], ...member, action: "delete" };
-                        }
-                    });
+                    if(json.list.length > 0){
+                        list.forEach((member) => {
+                            const index = member.tktno - 1; // Adjust tktno to be 0-based index
+                            if (index >= 0 && index < list[0].duration) {
+                                newList[index] = { ...newList[index], ...member, action: "delete" };
+                            }
+                        });
+                        GetMemberDetail(1, newList[0].id, 2, '');
+                    }
+                    
                     // console.log(JSON.stringify(newList));
                     setGroupMemberList(newList);
-                    GetMemberDetail(1, newList[0].id, 2, '');
+                    
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
                     setAlertFrom("failed");
@@ -135,7 +139,7 @@ export default function AddGroupMemberPage() {
                 }
             })
             .catch((error) => {
-                // console.log(error);
+                console.log(error);
                 setGroupMemberLoading(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
@@ -157,6 +161,8 @@ export default function AddGroupMemberPage() {
                         setMemberDetail(json.list[0]);
                         if (index !== '') {
                             setGroupMemberId(json.list[0].id);
+                        } else {
+                            setGroupMemberId('');
                         }
                     } else {
                         setGroupMemberId('');
@@ -186,7 +192,7 @@ export default function AddGroupMemberPage() {
                 setMemberListAlert(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
-                // console.log(error);
+                console.log(error);
             });
     };
 
@@ -463,11 +469,11 @@ export default function AddGroupMemberPage() {
         if(item && item.action === "delete"){
             console.log("item12", item);
             setSelectedMember(item);
-        }
+        } 
         console.log("item1", item, "TicketNoClick1111", TicketNoClick);
         if (from === "delete"){
             setMemberDeleteAlert(true);
-        }else {
+        } else {
             HandleEditMember(event, item, index, from);
         }
     }
@@ -476,7 +482,7 @@ export default function AddGroupMemberPage() {
         if (TicketNoClick !== "") {
             console.log("TicketNoClick", TicketNoClick, "item.tktno", item.tktno);
             if (TicketNoClick === item.tktno) {
-                if (from === "3") {
+                if (from === "3" || from === "edit") {
                     setMemberListAlert(true);
                 }
                 if (item.id && String(item.id).includes('empty_')){
@@ -492,7 +498,7 @@ export default function AddGroupMemberPage() {
                 HandleAlertShow();
             }
         } else {
-            if (from === "3") {
+            if (from === "3" || from === "edit") {
                 setMemberListAlert(true);
             }
             if (item.id && String(item.id).includes('empty_')){
@@ -585,8 +591,8 @@ export default function AddGroupMemberPage() {
                                                                         ? <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => HandleGroupMemberClick(event, row,index, "3")}>
                                                                                 <Iconify icon="icon-park-solid:add-one" />
                                                                             </IconButton>
-                                                                        : <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => HandleGroupMemberClick(event, row, index, "delete")}>
-                                                                            <Iconify icon="eva:trash-2-outline" />
+                                                                        : <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => HandleGroupMemberClick(event, row, index, row.action === "edit" ? "edit" : "delete")}>
+                                                                            <Iconify icon={row.action === "edit" ? "eva:edit-fill" : "eva:trash-2-outline"} />
                                                                             </IconButton>)}
                                                                 </TableCell>
                                                             </TableRow>
@@ -620,7 +626,7 @@ export default function AddGroupMemberPage() {
                                                     </Typography>
                                                     <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
                                                         <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0 }}>
-                                                            {memberDetail.groupno || ''}
+                                                            {data.groupno || ''}
                                                         </Typography>
 
                                                     </Stack>
@@ -633,7 +639,7 @@ export default function AddGroupMemberPage() {
                                                     </Typography>
                                                     <Stack direction='row' sx={{ ml: 2, mt: 0 }}>
                                                 <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
-                                                            {memberDetail.amount || ''}
+                                                                {data.amount || ''}
                                                         </Typography>
 
                                                     </Stack>
@@ -648,7 +654,7 @@ export default function AddGroupMemberPage() {
                                                     </Typography>
                                                     <Stack direction='row' sx={{ ml: 2, }}>
                                                 <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
-                                                            {memberDetail.duration || ''}
+                                                                {data.duration || ''}
                                                         </Typography>
 
                                                     </Stack>
@@ -661,7 +667,7 @@ export default function AddGroupMemberPage() {
                                                     </Typography>
                                                     <Stack direction='row' sx={{ ml: 2, }}>
                                                 <Typography variant="subtitle1" className='detail-sub1' sx={{ ml: 0,  }}>
-                                                            {memberDetail.auction_mode || ''}
+                                                                {data.auction_mode || ''}
                                                         </Typography>
 
                                                     </Stack>

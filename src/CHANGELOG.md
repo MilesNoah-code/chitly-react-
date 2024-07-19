@@ -5,6 +5,8 @@ Description :
         1.Member --> mobile number showing -1 -> it allow the alphabet letter e -> fixed
         2.Chit Estimate GST column hide -> fixed
         3.Chit Estimate Save company member in background -> changed
+        4.due amount not allow point -> fixed
+        5.estimate add after add member restriction -> changed
 ----------------------------------------------------------------
 3.4.13
 Date : 19/07/2024

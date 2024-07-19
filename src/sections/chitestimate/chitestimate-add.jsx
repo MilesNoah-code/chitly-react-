@@ -86,6 +86,7 @@ export default function AddChitEstimatePage() {
     });
     const [AuctionDateError, setAuctionDateError] = useState('');
     const [MemberUpdateLoading, setMemberUpdateLoading] = useState(false);
+    const [ChitEstimateTotal, setChitEstimateTotal] = useState(0);
 
     useEffect(() => {
         console.log(data)
@@ -122,6 +123,7 @@ export default function AddChitEstimatePage() {
                 // console.log(JSON.stringify(json));
                 setChitEstimateLoading(false);
                 if (json.success) {
+                    setChitEstimateTotal(json.total);
                     const existingList = json.list;
                     const existingInstno = new Set(existingList.map(item => item.Instno));
 
@@ -811,7 +813,7 @@ export default function AddChitEstimatePage() {
                         fm_commission_error: from === "fm_commission" && (ensureNumber(TextValue) || ensureNumber(prev.fm_commission)) === "" ? "* Required" : "",
                         gst_value: from === "gst_value" ? ensureNumber(TextValue) : ensureNumber(prev.gst_value),
                         doc_charge_value: from === "doc_charge_value" ? ensureNumber(TextValue) : ensureNumber(prev.doc_charge_value),
-                        payment: from === "payment" || from === "dueamount" || from === "fm_commission" ? PaymentDataFinalSet : ensureNumber(prev.payment),
+                        payment: from === "payment" || from === "dueamount" || from === "fm_commission" ? PaymentDataFinalSet.toFixed(2) : ensureNumber(prev.payment).toFixed(2),
                     };
                 }
                 return prev;
@@ -1196,6 +1198,7 @@ export default function AddChitEstimatePage() {
                                                                 className='input-box'
                                                                 value={row.dueamount}
                                                                 onChange={(e) => ChitEstimateListTextValidate(e, row, index, "dueamount")}
+                                                                type="number" 
                                                                 sx={{
                                                                     backgroundColor: 'transparent',
                                                                     '& .MuiFilledInput-root': {
@@ -1220,6 +1223,7 @@ export default function AddChitEstimatePage() {
                                                                 error={(row.less_amount_error && row.less_amount_error !== "")}
                                                                 value={row.less_amount}
                                                                 onChange={(e) => ChitEstimateListTextValidate(e, row, index, "less_amount")}
+                                                                type="number" 
                                                                 sx={{
                                                                     backgroundColor: 'transparent',
                                                                     '& .MuiFilledInput-root': {
@@ -1241,6 +1245,7 @@ export default function AddChitEstimatePage() {
                                                                 variant="filled"
                                                                 value={row.fm_commission}
                                                                 onChange={(e) => ChitEstimateListTextValidate(e, row, index, "fm_commission")}
+                                                                type="number" 
                                                                 sx={{
                                                                     backgroundColor: 'transparent',
                                                                     '& .MuiFilledInput-root': {
@@ -1289,6 +1294,7 @@ export default function AddChitEstimatePage() {
                                                                 value={row.payment}
                                                                 disabled={index !== ChitEstimateList.length - 1}
                                                                 onChange={(e) => ChitEstimateListTextValidate(e, row, index, "payment")}
+                                                                type="number" 
                                                                 sx={{
                                                                     backgroundColor: 'transparent',
                                                                     '& .MuiFilledInput-root': {
@@ -1436,7 +1442,7 @@ export default function AddChitEstimatePage() {
                                                         <TableCell >
 
                                                             {row.action === "add"
-                                                                ? <IconButton
+                                                                ? (ChitEstimateTotal > 0 && <IconButton
                                                                     className='icon-button'
                                                                     onClick={() => HandleChitEstimateMemberAddClick(row, index)} sx={{
                                                                         cursor: 'pointer',
@@ -1444,7 +1450,7 @@ export default function AddChitEstimatePage() {
                                                                     }} InputProps={{ padding: '2px' }}>
                                                                     <Iconify padding='2px'
                                                                         icon="icon-park-solid:add-one" />
-                                                                </IconButton>
+                                                                </IconButton>)
                                                                 : ((row.install_no !== 1) && <IconButton onClick={() => {
                                                                     setMemberDeleteClick(true); setSelectGroupMemberList({
                                                                         add: 0,

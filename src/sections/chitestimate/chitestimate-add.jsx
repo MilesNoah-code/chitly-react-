@@ -12,7 +12,7 @@ import TableContainer from '@mui/material/TableContainer';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Box, Grid, Alert, Stack, Button, Dialog, styled, Divider, Snackbar, IconButton, Typography, DialogTitle, DialogActions, InputAdornment, TablePagination, } from '@mui/material';
+import { Box, Grid, Alert, Stack, Button, Dialog, styled,Portal, Divider, Snackbar, IconButton, Typography, DialogTitle, DialogActions, InputAdornment, TablePagination,  } from '@mui/material';
 
 import { GetHeader, PutHeader, PostHeader, DeleteHeader, } from 'src/hooks/AxiosApiFetch';
 
@@ -298,6 +298,7 @@ export default function AddChitEstimatePage() {
                             remove: 0,
                             remove_data: '',
                         });
+                        ChitEstimateMemberAddMethod(updatedFirstItem, "company_member");
                         setChitEstimateMemberList(updatedList);
                     }
                 } else if (json.success === false) {
@@ -402,8 +403,13 @@ export default function AddChitEstimatePage() {
         }
     }
 
-    const ChitEstimateMemberAddMethod = (selectedmember) => {
-        setMemberUpdateLoading(true);
+    const ChitEstimateMemberAddMethod = (selectedmember, from) => {
+        if (from === "company_member"){
+            // console.log(from);
+        } else{
+            setMemberUpdateLoading(true);
+        }
+        
         const ChitEstimateMemberListParams = {
             "id": 0,
             "group_id": selectedmember.group_id,
@@ -424,9 +430,13 @@ export default function AddChitEstimatePage() {
                 setMemberUpdateLoading(false);
                 setScreenRefresh(0);
                 if (json.success) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("success");
-                    HandleAlertShow();
+                    if (from === "company_member") {
+                        // console.log(from);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("success");
+                        HandleAlertShow();
+                    }
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
                     setAlertFrom("failed");
@@ -723,6 +733,7 @@ export default function AddChitEstimatePage() {
                 let CaculateLessAmount = ensureNumber(prev.less_amount);
                 let CaculatePayment = ensureNumber(prev.payment);
                 let CaculateDueAmount = ensureNumber(prev.dueamount);
+                let CaculateEditPayment = ensureNumber(prev.payment);
                 const TextValueNumber = ensureNumber(TextValue);
                 const DurationValue = ensureNumber(data.duration);
                 const AmountValue = ensureNumber(data.amount);
@@ -769,6 +780,11 @@ export default function AddChitEstimatePage() {
                             CaculatePayment = ((array[index + 1].dueamount || 0) * DurationValue) - TextValueNumber + ensureNumber(prev?.gst_value || 0);
                             console.log("fm_commission1--> ", CaculateLessAmount, "CaculatePayment", CaculatePayment);
                         }
+                        // console.log("index--> ", index, " ChitEstimateList--> ", (ChitEstimateList.length - 1));
+                        if (index === ChitEstimateList.length - 1){
+                            CaculateEditPayment = AmountValue - TextValueNumber;
+                            console.log("CaculateEditPayment--> ", CaculateEditPayment);
+                        }
                     } else if (from === "less_amount") {
                         CaculateLessAmount = TextValue;
                     } else if (from === "payment") {
@@ -777,6 +793,9 @@ export default function AddChitEstimatePage() {
                 }
                 console.log(" Math.round(ensureNumber(prev.fm_commission))", Math.round(ensureNumber(prev.fm_commission)))
                 if (prev === item) {
+                    const PaymentDataSet = index === ChitEstimateList.length - 1 ? Math.round(ensureNumber(CaculateEditPayment)) : Math.round(ensureNumber(CaculatePayment));
+                    const PaymentDataFinalSet = (from === "payment") ? Math.round(ensureNumber(CaculatePayment)) : PaymentDataSet;
+                    console.log("PaymentDataFinalSet--> ", PaymentDataFinalSet);
                     return {
                         ...prev,
                         id: ids,
@@ -788,7 +807,7 @@ export default function AddChitEstimatePage() {
                         fm_commission_error: from === "fm_commission" && (ensureNumber(TextValue) || Math.round(ensureNumber(prev.fm_commission))) === "" ? "* Required" : "",
                         gst_value: from === "gst_value" ? ensureNumber(TextValue) : Math.round(ensureNumber(prev.gst_value)),
                         doc_charge_value: from === "doc_charge_value" ? ensureNumber(TextValue) : Math.round(ensureNumber(prev.doc_charge_value)),
-                        payment: from === "payment" || from === "dueamount" || from === "fm_commission" ? Math.round(ensureNumber(CaculatePayment)) : Math.round(ensureNumber(prev.payment)),
+                        payment: from === "payment" || from === "dueamount" || from === "fm_commission" ? PaymentDataFinalSet : Math.round(ensureNumber(prev.payment)),
                     };
                 }
                 return prev;
@@ -912,7 +931,7 @@ export default function AddChitEstimatePage() {
                 action: "delete"
             };
 
-            ChitEstimateMemberAddMethod(updatedFirstItem);
+            ChitEstimateMemberAddMethod(updatedFirstItem, "");
             setGroupMemberListAlert(false);
         }
     };
@@ -1047,8 +1066,8 @@ export default function AddChitEstimatePage() {
                                             onChange={(e) => ChitEstimateTextValidate(e, "ForemanPrDue")}
                                             sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} />
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{ForemanPrDue.error}</div>
-                                </Stack>
+                                    <div className='error_txt'>{ForemanPrDue.error}</div>
+                                    </Stack>
                             </div>
                             <div className='estimate-grp'>
                                 <Stack direction='column'>
@@ -1064,7 +1083,7 @@ export default function AddChitEstimatePage() {
                                             onChange={(e) => ChitEstimateTextValidate(e, "Amount")}
                                             sx={{ '& .MuiInputBase-input': { padding: '8px', ontSize: '14px', } }} />
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Amount.error}</div>
+                                    <div className='error_txt'>{Amount.error}</div>
                                 </Stack>
                             </div>
                             <div className='estimate-grp'>
@@ -1081,7 +1100,7 @@ export default function AddChitEstimatePage() {
                                             onChange={(e) => ChitEstimateTextValidate(e, "Dividend")}
                                             sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} />
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Dividend.error}</div>
+                                    <div  className='error_txt'>{Dividend.error}</div>
                                 </Stack>
                             </div>
                             <div className='estimate-grp'>
@@ -1098,7 +1117,7 @@ export default function AddChitEstimatePage() {
                                             onChange={(e) => ChitEstimateTextValidate(e, "Duration")}
                                             sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} />
                                     </Stack>
-                                    <div style={{ marginLeft: "25px", marginTop: "-10px", color: 'red', fontSize: "12px", fontWeight: "500", }}>{Duration.error}</div>
+                                    <div className='error_txt'>{Duration.error}</div>
                                 </Stack>
                             </div>
                         </Stack>
@@ -1422,7 +1441,7 @@ export default function AddChitEstimatePage() {
                                                                     <Iconify padding='2px'
                                                                         icon="icon-park-solid:add-one" />
                                                                 </IconButton>
-                                                                : (row.install_no !== 1 && <IconButton onClick={() => {
+                                                                : ((row.install_no !== 1) && <IconButton onClick={() => {
                                                                     setMemberDeleteClick(true); setSelectGroupMemberList({
                                                                         add: 0,
                                                                         remove: index,
@@ -1620,6 +1639,7 @@ export default function AddChitEstimatePage() {
                     <img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 70, height: 70 }} />
                 </Stack>
             </Dialog>
+            <Portal>
             <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "save_alert" ? 2000 : 1000} onClose={HandleAlertClose}
                 anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
                 <Alert
@@ -1630,6 +1650,7 @@ export default function AddChitEstimatePage() {
                     {AlertMessage}
                 </Alert>
             </Snackbar>
+            </Portal>
         </div>
     );
 }

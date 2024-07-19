@@ -746,6 +746,8 @@ export default function AddChitAuctionPage() {
                 "id": 0,
                 "auctionentryid": 0,
                 "tktno": item.tktno,
+                "tkt_suffix": "A",
+                "tkt_percentage": "100",
                 "memberid": item.memberid,
                 "member_name": item.member_name,
                 "group_member_id": item.group_member_id,
@@ -1118,15 +1120,21 @@ export default function AddChitAuctionPage() {
                         return currMaxAucDisc > (parseFloat(maxItem.maxaucdisc) || 0) ? currItem : maxItem;
                     }, { maxaucdisc: "0" });
                 }
-
+                const fmAfmCommission = Number(FM_AFMCommission) || 0;
+                const CalculateDividend = (Number(highestItem.maxaucdisc) - fmAfmCommission) / data.duration || 0;
+                console.log("CalculateDividend--> ", CalculateDividend);
+                setDividend({
+                    data: CalculateDividend.toFixed(2) || 0,
+                    error: ""
+                });
                 setInstNo({
                     data: highestItem.installno,
                     error: ""
                 });
-                setDividend({
+                /* setDividend({
                     data: highestItem.dividend ? highestItem.dividend : "0",
                     error: ""
-                });
+                }); */
                 setPrizedMember({
                     data: highestItem.member_name,
                     error: ""
@@ -1142,7 +1150,7 @@ export default function AddChitAuctionPage() {
 
                 // Update the prized_member value of the highestItem
                 const finalList = updatedList.map(items =>
-                    items === highestItem ? { ...items, is_prizedmember: "1" } : items
+                    items === highestItem ? { ...items, is_prizedmember: "1" } : { ...items, is_prizedmember: "0" }
                 );
 
                 return finalList;
@@ -1561,26 +1569,28 @@ export default function AddChitAuctionPage() {
                 is_companymember: "not_companymember"
             };
             console.log("updatedItem1", updatedItem);
-            setInstNo({
-                data: updatedItem.installno,
-                error: ""
-            });
-            setDividend({
-                data: updatedItem.dividend,
-                error: ""
-            });
-            setPrizedMember({
-                data: updatedItem.member_name,
-                error: ""
-            });
-            setTktNo({
-                data: updatedItem.installno,
-                error: ""
-            });
-            setMaxADisc({
-                data: updatedItem.maxaucdisc,
-                error: ""
-            });
+            if(CompanyMemberId > 0){
+                setInstNo({
+                    data: updatedItem.installno,
+                    error: ""
+                });
+                setDividend({
+                    data: updatedItem.dividend,
+                    error: ""
+                });
+                setPrizedMember({
+                    data: updatedItem.member_name,
+                    error: ""
+                });
+                setTktNo({
+                    data: updatedItem.installno,
+                    error: ""
+                });
+                setMaxADisc({
+                    data: updatedItem.maxaucdisc,
+                    error: ""
+                });
+            }
             setSelectAuctionList(updatedItem);
             setChitAuctionMemberList([...ChitAuctionMemberList, updatedItem]);
             setAddMemberListAlert(false);
@@ -1954,7 +1964,7 @@ export default function AddChitAuctionPage() {
                                                 <DemoContainer components={['DatePicker']} className="date-pick">
                                                     <DatePicker
                                                         // label="Auc Date"
-                                                        disabled={screen === "view"}
+                                                        disabled={screen === "view" || screen === "add"}
                                                         value={AucDate.data}
                                                         onChange={(date) => HandleDateChange(date, "AucDate")}
                                                         format="DD-MM-YYYY"

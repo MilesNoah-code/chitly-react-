@@ -102,7 +102,7 @@ export default function AddChitPaymentPage() {
     const [LedgerFilterName, setLedgerFilterName] = useState('');
     const [SelectLedgerList, setSelectLedgerList] = useState([]);
     // const [ReqChitParameterList, setReqChitParameterList] = useState([]);
-    const [LedgerNameError, setLedgerNameError] = useState('');
+    // const [LedgerNameError, setLedgerNameError] = useState('');
     const [ScreenRefresh, setScreenRefresh] = useState(0);
     const [TotalCount, setTotalCount] = useState(0);
     const [dialogPage, setDialogPage] = useState(0);
@@ -421,7 +421,7 @@ export default function AddChitPaymentPage() {
                     setErrorAlert(true);
                     setErrorScreen("error");
                     // console.log(error);
-                })
+                }) 
         }
     }
 
@@ -596,7 +596,7 @@ export default function AddChitPaymentPage() {
                 error: ""
             }));
         }
-        const isLedgerListValid = validateLedgerList();
+        /* const isLedgerListValid = validateLedgerList();
         if (SelectUnPaidGroup.memberid !== 1) {
             if (SelectLedgerList.length === 0) {
                 IsValidate = false;
@@ -607,13 +607,13 @@ export default function AddChitPaymentPage() {
             if (!isLedgerListValid) {
                 IsValidate = false;
             }
-        }
+        } */
         if (screen === "add") {
             ChitPaymentAddMethod(IsValidate);
         }
     };
 
-    const validateLedgerList = () => {
+    /* const validateLedgerList = () => {
         let isValid = true;
         setSelectLedgerList(prevState =>
             prevState.map(ledger => {
@@ -634,7 +634,7 @@ export default function AddChitPaymentPage() {
             })
         );
         return isValid;
-    };
+    }; */
 
     const HandleAlertShow = () => {
         setAlertOpen(true);
@@ -720,7 +720,7 @@ export default function AddChitPaymentPage() {
         }));
         setValues(prevState => ({
             ...prevState,
-            data: item.amount,
+            data: item.prizedAmount,
             error: ""
         }));
         GetReceiptNumberList(item.id);
@@ -930,7 +930,7 @@ export default function AddChitPaymentPage() {
                                                     <TextField
                                                         className='input-box1'
                                                         id="outlined-required"
-                                                        readOnly
+                                                        disabled={screen === "view"}
                                                         // label="Group No"
                                                         value={GroupNoSearch.data}
                                                         onChange={(e) => ChitPaymentTextValidate(e, "GroupNoSearch")}
@@ -1200,7 +1200,7 @@ export default function AddChitPaymentPage() {
                                         </div>
                                     </Stack>
                                 </Grid>
-                                <Grid item xs={12} md={6} className={screen === "view" ? 'view-one' : 'box-one'}>
+                                <Grid item xs={12} md={6} sx={{ display: 'none' }} className={screen === "view" ? 'view-one' : 'box-one'}>
 
                                     {screen === "view"
                                         ? null
@@ -1215,9 +1215,9 @@ export default function AddChitPaymentPage() {
                                                         <img src="/assets/images/img/rounded_plus.png" alt="Loading" style={{ width: 18, height: 18, }} />
                                                     </Stack>
                                                 </Stack>}
-                                            {SelectUnPaidGroup.memberid === 1
+                                            {/* SelectUnPaidGroup.memberid === 1
                                                 ? null
-                                                : <div className='error_txt ledger_error'>{LedgerNameError}</div>}
+                                                : <div className='error_txt ledger_error'>{LedgerNameError}</div> */}
                                             <Stack>
                                                 {SelectLedgerList
                                                     .map((row, index) => (
@@ -1434,7 +1434,7 @@ export default function AddChitPaymentPage() {
                                                     .map((row) => (
                                                         <ChitPaymentMemberTableRow
                                                             key={row.id}
-                                                            selected={selected.indexOf(row.name) !== -1}
+                                                            selected={selected.indexOf(row.id) !== -1}
                                                             handleClick={(event) => handleClick(event, row)}
                                                             item={row} />))}
                                                 <TableEmptyRows

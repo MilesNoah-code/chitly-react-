@@ -161,7 +161,7 @@ export default function AddChitReceiptPage() {
                         error: ""
                     });
                     setAccountNo({
-                        data: json.list.accno != null ? json.list.accno : "",
+                        data: json.list.memberid != null ? json.list.memberid : "",
                         error: ""
                     });
                     setInstFrom({

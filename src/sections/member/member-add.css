@@ -53,7 +53,7 @@
   border-radius: 50%;
   background-color: transparent;
   border: 1px solid #eee;
-  padding: 7px;
+  padding: 7px !important;
   cursor: pointer;
   min-width: 30px !important;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);

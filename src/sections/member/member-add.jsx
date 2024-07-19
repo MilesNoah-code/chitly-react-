@@ -2065,8 +2065,15 @@ export default function AddMemberPage() {
                                                         id="outlined-required"
                                                         disabled={screen === "view"}
                                                         value={MobileNumber.data}
+                                                        inputMode='numeric'
                                                         onChange={(e) => MemberInfoTextValidate(e, "MobileNumber")}
                                                         type='number'
+                                                        onKeyDown={(e) => {
+                                                            // Prevent the 'e' character from being entered
+                                                            if (e.key === 'e' || e.key === 'E') {
+                                                                e.preventDefault();
+                                                            }
+                                                        }}
                                                         sx={{
                                                             '& .MuiInputBase-input': {
                                                                 padding: '8px',

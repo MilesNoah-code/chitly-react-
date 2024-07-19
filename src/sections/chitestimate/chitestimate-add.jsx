@@ -86,6 +86,7 @@ export default function AddChitEstimatePage() {
     });
     const [AuctionDateError, setAuctionDateError] = useState('');
     const [MemberUpdateLoading, setMemberUpdateLoading] = useState(false);
+    const [ChitEstimateTotal, setChitEstimateTotal] = useState(0);
 
     useEffect(() => {
         console.log(data)
@@ -122,6 +123,7 @@ export default function AddChitEstimatePage() {
                 // console.log(JSON.stringify(json));
                 setChitEstimateLoading(false);
                 if (json.success) {
+                    setChitEstimateTotal(json.total);
                     const existingList = json.list;
                     const existingInstno = new Set(existingList.map(item => item.Instno));
 
@@ -172,8 +174,12 @@ export default function AddChitEstimatePage() {
             })
     }
 
-    const GetChitEstimateMemberList = () => {
-        setChitEstimateMemberLoading(true);
+    const GetChitEstimateMemberList = (from) => {
+        if(from === "company_member"){
+            // console.log(from)
+        }else{
+            setChitEstimateMemberLoading(true);
+        }
         const url = `${REACT_APP_HOST_URL}${CHIT_ESTIMATE_MEMBER_LIST}${data?.id ? data.id : ""}`;
         console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
@@ -288,7 +294,7 @@ export default function AddChitEstimatePage() {
                             comments: "",
                             memberProfile: json.list.mapped_photo,
                             memberName: json.list.name,
-                            accno: json.list.accno,
+                            accno: json.list.id,
                             action: "delete"
                         };
                         const updatedList = [updatedFirstItem, ...datas.slice(1)];
@@ -431,7 +437,7 @@ export default function AddChitEstimatePage() {
                 setScreenRefresh(0);
                 if (json.success) {
                     if (from === "company_member") {
-                        // console.log(from);
+                        GetChitEstimateMemberList("company_member");
                     } else {
                         setAlertMessage(json.message);
                         setAlertFrom("success");
@@ -506,7 +512,7 @@ export default function AddChitEstimatePage() {
                 setScreenRefresh(0);
                 if (json.success) {
                     setAlertMessage(json.message);
-                    setAlertFrom("remove_success");
+                    setAlertFrom("success");
                     HandleAlertShow();
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
@@ -713,7 +719,7 @@ export default function AddChitEstimatePage() {
     };
 
     const ensureNumber = (value) => {
-        const num = Number(value);
+        const num = parseFloat(value);
         return Number.isNaN(num) ? "" : num;
     };
 
@@ -791,23 +797,23 @@ export default function AddChitEstimatePage() {
                         CaculatePayment = TextValue;
                     }
                 }
-                console.log(" Math.round(ensureNumber(prev.fm_commission))", Math.round(ensureNumber(prev.fm_commission)))
+                console.log(" Math.round(ensureNumber(prev.fm_commission))", ensureNumber(prev.fm_commission))
                 if (prev === item) {
-                    const PaymentDataSet = index === ChitEstimateList.length - 1 ? Math.round(ensureNumber(CaculateEditPayment)) : Math.round(ensureNumber(CaculatePayment));
-                    const PaymentDataFinalSet = (from === "payment") ? Math.round(ensureNumber(CaculatePayment)) : PaymentDataSet;
+                    const PaymentDataSet = index === ChitEstimateList.length - 1 ? ensureNumber(CaculateEditPayment) : ensureNumber(CaculatePayment);
+                    const PaymentDataFinalSet = (from === "payment") ? ensureNumber(CaculatePayment) : PaymentDataSet;
                     console.log("PaymentDataFinalSet--> ", PaymentDataFinalSet);
                     return {
                         ...prev,
                         id: ids,
-                        dueamount: from === "dueamount" ? Math.round(ensureNumber(CaculateDueAmount)) : Math.round(ensureNumber(prev.dueamount)),
-                        dueamount_error: from === "dueamount" && (Math.round(ensureNumber(CaculateDueAmount)) || Math.round(ensureNumber(prev.dueamount))) === "" ? "* Required" : "",
-                        less_amount: from === "less_amount" || from === "dueamount" || from === "fm_commission" ? Math.round(ensureNumber(CaculateLessAmount)) : Math.round(ensureNumber(prev.less_amount)),
-                        less_amount_error: from === "less_amount" && (Math.round(ensureNumber(CaculateLessAmount)) || Math.round(ensureNumber(prev.less_amount))) === "" ? "* Required" : "",
+                        dueamount: from === "dueamount" ? ensureNumber(CaculateDueAmount) : ensureNumber(prev.dueamount),
+                        dueamount_error: from === "dueamount" && (ensureNumber(CaculateDueAmount) || ensureNumber(prev.dueamount)) === "" ? "* Required" : "",
+                        less_amount: from === "less_amount" || from === "dueamount" || from === "fm_commission" ? ensureNumber(CaculateLessAmount) : ensureNumber(prev.less_amount),
+                        less_amount_error: from === "less_amount" && (ensureNumber(CaculateLessAmount) || ensureNumber(prev.less_amount)) === "" ? "* Required" : "",
                         fm_commission: from === "fm_commission" ? ensureNumber(TextValue) : prev.fm_commission,
-                        fm_commission_error: from === "fm_commission" && (ensureNumber(TextValue) || Math.round(ensureNumber(prev.fm_commission))) === "" ? "* Required" : "",
-                        gst_value: from === "gst_value" ? ensureNumber(TextValue) : Math.round(ensureNumber(prev.gst_value)),
-                        doc_charge_value: from === "doc_charge_value" ? ensureNumber(TextValue) : Math.round(ensureNumber(prev.doc_charge_value)),
-                        payment: from === "payment" || from === "dueamount" || from === "fm_commission" ? PaymentDataFinalSet : Math.round(ensureNumber(prev.payment)),
+                        fm_commission_error: from === "fm_commission" && (ensureNumber(TextValue) || ensureNumber(prev.fm_commission)) === "" ? "* Required" : "",
+                        gst_value: from === "gst_value" ? ensureNumber(TextValue) : ensureNumber(prev.gst_value),
+                        doc_charge_value: from === "doc_charge_value" ? ensureNumber(TextValue) : ensureNumber(prev.doc_charge_value),
+                        payment: from === "payment" || from === "dueamount" || from === "fm_commission" ? PaymentDataFinalSet.toFixed(2) : ensureNumber(prev.payment).toFixed(2),
                     };
                 }
                 return prev;
@@ -1140,8 +1146,8 @@ export default function AddChitEstimatePage() {
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Due.Amt</TableCell>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Less.Amt</TableCell>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>FM.com.Amt</TableCell>
-                                            <TableCell className='heading_width' sx={{ background: '#edf4fe', color: '#1877f2', }}
-                                            >GST</TableCell>
+                                            {/* <TableCell className='heading_width' sx={{ background: '#edf4fe', color: '#1877f2', }}
+                                            >GST</TableCell> */}
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Payment</TableCell>
                                         </TableRow>
                                         <TableBody className='tab-body'>
@@ -1172,10 +1178,10 @@ export default function AddChitEstimatePage() {
                                                                             paddingRight: '2px',
                                                                         },
                                                                         '& .MuiOutlinedInput-input': {
-                                                                            width: '68px'
+                                                                            width: '78px'
                                                                         },
                                                                         '& .MuiInputAdornment-root': { padding: '2px', },
-                                                                        '& .MuiButtonBase-root': { padding: '2px', width: '28px' },
+                                                                        '& .MuiButtonBase-root': { padding: '2px', width: '40px' },
                                                                         '& .MuiSvgIcon-root': {
                                                                             fontSize: '18px',
                                                                             paddingRight: '4px',
@@ -1192,6 +1198,7 @@ export default function AddChitEstimatePage() {
                                                                 className='input-box'
                                                                 value={row.dueamount}
                                                                 onChange={(e) => ChitEstimateListTextValidate(e, row, index, "dueamount")}
+                                                                type="number" 
                                                                 sx={{
                                                                     backgroundColor: 'transparent',
                                                                     '& .MuiFilledInput-root': {
@@ -1216,6 +1223,7 @@ export default function AddChitEstimatePage() {
                                                                 error={(row.less_amount_error && row.less_amount_error !== "")}
                                                                 value={row.less_amount}
                                                                 onChange={(e) => ChitEstimateListTextValidate(e, row, index, "less_amount")}
+                                                                type="number" 
                                                                 sx={{
                                                                     backgroundColor: 'transparent',
                                                                     '& .MuiFilledInput-root': {
@@ -1237,6 +1245,7 @@ export default function AddChitEstimatePage() {
                                                                 variant="filled"
                                                                 value={row.fm_commission}
                                                                 onChange={(e) => ChitEstimateListTextValidate(e, row, index, "fm_commission")}
+                                                                type="number" 
                                                                 sx={{
                                                                     backgroundColor: 'transparent',
                                                                     '& .MuiFilledInput-root': {
@@ -1250,7 +1259,7 @@ export default function AddChitEstimatePage() {
                                                                     '& .MuiInputAdornment-root': { padding: '2px', }
                                                                 }} />
                                                         </TableCell>
-                                                        <TableCell className='cell_width'>
+                                                        {/* <TableCell className='cell_width'>
                                                             <TextField
                                                                 className='input-box3'
                                                                 id="filled-hidden-label-normal"
@@ -1276,7 +1285,7 @@ export default function AddChitEstimatePage() {
 
 
                                                                 }} />
-                                                        </TableCell>
+                                                        </TableCell> */}
                                                         <TableCell >                                                                                 
                                                             <TextField
                                                                 className='input-box'
@@ -1285,6 +1294,7 @@ export default function AddChitEstimatePage() {
                                                                 value={row.payment}
                                                                 disabled={index !== ChitEstimateList.length - 1}
                                                                 onChange={(e) => ChitEstimateListTextValidate(e, row, index, "payment")}
+                                                                type="number" 
                                                                 sx={{
                                                                     backgroundColor: 'transparent',
                                                                     '& .MuiFilledInput-root': {
@@ -1432,7 +1442,7 @@ export default function AddChitEstimatePage() {
                                                         <TableCell >
 
                                                             {row.action === "add"
-                                                                ? <IconButton
+                                                                ? (ChitEstimateTotal > 0 && <IconButton
                                                                     className='icon-button'
                                                                     onClick={() => HandleChitEstimateMemberAddClick(row, index)} sx={{
                                                                         cursor: 'pointer',
@@ -1440,7 +1450,7 @@ export default function AddChitEstimatePage() {
                                                                     }} InputProps={{ padding: '2px' }}>
                                                                     <Iconify padding='2px'
                                                                         icon="icon-park-solid:add-one" />
-                                                                </IconButton>
+                                                                </IconButton>)
                                                                 : ((row.install_no !== 1) && <IconButton onClick={() => {
                                                                     setMemberDeleteClick(true); setSelectGroupMemberList({
                                                                         add: 0,

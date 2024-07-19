@@ -1,3 +1,15 @@
+3.4.13
+Date : 19/07/2024
+Type : Bug fix
+Description :  
+        1.auction save and update auction member details - pass tktnumber and suffix -> changed
+        2.Don't set prized member, after fill max auc disc only need to set -> fixed
+        3.auction screen -> dividend calculation missing -> changed
+        4.auction save and update -> isPrized member wrongly passing -> fixed
+        5.chit payment -> wrong Payment amount display
+        6.Sometime color differing in popup -> chit payment popup -> fixed
+        7.Chit payment View screen --> when clicking group no -> popup coming -> fixed
+----------------------------------------------------------------
 3.4.12
 Date : 18/07/2024
 Type : Bug fix

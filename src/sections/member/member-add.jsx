@@ -2792,8 +2792,8 @@ export default function AddMemberPage() {
                                                                 </div>
                                                             </Stack>}
                                                         {row.name && <Typography variant="subtitle1" sx={{ mt: 1, mb: '-4px', textAlign: 'center' }}>
-                                                                {row.name}
-                                                            </Typography> }
+                                                            {row.name}
+                                                        </Typography>}
                                                     </Stack>
                                                 ))}
                                         </Stack>
@@ -2842,37 +2842,37 @@ export default function AddMemberPage() {
                 aria-describedby="alert-dialog-description"
                 sx={{
                     "& .MuiDialog-container": {
-                      "& .MuiPaper-root": {
-                        width: "100%",
-                        fontSize:{
-                            xs:'11px',
-                            sm:'12px',
+                        "& .MuiPaper-root": {
+                            width: "100%",
+                            fontSize: {
+                                xs: '11px',
+                                sm: '12px',
+                            },
+                            maxWidth: {
+                                // xs:'300px',
+                                md: "350px",
+                            }  // Set your width here
                         },
-                        maxWidth:{
-                            // xs:'300px',
-                            md:"350px",
-                        }  // Set your width here
-                      },
                     },
-                  }}              
-                >
+                }}
+            >
                 <IconButton
                     aria-label="close"
                     onClick={HandleProofAlertClose}
                     sx={{ position: 'absolute', right: 14, top: 20, color: (theme) => theme.palette.grey[500], cursor: 'pointer' }} >
                     <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 17, height: 17, }} />
                 </IconButton>
-                <Stack flexDirection='row' sx={{ mt: 3, ml: 3}}>
+                <Stack flexDirection='row' sx={{ mt: 3, ml: 3 }}>
                     <Button component="label" variant="contained" tabIndex={-1} className='upload-btn'>
                         Upload Proof
                         <VisuallyHiddenInput type="file" onChange={HandleProofImage} />
                     </Button>
                 </Stack>
-                <Stack sx={{ mt: 2, ml:3 ,mr:2}}>
+                <Stack sx={{ mt: 2, ml: 3, mr: 2 }}>
                     <Stack direction='row ' className='img-row' gap={1}>
                         {ProofImage.data
                             ? <img src={ProofImage.type === "local" ? `${ProofImage.data}` : `${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${ProofImage.data}`} alt="Loading" style={{ width: 120, height: 120, }} className='proof_img' />
-                            : <img src="/assets/images/img/image_placeholder.png" alt="Loading" style={{ width: 120, height: 120, }} className='proof_img'/>}
+                            : <img src="/assets/images/img/image_placeholder.png" alt="Loading" style={{ width: 120, height: 120, }} className='proof_img' />}
                         <Stack flexDirection='column' sx={{ ml: 2, }}>
                             <Stack flexDirection='row dropdown'>
                                 <TextField

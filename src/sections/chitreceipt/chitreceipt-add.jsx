@@ -842,7 +842,8 @@ export default function AddChitReceiptPage() {
                                                     </ListItem>
                                                 )}
                                                 renderInput={(params) => <TextField {...params} label={screen === "view" ? GroupNoSearch.data : ""}
-                                                error={!!GroupNoSearch.error} />}
+                                                // error={!!GroupNoSearch.error} 
+                                                />}
                                                 sx={{
                                                     '& .MuiAutocomplete-root  .MuiTextField-root': {
                                                         padding: '8px',
@@ -853,7 +854,7 @@ export default function AddChitReceiptPage() {
                                             />
 
                                         </Stack>
-                                        {/* <div className='error_txt' >{GroupNoSearch.error}</div> */}
+                                        <div className='error_txt' >{GroupNoSearch.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>
@@ -879,7 +880,7 @@ export default function AddChitReceiptPage() {
                                                 }}
                                                 error={!!MemberName.error} />
                                         </Stack>
-                                        {/* <div className='error_txt'>{MemberName.error}</div> */}
+                                        <div className='error_txt'>{MemberName.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='receipt-grp'>
@@ -903,7 +904,7 @@ export default function AddChitReceiptPage() {
                                                 }} 
                                                 error={!!ReceiptNo.error}/>
                                         </Stack>
-                                        {/* <div className='error_txt'>{ReceiptNo.error}</div> */}
+                                        <div className='error_txt'>{ReceiptNo.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>
@@ -929,7 +930,7 @@ export default function AddChitReceiptPage() {
                                                 }}
                                                 error={!!AuctionMode.error} />
                                         </Stack>
-                                        {/* <div className='error_txt'>{AuctionMode.error}</div> */}
+                                        <div className='error_txt'>{AuctionMode.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='receipt-grp'>
@@ -953,7 +954,7 @@ export default function AddChitReceiptPage() {
                                                 }}
                                                 error={!!TicketNo.error} />
                                         </Stack>
-                                        {/* <div className='error_txt'>{TicketNo.error}</div> */}
+                                        <div className='error_txt'>{TicketNo.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>
@@ -979,7 +980,7 @@ export default function AddChitReceiptPage() {
                                                 }}
                                                 error={!!AccountNo.error} />
                                         </Stack>
-                                        {/* <div className='error_txt'>{AccountNo.error}</div> */}
+                                        <div className='error_txt'>{AccountNo.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='receipt-grp'>
@@ -1003,7 +1004,7 @@ export default function AddChitReceiptPage() {
                                                 }}
                                                 error={!!Duration.error} />
                                         </Stack>
-                                        {/* <div className='error_txt'>{Duration.error}</div> */}
+                                        <div className='error_txt'>{Duration.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>
@@ -1029,7 +1030,7 @@ export default function AddChitReceiptPage() {
                                                 }}
                                                 error={!!InstFrom.error} />
                                         </Stack>
-                                        {/* <div className='error_txt'>{InstFrom.error}</div> */}
+                                        <div className='error_txt'>{InstFrom.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='receipt-grp'>
@@ -1053,7 +1054,7 @@ export default function AddChitReceiptPage() {
                                                 }}
                                                 error={!!InstTo.error} />
                                         </Stack>
-                                        {/* <div className='error_txt'>{InstTo.error}</div> */}
+                                        <div className='error_txt'>{InstTo.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>
@@ -1080,7 +1081,7 @@ export default function AddChitReceiptPage() {
                                                 }}
                                                 error={!!Values.error} />
                                         </Stack>
-                                        {/* <div className='error_txt'>{Values.error}</div> */}
+                                        <div className='error_txt'>{Values.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>

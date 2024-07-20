@@ -371,7 +371,7 @@ export default function AddChitAuctionPage() {
                                 member_name: CompanyMemberDetailList[0].memberName,
                                 group_member_id: CompanyMemberDetailList[0].id,
                                 maxaucdisc: "0",
-                                signature: "",
+                                signature: `sd.${CompanyMemberDetailList[0].memberName},Foreman : ${data.fm_afm}.Without an auction and selection process ,${CompanyMemberDetailList[0].memberName} received a foreman chit of amount Rs.${data.amount}`,
                                 prized_amount: data.amount,
                                 is_prizedmember: "1",
                                 action: 'delete',
@@ -1150,9 +1150,11 @@ export default function AddChitAuctionPage() {
 
                 // Update the prized_member value of the highestItem
                 const finalList = updatedList.map(items =>
-                    items === highestItem ? { ...items, is_prizedmember: "1" } : { ...items, is_prizedmember: "0" }
+                    items === highestItem ? { ...items, is_prizedmember: "1", prized_amount: (data.amount - Number(items.maxaucdisc)), dividend: CalculateDividend.toFixed(2) || 0 } : { ...items, is_prizedmember: "0" }
                 );
-
+                const prizedItem = finalList.find(items => items.is_prizedmember === "1");
+                setSelectAuctionList(prizedItem);
+                console.log("prizedItem--> ", prizedItem);
                 return finalList;
             }
 
@@ -1434,8 +1436,8 @@ export default function AddChitAuctionPage() {
                         member_name: item.mem_name,
                         group_member_id: item.id,
                         maxaucdisc: "0",
-                        signature: "",
-                        prized_amount: item.amount,
+                        signature: `sd.${item.mem_name}`,
+                        prized_amount: data.amount,
                         is_prizedmember: "1",
                         tktno: item.tktno,
                         action: 'delete',
@@ -1561,8 +1563,8 @@ export default function AddChitAuctionPage() {
                 member_name: item.mem_name,
                 group_member_id: item.id,
                 maxaucdisc: "0",
-                signature: "",
-                prized_amount: item.amount,
+                signature: `sd.${item.mem_name}`,
+                prized_amount: data.amount,
                 is_prizedmember: item.is_prizedmember,
                 tktno: item.tktno,
                 action: 'delete',
@@ -1864,7 +1866,7 @@ export default function AddChitAuctionPage() {
                                                   }}
                                                   error={!!GroupNo.error}/>
                                         </Stack>
-                                        {/* <div  className='error_txt'>{GroupNo.error}</div> */}
+                                        <div  className='error_txt'>{GroupNo.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='auction-grp'>
@@ -1889,7 +1891,7 @@ export default function AddChitAuctionPage() {
                                                   }}
                                                   error={!!Amount.error}/>
                                         </Stack>
-                                        {/* <div  className='error_txt'>{Amount.error}</div> */}
+                                        <div  className='error_txt'>{Amount.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>
@@ -1922,7 +1924,7 @@ export default function AddChitAuctionPage() {
                                                 </DemoContainer>
                                             </LocalizationProvider>
                                         </Stack>
-                                        {/* <div  className='error_txt'>{AucFromTime.error}</div> */}
+                                        <div  className='error_txt'>{AucFromTime.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='auction-grp box'>
@@ -1953,7 +1955,7 @@ export default function AddChitAuctionPage() {
                                                 </DemoContainer>
                                             </LocalizationProvider>
                                         </Stack>
-                                        {/* <div  className='error_txt'>{AucToTime.error}</div> */}
+                                        <div  className='error_txt'>{AucToTime.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>
@@ -1985,7 +1987,7 @@ export default function AddChitAuctionPage() {
                                                 </DemoContainer>
                                             </LocalizationProvider>
                                         </Stack>
-                                        {/* <div  className='error_txt'>{AucDate.error}</div> */}
+                                        <div  className='error_txt'>{AucDate.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='auction-grp'>
@@ -2010,7 +2012,7 @@ export default function AddChitAuctionPage() {
                                                   }}
                                                   error={!!InstNo.error}/>
                                         </Stack>
-                                        {/* <div  className='error_txt'>{InstNo.error}</div> */}
+                                        <div  className='error_txt'>{InstNo.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>
@@ -2037,7 +2039,7 @@ export default function AddChitAuctionPage() {
                                                   }}
                                                   error={!!PrizedMember.error}/>
                                         </Stack>
-                                        {/* <div  className='error_txt'>{PrizedMember.error}</div> */}
+                                        <div  className='error_txt'>{PrizedMember.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='auction-grp'>
@@ -2062,7 +2064,7 @@ export default function AddChitAuctionPage() {
                                                   }}
                                                   error={!!TktNo.error}/>
                                         </Stack>
-                                        {/* <div  className='error_txt'>{TktNo.error}</div> */}
+                                        <div  className='error_txt'>{TktNo.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>
@@ -2089,7 +2091,7 @@ export default function AddChitAuctionPage() {
                                                   }}
                                                   error={!!MaxADisc.error}/>
                                         </Stack>
-                                        {/* <div  className='error_txt'>{MaxADisc.error}</div> */}
+                                        <div  className='error_txt'>{MaxADisc.error}</div>
                                     </Stack>
                                 </div>
                                 <div className='auction-grp'>
@@ -2114,7 +2116,7 @@ export default function AddChitAuctionPage() {
                                                   }}
                                                   error={!!FM_AFMCommission.error}/>
                                         </Stack>
-                                        {/* <div  className='error_txt'>{FM_AFMCommission.error}</div> */}
+                                        <div  className='error_txt'>{FM_AFMCommission.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>
@@ -2141,7 +2143,7 @@ export default function AddChitAuctionPage() {
                                                   }}
                                                   error={!!Dividend.error}/>
                                         </Stack>
-                                        {/* <div className='error_txt'>{Dividend.error}</div> */}
+                                        <div className='error_txt'>{Dividend.error}</div>
                                     </Stack>
                                 </div>
                             </Stack>

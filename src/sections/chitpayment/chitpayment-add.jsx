@@ -945,9 +945,10 @@ export default function AddChitPaymentPage() {
                                                                 padding: '8px',
                                                             },
                                                         }} 
-                                                        error={!!GroupNoSearch.error}/>
+                                                        // error={!!GroupNoSearch.error}
+                                                        />
                                                 </Stack>
-                                                {/* <div className='error_txt'>{GroupNoSearch.error}</div> */}
+                                                <div className='error_txt'>{GroupNoSearch.error}</div>
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -976,7 +977,7 @@ export default function AddChitPaymentPage() {
                                                         }} 
                                                         error={!!MemberName.error}/>
                                                 </Stack>
-                                                {/* <div className='error_txt'>{MemberName.error}</div> */}
+                                                <div className='error_txt'>{MemberName.error}</div>
                                             </Stack>
                                         </div>
                                         <div className='box-pay-grp'>
@@ -1003,7 +1004,7 @@ export default function AddChitPaymentPage() {
                                                         }}
                                                         error={!!TicketNo.error}  />
                                                 </Stack>
-                                                {/* <div className='error_txt'>{TicketNo.error}</div> */}
+                                            <div className='error_txt'>{TicketNo.error}</div>
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -1032,7 +1033,7 @@ export default function AddChitPaymentPage() {
                                                         }} 
                                                          error={!!ReceiptNo.error}/>
                                                 </Stack>
-                                                {/* <div className='error_txt'>{ReceiptNo.error}</div> */}
+                                                <div className='error_txt'>{ReceiptNo.error}</div>
                                             </Stack>
                                         </div>
                                         <div className='box-pay-grp'>
@@ -1059,7 +1060,7 @@ export default function AddChitPaymentPage() {
                                                         }}
                                                         error={!!InstallmentNo.error} />
                                                 </Stack>
-                                                {/* <div className='error_txt'>{InstallmentNo.error}</div> */}
+                                                <div className='error_txt'>{InstallmentNo.error}</div>
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -1091,7 +1092,7 @@ export default function AddChitPaymentPage() {
                                                             }}
                                                             error={!!MobileNo.error} />
                                                     </Stack>
-                                                    {/* <div className='error_txt'>{MobileNo.error}</div> */}
+                                                    <div className='error_txt'>{MobileNo.error}</div>
                                                 </Stack>
                                             </div>}
                                         <div className='box-pay-grp'>
@@ -1118,7 +1119,7 @@ export default function AddChitPaymentPage() {
                                                         }}
                                                         error={!!AccountNo.error} />
                                                 </Stack>
-                                                {/* <div className='error_txt'>{AccountNo.error}</div> */}
+                                                <div className='error_txt'>{AccountNo.error}</div>
                                             </Stack>
                                         </div>
                                         {screen === "view"
@@ -1146,7 +1147,7 @@ export default function AddChitPaymentPage() {
                                                             }}
                                                             error={!!Values.error} />
                                                     </Stack>
-                                                    {/* <div className='error_txt'>{Values.error}</div> */}
+                                                    <div className='error_txt'>{Values.error}</div>
                                                 </Stack>
                                             </div>
                                             : null}
@@ -1178,7 +1179,7 @@ export default function AddChitPaymentPage() {
                                                             }}
                                                             error={!!Values.error} />
                                                     </Stack>
-                                                    {/* <div className='error_txt'>{Values.error}</div> */}
+                                                    <div className='error_txt'>{Values.error}</div>
                                                 </Stack>
                                             </div>}
                                         <div className='box-pay-grp'>
@@ -1205,7 +1206,7 @@ export default function AddChitPaymentPage() {
                                                         }} 
                                                         error={!!Particulars.error}/>
                                                 </Stack>
-                                                {/* <div className='error_txt'>{Particulars.error}</div> */}
+                                                <div className='error_txt'>{Particulars.error}</div>
                                             </Stack>
                                         </div>
                                     </Stack>

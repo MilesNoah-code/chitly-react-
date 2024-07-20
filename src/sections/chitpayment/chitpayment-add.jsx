@@ -731,13 +731,13 @@ export default function AddChitPaymentPage() {
     const HandleFilterMemberName = (event) => {
         setPage(0);
         setFilterName(event.target.value);
-        GetUnPaidGroupList(filterGroupCode, event.target.value);
+        GetUnPaidGroupList(filterGroupCode, event.target.value, dialogPage * dialogRowsPerPage, dialogRowsPerPage );
     };
 
     const HandleFilterGroupCode = (event) => {
         setPage(0);
         setfilterGroupCode(event.target.value);
-        GetUnPaidGroupList(event.target.value, filterName);
+        GetUnPaidGroupList(event.target.value, filterName, dialogPage * dialogRowsPerPage, dialogRowsPerPage);
     };
 
     const HandleCreateLedger = () => {
@@ -891,15 +891,15 @@ export default function AddChitPaymentPage() {
                         </Stack>
                         : <Stack direction='column'>
                             <Grid container spacing={1}>
-                                <Grid item xs={12} md={6} className='box-one'>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='pay-box'>
+                                <Grid item xs={12} md={6}  className='box-one'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='pay-box date-col'>
                                         <div className='box-pay-grp box'>
                                             <Stack direction='column' className='box-d'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                                     Receipt Date
                                                 </Typography>
-                                                <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                <Stack direction='row'  sx={{ ml: 0, mt: 0 }} className='date-picker-stack' >
+                                                    <LocalizationProvider  dateAdapter={AdapterDayjs} className='date-picker' >
                                                         <DemoContainer components={['DatePicker']} className="date-pick">
                                                             <DatePicker
                                                                 // label="From Date"
@@ -909,11 +909,11 @@ export default function AddChitPaymentPage() {
                                                                 format="DD-MM-YYYY"
                                                                 sx={{
                                                                     '& .MuiInputBase-input': {
-                                                                        padding: '8px',
+                                                                        padding: '9px',
                                                                         fontSize: '14px'
                                                                     },
                                                                     '& .MuiInputAdornment-root': {
-                                                                        padding: '8px',
+                                                                        // padding: '8px',
                                                                     },
                                                                 }} />
                                                         </DemoContainer>
@@ -923,7 +923,7 @@ export default function AddChitPaymentPage() {
                                         </div>
                                         <div className='box-pay-grp'>
                                             <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 ,mb:1}}>
                                                     Group No <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
@@ -944,7 +944,9 @@ export default function AddChitPaymentPage() {
                                                             '& .MuiInputAdornment-root': {
                                                                 padding: '8px',
                                                             },
-                                                        }} />
+                                                        }} 
+                                                        // error={!!GroupNoSearch.error}
+                                                        />
                                                 </Stack>
                                                 <div className='error_txt'>{GroupNoSearch.error}</div>
                                             </Stack>
@@ -953,7 +955,7 @@ export default function AddChitPaymentPage() {
                                     <Stack direction='row' spacing={2} alignItems='center' className='pay-box'>
                                         <div className='box-pay-grp'>
                                             <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb:1 }}>
                                                     Member Name <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
@@ -972,14 +974,15 @@ export default function AddChitPaymentPage() {
                                                             '& .MuiInputAdornment-root': {
                                                                 padding: '8px',
                                                             },
-                                                        }} />
+                                                        }} 
+                                                        error={!!MemberName.error}/>
                                                 </Stack>
                                                 <div className='error_txt'>{MemberName.error}</div>
                                             </Stack>
                                         </div>
                                         <div className='box-pay-grp'>
                                             <Stack direction='column'>
-                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2,mb:1 }} >
                                                     Ticket No <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
@@ -998,16 +1001,17 @@ export default function AddChitPaymentPage() {
                                                             '& .MuiInputAdornment-root': {
                                                                 padding: '8px',
                                                             },
-                                                        }} />
+                                                        }}
+                                                        error={!!TicketNo.error}  />
                                                 </Stack>
-                                                <div className='error_txt'>{TicketNo.error}</div>
+                                            <div className='error_txt'>{TicketNo.error}</div>
                                             </Stack>
                                         </div>
                                     </Stack>
                                     <Stack direction='row' spacing={2} alignItems='center' className='pay-box'>
                                         <div className='box-pay-grp'>
                                             <Stack direction='column'>
-                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb:1 }}>
                                                     Receipt No <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
@@ -1026,14 +1030,15 @@ export default function AddChitPaymentPage() {
                                                             '& .MuiInputAdornment-root': {
                                                                 padding: '8px',
                                                             },
-                                                        }} />
+                                                        }} 
+                                                         error={!!ReceiptNo.error}/>
                                                 </Stack>
                                                 <div className='error_txt'>{ReceiptNo.error}</div>
                                             </Stack>
                                         </div>
                                         <div className='box-pay-grp'>
                                             <Stack direction='column'>
-                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }}>
+                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 ,mb:1}}>
                                                     Installment No <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
@@ -1052,7 +1057,8 @@ export default function AddChitPaymentPage() {
                                                             '& .MuiInputAdornment-root': {
                                                                 padding: '8px',
                                                             },
-                                                        }} />
+                                                        }}
+                                                        error={!!InstallmentNo.error} />
                                                 </Stack>
                                                 <div className='error_txt'>{InstallmentNo.error}</div>
                                             </Stack>
@@ -1063,7 +1069,7 @@ export default function AddChitPaymentPage() {
                                             ? null
                                             : <div className='box-pay-grp'>
                                                 <Stack direction='column'>
-                                                    <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb:1 }}>
                                                         Mobile No <span style={{ color: 'red' }}> *</span>
                                                     </Typography>
                                                     <Stack direction='row' sx={{ ml: 0, }}>
@@ -1083,14 +1089,15 @@ export default function AddChitPaymentPage() {
                                                                 '& .MuiInputAdornment-root': {
                                                                     padding: '8px',
                                                                 },
-                                                            }} />
+                                                            }}
+                                                            error={!!MobileNo.error} />
                                                     </Stack>
                                                     <div className='error_txt'>{MobileNo.error}</div>
                                                 </Stack>
                                             </div>}
                                         <div className='box-pay-grp'>
                                             <Stack direction='column'>
-                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2, mr: screen === "view" ? 2 : 0 }} >
+                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2,mb:1, mr: screen === "view" ? 2 : 0 }} >
                                                     Account No <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, }}>
@@ -1109,7 +1116,8 @@ export default function AddChitPaymentPage() {
                                                             '& .MuiInputAdornment-root': {
                                                                 padding: '8px',
                                                             },
-                                                        }} />
+                                                        }}
+                                                        error={!!AccountNo.error} />
                                                 </Stack>
                                                 <div className='error_txt'>{AccountNo.error}</div>
                                             </Stack>
@@ -1117,7 +1125,7 @@ export default function AddChitPaymentPage() {
                                         {screen === "view"
                                             ? <div className='box-pay-grp'>
                                                 <Stack direction='column'>
-                                                    <Typography variant='subtitle1' sx={{ mt: 2, ml: 2, }}>
+                                                    <Typography variant='subtitle1' sx={{ mt: 2, ml: 2,mb:1 }}>
                                                         Value <span style={{ color: 'red' }}> *</span>
                                                     </Typography>
                                                     <Stack direction='row' sx={{ ml: 0, }}>
@@ -1136,7 +1144,8 @@ export default function AddChitPaymentPage() {
                                                                 '& .MuiInputAdornment-root': {
                                                                     padding: '8px',
                                                                 },
-                                                            }} />
+                                                            }}
+                                                            error={!!Values.error} />
                                                     </Stack>
                                                     <div className='error_txt'>{Values.error}</div>
                                                 </Stack>
@@ -1148,7 +1157,7 @@ export default function AddChitPaymentPage() {
                                             ? null
                                             : <div className='box-pay-grp'>
                                                 <Stack direction='column'>
-                                                    <Typography variant='subtitle1' sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    <Typography variant='subtitle1' sx={{ ml: 2, mr: 2, mt: 2, mb:1 }}>
                                                         Value <span style={{ color: 'red' }}> *</span>
                                                     </Typography>
                                                     <Stack direction='row' sx={{ ml: 0, }}>
@@ -1167,14 +1176,15 @@ export default function AddChitPaymentPage() {
                                                                 '& .MuiInputAdornment-root': {
                                                                     padding: '8px',
                                                                 },
-                                                            }} />
+                                                            }}
+                                                            error={!!Values.error} />
                                                     </Stack>
                                                     <div className='error_txt'>{Values.error}</div>
                                                 </Stack>
                                             </div>}
                                         <div className='box-pay-grp'>
                                             <Stack direction='column'>
-                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2, mr: screen === "view" ? 2 : 0 }}>
+                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2,mb:1, mr: screen === "view" ? 2 : 0 }}>
                                                     Particulars <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
                                                 <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
@@ -1193,7 +1203,8 @@ export default function AddChitPaymentPage() {
                                                             '& .MuiInputAdornment-root': {
                                                                 padding: '8px',
                                                             },
-                                                        }} />
+                                                        }} 
+                                                        error={!!Particulars.error}/>
                                                 </Stack>
                                                 <div className='error_txt'>{Particulars.error}</div>
                                             </Stack>

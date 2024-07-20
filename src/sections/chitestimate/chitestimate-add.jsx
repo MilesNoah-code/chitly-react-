@@ -1057,9 +1057,10 @@ export default function AddChitEstimatePage() {
                                             disabled
                                             value={GroupNo.data}
                                             onChange={(e) => ChitEstimateTextValidate(e, "GroupNo")}
-                                            sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} />
+                                            sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }}
+                                            error= {!!GroupNo.error}/>
                                     </Stack>
-                                    <div className='error_txt'>{GroupNo.error}</div>
+                                    {/* <div className='error_txt'>{GroupNo.error}</div> */}
                                 </Stack>
                             </div>
                             <div className='estimate-grp'>
@@ -1074,9 +1075,10 @@ export default function AddChitEstimatePage() {
                                             disabled
                                             value={ForemanPrDue.data}
                                             onChange={(e) => ChitEstimateTextValidate(e, "ForemanPrDue")}
-                                            sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} />
+                                            sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }}
+                                            error= {!!ForemanPrDue.error} />
                                     </Stack>
-                                    <div className='error_txt'>{ForemanPrDue.error}</div>
+                                    {/* <div className='error_txt'>{ForemanPrDue.error}</div> */}
                                     </Stack>
                             </div>
                             <div className='estimate-grp'>
@@ -1091,9 +1093,10 @@ export default function AddChitEstimatePage() {
                                             disabled
                                             value={Amount.data}
                                             onChange={(e) => ChitEstimateTextValidate(e, "Amount")}
-                                            sx={{ '& .MuiInputBase-input': { padding: '8px', ontSize: '14px', } }} />
+                                            sx={{ '& .MuiInputBase-input': { padding: '8px', ontSize: '14px', } }} 
+                                            error= {!!Amount.error}/>
                                     </Stack>
-                                    <div className='error_txt'>{Amount.error}</div>
+                                    {/* <div className='error_txt'>{Amount.error}</div> */}
                                 </Stack>
                             </div>
                             <div className='estimate-grp'>
@@ -1108,9 +1111,10 @@ export default function AddChitEstimatePage() {
                                             disabled
                                             value={Dividend.data}
                                             onChange={(e) => ChitEstimateTextValidate(e, "Dividend")}
-                                            sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} />
+                                            sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} 
+                                            error= {!!Dividend.error}/>
                                     </Stack>
-                                    <div  className='error_txt'>{Dividend.error}</div>
+                                    {/* <div  className='error_txt'>{Dividend.error}</div> */}
                                 </Stack>
                             </div>
                             <div className='estimate-grp'>
@@ -1125,9 +1129,10 @@ export default function AddChitEstimatePage() {
                                             disabled
                                             value={Duration.data}
                                             onChange={(e) => ChitEstimateTextValidate(e, "Duration")}
-                                            sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} />
+                                            sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} 
+                                            error= {!!Duration.error}/>
                                     </Stack>
-                                    <div className='error_txt'>{Duration.error}</div>
+                                    {/* <div className='error_txt'>{Duration.error}</div> */}
                                 </Stack>
                             </div>
                         </Stack>
@@ -1189,6 +1194,7 @@ export default function AddChitEstimatePage() {
                                                                         '& .MuiSvgIcon-root': {
                                                                             fontSize: '18px',
                                                                             paddingRight: '4px',
+                                                                            marginRight:'5px',
                                                                             alignContent: 'center'
                                                                         }
                                                                     }} />

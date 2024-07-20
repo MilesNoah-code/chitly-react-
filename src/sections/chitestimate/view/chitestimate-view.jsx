@@ -157,7 +157,7 @@ export default function ChitEstimateView() {
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
   return (
-    <div style={{ marginLeft: '35px', marginRight: '35px' }}>
+    <div style={{ marginLeft: '35px', marginRight: '35px' }} className='chitestimate-view-screen'>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
         <Typography variant="h6" sx={{ fontWeight:'600'}}>Chit Estimate List</Typography>
         <Button variant="contained" className='custom-button' sx={{ display: 'none' }}  onClick={HandleAddChitEstimateClick}>
@@ -208,10 +208,10 @@ export default function ChitEstimateView() {
               <TableContainer sx={{ overflow: 'unset' }}>
                 <Table sx={{ minWidth: 800 }}>
                   <TableRow hover tabIndex={-1}>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group Code</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Amount</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Duration</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Auction Mode</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} className='groupcode-column'>Group Code</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} className='amount-column' align='right'>Amount</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} className='duration-column'>Duration</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} className='auction-column'>Auction Mode</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
                   </TableRow>
                   <TableBody>

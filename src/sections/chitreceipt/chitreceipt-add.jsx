@@ -842,6 +842,7 @@ export default function AddChitReceiptPage() {
                                                     </ListItem>
                                                 )}
                                                 renderInput={(params) => <TextField {...params} label={screen === "view" ? GroupNoSearch.data : ""}
+                                                // error={!!GroupNoSearch.error} 
                                                 />}
                                                 sx={{
                                                     '& .MuiAutocomplete-root  .MuiTextField-root': {
@@ -876,7 +877,8 @@ export default function AddChitReceiptPage() {
                                                         padding: '8px',
                                                         fontSize: '14px',
                                                     }
-                                                }} />
+                                                }}
+                                                error={!!MemberName.error} />
                                         </Stack>
                                         <div className='error_txt'>{MemberName.error}</div>
                                     </Stack>
@@ -899,7 +901,8 @@ export default function AddChitReceiptPage() {
                                                         padding: '8px',
                                                         fontSize: '14px',
                                                     }
-                                                }} />
+                                                }} 
+                                                error={!!ReceiptNo.error}/>
                                         </Stack>
                                         <div className='error_txt'>{ReceiptNo.error}</div>
                                     </Stack>
@@ -924,7 +927,8 @@ export default function AddChitReceiptPage() {
                                                         padding: '8px',
                                                         fontSize: '14px',
                                                     }
-                                                }} />
+                                                }}
+                                                error={!!AuctionMode.error} />
                                         </Stack>
                                         <div className='error_txt'>{AuctionMode.error}</div>
                                     </Stack>
@@ -947,7 +951,8 @@ export default function AddChitReceiptPage() {
                                                         padding: '8px',
                                                         fontSize: '14px',
                                                     }
-                                                }} />
+                                                }}
+                                                error={!!TicketNo.error} />
                                         </Stack>
                                         <div className='error_txt'>{TicketNo.error}</div>
                                     </Stack>
@@ -972,7 +977,8 @@ export default function AddChitReceiptPage() {
                                                         padding: '8px',
                                                         fontSize: '14px',
                                                     }
-                                                }} />
+                                                }}
+                                                error={!!AccountNo.error} />
                                         </Stack>
                                         <div className='error_txt'>{AccountNo.error}</div>
                                     </Stack>
@@ -995,7 +1001,8 @@ export default function AddChitReceiptPage() {
                                                         padding: '8px',
                                                         fontSize: '14px',
                                                     }
-                                                }} />
+                                                }}
+                                                error={!!Duration.error} />
                                         </Stack>
                                         <div className='error_txt'>{Duration.error}</div>
                                     </Stack>
@@ -1020,7 +1027,8 @@ export default function AddChitReceiptPage() {
                                                         padding: '8px',
                                                         fontSize: '14px',
                                                     }
-                                                }} />
+                                                }}
+                                                error={!!InstFrom.error} />
                                         </Stack>
                                         <div className='error_txt'>{InstFrom.error}</div>
                                     </Stack>
@@ -1043,7 +1051,8 @@ export default function AddChitReceiptPage() {
                                                         padding: '8px',
                                                         fontSize: '14px',
                                                     }
-                                                }} />
+                                                }}
+                                                error={!!InstTo.error} />
                                         </Stack>
                                         <div className='error_txt'>{InstTo.error}</div>
                                     </Stack>
@@ -1069,7 +1078,8 @@ export default function AddChitReceiptPage() {
                                                         padding: '8px',
                                                         fontSize: '14px',
                                                     }
-                                                }} />
+                                                }}
+                                                error={!!Values.error} />
                                         </Stack>
                                         <div className='error_txt'>{Values.error}</div>
                                     </Stack>

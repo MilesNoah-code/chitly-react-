@@ -1974,9 +1974,10 @@ export default function AddMemberPage() {
                                                                 fontSize: '14px',
                                                             }
                                                         }}
+                                                        error={!!MemberName.error}
                                                     />
                                                 </Stack>
-                                                <div  className='error_txt'>{MemberName.error || NamePrefix.error}</div>
+                                                {/* <div  className='error_txt'>{MemberName.error || NamePrefix.error}</div> */}
                                             </Stack>
                                         </div>
                                         <div className='box'>
@@ -2017,9 +2018,10 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} />
+                                                        }} 
+                                                        error={!!Relationship.error}/>
                                                 </Stack>
-                                                <div className='error_txt  req' >{Relationship.error || RelationPrefix.error}</div>
+                                                {/* <div className='error_txt  req' >{Relationship.error || RelationPrefix.error}</div> */}
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -2043,7 +2045,8 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} >
+                                                        }}
+                                                        error={!!Gender.error} >
                                                         {GenderArray.map((option) => (
                                                             <MenuItem key={option} value={option}>
                                                                 {option}
@@ -2051,7 +2054,7 @@ export default function AddMemberPage() {
                                                         ))}
                                                     </TextField>
                                                 </Stack>
-                                                <div className='error_txt'>{Gender.error}</div>
+                                                {/* <div className='error_txt'>{Gender.error}</div> */}
                                             </Stack>
                                         </div>
                                         <div className='box'>
@@ -2080,9 +2083,10 @@ export default function AddMemberPage() {
                                                                 fontSize: '14px',
                                                             }
                                                         }}
+                                                        error={!!MobileNumber.error}
                                                     />
                                                 </Stack>
-                                                <div className='error_txt req'>{MobileNumber.error}</div>
+                                                {/* <div className='error_txt req'>{MobileNumber.error}</div> */}
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -2109,11 +2113,12 @@ export default function AddMemberPage() {
                                                                     '& .MuiInputAdornment-root': {
                                                                         padding: '8px',
                                                                     },
-                                                                }} />
+                                                                }} 
+                                                                error={!!Dob.error} />
                                                         </DemoContainer>
                                                     </LocalizationProvider>
                                                 </Stack>
-                                                <div className='error_txt'>{Dob.error}</div>
+                                                {/* <div className='error_txt'>{Dob.error}</div> */}
                                             </Stack>
                                         </div>
                                         <div className='box'>
@@ -2133,9 +2138,10 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} />
+                                                        }}
+                                                        error={!!Email.error} />
                                                 </Stack>
-                                                <div className='error_txt req'>{Email.error}</div>
+                                                {/* <div className='error_txt req'>{Email.error}</div> */}
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -2164,9 +2170,10 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} />
+                                                        }} 
+                                                        error={!!WhatsappNo.error}/>
                                                 </Stack>
-                                                <div className='error_txt'>{WhatsappNo.error}</div>
+                                                {/* <div className='error_txt'>{WhatsappNo.error}</div> */}
                                             </Stack>
                                         </div>
                                         <div className='box'>
@@ -2186,9 +2193,10 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} />
+                                                        }}
+                                                        error={!!GuardName.error} />
                                                 </Stack>
-                                                <div className='error_txt req'>{GuardName.error}</div>
+                                                {/* <div className='error_txt req'>{GuardName.error}</div> */}
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -2210,9 +2218,10 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} />
+                                                        }}
+                                                        error={!!GuardRelationship.error} />
                                                 </Stack>
-                                                <div className='error_txt'>{GuardRelationship.error}</div>
+                                                {/* <div className='error_txt'>{GuardRelationship.error}</div> */}
                                             </Stack>
                                         </div>
                                         <div className='box' >
@@ -2232,9 +2241,10 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} />
+                                                        }}
+                                                        error={!!AadharNo.error} />
                                                 </Stack>
-                                                <div className='error_txt req'>{AadharNo.error}</div>
+                                                {/* <div className='error_txt req'>{AadharNo.error}</div> */}
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -2260,9 +2270,10 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} />
+                                                        }} 
+                                                        error={!!Address.error} />
                                                 </Stack>
-                                                <div className='error_txt'>{Address.error}</div>
+                                                {/* <div className='error_txt'>{Address.error}</div> */}
                                             </Stack>
                                         </div>
                                         <div className='box' style={{ display: 'none' }}>
@@ -2282,9 +2293,10 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} />
+                                                        }} 
+                                                        error={!!AreaName.error} />
                                                 </Stack>
-                                                <div className='error_txt  req'>{AreaName.error}</div>
+                                                {/* <div className='error_txt  req'>{AreaName.error}</div> */}
                                             </Stack>
                                         </div>
                                         <div className='box'>
@@ -2303,9 +2315,10 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} />
+                                                        }} 
+                                                        error={!!City.error} />
                                                 </Stack>
-                                                <div className='error_txt'>{City.error}</div>
+                                                {/* <div className='error_txt'>{City.error}</div> */}
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -2328,7 +2341,8 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} >
+                                                        }}
+                                                        error={!!Country.error} >
                                                         {CountryList.map((option) => (
                                                             <MenuItem key={option} value={option.country_name}>
                                                                 {option.country_name}
@@ -2336,7 +2350,7 @@ export default function AddMemberPage() {
                                                         ))}
                                                     </TextField>
                                                 </Stack>
-                                                <div className='error_txt'>{Country.error}</div>
+                                                {/* <div className='error_txt'>{Country.error}</div> */}
                                             </Stack>
                                         </div>
                                         <div className='box'>
@@ -2357,7 +2371,8 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} >
+                                                        }}
+                                                        error={!!State.error} >
                                                         {StateList.map((option) => (
                                                             <MenuItem key={option} value={option.state_name}>
                                                                 {option.state_name}
@@ -2365,7 +2380,7 @@ export default function AddMemberPage() {
                                                         ))}
                                                     </TextField>
                                                 </Stack>
-                                                <div className='error_txt'>{State.error}</div>
+                                                {/* <div className='error_txt'>{State.error}</div> */}
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -2391,9 +2406,10 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} />
+                                                        }}
+                                                        error={!!NameOnAccount.error} />
                                                 </Stack>
-                                                <div className='error_txt'>{NameOnAccount.error}</div>
+                                                {/* <div className='error_txt'>{NameOnAccount.error}</div> */}
                                             </Stack>
                                         </div>
                                         <div className='box'>
@@ -2413,9 +2429,10 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} />
+                                                        }}
+                                                        error={!!AccountNumber.data} />
                                                 </Stack>
-                                                <div className=' error_txt req'>{AccountNumber.error}</div>
+                                                {/* <div className=' error_txt req'>{AccountNumber.error}</div> */}
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -2437,9 +2454,10 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} />
+                                                        }} 
+                                                        error={!!IFSCCode.error} />
                                                 </Stack>
-                                                <div className='error_txt'>{IFSCCode.error}</div>
+                                                {/* <div className='error_txt'>{IFSCCode.error}</div> */}
                                             </Stack>
                                         </div>
                                         <div className='box'>
@@ -2461,7 +2479,8 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} >
+                                                        }} 
+                                                        error={!!TypeOfAccount.error} >
                                                         {TypeOfAccountArray.map((option) => (
                                                             <MenuItem key={option} value={option}>
                                                                 {option}
@@ -2469,7 +2488,7 @@ export default function AddMemberPage() {
                                                         ))}
                                                     </TextField>
                                                 </Stack>
-                                                <div className=' error_txt req'>{TypeOfAccount.error}</div>
+                                                {/* <div className=' error_txt req'>{TypeOfAccount.error}</div> */}
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -2491,9 +2510,10 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} />
+                                                        }} 
+                                                        error={!!BankName.error} />
                                                 </Stack>
-                                                <div className='error_txt'>{BankName.error}</div>
+                                                {/* <div className='error_txt'>{BankName.error}</div> */}
                                             </Stack>
                                         </div>
                                         <div className='box'>
@@ -2513,9 +2533,10 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} />
+                                                        }} 
+                                                        error={!!Branch.error} />
                                                 </Stack>
-                                                <div className='error_txt'>{Branch.error}</div>
+                                                {/* <div className='error_txt'>{Branch.error}</div> */}
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -2537,9 +2558,10 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} />
+                                                        }}
+                                                        error={!!UPI.error} />
                                                 </Stack>
-                                                <div className='error_txt'>{UPI.error}</div>
+                                                {/* <div className='error_txt'>{UPI.error}</div> */}
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -2646,7 +2668,8 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }}>
+                                                        }}
+                                                        error={!!CurrentOccupation.error}>
                                                         {CurrentOccupationArray.map((option) => (
                                                             <MenuItem key={option} value={option}>
                                                                 {option}
@@ -2654,7 +2677,7 @@ export default function AddMemberPage() {
                                                         ))}
                                                     </TextField>
                                                 </Stack>
-                                                <div className='error_txt'>{CurrentOccupation.error}</div>
+                                                {/* <div className='error_txt'>{CurrentOccupation.error}</div> */}
                                             </Stack>
                                         </div>
                                         <div className='box'>
@@ -2674,9 +2697,10 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} />
+                                                        }}
+                                                        error={!!CurrentEmployer.error} />
                                                 </Stack>
-                                                <div className='req error_txt'>{CurrentEmployer.error}</div>
+                                                {/* <div className='req error_txt'>{CurrentEmployer.error}</div> */}
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -2697,9 +2721,10 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px'
                                                             }
-                                                        }} />
+                                                        }} 
+                                                        error={!!YearsAtCurrentEmployer.error} />
                                                 </Stack>
-                                                <div className='error_txt'>{YearsAtCurrentEmployer.error}</div>
+                                                {/* <div className='error_txt'>{YearsAtCurrentEmployer.error}</div> */}
                                             </Stack>
                                         </div>
                                         <div className='box'>
@@ -2719,9 +2744,10 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} />
+                                                        }}
+                                                        error={!!MonthlyIncome.error} />
                                                 </Stack>
-                                                <div className='req error_txt'>{MonthlyIncome.error}</div>
+                                                {/* <div className='req error_txt'>{MonthlyIncome.error}</div> */}
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -2763,10 +2789,11 @@ export default function AddMemberPage() {
                                                                 padding: '8px',
                                                                 fontSize: '14px',
                                                             }
-                                                        }} />
+                                                        }} 
+                                                        error={!!YearsAtCurrentResidence.error} />
                                                 </Stack>
                                             </Stack>
-                                            <div className='error_txt'>{YearsAtCurrentResidence.error}</div>
+                                            {/* <div className='error_txt'>{YearsAtCurrentResidence.error}</div> */}
                                         </div>
                                     </Stack>
                                 </TabPanel>}
@@ -2901,14 +2928,15 @@ export default function AddMemberPage() {
                                         const KYCOtherTypeData = e.target.value === "OTHERS" ? OtherArray[0] : "";
                                         setKYCOtherType({ data: e.target.value === "KYC" ? KYCArray[0] : KYCOtherTypeData, error: "" })
                                     }}
-                                    style={{ width: 140, color: 'black', }} >
+                                    style={{ width: 140, color: 'black', }} 
+                                    error={!!ProofType.error} >
                                     {ProofArray.map((option) => (
                                         <MenuItem key={option} value={option}>
                                             {option}
                                         </MenuItem>
                                     ))}
                                 </TextField>
-                                <div className='error_txt'>{ProofType.error}</div>
+                                {/* <div className='error_txt'>{ProofType.error}</div> */}
                             </Stack>
                             {ProofType.data === "KYC" || ProofType.data === "OTHERS"
                                 ? <Stack flexDirection='row' sx={{ mt: 1 }}>
@@ -2919,7 +2947,8 @@ export default function AddMemberPage() {
                                         variant="outlined"
                                         value={KYCOtherType.data}
                                         onChange={(e) => setKYCOtherType({ data: e.target.value, error: "" })}
-                                        style={{ width: 140, color: 'black' }} >
+                                        style={{ width: 140, color: 'black' }}
+                                        error={!!KYCOtherType.error} >
                                         {ProofType.data === "KYC"
                                             ? KYCArray.map((option) => (
                                                 <MenuItem key={option} value={option}>
@@ -2934,7 +2963,7 @@ export default function AddMemberPage() {
                                     </TextField>
                                 </Stack>
                                 : null}
-                            <div className='error_txt'>{KYCOtherType.error}</div>
+                            {/* <div className='error_txt'>{KYCOtherType.error}</div> */}
                         </Stack>
                     </Stack>
                     <div  className='error_txt'>{ProofImage.error}</div>

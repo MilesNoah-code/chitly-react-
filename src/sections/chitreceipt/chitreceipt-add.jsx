@@ -11,7 +11,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Box, Stack, Alert, Button, Dialog, Divider, ListItem, Snackbar, TableRow, TableCell, IconButton, Typography, Autocomplete, ListItemText, InputAdornment } from '@mui/material';
+import { Box, Stack, Alert, Button, Dialog, Portal, Divider, ListItem, Snackbar, TableRow, TableCell, IconButton, Typography, Autocomplete, ListItemText, InputAdornment } from '@mui/material';
 
 import { GetHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 
@@ -1087,16 +1087,18 @@ export default function AddChitReceiptPage() {
                         </Stack>}
                 </Box>
             </Card>
-            <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
-                <Alert
-                    onClose={HandleAlertClose}
-                    severity={AlertFrom === "failed" ? "error" : "success"}
-                    variant="filled"
-                    sx={{ width: '100%' }} >
-                    {AlertMessage}
-                </Alert>
-            </Snackbar>
+            <Portal>
+                <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
+                    <Alert
+                        onClose={HandleAlertClose}
+                        severity={AlertFrom === "failed" ? "error" : "success"}
+                        variant="filled"
+                        sx={{ width: '100%' }} >
+                        {AlertMessage}
+                    </Alert>
+                </Snackbar>
+            </Portal>
             <Dialog
                 open={MemberListAlert}
                 fullWidth

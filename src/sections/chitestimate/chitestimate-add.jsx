@@ -799,9 +799,13 @@ export default function AddChitEstimatePage() {
                 }
                 console.log(" Math.round(ensureNumber(prev.fm_commission))", ensureNumber(prev.fm_commission))
                 if (prev === item) {
-                    const PaymentDataSet = index === ChitEstimateList.length - 1 ? ensureNumber(CaculateEditPayment) : ensureNumber(CaculatePayment);
-                    const PaymentDataFinalSet = (from === "payment") ? ensureNumber(CaculatePayment) : PaymentDataSet;
-                    console.log("PaymentDataFinalSet--> ", PaymentDataFinalSet);
+                    let PaymentDataFinalSet = CaculatePayment;
+                    if (data.divident_distribute === "Next Month") {
+                        const PaymentDataSet = index === ChitEstimateList.length - 1 ? ensureNumber(CaculateEditPayment) : ensureNumber(CaculatePayment);
+                        PaymentDataFinalSet = (from === "payment") ? ensureNumber(CaculatePayment) : PaymentDataSet;
+                        console.log("PaymentDataFinalSet--> ", PaymentDataFinalSet);
+                    }
+                    const PaymentData = data.divident_distribute === "Next Month" ? PaymentDataFinalSet.toFixed(2) : ensureNumber(CaculatePayment).toFixed(2);
                     return {
                         ...prev,
                         id: ids,
@@ -813,7 +817,7 @@ export default function AddChitEstimatePage() {
                         fm_commission_error: from === "fm_commission" && (ensureNumber(TextValue) || ensureNumber(prev.fm_commission)) === "" ? "* Required" : "",
                         gst_value: from === "gst_value" ? ensureNumber(TextValue) : ensureNumber(prev.gst_value),
                         doc_charge_value: from === "doc_charge_value" ? ensureNumber(TextValue) : ensureNumber(prev.doc_charge_value),
-                        payment: from === "payment" || from === "dueamount" || from === "fm_commission" ? PaymentDataFinalSet.toFixed(2) : ensureNumber(prev.payment).toFixed(2),
+                        payment: from === "payment" || from === "dueamount" || from === "fm_commission" ? PaymentData : ensureNumber(prev.payment).toFixed(2),
                     };
                 }
                 return prev;

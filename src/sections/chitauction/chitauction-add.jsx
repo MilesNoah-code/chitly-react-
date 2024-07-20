@@ -1861,9 +1861,10 @@ export default function AddChitAuctionPage() {
                                                       padding: '8px',
                                                       fontSize:'14px' ,
                                                     }
-                                                  }}/>
+                                                  }}
+                                                  error={!!GroupNo.error}/>
                                         </Stack>
-                                        <div  className='error_txt'>{GroupNo.error}</div>
+                                        {/* <div  className='error_txt'>{GroupNo.error}</div> */}
                                     </Stack>
                                 </div>
                                 <div className='auction-grp'>
@@ -1885,9 +1886,10 @@ export default function AddChitAuctionPage() {
                                                       padding: '8px',
                                                       fontSize:'14px' ,
                                                     }
-                                                  }}/>
+                                                  }}
+                                                  error={!!Amount.error}/>
                                         </Stack>
-                                        <div  className='error_txt'>{Amount.error}</div>
+                                        {/* <div  className='error_txt'>{Amount.error}</div> */}
                                     </Stack>
                                 </div>
                             </Stack>
@@ -1915,11 +1917,12 @@ export default function AddChitAuctionPage() {
                                                             '& .MuiInputAdornment-root': {
                                                               padding: '8px',
                                                             },
-                                                          }}/>
+                                                          }}
+                                                          error={!!AucFromTime.error}/>
                                                 </DemoContainer>
                                             </LocalizationProvider>
                                         </Stack>
-                                        <div  className='error_txt'>{AucFromTime.error}</div>
+                                        {/* <div  className='error_txt'>{AucFromTime.error}</div> */}
                                     </Stack>
                                 </div>
                                 <div className='auction-grp box'>
@@ -1945,11 +1948,12 @@ export default function AddChitAuctionPage() {
                                                             '& .MuiInputAdornment-root': {
                                                               padding: '8px',
                                                             },
-                                                          }}/>
+                                                          }}
+                                                          error={!!AucToTime.error}/>
                                                 </DemoContainer>
                                             </LocalizationProvider>
                                         </Stack>
-                                        <div  className='error_txt'>{AucToTime.error}</div>
+                                        {/* <div  className='error_txt'>{AucToTime.error}</div> */}
                                     </Stack>
                                 </div>
                             </Stack>
@@ -1976,11 +1980,12 @@ export default function AddChitAuctionPage() {
                                                             '& .MuiInputAdornment-root': {
                                                               padding: '8px',
                                                             },
-                                                          }}/>
+                                                          }}
+                                                          error={!!AucDate.error}/>
                                                 </DemoContainer>
                                             </LocalizationProvider>
                                         </Stack>
-                                        <div  className='error_txt'>{AucDate.error}</div>
+                                        {/* <div  className='error_txt'>{AucDate.error}</div> */}
                                     </Stack>
                                 </div>
                                 <div className='auction-grp'>
@@ -2002,9 +2007,10 @@ export default function AddChitAuctionPage() {
                                                       padding: '8px',
                                                        fontSize:'14px' ,
                                                     }
-                                                  }}/>
+                                                  }}
+                                                  error={!!InstNo.error}/>
                                         </Stack>
-                                        <div  className='error_txt'>{InstNo.error}</div>
+                                        {/* <div  className='error_txt'>{InstNo.error}</div> */}
                                     </Stack>
                                 </div>
                             </Stack>
@@ -2028,9 +2034,10 @@ export default function AddChitAuctionPage() {
                                                       padding: '8px',
                                                        fontSize:'14px' ,
                                                     }
-                                                  }}/>
+                                                  }}
+                                                  error={!!PrizedMember.error}/>
                                         </Stack>
-                                        <div  className='error_txt'>{PrizedMember.error}</div>
+                                        {/* <div  className='error_txt'>{PrizedMember.error}</div> */}
                                     </Stack>
                                 </div>
                                 <div className='auction-grp'>
@@ -2052,9 +2059,10 @@ export default function AddChitAuctionPage() {
                                                       padding: '8px',
                                                        fontSize:'14px' ,
                                                     }
-                                                  }}/>
+                                                  }}
+                                                  error={!!TktNo.error}/>
                                         </Stack>
-                                        <div  className='error_txt'>{TktNo.error}</div>
+                                        {/* <div  className='error_txt'>{TktNo.error}</div> */}
                                     </Stack>
                                 </div>
                             </Stack>
@@ -2078,9 +2086,10 @@ export default function AddChitAuctionPage() {
                                                       padding: '8px',
                                                        fontSize:'14px' ,
                                                     }
-                                                  }}/>
+                                                  }}
+                                                  error={!!MaxADisc.error}/>
                                         </Stack>
-                                        <div  className='error_txt'>{MaxADisc.error}</div>
+                                        {/* <div  className='error_txt'>{MaxADisc.error}</div> */}
                                     </Stack>
                                 </div>
                                 <div className='auction-grp'>
@@ -2102,9 +2111,10 @@ export default function AddChitAuctionPage() {
                                                       padding: '8px',
                                                        fontSize:'14px' ,
                                                     }
-                                                  }}/>
+                                                  }}
+                                                  error={!!FM_AFMCommission.error}/>
                                         </Stack>
-                                        <div  className='error_txt'>{FM_AFMCommission.error}</div>
+                                        {/* <div  className='error_txt'>{FM_AFMCommission.error}</div> */}
                                     </Stack>
                                 </div>
                             </Stack>
@@ -2128,9 +2138,10 @@ export default function AddChitAuctionPage() {
                                                       padding: '8px',
                                                        fontSize:'14px' ,
                                                     }
-                                                  }}/>
+                                                  }}
+                                                  error={!!Dividend.error}/>
                                         </Stack>
-                                        <div className='error_txt'>{Dividend.error}</div>
+                                        {/* <div className='error_txt'>{Dividend.error}</div> */}
                                     </Stack>
                                 </div>
                             </Stack>

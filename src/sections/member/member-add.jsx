@@ -10,7 +10,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Box, Tab, Radio, Stack, Alert, Button, Dialog, MenuItem, Snackbar, RadioGroup, IconButton, Typography, DialogTitle, DialogActions, FormControlLabel } from '@mui/material';
+import { Box, Tab, Radio, Stack, Alert, Button, Portal, Dialog, MenuItem, Snackbar, RadioGroup, IconButton, Typography, DialogTitle, DialogActions, FormControlLabel } from '@mui/material';
 
 import { GetHeader, PutHeader, PostHeader, DeleteHeader, PostImageHeader } from 'src/hooks/AxiosApiFetch';
 
@@ -2153,6 +2153,12 @@ export default function AddMemberPage() {
                                                         value={WhatsappNo.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "WhatsappNo")}
                                                         type='number'
+                                                        onKeyDown={(e) => {
+                                                            // Prevent the 'e' character from being entered
+                                                            if (e.key === 'e' || e.key === 'E') {
+                                                                e.preventDefault();
+                                                            }
+                                                        }}
                                                         sx={{
                                                             '& .MuiInputBase-input': {
                                                                 padding: '8px',
@@ -2819,16 +2825,18 @@ export default function AddMemberPage() {
                     </Stack>
                 </Box>
             </Card>
-            <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "failed" || AlertFrom === "upload_failed" ? 2000 : 1000} onClose={HandleAlertClose}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center', }} sx={{ mt: '60px' }}>
-                <Alert
-                    onClose={HandleAlertClose}
-                    severity={AlertFrom === "failed" || AlertFrom === "upload_failed" ? "error" : "success"}
-                    variant="filled"
-                    sx={{ width: '100%' }} >
-                    {AlertMessage}
-                </Alert>
-            </Snackbar>
+            <Portal>
+                <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "failed" || AlertFrom === "upload_failed" ? 2000 : 1000} onClose={HandleAlertClose}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center', }} sx={{ mt: '60px' }}>
+                    <Alert
+                        onClose={HandleAlertClose}
+                        severity={AlertFrom === "failed" || AlertFrom === "upload_failed" ? "error" : "success"}
+                        variant="filled"
+                        sx={{ width: '100%' }} >
+                        {AlertMessage}
+                    </Alert>
+                </Snackbar>
+            </Portal>
             <Dialog
                 open={ProfileUploadLoading}
                 onClose={() => setProfileUploadLoading(false)}

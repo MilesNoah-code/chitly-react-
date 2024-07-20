@@ -117,6 +117,11 @@ const navConfig = [
     title: 'Reports',
     path: '/report/list',
     icon: icon('report'),
+  },
+  {
+    title: 'Activity Log',
+    path: 'ActivityLog/list',
+    icon: icon('activity_log'),
   }
 ];
 

@@ -14,7 +14,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Box, Grid, Stack, Alert, Button, Dialog, styled, Divider, Snackbar, Typography, IconButton, InputAdornment, TablePagination } from '@mui/material';
+import { Box, Grid, Stack, Alert, Button, Dialog, styled, Portal, Divider, Snackbar, Typography, IconButton, InputAdornment, TablePagination } from '@mui/material';
 
 import { GetHeader, PutHeader, PostHeader, DeleteHeader, } from 'src/hooks/AxiosApiFetch';
 
@@ -2175,16 +2175,18 @@ export default function AddChitAuctionPage() {
                         </Stack>}
                 </Box>
             </Card>
-            <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "error_alert" ? 2000 : 1000} onClose={HandleAlertClose}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
-                <Alert
-                    onClose={HandleAlertClose}
-                    severity={AlertFrom === "failed" || AlertFrom === "error_alert" ? "error" : "success"}
-                    variant="filled"
-                    sx={{ width: '100%' }} >
-                    {AlertMessage}
-                </Alert>
-            </Snackbar>
+            <Portal>
+                <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "error_alert" ? 2000 : 1000} onClose={HandleAlertClose}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
+                    <Alert
+                        onClose={HandleAlertClose}
+                        severity={AlertFrom === "failed" || AlertFrom === "error_alert" ? "error" : "success"}
+                        variant="filled"
+                        sx={{ width: '100%' }} >
+                        {AlertMessage}
+                    </Alert>
+                </Snackbar>
+            </Portal>
             <Dialog
                 open={ShowEstimateListAlert}
                 fullWidth={600}

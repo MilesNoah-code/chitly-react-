@@ -108,7 +108,7 @@ export default function AddGroupMemberPage() {
                     } : {};
                     // Initialize newList with empty slots based on duration
                     const newList = Array.from({ length: json.list.length > 0 ? list[0].duration : data.duration }, (_, index) => ({
-                        id: `empty_${index}`,
+                        primary_id: `empty_${index}`,
                         memberName: '',
                         tktno: index + 1,
                         action: "add",
@@ -120,10 +120,10 @@ export default function AddGroupMemberPage() {
                         list.forEach((member) => {
                             const index = member.tktno - 1; // Adjust tktno to be 0-based index
                             if (index >= 0 && index < list[0].duration) {
-                                newList[index] = { ...newList[index], ...member, action: "delete" };
+                                newList[index] = { ...newList[index], ...member, action: "delete", primary_id: member.id };
                             }
                         });
-                        GetMemberDetail(1, newList[0].id, 2, '');
+                        GetMemberDetail(1, newList[0], 2, '');
                     }
                     
                     // console.log(JSON.stringify(newList));
@@ -146,9 +146,9 @@ export default function AddGroupMemberPage() {
             });
     };
 
-    const GetMemberDetail = (isActive, id, from, index) => {
+    const GetMemberDetail = (isActive, item, from, index) => {
         setMemberListLoading(true);
-        const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}&id=${id}`;
+        const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}&id=${item.id}`;
         // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
@@ -168,6 +168,9 @@ export default function AddGroupMemberPage() {
                         setGroupMemberId('');
                     }
                     console.log("from", from);
+                    if(from === 4){
+                        GetAddressView(item.memberId, item, "2");
+                    }
                     if (from === 3) {
                         /* if (TicketNoClick) {
                             setAlertMessage("please save the already selected Ticket No");
@@ -229,7 +232,7 @@ export default function AddGroupMemberPage() {
             })
     }
 
-    const GetAddressView = (id, memberDetails) => {
+    const GetAddressView = (id, memberDetails, from) => {
         const url = `${REACT_APP_HOST_URL}${ADDRESS_DETAIL}${id}`;
         // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
@@ -241,9 +244,13 @@ export default function AddGroupMemberPage() {
                     if (json.list !== null) {
                         const updatedItem = {
                             ...memberDetails,
-                            ...json.list
+                            ...json.list,
+                            addressId: json.list.id
                         };
                         // console.log(updatedItem)
+                        if(from === "2"){
+                            setTicketNoClick(updatedItem.tktno);
+                        }
                         setMemberDetail(updatedItem);
                     } else {
                         setMemberDetail(memberDetails);
@@ -393,7 +400,7 @@ export default function AddGroupMemberPage() {
         }
         setSelected(newSelected);
         console.log(item);
-        console.log("item")
+        console.log("handle_item")
         console.log(GroupMemberList)
         // const checkIdExists = id => GroupMemberList.some(items => items.memberId === id);
         const updatedGroupMemberList = [...GroupMemberList];
@@ -411,7 +418,7 @@ export default function AddGroupMemberPage() {
             updatedGroupMemberList[SelectedIndex] = updatedItem;
             setGroupMemberList(updatedGroupMemberList);
             setDetailLoading(true);
-            GetAddressView(item.id, updatedItem);
+            GetAddressView(item.id, updatedItem, "");
         }
         setMemberListAlert(false);
         /* if (checkIdExists(item.id)) {
@@ -462,9 +469,11 @@ export default function AddGroupMemberPage() {
     }
 
     const HandleGroupMemberClick = (event, item, index, from) => {
-        if (from === "3") {
+        if (from === "2") {
             event.stopPropagation();
             setSelectedMember(item);
+            console.log("item1234", item, "TicketNoClick1111", TicketNoClick);
+            GetMemberDetail(1, item, 3, index);
         }
         if(item && item.action === "delete"){
             console.log("item12", item);
@@ -473,24 +482,23 @@ export default function AddGroupMemberPage() {
         console.log("item1", item, "TicketNoClick1111", TicketNoClick);
         if (from === "delete"){
             setMemberDeleteAlert(true);
-        } else {
-            HandleEditMember(event, item, index, from);
+        } else if (from === "3") {
+            setSelectedIndex(index);
+            setMemberListAlert(true);
         }
     }
 
-    const HandleEditMember = (event, item, index, from) => {
+    const HandleGroupMemberEditClick = (event, item, index) => {
+        console.log("item1", item, "TicketNoClick1111", TicketNoClick);
         if (TicketNoClick !== "") {
             console.log("TicketNoClick", TicketNoClick, "item.tktno", item.tktno);
             if (TicketNoClick === item.tktno) {
-                if (from === "3" || from === "edit") {
-                    setMemberListAlert(true);
-                }
-                if (item.id && String(item.id).includes('empty_')){
+                if (item.primary_id && String(item.primary_id).includes('empty_')) {
                     setGroupMemberId('');
+                    setMemberListAlert(true);
                 } else {
-                    GetMemberDetail(1, item.id, 3, index);
+                    HandleMemberAddress(item, index);
                 }
-                
                 setSelectedIndex(index);
             } else {
                 setAlertMessage("please save the already selected Ticket No");
@@ -498,16 +506,20 @@ export default function AddGroupMemberPage() {
                 HandleAlertShow();
             }
         } else {
-            if (from === "3" || from === "edit") {
-                setMemberListAlert(true);
-            }
-            if (item.id && String(item.id).includes('empty_')){
+            if (item.primary_id && String(item.primary_id).includes('empty_')) {
                 setGroupMemberId('');
+                setMemberListAlert(true);
             } else {
-                GetMemberDetail(1, item.id, 3, index);
+                HandleMemberAddress(item, index);
             }
-            
             setSelectedIndex(index);
+        }
+    }
+
+    const HandleMemberAddress = (item, index) => {
+        if (item.groupAddressId === "" || item.groupAddressId === null || item.groupAddressId === "0" || item.groupAddressId === 0) {
+            setDetailLoading(true);
+            GetMemberDetail(1, item, 4, index);
         }
     }
 
@@ -525,7 +537,7 @@ export default function AddGroupMemberPage() {
     const HandleConfirmYesClick = () => {
         setMemberDeleteAlert(false);
         console.log("SelectedMember", SelectedMember, "SelectedIndex", SelectedIndex);
-        if (SelectedMember && String(SelectedMember.id).includes('empty_')){
+        if (SelectedMember && String(SelectedMember.primary_id).includes('empty_')){
             setGroupMemberList(prevList => prevList.map((item, i) => {
                 if (i === SelectedIndex) {
                     return {
@@ -582,18 +594,34 @@ export default function AddGroupMemberPage() {
                                                 <TableBody>
                                                     {GroupMemberList
                                                         .map((row, index) => (
-                                                            <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }} onClick={(event) => HandleGroupMemberClick(event, row, index, "2")}>
+                                                            <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); HandleGroupMemberClick(event, row, index, "2")}} >
                                                                 <TableCell sx={{ width: '25%' }}>{row.tktno}</TableCell>
                                                                 <TableCell sx={{ width: '65%' }}>{row.memberName}</TableCell>
-                                                                <TableCell sx={{ width: '10%' }}>
+                                                                <TableCell sx={{ width: '10%', alignItems: 'center', justifyContent: 'center' }}>
+                                                                    {row.tktno === "1" &&
+                                                                        (row.address !== 0 && (<div style={{ display: 'flex', justifyContent: 'center', }}>
+                                                                        <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); HandleGroupMemberEditClick(event, row, index)}}>
+                                                                                <Iconify icon="eva:edit-fill" />
+                                                                            </IconButton>
+                                                                        </div>))}
                                                                     {row.tktno !== "1" &&
                                                                         (row.action === "add"
-                                                                        ? <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => HandleGroupMemberClick(event, row,index, "3")}>
-                                                                                <Iconify icon="icon-park-solid:add-one" />
-                                                                            </IconButton>
-                                                                        : <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => HandleGroupMemberClick(event, row, index, row.action === "edit" ? "edit" : "delete")}>
-                                                                            <Iconify icon={row.action === "edit" ? "eva:edit-fill" : "eva:trash-2-outline"} />
-                                                                            </IconButton>)}
+                                                                            ? <div style={{ display: 'flex', justifyContent: 'center', }}>
+                                                                            <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); HandleGroupMemberClick(event, row, index, "3")}}>
+                                                                                    <Iconify icon="icon-park-solid:add-one" />
+                                                                                </IconButton>
+                                                                              </div>
+                                                                        : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                                                            {(row.groupAddressId === "" || row.groupAddressId === null || row.groupAddressId === "0" || row.groupAddressId === 0
+                                                                                || (row.primary_id && String(row.primary_id).includes('empty_'))) && 
+                                                                                (<IconButton sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); HandleGroupMemberEditClick(event, row, index)}}>
+                                                                                            <Iconify icon="eva:edit-fill" />
+                                                                                        </IconButton>
+                                                                                    )}
+                                                                                    <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => HandleGroupMemberClick(event, row, index, "delete")}>
+                                                                                        <Iconify icon="eva:trash-2-outline" />
+                                                                                    </IconButton>
+                                                                                </div>) }
                                                                 </TableCell>
                                                             </TableRow>
                                                         ))}

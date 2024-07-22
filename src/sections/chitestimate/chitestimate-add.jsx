@@ -719,7 +719,7 @@ export default function AddChitEstimatePage() {
     };
 
     const ensureNumber = (value) => {
-        const num = parseFloat(value);
+        const num = Number(value);
         return Number.isNaN(num) ? "" : num;
     };
 

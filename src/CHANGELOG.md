@@ -1,3 +1,10 @@
+3.4.16
+Date : 22/07/2024
+Type : Bug fix
+Description :  
+        1.group member after add member need to restrict the next add member button to save -> fixed
+        2.estimate -> Textinput value -> change parseFloat to Number -> fixed 
+----------------------------------------------------------------
 3.4.15
 Date : 20/07/2024
 Type : Bug fix

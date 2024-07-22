@@ -484,7 +484,19 @@ export default function AddGroupMemberPage() {
             setMemberDeleteAlert(true);
         } else if (from === "3") {
             setSelectedIndex(index);
-            setMemberListAlert(true);
+            console.log("TicketNoClick123", TicketNoClick, "item.tktno", item.tktno);
+            if (TicketNoClick !== "") {
+                console.log("TicketNoClick123", TicketNoClick, "item.tktno", item.tktno);
+                if (TicketNoClick === item.tktno) {
+                    setMemberListAlert(true);
+                } else {
+                    setAlertMessage("please save the already selected Ticket No");
+                    setAlertFrom("save_alert");
+                    HandleAlertShow();
+                }
+            } else {
+                setMemberListAlert(true);
+            }
         }
     }
 

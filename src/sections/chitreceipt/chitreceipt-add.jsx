@@ -11,7 +11,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Box, Stack, Alert, Button, Dialog, Divider, ListItem, Snackbar, TableRow, TableCell, IconButton, Typography, Autocomplete, ListItemText, InputAdornment } from '@mui/material';
+import { Box, Stack, Alert, Button, Dialog, Portal, Divider, ListItem, Snackbar, TableRow, TableCell, IconButton, Typography, Autocomplete, ListItemText, InputAdornment } from '@mui/material';
 
 import { GetHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 
@@ -842,6 +842,7 @@ export default function AddChitReceiptPage() {
                                                     </ListItem>
                                                 )}
                                                 renderInput={(params) => <TextField {...params} label={screen === "view" ? GroupNoSearch.data : ""}
+                                                // error={!!GroupNoSearch.error} 
                                                 />}
                                                 sx={{
                                                     '& .MuiAutocomplete-root  .MuiTextField-root': {
@@ -876,7 +877,8 @@ export default function AddChitReceiptPage() {
                                                         padding: '8px',
                                                         fontSize: '14px',
                                                     }
-                                                }} />
+                                                }}
+                                                error={!!MemberName.error} />
                                         </Stack>
                                         <div className='error_txt'>{MemberName.error}</div>
                                     </Stack>
@@ -899,7 +901,8 @@ export default function AddChitReceiptPage() {
                                                         padding: '8px',
                                                         fontSize: '14px',
                                                     }
-                                                }} />
+                                                }} 
+                                                error={!!ReceiptNo.error}/>
                                         </Stack>
                                         <div className='error_txt'>{ReceiptNo.error}</div>
                                     </Stack>
@@ -924,7 +927,8 @@ export default function AddChitReceiptPage() {
                                                         padding: '8px',
                                                         fontSize: '14px',
                                                     }
-                                                }} />
+                                                }}
+                                                error={!!AuctionMode.error} />
                                         </Stack>
                                         <div className='error_txt'>{AuctionMode.error}</div>
                                     </Stack>
@@ -947,7 +951,8 @@ export default function AddChitReceiptPage() {
                                                         padding: '8px',
                                                         fontSize: '14px',
                                                     }
-                                                }} />
+                                                }}
+                                                error={!!TicketNo.error} />
                                         </Stack>
                                         <div className='error_txt'>{TicketNo.error}</div>
                                     </Stack>
@@ -972,7 +977,8 @@ export default function AddChitReceiptPage() {
                                                         padding: '8px',
                                                         fontSize: '14px',
                                                     }
-                                                }} />
+                                                }}
+                                                error={!!AccountNo.error} />
                                         </Stack>
                                         <div className='error_txt'>{AccountNo.error}</div>
                                     </Stack>
@@ -995,7 +1001,8 @@ export default function AddChitReceiptPage() {
                                                         padding: '8px',
                                                         fontSize: '14px',
                                                     }
-                                                }} />
+                                                }}
+                                                error={!!Duration.error} />
                                         </Stack>
                                         <div className='error_txt'>{Duration.error}</div>
                                     </Stack>
@@ -1020,7 +1027,8 @@ export default function AddChitReceiptPage() {
                                                         padding: '8px',
                                                         fontSize: '14px',
                                                     }
-                                                }} />
+                                                }}
+                                                error={!!InstFrom.error} />
                                         </Stack>
                                         <div className='error_txt'>{InstFrom.error}</div>
                                     </Stack>
@@ -1043,7 +1051,8 @@ export default function AddChitReceiptPage() {
                                                         padding: '8px',
                                                         fontSize: '14px',
                                                     }
-                                                }} />
+                                                }}
+                                                error={!!InstTo.error} />
                                         </Stack>
                                         <div className='error_txt'>{InstTo.error}</div>
                                     </Stack>
@@ -1069,7 +1078,8 @@ export default function AddChitReceiptPage() {
                                                         padding: '8px',
                                                         fontSize: '14px',
                                                     }
-                                                }} />
+                                                }}
+                                                error={!!Values.error} />
                                         </Stack>
                                         <div className='error_txt'>{Values.error}</div>
                                     </Stack>
@@ -1087,16 +1097,18 @@ export default function AddChitReceiptPage() {
                         </Stack>}
                 </Box>
             </Card>
-            <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
-                <Alert
-                    onClose={HandleAlertClose}
-                    severity={AlertFrom === "failed" ? "error" : "success"}
-                    variant="filled"
-                    sx={{ width: '100%' }} >
-                    {AlertMessage}
-                </Alert>
-            </Snackbar>
+            <Portal>
+                <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
+                    <Alert
+                        onClose={HandleAlertClose}
+                        severity={AlertFrom === "failed" ? "error" : "success"}
+                        variant="filled"
+                        sx={{ width: '100%' }} >
+                        {AlertMessage}
+                    </Alert>
+                </Snackbar>
+            </Portal>
             <Dialog
                 open={MemberListAlert}
                 fullWidth

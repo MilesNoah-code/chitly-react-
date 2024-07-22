@@ -433,9 +433,10 @@ export default function AddGroupPage() {
                                                   padding: '8px',
                                                   fontSize:'14px' ,
                                                 }
-                                              }} />
+                                              }} 
+                                              error={!!GroupCode.error} />
                                     </Stack>
-                                    <div  className='error_txt'>{GroupCode.error}</div>
+                                    {/* <div  className='error_txt'>{GroupCode.error}</div> */}
                                 </Stack>
                             </div>
                             <div className='box-grp'>
@@ -457,9 +458,10 @@ export default function AddGroupPage() {
                                                   padding: '8px',
                                                   fontSize:'14px' ,
                                                 }
-                                              }} />
+                                              }}
+                                              error={!!Amount.error} />
                                     </Stack>
-                                    <div  className='error_txt'>{Amount.error}</div>
+                                    {/* <div  className='error_txt'>{Amount.error}</div> */}
                                 </Stack>
                             </div>
                         </Stack>
@@ -483,9 +485,10 @@ export default function AddGroupPage() {
                                                   padding: '8px',
                                                   fontSize:'14px' ,
                                                 }
-                                              }}  />
+                                              }} 
+                                              error={!!GroupCode.error} />
                                     </Stack>
-                                    <div  className='error_txt'>{Duration.error}</div>
+                                    {/* <div  className='error_txt'>{GroupCode.error}</div> */}
                                 </Stack>
                             </div>
                             <div className='box-grp'>
@@ -507,9 +510,10 @@ export default function AddGroupPage() {
                                                   padding: '8px',
                                                   fontSize:'14px' ,
                                                 }
-                                              }} />
+                                              }}
+                                              error={!!EMDue.error} />
                                     </Stack>
-                                    <div className='error_txt'>{EMDue.error}</div>
+                                    {/* <div className='error_txt'>{EMDue.error}</div> */}
                                 </Stack>
                             </div>
                         </Stack>
@@ -538,14 +542,15 @@ export default function AddGroupPage() {
                                                   padding: '8px',
                                                   fontSize:'14px' ,
                                                 }
-                                              }} >
+                                              }}
+                                              error={!!FMPRDue.error} >
                                             {FMPRDUEArray.map((option) => (
                                                 <MenuItem key={option} value={option}>
                                                     {option}
                                                 </MenuItem>))}
                                         </TextField>
                                     </Stack>
-                                    <div  className='error_txt'>{FMPRDue.error}</div>
+                                    {/* <div  className='error_txt'>{FMPRDue.error}</div> */}
                                 </Stack>
                             </div>
                             <div className='box-grp'>
@@ -570,7 +575,8 @@ export default function AddGroupPage() {
                                                   padding: '8px',
                                                   fontSize:'14px' ,
                                                 }
-                                              }}>
+                                              }}
+                                              error={!!Dividend.error}>
                                             {DividendArray.map((option) => (
                                                 <MenuItem key={option} value={option}>
                                                     {option}
@@ -578,7 +584,7 @@ export default function AddGroupPage() {
                                         </TextField>
                                     </Stack>
                                 </Stack>
-                                <div className='error_txt'>{Dividend.error}</div>
+                                {/* <div className='error_txt'>{Dividend.error}</div> */}
                             </div>
                         </Stack>
                         <Stack direction='row' spacing={2} alignItems='center' className='group-box'>
@@ -606,7 +612,8 @@ export default function AddGroupPage() {
                                                   padding: '8px',
                                                   fontSize:'14px' ,
                                                 }
-                                              }}>
+                                              }}
+                                              error={!!AuctionMode.error}>
                                             {AuctionModeArray.map((option) => (
                                                 <MenuItem key={option} value={option}>
                                                     {option}
@@ -614,7 +621,7 @@ export default function AddGroupPage() {
                                             ))}
                                         </TextField>
                                     </Stack>
-                                    <div  className='error_txt'>{AuctionMode.error}</div>
+                                    {/* <div  className='error_txt'>{AuctionMode.error}</div> */}
                                 </Stack>
                             </div>
                         </Stack>

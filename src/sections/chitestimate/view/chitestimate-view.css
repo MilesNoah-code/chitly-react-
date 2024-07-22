@@ -15,6 +15,19 @@
   .input-box{
     width: 100%;
   }
+  .chitestimate-view-screen .groupcode-column{
+    width: 16%;
+  }
+  .chitestimate-view-screen .amount-column{
+    width: 14%;
+  }
+  .chitestimate-view-screen .duration-column{
+    width: 9%;
+  }
+  .chitestimate-view-screen .auction-column{
+    width: 16%;
+    
+  }
   
   @media(max-width:768px){
     .mbl-view{

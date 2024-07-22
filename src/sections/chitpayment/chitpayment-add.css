@@ -35,6 +35,7 @@
   flex: 1 0 48%;
   max-width: 48%;
   flex-wrap: wrap;
+  margin-bottom: 10px !important
 }
 
 .view-one {
@@ -55,7 +56,7 @@
 }
 
 .box-pay-grp .input-box1 {
-  margin-top: 5px;
+  margin-top: 5px ;
   width: calc(100% - 20px);
 }
 
@@ -71,12 +72,12 @@
 
 }
 
-.box-one {
+.chitpayment-add-screen .box-one {
   border: 1px solid #ccc;
   margin-left: 24px;
   margin-right: -17px;
   margin-top: 25px;
-  margin-bottom: 25px;
+  margin-bottom: 25px !important;
   max-width: 48% !important;
   padding-bottom: 20px;
 }
@@ -129,6 +130,9 @@
   color: red;
   font-size: 12px;
   font-weight: 500;
+}
+.chitpayment-add-screen .date-col .date-picker-stack .date-picker{
+padding-top:0px !important ;
 }
 
 @media (max-width:991px) {

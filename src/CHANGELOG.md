@@ -1,3 +1,14 @@
+3.4.15
+Date : 20/07/2024
+Type : Bug fix
+Description :  
+        1. Member --> whatsapp number showing -1 -> fixed
+        2.Auction -> Member Why sign data not filling ? -> fixed
+        3.Receipt List Install no column --> InstFrom and InstTo - both need to show -> changed
+        4.All screen Alert still in background -> fixed
+        5.start & limit undefined passing -> fixed
+        6.Action save/update --> inside auctionMemberDetails -> how are you passing prized_amount 
+----------------------------------------------------------------
 3.4.14
 Date : 19/07/2024
 Type : Bug fix

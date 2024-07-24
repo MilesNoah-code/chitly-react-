@@ -120,7 +120,7 @@ const navConfig = [
   },
   {
     title: 'Activity Log',
-    path: 'ActivityLog/list',
+    path: '/ActivityLog/list',
     icon: icon('activity_log'),
   }
 ];

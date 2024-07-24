@@ -51,7 +51,7 @@ export default function AddMemberPage() {
         error: ""
     });
     const [RelationPrefix, setRelationPrefix] = useState({
-        data: RelationShipPrefix[0].data,
+        data: RelationShipPrefix[0].value,
         error: ""
     });
     const [Relationship, setRelationship] = useState({

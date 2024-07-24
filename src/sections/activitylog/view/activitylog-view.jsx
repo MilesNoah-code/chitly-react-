@@ -61,11 +61,11 @@ export default function ActivityLogView() {
     setTotalCount(0);
     setActivityLogList([]);
     const url = `${REACT_APP_HOST_URL}${ACTIVITY_LOG_LIST}fromDate=${fromdate}&toDate=${todate}&start=${start}&limit=${limit}`;
-    console.log(JSON.parse(Session) + url);
+    // console.log(JSON.parse(Session) + url);
     fetch(url, GetHeader(JSON.parse(Session)))
       .then((response) => response.json())
       .then((json) => {
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         setActivityLogLoading(false);
         if (json.success) {
           setTotalCount(json.total);
@@ -120,7 +120,7 @@ export default function ActivityLogView() {
 
   const HandleToDateChange = (date) => {
     const DateForSearch = date ? dayjs(date).format('YYYY-MM-DD') : "";
-    console.log('Date to search:', DateForSearch);
+    // console.log('Date to search:', DateForSearch);
     setPage(0);
     setTotalCount(0);
     setActivityLogList([]);

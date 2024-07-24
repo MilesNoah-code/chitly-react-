@@ -1,4 +1,4 @@
-.custom-button {
+.member-add-screen .custom-button {
   color: #FFFFFF;
   background-color: #1877F2;
   box-shadow: 0px 3px 1px -2px rgba(145, 158, 171, 0.2), 0px 2px 2px 0px rgba(145, 158, 171, 0.14), 0px 1px 5px 0px rgba(145, 158, 171, 0.12);
@@ -7,46 +7,46 @@
 
 }
 
-.custom-button:hover {
+.member-add-screen .custom-button:hover {
   text-decoration: none;
   background-color: #0C44AE;
   box-shadow: 0px 2px 4px -1px rgba(145, 158, 171, 0.2), 0px 4px 5px 0px rgba(145, 158, 171, 0.14), 0px 1px 10px 0px rgba(145, 158, 171, 0.12);
 }
 
-.rd-bx h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+.member-add-screen .rd-bx h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
   font-size: 15px;
   margin-left: 25px !important;
 }
 
-.stack-box {
+.member-add-screen .mem-box {
 
   display: flex !important;
   flex-wrap: wrap !important;
   width: 60%;
 }
 
-.box {
+.member-add-screen .box {
   flex: 1 0 48%;
   max-width: 48%;
   flex-wrap: wrap;
 }
 
-.box .input-box {
+.member-add-screen .box .input-box {
   margin-top: 5px !important;
   width: 150px !important;
 }
 
-.box .input-box1 {
+.member-add-screen .box .input-box1 {
   margin-top: 5px !important;
   width: calc(100% - 20px) !important;
 }
 
-.image-top {
+.member-add-screen .image-top {
   position: relative;
   margin-top: 20px;
 }
 
-.member-add-screen .btn-click {
+.member-add-screen .member-add-screen .btn-click {
   position: absolute;
   right: -21px;
   top: -47px !important;
@@ -59,7 +59,7 @@
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.alert-msg {
+.member-add-screen .alert-msg {
   display: flex;
   align-items: center;
   text-align-last: center;
@@ -67,12 +67,12 @@
   padding: 10px;
 }
 
-.row-box {
+.member-add-screen .row-box {
   display: flex;
   flex-wrap: wrap;
 }
 
-.boxing {
+.member-add-screen .boxing {
   border: 1px solid #eee;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   padding: 15px 10px;
@@ -80,23 +80,23 @@
   flex-wrap: wrap;
 }
 
-.radio-box .radio-control3.MuiFormControlLabel-root {
+.member-add-screen .radio-box .radio-control3.MuiFormControlLabel-root {
   margin-left: -2px;
 }
 
-.radio-box .radio-control2.MuiFormControlLabel-root {
+.member-add-screen .radio-box .radio-control2.MuiFormControlLabel-root {
   margin-left: 27px;
 }
 
-.radio-box .radio-control.MuiFormControlLabel-root {
+.member-add-screen .radio-box .radio-control.MuiFormControlLabel-root {
   margin-left: 5px;
 }
 
-.radio-box .radio-control1.MuiFormControlLabel-root {
+.member-add-screen .radio-box .radio-control1.MuiFormControlLabel-root {
   margin-left: 3px;
 }
 
-.radio-box .MuiFormControlLabel-root {
+.member-add-screen .radio-box .MuiFormControlLabel-root {
   margin-left: 15px;
   margin-right: 15px;
 }
@@ -109,55 +109,76 @@
   font-weight: 500
 }
 
-.add-margin {
+.member-add-screen .add-margin {
   margin-left: 23px !important;
   margin-top: -5px !important;
 }
-.img-stockc .proof_img{
+.member-add-screen .img-stockc .proof_img{
   width: 120px;
   height: 120px;
 
 }
+.member-add-screen .can-img {
+width: 10px;
+height: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+.member-add-screen .btn-click{
+  position: absolute;
+    top: -26%;
+    right: -10%;
+    border-radius: 50%;
+    background-color: #f1eeee;
+    min-width: 25px; 
+    padding: 8px 8px;
+}
+.member-add-screen .can-img:active {
+  transform: scale(0.95); 
+}
 
+.member-add-screen .img-click:hover {
+  background-color: transparent !important;
+}
 /* .dialog .MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
   font-size: 13px !important;
   padding: 9.5px 14px !important; 
 } */
  @media screen and (max-width:350px){
-  .dialog-sizing .MuiPaper-root{
+  .member-add-screen .dialog-sizing .MuiPaper-root{
     width: 100%;
     max-width:270px;
     padding: 10% !important;
                        
   }
-  .btn-top{
+  .member-add-screen .btn-top{
     margin-top: 5%;
     /* margin-left: 5%; */
   }
-  .upload-btn{
+  .member-add-screen .upload-btn{
     width: 95px;
     font-size: 12px;
   }
-  .save-btn{
+  .member-add-screen .save-btn{
     font-size: 12px;
   }
-  .MuiFormControl-root{
+  .member-add-screen .MuiFormControl-root{
     width: 95px !important;
     /* margin-left: 5px !important; */
   }
   
-   .Muistack-root{
+  .member-add-screen .Muistack-root{
     width: 95px;
     margin-left: 10% !important;
   }
-  .MuiTextField-root{
+  .member-add-screen .MuiTextField-root{
     width: 95px;
   }
-  .dialog .MuiInputBase-root{
+  .member-add-screen .dialog .MuiInputBase-root{
   width: 95px;
   margin-right: 10%;
   }
-  .dialog .MuiInputBase-input{
+  .member-add-screen .dialog .MuiInputBase-input{
     
     width:80px;
     font-size: 12px;
@@ -165,46 +186,46 @@
     
 
   }
-   .img-row .proof_img{
+  .member-add-screen .img-row .proof_img{
     width: 110px !important;
     height: 110px !important;
     /* margin-left: 10% !important; */
   }
  }
  @media (min-width:451px) and (max-width:899px){
-  .dialog-sizing .MuiPaper-root{
+  .member-add-screen .dialog-sizing .MuiPaper-root{
     width: 100%;
     max-width:300px;
     
                        
   }
-  .btn-top{
+  .member-add-screen .btn-top{
     margin-top: 5%;
     /* margin-left: 5%; */
   }
-  .upload-btn{
+  .member-add-screen .upload-btn{
     width: 120px;
     font-size: 14px;
   }
-  .save-btn{
+  .member-add-screen .save-btn{
     font-size: 14px;
   }
-  .MuiFormControl-root{
+  .member-add-screen .MuiFormControl-root{
     width: 120px !important;
     /* margin-left: 5px !important; */
   }
-  .MuiTextField-root{
+  .member-add-screen .MuiTextField-root{
     width: 120px;
   }
-   .Muistack-root{
+  .member-add-screen .Muistack-root{
     width: 120px;
     /* margin-left: 10px !important; */
   }
-  .dialog .MuiInputBase-root{
+  .member-add-screen  .dialog .MuiInputBase-root{
   width: 100px;
   margin-right: 10%;
   }
-  .dialog .MuiInputBase-input{
+  .member-add-screen .dialog .MuiInputBase-input{
     
     width:80px;
     font-size: 14px;
@@ -212,143 +233,143 @@
     
 
   }
-   .img-row .proof_img{
+  .member-add-screen .img-row .proof_img{
     width: 120px !important;
     height: 120px !important;
   }
  }
 @media (min-width:769px) and (max-width:990px) {
-  .box-grp {
+  .member-add-screen .box-grp {
     flex: 1 0 48%;
     max-width: 48%;
     flex-wrap: wrap;
   }
 
-  .stack-box {
+  .member-add-screen .mem-box {
     width: 70%;
   }
 }
 
 @media screen and (max-width: 768px) {
-  .stack-box {
+  .member-add-screen .mem-box {
     flex-direction: column !important;
     width: 100% !important;
     align-items: inherit;
   }
 
-  .stack-boxing {
+  .member-add-screen .stack-boxing {
     flex-direction: column !important;
     width: 100% !important;
     align-items: inherit;
   }
 
-  .box {
+  .member-add-screen .box {
     flex: 1 0 100%;
     max-width: 100%;
     margin-left: 0px !important;
   }
 
-  .alert-msg {
+  .member-add-screen .alert-msg {
     padding: 10px 15px 10px 15px;
     font-size: 15px;
   }
 
-  .box .input-box1 {
+  .member-add-screen .box .input-box1 {
     width: calc(100% - 0px) !important;
   }
 
-  .box .input-box {
+  .member-add-screen .box .input-box {
     width: 140px !important;
 
   }
 
-  .MuiTabPanel-root {
+  .member-add-screen .MuiTabPanel-root {
     padding: 10px !important;
   }
 
-  .req {
+  .member-add-screen .req {
     margin-left: 15px !important;
     
   }
 
-  .radio-box .radio-control3.MuiFormControlLabel-root {
+  .member-add-screen .radio-box .radio-control3.MuiFormControlLabel-root {
     margin-left: 15px;
   }
 
-  .radio-box .radio-control2.MuiFormControlLabel-root {
+  .member-add-screen .radio-box .radio-control2.MuiFormControlLabel-root {
     margin-left: 15px;
   }
 
-  .radio-box .radio-control.MuiFormControlLabel-root {
+  .member-add-screen .radio-box .radio-control.MuiFormControlLabel-root {
     margin-left: 15px;
   }
 
-  .radio-box .radio-control1.MuiFormControlLabel-root {
+  .member-add-screen .radio-box .radio-control1.MuiFormControlLabel-root {
     margin-left: 15px;
   }
 
 }
 
 @media screen and (max-width: 1404px) and (min-width: 1300px) {
-  .radio-box .radio-con.MuiFormControlLabel-root {
+  .member-add-screen .radio-box .radio-con.MuiFormControlLabel-root {
     margin-left: 27px;
   }
 
-  .radio-box .radio-control.MuiFormControlLabel-root {
+  .member-add-screen .radio-box .radio-control.MuiFormControlLabel-root {
     margin-left: 2px;
   }
 
-  .radio-box .radio-sub.MuiFormControlLabel-root {
+  .member-add-screen .radio-box .radio-sub.MuiFormControlLabel-root {
     margin-left: 15px !important;
   }
 
-  .rd_bx {
+  .member-add-screen .rd_bx {
     flex: 0 0 46%;
     max-width: 46%;
   }
 }
 
 @media screen and (max-width: 2000px) and (min-width: 1600px) {
-  .rd_bx .radio-box {
+  .member-add-screen .rd_bx .radio-box {
     flex: 0 0 80%;
     max-width: 80%;
   }
 
-  .radio-box .radio-sub.MuiFormControlLabel-root {
+  .member-add-screen .radio-box .radio-sub.MuiFormControlLabel-root {
     margin-left: 15px !important;
   }
 
-  .radio-box .radio-control.MuiFormControlLabel-root {
+  .member-add-screen .radio-box .radio-control.MuiFormControlLabel-root {
     margin-left: 15px;
   }
 
-  .radio-box .radio-control3.MuiFormControlLabel-root {
+  .member-add-screen .radio-box .radio-control3.MuiFormControlLabel-root {
     margin-left: 15px;
   }
 
-  .radio-box .radio-sec.MuiFormControlLabel-root {
+  .member-add-screen .radio-box .radio-sec.MuiFormControlLabel-root {
     margin-left: 50px;
   }
 }
 
 @media screen and (max-width: 1600px) and (min-width: 1405px) {
-  .radio-box .radio-con.MuiFormControlLabel-root {
+  .member-add-screen .radio-box .radio-con.MuiFormControlLabel-root {
     margin-left: 27px;
   }
 
-  .radio-box .radio-sub.MuiFormControlLabel-root {
+  .member-add-screen .radio-box .radio-sub.MuiFormControlLabel-root {
     margin-left: 15px !important;
   }
 
-  .radio-box .radio-control.MuiFormControlLabel-root {
+  .member-add-screen .radio-box .radio-control.MuiFormControlLabel-root {
     margin-left: 2px;
   }
 
-  .rd_bx .radio-box .MuiStack-root {
+  .member-add-screen .rd_bx .radio-box .MuiStack-root {
     width: 90%;
   }
 
-  .rd_bx .radio-box {
+  .member-add-screen  .rd_bx .radio-box {
     flex: 0 0 80%;
     max-width: 80%;
   }
@@ -360,39 +381,39 @@
       margin-left: 10px;
       margin-right: 10px;
     } */
-  .radio-box .radio-control2.MuiFormControlLabel-root {
+    .member-add-screen .radio-box .radio-control2.MuiFormControlLabel-root {
     margin-left: 35px;
   }
 
-  .radio-box .radio-control3.MuiFormControlLabel-root {
+  .member-add-screen .radio-box .radio-control3.MuiFormControlLabel-root {
     margin-left: -3px;
   }
 
-  .radio-box .radio-control1.MuiFormControlLabel-root {
+  .member-add-screen .radio-box .radio-control1.MuiFormControlLabel-root {
     margin-left: 10px;
   }
 }
 
 @media (min-width:769px) and (max-width:1017px) {
-  .radio-box .radio-control2.MuiFormControlLabel-root {
+  .member-add-screen .radio-box .radio-control2.MuiFormControlLabel-root {
     margin-left: 15px;
   }
 
-  .radio-box .radio-control3.MuiFormControlLabel-root {
+  .member-add-screen .radio-box .radio-control3.MuiFormControlLabel-root {
     margin-left: 10px;
   }
 
-  .radio-box .radio-control1.MuiFormControlLabel-root {
+  .member-add-screen .radio-box .radio-control1.MuiFormControlLabel-root {
     margin-left: 10px;
   }
 
-  .radio-box .radio-control.MuiFormControlLabel-root {
+  .member-add-screen  .radio-box .radio-control.MuiFormControlLabel-root {
     margin-left: 15px;
   }
 }
 
 @media (min-width:769px) and (max-width:894px) {
-  .box {
+  .member-add-screen .box {
     flex: 1 0 48%;
     max-width: 48%;
     flex-wrap: wrap;
@@ -400,43 +421,63 @@
 }
 
 @media (min-width:370px) and (max-width:540px) {
-  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+  .member-add-screen  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
     font-size: 14.5px;
     /* margin-top: 2px;
   margin-bottom: -9px; */
   }
 
-  .custom-button {
+  .member-add-screen .custom-button {
     font-size: 13px;
     margin-top: 10px;
   }
-  .upload-btn{
+  .member-add-screen .upload-btn{
     width: 120px;
     height: 35px;
   }
-.dialog {
+  .member-add-screen .dialog {
   text-overflow: ellipsis;
 }
-  .inf {
+.member-add-screen .inf {
     margin-top: 15px !important;
     margin-bottom: 0px !important;
     font-size: 16px !important;
     margin-left: 25px !important;
   }
 
-  .radio-box .MuiTypography-root {
+  .member-add-screen .radio-box .MuiTypography-root {
     font-size: 14px !important;
   }
 
-  .radio-box .MuiSvgIcon-root {
+  .member-add-screen .radio-box .MuiSvgIcon-root {
     font-size: 1.5rem;
     width: 15px;
     height: 19px;
   }
+  .member-add-screen .radio-box .radio-gra.MuiFormControlLabel-root {
+    margin-left: 35px;
+  }
+
+  .member-add-screen .radio-box .radio-sec.MuiFormControlLabel-root {
+    margin-left: 35px;
+  }
+
+  .member-add-screen .radio-box .radio-control1.MuiFormControlLabel-root {
+    margin-left: -4px;
+  }
+  .member-add-screen .radio-box .radio-married.MuiFormControlLabel-root {
+    margin-left: 58px;
+  }
+  .member-add-screen .radio-box .radio-div.MuiFormControlLabel-root {
+    margin-left: -14px;
+  }
+  .member-add-screen .radio-box .radio-gr.MuiFormControlLabel-root {
+    margin-left: 34px;
+  }
 }
 
 @media (max-width: 1100px) {
-  .date-pick {
+  .member-add-screen  .date-pick {
     width: 100%;
     /* Adjust as needed for mobile view */
   }
@@ -448,7 +489,7 @@
   }
 } */
 @media (min-width: 0px) {
-  .box .box-d .MuiStack-root {
+  .member-add-screen .box .box-d .MuiStack-root {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
@@ -456,9 +497,14 @@
     padding-top: 0px !important;
   }
 
-  .box .box-d .MuiStack-root>.MuiTextField-root {
+  .member-add-screen .box .box-d .MuiStack-root>.MuiTextField-root {
     min-width: -webkit-fill-available !important;
     margin-top: 5px;
     font-size: 14px;
+  }
+}
+@media(max-width:360px){
+  .member-add-screen .radio-box .radio-married.MuiFormControlLabel-root {
+    margin-right: 36px;
   }
 }

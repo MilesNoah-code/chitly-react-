@@ -491,7 +491,7 @@ export default function AddMemberPage() {
         "relation_prefix": RelationPrefix.data,
         "area_id": 0,
         "area_name": "",
-        "whatsapp_no": WhatsappNo.data,
+        "whatsapp_no": WhatsappNo.data != null && WhatsappNo.data !== "" ? WhatsappNo.data : "",
         "canvas_agent_id": 0
     }
 
@@ -2071,6 +2071,9 @@ export default function AddMemberPage() {
                                                         inputMode='numeric'
                                                         onChange={(e) => MemberInfoTextValidate(e, "MobileNumber")}
                                                         type='number'
+                                                        inputProps={{
+                                                            onWheel: (e) => e.target.blur()
+                                                        }}
                                                         onKeyDown={(e) => {
                                                             // Prevent the 'e' character from being entered
                                                             if (e.key === 'e' || e.key === 'E') {
@@ -2159,6 +2162,9 @@ export default function AddMemberPage() {
                                                         value={WhatsappNo.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "WhatsappNo")}
                                                         type='number'
+                                                        inputProps={{
+                                                            onWheel: (e) => e.target.blur()
+                                                        }}
                                                         onKeyDown={(e) => {
                                                             // Prevent the 'e' character from being entered
                                                             if (e.key === 'e' || e.key === 'E') {
@@ -2430,7 +2436,7 @@ export default function AddMemberPage() {
                                                                 fontSize: '14px',
                                                             }
                                                         }}
-                                                        error={!!AccountNumber.data} />
+                                                        error={!!AccountNumber.error} />
                                                 </Stack>
                                                 {/* <div className=' error_txt req'>{AccountNumber.error}</div> */}
                                             </Stack>
@@ -2805,7 +2811,7 @@ export default function AddMemberPage() {
                                             ? null
                                             : <Stack spacing={2} style={{ justifyContent: 'flex-end' }}>
                                                 <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 130, height: 30, cursor: 'pointer' }} onClick={() => setProofAlert(true)}>
-                                                    Choose Photo
+                                                    Upload Proof
                                                 </Button>
                                             </Stack>}
                                         <Stack direction='row' spacing={2} sx={{ mb: 3, mt: 2, mr: 3 }} className='row-box'>
@@ -2814,7 +2820,9 @@ export default function AddMemberPage() {
                                                     <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                                                 </Stack>
                                                 : MediaList.map((row) => (
-                                                    <Stack direction='column' sx={{ ml: 2 }} key={row.id} className='boxing'>
+                                                    row.entry_mappedtype === "PERSON_IMAGE"
+                                                    ? null 
+                                                    : <Stack direction='column' sx={{ ml: 2 }} key={row.id} className='boxing'>
                                                         {row.path
                                                             ? <Stack direction='row' sx={{ ml: 0 }} className='image-top'>
                                                                 <div className='img-box' style={{ width: 120, height: 120 }}>

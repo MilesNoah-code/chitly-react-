@@ -159,11 +159,7 @@ export default function AddGroupMemberPage() {
                     setTicketNoClick('');
                     if (json.list.length > 0) {
                         setMemberDetail(json.list[0]);
-                        if (index !== '') {
-                            setGroupMemberId(json.list[0].id);
-                        } else {
-                            setGroupMemberId('');
-                        }
+                        setGroupMemberId(json.list[0].id);
                     } else {
                         setGroupMemberId('');
                     }

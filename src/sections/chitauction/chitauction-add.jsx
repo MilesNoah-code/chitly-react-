@@ -1154,8 +1154,10 @@ export default function AddChitAuctionPage() {
                         items === highestItem ? { ...items, is_prizedmember: "1", prized_amount: (data.amount - Number(items.maxaucdisc)), dividend: CalculateDividend.toFixed(2) || 0 } : { ...items, is_prizedmember: "0" }
                     );
                     const prizedItem = finalList.find(items => items.is_prizedmember === "1");
-                    setSelectAuctionList(prizedItem);
-                    console.log("prizedItem--> ", prizedItem);
+                    if (prizedItem !== undefined){
+                        setSelectAuctionList(prizedItem);
+                        console.log("prizedItem--> ", prizedItem);
+                    }
                     return finalList;
                 }
             }
@@ -1343,25 +1345,56 @@ export default function AddChitAuctionPage() {
     };
 
     const HandleDeleteClick = (from) => {
-        console.log(SelectAuctionList);
-        if (from === "popup_delete") {
-            if (String(SelectAuctionList.primary_id).includes('id_')) {
-                setChitAuctionMemberList([]);
+        if (String(SelectAuctionList.primary_id).includes('id_')) {
+            if (from === "popup_delete") {
+                if (String(SelectAuctionList.primary_id).includes('id_')) {
+                    setChitAuctionMemberList([]);
+                } else {
+                    setDeleteAlert(false);
+                    ChitAuctionEntryDeleteMethod(SelectedId);
+                }
             } else {
-                setDeleteAlert(false);
-                ChitAuctionEntryDeleteMethod(SelectedId);
+                const isEmptyObject = (obj) => Object.keys(obj).length === 0;
+                if (isEmptyObject(SelectAuctionList)) {
+                    setAlertMessage("Please select Auction");
+                    setAlertFrom("error_alert");
+                    HandleAlertShow();
+                } else {
+                    HandleDelete();
+                }
             }
         } else {
-            const isEmptyObject = (obj) => Object.keys(obj).length === 0;
-            if (isEmptyObject(SelectAuctionList)) {
-                setAlertMessage("Please select Auction");
-                setAlertFrom("error_alert");
-                HandleAlertShow();
+            HanleCompanyMemberDelete(from);
+        }
+        
+    };
+
+    const HanleCompanyMemberDelete = (from) => {
+        if (CompanyMemberId > 0) {
+            setAlertMessage("Can't delete company member.");
+            setAlertFrom("error_alert");
+            HandleAlertShow();
+        } else {
+            console.log(SelectAuctionList);
+            if (from === "popup_delete") {
+                if (String(SelectAuctionList.primary_id).includes('id_')) {
+                    setChitAuctionMemberList([]);
+                } else {
+                    setDeleteAlert(false);
+                    ChitAuctionEntryDeleteMethod(SelectedId);
+                }
             } else {
-                HandleDelete();
+                const isEmptyObject = (obj) => Object.keys(obj).length === 0;
+                if (isEmptyObject(SelectAuctionList)) {
+                    setAlertMessage("Please select Auction");
+                    setAlertFrom("error_alert");
+                    HandleAlertShow();
+                } else {
+                    HandleDelete();
+                }
             }
         }
-    };
+    }
 
     const HandleDelete = () => {
         if (String(SelectAuctionList.primary_id).includes('id_')) {
@@ -2168,10 +2201,10 @@ export default function AddChitAuctionPage() {
                                     }} onClick={HandleResetClick}>
                                         Reset
                                     </Button>
-                                    {Object.keys(SelectAuctionList).length > 0 && <Button sx={{ mr: 2,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleAddMemberClick}>
+                                    {(SelectAuctionList !== undefined && Object.keys(SelectAuctionList).length > 0) && <Button sx={{ mr: 2, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleAddMemberClick}>
                                         Add Member
                                     </Button>}
-                                    {Object.keys(SelectAuctionList).length > 0 && <Button sx={{ mr: 2,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleShowEstimateClick}>
+                                    {(SelectAuctionList !== undefined && Object.keys(SelectAuctionList).length > 0) && <Button sx={{ mr: 2, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleShowEstimateClick}>
                                         Show Estimate
                                     </Button>}
                                     <Button variant="contained" sx={{ mr: 2, cursor: 'pointer',

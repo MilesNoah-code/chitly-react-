@@ -1,3 +1,18 @@
+3.4.17
+Date : 24/07/2024
+Type : Bug fix
+Description :  
+        1.Member --> Bank details-->When i give account number and submit , showing red alert -> fixed
+        2.scroll issue ->  When update Why whatsapp number set as 1 ? -> fixed
+        3.Member -> Proof Details --> Change Label -> Choose Photo to Upload Proof and entry_mappedtype: "PERSON_IMAGE" -> no need to show -> fixed
+        4.estimate -> in AccNo, i asked to show memberId, value showing wrongly -> fixed
+        5.Group member --> company member - update i think id is not passing -> fixed
+        6.When scroll amount value , increase and decreases  -> all screen fixed
+        7.estimate -> next month save not working -> fixed
+        8.Chit Auction Auction -- Prized member - delete - don't allow for company member -> fixed
+        9.Receivable report - pagination not working  -> fixed
+        10.Auction --> Participant add after, try to type amount -> screen display as empty -> fixed 
+----------------------------------------------------------------
 3.4.16
 Date : 22/07/2024
 Type : Bug fix

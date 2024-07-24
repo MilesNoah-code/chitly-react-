@@ -796,13 +796,10 @@ export default function AddChitEstimatePage() {
                     if (data.divident_distribute === "Next Month") {
                         const PaymentDataSet = index === ChitEstimateList.length - 1 ? ensureNumber(CaculateEditPayment) : ensureNumber(CaculatePayment);
                         PaymentDataFinalSet = (from === "payment") ? ensureNumber(CaculatePayment) : PaymentDataSet;
-                        console.log("PaymentDataFinalSet--> ", PaymentDataFinalSet);
                     }
-                    const CaculatePaymentEmpty = ensureNumber(CaculatePayment) !== "" ? ensureNumber(CaculatePayment).toFixed(2) : ensureNumber(CaculatePayment);
-                    const PaymentDataFinalSetEmpty = PaymentDataFinalSet !== "" ? PaymentDataFinalSet.toFixed(2) : PaymentDataFinalSet;
+                    console.log("PaymentDataFinalSet--> ", PaymentDataFinalSet);
                     
-                    const PaymentData = data.divident_distribute === "Next Month" ? PaymentDataFinalSetEmpty : CaculatePaymentEmpty;
-                    const paymentempty = ensureNumber(prev.payment) !== "" ? ensureNumber(prev.payment).toFixed(2) : ensureNumber(prev.payment);
+                    const PaymentData = data.divident_distribute === "Next Month" ? PaymentDataFinalSet : ensureNumber(CaculatePayment);
                     return {
                         ...prev,
                         id: ids,
@@ -814,7 +811,7 @@ export default function AddChitEstimatePage() {
                         fm_commission_error: from === "fm_commission" && (ensureNumber(TextValue) || ensureNumber(prev.fm_commission)) === "" ? "* Required" : "",
                         gst_value: from === "gst_value" ? ensureNumber(TextValue) : ensureNumber(prev.gst_value),
                         doc_charge_value: from === "doc_charge_value" ? ensureNumber(TextValue) : ensureNumber(prev.doc_charge_value),
-                        payment: from === "payment" || from === "dueamount" || from === "fm_commission" ? PaymentData : paymentempty,
+                        payment: from === "payment" || from === "dueamount" || from === "fm_commission" ? PaymentData : ensureNumber(prev.payment),
                     };
                 }
                 return prev;
@@ -1307,7 +1304,7 @@ export default function AddChitEstimatePage() {
                                                                 className='input-box'
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
-                                                                value={row.payment}
+                                                                value={typeof row.payment === 'number' && !Number.isNaN(row.payment) ? row.payment.toFixed(2) : row.payment}
                                                                 disabled={index !== ChitEstimateList.length - 1}
                                                                 onChange={(e) => ChitEstimateListTextValidate(e, row, index, "payment")}
                                                                 type="number" 

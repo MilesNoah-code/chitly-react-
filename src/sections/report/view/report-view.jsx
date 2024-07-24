@@ -62,11 +62,11 @@ export default function ReportView() {
         setTotalCount(0);
         setPayableReportList([]);
         const url = `${REACT_APP_HOST_URL}${PAYABLE_REPORT_LIST}${groupno}&start=${start}&limit=${limit}`;
-        console.log(JSON.parse(Session) + url);
+        // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                console.log(JSON.stringify(json));
+                // console.log(JSON.stringify(json));
                 setPayableReportLoading(false);
                 if (json.success) {
                     setTotalCount(json.total);
@@ -93,11 +93,11 @@ export default function ReportView() {
         setTotalCount1(0);
         setReceivableReportList([]);
         const url = `${REACT_APP_HOST_URL}${RECEIVABLE_REPORT_LIST}${groupno}&start=${start}&limit=${limit}`;
-        console.log(JSON.parse(Session) + url);
+        // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                console.log(JSON.stringify(json));
+                // console.log(JSON.stringify(json));
                 setReceivableReportLoading(false);
                 if (json.success) {
                     setTotalCount1(json.total);

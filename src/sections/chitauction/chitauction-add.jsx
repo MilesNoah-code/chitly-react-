@@ -1349,6 +1349,7 @@ export default function AddChitAuctionPage() {
             if (from === "popup_delete") {
                 if (String(SelectAuctionList.primary_id).includes('id_')) {
                     setChitAuctionMemberList([]);
+                    HandleResetClick();
                 } else {
                     setDeleteAlert(false);
                     ChitAuctionEntryDeleteMethod(SelectedId);
@@ -1379,6 +1380,7 @@ export default function AddChitAuctionPage() {
             if (from === "popup_delete") {
                 if (String(SelectAuctionList.primary_id).includes('id_')) {
                     setChitAuctionMemberList([]);
+                    HandleResetClick();
                 } else {
                     setDeleteAlert(false);
                     ChitAuctionEntryDeleteMethod(SelectedId);
@@ -1701,6 +1703,62 @@ export default function AddChitAuctionPage() {
         navigate('/chitauction/list');
     }
 
+    const HandleListDelete = (index) => {
+        setChitAuctionMemberList(prevState => {
+            const updatedList = prevState.filter((_, i) => i !== index);
+            console.log(updatedList);
+            if (updatedList.length > 0) {
+                let highestItem;
+                if (updatedList.length === 1) {
+                    highestItem = updatedList[0];
+                } else {
+                    highestItem = updatedList.reduce((maxItem, currItem) => {
+                        const currMaxAucDisc = parseFloat(currItem.maxaucdisc) || 0;
+                        return currMaxAucDisc > (parseFloat(maxItem.maxaucdisc) || 0) ? currItem : maxItem;
+                    }, { maxaucdisc: "" });
+                }
+                const fmAfmCommission = Number(FM_AFMCommission) || 0;
+                const CalculateDividend = (Number(highestItem.maxaucdisc) - fmAfmCommission) / data.duration || 0;
+                console.log("CalculateDividend--> ", CalculateDividend);
+                setDividend({
+                    data: CalculateDividend.toFixed(2) || 0,
+                    error: ""
+                });
+                setInstNo({
+                    data: highestItem.installno,
+                    error: ""
+                });
+                setPrizedMember({
+                    data: highestItem.member_name,
+                    error: ""
+                });
+                setTktNo({
+                    data: highestItem.tktno,
+                    error: ""
+                });
+                setMaxADisc({
+                    data: highestItem.maxaucdisc,
+                    error: ""
+                });
+
+                // Update the prized_member value of the highestItem
+                const finalList = updatedList.map(items =>
+                    items === highestItem ? { ...items, is_prizedmember: "1", prized_amount: (data.amount - Number(items.maxaucdisc)), dividend: CalculateDividend.toFixed(2) || 0 } : { ...items, is_prizedmember: "0" }
+                );
+                const prizedItem = finalList.find(items => items.is_prizedmember === "1");
+                if (prizedItem !== undefined) {
+                    setSelectAuctionList(prizedItem);
+                    console.log("prizedItem--> ", prizedItem);
+                }
+                return finalList;
+            } 
+            if(updatedList.length === 0){
+                HandleResetClick();
+            }
+            return updatedList;
+        });
+    }
+
     if (!location.state) {
         return <ScreenError HandlePreviousScreen={HandlePreviousScreen} />
     }
@@ -1860,7 +1918,7 @@ export default function AddChitAuctionPage() {
                                                                         </Stack>
                                                                     </TableCell>
                                                                     <TableCell>{row.action === "delete" &&
-                                                                        <IconButton onClick={() => setChitAuctionMemberList(prevList => prevList.filter((_, i) => i !== index))} sx={{ cursor: 'pointer'}}>
+                                                                        <IconButton onClick={() => HandleListDelete(index)} sx={{ cursor: 'pointer'}}>
                                                                             <Iconify icon="streamline:delete-1-solid" sx={{ width:12,height:12}} />
                                                                         </IconButton>}
                                                                     </TableCell>

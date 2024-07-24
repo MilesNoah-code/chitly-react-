@@ -492,7 +492,7 @@ export default function AddGroupPage() {
                                                   fontSize:'14px' ,
                                                 }
                                               }} 
-                                              error={!!GroupCode.error} />
+                                            error={!!Duration.error} />
                                     </Stack>
                                     {/* <div  className='error_txt'>{GroupCode.error}</div> */}
                                 </Stack>
@@ -506,7 +506,8 @@ export default function AddGroupPage() {
                                         <TextField
                                             className='input-box1'
                                             id="outlined-required"
-                                            disabled
+                                            inputProps={{ readOnly: true }}
+                                            // disabled
                                             // label="EM Due"
                                             value={EMDue.data}
                                             onChange={(e) => GroupTextValidate(e, "EMDue")}

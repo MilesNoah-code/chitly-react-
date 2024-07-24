@@ -63,3 +63,14 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
     font-size: 14px !important;
     font-weight: 500 !important;
 }
+@media (max-width:768px){
+    .MuiPaper-root-MuiCard-root{
+        border-radius: 10px !important;
+    }
+    .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation0.MuiCard-root.css-9swohl-MuiPaper-root-MuiCard-root {
+        border-radius: 10px !important;
+    }
+    .MuiTablePagination-root {
+        overflow: unset !important;
+    }
+}

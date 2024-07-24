@@ -399,7 +399,7 @@ export default function AddGroupPage() {
     };
 
     return (
-        <div style={{ marginLeft: '35px', marginRight: '35px' }} className='group-add-screen'>
+        <div className='group-add-screen'>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
                 <Typography variant="h6" sx={{fontWeight:'600'}}>
                     {screenLabel[screen] || "Add Group"}

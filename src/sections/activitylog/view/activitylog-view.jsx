@@ -135,9 +135,9 @@ export default function ActivityLogView() {
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
   return (
-    <div style={{ marginLeft: '35px', marginRight: '35px' }}>
+    <div className='activity-screen'>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
-        <Typography variant="h6" sx={{ color: '#637381' }}>Activity Log List</Typography>
+        <Typography variant="h6" sx={{ fontWeight:'600'}}>Activity Log List</Typography>
       </Stack>
       <Card>
         <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='40px' className='mbl-view'>

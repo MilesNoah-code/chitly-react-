@@ -178,7 +178,7 @@ export default function ReportView() {
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
     return (
-        <div style={{ marginLeft: '35px', marginRight: '35px' }}>
+        <div style={{ marginLeft: '35px', marginRight: '35px' }} className='report-view'>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
                 <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 2, mb: 2 }}>
                     Report
@@ -377,7 +377,7 @@ export default function ReportView() {
                 </Stack>
                 <Divider sx={{ mt: 1, mb:1}}/>
                         <Stack mt={0} ml={1} mr={1} direction="row" alignItems="center">
-                        <Scrollbar style={{ maxHeight: '70vh'}}>
+                        <Scrollbar style={{ maxHeight: '70vh' , width:'100%'}}>
                         <div className='' style={{margin:'15px'}}>
                             <TableContainer sx={{ overflow: 'unset',mt: 1  }}>
                                 <Table  stickyHeader>

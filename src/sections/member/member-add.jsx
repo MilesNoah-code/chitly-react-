@@ -1857,7 +1857,7 @@ export default function AddMemberPage() {
     };
 
     return (
-        <div style={{ marginLeft: '35px', marginRight: '35px' }} className='member-add-screen'>
+        <div className='member-add-screen'>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
                 <Typography variant="h6" sx={{ fontWeight: '600' }} >
                     {screenLabel[screen] || "Add Member"}
@@ -2913,7 +2913,7 @@ export default function AddMemberPage() {
                         <VisuallyHiddenInput type="file" onChange={HandleProofImage} />
                     </Button>
                 </Stack>
-                <Stack sx={{ mt: 2, ml: 3, mr: 2 }}>
+                <Stack sx={{ mt: 2, ml: 2, mr: 2 }} >
                     <Stack direction='row ' className='img-row' gap={1}>
                         {ProofImage.data
                             ? <img src={ProofImage.type === "local" ? `${ProofImage.data}` : `${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${ProofImage.data}`} alt="Loading" style={{ width: 120, height: 120, }} className='proof_img' />

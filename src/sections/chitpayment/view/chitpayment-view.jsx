@@ -174,7 +174,7 @@ export default function ChitPaymentView() {
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
   return (
-    <div style={{ marginLeft: '35px', marginRight: '35px' }}>
+    <div  className='chitpayment-list'>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
         <Typography variant="h6" sx={{ fontWeight:'600'}}>Chit Payment List</Typography>
         <Button variant="contained" className='custom-button' onClick={HandleAddChitPaymentClick}>
@@ -196,7 +196,7 @@ export default function ChitPaymentView() {
                 sx={{
                   '& .MuiInputBase-input': {
                     padding: '8px', 
-                    fontSize:'14 !important',
+                    fontSize:'14px !important',
                   },
                   '& .MuiInputAdornment-root': {
                     padding: '8px', 
@@ -215,7 +215,7 @@ export default function ChitPaymentView() {
                 sx={{
                   '& .MuiInputBase-input': {
                     padding: '8px',
-                    fontSize:'14 !important', 
+                    fontSize:'14px !important', 
                   },
                   '& .MuiInputAdornment-root': {
                     padding: '8px', 

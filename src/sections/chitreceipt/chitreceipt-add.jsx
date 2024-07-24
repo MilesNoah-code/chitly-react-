@@ -771,7 +771,7 @@ export default function AddChitReceiptPage() {
     };
 
     return (
-        <div style={{ marginLeft: '35px', marginRight: '35px' }} >
+        <div  className="chitreceipt-add-screen">
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
                 <Typography variant="h6" sx={{ fontWeight: '600' }}>
                     {screenLabel[screen] || "Add Chit Receipt"}

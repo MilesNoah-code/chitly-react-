@@ -159,12 +159,18 @@ export default function LoginView() {
 
   const renderForm = (
     <>
-      <Stack spacing={3}>
+      <Stack spacing={3} className='login_page'>
         <TextField 
         name="email" 
         label="Email address" 
           value={UserName}
+          size='small'
           onChange={(e) => HandleEmailValue(e)}
+          sx={{
+            '& .MuiInputBase-input':{
+            
+            }
+          }}
         />
         <div style={{ color: '#ce0820', fontSize: pxToRem(12), marginTop: pxToRem(5) }}>{UsernameError}</div>
         <TextField
@@ -172,6 +178,7 @@ export default function LoginView() {
           label="Password"
           type={showPassword ? 'text' : 'password'}
           value={Password}
+          size='small'
           onChange={(e) => validatePassword(e)}
           InputProps={{
             endAdornment: (

@@ -108,7 +108,9 @@
   font-size: 12px;
   font-weight: 500
 }
-
+.member-add-screen .livingIn-_error{
+  margin-top: -5px;
+}
 .add-margin {
   margin-left: 23px !important;
   margin-top: -5px !important;
@@ -170,6 +172,13 @@
     height: 110px !important;
     /* margin-left: 10% !important; */
   }
+  .radio-btn{
+    width: 80%;
+    height:80%;
+  }
+  .radio-label{
+    font-size: 0.9rem !important;
+  }
  }
  @media (min-width:451px) and (max-width:899px){
   .dialog-sizing .MuiPaper-root{
@@ -200,6 +209,9 @@
     width: 120px;
     /* margin-left: 10px !important; */
   }
+  .stack-box {
+    width: 100%;
+  }
   .dialog .MuiInputBase-root{
   width: 100px;
   margin-right: 10%;
@@ -225,7 +237,7 @@
   }
 
   .stack-box {
-    width: 70%;
+    width: 90%;
   }
 }
 

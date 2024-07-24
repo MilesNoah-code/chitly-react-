@@ -453,6 +453,9 @@ export default function AddGroupPage() {
                                             value={Amount.data}
                                             onChange={(e) => GroupTextValidate(e, "Amount")}
                                             type='number' 
+                                            inputProps={{
+                                                onWheel: (e) => e.target.blur()
+                                            }}
                                             sx={{
                                                 '& .MuiInputBase-input': {
                                                   padding: '8px',
@@ -480,6 +483,9 @@ export default function AddGroupPage() {
                                             value={Duration.data}
                                             onChange={(e) => GroupTextValidate(e, "Duration")}
                                             type='number' 
+                                            inputProps={{
+                                                onWheel: (e) => e.target.blur()
+                                            }}
                                             sx={{
                                                 '& .MuiInputBase-input': {
                                                   padding: '8px',

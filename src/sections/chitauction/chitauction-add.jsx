@@ -2262,7 +2262,7 @@ export default function AddChitAuctionPage() {
                                                         }}
                                                         error={!!FM_AFMCommission.error} />
                                                 </Stack>
-                                               {/* <div className='error_txt'>{FM_AFMCommission.error}</div>*/}
+                                               {/* <div className='error_txt'>{FM_AFMCommission.error}</div> */}
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -2289,7 +2289,7 @@ export default function AddChitAuctionPage() {
                                                         }}
                                                         error={!!Dividend.error} />
                                                 </Stack>
-                                                 {/* <div className='error_txt'>{Dividend.error}</div>*/}
+                                                 {/* <div className='error_txt'>{Dividend.error}</div> */}
                                             </Stack>
                                         </div>
                                     </Stack>

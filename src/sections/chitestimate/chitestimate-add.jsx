@@ -68,7 +68,6 @@ export default function AddChitEstimatePage() {
     const [ChitEstimateList, setChitEstimateList] = useState([]);
     const [ChitEstimateMemberLoading, setChitEstimateMemberLoading] = useState(false);
     const [ChitEstimateMemberList, setChitEstimateMemberList] = useState([]);
-    const [ChitEstimateListAdd, setChitEstimateListAdd] = useState(0);
     const [MemberDeleteClick, setMemberDeleteClick] = useState(false);
 
     const [page, setPage] = useState(0);
@@ -532,7 +531,6 @@ export default function AddChitEstimatePage() {
 
     const ChitEstimateTextValidate = (e, from) => {
         const text = e.target.value;
-        setChitEstimateListAdd(pre => pre + 1);
         // console.log(from);
         if (from === "GroupNo") {
             setGroupNo(prevState => ({
@@ -644,9 +642,8 @@ export default function AddChitEstimatePage() {
             // console.log("AuctionDateRequired111", AuctionDateRequired)
             setAuctionDateError('');
         }
-        console.log("ChitEstimateListAdd_submit", ChitEstimateListAdd)
-        if (ChitEstimateList.length > 0 && ChitEstimateListAdd !== 0) {
-            console.log("ChitEstimateList_submit", ChitEstimateList)
+        console.log("ChitEstimateListAdd_submit", ChitEstimateList)
+        if (ChitEstimateList.length > 0) {
             ChitEstimateAddMethod(IsValidate);
         }
     };
@@ -696,7 +693,6 @@ export default function AddChitEstimatePage() {
 
     const HandleDateChange = (date, from, item) => {
         setScreenRefresh(pre => pre + 1);
-        setChitEstimateListAdd(pre => pre + 1);
         const DateForSave = date ? dayjs(date).format('YYYY-MM-DD') : "0";
         // console.log('Date to save:', DateForSave);
         setChitEstimateList(prevState =>
@@ -719,6 +715,9 @@ export default function AddChitEstimatePage() {
     };
 
     const ensureNumber = (value) => {
+        if (value === "") {
+            return "";
+        }
         const num = Number(value);
         return Number.isNaN(num) ? "" : num;
     };
@@ -729,12 +728,6 @@ export default function AddChitEstimatePage() {
         console.log(from);
         setChitEstimateList((prevState) =>
             prevState.map((prev, idx, array) => {
-                if (text.trim() !== "") {
-                    setChitEstimateListAdd((pre) => pre + 1);
-                } else {
-                    setChitEstimateListAdd(0);
-                }
-
                 const ids = String(item.id).startsWith('id_') ? item.id.replace(/^id_/, '') : item.id;
                 let CaculateLessAmount = ensureNumber(prev.less_amount);
                 let CaculatePayment = ensureNumber(prev.payment);
@@ -772,7 +765,7 @@ export default function AddChitEstimatePage() {
                             array[index - 1].less_amount = (data.amount ?? 0) - ((TextValueNumber ?? 0) * (DurationValue ?? 0) - (array[index + 1]?.fm_commission ?? 0));
                             array[index - 1].payment = ((TextValueNumber ?? 0) * (DurationValue ?? 0)) - ensureNumber(array[index - 1]?.fm_commission ?? 0) + ensureNumber(array[index - 1]?.gst_value ?? 0);
                         }
-                        CaculateDueAmount = TextValueNumber ?? 0;
+                        CaculateDueAmount = TextValueNumber;
                         if (CaculateDueAmount > EmDueValue) {
                             CaculateDueAmount = 0;
                             setAlertMessage("Due amount can't be greater than Em Due");
@@ -803,9 +796,10 @@ export default function AddChitEstimatePage() {
                     if (data.divident_distribute === "Next Month") {
                         const PaymentDataSet = index === ChitEstimateList.length - 1 ? ensureNumber(CaculateEditPayment) : ensureNumber(CaculatePayment);
                         PaymentDataFinalSet = (from === "payment") ? ensureNumber(CaculatePayment) : PaymentDataSet;
-                        console.log("PaymentDataFinalSet--> ", PaymentDataFinalSet);
                     }
-                    const PaymentData = data.divident_distribute === "Next Month" ? PaymentDataFinalSet.toFixed(2) : ensureNumber(CaculatePayment).toFixed(2);
+                    console.log("PaymentDataFinalSet--> ", PaymentDataFinalSet);
+                    
+                    const PaymentData = data.divident_distribute === "Next Month" ? PaymentDataFinalSet : ensureNumber(CaculatePayment);
                     return {
                         ...prev,
                         id: ids,
@@ -817,7 +811,7 @@ export default function AddChitEstimatePage() {
                         fm_commission_error: from === "fm_commission" && (ensureNumber(TextValue) || ensureNumber(prev.fm_commission)) === "" ? "* Required" : "",
                         gst_value: from === "gst_value" ? ensureNumber(TextValue) : ensureNumber(prev.gst_value),
                         doc_charge_value: from === "doc_charge_value" ? ensureNumber(TextValue) : ensureNumber(prev.doc_charge_value),
-                        payment: from === "payment" || from === "dueamount" || from === "fm_commission" ? PaymentData : ensureNumber(prev.payment).toFixed(2),
+                        payment: from === "payment" || from === "dueamount" || from === "fm_commission" ? PaymentData : ensureNumber(prev.payment),
                     };
                 }
                 return prev;
@@ -1209,6 +1203,9 @@ export default function AddChitEstimatePage() {
                                                                 value={row.dueamount}
                                                                 onChange={(e) => ChitEstimateListTextValidate(e, row, index, "dueamount")}
                                                                 type="number" 
+                                                                inputProps={{
+                                                                    onWheel: (e) => e.target.blur()
+                                                                }}
                                                                 sx={{
                                                                     backgroundColor: 'transparent',
                                                                     '& .MuiFilledInput-root': {
@@ -1234,6 +1231,9 @@ export default function AddChitEstimatePage() {
                                                                 value={row.less_amount}
                                                                 onChange={(e) => ChitEstimateListTextValidate(e, row, index, "less_amount")}
                                                                 type="number" 
+                                                                inputProps={{
+                                                                    onWheel: (e) => e.target.blur()
+                                                                }}
                                                                 sx={{
                                                                     backgroundColor: 'transparent',
                                                                     '& .MuiFilledInput-root': {
@@ -1256,6 +1256,9 @@ export default function AddChitEstimatePage() {
                                                                 value={row.fm_commission}
                                                                 onChange={(e) => ChitEstimateListTextValidate(e, row, index, "fm_commission")}
                                                                 type="number" 
+                                                                inputProps={{
+                                                                    onWheel: (e) => e.target.blur()
+                                                                }}
                                                                 sx={{
                                                                     backgroundColor: 'transparent',
                                                                     '& .MuiFilledInput-root': {
@@ -1301,7 +1304,7 @@ export default function AddChitEstimatePage() {
                                                                 className='input-box'
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
-                                                                value={row.payment}
+                                                                value={typeof row.payment === 'number' && !Number.isNaN(row.payment) ? row.payment.toFixed(2) : row.payment}
                                                                 disabled={index !== ChitEstimateList.length - 1}
                                                                 onChange={(e) => ChitEstimateListTextValidate(e, row, index, "payment")}
                                                                 type="number" 
@@ -1392,7 +1395,7 @@ export default function AddChitEstimatePage() {
                                                                 id="filled-hidden-label-normal"
                                                                 variant="filled"
                                                                 disabled
-                                                                value={String(row.id).startsWith('id_') ? row.accno : row.id}
+                                                                value={String(row.id).startsWith('id_') ? row.accno : row.member_id}
                                                                 onChange={(e) => ChitEstimateMemberListTextValidate(e, row, "accno")}
                                                                 sx={{
 

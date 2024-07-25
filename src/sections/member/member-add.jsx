@@ -24,6 +24,7 @@ import ErrorLayout from 'src/Error/ErrorLayout';
 import ScreenError from 'src/Error/ScreenError';
 
 import './member-add.css';
+import { MicNone } from '@mui/icons-material';
 
 export default function AddMemberPage() {
 
@@ -50,7 +51,7 @@ export default function AddMemberPage() {
         error: ""
     });
     const [RelationPrefix, setRelationPrefix] = useState({
-        data: RelationShipPrefix[0].data,
+        data: RelationShipPrefix[0].value,
         error: ""
     });
     const [Relationship, setRelationship] = useState({
@@ -1866,6 +1867,7 @@ export default function AddMemberPage() {
                 </Button>
             </Stack>
             <Card>
+          
                 <Box component="form"
                     sx={{ '& .MuiTextField-root': { m: 2 }, }}
                     noValidate
@@ -1891,7 +1893,7 @@ export default function AddMemberPage() {
                                 : <TabPanel value="1">
                                     {screen === "add"
                                         ? null
-                                        : <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                        : <Stack direction='row' spacing={2} alignItems='center' className='mem-box'>
                                             <div className='box'>
                                                 <Stack direction='column' sx={{ ml: 2, }}>
                                                     {ProfileImage.data !== ""
@@ -1933,7 +1935,7 @@ export default function AddMemberPage() {
                                                 </Stack>
                                             </div>
                                         </Stack>}
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='mem-box'>
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -2025,7 +2027,7 @@ export default function AddMemberPage() {
                                             </Stack>
                                         </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='mem-box'>
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -2071,6 +2073,9 @@ export default function AddMemberPage() {
                                                         inputMode='numeric'
                                                         onChange={(e) => MemberInfoTextValidate(e, "MobileNumber")}
                                                         type='number'
+                                                        inputProps={{
+                                                            onWheel: (e) => e.target.blur()
+                                                        }}
                                                         onKeyDown={(e) => {
                                                             // Prevent the 'e' character from being entered
                                                             if (e.key === 'e' || e.key === 'E') {
@@ -2090,7 +2095,7 @@ export default function AddMemberPage() {
                                             </Stack>
                                         </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='mem-box'>
                                         <div className='box'>
                                             <Stack direction='column' className='box-d'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -2145,7 +2150,7 @@ export default function AddMemberPage() {
                                             </Stack>
                                         </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='mem-box'>
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -2159,6 +2164,9 @@ export default function AddMemberPage() {
                                                         value={WhatsappNo.data}
                                                         onChange={(e) => MemberInfoTextValidate(e, "WhatsappNo")}
                                                         type='number'
+                                                        inputProps={{
+                                                            onWheel: (e) => e.target.blur()
+                                                        }}
                                                         onKeyDown={(e) => {
                                                             // Prevent the 'e' character from being entered
                                                             if (e.key === 'e' || e.key === 'E') {
@@ -2200,7 +2208,7 @@ export default function AddMemberPage() {
                                             </Stack>
                                         </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='mem-box'>
                                         <div className='box' >
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -2252,7 +2260,7 @@ export default function AddMemberPage() {
                             {MemberLoading
                                 ? null
                                 : <TabPanel value="2">
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='mem-box'>
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -2322,7 +2330,7 @@ export default function AddMemberPage() {
                                             </Stack>
                                         </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='mem-box'>
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant='subtitle1' sx={{ mt: 2, ml: 2, mr: 2, mb: '0px' }} >
@@ -2388,7 +2396,7 @@ export default function AddMemberPage() {
                             {MemberLoading
                                 ? null
                                 : <TabPanel value="3">
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='mem-box'>
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -2436,7 +2444,7 @@ export default function AddMemberPage() {
                                             </Stack>
                                         </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='mem-box'>
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -2492,7 +2500,7 @@ export default function AddMemberPage() {
                                             </Stack>
                                         </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='mem-box'>
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -2540,7 +2548,7 @@ export default function AddMemberPage() {
                                             </Stack>
                                         </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='mem-box'>
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -2586,7 +2594,7 @@ export default function AddMemberPage() {
                                                         <FormControlLabel value="Primary" control={<Radio />} label="Primary" disabled={screen === "view"} />
                                                         <FormControlLabel className="radio-sec" value="Secondary" control={<Radio />} label="Secondary" disabled={screen === "view"} />
                                                         <FormControlLabel className="radio-control2" value="Diploma" control={<Radio />} label="Diploma" disabled={screen === "view"} />
-                                                        <FormControlLabel value="Graduate" control={<Radio />} label="Graduate" disabled={screen === "view"} />
+                                                        <FormControlLabel className="radio-gra" value="Graduate" control={<Radio />} label="Graduate" disabled={screen === "view"} />
                                                         <FormControlLabel className="radio-control" value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view"} />
                                                         <FormControlLabel className="radio-control1" value="Doctrate" control={<Radio />} label="Doctorate" disabled={screen === "view"} />
                                                     </RadioGroup>
@@ -2608,9 +2616,9 @@ export default function AddMemberPage() {
                                                         value={MaritalStatus.data}
                                                         onChange={(e) => { setMaritalStatus({ data: e.target.value, error: "" }); setSpouseEducation({ data: "", error: "" }); setScreenRefresh(pre => pre + 1); }}>
                                                         <FormControlLabel value="Single" control={<Radio />} label="Single" disabled={screen === "view"} />
-                                                        <FormControlLabel value="Married" control={<Radio />} label="Married" disabled={screen === "view"} />
+                                                        <FormControlLabel value="Married" className="radio-married" control={<Radio />} label="Married" disabled={screen === "view"} />
                                                         <FormControlLabel value="Married With Kids" control={<Radio />} label="Married with Kids" disabled={screen === "view"} />
-                                                        <FormControlLabel value="Divorced" control={<Radio />} label="Divorced" disabled={screen === "view"} />
+                                                        <FormControlLabel value="Divorced" className="radio-div" control={<Radio />} label="Divorced" disabled={screen === "view"} />
                                                         <FormControlLabel className="radio-control3" value="Separated" control={<Radio />} label="Separated" disabled={screen === "view"} />
                                                     </RadioGroup>
                                                 </Stack>
@@ -2635,7 +2643,7 @@ export default function AddMemberPage() {
                                                             <FormControlLabel value="Primary" control={<Radio />} label="Primary" disabled={screen === "view"} />
                                                             <FormControlLabel className="radio-con radio-sec" value="Secondary" control={<Radio />} label="Secondary" disabled={screen === "view"} />
                                                             <FormControlLabel className="radio-control2" value="Diploma" control={<Radio />} label="Diploma" disabled={screen === "view"} />
-                                                            <FormControlLabel value="Graduate" control={<Radio />} label="Graduate" disabled={screen === "view"} />
+                                                            <FormControlLabel className="radio-gr" value="Graduate" control={<Radio />} label="Graduate" disabled={screen === "view"} />
                                                             <FormControlLabel className="radio-control radio-sub" value="Post Graduate" control={<Radio />} label="Post Graduate" disabled={screen === "view"} />
                                                             <FormControlLabel className="radio-control1" value="Doctrate" control={<Radio />} label="Doctorate" disabled={screen === "view"} />
                                                         </RadioGroup>
@@ -2649,7 +2657,7 @@ export default function AddMemberPage() {
                             {MemberLoading
                                 ? null
                                 : <TabPanel value="5">
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='mem-box'>
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -2704,7 +2712,7 @@ export default function AddMemberPage() {
                                             </Stack>
                                         </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box' >
+                                    <Stack direction='row' spacing={2} alignItems='center' className='mem-box' >
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -2751,7 +2759,7 @@ export default function AddMemberPage() {
                                             </Stack>
                                         </div>
                                     </Stack>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='stack-box'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='mem-box'>
                                         <div className='box'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
@@ -2819,13 +2827,13 @@ export default function AddMemberPage() {
                                                     : <Stack direction='column' sx={{ ml: 2 }} key={row.id} className='boxing'>
                                                         {row.path
                                                             ? <Stack direction='row' sx={{ ml: 0 }} className='image-top'>
-                                                                <div className='img-box' style={{ width: 120, height: 120 }}>
+                                                                <div className='img-box' style={{ width: 170, height: 170 }}>
                                                                     <img src={`${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${row.path}`} alt="Loading" style={{ width: '100% ', height: '100% ' }} />
                                                                 </div>
                                                                 {screen === "view"
                                                                     ? null
-                                                                    : <Button onClick={() => { setMediaId(row.id); setConfirmAlert(true); }} className='btn-click' sx={{ cursor: 'pointer' }}>
-                                                                        <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 12, height: 12 }} />
+                                                                    : <Button onClick={() => { setMediaId(row.id); setConfirmAlert(true); }} className='btn-click img-click' sx={{ cursor: 'pointer', background:'none'}}>
+                                                                        <img className="can-img" src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 12, height: 12 }} />
                                                                     </Button>}
                                                             </Stack>
                                                             : <Stack>
@@ -2853,6 +2861,7 @@ export default function AddMemberPage() {
                             </Stack>)}
                     </Stack>
                 </Box>
+                
             </Card>
             <Portal>
                 <Snackbar open={AlertOpen} autoHideDuration={AlertFrom === "failed" || AlertFrom === "upload_failed" ? 2000 : 1000} onClose={HandleAlertClose}

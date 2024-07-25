@@ -89,11 +89,11 @@ export default function AddGroupMemberPage() {
         // const memberId = '';
         setGroupMemberLoading(true);
         const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}&id=&groupId=${data?.id ? data.id : ""}`;
-        console.log(JSON.parse(Session) + url);
+        // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                console.log(JSON.stringify(json));
+                // console.log(JSON.stringify(json));
                 setGroupMemberLoading(false);
                 if (json.success) {
                     const { list } = json;
@@ -139,7 +139,7 @@ export default function AddGroupMemberPage() {
                 }
             })
             .catch((error) => {
-                console.log(error);
+                // console.log(error);
                 setGroupMemberLoading(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
@@ -159,16 +159,16 @@ export default function AddGroupMemberPage() {
                     setTicketNoClick('');
                     if (json.list.length > 0) {
                         setMemberDetail(json.list[0]);
-                        if (index !== '') {
-                            setGroupMemberId(json.list[0].id);
-                        } else {
+                        if (item.primary_id && String(item.primary_id).includes('empty_')) {
                             setGroupMemberId('');
+                        } else {
+                            setGroupMemberId(json.list[0].id);
                         }
                     } else {
                         setGroupMemberId('');
                     }
-                    console.log("from", from);
-                    if(from === 4){
+                    // console.log("from", from);
+                    if (from === 4 || from === 3){
                         GetAddressView(item.memberId, item, "2");
                     }
                     if (from === 3) {
@@ -195,7 +195,7 @@ export default function AddGroupMemberPage() {
                 setMemberListAlert(false);
                 setErrorAlert(true);
                 setErrorScreen("error");
-                console.log(error);
+                // console.log(error);
             });
     };
 
@@ -209,7 +209,6 @@ export default function AddGroupMemberPage() {
             .then((response) => response.json())
             .then((json) => {
                 // console.log(JSON.stringify(json));
-                console.log("MemberList", MemberList.length);
                 setMemberListLoading(false);
                 setGroupMemberId('');
                 if (json.success) {
@@ -307,7 +306,7 @@ export default function AddGroupMemberPage() {
             fetch(url, PostHeader(JSON.parse(Session), Params))
                 .then((response) => response.json())
                 .then((json) => {
-                    console.log(JSON.stringify(json));
+                    // console.log(JSON.stringify(json));
                     setLoading(false);
                     setScreenRefresh(0);
                     setGroupMemberId('');
@@ -335,7 +334,7 @@ export default function AddGroupMemberPage() {
 
     const GroupMemberDeleteMethod = (id) => {
         const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_DELETE}${id}`;
-        console.log(JSON.parse(Session) + url);
+        // console.log(JSON.parse(Session) + url);
         fetch(url, DeleteHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
@@ -399,9 +398,7 @@ export default function AddGroupMemberPage() {
             );
         }
         setSelected(newSelected);
-        console.log(item);
-        console.log("handle_item")
-        console.log(GroupMemberList)
+        // console.log("handle_item", item);
         // const checkIdExists = id => GroupMemberList.some(items => items.memberId === id);
         const updatedGroupMemberList = [...GroupMemberList];
         if (SelectedIndex >= 0 && SelectedIndex < updatedGroupMemberList.length) {
@@ -469,25 +466,51 @@ export default function AddGroupMemberPage() {
     }
 
     const HandleGroupMemberClick = (event, item, index, from) => {
-        if (from === "2") {
-            event.stopPropagation();
-            setSelectedMember(item);
-            console.log("item1234", item, "TicketNoClick1111", TicketNoClick);
-            GetMemberDetail(1, item, 3, index);
-        }
-        if(item && item.action === "delete"){
-            console.log("item12", item);
-            setSelectedMember(item);
-        } 
         console.log("item1", item, "TicketNoClick1111", TicketNoClick);
+        if (TicketNoClick !== "") {
+            if (TicketNoClick === item.tktno) {
+                if (from === "2") {
+                    event.stopPropagation();
+                    if (item.primary_id && String(item.primary_id).includes('empty_')) {
+                        // console.log("item1234", item.primary_id);
+                        setGroupMemberId('');
+                    } else {
+                        setSelectedMember(item);
+                        GetMemberDetail(1, item, 3, index);
+                    } 
+                }
+                if (item && item.action === "delete") {
+                    // console.log("item12", item);
+                    setSelectedMember(item);
+                } 
+            } else {
+                setAlertMessage("please save the already selected Ticket No");
+                setAlertFrom("save_alert");
+                HandleAlertShow();
+            }
+        } else {
+            HandleListClick(item, index, from);
+        }
+        
+        
         if (from === "delete"){
-            setMemberDeleteAlert(true);
+            if (TicketNoClick !== "") {
+                if (TicketNoClick === item.tktno) {
+                    setMemberDeleteAlert(true);
+                } else {
+                    setAlertMessage("please save the already selected Ticket No");
+                    setAlertFrom("save_alert");
+                    HandleAlertShow();
+                }
+            } else {
+                setMemberDeleteAlert(true);
+            }
         } else if (from === "3") {
             setSelectedIndex(index);
-            console.log("TicketNoClick123", TicketNoClick, "item.tktno", item.tktno);
+            // console.log("TicketNoClick123", TicketNoClick, "item.tktno", item.tktno);
             if (TicketNoClick !== "") {
-                console.log("TicketNoClick123", TicketNoClick, "item.tktno", item.tktno);
                 if (TicketNoClick === item.tktno) {
+                    setGroupMemberId('');
                     setMemberListAlert(true);
                 } else {
                     setAlertMessage("please save the already selected Ticket No");
@@ -495,15 +518,28 @@ export default function AddGroupMemberPage() {
                     HandleAlertShow();
                 }
             } else {
+                setGroupMemberId('');
                 setMemberListAlert(true);
             }
         }
     }
 
+    const HandleListClick = (event, item, index, from) => {
+        if (from === "2") {
+            event.stopPropagation();
+            setSelectedMember(item);
+            console.log("item1234", item, "TicketNoClick1111", TicketNoClick);
+            GetMemberDetail(1, item, 3, index);
+        }
+        if (item && item.action === "delete") {
+            // console.log("item12", item);
+            setSelectedMember(item);
+        } 
+    }
+
     const HandleGroupMemberEditClick = (event, item, index) => {
         console.log("item1", item, "TicketNoClick1111", TicketNoClick);
         if (TicketNoClick !== "") {
-            console.log("TicketNoClick", TicketNoClick, "item.tktno", item.tktno);
             if (TicketNoClick === item.tktno) {
                 if (item.primary_id && String(item.primary_id).includes('empty_')) {
                     setGroupMemberId('');
@@ -548,7 +584,7 @@ export default function AddGroupMemberPage() {
 
     const HandleConfirmYesClick = () => {
         setMemberDeleteAlert(false);
-        console.log("SelectedMember", SelectedMember, "SelectedIndex", SelectedIndex);
+        // console.log("SelectedMember", SelectedMember, "SelectedIndex", SelectedIndex);
         if (SelectedMember && String(SelectedMember.primary_id).includes('empty_')){
             setGroupMemberList(prevList => prevList.map((item, i) => {
                 if (i === SelectedIndex) {

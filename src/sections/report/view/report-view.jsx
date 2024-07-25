@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import IconButton from '@mui/material/IconButton';
 import { TabList, TabPanel, TabContext } from '@mui/lab';
-import { Box, Tab, Stack, Alert, Table, Button, Dialog, Divider ,Snackbar, TableRow, TableCell, TableBody, TextField, Typography, TableContainer, InputAdornment, TablePagination } from '@mui/material';
+import TablePagination from '@mui/material/TablePagination';
+import { Box, Tab, Stack, Alert, Table, Button, Dialog, Divider ,Snackbar, TableRow, TableCell, TableBody, TextField, Typography, TableContainer, InputAdornment } from '@mui/material';
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
 
@@ -61,11 +62,11 @@ export default function ReportView() {
         setTotalCount(0);
         setPayableReportList([]);
         const url = `${REACT_APP_HOST_URL}${PAYABLE_REPORT_LIST}${groupno}&start=${start}&limit=${limit}`;
-        console.log(JSON.parse(Session) + url);
+        // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                console.log(JSON.stringify(json));
+                // console.log(JSON.stringify(json));
                 setPayableReportLoading(false);
                 if (json.success) {
                     setTotalCount(json.total);
@@ -92,11 +93,11 @@ export default function ReportView() {
         setTotalCount1(0);
         setReceivableReportList([]);
         const url = `${REACT_APP_HOST_URL}${RECEIVABLE_REPORT_LIST}${groupno}&start=${start}&limit=${limit}`;
-        console.log(JSON.parse(Session) + url);
+        // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
             .then((response) => response.json())
             .then((json) => {
-                console.log(JSON.stringify(json));
+                // console.log(JSON.stringify(json));
                 setReceivableReportLoading(false);
                 if (json.success) {
                     setTotalCount1(json.total);
@@ -122,12 +123,12 @@ export default function ReportView() {
         setAlertOpen(true);
     };
 
-    const handleChangePage = (newPage, from) => {
-        if (from === "") {
-            setPage(newPage);
-        } else {
-            setPage1(newPage);
-        }
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangePage1 = (event, newPage) => {
+        setPage1(newPage);
     };
 
     const handleChangeRowsPerPage = (event, from) => {
@@ -259,7 +260,7 @@ export default function ReportView() {
                                         component="div"
                                         count={TotalCount}
                                         rowsPerPage={rowsPerPage}
-                                        onPageChange={(e) => handleChangePage(e, "PayableReportList")}
+                                        onPageChange={handleChangePage}
                                         rowsPerPageOptions={[15, 30, 50]}
                                         onRowsPerPageChange={(e) => handleChangeRowsPerPage(e, "PayableReportList")} />}
                                 </Stack>}
@@ -334,7 +335,7 @@ export default function ReportView() {
                                         component="div"
                                         count={TotalCount1}
                                         rowsPerPage={rowsPerPage1}
-                                        onPageChange={(e) => handleChangePage(e, "ReceivableReportList")}
+                                        onPageChange={handleChangePage1}
                                         rowsPerPageOptions={[15, 30, 50]}
                                         onRowsPerPageChange={(e) => handleChangeRowsPerPage(e, "ReceivableReportList")}
                                     />}

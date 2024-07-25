@@ -1,3 +1,31 @@
+3.4.18
+Date : 24/07/2024
+Type : Bug fix
+Description :  
+        1.when select the activity log menu in drawer it does not change as selected color -> fixed
+        2.check all screen remove unwanted log
+        3.relationship prefix mandatory remove and value -> fixed
+        4.group emdue and duration required wrongly set -> fixed
+        5.group member company member remove issue -> fixed
+        6.group member -> if select any list need to restrict add, edit and delete some scenario missed -> fixed       
+        7.estimate when edit last column in current month through  TypeError: PaymentDataFinalSet.toFixed is not a function -> fixed
+        8.auction -> when add multiple member giv maxaucdis and remove one data need to set the prized member as highest  maxauc value -> fixed
+----------------------------------------------------------------
+3.4.17
+Date : 24/07/2024
+Type : Bug fix
+Description :  
+        1.Member --> Bank details-->When i give account number and submit , showing red alert -> fixed
+        2.scroll issue ->  When update Why whatsapp number set as 1 ? -> fixed
+        3.Member -> Proof Details --> Change Label -> Choose Photo to Upload Proof and entry_mappedtype: "PERSON_IMAGE" -> no need to show -> fixed
+        4.estimate -> in AccNo, i asked to show memberId, value showing wrongly -> fixed
+        5.Group member --> company member - update i think id is not passing -> fixed
+        6.When scroll amount value , increase and decreases  -> all screen fixed
+        7.estimate -> next month save not working -> fixed
+        8.Chit Auction Auction -- Prized member - delete - don't allow for company member -> fixed
+        9.Receivable report - pagination not working  -> fixed
+        10.Auction --> Participant add after, try to type amount -> screen display as empty -> fixed 
+----------------------------------------------------------------
 3.4.16
 Date : 22/07/2024
 Type : Bug fix

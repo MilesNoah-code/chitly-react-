@@ -453,6 +453,9 @@ export default function AddGroupPage() {
                                             value={Amount.data}
                                             onChange={(e) => GroupTextValidate(e, "Amount")}
                                             type='number' 
+                                            inputProps={{
+                                                onWheel: (e) => e.target.blur()
+                                            }}
                                             sx={{
                                                 '& .MuiInputBase-input': {
                                                   padding: '8px',
@@ -480,13 +483,16 @@ export default function AddGroupPage() {
                                             value={Duration.data}
                                             onChange={(e) => GroupTextValidate(e, "Duration")}
                                             type='number' 
+                                            inputProps={{
+                                                onWheel: (e) => e.target.blur()
+                                            }}
                                             sx={{
                                                 '& .MuiInputBase-input': {
                                                   padding: '8px',
                                                   fontSize:'14px' ,
                                                 }
                                               }} 
-                                              error={!!GroupCode.error} />
+                                            error={!!Duration.error} />
                                     </Stack>
                                     {/* <div  className='error_txt'>{GroupCode.error}</div> */}
                                 </Stack>
@@ -500,7 +506,8 @@ export default function AddGroupPage() {
                                         <TextField
                                             className='input-box1'
                                             id="outlined-required"
-                                            disabled
+                                            inputProps={{ readOnly: true }}
+                                            // disabled
                                             // label="EM Due"
                                             value={EMDue.data}
                                             onChange={(e) => GroupTextValidate(e, "EMDue")}

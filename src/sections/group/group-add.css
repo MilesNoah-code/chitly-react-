@@ -42,7 +42,9 @@
   font-size: 18px;
   padding: 10px;
 }
-
+.group-add-screen .MuiTextField-root{
+  margin: 5px 16px;
+}
 .group-add-screen .error_txt {
   margin-left: 14px;
   margin-top: -10px;

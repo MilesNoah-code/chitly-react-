@@ -882,7 +882,7 @@ export default function AddChitPaymentPage() {
             </Stack>
             <Card>
                 <Box component="form"
-                    sx={{ '& .MuiTextField-root': { m: 2 }, }}
+                
                     noValidate
                     autoComplete="off">
                     {GroupListLoading
@@ -892,7 +892,7 @@ export default function AddChitPaymentPage() {
                         : <Stack direction='column'>
                             <Grid container spacing={1} className="pay_grid">
                                 <Grid item xs={12} md={6}  className='box-one'>
-                                    <Stack direction='row' spacing={2} alignItems='center' className='pay-box date-col'>
+                                    <Stack direction='row' spacing={2} alignItems='center' className='pay-box date-col mar'>
                                         <div className='box-pay-grp box'>
                                             <Stack direction='column' className='box-d'>
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>

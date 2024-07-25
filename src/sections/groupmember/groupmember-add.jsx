@@ -638,13 +638,13 @@ export default function AddGroupMemberPage() {
                             <Grid className='grid-UI' container spacing={2}>
                                 <Grid className='table-grid' item xs={12} md={5}>
                                     <Scrollbar>
-                                    <div style={{ marginLeft: '10px', marginRight: '0px' }}>
+                                    <div classNmae="table-lt">
                                         <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
-                                            <Table sx={{ minWidth: 350 }}>
+                                            <Table className="grp-tab" sx={{ minWidth: 350 }}>
                                                 <TableRow hover tabIndex={-1}>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Tkt No</TableCell>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
+                                                    <TableCell className="action-cloumn" sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
                                                 </TableRow>
                                                 <TableBody>
                                                     {GroupMemberList

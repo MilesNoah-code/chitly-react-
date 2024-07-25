@@ -184,7 +184,7 @@ export default function ReportView() {
                 <Typography variant="h5" sx={{ ml: 4, mr: 5, mt: 2, mb: 2 }}>
                     Report
                 </Typography>
-                <Button variant="contained" className='custom-button' onClick={HandleBack} sx={{ cursor: 'pointer' }}>
+                <Button variant="contained" className='custom-button' onClick={HandleBack} sx={{ cursor: 'pointer', display:'none'}}>
                     Back
                 </Button>
             </Stack>

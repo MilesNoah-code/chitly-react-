@@ -1776,7 +1776,7 @@ export default function AddChitAuctionPage() {
             </Stack>
             <Card>
                 <Box className="con" component="form"
-                    sx={{ '& .MuiTextField-root': { m: 2 }, }}
+               
                     noValidate
                     autoComplete="off">
                     {ChitAuctionLoading
@@ -2237,7 +2237,7 @@ export default function AddChitAuctionPage() {
                                                         }}
                                                         error={!!MaxADisc.error} />
                                                 </Stack>
-                                                <div className='error_txt'>{MaxADisc.error}</div>
+                                                {/* <div className='error_txt'>{MaxADisc.error}</div> */}
                                             </Stack>
                                         </div>
                                         <div className='auction-grp'>
@@ -2262,7 +2262,7 @@ export default function AddChitAuctionPage() {
                                                         }}
                                                         error={!!FM_AFMCommission.error} />
                                                 </Stack>
-                                                <div className='error_txt'>{FM_AFMCommission.error}</div>
+                                               {/* <div className='error_txt'>{FM_AFMCommission.error}</div>*/}
                                             </Stack>
                                         </div>
                                     </Stack>
@@ -2289,7 +2289,7 @@ export default function AddChitAuctionPage() {
                                                         }}
                                                         error={!!Dividend.error} />
                                                 </Stack>
-                                                <div className='error_txt'>{Dividend.error}</div>
+                                                 {/* <div className='error_txt'>{Dividend.error}</div>*/}
                                             </Stack>
                                         </div>
                                     </Stack>

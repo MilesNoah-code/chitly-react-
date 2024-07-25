@@ -410,7 +410,7 @@ export default function AddGroupPage() {
             </Stack>
             <Card>
                 <Box className="con" component="form"
-                    sx={{ '& .MuiTextField-root': { m: 2 }, }}
+                  
                     noValidate
                     autoComplete="off">
                     <Stack direction='column' >

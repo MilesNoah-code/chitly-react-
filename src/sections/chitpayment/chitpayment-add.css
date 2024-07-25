@@ -122,7 +122,9 @@ border-radius: 5px;
   font-size: 12px;
   font-weight: 500;
 }
-
+.chitpayment-add-screen  .MuiTextField-root{
+  margin: 5px 16px;
+}   
 .chitpayment-add-screen .ledger_error {
   margin-left: 8px;
   margin-top: 10px;
@@ -133,6 +135,9 @@ border-radius: 5px;
 .chitpayment-add-screen  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
   margin-bottom: 2px;
 
+}
+.chitpayment-add-screen .mar{
+  margin-top: 5px;
 }
 .chitpayment-add-screen .ledger_error1 {
 
@@ -157,6 +162,12 @@ padding-top:0px !important ;
 }
 
 @media screen and (max-width: 768px) {
+  .chitpayment-add-screen .pay_grid {
+    padding-bottom: 0px;
+}
+.chitpayment-add-screen .mar{
+  margin-top: 0px;
+}
   .chitpayment-add-screen .submit{
     margin-top: 0px;
   }

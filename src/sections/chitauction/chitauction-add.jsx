@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
@@ -560,7 +560,7 @@ export default function AddChitAuctionPage() {
                 setChitAuctionMemberListLoading(false);
                 if (json.success) {
                     setChitAuctionMemberList(json.list);
-                        if (json.list.length > 0) {
+                    if (json.list.length > 0) {
                         let filteredList;
                         if (json.list.length === 1 && json.list[0].maxaucdisc === "0.00") {
                             filteredList = json.list;
@@ -615,7 +615,7 @@ export default function AddChitAuctionPage() {
             })
     }
 
-    const GetChitAuctionAddMemberList = (tktno, membername ,start,limit) => {
+    const GetChitAuctionAddMemberList = (tktno, membername, start, limit) => {
         setChitAuctionAddMemberListLoading(true);
         const url = `${REACT_APP_HOST_URL}${CHIT_AUCTION_MAPPED_UNMAPPED_MEMBER}${data?.id ? data.id : ""}&tokenNo=${tktno}&memberName=${membername}&start=${start}&limit=${limit}`;
         console.log(JSON.parse(Session) + url);
@@ -627,7 +627,7 @@ export default function AddChitAuctionPage() {
                 if (json.success) {
                     setChitAuctionAddMemberList(json.list);
                     setTotalCount(json.total)
-                    console.log('total:',json.total)
+                    console.log('total:', json.total)
                 } else if (json.success === false) {
                     setAlertMessage(json.message);
                     setAlertFrom("failed");
@@ -1082,7 +1082,7 @@ export default function AddChitAuctionPage() {
         setChitAuctionMemberList(prevState => {
             const updatedList = prevState.map((prev, index) => {
                 // const isEditable = String(item.id).includes('id_') || (index === prevState.length - 1 && !String(item.id).includes('id_'));
-                
+
                 // if(prev.id !==0 && prev.id !=="0")
                 //     {
                 //         if( ChitParameter.length > 0)
@@ -1768,7 +1768,7 @@ export default function AddChitAuctionPage() {
     return (
         <div style={{ marginLeft: '35px', marginRight: '35px' }} className='chitauction-add-screen'>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
-                <Typography variant="h6" sx={{ fontWeight:'600px'}}>
+                <Typography variant="h6" sx={{ fontWeight: '600px' }}>
                     Chit Auction
                 </Typography>
                 <Button variant="contained" className='custom-button' onClick={HandleBack} sx={{ cursor: 'pointer' }}>
@@ -1785,474 +1785,529 @@ export default function AddChitAuctionPage() {
                             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
-                        <Grid container spacing={2} class="mb-grid">
-                         <Grid item xs={12} sm={6} md={6} className='box-grid'>
-                                <Stack direction="column" className="st">
-                                    <Scrollbar className="table-one">
-                                    <div style={{paddingLeft:'10px'}}>
-                                        <TableContainer sx={{ overflow: 'unset', mt: 1 }}>
-                                            <Table sx={{ minWidth: 450 }}>
-                                                <TableRow hover tabIndex={-1}>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Inst.No</TableCell>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Auc.Date</TableCell>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Prized Member</TableCell>
-                                                </TableRow>
-                                                <TableBody>
-                                                    {ChitAuctionList
-                                                        .map((row, index) => (
-                                                            <TableRow
-                                                                hover
-                                                                tabIndex={-1}
-                                                                role="checkbox"
-                                                                sx={{ cursor: 'pointer' }}
-                                                                onClick={(event) => {
-                                                                    if (event.target.closest('.MuiDatePicker-root')) {
-                                                                        return;
-                                                                    }
-                                                                    event.stopPropagation();
-                                                                    handleClick(event, row, "auction_list_click", index);
-                                                                }} >
-                                                                <TableCell sx={{ width: '6%' }}>{row.installno}</TableCell>
-                                                                <TableCell sx={{ width: '40%', padding: 0 }}>
-                                                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                                        <button
-                                                                            type="button"
-                                                                            tabIndex={0}
-                                                                            aria-label="Open date picker"
-                                                                            onClick={(event) => { event.stopPropagation(); }}
-                                                                            onKeyDown={(event) => {
-                                                                                if (event.key === 'Enter' || event.key === ' ') {
-                                                                                    event.stopPropagation();
-                                                                                }
-                                                                            }}
-                                                                            style={{ border: 'none', outline: 'none', backgroundColor: 'transparent',
-                                                                                padding: 0, cursor: 'pointer', }} >
-                                                                            <DatePicker
-                                                                                id="filled-hidden-label-normal"
-                                                                                value={row.auctiondate != null ? dayjs(row.auctiondate) : null}
-                                                                                onChange={(date) => { HandleDateChange(date, "auctiondate", row) }}
-                                                                                format="DD-MM-YYYY"
-                                                                                renderInput={(params) => (
-                                                                                    <CustomTextField
-                                                                                        {...params}
-                                                                                        variant="filled"
-                                                                                        sx={{ width: '100%', height: '20px', }} />
-                                                                                )}
-                                                                                sx={{ fontSize: "15px", '& .MuiInputBase-input': { padding: '5px', fontSize: '14px', }, }} />
-                                                                        </button>
-                                                                    </LocalizationProvider>
+                            <Grid container spacing={2} class="mb-grid">
+                                <Grid item xs={12} sm={6} md={6} className='box-grid'>
+                                    <Stack direction="column" className="st">
+                                        <Scrollbar className="table-one">
+                                            <div style={{ paddingLeft: '10px' }}>
+                                                <TableContainer sx={{ overflow: 'unset', mt: 1 }}>
+                                                    <Table sx={{ minWidth: 450 }}>
+                                                        <TableRow hover tabIndex={-1}>
+                                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Inst.No</TableCell>
+                                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Auc.Date</TableCell>
+                                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Prized Member</TableCell>
+                                                        </TableRow>
+                                                        <TableBody>
+                                                            {ChitAuctionList
+                                                                .map((row, index) => (
+                                                                    <TableRow
+                                                                        hover
+                                                                        tabIndex={-1}
+                                                                        role="checkbox"
+                                                                        sx={{ cursor: 'pointer' }}
+                                                                        onClick={(event) => {
+                                                                            if (event.target.closest('.MuiDatePicker-root')) {
+                                                                                return;
+                                                                            }
+                                                                            event.stopPropagation();
+                                                                            handleClick(event, row, "auction_list_click", index);
+                                                                        }} >
+                                                                        <TableCell sx={{ width: '6%' }}>{row.installno}</TableCell>
+                                                                        <TableCell sx={{ width: '40%', padding: 0 }}>
+                                                                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                                                <button
+                                                                                    type="button"
+                                                                                    tabIndex={0}
+                                                                                    aria-label="Open date picker"
+                                                                                    onClick={(event) => { event.stopPropagation(); }}
+                                                                                    onKeyDown={(event) => {
+                                                                                        if (event.key === 'Enter' || event.key === ' ') {
+                                                                                            event.stopPropagation();
+                                                                                        }
+                                                                                    }}
+                                                                                    style={{
+                                                                                        border: 'none', outline: 'none', backgroundColor: 'transparent',
+                                                                                        padding: 0, cursor: 'pointer',
+                                                                                    }} >
+                                                                                    <DatePicker
+                                                                                        id="filled-hidden-label-normal"
+                                                                                        value={row.auctiondate != null ? dayjs(row.auctiondate) : null}
+                                                                                        onChange={(date) => { HandleDateChange(date, "auctiondate", row) }}
+                                                                                        format="DD-MM-YYYY"
+                                                                                        renderInput={(params) => (
+                                                                                            <CustomTextField
+                                                                                                {...params}
+                                                                                                variant="filled"
+                                                                                                sx={{ width: '100%', height: '20px', }} />
+                                                                                        )}
+                                                                                        sx={{ fontSize: "15px", '& .MuiInputBase-input': { padding: '5px', fontSize: '14px', }, }} />
+                                                                                </button>
+                                                                            </LocalizationProvider>
+                                                                        </TableCell>
+                                                                        <TableCell sx={{ width: '50%' }}>{row.prized_member_name}</TableCell>
+                                                                    </TableRow>
+                                                                ))}
+                                                            <TableEmptyRows
+                                                                height={77}
+                                                                emptyRows={emptyRows(0, 15, ChitAuctionList.length)}
+                                                            />
+                                                            {ChitAuctionList.length === 0 && <TableNoData query="" />}
+                                                        </TableBody>
+                                                    </Table>
+                                                </TableContainer>
+                                            </div>
+                                        </Scrollbar>
+                                        <Scrollbar className="table-one">
+                                            <div style={{ paddingLeft: '10px' }}>
+                                                <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
+                                                    <Table sx={{ minWidth: 490 }}>
+                                                        <TableRow hover tabIndex={-1}>
+                                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Tkt.No</TableCell>
+                                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
+                                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Max.Auc.Disc</TableCell>
+                                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Sign</TableCell>
+                                                            <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
+                                                        </TableRow>
+                                                        {ChitAuctionMemberListLoading
+                                                            ? <TableRow>
+                                                                <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                                                                    <img className='load' src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                                                                 </TableCell>
-                                                                <TableCell sx={{ width: '50%' }}>{row.prized_member_name}</TableCell>
                                                             </TableRow>
-                                                        ))}
-                                                    <TableEmptyRows
-                                                        height={77}
-                                                        emptyRows={emptyRows(0, 15, ChitAuctionList.length)}
-                                                    />
-                                                    {ChitAuctionList.length === 0 && <TableNoData query="" />}
-                                                </TableBody>
-                                            </Table>
-                                        </TableContainer>
-                                        </div>
-                                    </Scrollbar>
-                                    <Scrollbar className="table-one">
-                                      <div style={{paddingLeft:'10px'}}>
-                                        <TableContainer sx={{ overflow: 'unset', mt: 5 }}>
-                                            <Table sx={{ minWidth: 490 }}>
-                                                <TableRow hover tabIndex={-1}>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Tkt.No</TableCell>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Max.Auc.Disc</TableCell>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Sign</TableCell>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
-                                                </TableRow>
-                                                {ChitAuctionMemberListLoading
-                                                    ? <TableRow>
-                                                        <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                                                            <img className='load' src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
-                                                        </TableCell>
-                                                    </TableRow>
-                                                    : <TableBody>
-                                                        {ChitAuctionMemberList.map((row, index) => {
-                                                            // const isEditable = String(row.id).includes('id_') || (index === ChitAuctionMemberList.length - 1 && !String(row.id).includes('id_'));
-                                                                                                                        
-                                                            // if(row.id !==0 && row.id !=="0")
-                                                            // {
-                                                            //     if( ChitParameter.length > 0)
-                                                            //     {
-                                                            //         setEditable(true);
-                                                            //     }                                                                
-                                                            // } 
-                                                            const validatemaxaucdisc = isEditable || row.id === "0" || row.id === 0 ? (e) => ChitAuctionMemberListTextValidate(e, row, "maxaucdisc") : null;
-                                                            const validatesignature = isEditable || row.id === "0" || row.id === 0 ? (e) => ChitAuctionMemberListTextValidate(e, row, "signature") : null
-                                                            console.log("isEditable", isEditable);
-                                                            console.log("ChitAuctionSelectedIndex", (ChitAuctionSelectedIndex+1));
-                                                            console.log("row.id", row.id);
-                                                            // console.log("ChitParameter.length", ChitParameter.length);
-                                                            return (
-                                                                <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }} key={index}>
-                                                                    <TableCell>{row.tktno}</TableCell>
-                                                                    <TableCell>{row.member_name}</TableCell>
-                                                                    <TableCell>
-                                                                        <TextField
-                                                                            className='input-box2'
-                                                                            id="outlined-required"
-                                                                            value={row.maxaucdisc}
-                                                                            onChange={row.is_companymember === "companymember" ? null : validatemaxaucdisc}
-                                                                            style={{ width: 100, }}
-                                                                            disabled={!isEditable && row.id !=="0" && row.id !==0}
-                                                                            sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px',  },
-                                                                                '& .MuiInputAdornment-root': { padding: '8px', } }}/>
-                                                                    </TableCell>
-                                                                    <TableCell>
-                                                                        <Stack justifyContent='center'>
-                                                                            <TextField
-                                                                                className='input-box2'
-                                                                                id="outlined-required"
-                                                                                value={row.signature}
-                                                                                onChange={row.is_companymember === "companymember" ? null : validatesignature}
-                                                                                style={{ width: 100,  }}
-                                                                                disabled={!isEditable && row.id !=="0" && row.id !==0}
-                                                                                sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', },
-                                                                                    '& .MuiInputAdornment-root': { padding: '8px', } }}/>
-                                                                        </Stack>
-                                                                    </TableCell>
-                                                                    <TableCell>{row.action === "delete" &&
-                                                                        <IconButton onClick={() => HandleListDelete(index)} sx={{ cursor: 'pointer'}}>
-                                                                            <Iconify icon="streamline:delete-1-solid" sx={{ width:12,height:12}} />
-                                                                        </IconButton>}
-                                                                    </TableCell>
-                                                                </TableRow> ); })}
-                                                        <TableEmptyRows
-                                                            height={77}
-                                                            emptyRows={emptyRows(0, 15, ChitAuctionMemberList.length)} />
-                                                        {ChitAuctionMemberList.length === 0 && <TableNoData query="" />}
-                                                    </TableBody>}
-                                            </Table>
-                                        </TableContainer>
-                                    </div>
-                                    </Scrollbar>
+                                                            : <TableBody>
+                                                                {ChitAuctionMemberList.map((row, index) => {
+                                                                    // const isEditable = String(row.id).includes('id_') || (index === ChitAuctionMemberList.length - 1 && !String(row.id).includes('id_'));
+
+                                                                    // if(row.id !==0 && row.id !=="0")
+                                                                    // {
+                                                                    //     if( ChitParameter.length > 0)
+                                                                    //     {
+                                                                    //         setEditable(true);
+                                                                    //     }                                                                
+                                                                    // } 
+                                                                    const validatemaxaucdisc = isEditable || row.id === "0" || row.id === 0 ? (e) => ChitAuctionMemberListTextValidate(e, row, "maxaucdisc") : null;
+                                                                    const validatesignature = isEditable || row.id === "0" || row.id === 0 ? (e) => ChitAuctionMemberListTextValidate(e, row, "signature") : null
+                                                                    console.log("isEditable", isEditable);
+                                                                    console.log("ChitAuctionSelectedIndex", (ChitAuctionSelectedIndex + 1));
+                                                                    console.log("row.id", row.id);
+                                                                    // console.log("ChitParameter.length", ChitParameter.length);
+                                                                    return (
+                                                                        <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }} key={index}>
+                                                                            <TableCell>{row.tktno}</TableCell>
+                                                                            <TableCell>{row.member_name}</TableCell>
+                                                                            <TableCell>
+                                                                                <TextField
+                                                                                    className='input-box2'
+                                                                                    id="outlined-required"
+                                                                                    value={row.maxaucdisc}
+                                                                                    onChange={row.is_companymember === "companymember" ? null : validatemaxaucdisc}
+                                                                                    style={{ width: 100, }}
+                                                                                    disabled={!isEditable && row.id !== "0" && row.id !== 0}
+                                                                                    sx={{
+                                                                                        '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', },
+                                                                                        '& .MuiInputAdornment-root': { padding: '8px', }
+                                                                                    }} />
+                                                                            </TableCell>
+                                                                            <TableCell>
+                                                                                <Stack justifyContent='center'>
+                                                                                    <TextField
+                                                                                        className='input-box2'
+                                                                                        id="outlined-required"
+                                                                                        value={row.signature}
+                                                                                        onChange={row.is_companymember === "companymember" ? null : validatesignature}
+                                                                                        style={{ width: 100, }}
+                                                                                        disabled={!isEditable && row.id !== "0" && row.id !== 0}
+                                                                                        sx={{
+                                                                                            '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', },
+                                                                                            '& .MuiInputAdornment-root': { padding: '8px', }
+                                                                                        }} />
+                                                                                </Stack>
+                                                                            </TableCell>
+                                                                            <TableCell>{row.action === "delete" &&
+                                                                                <IconButton onClick={() => setChitAuctionMemberList(prevList => prevList.filter((_, i) => i !== index))} sx={{ cursor: 'pointer' }}>
+                                                                                    <Iconify icon="streamline:delete-1-solid" sx={{ width: 12, height: 12 }} />
+                                                                                </IconButton>}
+                                                                            </TableCell>
+                                                                        </TableRow>);
+                                                                })}
+                                                                <TableEmptyRows
+                                                                    height={77}
+                                                                    emptyRows={emptyRows(0, 15, ChitAuctionMemberList.length)} />
+                                                                {ChitAuctionMemberList.length === 0 && <TableNoData query="" />}
+                                                            </TableBody>}
+                                                    </Table>
+                                                </TableContainer>
+                                            </div>
+                                        </Scrollbar>
                                     </Stack>
                                 </Grid>
-                        <Grid item xs={12} sm={6} md={6} className='box-grid pd'>
-                            <Stack direction='row' spacing={1} alignItems='center' className='auction-box'>
-                                <div className='auction-grp  grp-label'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Group No <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                            <TextField
-                                                className='input-box1 md'
-                                                id="outlined-required"
-                                                disabled
-                                                // label="Group No"
-                                                value={GroupNo.data}
-                                                onChange={(e) => ChitAuctionTextValidate(e, "GroupNo")}
-                                                style={{}}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                      fontSize:'14px' ,
-                                                    }
-                                                  }}
-                                                  error={!!GroupNo.error}/>
-                                        </Stack>
-                                        <div  className='error_txt'>{GroupNo.error}</div>
-                                    </Stack>
-                                </div>
-                                <div className='auction-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
-                                            Amount <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                            <TextField
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                // label="Amount"
-                                                value={Amount.data}
-                                                onChange={(e) => ChitAuctionTextValidate(e, "Amount")}
-                                                style={{}}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                      fontSize:'14px' ,
-                                                    }
-                                                  }}
-                                                  error={!!Amount.error}/>
-                                        </Stack>
-                                        <div  className='error_txt'>{Amount.error}</div>
-                                    </Stack>
-                                </div>
-                            </Stack>
-                            <Stack direction='row' spacing={1} alignItems='center' className='auction-box'>
-                                <div className='auction-grp box'>
-                                    <Stack direction='column' className='box-d'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Auc From Time <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                <DemoContainer components={['MobileTimePicker',]} className="date-pick">
-                                                    <MobileTimePicker
-                                                        // label="Auc From Time"
-                                                        disabled={screen === "view"}
-                                                        defaultValue={dayjs()}
-                                                        value={AucFromTime.data}
-                                                        onAccept={() => HandleOnAcceptTimeChange("Accept_AucFromTime")}
-                                                        onChange={(time) => HandleTimeChange(time, "AucFromTime")}
+                                <Grid item xs={12} sm={6} md={6} className='box-grid pd'>
+                                    <Stack direction='row' spacing={1} alignItems='center' className='auction-box'>
+                                        <div className='auction-grp  grp-label'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    Group No <span style={{ color: 'red' }}> *</span>
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                                    <TextField
+                                                        className='input-box1 md'
+                                                        id="outlined-required"
+                                                        disabled
+                                                        // label="Group No"
+                                                        value={GroupNo.data}
+                                                        onChange={(e) => ChitAuctionTextValidate(e, "GroupNo")}
+                                                        style={{}}
                                                         sx={{
                                                             '& .MuiInputBase-input': {
-                                                              padding: '8px',
-                                                              fontSize:'14px'
-                                                            },
-                                                            '& .MuiInputAdornment-root': {
-                                                              padding: '8px',
-                                                            },
-                                                          }}
-                                                          error={!!AucFromTime.error}/>
-                                                </DemoContainer>
-                                            </LocalizationProvider>
-                                        </Stack>
-                                        <div  className='error_txt'>{AucFromTime.error}</div>
-                                    </Stack>
-                                </div>
-                                <div className='auction-grp box'>
-                                    <Stack direction='column' className='box-d'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Auc To Time <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                <DemoContainer components={['MobileTimePicker',]} className="date-pick">
-                                                    <MobileTimePicker
-                                                        // label="Auc To Time"
-                                                        disabled={screen === "view"}
-                                                        defaultValue={dayjs()}
-                                                        value={AucToTime.data}
-                                                        onAccept={() => HandleOnAcceptTimeChange("Accept_AucToTime")}
-                                                        onChange={(time) => HandleTimeChange(time, "AucToTime")}
+                                                                padding: '8px',
+                                                                fontSize: '14px',
+                                                            }
+                                                        }}
+                                                        error={!!GroupNo.error} />
+                                                </Stack>
+                                                <div className='error_txt'>{GroupNo.error}</div>
+                                            </Stack>
+                                        </div>
+                                        <div className='auction-grp'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                                    Amount <span style={{ color: 'red' }}> *</span>
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        id="outlined-required"
+                                                        disabled
+                                                        // label="Amount"
+                                                        value={Amount.data}
+                                                        onChange={(e) => ChitAuctionTextValidate(e, "Amount")}
+                                                        style={{}}
                                                         sx={{
                                                             '& .MuiInputBase-input': {
-                                                              padding: '8px',
-                                                               fontSize:'14px' ,
-                                                            },
-                                                            '& .MuiInputAdornment-root': {
-                                                              padding: '8px',
-                                                            },
-                                                          }}
-                                                          error={!!AucToTime.error}/>
-                                                </DemoContainer>
-                                            </LocalizationProvider>
-                                        </Stack>
-                                        <div  className='error_txt'>{AucToTime.error}</div>
+                                                                padding: '8px',
+                                                                fontSize: '14px',
+                                                            }
+                                                        }}
+                                                        error={!!Amount.error} />
+                                                </Stack>
+                                                <div className='error_txt'>{Amount.error}</div>
+                                            </Stack>
+                                        </div>
                                     </Stack>
-                                </div>
-                            </Stack>
-                            <Stack direction='row' spacing={1} alignItems='center' className='auction-box'>
-                                <div className='auction-grp box'>
-                                    <Stack direction='column' className='box-d'>
-                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                            Auc Date <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                <DemoContainer components={['DatePicker']} className="date-pick">
-                                                    <DatePicker
-                                                        // label="Auc Date"
-                                                        disabled={screen === "view" || screen === "add"}
-                                                        value={AucDate.data}
-                                                        onChange={(date) => HandleDateChange(date, "AucDate")}
-                                                        format="DD-MM-YYYY"
+                                    <Stack direction='row' spacing={1} alignItems='center' className='auction-box'>
+                                        <div className='auction-grp box'>
+                                            <Stack direction='column' className='box-d'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    Auc From Time <span style={{ color: 'red' }}> *</span>
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                        <DemoContainer components={['MobileTimePicker',]} className="date-pick">
+                                                            <MobileTimePicker
+                                                                // label="Auc From Time"
+                                                                disabled={screen === "view"}
+                                                                // inputProps={{ readOnly: true }}
+                                                                // defaultValue={dayjs()}
+                                                                value={AucFromTime.data}
+                                                                onAccept={() => HandleOnAcceptTimeChange("Accept_AucFromTime")}
+                                                                onChange={(time) => HandleTimeChange(time, "AucFromTime")}
+                                                                error={!!AucFromTime.error}
+                                                                className='date-pickup'
+                                                                sx={{
+                                                                    '& .MuiInputBase-root': {
+                                                                        border: AucFromTime.error && '1px solid red',
+                                                                        '&:hover': {
+                                                                            border: AucFromTime.error && '1px solid transparent',
+                                                                        },
+                                                                        '&.Mui-focused': {
+                                                                            border: AucFromTime.error && '1px solid transparent',
+                                                                        },
+                                                                    },
+                                                                    '& .MuiInputBase-input': {
+                                                                        padding: '8px',
+                                                                        fontSize: '14px'
+                                                                    },
+                                                                    '& .MuiInputAdornment-root': {
+                                                                        padding: '8px',
+                                                                    },
+                                                                }}
+                                                            />
+                                                        </DemoContainer>
+                                                    </LocalizationProvider>
+                                                </Stack>
+                                                {/* <div  className='error_txt'>{AucFromTime.error}</div> */}
+                                            </Stack>
+                                        </div>
+                                        <div className='auction-grp box'>
+                                            <Stack direction='column' className='box-d'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    Auc To Time <span style={{ color: 'red' }}> *</span>
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                        <DemoContainer components={['MobileTimePicker',]} className="date-pick">
+                                                            <MobileTimePicker
+                                                                // label="Auc To Time"
+                                                                disabled={screen === "view"}
+                                                                // defaultValue={dayjs()}
+                                                                // inputProps={{ readOnly: true }}
+                                                                value={AucToTime.data}
+                                                                onAccept={() => HandleOnAcceptTimeChange("Accept_AucToTime")}
+                                                                onChange={(time) => HandleTimeChange(time, "AucToTime")}
+                                                                error={!!AucToTime.error}
+                                                                sx={{
+                                                                    '& .MuiInputBase-root': {
+                                                                        
+                                                                        border: AucToTime.error && '1px solid red',
+                                                                        '&:hover': {
+                                                                            border: AucToTime.error && '1px solid transparent',
+                                                                        },
+
+                                                                        '&.Mui-focused': {
+                                                                            border: AucToTime.error && '1px solid transparent',
+                                                                        },
+                                                                    },
+                                                                   
+
+                                                                    '& .MuiInputBase-input': {
+                                                                        padding: '8px',
+                                                                        fontSize: '14px',
+                                                                    },
+                                                                    '& .MuiInputAdornment-root': {
+                                                                        padding: '8px',
+                                                                    },
+                                                                    
+                                                                }}
+                                                            />
+                                                        </DemoContainer>
+                                                    </LocalizationProvider>
+
+                                                </Stack>
+                                                {/* <div className='error_txt'>{AucToTime.error}</div> */}
+                                            </Stack>
+                                        </div>
+                                    </Stack>
+                                    <Stack direction='row' spacing={1} alignItems='center' className='auction-box'>
+                                        <div className='auction-grp box'>
+                                            <Stack direction='column' className='box-d'>
+                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                                    Auc Date <span style={{ color: 'red' }}> *</span>
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+
+                                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                        <DemoContainer components={['DatePicker']} className="date-pick">
+                                                            <DatePicker
+                                                                // label="Auc Date"                                           
+                                                                disabled={screen === "view" || screen === "add"}
+                                                                value={AucDate.data}
+                                                                onChange={(date) => HandleDateChange(date, "AucDate")}
+                                                                format="DD-MM-YYYY"
+                                                                error={!!AucDate.error}                                                                
+                                                                sx={{
+                                                                    border:'none',
+                                                                    '& .MuiInputBase-root': {
+                                                                        border: AucDate.error && '1px solid red',
+                                                                        '&:hover': {
+                                                                            border: AucDate.error && '1px solid transparent',
+                                                                        },
+                                                                        '&.Mui-focused': {
+                                                                            border: AucDate.error && '1px solid transparent',
+                                                                        },
+                                                                    },
+                                                                    
+                                                                    '& .MuiInputBase-input': {
+                                                                        padding: '8px',
+                                                                        fontSize: '14px',
+                                                                        // borderColor: AucDate.data === '' && 'red' ,
+                                                                    },
+                                                                    '& .MuiInputAdornment-root': {
+                                                                        padding: '8px',
+                                                                    },
+
+
+                                                                }}
+                                                            />
+                                                        </DemoContainer>
+                                                    </LocalizationProvider>
+                                                </Stack>
+                                                {/* <div className='error_txt'>{AucDate.error}</div> */}
+                                            </Stack>
+                                        </div>
+                                        <div className='auction-grp'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                                    Inst No <span style={{ color: 'red' }}> *</span>
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        id="outlined-required"
+                                                        // disabled
+                                                        inputProps={{ readOnly: true }}
+                                                        // label="Inst No"
+                                                        value={InstNo.data}
+                                                        onChange={(e) => ChitAuctionTextValidate(e, "InstNo")}
+                                                        style={{}}
                                                         sx={{
                                                             '& .MuiInputBase-input': {
-                                                              padding: '8px',
-                                                              fontSize:'14px',
-                                                            },
-                                                            '& .MuiInputAdornment-root': {
-                                                              padding: '8px',
-                                                            },
-                                                          }}
-                                                          error={!!AucDate.error}/>
-                                                </DemoContainer>
-                                            </LocalizationProvider>
-                                        </Stack>
-                                        <div  className='error_txt'>{AucDate.error}</div>
+                                                                padding: '8px',
+                                                                fontSize: '14px',
+                                                            }
+                                                        }}
+                                                        error={!!InstNo.error} />
+                                                </Stack>
+                                                {/* <div  className='error_txt'>{InstNo.error}</div> */}
+                                            </Stack>
+                                        </div>
                                     </Stack>
-                                </div>
-                                <div className='auction-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
-                                            Inst No <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                            <TextField
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                // label="Inst No"
-                                                value={InstNo.data}
-                                                 onChange={(e) => ChitAuctionTextValidate(e, "InstNo")}
-                                                style={{}}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                       fontSize:'14px' ,
-                                                    }
-                                                  }}
-                                                  error={!!InstNo.error}/>
-                                        </Stack>
-                                        <div  className='error_txt'>{InstNo.error}</div>
+                                    <Stack direction='row' spacing={1} alignItems='center' className='auction-box'>
+                                        <div className='auction-grp  grp-label'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    Prized Member <span style={{ color: 'red' }}> *</span>
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                                    <TextField
+                                                        className='input-box1 md'
+                                                        id="outlined-required"
+                                                        // disabled
+                                                        inputProps={{ readOnly: true }}
+                                                        // label="Prized Member"
+                                                        value={PrizedMember.data}
+                                                        onChange={(e) => ChitAuctionTextValidate(e, "PrizedMember")}
+                                                        style={{}}
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                                padding: '8px',
+                                                                fontSize: '14px',
+                                                            }
+                                                        }}
+                                                        error={!!PrizedMember.error} />
+                                                </Stack>
+                                                {/* <div  className='error_txt'>{PrizedMember.error}</div> */}
+                                            </Stack>
+                                        </div>
+                                        <div className='auction-grp'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                                    Tkt.No <span style={{ color: 'red' }}> *</span>
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        id="outlined-required"
+                                                        // disabled
+                                                        inputProps={{ readOnly: true }}
+                                                        // label="Tkt.No"
+                                                        value={TktNo.data}
+                                                        onChange={(e) => ChitAuctionTextValidate(e, "TktNo")}
+                                                        style={{}}
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                                padding: '8px',
+                                                                fontSize: '14px',
+                                                            }
+                                                        }}
+                                                        error={!!TktNo.error} />
+                                                </Stack>
+                                                {/* <div  className='error_txt'>{TktNo.error}</div> */}
+                                            </Stack>
+                                        </div>
                                     </Stack>
-                                </div>
-                            </Stack>
-                            <Stack direction='row' spacing={1} alignItems='center' className='auction-box'>
-                                <div className='auction-grp  grp-label'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Prized Member <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                            <TextField
-                                                className='input-box1 md'
-                                                id="outlined-required"
-                                                disabled
-                                                // label="Prized Member"
-                                                value={PrizedMember.data}
-                                                onChange={(e) => ChitAuctionTextValidate(e, "PrizedMember")}
-                                                style={{}}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                       fontSize:'14px' ,
-                                                    }
-                                                  }}
-                                                  error={!!PrizedMember.error}/>
-                                        </Stack>
-                                        <div  className='error_txt'>{PrizedMember.error}</div>
+                                    <Stack direction='row' spacing={1} alignItems='center' className='auction-box'>
+                                        <div className='auction-grp  grp-label'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
+                                                    Max.A.Disc <span style={{ color: 'red' }}> *</span>
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                                    <TextField
+                                                        className='input-box1 md'
+                                                        id="outlined-required"
+                                                        disabled
+                                                        // label="Max.A.Disc"
+                                                        value={MaxADisc.data}
+                                                        onChange={(e) => ChitAuctionTextValidate(e, "MaxADisc")}
+                                                        style={{}}
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                                padding: '8px',
+                                                                fontSize: '14px',
+                                                            }
+                                                        }}
+                                                        error={!!MaxADisc.error} />
+                                                </Stack>
+                                                <div className='error_txt'>{MaxADisc.error}</div>
+                                            </Stack>
+                                        </div>
+                                        <div className='auction-grp'>
+                                            <Stack direction='column'>
+                                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
+                                                    F.M/A.F.M Commission
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        id="outlined-required"
+                                                        disabled
+                                                        // label="F.M/A.F.M Commission"
+                                                        value={FM_AFMCommission.data}
+                                                        onChange={(e) => ChitAuctionTextValidate(e, "FM_AFMCommission")}
+                                                        style={{}}
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                                padding: '8px',
+                                                                fontSize: '14px',
+                                                            }
+                                                        }}
+                                                        error={!!FM_AFMCommission.error} />
+                                                </Stack>
+                                                <div className='error_txt'>{FM_AFMCommission.error}</div>
+                                            </Stack>
+                                        </div>
                                     </Stack>
-                                </div>
-                                <div className='auction-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
-                                            Tkt.No <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                            <TextField
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                // label="Tkt.No"
-                                                value={TktNo.data}
-                                                onChange={(e) => ChitAuctionTextValidate(e, "TktNo")}
-                                                style={{}}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                       fontSize:'14px' ,
-                                                    }
-                                                  }}
-                                                  error={!!TktNo.error}/>
-                                        </Stack>
-                                        <div  className='error_txt'>{TktNo.error}</div>
+                                    <Stack direction='row' spacing={1} alignItems='center' className='auction-box'>
+                                        <div className='auction-grp'>
+                                            <Stack direction='column'>
+                                                <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                                    Dividend <span style={{ color: 'red' }}> *</span>
+                                                </Typography>
+                                                <Stack direction='row' sx={{ ml: 0, }}>
+                                                    <TextField
+                                                        className='input-box1'
+                                                        id="outlined-required"
+                                                        disabled
+                                                        // label="Dividend"
+                                                        value={Dividend.data}
+                                                        onChange={(e) => ChitAuctionTextValidate(e, "Dividend")}
+                                                        style={{}}
+                                                        sx={{
+                                                            '& .MuiInputBase-input': {
+                                                                padding: '8px',
+                                                                fontSize: '14px',
+                                                            }
+                                                        }}
+                                                        error={!!Dividend.error} />
+                                                </Stack>
+                                                <div className='error_txt'>{Dividend.error}</div>
+                                            </Stack>
+                                        </div>
                                     </Stack>
-                                </div>
-                            </Stack>
-                            <Stack direction='row' spacing={1} alignItems='center' className='auction-box'>
-                                <div className='auction-grp  grp-label'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
-                                            Max.A.Disc <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                            <TextField
-                                                className='input-box1 md'
-                                                id="outlined-required"
-                                                disabled
-                                                // label="Max.A.Disc"
-                                                value={MaxADisc.data}
-                                                onChange={(e) => ChitAuctionTextValidate(e, "MaxADisc")}
-                                                style={{}}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                       fontSize:'14px' ,
-                                                    }
-                                                  }}
-                                                  error={!!MaxADisc.error}/>
-                                        </Stack>
-                                        <div  className='error_txt'>{MaxADisc.error}</div>
-                                    </Stack>
-                                </div>
-                                <div className='auction-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
-                                            F.M/A.F.M Commission
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, mt: 0 }}>
-                                            <TextField
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                // label="F.M/A.F.M Commission"
-                                                value={FM_AFMCommission.data}
-                                                onChange={(e) => ChitAuctionTextValidate(e, "FM_AFMCommission")}
-                                                style={{}}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                       fontSize:'14px' ,
-                                                    }
-                                                  }}
-                                                  error={!!FM_AFMCommission.error}/>
-                                        </Stack>
-                                        <div  className='error_txt'>{FM_AFMCommission.error}</div>
-                                    </Stack>
-                                </div>
-                            </Stack>
-                            <Stack direction='row' spacing={1} alignItems='center' className='auction-box'>
-                                <div className='auction-grp'>
-                                    <Stack direction='column'>
-                                        <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
-                                            Dividend <span style={{ color: 'red' }}> *</span>
-                                        </Typography>
-                                        <Stack direction='row' sx={{ ml: 0, }}>
-                                            <TextField
-                                                className='input-box1'
-                                                id="outlined-required"
-                                                disabled
-                                                // label="Dividend"
-                                                value={Dividend.data}
-                                                onChange={(e) => ChitAuctionTextValidate(e, "Dividend")}
-                                                style={{}}
-                                                sx={{
-                                                    '& .MuiInputBase-input': {
-                                                      padding: '8px',
-                                                       fontSize:'14px' ,
-                                                    }
-                                                  }}
-                                                  error={!!Dividend.error}/>
-                                        </Stack>
-                                        <div className='error_txt'>{Dividend.error}</div>
-                                    </Stack>
-                                </div>
-                            </Stack>
+                                </Grid>
+
                             </Grid>
-                           
-                            </Grid>
-                            <Stack direction='column' alignItems='flex-start' gap='10px' sx={{ mt: 1, mb: 3, ml:2}}>
+                            <Stack direction='column' alignItems='flex-start' gap='10px' sx={{ mt: 1, mb: 3, ml: 2 }}>
                                 <Stack direction='row'>
-                                    <Button sx={{ mr:2,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
+                                    <Button sx={{ mr: 2, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                         {Loading
                                             ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                             : ("Submit")}
                                     </Button>
-                                    <Button variant="contained"   sx={{
-                                        mr: 2,  cursor: 'pointer',
+                                    <Button variant="contained" sx={{
+                                        mr: 2, cursor: 'pointer',
                                         backgroundColor: '#e9e9e9',
-                                        color:'#7e8299',
+                                        color: '#7e8299',
                                         '&:hover': {
                                             backgroundColor: '#cccccc',
                                         },
@@ -2265,14 +2320,15 @@ export default function AddChitAuctionPage() {
                                     {(SelectAuctionList !== undefined && Object.keys(SelectAuctionList).length > 0) && <Button sx={{ mr: 2, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleShowEstimateClick}>
                                         Show Estimate
                                     </Button>}
-                                    <Button variant="contained" sx={{ mr: 2, cursor: 'pointer',
+                                    <Button variant="contained" sx={{
+                                        mr: 2, cursor: 'pointer',
                                         backgroundColor: '#d32f2f',
-                                        color:'white', 
+                                        color: 'white',
                                         '&:hover': {
-                                         backgroundColor: '#b71c1c',
+                                            backgroundColor: '#b71c1c',
                                         },
-                                       
-                                      }} onClick={() => HandleDeleteClick("delete")}>
+
+                                    }} onClick={() => HandleDeleteClick("delete")}>
                                         Delete
                                     </Button>
                                 </Stack>
@@ -2302,7 +2358,7 @@ export default function AddChitAuctionPage() {
                         <Stack ml={1} mr={1} pb={1} direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
                             <Stack direction='column'>
                                 <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
-                                    { `Group No - ${GroupNo.data}`}
+                                    {`Group No - ${GroupNo.data}`}
                                 </Typography>
                             </Stack>
                             <IconButton
@@ -2313,7 +2369,7 @@ export default function AddChitAuctionPage() {
                                 <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 14, height: 14, }} />
                             </IconButton>
                         </Stack>
-                        <Divider sx={{ mt: 1, }}/>
+                        <Divider sx={{ mt: 1, }} />
                         <Scrollbar style={{ Scrollbar: 'none' }}>
                             <Stack direction='column' sx={{ m: 3 }}>
                                 <Stack direction='row' spacing={2} alignItems='center'>
@@ -2446,10 +2502,10 @@ export default function AddChitAuctionPage() {
                 aria-describedby="alert-dialog-description" >
                 <Card>
                     <Stack>
-                        <Stack ml={1} mr={1} pb={1}direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
-                         <Stack direction='column'>
+                        <Stack ml={1} mr={1} pb={1} direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
+                            <Stack direction='column'>
                                 <Typography variant="subtitle1" sx={{ mt: 2, ml: 1 }}>
-                                 Member List
+                                    Member List
                                 </Typography>
                             </Stack>
                             <IconButton
@@ -2460,7 +2516,7 @@ export default function AddChitAuctionPage() {
                                 <img src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 14, height: 14, }} />
                             </IconButton>
                         </Stack>
-                        <Divider sx={{ mt: 1, }}/>
+                        <Divider sx={{ mt: 1, }} />
                         <Stack mt={2} ml={2} mr={1} direction="row" alignItems="center" gap="10px">
                             <TextField
                                 placeholder="Member Name..."
@@ -2477,13 +2533,13 @@ export default function AddChitAuctionPage() {
                                 }}
                                 sx={{
                                     '& .MuiInputBase-input': {
-                                      padding: '8px',
-                                      fontSize:'14px' 
+                                        padding: '8px',
+                                        fontSize: '14px'
                                     },
                                     '& .MuiInputAdornment-root': {
-                                      padding: '8px', 
+                                        padding: '8px',
                                     },
-                                  }}/>
+                                }} />
                             <TextField
                                 placeholder="Ticket No..."
                                 value={filterTicketNo}
@@ -2497,20 +2553,21 @@ export default function AddChitAuctionPage() {
                                             />
                                         </InputAdornment>),
                                 }}
-                                sx={{ ml: 1,
+                                sx={{
+                                    ml: 1,
                                     '& .MuiInputBase-input': {
-                                      padding: '8px',
-                                      fontSize:'14px' 
+                                        padding: '8px',
+                                        fontSize: '14px'
                                     },
                                     '& .MuiInputAdornment-root': {
-                                      padding: '8px', 
+                                        padding: '8px',
                                     },
-                                  }}/>
-                          
+                                }} />
+
                         </Stack>
-                        <Scrollbar style={{ maxHeight: '70vh'}}>
-                            <div style={{ marginLeft: '15px', marginRight: '15px' ,marginBottom:'15px'}}>
-                                <TableContainer sx={{ overflow: 'unset', mt:2 }}>
+                        <Scrollbar style={{ maxHeight: '70vh' }}>
+                            <div style={{ marginLeft: '15px', marginRight: '15px', marginBottom: '15px' }}>
+                                <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
                                     <Table sx={{ minWidth: 530 }} stickyHeader>
                                         <TableRow hover tabIndex={-1}>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
@@ -2528,14 +2585,15 @@ export default function AddChitAuctionPage() {
                                                     .map((row, index) => {
                                                         const checkIdExists = id => ChitAuctionMemberList.some(items => items.memberid === id);
                                                         const checkTktnoExists = tktno => ChitAuctionMemberList.some(items => String(items.tktno) === tktno);
-                                                        return(
+                                                        return (
                                                             <TableRow hover={!(row.prizedOrNot === "Prized")} tabIndex={-1} role="checkbox"
                                                                 className={(row.prizedOrNot === "Prized" || (checkIdExists(row.memberid) && checkTktnoExists(row.tktno))) && 'rowExists'}
                                                                 onClick={(event) => handleClick(event, row, "", index)} sx={{ cursor: 'pointer' }}>
                                                                 <TableCell>{row.mem_name}</TableCell>
                                                                 <TableCell>{row.memberid}</TableCell>
                                                                 <TableCell>{row.tktno}</TableCell>
-                                                            </TableRow>)})}
+                                                            </TableRow>)
+                                                    })}
                                                 <TableEmptyRows
                                                     height={77}
                                                     emptyRows={emptyRows(page, 5, ChitAuctionAddMemberList.length)} />
@@ -2545,18 +2603,18 @@ export default function AddChitAuctionPage() {
                                 </TableContainer>
                             </div>
                             {ChitAuctionAddMemberList.length > 0 &&
-                                    <TablePagination
-                                        sx={{ mb: 3 }}
-                                        page={dialogPage}
-                                        component="div"
-                                        count={TotalCount}
-                                        rowsPerPage={dialogRowsPerPage}
-                                        onPageChange={handleChangeDialogPage}
-                                        rowsPerPageOptions={[5, 10, 15]}
-                                        onRowsPerPageChange={handleChangeDialogRowsPerPage}
-                                    />
-                                } 
-                        </Scrollbar>                     
+                                <TablePagination
+                                    sx={{ mb: 3 }}
+                                    page={dialogPage}
+                                    component="div"
+                                    count={TotalCount}
+                                    rowsPerPage={dialogRowsPerPage}
+                                    onPageChange={handleChangeDialogPage}
+                                    rowsPerPageOptions={[5, 10, 15]}
+                                    onRowsPerPageChange={handleChangeDialogRowsPerPage}
+                                />
+                            }
+                        </Scrollbar>
                     </Stack>
                 </Card>
             </Dialog>
@@ -2655,7 +2713,7 @@ export default function AddChitAuctionPage() {
                                 </Stack>
                             </Stack>
 
-                            
+
                         </Scrollbar>
                     </Stack>
                 </Card>

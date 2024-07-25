@@ -616,7 +616,7 @@ export default function AddGroupMemberPage() {
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
     return (
-        <div style={{ marginLeft: '35px', marginRight: '35px' }}>
+        <div className="groupmember-add-screen">
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
                 <Typography variant="h6" sx={{ fontWeight: '600' }}>
                     Group Member
@@ -987,7 +987,7 @@ export default function AddGroupMemberPage() {
                         </Stack>
                         <Box sx={{ flexGrow: 1,  mt: 0.3}}>
                             <Scrollbar  style={{ maxHeight: '70vh'}}>
-                            <div style={{ marginLeft: '15px', marginRight: '15px' ,marginBottom:'15px'}}>
+                            <div style={{ marginLeft: '15px', marginRight: '15px' ,marginBottom:'15px',marginTop:'15px'}}>
                                 <TableContainer sx={{ overflow: 'unset'  }}>
                                     <Table sx={{ minWidth: 500 }} stickyHeader>
                                         <TableRow hover tabIndex={-1}>

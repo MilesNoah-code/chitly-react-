@@ -1,78 +1,82 @@
-.custom-button {
+.chitpayment-add-screen .custom-button {
   color: #FFFFFF;
   background-color: #1877F2;
   box-shadow: 0px 3px 1px -2px rgba(145, 158, 171, 0.2), 0px 2px 2px 0px rgba(145, 158, 171, 0.14), 0px 1px 5px 0px rgba(145, 158, 171, 0.12);
   font-size: 15px;
-
+border-radius: 5px;
 
 }
 
-.custom-button:hover {
+.chitpayment-add-screen .custom-button:hover {
   text-decoration: none;
   background-color: #0C44AE;
   box-shadow: 0px 2px 4px -1px rgba(145, 158, 171, 0.2), 0px 4px 5px 0px rgba(145, 158, 171, 0.14), 0px 1px 10px 0px rgba(145, 158, 171, 0.12);
 }
 
-.pad-r {
+.chitpayment-add-screen .pad-r {
   padding-left: 14px;
 }
 
-.value-width {
+.chitpayment-add-screen .value-width {
   width: 20% !important;
 }
 
-.name-width {
+.chitpayment-add-screen .name-width {
   width: 35.5% !important;
 }
 
-.pay-box {
+.chitpayment-add-screen .pay-box {
   display: flex !important;
   flex-wrap: wrap !important;
   width: 100% !important;
 }
 
-.box-pay-grp {
+.chitpayment-add-screen .box-pay-grp {
   flex: 1 0 48%;
   max-width: 48%;
   flex-wrap: wrap;
-  margin-bottom: 10px !important
+  margin-left: 2px !important;
 }
 
-.view-one {
+.chitpayment-add-screen .view-one {
   border: none !important;
 }
 
-.pay-grp {
+.chitpayment-add-screen .pay-grp {
   width: 30.5%;
 }
 
-.pay-grp .MuiTextField-root {
+.chitpayment-add-screen .pay-grp .MuiTextField-root {
   width: 100% !important;
   margin: 0px;
 }
 
-.con {
+.chitpayment-add-screen .con {
   padding: 20px;
 }
 
-.box-pay-grp .input-box1 {
+.chitpayment-add-screen .box-pay-grp .input-box1 {
   margin-top: 5px ;
   width: calc(100% - 20px);
 }
 
-.box-popfix {
+.chitpayment-add-screen .box-popfix {
   position: relative;
 }
-
-.cancel-btn {
+.chitpayment-add-screen .pay-gp{
+  margin-top: -4px;
+}
+.chitpayment-add-screen .cancel-btn {
   position: absolute;
   top: 47px;
   right: -25px;
   cursor: pointer;
 
 }
-
-.chitpayment-add-screen .box-one {
+.chitpayment-add-screen .submit{
+  margin-top: 10px;
+}
+.chitpayment-add-screen .chitpayment-add-screen .box-one {
   border: 1px solid #ccc;
   margin-left: 24px;
   margin-right: -17px;
@@ -82,16 +86,18 @@
   padding-bottom: 20px;
 }
 
-.bor {
+.chitpayment-add-screen .bor {
   border-bottom: 1px solid #ccc;
   padding-bottom: 1%;
 }
 
-.box-pay-grp .MuiAutocomplete-root .MuiTextField-root {
+.chitpayment-add-screen .box-pay-grp .MuiAutocomplete-root .MuiTextField-root {
   width: calc(100% - 20px) !important;
 }
-
-.alert-msg {
+.chitpayment-add-screen .pay_grid{
+  padding-bottom: 20px;
+}
+.chitpayment-add-screen .alert-msg {
   display: flex;
   align-items: center;
   text-align-last: center;
@@ -99,13 +105,13 @@
   padding: 10px;
 }
 
-.pay-grp-mbl {
+.chitpayment-add-screen .pay-grp-mbl {
   flex: 1 0 49%;
   max-width: 49%;
   flex-wrap: wrap;
 }
 
-.pay-grp-mbl .width-inp {
+.chitpayment-add-screen .pay-grp-mbl .width-inp {
   width: calc(96.5% - 20px);
 }
 
@@ -124,6 +130,10 @@
   font-size: 12px;
   font-weight: 500;
 }
+.chitpayment-add-screen  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+  margin-bottom: 2px;
+
+}
 .chitpayment-add-screen .ledger_error1 {
 
   margin-top: 8px;
@@ -134,9 +144,12 @@
 .chitpayment-add-screen .date-col .date-picker-stack .date-picker{
 padding-top:0px !important ;
 }
-
+.chitpayment-add-screen{
+  margin-left: 35px;
+  margin-right: 35px;
+}
 @media (max-width:991px) {
-  .box-one {
+  .chitpayment-add-screen  .box-one {
     max-width: 100% !important;
     padding-bottom: 20px;
     margin: 15px;
@@ -144,61 +157,76 @@ padding-top:0px !important ;
 }
 
 @media screen and (max-width: 768px) {
-  .pay-grp-mbl {
+  .chitpayment-add-screen .submit{
+    margin-top: 0px;
+  }
+  .chitpayment-add-screen  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+    font-size: 15px;
+margin-left: 0px;
+  }
+  .chitpayment-add-screen .pay-grp-mbl {
     flex: 0 0 96% !important;
     max-width: 96% !important;
     margin-left: 20px !important;
   }
-
-  .alert-msg {
+  .chitpayment-add-screen{
+    margin-left: 15px !important;
+    margin-right: 15px !important; 
+  }
+   .chitpayment-add-screen .MuiTextField-root {
+     margin: 6px  0px!important; 
+} 
+  .chitpayment-add-screen .alert-msg {
     padding: 10px 15px 10px 15px;
     font-size: 15px;
   }
 
-  .pay-box {
+  .chitpayment-add-screen .pay-box {
 
     width: 100% !important;
     align-items: inherit;
   }
 
-  .box-pay-grp {
+  .chitpayment-add-screen .box-pay-grp {
     flex: 1 0 100%;
     max-width: 100%;
     margin-left: 0px !important;
+  
   }
 
-  .pay-box .css-mxq89r-MuiTypography-root {
+  .chitpayment-add-screen .pay-box .css-mxq89r-MuiTypography-root {
     margin-left: 16px !important;
     font-size: 13px;
   }
 
-  .box-pay-grp .input-box1 {
+  .chitpayment-add-screen .box-pay-grp .input-box1 {
     width: calc(100% - 0px) !important;
   }
 
-  .con {
+  .chitpayment-add-screen .con {
     padding: 10px;
   }
 }
 
 @media (min-width:769px) and (max-width:894px) {
-  .btn-close {
+  .chitpayment-add-screen  .btn-close {
     right: -1px;
     top: -2px;
   }
 
-  .btn-close img {
+  .chitpayment-add-screen  .btn-close img {
     width: 14px !important;
     height: 14px !important;
   }
 
-  .box-pay-grp {
+  .chitpayment-add-screen .box-pay-grp {
     flex: 1 0 48%;
     max-width: 48%;
     flex-wrap: wrap;
+   
   }
 
-  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+  .chitpayment-add-screen  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
     font-size: 15px;
     margin-left: 15px !important;
 
@@ -207,19 +235,19 @@ padding-top:0px !important ;
 
 
 @media (min-width:370px) and (max-width:540px) {
-  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+  .chitpayment-add-screen  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
     font-size: 15px;
-
+margin-left: 0px;
   }
 
-  .custom-button {
-    font-size: 13px;
-    margin-top: 10px;
+  .chitpayment-add-screen  .custom-button {
+    font-size: 14px;
+   
   }
 }
 
 @media (min-width: 0px) {
-  .box-pay-grp .box-d .MuiStack-root {
+  .chitpayment-add-screen  .box-pay-grp .box-d .MuiStack-root {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
@@ -228,7 +256,7 @@ padding-top:0px !important ;
 
   }
 
-  .box-pay-grp .box-d .MuiStack-root>.MuiTextField-root {
+  .chitpayment-add-screen .box-pay-grp .box-d .MuiStack-root>.MuiTextField-root {
     margin-top: 5px;
     min-width: -webkit-fill-available !important;
   }

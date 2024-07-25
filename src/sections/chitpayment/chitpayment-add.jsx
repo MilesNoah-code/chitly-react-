@@ -871,7 +871,7 @@ export default function AddChitPaymentPage() {
     };
 
     return (
-        <div style={{ marginLeft: '35px', marginRight: '35px' }} className='chitpayment-add-screen'>
+        <div className='chitpayment-add-screen'>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
                 <Typography variant="h6" sx={{ fontWeight: '600' }}>
                     {screenLabel[screen] || "Add Chit Payment"}
@@ -890,7 +890,7 @@ export default function AddChitPaymentPage() {
                             <img src="/assets/images/img/list_loading.gif" alt="Loading" style={{ width: 70, height: 70, }} />
                         </Stack>
                         : <Stack direction='column'>
-                            <Grid container spacing={1}>
+                            <Grid container spacing={1} className="pay_grid">
                                 <Grid item xs={12} md={6}  className='box-one'>
                                     <Stack direction='row' spacing={2} alignItems='center' className='pay-box date-col'>
                                         <div className='box-pay-grp box'>
@@ -921,7 +921,7 @@ export default function AddChitPaymentPage() {
                                                 </Stack>
                                             </Stack>
                                         </div>
-                                        <div className='box-pay-grp'>
+                                        <div className='box-pay-grp pay-gp'>
                                             <Stack direction='column'>
                                                 <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 ,mb:1}}>
                                                     Group No <span style={{ color: 'red' }}> *</span>
@@ -1331,7 +1331,7 @@ export default function AddChitPaymentPage() {
                             {screen === "view"
                                 ? null
                                 : <Stack direction='column' alignItems='flex-start'>
-                                    <Button sx={{ ml: 3, mb: 3, }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
+                                    <Button sx={{ ml: 3, mb: 3, }} variant="contained" className='custom-button submit' onClick={Loading ? null : HandleSubmitClick}>
                                         {Loading
                                             ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                             : ("Submit")}

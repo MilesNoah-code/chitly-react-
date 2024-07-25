@@ -638,7 +638,7 @@ export default function AddGroupMemberPage() {
                             <Grid className='grid-UI' container spacing={2}>
                                 <Grid className='table-grid' item xs={12} md={5}>
                                     <Scrollbar>
-                                    <div classNmae="table-lt">
+                                    <div className="table-lt">
                                         <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
                                             <Table className="grp-tab" sx={{ minWidth: 350 }}>
                                                 <TableRow hover tabIndex={-1}>

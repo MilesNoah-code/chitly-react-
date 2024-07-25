@@ -1926,10 +1926,10 @@ export default function AddChitAuctionPage() {
                                                                     '& .MuiInputBase-root': {
                                                                         border: AucFromTime.error && '1px solid red',
                                                                         '&:hover': {
-                                                                            borderColor: AucFromTime.error && '1px solid red',
+                                                                            border: AucFromTime.error && '1px solid transparent',
                                                                         },
                                                                         '&.Mui-focused': {
-                                                                            borderColor: AucFromTime.error && '1px solid red',
+                                                                            border: AucFromTime.error && '1px solid transparent',
                                                                         },
                                                                     },
                                                                     '& .MuiInputBase-input': {
@@ -1969,11 +1969,11 @@ export default function AddChitAuctionPage() {
                                                                         
                                                                         border: AucToTime.error && '1px solid red',
                                                                         '&:hover': {
-                                                                            borderColor: AucToTime.error && 'red',
+                                                                            border: AucToTime.error && '1px solid transparent',
                                                                         },
 
                                                                         '&.Mui-focused': {
-                                                                            borderColor: AucToTime.error && 'red',
+                                                                            border: AucToTime.error && '1px solid transparent',
                                                                         },
                                                                     },
                                                                    
@@ -2012,17 +2012,16 @@ export default function AddChitAuctionPage() {
                                                                 value={AucDate.data}
                                                                 onChange={(date) => HandleDateChange(date, "AucDate")}
                                                                 format="DD-MM-YYYY"
-                                                                error={!!AucDate.error}
-                                                                // inputProps={{ readOnly: true }}
+                                                                error={!!AucDate.error}                                                                
                                                                 sx={{
                                                                     border:'none',
                                                                     '& .MuiInputBase-root': {
                                                                         border: AucDate.error && '1px solid red',
                                                                         '&:hover': {
-                                                                            borderColor: AucDate.error && 'red',
+                                                                            border: AucDate.error && '1px solid transparent',
                                                                         },
                                                                         '&.Mui-focused': {
-                                                                            borderColor: AucDate.error && 'red',
+                                                                            border: AucDate.error && '1px solid transparent',
                                                                         },
                                                                     },
                                                                     

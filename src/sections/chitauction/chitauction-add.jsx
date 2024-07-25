@@ -373,7 +373,7 @@ export default function AddChitAuctionPage() {
                                 maxaucdisc: "0",
                                 signature: `sd.${CompanyMemberDetailList[0].memberName},Foreman : ${data.fm_afm}.Without an auction and selection process ,${CompanyMemberDetailList[0].memberName} received a foreman chit of amount Rs.${data.amount}`,
                                 prized_amount: data.amount,
-                                is_prizedmember: "1",
+                                is_prizedmember: 1,
                                 action: 'delete',
                                 is_companymember: "companymember"
                             };
@@ -753,14 +753,13 @@ export default function AddChitAuctionPage() {
                 "group_member_id": item.group_member_id,
                 "maxaucdisc": item.maxaucdisc,
                 "signature": item.signature,
-                "is_prizedmember": item.is_prizedmember,
+                "is_prizedmember": item.is_prizedmember ? item.is_prizedmember : 0,
                 "entNo": 0,
                 "branchid": data.branchid,
                 "comments": "",
                 "is_active": 1,
             }));
             const ChitAuctionListUpdateParams = {
-                "id": SelectAuctionList.id,
                 "branchid": 0,
                 "groupid": data.id,
                 "amount": data.amount,
@@ -1151,9 +1150,9 @@ export default function AddChitAuctionPage() {
 
                     // Update the prized_member value of the highestItem
                     const finalList = updatedList.map(items =>
-                        items === highestItem ? { ...items, is_prizedmember: "1", prized_amount: (data.amount - Number(items.maxaucdisc)), dividend: CalculateDividend.toFixed(2) || 0 } : { ...items, is_prizedmember: "0" }
+                        items === highestItem ? { ...items, is_prizedmember: 1, prized_amount: (data.amount - Number(items.maxaucdisc)), dividend: CalculateDividend.toFixed(2) || 0 } : { ...items, is_prizedmember: 0 }
                     );
-                    const prizedItem = finalList.find(items => items.is_prizedmember === "1");
+                    const prizedItem = finalList.find(items => items.is_prizedmember === 1);
                     if (prizedItem !== undefined){
                         setSelectAuctionList(prizedItem);
                         console.log("prizedItem--> ", prizedItem);
@@ -1474,7 +1473,7 @@ export default function AddChitAuctionPage() {
                         maxaucdisc: "0",
                         signature: `sd.${item.mem_name}`,
                         prized_amount: data.amount,
-                        is_prizedmember: "1",
+                        is_prizedmember: 1,
                         tktno: item.tktno,
                         action: 'delete',
                         is_companymember: "not_companymember"
@@ -1743,9 +1742,9 @@ export default function AddChitAuctionPage() {
 
                 // Update the prized_member value of the highestItem
                 const finalList = updatedList.map(items =>
-                    items === highestItem ? { ...items, is_prizedmember: "1", prized_amount: (data.amount - Number(items.maxaucdisc)), dividend: CalculateDividend.toFixed(2) || 0 } : { ...items, is_prizedmember: "0" }
+                    items === highestItem ? { ...items, is_prizedmember: 1, prized_amount: (data.amount - Number(items.maxaucdisc)), dividend: CalculateDividend.toFixed(2) || 0 } : { ...items, is_prizedmember: 0 }
                 );
-                const prizedItem = finalList.find(items => items.is_prizedmember === "1");
+                const prizedItem = finalList.find(items => items.is_prizedmember === 1);
                 if (prizedItem !== undefined) {
                     setSelectAuctionList(prizedItem);
                     console.log("prizedItem--> ", prizedItem);

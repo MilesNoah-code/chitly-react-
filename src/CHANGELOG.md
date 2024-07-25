@@ -1,3 +1,9 @@
+3.4.20
+Date : 25/07/2024
+Type : Bug fix
+Description :  
+        1.auction prized member change to integer -> changed
+----------------------------------------------------------------
 3.4.19
 Date : 25/07/2024
 Type : Bug fix

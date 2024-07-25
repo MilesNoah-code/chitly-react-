@@ -108,8 +108,10 @@
   font-size: 12px;
   font-weight: 500
 }
-
-.member-add-screen .add-margin {
+.member-add-screen .livingIn-_error{
+  margin-top: -5px;
+}
+.add-margin {
   margin-left: 23px !important;
   margin-top: -5px !important;
 }
@@ -191,6 +193,13 @@ height: 10px;
     height: 110px !important;
     /* margin-left: 10% !important; */
   }
+  .radio-btn{
+    width: 80%;
+    height:80%;
+  }
+  .radio-label{
+    font-size: 0.9rem !important;
+  }
  }
  @media (min-width:451px) and (max-width:899px){
   .member-add-screen .dialog-sizing .MuiPaper-root{
@@ -221,7 +230,11 @@ height: 10px;
     width: 120px;
     /* margin-left: 10px !important; */
   }
-  .member-add-screen  .dialog .MuiInputBase-root{
+
+  .stack-box {
+    width: 100%;
+  }
+  .dialog .MuiInputBase-root{
   width: 100px;
   margin-right: 10%;
   }
@@ -245,8 +258,9 @@ height: 10px;
     flex-wrap: wrap;
   }
 
-  .member-add-screen .mem-box {
-    width: 70%;
+
+  .stack-box {
+    width: 90%;
   }
 }
 

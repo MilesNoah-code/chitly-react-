@@ -828,6 +828,7 @@ export default function AddChitReceiptPage() {
                                             <Autocomplete
                                                 className='input'
                                                 disablePortal
+                                                inputProps={{ readOnly: true }}
                                                 id="combo-box-demo"
                                                 options={PendingGroupList}
                                                 disabled={screen === "view"}
@@ -841,8 +842,9 @@ export default function AddChitReceiptPage() {
                                                         />
                                                     </ListItem>
                                                 )}
+
                                                 renderInput={(params) => <TextField {...params} label={screen === "view" ? GroupNoSearch.data : ""}
-                                                // error={!!GroupNoSearch.error} 
+                                                    error={!!GroupNoSearch.error}
                                                 />}
                                                 sx={{
                                                     '& .MuiAutocomplete-root  .MuiTextField-root': {
@@ -854,7 +856,7 @@ export default function AddChitReceiptPage() {
                                             />
 
                                         </Stack>
-                                        <div className='error_txt' >{GroupNoSearch.error}</div>
+                                        {/* <div className='error_txt' >{GroupNoSearch.error}</div> */}
                                     </Stack>
                                 </div>
                             </Stack>
@@ -868,7 +870,8 @@ export default function AddChitReceiptPage() {
                                             <TextField
                                                 className='input'
                                                 id="outlined-required"
-                                                disabled
+                                                // disabled
+                                                inputProps={{ readOnly: true }}
                                                 // label="Member Name"
                                                 value={MemberName.data}
                                                 onChange={(e) => ChitReceiptTextValidate(e, "MemberName")}
@@ -880,7 +883,7 @@ export default function AddChitReceiptPage() {
                                                 }}
                                                 error={!!MemberName.error} />
                                         </Stack>
-                                        <div className='error_txt'>{MemberName.error}</div>
+                                        {/* <div className='error_txt'>{MemberName.error}</div> */}
                                     </Stack>
                                 </div>
                                 <div className='receipt-grp'>
@@ -892,7 +895,8 @@ export default function AddChitReceiptPage() {
                                             <TextField
                                                 className='input'
                                                 id="outlined-required"
-                                                disabled
+                                                // disabled
+                                                inputProps={{ readOnly: true }}
                                                 // label="Receipt No"
                                                 value={ReceiptNo.data}
                                                 onChange={(e) => ChitReceiptTextValidate(e, "ReceiptNo")}
@@ -901,10 +905,10 @@ export default function AddChitReceiptPage() {
                                                         padding: '8px',
                                                         fontSize: '14px',
                                                     }
-                                                }} 
-                                                error={!!ReceiptNo.error}/>
+                                                }}
+                                                error={!!ReceiptNo.error} />
                                         </Stack>
-                                        <div className='error_txt'>{ReceiptNo.error}</div>
+                                        {/* <div className='error_txt'>{ReceiptNo.error}</div> */}
                                     </Stack>
                                 </div>
                             </Stack>
@@ -918,7 +922,8 @@ export default function AddChitReceiptPage() {
                                             <TextField
                                                 className='input'
                                                 id="outlined-required"
-                                                disabled
+                                                // disabled
+                                                inputProps={{ readOnly: true }}
                                                 // label="Auction Mode"
                                                 value={AuctionMode.data}
                                                 onChange={(e) => ChitReceiptTextValidate(e, "AuctionMode")}
@@ -930,7 +935,7 @@ export default function AddChitReceiptPage() {
                                                 }}
                                                 error={!!AuctionMode.error} />
                                         </Stack>
-                                        <div className='error_txt'>{AuctionMode.error}</div>
+                                        {/* <div className='error_txt'>{AuctionMode.error}</div> */}
                                     </Stack>
                                 </div>
                                 <div className='receipt-grp'>
@@ -942,7 +947,8 @@ export default function AddChitReceiptPage() {
                                             <TextField
                                                 className='input'
                                                 id="outlined-required"
-                                                disabled
+                                                // disabled
+                                                inputProps={{ readOnly: true }}
                                                 // label="Ticket No"
                                                 value={TicketNo.data}
                                                 onChange={(e) => ChitReceiptTextValidate(e, "TicketNo")}
@@ -954,7 +960,7 @@ export default function AddChitReceiptPage() {
                                                 }}
                                                 error={!!TicketNo.error} />
                                         </Stack>
-                                        <div className='error_txt'>{TicketNo.error}</div>
+                                        {/* <div className='error_txt'>{TicketNo.error}</div> */}
                                     </Stack>
                                 </div>
                             </Stack>
@@ -968,7 +974,8 @@ export default function AddChitReceiptPage() {
                                             <TextField
                                                 className='input'
                                                 id="outlined-required"
-                                                disabled
+                                                // disabled
+                                                inputProps={{ readOnly: true }}
                                                 // label="Account No"
                                                 value={AccountNo.data}
                                                 onChange={(e) => ChitReceiptTextValidate(e, "AccountNo")}
@@ -980,7 +987,7 @@ export default function AddChitReceiptPage() {
                                                 }}
                                                 error={!!AccountNo.error} />
                                         </Stack>
-                                        <div className='error_txt'>{AccountNo.error}</div>
+                                        {/* <div className='error_txt'>{AccountNo.error}</div> */}
                                     </Stack>
                                 </div>
                                 <div className='receipt-grp'>
@@ -992,7 +999,8 @@ export default function AddChitReceiptPage() {
                                             <TextField
                                                 className='input'
                                                 id="outlined-required"
-                                                disabled
+                                                // disabled
+                                                inputProps={{ readOnly: true }}
                                                 // label="Duration"
                                                 value={Duration.data}
                                                 onChange={(e) => ChitReceiptTextValidate(e, "Duration")}
@@ -1004,7 +1012,7 @@ export default function AddChitReceiptPage() {
                                                 }}
                                                 error={!!Duration.error} />
                                         </Stack>
-                                        <div className='error_txt'>{Duration.error}</div>
+                                        {/* <div className='error_txt'>{Duration.error}</div> */}
                                     </Stack>
                                 </div>
                             </Stack>
@@ -1018,7 +1026,8 @@ export default function AddChitReceiptPage() {
                                             <TextField
                                                 className='input'
                                                 id="outlined-required"
-                                                disabled
+                                                // disabled
+                                                inputProps={{ readOnly: true }}
                                                 // label="Inst. From"
                                                 value={InstFrom.data}
                                                 onChange={(e) => ChitReceiptTextValidate(e, "InstFrom")}
@@ -1030,7 +1039,7 @@ export default function AddChitReceiptPage() {
                                                 }}
                                                 error={!!InstFrom.error} />
                                         </Stack>
-                                        <div className='error_txt'>{InstFrom.error}</div>
+                                        {/* <div className='error_txt'>{InstFrom.error}</div> */}
                                     </Stack>
                                 </div>
                                 <div className='receipt-grp'>
@@ -1042,7 +1051,8 @@ export default function AddChitReceiptPage() {
                                             <TextField
                                                 className='input'
                                                 id="outlined-required"
-                                                disabled
+                                                // disabled
+                                                inputProps={{ readOnly: true }}
                                                 // label="Inst. To"
                                                 value={InstTo.data}
                                                 onChange={(e) => ChitReceiptTextValidate(e, "InstTo")}
@@ -1054,7 +1064,7 @@ export default function AddChitReceiptPage() {
                                                 }}
                                                 error={!!InstTo.error} />
                                         </Stack>
-                                        <div className='error_txt'>{InstTo.error}</div>
+                                        {/* <div className='error_txt'>{InstTo.error}</div> */}
                                     </Stack>
                                 </div>
                             </Stack>
@@ -1069,6 +1079,7 @@ export default function AddChitReceiptPage() {
                                                 className='input'
                                                 id="outlined-required"
                                                 disabled={screen === "view"}
+                                                inputProps={{ readOnly: true }}
                                                 // label="Value"
                                                 value={Values.data}
                                                 onChange={(e) => ChitReceiptTextValidate(e, "Values")}
@@ -1081,7 +1092,7 @@ export default function AddChitReceiptPage() {
                                                 }}
                                                 error={!!Values.error} />
                                         </Stack>
-                                        <div className='error_txt'>{Values.error}</div>
+                                        {/* <div className='error_txt'>{Values.error}</div> */}
                                     </Stack>
                                 </div>
                             </Stack>

@@ -1,3 +1,10 @@
+3.4.19
+Date : 25/07/2024
+Type : Bug fix
+Description :  
+        1.group member delete issue -> fixed
+        2.conflict resolve missed code -> fixed 
+----------------------------------------------------------------
 3.4.18
 Date : 24/07/2024
 Type : Bug fix

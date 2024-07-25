@@ -2764,19 +2764,19 @@ export default function AddMemberPage() {
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                                     Living in Rented House/Own House <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
-                                                <Stack direction='row' sx={{ ml: 2, mt: 2 }}>
-                                                    <RadioGroup
+                                                <Stack direction='row' sx={{ ml: 2, }}>
+                                                    <RadioGroup className='radio-btn'
                                                         aria-labelledby="demo-radio-buttons-group-label"
                                                         defaultValue="female"
                                                         name="radio-buttons-group"
                                                         row
                                                         value={LivingIn.data}
                                                         onChange={(e) => setLivingIn({ data: e.target.value, error: "" })}>
-                                                        <FormControlLabel value="0" control={<Radio />} label="Rented House" disabled={screen === "view"} />
-                                                        <FormControlLabel value="1" control={<Radio />} label="Own House" disabled={screen === "view"} />
+                                                        <FormControlLabel value="0" className='radio-label' control={<Radio />} label="Rented House" disabled={screen === "view"} />
+                                                        <FormControlLabel className='radio-label' value="1" control={<Radio />} label="Own House" disabled={screen === "view"} />
                                                     </RadioGroup>
                                                 </Stack>
-                                                <div className='error_txt'>{LivingIn.error}</div>
+                                                <div className='error_txt livingIn-_error'>{LivingIn.error}</div>
                                             </Stack>
                                         </div>
                                         <div className='box'>

@@ -497,8 +497,10 @@ export default function AddGroupMemberPage() {
         
         
         if (from === "delete"){
+            setSelectedMember(item);
             if (TicketNoClick !== "") {
                 if (TicketNoClick === item.tktno) {
+                    // console.log("SelectedMember12", SelectedMember);
                     setMemberDeleteAlert(true);
                 } else {
                     setAlertMessage("please save the already selected Ticket No");
@@ -506,6 +508,7 @@ export default function AddGroupMemberPage() {
                     HandleAlertShow();
                 }
             } else {
+                // console.log("SelectedMember1233", SelectedMember);
                 setMemberDeleteAlert(true);
             }
         } else if (from === "3") {

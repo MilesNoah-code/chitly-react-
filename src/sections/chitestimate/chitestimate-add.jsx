@@ -125,8 +125,14 @@ export default function AddChitEstimatePage() {
                     setChitEstimateTotal(json.total);
                     const existingList = json.list;
                     const existingInstno = new Set(existingList.map(item => item.Instno));
-
-                    // Determine the missing Instno values
+                    const updatedExistingList = existingList.map(item => ({
+                        ...item,
+                        auctiondate_save: item.auctiondate,
+                        auctiondate_error: "",
+                        dueamount_error: "",
+                        less_amount_error: "",
+                        fm_commission_error: "",
+                    }));
                     const missingInstnos = [];
                     let i = 1;
                     while (i <= data.duration) {
@@ -153,8 +159,10 @@ export default function AddChitEstimatePage() {
                         less_amount_error: "",
                         fm_commission_error: "",
                     }));
-                    const completeList = [...existingList, ...additionalData];
+
+                    const completeList = [...updatedExistingList, ...additionalData];
                     completeList.sort((a, b) => a.Instno - b.Instno);
+                    // console.log(completeList);
                     setChitEstimateList(completeList);
                 } else if (json.success === false) {
                     setAlertMessage(json.message);

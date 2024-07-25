@@ -24,7 +24,6 @@ import ErrorLayout from 'src/Error/ErrorLayout';
 import ScreenError from 'src/Error/ScreenError';
 
 import './member-add.css';
-import { MicNone } from '@mui/icons-material';
 
 export default function AddMemberPage() {
 

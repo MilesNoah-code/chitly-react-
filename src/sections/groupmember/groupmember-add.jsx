@@ -247,6 +247,7 @@ export default function AddGroupMemberPage() {
                             addressId: json.list.id
                         };
                         // console.log(updatedItem)
+                        // console.log("GroupMemberId", GroupMemberId)
                         if(from === "2"){
                             setTicketNoClick(updatedItem.tktno);
                         }
@@ -415,6 +416,7 @@ export default function AddGroupMemberPage() {
             updatedGroupMemberList[SelectedIndex] = updatedItem;
             setGroupMemberList(updatedGroupMemberList);
             setDetailLoading(true);
+            setGroupMemberId('');
             GetAddressView(item.id, updatedItem, "");
         }
         setMemberListAlert(false);
@@ -489,6 +491,7 @@ export default function AddGroupMemberPage() {
                 HandleAlertShow();
             }
         } else {
+            // console.log("item3", item, "TicketNoClick3333", TicketNoClick);
             HandleListClick(item, index, from);
         }
         
@@ -518,6 +521,7 @@ export default function AddGroupMemberPage() {
                     HandleAlertShow();
                 }
             } else {
+                // console.log("item5", item, "TicketNoClick555", TicketNoClick);
                 setGroupMemberId('');
                 setMemberListAlert(true);
             }
@@ -905,13 +909,15 @@ export default function AddGroupMemberPage() {
                                     </div>
                                 </Grid> }
                             </Grid>
-                            <Stack direction='column' alignItems='flex-end'>
+                            {DetailLoading
+                                ? null
+                            : <Stack direction='column' alignItems='flex-end'>
                                 <Button sx={{ mr: 3, mt: 2, mb: 3,  cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                     {Loading
                                         ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                         : ("Submit")}
                                 </Button>
-                            </Stack>
+                            </Stack> }
                         </Stack>}
                 </Box>
             </Card>

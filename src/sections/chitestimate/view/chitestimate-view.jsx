@@ -157,7 +157,7 @@ export default function ChitEstimateView() {
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
   return (
-    <div style={{ marginLeft: '35px', marginRight: '35px' }} className='chitestimate-view-screen'>
+    <div  className='chitestimate-view-screen'>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
         <Typography variant="h6" sx={{ fontWeight:'600'}}>Chit Estimate List</Typography>
         <Button variant="contained" className='custom-button' sx={{ display: 'none' }}  onClick={HandleAddChitEstimateClick}>
@@ -212,7 +212,7 @@ export default function ChitEstimateView() {
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} className='amount-column' align='right'>Amount</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} className='duration-column'>Duration</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} className='auction-column'>Auction Mode</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} className='action-column' align='right'>Action</TableCell>
                   </TableRow>
                   <TableBody>
                     {ChitEstimateList

@@ -1,182 +1,44 @@
-.custom-button{
+/* MemberView.css */
+
+
+.report-view .custom-button{
   color: #FFFFFF;
   background-color: #1877F2;
   box-shadow: 0px 3px 1px -2px rgba(145, 158, 171, 0.2), 0px 2px 2px 0px rgba(145, 158, 171, 0.14), 0px 1px 5px 0px rgba(145, 158, 171, 0.12);
  font-size: 15px;
- 
+ border-radius: 5px;
   
 }
-.custom-button:hover{
+.report-view .custom-button:hover{
   text-decoration: none;
   background-color: #0C44AE;
   box-shadow: 0px 2px 4px -1px rgba(145, 158, 171, 0.2), 0px 4px 5px 0px rgba(145, 158, 171, 0.14), 0px 1px 10px 0px rgba(145, 158, 171, 0.12);
 }
 
-.stack-box {
-    display: flex !important;
-    flex-wrap: wrap !important;
+.report-view .input-box{
+    width: 100%;
   }
- .box {
-    flex: 1 0 49%;
-    max-width: 49%;
-    flex-wrap: wrap;
-  } 
-  .alert-msg{
-    display: flex;
-    align-items: center;
-    text-align-last: center;
-    font-size: 18px;
-    padding: 10px;
-  }
-   .box  .input-box {
-    width: 250px !important;
-  }
-  .box  .input-box1 {
-    
-    width: calc(100% - 20px) !important; 
-  }
- .image-top{
-  position: relative;
-  margin-top: 20px;
- }
- .btn-click {
-  position: absolute;
-    right: -21px;
-    top: -47px;
-    border-radius: 50%;
-    background-color: transparent;
-    border: 1px solid #eee;
-    padding: 7px;
-    cursor: pointer;
-    min-width: 30px !important;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    
+  .report-view  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+    font-size: 15px;
+  
 }
-.row-box{
-display: flex;
-flex-wrap: wrap;
+.report-view{
+  margin-left: 35px;
+  margin-right: 35px;
 }
- 
- .boxing {
-  border: 1px solid #eee;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 15px 10px;
-  margin: 8px !important;
-  flex-wrap: wrap;
-}
-.radio-box .radio-control3.MuiFormControlLabel-root{
-  margin-left: -2px;
-}
-.radio-box .radio-control2.MuiFormControlLabel-root{
-  margin-left: 27px;
-}
-.radio-box .radio-control.MuiFormControlLabel-root{
-  margin-left: 5px;
-}
-.radio-box .radio-control1.MuiFormControlLabel-root{
-  margin-left: 3px;
-}
-.radio-box  .MuiFormControlLabel-root{
-  margin-left: 15px;
-  margin-right: 15px;
-}
-.dialog .MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
-  font-size: 13px !important;
-  padding: 9.5px 14px !important; 
-}
-  @media screen and (max-width: 768px) {
-    .stack-box{
-        flex-direction: column !important;
-        width: 100% !important;
-        align-items:inherit;
+  @media(max-width:768px){
+    .report-view .custom-button{
+      font-size: 14px;
     }
-    .box {
-      flex: 1 0 100%;
-      max-width: 100%;
-      margin-left: 0px !important;
+    .report-view{
+      margin-left: 15px !important;
+      margin-right: 15px !important;
     }
-    .alert-msg{
-      padding: 10px 15px 10px 15px;
-      font-size: 15px;
-    }
-    .date-pick {
-      width: 100px!important; 
-      }
-  .box  .input-box1 {
-        width: calc(100% - 0px) !important; 
-      }
-      .box  .input-box {
-        width: 100px !important;
-
-      }
-      .MuiTabPanel-root {
-        padding: 10px !important;
-      }
-     .req{
-        margin-left: 25px !important;
-     }
-     .radio-box .radio-control3.MuiFormControlLabel-root{
-      margin-left: 15px;
-    }
-    .radio-box .radio-control2.MuiFormControlLabel-root{
-      margin-left: 15px;
-    }
-    .radio-box .radio-control.MuiFormControlLabel-root{
-      margin-left: 15px;
-    }
-    .radio-box .radio-control1.MuiFormControlLabel-root{
-      margin-left: 15px;
+    .report-view .mbl-view{
+      display: flex;
+      flex-direction: column;
+      align-items: normal;
+      gap: 10px;
     }
    
-  }
-  @media screen and (max-width: 1305px) and (min-width: 1200px) {
-    .radio-box  .MuiFormControlLabel-root{
-      margin-left: 10px;
-      margin-right: 10px;
-    }
-    .radio-box .radio-control2.MuiFormControlLabel-root{
-      margin-left: 0px;
-    }
-    .radio-box .radio-control3.MuiFormControlLabel-root{
-      margin-left: 10px;
-    }
-    .radio-box .radio-control1.MuiFormControlLabel-root{
-      margin-left: 10px;
-    }
-  }
-  @media (min-width:769px) and (max-width:894px){
-    .box {
-      flex: 1 0 48%;
-      max-width: 48%;
-      flex-wrap: wrap;
-    } 
-  }
-  @media (min-width:370px) and (max-width:540px){
-    h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
-      font-size: 14.5px;
-      /* margin-top: 2px;
-    margin-bottom: -9px; */
-  }
-
-  .box  .input-box {
-    font-size: 13px !important;
-   
-  }
-  .custom-button{
-   font-size: 13px;
-   margin-top: 10px;
-  }
-  .inf{
-    margin-top:15px !important;
-  margin-bottom: 0px !important;
-font-size: 16px !important; 
-margin-left: 25px !important; }
-.radio-box .MuiTypography-root{
-  font-size: 14px !important;
-}
-.radio-box .MuiSvgIcon-root{
-  font-size: 1.5rem;
-  width: 15px;
-  height: 19px;
-} 
   }

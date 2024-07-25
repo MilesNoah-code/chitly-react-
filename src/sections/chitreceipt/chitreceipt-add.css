@@ -1,31 +1,34 @@
-.custom-button {
+.chitreceipt-add-screen .custom-button {
   color: #FFFFFF;
   background-color: #1877F2;
   box-shadow: 0px 3px 1px -2px rgba(145, 158, 171, 0.2), 0px 2px 2px 0px rgba(145, 158, 171, 0.14), 0px 1px 5px 0px rgba(145, 158, 171, 0.12);
   font-size: 15px;
-
+  border-radius: 5px;
 
 }
-
-.custom-button:hover {
+.chitreceipt-add-screen{
+  margin-left: 35px;
+  margin-right: 35px;
+}
+.chitreceipt-add-screen .custom-button:hover {
   text-decoration: none;
   background-color: #0C44AE;
   box-shadow: 0px 2px 4px -1px rgba(145, 158, 171, 0.2), 0px 4px 5px 0px rgba(145, 158, 171, 0.14), 0px 1px 10px 0px rgba(145, 158, 171, 0.12);
 }
 
-.receipt-box {
+.chitreceipt-add-screen .receipt-box {
   display: flex !important;
   flex-wrap: wrap !important;
   width: 60%;
 }
 
-.receipt-grp {
+.chitreceipt-add-screen .receipt-grp {
   flex: 1 0 48%;
   max-width: 48%;
   flex-wrap: wrap;
 }
 
-h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+.chitreceipt-add-screen h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
   font-size: 15px;
 
 }
@@ -33,157 +36,173 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
 /* .con{
   padding: 20px;
 } */
-.receipt-grp .input-box1 {
+.chitreceipt-add-screen .receipt-grp .input-box1 {
   margin-top: 5px;
   width: calc(100% - 10px) !important;
 }
 
-.receipt-grp .MuiAutocomplete-root {
+.chitreceipt-add-screen .receipt-grp .MuiAutocomplete-root {
   width: 100% !important;
 
 }
 
-.top-pd {
+.chitreceipt-add-screen .top-pd {
   margin-top: -16px;
 }
 
-.receipt-grp .MuiTextField-root {
+.chitreceipt-add-screen .receipt-grp .MuiTextField-root {
   width: calc(100% - 0px) !important;
   margin-top: 5px;
 
 }
 
-.box-receipt-grp .MuiAutocomplete-root .MuiTextField-root {
+.chitreceipt-add-screen .box-receipt-grp .MuiAutocomplete-root .MuiTextField-root {
   width: calc(100% - 20px) !important;
   margin-top: 5px;
 
 }
 
-.receipt-grp .MuiAutocomplete-root .MuiOutlinedInput-root {
+.chitreceipt-add-screen .receipt-grp .MuiAutocomplete-root .MuiOutlinedInput-root {
   padding: 1px !important;
   font-size: 14px;
 }
-
-.alert-msg {
+.chitreceipt-add-screen .grp-mbl {
+  margin-left: 13px;
+}
+.chitreceipt-add-screen .alert-msg {
   display: flex;
   align-items: center;
   text-align-last: center;
   font-size: 18px;
   padding: 10px;
 }
-
-.Muipopper-root {
-  background-color: #ccc !important;
+.chitreceipt-add-screen .MuiAutocomplete-root .MuiAutocomplete-input{
+  font-size: 15px !important;
 }
 
-.with-reduce{
+
+.chitreceipt-add-screen .with-reduce{
   width:100px
 }
 @media screen and (max-width: 768px) {
-  .top-pd {
-    margin-top: 0px;
+  .chitreceipt-add-screen  h6.MuiTypography-root{
+    margin-top: 0px !important;
   }
+  .chitreceipt-add-screen{
+    margin-left: 15px !important;
+    margin-right: 15px !important;
+  }
+  .chitreceipt-add-screen .grp-mbl {
+    margin-left: 8px !important;
+}
 
-  .receipt-grp {
+  .chitreceipt-add-screen .grp-mbl {
+    margin-left: 0px;
+  }
+  .chitreceipt-add-screen .receipt-grp {
     flex: 1 0 100%;
     max-width: 100%;
     flex-wrap: wrap;
   }
 
-  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+  .chitreceipt-add-screen  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
     font-size: 15px;
     margin-left: 0px;
   }
 
-  .date-mbl {
+  .chitreceipt-add-screen .date-mbl {
     margin-top: 12px !important;
   }
 
-  .receipt-grp .MuiTextField-root {
+  .chitreceipt-add-screen .receipt-grp .MuiTextField-root {
     width: 100% !important;
   }
 
-  .receipt-grp {
+  .chitreceipt-add-screen .receipt-grp {
     width: calc(100% - 0px) !important;
   }
 
-  .grp-mbl {
+  .chitreceipt-add-screen .grp-mbl {
     margin-top: 10px !important;
   }
-
-  .receipt-box {
+.chitreceipt-add-screen .input{
+  width: 100%;
+}
+  .chitreceipt-add-screen  .receipt-box {
     flex-direction: column !important;
-    width: 100% !important;
+  width: 91%;
+  margin: 3px 10px;
     align-items: inherit;
-    margin: 3px 14px !important;
     gap: 0px;
   }
-
-  .alert-msg {
+ 
+  .chitreceipt-add-screen .alert-msg {
     padding: 10px 15px 10px 15px;
     font-size: 15px;
   }
 
-  .receipt-grp-label {
-    width: calc(97% - 0px) !important;
+  .chitreceipt-add-screen .receipt-grp-label {
+    width: calc(100% - 0px) !important;
   }
 
-  .receipt-box .MuiTypography-root {
+  .chitreceipt-add-screen .receipt-box .MuiTypography-root {
     /* margin-left: 16px !important; */
     font-size: 13px;
   }
 
-  .receipt-grp1 {
+  .chitreceipt-add-screen .receipt-grp1 {
     margin-left: 8px !important;
   }
 
-  .receipt-grp .box-d .MuiStack-root {
+  .chitreceipt-add-screen  .receipt-grp .box-d .MuiStack-root {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
-    width: calc(95% - 0px) !important;
+    width: calc(100% - 0px) !important;
     padding-top: 0px !important;
 
   }
 
-  .receipt-grp .input {
-    width: calc(90% - 0px) !important;
+  .chitreceipt-add-screen  .receipt-grp .input {
+    width: calc(100% - 0px) !important;
     margin-bottom: 5px;
 
   }
 
-  .con {
+  .chitreceipt-add-screen  .con {
     padding: 10px;
   }
 }
 
-@media (max-width:991px) and (min-width:769px) {
-  .receipt-grp .input {
-    width: calc(90% - 0px) !important;
+@media (max-width:1100px) and (min-width:769px) {
+  .chitreceipt-add-screen .receipt-grp .input {
+    width: calc(100% - 0px) !important;
     margin-bottom: 5px;
 
   }
-
-  .con {
+  .chitreceipt-add-screen .grp-mbl {
+    margin-left: 12px !important;
+  }
+  .chitreceipt-add-screen .con {
     padding: 10px;
   }
 
-  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+  .chitreceipt-add-screen h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
     font-size: 15px;
     margin-left: 0px;
   }
 
-  .receipt-grp .MuiTextField-root {
+  .chitreceipt-add-screen .receipt-grp .MuiTextField-root {
     width: 100% !important;
   }
 
-  .receipt-grp {
+  .chitreceipt-add-screen .receipt-grp {
     width: calc(100% - 0px) !important;
   }
 
-  .receipt-box {
-    flex-direction: column !important;
-    width: 100% !important;
+  .chitreceipt-add-screen .receipt-box {
+   
+    width: 80% !important;
     align-items: inherit;
     margin: 15px;
   }
@@ -192,7 +211,7 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
 @media (min-width:992px) and (max-width:1322px) {
 
 
-  .receipt-grp .input {
+  .chitreceipt-add-screen .receipt-grp .input {
     width: calc(100% - 0px) !important;
     margin-bottom: 5px;
 
@@ -200,24 +219,24 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
 }
 
 @media (min-width:370px) and (max-width:540px) {
-  .btn-close {
+  .chitreceipt-add-screen  .btn-close {
     right: -1px;
     top: -2px;
   }
 
 
 
-  .custom-button {
-    font-size: 13px;
+  .chitreceipt-add-screen  .custom-button {
+    font-size: 14px;
     margin-top: 10px;
   }
 
-  .btn-close img {
+  .chitreceipt-add-screen  .btn-close img {
     width: 14px !important;
     height: 14px !important;
   }
 
-  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+  .chitreceipt-add-screen  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
     font-size: 15px;
 
   }
@@ -227,7 +246,7 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
 }
 
 @media (min-width: 0px) {
-  .receipt-grp .box-d .MuiStack-root {
+  .chitreceipt-add-screen  .receipt-grp .box-d .MuiStack-root {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
@@ -236,8 +255,42 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
 
   }
 
-  .receipt-grp .box-d .MuiStack-root>.MuiTextField-root {
+  .chitreceipt-add-screen  .receipt-grp .box-d .MuiStack-root>.MuiTextField-root {
     margin-top: 5px;
     min-width: -webkit-fill-available !important;
   }
+}
+@media (min-width:460px) and (max-width:550px){
+
+    .chitreceipt-add-screen .receipt-box {
+        width: 93%;
+}
+.chitreceipt-add-screen .grp-mbl {
+  margin-left: 8px !important;
+}
+
+  }
+  @media (min-width:551px) and (max-width:768px){
+
+    .chitreceipt-add-screen .receipt-box {
+        width: 95%;
+}
+.chitreceipt-add-screen .grp-mbl {
+  margin-left: 8px !important;
+}
+
+  }
+@media(max-width:390px){
+  .chitreceipt-add-screen .receipt-grp {
+ 
+    margin-left: 4px !important;
+}
+.chitreceipt-add-screen .receipt-grp1 {
+ 
+  margin-left: 4px !important;
+}
+.chitreceipt-add-screen .grp-mbl {
+  margin-left: 8px !important;
+}
+
 }

@@ -174,7 +174,7 @@ export default function ChitReceiptView() {
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
   return (
-    <div style={{ marginLeft: '35px', marginRight: '35px' }}>
+    <div className='chitreceipt-list'>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
       <Typography variant="h6" sx={{ fontWeight:'600'}}>Chit Receipt List</Typography>
         <Button variant="contained" className='custom-button'  onClick={HandleAddChitReceiptClick}>

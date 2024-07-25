@@ -1,27 +1,34 @@
 
-.custom-button{
+.group-list .custom-button{
   color: #FFFFFF;
   background-color: #1877F2;
   box-shadow: 0px 3px 1px -2px rgba(145, 158, 171, 0.2), 0px 2px 2px 0px rgba(145, 158, 171, 0.14), 0px 1px 5px 0px rgba(145, 158, 171, 0.12);
  font-size: 15px;
- 
+ border-radius: 5px;
   
 }
-.custom-button:hover{
+.group-list .custom-button:hover{
   text-decoration: none;
   background-color: #0C44AE;
   box-shadow: 0px 2px 4px -1px rgba(145, 158, 171, 0.2), 0px 4px 5px 0px rgba(145, 158, 171, 0.14), 0px 1px 10px 0px rgba(145, 158, 171, 0.12);
 }
 
-  .input-box{
+.group-list .input-box{
     width: 100%;
     
    
     
   }
-  
+  .group-list{
+    margin-left: 35px;
+    margin-right: 35px;
+  }
   @media(max-width:768px){
-    .mbl-view{
+    .group-list{
+      margin-left: 15px !important;
+      margin-right: 15px !important;
+    }
+    .group-list .mbl-view{
       display: flex;
       flex-direction: column;
       align-items: normal;

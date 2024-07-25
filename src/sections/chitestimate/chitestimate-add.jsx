@@ -1024,7 +1024,7 @@ export default function AddChitEstimatePage() {
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
     return (
-        <div style={{ marginLeft: '35px', marginRight: '35px' }}>
+        <div className="chitestimate-add-screen">
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
                 <Typography variant="h6" sx={{ fontWeight: '600' }}>
                     Chit Estimate
@@ -1033,7 +1033,7 @@ export default function AddChitEstimatePage() {
                     Back
                 </Button>
             </Stack>
-            <Card className='parent-div'>
+            <Card >
 
                 <Box component="form"
                     sx={{ '& .MuiTextField-root': {} }} noValidate autoComplete="off">
@@ -1140,7 +1140,7 @@ export default function AddChitEstimatePage() {
                 <Grid container spacing={1}  className='grid-container'>
                     <Grid item xs={12} md={6} className='box-one' >
                         <Scrollbar className="table-one tab-1" >
-                            <Stack>
+                            <Stack className="estimate-table">
                                 <TableContainer>
                                     <Table className='tab-wid' >
                                         <TableRow hover tabIndex={-1}>
@@ -1339,8 +1339,9 @@ export default function AddChitEstimatePage() {
                     </Grid>
                     <Grid item xs={12} md={6} className='box-one'>
                         <Scrollbar className="table-one table-two">
-                            <TableContainer >
-                                <Stack >
+                          
+                                <Stack className="estimate-table1">
+                                  <TableContainer>
                                     <Table >
                                         <TableRow hover tabIndex={-1}>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} >Inst.No</TableCell>
@@ -1482,9 +1483,9 @@ export default function AddChitEstimatePage() {
                                             />
                                             {ChitEstimateMemberList.length === 0 && <TableNoData query="" />}
                                         </TableBody>
-                                    </Table>
-                                </Stack>
-                            </TableContainer>
+                                         </Table>
+                                </TableContainer>
+                            </Stack>
                         </Scrollbar>
 
 

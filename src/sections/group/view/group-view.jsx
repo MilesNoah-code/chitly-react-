@@ -151,7 +151,7 @@ export default function GroupView() {
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
   return (
-    <div style={{ marginLeft: '35px', marginRight: '35px' }}>
+    <div  className='group-list'>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
         <Typography variant="h6" sx={{fontWeight:'600'}}>Group List</Typography>
         <Button variant="contained" className='custom-button'  onClick={HandleAddGroupClick} sx={{ cursor: 'pointer' }}>

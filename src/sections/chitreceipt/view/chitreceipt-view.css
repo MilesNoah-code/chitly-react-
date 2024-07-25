@@ -1,39 +1,48 @@
-.custom-button{
+.chitreceipt-list .custom-button{
   color: #FFFFFF;
   background-color: #1877F2;
   box-shadow: 0px 3px 1px -2px rgba(145, 158, 171, 0.2), 0px 2px 2px 0px rgba(145, 158, 171, 0.14), 0px 1px 5px 0px rgba(145, 158, 171, 0.12);
  font-size: 15px;
- 
+ border-radius: 5px;
   
 }
-.custom-button:hover{
+.chitreceipt-list .custom-button:hover{
   text-decoration: none;
   background-color: #0C44AE;
   box-shadow: 0px 2px 4px -1px rgba(145, 158, 171, 0.2), 0px 4px 5px 0px rgba(145, 158, 171, 0.14), 0px 1px 10px 0px rgba(145, 158, 171, 0.12);
 }
 
-  .input-box{
+.chitreceipt-list  .input-box{
     width: 100%;
   }
-  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+  .chitreceipt-list  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
     font-size: 15px;
   
 }
-
+.chitreceipt-list{
+  margin-right: 35px;
+  margin-left: 35px;
+}
   @media(max-width:768px){
-    .mbl-view{
+    .chitreceipt-list .custom-button{
+      font-size: 14px;
+    }
+    .chitreceipt-list .mbl-view{
       display: flex;
       flex-direction: column;
       align-items: normal;
       gap: 10px;
     }
-   
+    .chitreceipt-list{
+      margin-right: 15px !important;
+      margin-left: 15px !important;
+    }
   }
-    @media (min-width: 1200px) {
-      .css-10o2lyd-MuiStack-root {
+    /* @media (min-width: 1200px) {
+      .chitreceipt-list  .css-10o2lyd-MuiStack-root {
         -webkit-flex-direction: row;
         -ms-flex-direction: row;
         flex-direction: row;
         scrollbar-width: none;
       }
-    }
+    }  */

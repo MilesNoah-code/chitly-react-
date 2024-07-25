@@ -125,7 +125,7 @@ export default function GroupMemberView() {
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
   return (
-    <div style={{ marginLeft: '35px', marginRight: '35px' }}>
+    <div className='groupmem-list'>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
         <Typography variant="h6" sx={{fontWeight:'600'}}>Group Member List</Typography>
       </Stack>

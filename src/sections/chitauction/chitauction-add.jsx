@@ -1766,7 +1766,7 @@ export default function AddChitAuctionPage() {
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
     return (
-        <div style={{ marginLeft: '35px', marginRight: '35px' }} className='chitauction-add-screen'>
+        <div className='chitauction-add-screen'>
             <Stack direction='row' spacing={2} alignItems='center' justifyContent='space-between' sx={{ mt: 2, mb: 2 }}>
                 <Typography variant="h6" sx={{ fontWeight: '600px' }}>
                     Chit Auction

@@ -1,27 +1,30 @@
-.custom-button {
+.chitauction-add-screen .custom-button {
   color: #FFFFFF;
   background-color: #1877F2;
   box-shadow: 0px 3px 1px -2px rgba(145, 158, 171, 0.2), 0px 2px 2px 0px rgba(145, 158, 171, 0.14), 0px 1px 5px 0px rgba(145, 158, 171, 0.12);
   font-size: 15px;
-
+border-radius: 5px;
 
 }
 
-.custom-button:hover {
+.chitauction-add-screen .custom-button:hover {
   text-decoration: none;
   background-color: #0C44AE;
   box-shadow: 0px 2px 4px -1px rgba(145, 158, 171, 0.2), 0px 4px 5px 0px rgba(145, 158, 171, 0.14), 0px 1px 10px 0px rgba(145, 158, 171, 0.12);
 }
-
-.table-one {
+.chitauction-add-screen {
+  margin-left: 35px;
+  margin-right: 35px;
+}
+.chitauction-add-screen .table-one {
   height: auto !important;
 }
 
-.pd {
+.chitauction-add-screen .pd {
   padding-right: 0px !important;
 }
 
-.box-grid {
+.chitauction-add-screen .box-grid {
   border: 1px solid #ccc;
   /* margin-left: 17px;
   margin-right: 4px; */
@@ -32,41 +35,41 @@
   padding-right: 10px;
 }
 
-.auction-box {
+.chitauction-add-screen .auction-box {
   display: flex !important;
   flex-wrap: wrap !important;
 }
 
-.auction-grp {
-  flex: 1 0 47%;
-  max-width: 47%;
+.chitauction-add-screen .auction-grp {
+  flex: 1 0 49%;
+  max-width: 49%;
   flex-wrap: wrap;
 }
 
-.mb-grid {
+.chitauction-add-screen .mb-grid {
   display: flex;
   justify-content: space-around;
 }
 
-.con {
+.chitauction-add-screen .con {
   padding: 20px;
 }
 
-.auction-grp .input-box1 {
+.chitauction-add-screen .auction-grp .input-box1 {
   margin-top: 5px !important;
   width: calc(100% - 20px) !important;
 }
 
-.auction-grp .input-box2 {
+.chitauction-add-screen .auction-grp .input-box2 {
   width: calc(100% - 30px);
 
 }
 
-.auction-grp .MuiAutocomplete-root .MuiTextField-root {
+.chitauction-add-screen .auction-grp .MuiAutocomplete-root .MuiTextField-root {
   width: calc(100% - 20px) !important;
 }
 
-.alert-msg {
+.chitauction-add-screen .alert-msg {
   display: flex;
   align-items: center;
   text-align-last: center;
@@ -74,26 +77,26 @@
   padding: 10px;
 }
 
-.st .css-jjtu05 {
+.chitauction-add-screen .st .css-jjtu05 {
   height: auto !important;
 }
 
-.Muipopper-root {
+.chitauction-add-screen .Muipopper-root {
   background-color: #ccc !important;
 }
 
 @media (max-width:991px) {
-  .box-grid {
+  .chitauction-add-screen .box-grid {
     max-width: 100% !important;
     padding-bottom: 20px;
 
   }
 
-  .pd {
+  .chitauction-add-screen .pd {
     padding-right: 15px !important;
   }
 
-  .auction-grp .input-box1.md {
+  .chitauction-add-screen .auction-grp .input-box1.md {
     margin-right: 0px !important;
 
   }
@@ -115,99 +118,114 @@
 }
 }  */
 @media screen and (max-width: 768px) {
-  .auction-box {
+  .chitauction-add-screen .auction-grp .box-d .MuiStack-root>.MuiTextField-root {
+    margin-top: 5px;
+    min-width: -webkit-fill-available !important;
+    margin-right: 0px;
+  }
+  .chitauction-add-screen {
+    margin-left: 15px !important;
+    margin-right: 15px !important;
+  }
+  .chitauction-add-screen .auction-box {
     flex-direction: column !important;
     width: 100% !important;
     align-items: inherit;
   }
 
-  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+  .chitauction-add-screen  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
     font-size: 15px;
     margin-left: 15px !important;
 
   }
 
-  .mb-grid {
+  .chitauction-add-screen  .mb-grid {
     margin: 0px;
     flex-direction: column;
   }
 
-  .alert-msg {
+  .chitauction-add-screen .alert-msg {
     padding: 10px 15px 10px 15px;
     font-size: 15px;
   }
 
-  .grp-label {
-    width: calc(97% - 0px) !important;
+  .chitauction-add-screen .grp-label {
+    width: calc(100% - 0px) !important;
   }
 
-  .auction-grp {
+  .chitauction-add-screen .auction-grp {
     flex: 1 0 100%;
     max-width: 100%;
     margin-left: 0px !important;
   }
 
-  .auction-box .MuiTypography-root {
+  .chitauction-add-screen .auction-box .MuiTypography-root {
     margin-left: 16px !important;
     font-size: 13px;
   }
 
-  .auction-grp .input-box1 {
+  .chitauction-add-screen .auction-grp .input-box1 {
     width: calc(100% - 0px) !important;
+    margin-right: 0px;
   }
 
-  .con {
+  .chitauction-add-screen .con {
     padding: 10px;
   }
 }
 
-@media (min-width:769px) and (max-width:894px) {
-  .auction-grp {
-    flex: 1 0 48%;
-    max-width: 48%;
-    flex-wrap: wrap;
+@media (min-width:769px) and (max-width:1098px) {
+  .chitauction-add-screen .auction-grp {
+    flex: 1 0 100%;
+    max-width: 100%;
+    margin-left: 0px !important;
+  }
+  .chitauction-add-screen .auction-box {
+    flex-direction: column !important;
+    width: 100% !important;
+    align-items: inherit;
   }
 }
 
 @media (min-width:370px) and (max-width:540px) {
-  .btn-close {
+  .chitauction-add-screen .btn-close {
     right: -1px;
     top: -2px;
   }
 
-  .btn-close img {
+  .chitauction-add-screen .btn-close img {
     width: 14px !important;
     height: 14px !important;
   }
 
-  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+  .chitauction-add-screen h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
     font-size: 15px;
 
   }
 
-  .custom-button {
-    font-size: 10px;
-    margin-top: 10px;
+  .chitauction-add-screen  .custom-button {
+    font-size: 14px;
+    
   }
 }
 
-.rowExists {
+.chitauction-add-screen .rowExists {
   background-color: rgba(24, 119, 242, 0.16);
 }
 
-.table-one .MuiTextField-root {
+.chitauction-add-screen .table-one .MuiTextField-root {
   margin: 0px !important;
 
 }
 
-.show-estimate {
+.chitauction-add-screen .show-estimate {
   font-size: 16px;
   color: #b7adb0;
   margin-top: 5px;
 }
 
-@media (min-width: 0px) {
-  .auction-grp .box-d .MuiStack-root {
+
+  .chitauction-add-screen .auction-grp .box-d .MuiStack-root {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
@@ -215,12 +233,9 @@
     padding-top: 0px !important;
   }
 
-  .auction-grp .box-d .MuiStack-root>.MuiTextField-root {
-    margin-top: 5px;
-    min-width: -webkit-fill-available !important;
-  }
-}
+  
 
-.MuiTableCell-root {
+
+.chitauction-add-screen .MuiTableCell-root {
   padding: 6px !important;
 }

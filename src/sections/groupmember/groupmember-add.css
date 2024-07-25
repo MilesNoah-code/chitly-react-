@@ -1,29 +1,29 @@
-.custom-button {
+.groupmember-add-screen .custom-button {
   color: #FFFFFF;
   background-color: #1877F2;
   font-size: 15px;
-
+border-radius: 5px;
 
 }
 
-.custom-button:hover {
+.groupmember-add-screen .custom-button:hover {
   text-decoration: none;
   background-color: #0C44AE;
 
 }
 
-.member-box {
+.groupmember-add-screen .member-box {
   display: flex !important;
   width: 100% !important;
 }
 
-.box-grp {
+.groupmember-add-screen .box-grp {
   flex: 1 0 48%;
   max-width: 48%;
   flex-wrap: wrap;
 }
 
-.detail {
+.groupmember-add-screen .detail {
   border: 1px solid #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   /* Example box shadow */
@@ -33,18 +33,18 @@
   width: 100%;
 }
 
-.detail-sub {
+.groupmember-add-screen .detail-sub {
   font-size: 16px !important;
   font-weight: 400 !important;
 }
 
-.detail-sub1 {
+.groupmember-add-screen .detail-sub1 {
   font-size: 14px !important;
   color: #7e8299 !important;
   margin-top: 5px !important;
 }
 
-.detail-head {
+.groupmember-add-screen .detail-head {
   font-size: 17px !important;
   font-weight: 500 !important;
 }
@@ -55,7 +55,7 @@
 
 
 
-.alert-msg {
+  .groupmember-add-screen .alert-msg {
   display: flex;
   align-items: center;
   text-align-last: center;
@@ -63,55 +63,62 @@
   padding: 10px;
 }
 
-.Muipopper-root {
+.groupmember-add-screen .Muipopper-root {
   background-color: #ccc !important;
 }
 
-h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+.groupmember-add-screen h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
   font-size: 15px;
 
 }
-
+.groupmember-add-screen{
+  margin-left: 35px; 
+  margin-right: 35px; 
+}
 @media screen and (max-width: 768px) {
-  .table-grid {
+  .groupmember-add-screen{
+    margin-left: 15px !important;
+    margin-right: 15px !important;
+  }
+  .groupmember-add-screen .table-grid {
     width: 100%;
   }
 
-  .grid-UI {
+  .groupmember-add-screen .grid-UI {
     display: flex;
     flex-direction: column;
   }
 
-  .grid-UI table {
+  .groupmember-add-screen .grid-UI table {
     width: 100%;
   }
 
-  .alert-msg {
+  .groupmember-add-screen .alert-msg {
     padding: 10px 15px 10px 15px;
     font-size: 15px;
   }
 
-  .grp-label {
+  .groupmember-add-screen  .grp-label {
     width: calc(97% - 0px) !important;
   }
 
 
-  .member-box .css-mxq89r-MuiTypography-root {
+  .groupmember-add-screen .member-box .css-mxq89r-MuiTypography-root {
     margin-left: 16px !important;
     font-size: 13px;
   }
 
-  .box-grp .input-box1 {
+  .groupmember-add-screen .box-grp .input-box1 {
     width: calc(100% - 0px) !important;
   }
 
-  .con {
+  .groupmember-add-screen .con {
     padding: 10px;
   }
 }
 
 @media (min-width:769px) and (max-width:894px) {
-  .box-grp {
+  .groupmember-add-screen .box-grp {
     flex: 1 0 48%;
     max-width: 48%;
     flex-wrap: wrap;
@@ -119,30 +126,30 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
 }
 
 @media (min-width:370px) and (max-width:540px) {
-  .btn-close {
+  .groupmember-add-screen .btn-close {
     right: -1px;
     top: -2px;
   }
 
-  .btn-close img {
+  .groupmember-add-screen .btn-close img {
     width: 14px !important;
     height: 14px !important;
   }
 
-  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
+  .groupmember-add-screen  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
     font-size: 15px;
 
   }
 
 
-  .custom-button {
-    font-size: 13px;
+  .groupmember-add-screen .custom-button {
+    font-size: 14px;
     margin-top: 10px;
   }
 }
 
 @media (min-width:431px) and (max-width:768px) {
-  .box-grp {
+  .groupmember-add-screen .box-grp {
     flex: 1 0 50%;
     max-width: 100%;
     height: auto;
@@ -152,14 +159,14 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
 }
 
 @media (min-width:320px) and (max-width:430px) {
-  .box-grp {
+  .groupmember-add-screen .box-grp {
     flex: 1 0 100%;
     max-width: 100%;
     height: auto;
     margin-left: 0px !important;
   }
 
-  .member-box {
+  .groupmember-add-screen  .member-box {
     flex-direction: column !important;
     width: 100% !important;
     align-items: inherit;

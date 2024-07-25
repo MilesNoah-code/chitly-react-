@@ -1,8 +1,14 @@
+3.4.22
+Date : 25/07/2024
+Type : Bug fix
+Description :  
+        1.mobile view correction ui --> fixed
+----------------------------------------------------------------
 3.4.21
 Date : 25/07/2024
 Type : Bug fix
 Description :  
-        1.mobile view correction ui fix
+        1.estimate auction date not passed in update -> fixed
 ----------------------------------------------------------------
 3.4.20
 Date : 25/07/2024

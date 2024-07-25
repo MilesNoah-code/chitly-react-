@@ -120,6 +120,9 @@ border-radius: 5px;
   height: 120px;
 
 }
+.member-add-screen .upload{
+  margin-left: 10px;
+}
 .member-add-screen .can-img {
 width: 10px;
 height: 10px;
@@ -128,19 +131,19 @@ height: 10px;
 }
 .member-add-screen .btn-click{
   position: absolute;
-    top: -26%;
-    right: -10%;
+    top: -28%;
+    right: -12%;
     border-radius: 50%;
     background-color: #f1eeee;
     min-width: 25px; 
     padding: 8px 8px;
 }
-.member-add-screen .can-img:active {
-  transform: scale(0.95); 
+.member-add-screen .MuiTextField-root{
+  margin: 5px 16px;
 }
-
 .member-add-screen .img-click:hover {
-  background-color: transparent !important;
+  background-color: #f1eeee;
+  cursor:pointer;
 }
 .member-add-screen{
   margin-left: 35px;
@@ -273,9 +276,12 @@ height: 10px;
 }
 
 @media screen and (max-width: 768px) {
+  .member-add-screen .upload{
+    margin-left: 10px;
+  }
   .member-add-screen .custom-button {
     font-size: 14px;
-    margin-left: 10px;
+    margin-left: 20px;
   }
   .member-add-screen {
     margin-left: 15px !important;
@@ -492,6 +498,178 @@ height: 10px;
     margin-left: 40px;
   }
 }
+@media(min-width:474px) and (max-width:534px){
+  .member-add-screen .radio-box .radio-control2.MuiFormControlLabel-root {
+    margin-left: 17px;
+  }
+
+  .member-add-screen .radio-box .radio-control3.MuiFormControlLabel-root {
+    margin-left: 15px;
+  }
+
+  .member-add-screen .radio-box .radio-control1.MuiFormControlLabel-root {
+    margin-left: 10px;
+  }
+
+  .member-add-screen  .radio-box .radio-control.MuiFormControlLabel-root {
+    margin-left: 15px;
+  }
+  .member-add-screen .radio-box .radio-gra.MuiFormControlLabel-root {
+    margin-left: 15px;
+  }
+
+  .member-add-screen .radio-box .radio-sec.MuiFormControlLabel-root {
+    margin-left: 25px;
+  }
+
+  .member-add-screen .radio-box .radio-control1.MuiFormControlLabel-root {
+    margin-left: -4px;
+  }
+  .member-add-screen .radio-box .radio-married.MuiFormControlLabel-root {
+    margin-left: 68px;
+  }
+  .member-add-screen .radio-box .radio-div.MuiFormControlLabel-root {
+    margin-left: -14px;
+  }
+  .member-add-screen .radio-box .radio-gr.MuiFormControlLabel-root {
+    margin-left: 40px;
+  }
+ 
+ 
+  .member-add-screen .radio-box .radio-control1.MuiFormControlLabel-root {
+    margin-left: -9px;
+  }
+  .member-add-screen .radio-box .radio-married.MuiFormControlLabel-root {
+    margin-left: 68px;
+  }
+  .member-add-screen .radio-box .radio-div.MuiFormControlLabel-root {
+    margin-left: -14px;
+  }
+  .member-add-screen .radio-box .radio-gr.MuiFormControlLabel-root {
+    margin-left: 15px;
+  }
+}
+@media(min-width:535px) and (max-width:597px){
+  .member-add-screen .radio-box .radio-control2.MuiFormControlLabel-root {
+    margin-left: 17px;
+  }
+
+  .member-add-screen .radio-box .radio-control3.MuiFormControlLabel-root {
+    margin-left: 15px;
+  }
+
+  .member-add-screen .radio-box .radio-control1.MuiFormControlLabel-root {
+    margin-left: 10px;
+  }
+
+  .member-add-screen  .radio-box .radio-control.MuiFormControlLabel-root {
+    margin-left: 15px;
+  }
+  .member-add-screen .radio-box .radio-gra.MuiFormControlLabel-root {
+    margin-left: 15px;
+  }
+
+  .member-add-screen .radio-box .radio-sec.MuiFormControlLabel-root {
+    margin-left: 25px;
+  }
+
+  .member-add-screen .radio-box .radio-control1.MuiFormControlLabel-root {
+    margin-left: -4px;
+  }
+  .member-add-screen .radio-box .radio-married.MuiFormControlLabel-root {
+    margin-left: 35px;
+  }
+  .member-add-screen .radio-box .radio-div.MuiFormControlLabel-root {
+    margin-left: 15px;
+  }
+  .member-add-screen .radio-box .radio-gr.MuiFormControlLabel-root {
+    margin-left: 14px;
+  }
+ 
+ 
+ 
+}
+
+@media(min-width:598px) and (max-width:614px){
+  .member-add-screen .radio-box .radio-control2.MuiFormControlLabel-root {
+    margin-left: 17px;
+  }
+
+  .member-add-screen .radio-box .radio-control3.MuiFormControlLabel-root {
+    margin-left: 15px;
+  }
+
+  .member-add-screen .radio-box .radio-control1.MuiFormControlLabel-root {
+    margin-left: 10px;
+  }
+
+  .member-add-screen  .radio-box .radio-control.MuiFormControlLabel-root {
+    margin-left: 31px;
+  }
+  .member-add-screen .radio-box .radio-gra.MuiFormControlLabel-root {
+    margin-left: 15px;
+  }
+
+  .member-add-screen .radio-box .radio-sec.MuiFormControlLabel-root {
+    margin-left: 42px;
+  }
+
+  .member-add-screen .radio-box .radio-control1.MuiFormControlLabel-root {
+    margin-left: -4px;
+  }
+  .member-add-screen .radio-box .radio-married.MuiFormControlLabel-root {
+    margin-left: 35px;
+  }
+  .member-add-screen .radio-box .radio-div.MuiFormControlLabel-root {
+    margin-left: 15px;
+  }
+  .member-add-screen .radio-box .radio-gr.MuiFormControlLabel-root {
+    margin-left: 14px;
+  }
+ 
+ 
+ 
+}
+@media(min-width:615px) and (max-width:768px){
+  .member-add-screen .radio-box .radio-control2.MuiFormControlLabel-root {
+    margin-left: 17px;
+  }
+
+  .member-add-screen .radio-box .radio-control3.MuiFormControlLabel-root {
+    margin-left: 15px;
+  }
+
+  .member-add-screen .radio-box .radio-control1.MuiFormControlLabel-root {
+    margin-left: 10px;
+  }
+
+  .member-add-screen  .radio-box .radio-control.MuiFormControlLabel-root {
+    margin-left: 15px;
+  }
+  .member-add-screen .radio-box .radio-gra.MuiFormControlLabel-root {
+    margin-left: 15px;
+  }
+
+  .member-add-screen .radio-box .radio-sec.MuiFormControlLabel-root {
+    margin-left: 60px;
+  }
+
+  .member-add-screen .radio-box .radio-control1.MuiFormControlLabel-root {
+    margin-left: 10px;
+  }
+  .member-add-screen .radio-box .radio-married.MuiFormControlLabel-root {
+    margin-left: 35px;
+  }
+  .member-add-screen .radio-box .radio-div.MuiFormControlLabel-root {
+    margin-left: 15px;
+  }
+  .member-add-screen .radio-box .radio-gr.MuiFormControlLabel-root {
+    margin-left: 14px;
+  }
+ 
+ 
+ 
+}
 @media (min-width:320px) and (max-width:413px) {
   .member-add-screen  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
     font-size: 14.5px;
@@ -509,6 +687,9 @@ height: 10px;
   }
   .member-add-screen .dialog {
   text-overflow: ellipsis;
+}
+.member-add-screen .css-1alklks{
+  padding: 5px !important;
 }
 .member-add-screen .inf {
     margin-top: 15px !important;

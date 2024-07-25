@@ -26,7 +26,11 @@
     font-size: 12px;
     font-weight: 500;
 }
-
+.no-horizontal-scroll {
+    overflow-x: hidden; 
+    overflow-y: auto; 
+    max-width: 100%; 
+  }
 @media (max-width:768px) {
     .box-logo {
         height: 45px;
@@ -70,7 +74,7 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
     .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation0.MuiCard-root.css-9swohl-MuiPaper-root-MuiCard-root {
         border-radius: 10px !important;
     }
-    .MuiTablePagination-root {
+    /* .MuiTablePagination-root {
         overflow: unset !important;
-    }
+    } */
 }

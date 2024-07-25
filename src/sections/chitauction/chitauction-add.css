@@ -109,7 +109,9 @@ border-radius: 5px;
   font-size: 12px;
   font-weight: 500
 }
-
+.chitauction-add-screen .MuiTextField-root{
+margin: 7px 16px;
+}
 
 /* @media (min-width:1600px) and (max-width:2000px){
 

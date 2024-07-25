@@ -89,6 +89,7 @@ export default function DashboardLayout({ children }) {
 
   const renderMenuContent = (
     <Scrollbar
+      className="no-horizontal-scroll"
       sx={{ height: 1,
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column', }, }} >
 

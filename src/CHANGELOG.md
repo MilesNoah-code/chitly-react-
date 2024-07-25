@@ -1,3 +1,9 @@
+3.4.22
+Date : 25/07/2024
+Type : Bug fix
+Description :  
+        1.mobile view correction ui --> fixed
+----------------------------------------------------------------
 3.4.21
 Date : 25/07/2024
 Type : Bug fix

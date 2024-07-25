@@ -75,7 +75,17 @@ border-radius: 5px;
   margin-left: 35px; 
   margin-right: 35px; 
 }
+.groupmember-add-screen .table-lt{
+  margin-left: 10px;
+  margin-right: 0px;
+}
 @media screen and (max-width: 768px) {
+  .groupmember-add-screen .grp-tab{
+    min-width: 320px !important;
+  }
+  .groupmember-add-screen .table-lt{
+    margin-left: 0px !important;
+  }
   .groupmember-add-screen{
     margin-left: 15px !important;
     margin-right: 15px !important;
@@ -145,10 +155,12 @@ border-radius: 5px;
   .groupmember-add-screen .custom-button {
     font-size: 14px;
     margin-top: 10px;
+    margin-right: 0px;
   }
 }
 
 @media (min-width:431px) and (max-width:768px) {
+ 
   .groupmember-add-screen .box-grp {
     flex: 1 0 50%;
     max-width: 100%;

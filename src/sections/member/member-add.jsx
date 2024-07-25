@@ -1868,7 +1868,7 @@ export default function AddMemberPage() {
             <Card>
           
                 <Box component="form"
-                    sx={{ '& .MuiTextField-root': { m: 2 }, }}
+                  
                     noValidate
                     autoComplete="off">
                     <Stack direction='column'>
@@ -1902,7 +1902,7 @@ export default function AddMemberPage() {
                                                         : <div>
                                                             <img src="/assets/images/img/placeholder.png" alt="Loading" style={{ width: 100, height: 100, }} />
                                                         </div>}
-                                                    <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 130, height: 40, mt: 2 }}>
+                                                    <Button  component="label" variant="contained" tabIndex={-1} sx={{ width: 130, height: 40, mt: 2 }}>
                                                         Upload Photo
                                                         <VisuallyHiddenInput type="file" onChange={HandleProfileImage} />
                                                     </Button>
@@ -2810,7 +2810,7 @@ export default function AddMemberPage() {
                                     <Stack direction='column' spacing={2}>
                                         {screen === "view"
                                             ? null
-                                            : <Stack spacing={2} style={{ justifyContent: 'flex-end' }}>
+                                            : <Stack className="upload" spacing={2} style={{ justifyContent: 'flex-end' }}>
                                                 <Button component="label" variant="contained" tabIndex={-1} sx={{ width: 130, height: 30, cursor: 'pointer' }} onClick={() => setProofAlert(true)}>
                                                     Upload Proof
                                                 </Button>
@@ -2832,7 +2832,7 @@ export default function AddMemberPage() {
                                                                 {screen === "view"
                                                                     ? null
                                                                     : <Button onClick={() => { setMediaId(row.id); setConfirmAlert(true); }} className='btn-click img-click' sx={{ cursor: 'pointer', background:'none'}}>
-                                                                        <img className="can-img" src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 12, height: 12 }} />
+                                                                        <img className="can-img" src="/assets/images/img/cancel.png" alt="Loading" style={{ width: 10, height: 10 }} />
                                                                     </Button>}
                                                             </Stack>
                                                             : <Stack>

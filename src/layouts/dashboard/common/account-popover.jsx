@@ -14,7 +14,9 @@ import IconButton from '@mui/material/IconButton';
 import { PostHeader } from 'src/hooks/AxiosApiFetch';
 
 import { LOGOUT_URL, REACT_APP_HOST_URL } from 'src/utils/api-constant';
+
 import './account-popover.css';
+
 const MENU_OPTIONS = [
   {
     label: 'Home',

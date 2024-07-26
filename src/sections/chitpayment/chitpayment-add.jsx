@@ -1386,14 +1386,16 @@ export default function AddChitPaymentPage() {
                         <Divider sx={{ mt: 2, mb: 1 }} />
                         <Stack mt={1} ml={2} mr={1} direction="row" alignItems="center" >
                             <TextField
+                         className="search-text-field"
                                 placeholder="Group Code..."
                                 value={filterGroupCode}
                                 onChange={(e) => HandleFilterGroupCode(e)}
                                 InputProps={{
                                     startAdornment: (
-                                        <InputAdornment position="start">
+                                        <InputAdornment position="start"  className="search-icon-adornment">
                                             <Iconify
                                                 icon="eva:search-fill"
+                                                  className="search-icon"
                                                 sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
                                             />
                                         </InputAdornment>),
@@ -1409,14 +1411,16 @@ export default function AddChitPaymentPage() {
                                 }}
                             />
                             <TextField
+                              className="search-text-field"
                                 placeholder="Member Id..."
                                 value={filterName}
                                 onChange={(e) => HandleFilterMemberName(e)}
                                 InputProps={{
                                     startAdornment: (
-                                        <InputAdornment position="start">
+                                        <InputAdornment position="start" className="search-icon-adornment">
                                             <Iconify
                                                 icon="eva:search-fill"
+                                                  className="search-icon"
                                                 sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
                                             />
                                         </InputAdornment>),

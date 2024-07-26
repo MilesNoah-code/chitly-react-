@@ -1045,7 +1045,7 @@ export default function AddChitEstimatePage() {
 
                 <Box component="form"
                     sx={{ '& .MuiTextField-root': {} }} noValidate autoComplete="off">
-                    <Stack direction='column'>
+                    <Stack direction='column' className="fill-color">
                         <Stack direction='row' spacing={1} alignItems='center' gap='20px' justifyContent="flex-start" sx={{ m: 3, mb: 2 }} className='estimate-box'>
                             <div className='estimate-grp'>
                                 <Stack direction='column'>
@@ -1182,7 +1182,7 @@ export default function AddChitEstimatePage() {
                                                                     )}
                                                                     sx={{
                                                                         '& .MuiInputBase-input': {
-                                                                            padding: '2px', fontSize: '12px',
+                                                                            padding: '2px', fontSize: '12px',paddingLeft:'10px'
 
                                                                         },
                                                                         '& .MuiOutlinedInput-root': {
@@ -1539,13 +1539,15 @@ export default function AddChitEstimatePage() {
 
                         <Stack mt={1} ml={2} mr={1} direction="row" alignItems="center" gap='10px'>
                             <TextField
+                             className="search-text-field"
                                 placeholder="Member Name..."
                                 value={FilterName}
                                 onChange={(e) => HandleFilterMemberName(e)}
                                 InputProps={{
                                     startAdornment: (
-                                        <InputAdornment position="start">
+                                        <InputAdornment position="start" className="search-icon-adornment">
                                             <Iconify
+                                             className="search-icon"
                                                 icon="eva:search-fill"
                                                 sx={{ ml: 1, mt: 1, mb: 1, width: 16, height: 20, color: 'text.disabled' }}
                                             />
@@ -1563,13 +1565,15 @@ export default function AddChitEstimatePage() {
                                 }}
                             />
                             <TextField
+                              className="search-text-field"
                                 placeholder="Ticket No..."
                                 value={filterTicketNo}
                                 onChange={(e) => HandleFilterTicketNo(e)}
                                 InputProps={{
                                     startAdornment: (
-                                        <InputAdornment position="start">
+                                        <InputAdornment position="start" className="search-icon-adornment">
                                             <Iconify
+                                             className="search-icon"
                                                 icon="eva:search-fill"
                                                 sx={{ ml: 1, width: 16, height: 20, color: 'text.disabled' }}
                                             />

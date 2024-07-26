@@ -140,14 +140,16 @@ export default function ChitAuctionView() {
       <Card>
         <Stack m={3} direction="row" alignItems="center" gap='40px' className='mbl-view'>
           <TextField
+           className="search-text-field"
             placeholder="Search Group Code..."
             value={filterName}
             onChange={(e) => handleFilterByName(e)}
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">
+                <InputAdornment position="start" className="search-icon-adornment">
                   <Iconify
                     icon="eva:search-fill"
+                    className="search-icon"
                     sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
                   />
                 </InputAdornment>
@@ -161,6 +163,7 @@ export default function ChitAuctionView() {
                 padding: '8px', 
               },
             }}
+            
           />
         </Stack>
         {ChitAuctionLoading
@@ -172,24 +175,24 @@ export default function ChitAuctionView() {
               <TableContainer sx={{ overflow: 'unset' }}>
                 <Table sx={{ minWidth: 800 }}>
                   <TableRow hover tabIndex={-1}>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group Code</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Duration</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Auction Mode</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Amount</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Status</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
+                    <TableCell sx={{ width:'10%',background: '#edf4fe', color: '#1877f2', }}>Group Code</TableCell>
+                    <TableCell className='duration-cell' sx={{  width:'10%',background: '#edf4fe', color: '#1877f2', }}>Duration</TableCell>
+                    <TableCell className='auction-cell' sx={{width:'10%', background: '#edf4fe', color: '#1877f2', }}>Auction Mode</TableCell>
+                    <TableCell className='amount-cell' sx={{ width:'20%',background: '#edf4fe', color: '#1877f2', }} align='right'>Amount</TableCell>
+                    <TableCell className='status-cell' sx={{ width:'20%',background: '#edf4fe', color: '#1877f2', paddingLeft: '70px !important',}} >Status</TableCell>
+                    <TableCell sx={{ width:'10%', background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
                   </TableRow>
                   <TableBody>
                     {ChitAuctionList
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => (
                         <TableRow hover tabIndex={-1} role="checkbox">
-                          <TableCell>{row.groupno}</TableCell>
-                          <TableCell>{row.duration}</TableCell>
-                          <TableCell>{row.auction_mode}</TableCell>
-                          <TableCell align="right">{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
-                          <TableCell>{row.status}</TableCell>
-                          <TableCell align="right">
+                          <TableCell  sx={{  width:'10%'}}>{row.groupno}</TableCell>
+                          <TableCell   sx={{  width:'10%'}} className='duration-cell'>{row.duration}</TableCell>
+                          <TableCell  sx={{  width:'10%'}} className='auction-cell'>{row.auction_mode}</TableCell>
+                          <TableCell  sx={{  width:'20%'}} className='amount-cell' align="right">{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
+                          <TableCell  sx={{  width:'20%',paddingLeft: '70px !important',}} className='status-cell'>{row.status}</TableCell>
+                          <TableCell  sx={{  width:'10%'}} align="right">
                             <IconButton onClick={() => handleOpenScreen(row)} sx={{ cursor: 'pointer' }}>
                               <Iconify icon="eva:edit-fill" />
                             </IconButton>

@@ -77,6 +77,22 @@ border: 0.5px solid #ccc;
 .chitestimate-add-screen .estimate-grp .input {
   margin-bottom: 5px;
 }
+.chitestimate-add-screen .search-text-field .MuiInputBase-input {
+  padding: 8px;
+}
+.chitestimate-add-screen .fill-color .MuiInputBase-root.css-ma3s50-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled {
+  opacity: 1;
+  -webkit-text-fill-color: #000 !important;
+}
+.chitestimate-add-screen .search-icon-adornment {
+  margin-right: -8px; 
+}
+
+.chitestimate-add-screen  .search-icon {
+  margin-left: -12px; 
+  width: 20px;
+  height: 20px;
+}
 @media (max-width:768px){
   .chitestimate-add-screen .table-one .MuiTableCell-root:nth-child(1) {
     font-size: 12px;

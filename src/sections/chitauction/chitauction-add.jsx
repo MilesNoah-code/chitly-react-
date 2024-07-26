@@ -2297,7 +2297,7 @@ export default function AddChitAuctionPage() {
 
                             </Grid>
                             <Stack direction='column' alignItems='flex-start' gap='10px' sx={{ mt: 1, mb: 3, ml: 2 }}>
-                                <Stack direction='row'>
+                                <Stack direction='row' className="btn-mbl">
                                     <Button sx={{ mr: 2, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                                         {Loading
                                             ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
@@ -2354,7 +2354,7 @@ export default function AddChitAuctionPage() {
                 aria-describedby="alert-dialog-description" >
                 <Card>
                     <Stack>
-                        <Stack ml={1} mr={1} pb={1} direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
+                        <Stack ml={1} mr={1} pb={1} direction="row" alignItems="center" sx={{ alignItems: 'center' }} >
                             <Stack direction='column'>
                                 <Typography variant="subtitle1" sx={{ mt: 2, ml: 2 }}>
                                     {`Group No - ${GroupNo.data}`}
@@ -2370,9 +2370,9 @@ export default function AddChitAuctionPage() {
                         </Stack>
                         <Divider sx={{ mt: 1, }} />
                         <Scrollbar style={{ Scrollbar: 'none' }}>
-                            <Stack direction='column' sx={{ m: 3 }}>
-                                <Stack direction='row' spacing={2} alignItems='center'>
-                                    <div className='auction-grp  grp-label'>
+                            <Stack direction='column' sx={{ m: 3 }} className="dialog-grp">
+                                <Stack direction='row' spacing={2} alignItems='center' className='auction-box'>
+                                    <div className='auction-grp  grp-label' style={{ width: '49%' }}>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 Chit Amount
@@ -2384,7 +2384,7 @@ export default function AddChitAuctionPage() {
                                             </Stack>
                                         </Stack>
                                     </div>
-                                    <div className='auction-grp'>
+                                    <div className='auction-grp' style={{ width: '49%' }}>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 Ticket No
@@ -2397,8 +2397,8 @@ export default function AddChitAuctionPage() {
                                         </Stack>
                                     </div>
                                 </Stack>
-                                <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 1 }}>
-                                    <div className='auction-grp  grp-label'>
+                                <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 1 }} className='auction-box'>
+                                    <div className='auction-grp  grp-label' style={{ width: '49%' }}>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 Installment No
@@ -2410,7 +2410,7 @@ export default function AddChitAuctionPage() {
                                             </Stack>
                                         </Stack>
                                     </div>
-                                    <div className='auction-grp'>
+                                    <div className='auction-grp' style={{ width: '49%' }}>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 Member Name
@@ -2423,8 +2423,8 @@ export default function AddChitAuctionPage() {
                                         </Stack>
                                     </div>
                                 </Stack>
-                                <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 1 }}>
-                                    <div className='auction-grp  grp-label'>
+                                <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 1 }} className='auction-box'>
+                                    <div className='auction-grp  grp-label' style={{ width: '49%' }}>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1" >
                                                 Auction Date
@@ -2436,7 +2436,7 @@ export default function AddChitAuctionPage() {
                                             </Stack>
                                         </Stack>
                                     </div>
-                                    <div className='auction-grp'>
+                                    <div className='auction-grp' style={{ width: '49%' }}>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 Less Amount
@@ -2449,8 +2449,8 @@ export default function AddChitAuctionPage() {
                                         </Stack>
                                     </div>
                                 </Stack>
-                                <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 1 }}>
-                                    <div className='auction-grp  grp-label'>
+                                <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 1 }} className='auction-box'>
+                                    <div className='auction-grp  grp-label' style={{ width: '49%' }}>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 Payment Amount
@@ -2462,7 +2462,7 @@ export default function AddChitAuctionPage() {
                                             </Stack>
                                         </Stack>
                                     </div>
-                                    <div className='auction-grp'>
+                                    <div className='auction-grp' style={{ width: '49%' }}>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 Particulars
@@ -2475,8 +2475,8 @@ export default function AddChitAuctionPage() {
                                         </Stack>
                                     </div>
                                 </Stack>
-                                <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 1 }}>
-                                    <div className='auction-grp  grp-label'>
+                                <Stack direction='row' spacing={2} alignItems='center' sx={{ mt: 1 }} className='auction-box'>
+                                    <div className='auction-grp  grp-label' style={{ width: '49%' }}>
                                         <Stack direction='column'>
                                             <Typography variant="subtitle1">
                                                 Due Amount

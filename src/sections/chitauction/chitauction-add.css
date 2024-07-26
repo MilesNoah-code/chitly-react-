@@ -68,7 +68,17 @@ border-radius: 5px;
 .chitauction-add-screen .auction-grp .MuiAutocomplete-root .MuiTextField-root {
   width: calc(100% - 20px) !important;
 }
+.chitauction-add-screen .dialog-grp {
+  display: flex;
+}
 
+.chitauction-add-screen .dialog-grp .auction-box {
+  width: 100%;
+}
+
+.chitauction-add-screen .dialog-grp .auction-box div.auction-grp {
+  width: 49% !important;
+}
 .chitauction-add-screen .alert-msg {
   display: flex;
   align-items: center;
@@ -189,7 +199,12 @@ margin: 7px 16px;
   }
 }
 
-@media (min-width:370px) and (max-width:540px) {
+@media (min-width:360px) and (max-width:540px) {
+  .chitauction-add-screen .btn-mbl{
+    display: flex;
+    flex-wrap: wrap !important;
+    gap: 10px;
+  }
   .chitauction-add-screen .btn-close {
     right: -1px;
     top: -2px;

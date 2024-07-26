@@ -499,11 +499,11 @@ export default function AddGroupPage() {
                             </div>
                             <div className='box-grp'>
                                 <Stack direction='column'>
-                                    <Typography variant='subtitle1' sx={{ mt: 2, ml: 2 }} >
+                                    <Typography variant='subtitle1' className='head_sub'sx={{ mt: 2, ml: 2 }} >
                                         EM Due <span style={{ color: 'red' }}> *</span>
                                     </Typography>
                                     <Stack direction='row' sx={{ ml: 0, }}>
-                                        <TextField
+                                     <TextField
                                             className='input-box1'
                                             id="outlined-required"
                                             inputProps={{ readOnly: true }}
@@ -516,11 +516,13 @@ export default function AddGroupPage() {
                                                 '& .MuiInputBase-input': {
                                                   padding: '8px',
                                                   fontSize:'14px' ,
+                                                    backgroundColor: 'rgb(244 244 244)'
                                                 }
                                               }}
                                               error={!!EMDue.error} />
+                                      
                                     </Stack>
-                                    {/* <div className='error_txt'>{EMDue.error}</div> */}
+                                    <div className='error_txt'>{EMDue.error}</div> 
                                 </Stack>
                             </div>
                         </Stack>

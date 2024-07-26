@@ -971,7 +971,8 @@ export default function AddChitPaymentPage() {
                                                         sx={{
                                                             '& .MuiInputBase-input': {
                                                                 padding: '8px',
-                                                                fontSize: '14px'
+                                                                fontSize: '14px',
+                                                                  backgroundColor: 'rgb(244 244 244)'
                                                             },
                                                             '& .MuiInputAdornment-root': {
                                                                 padding: '8px',
@@ -1000,7 +1001,9 @@ export default function AddChitPaymentPage() {
                                                         sx={{
                                                             '& .MuiInputBase-input': {
                                                                 padding: '8px',
-                                                                fontSize: '14px'
+                                                                fontSize: '14px',
+                                                                  backgroundColor: 'rgb(244 244 244)'
+                                                            
                                                             },
                                                             '& .MuiInputAdornment-root': {
                                                                 padding: '8px',
@@ -1030,7 +1033,8 @@ export default function AddChitPaymentPage() {
                                                         sx={{
                                                             '& .MuiInputBase-input': {
                                                                 padding: '8px',
-                                                                fontSize: '14px'
+                                                                fontSize: '14px',
+                                                                  backgroundColor: 'rgb(244 244 244)'
                                                             },
                                                             '& .MuiInputAdornment-root': {
                                                                 padding: '8px',
@@ -1058,7 +1062,8 @@ export default function AddChitPaymentPage() {
                                                         sx={{
                                                             '& .MuiInputBase-input': {
                                                                 padding: '8px',
-                                                                fontSize: '14px'
+                                                                fontSize: '14px',
+                                                                  backgroundColor: 'rgb(244 244 244)'
                                                             },
                                                             '& .MuiInputAdornment-root': {
                                                                 padding: '8px',
@@ -1091,7 +1096,8 @@ export default function AddChitPaymentPage() {
                                                             sx={{
                                                                 '& .MuiInputBase-input': {
                                                                     padding: '8px',
-                                                                    fontSize: '14px'
+                                                                    fontSize: '14px',
+                                                                      backgroundColor: 'rgb(244 244 244)'
                                                                 },
                                                                 '& .MuiInputAdornment-root': {
                                                                     padding: '8px',
@@ -1118,7 +1124,8 @@ export default function AddChitPaymentPage() {
                                                         sx={{
                                                             '& .MuiInputBase-input': {
                                                                 padding: '8px',
-                                                                fontSize: '14px'
+                                                                fontSize: '14px',
+                                                                  backgroundColor: 'rgb(244 244 244)'
                                                             },
                                                             '& .MuiInputAdornment-root': {
                                                                 padding: '8px',
@@ -1147,7 +1154,8 @@ export default function AddChitPaymentPage() {
                                                             sx={{
                                                                 '& .MuiInputBase-input': {
                                                                     padding: '8px',
-                                                                    fontSize: '14px'
+                                                                    fontSize: '14px',
+                                                                      backgroundColor: 'rgb(244 244 244)'
                                                                 },
                                                                 '& .MuiInputAdornment-root': {
                                                                     padding: '8px',
@@ -1180,7 +1188,8 @@ export default function AddChitPaymentPage() {
                                                             sx={{
                                                                 '& .MuiInputBase-input': {
                                                                     padding: '8px',
-                                                                    fontSize: '14px'
+                                                                    fontSize: '14px',
+                                                                      backgroundColor: 'rgb(244 244 244)'
                                                                 },
                                                                 '& .MuiInputAdornment-root': {
                                                                     padding: '8px',
@@ -1207,7 +1216,8 @@ export default function AddChitPaymentPage() {
                                                         sx={{
                                                             '& .MuiInputBase-input': {
                                                                 padding: '8px',
-                                                                fontSize: '14px'
+                                                                fontSize: '14px',
+                                                                  backgroundColor: 'rgb(244 244 244)'
                                                             },
                                                             '& .MuiInputAdornment-root': {
                                                                 padding: '8px',
@@ -1392,11 +1402,11 @@ export default function AddChitPaymentPage() {
                                 onChange={(e) => HandleFilterGroupCode(e)}
                                 InputProps={{
                                     startAdornment: (
-                                        <InputAdornment position="start"  className="search-icon-adornment">
+                                        <InputAdornment position="start"  className="search-icon-adornment" sx={{mr:-1}}>
                                             <Iconify
                                                 icon="eva:search-fill"
                                                   className="search-icon"
-                                                sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
+                                                sx={{ ml: -1.5, width: 20, height: 20, color: 'text.disabled' }}
                                             />
                                         </InputAdornment>),
                                 }}
@@ -1417,11 +1427,11 @@ export default function AddChitPaymentPage() {
                                 onChange={(e) => HandleFilterMemberName(e)}
                                 InputProps={{
                                     startAdornment: (
-                                        <InputAdornment position="start" className="search-icon-adornment">
+                                        <InputAdornment position="start" className="search-icon-adornment" sx={{mr:-1}}>
                                             <Iconify
                                                 icon="eva:search-fill"
                                                   className="search-icon"
-                                                sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
+                                                sx={{ ml: -1.5, width: 20, height: 20, color: 'text.disabled' }}
                                             />
                                         </InputAdornment>),
                                 }}

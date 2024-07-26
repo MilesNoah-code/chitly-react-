@@ -1956,11 +1956,17 @@ export default function AddChitAuctionPage() {
                                                         value={GroupNo.data}
                                                         onChange={(e) => ChitAuctionTextValidate(e, "GroupNo")}
                                                         style={{}}
-                                                        sx={{
-                                                            '& .MuiInputBase-input': {
-                                                                padding: '8px',
-                                                                fontSize: '14px',
-                                                            }
+                                                       sx={{
+                                                        '& .MuiInputBase-input': {
+                                                        padding: '8px',
+                                                        fontSize: '14px',
+                                                         backgroundColor: 'rgb(244 244 244)',
+                                                        },
+                                                        '& .MuiInputBase-input.Mui-disabled': {
+                                                        color: '#212B36', 
+                                                        '-webkit-text-fill-color': '#212B36', 
+                                                        opacity: 1, 
+                                                        },
                                                         }}
                                                         error={!!GroupNo.error} />
                                                 </Stack>
@@ -1981,11 +1987,17 @@ export default function AddChitAuctionPage() {
                                                         value={Amount.data}
                                                         onChange={(e) => ChitAuctionTextValidate(e, "Amount")}
                                                         style={{}}
-                                                        sx={{
-                                                            '& .MuiInputBase-input': {
-                                                                padding: '8px',
-                                                                fontSize: '14px',
-                                                            }
+                                                       sx={{
+                                                        '& .MuiInputBase-input': {
+                                                        padding: '8px',
+                                                        fontSize: '14px',
+                                                         backgroundColor: 'rgb(244 244 244)',
+                                                        },
+                                                        '& .MuiInputBase-input.Mui-disabled': {
+                                                        color: '#212B36', 
+                                                        '-webkit-text-fill-color': '#212B36', 
+                                                        opacity: 1, 
+                                                        },
                                                         }}
                                                         error={!!Amount.error} />
                                                 </Stack>
@@ -2107,6 +2119,7 @@ export default function AddChitAuctionPage() {
                                                                     border:'none',
                                                                     '& .MuiInputBase-root': {
                                                                         border: AucDate.error && '1px solid red',
+                                                                          backgroundColor: 'rgb(244 244 244) !important',
                                                                         '&:hover': {
                                                                             border: AucDate.error && '1px solid transparent',
                                                                         },
@@ -2118,13 +2131,22 @@ export default function AddChitAuctionPage() {
                                                                     '& .MuiInputBase-input': {
                                                                         padding: '8px',
                                                                         fontSize: '14px',
+                                                                       
                                                                         // borderColor: AucDate.data === '' && 'red' ,
                                                                     },
+                                                                
                                                                     '& .MuiInputAdornment-root': {
                                                                         padding: '8px',
+                                                                          
                                                                     },
 
-
+                                                                    '& .MuiInputBase-input.Mui-disabled': {
+                                                                    color: '#212B36', 
+                                                                    '-webkit-text-fill-color': '#212B36', 
+                                                                    opacity: 1,
+                                                                  
+                                                                    },
+                                                    
                                                                 }}
                                                             />
                                                         </DemoContainer>
@@ -2176,11 +2198,17 @@ export default function AddChitAuctionPage() {
                                                         value={PrizedMember.data}
                                                         onChange={(e) => ChitAuctionTextValidate(e, "PrizedMember")}
                                                         style={{}}
-                                                        sx={{
-                                                            '& .MuiInputBase-input': {
-                                                                padding: '8px',
-                                                                fontSize: '14px',
-                                                            }
+                                                         sx={{
+                                                        '& .MuiInputBase-input': {
+                                                        padding: '8px',
+                                                        fontSize: '14px',
+                                                         backgroundColor: 'rgb(244 244 244)',
+                                                        },
+                                                        '& .MuiInputBase-input.Mui-disabled': {
+                                                        color: '#212B36', 
+                                                        '-webkit-text-fill-color': '#212B36', 
+                                                        opacity: 1, 
+                                                        },
                                                         }}
                                                         error={!!PrizedMember.error} />
                                                 </Stack>
@@ -2203,10 +2231,16 @@ export default function AddChitAuctionPage() {
                                                         onChange={(e) => ChitAuctionTextValidate(e, "TktNo")}
                                                         style={{}}
                                                         sx={{
-                                                            '& .MuiInputBase-input': {
-                                                                padding: '8px',
-                                                                fontSize: '14px',
-                                                            }
+                                                        '& .MuiInputBase-input': {
+                                                        padding: '8px',
+                                                        fontSize: '14px',
+                                                         backgroundColor: 'rgb(244 244 244)',
+                                                        },
+                                                        '& .MuiInputBase-input.Mui-disabled': {
+                                                        color: '#212B36', 
+                                                        '-webkit-text-fill-color': '#212B36', 
+                                                        opacity: 1, 
+                                                        },
                                                         }}
                                                         error={!!TktNo.error} />
                                                 </Stack>
@@ -2229,11 +2263,17 @@ export default function AddChitAuctionPage() {
                                                         value={MaxADisc.data}
                                                         onChange={(e) => ChitAuctionTextValidate(e, "MaxADisc")}
                                                         style={{}}
-                                                        sx={{
-                                                            '& .MuiInputBase-input': {
-                                                                padding: '8px',
-                                                                fontSize: '14px',
-                                                            }
+                                                         sx={{
+                                                        '& .MuiInputBase-input': {
+                                                        padding: '8px',
+                                                        fontSize: '14px',
+                                                        backgroundColor: 'rgb(244 244 244)',
+                                                        },
+                                                        '& .MuiInputBase-input.Mui-disabled': {
+                                                        color: '#212B36', 
+                                                        '-webkit-text-fill-color': '#212B36', 
+                                                        opacity: 1, 
+                                                        },
                                                         }}
                                                         error={!!MaxADisc.error} />
                                                 </Stack>
@@ -2254,11 +2294,17 @@ export default function AddChitAuctionPage() {
                                                         value={FM_AFMCommission.data}
                                                         onChange={(e) => ChitAuctionTextValidate(e, "FM_AFMCommission")}
                                                         style={{}}
-                                                        sx={{
-                                                            '& .MuiInputBase-input': {
-                                                                padding: '8px',
-                                                                fontSize: '14px',
-                                                            }
+                                                         sx={{
+                                                        '& .MuiInputBase-input': {
+                                                        padding: '8px',
+                                                        fontSize: '14px',
+                                                         backgroundColor: 'rgb(244 244 244)',
+                                                        },
+                                                        '& .MuiInputBase-input.Mui-disabled': {
+                                                        color: '#212B36', 
+                                                        '-webkit-text-fill-color': '#212B36', 
+                                                        opacity: 1, 
+                                                        },
                                                         }}
                                                         error={!!FM_AFMCommission.error} />
                                                 </Stack>
@@ -2281,11 +2327,17 @@ export default function AddChitAuctionPage() {
                                                         value={Dividend.data}
                                                         onChange={(e) => ChitAuctionTextValidate(e, "Dividend")}
                                                         style={{}}
-                                                        sx={{
-                                                            '& .MuiInputBase-input': {
-                                                                padding: '8px',
-                                                                fontSize: '14px',
-                                                            }
+                                                         sx={{
+                                                        '& .MuiInputBase-input': {
+                                                        padding: '8px',
+                                                        fontSize: '14px',
+                                                         backgroundColor: 'rgb(244 244 244)',
+                                                        },
+                                                        '& .MuiInputBase-input.Mui-disabled': {
+                                                        color: '#212B36', 
+                                                        '-webkit-text-fill-color': '#212B36', 
+                                                        opacity: 1, 
+                                                        },
                                                         }}
                                                         error={!!Dividend.error} />
                                                 </Stack>

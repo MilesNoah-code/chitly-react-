@@ -166,9 +166,10 @@ export default function GroupView() {
             onChange={(e) => handleFilterByName(e)}
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">
+                <InputAdornment position="start" className="search-icon-adornment">
                   <Iconify
                     icon="eva:search-fill"
+                     className="search-icon"
                     sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
                   />
                 </InputAdornment>
@@ -182,6 +183,7 @@ export default function GroupView() {
                 padding: '8px', 
               },
             }}
+            className="search-text-field"
           />
           <TextField select size="small" value={ActiveFilter} onChange={(e) => handleFilterByActive(e)}>
             {options.map((option) => (

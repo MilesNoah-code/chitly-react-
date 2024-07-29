@@ -34,7 +34,17 @@
   width: calc(100% - 20px) !important;
 }
 
+.group-add-screen .head_sub {
+  font-size: 16px !important;
+  font-weight: 400 !important;
+}
 
+.group-add-screen .head_ans {
+  font-size: 14px !important;
+  color: #212B36 !important;
+  margin-top: 5px !important;
+  margin-left: 17px;
+}
 .group-add-screen .alert-msg {
   display: flex;
   align-items: center;

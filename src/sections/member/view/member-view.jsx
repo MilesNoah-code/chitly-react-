@@ -162,14 +162,15 @@ export default function MemberView() {
 
         <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='20px' className='mbl-view'>
           <TextField
-            className='search-field'
+            className='search-text-field'
             placeholder="Search member..."
             value={filterName}
             onChange={(e) => handleFilterByName(e)}
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">
+                <InputAdornment position="start" className="search-icon-adornment">
                   <Iconify
+                   className="search-icon"
                     icon="eva:search-fill"
                     sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
                   />
@@ -183,7 +184,9 @@ export default function MemberView() {
               '& .MuiInputAdornment-root': {
                 padding: '8px', 
               },
-            }}/>
+            }}
+            
+            />
           <TextField select size="small" value={ActiveFilter} onChange={(e) => handleFilterByActive(e)}>
             {options.map((option) => (
               <MenuItem key={option.value} value={option.value}>

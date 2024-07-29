@@ -206,16 +206,20 @@ export default function ReportView() {
                                         onChange={(e) => handleFilterByGroupNo(e, "PayableReportList")}
                                         InputProps={{
                                             startAdornment: (
-                                                <InputAdornment position="start">
+                                                <InputAdornment position="start" className="search-icon-adornment">
                                                     <Iconify
                                                         icon="eva:search-fill"
+                                                         className="search-icon"
                                                         sx={{ ml: 0, width: 20, height: 20, color: 'text.disabled' }}
+                                                       
                                                     />
                                                 </InputAdornment>
                                             ),
                                         }}
                                         sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize:'14px' },
-                                            '& .MuiInputAdornment-root': { padding: '8px', }, }} />
+                                            '& .MuiInputAdornment-root': { padding: '8px', }, }}
+                                             className="search-text-field"
+                                            />
                                 </Stack>
                             {PayableReportLoading
                                 ? <Stack style={{ flexDirection: 'column' }} mt={10} alignItems="center" justifyContent="center">

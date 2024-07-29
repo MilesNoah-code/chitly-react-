@@ -167,15 +167,16 @@ export default function ChitEstimateView() {
       <Card>
         <Stack mb={2} mt={2} ml={3} mr={3} direction="row" alignItems="center" gap='20px' className='mbl-view'>
           <TextField
-          className='search-div'
+         className="search-text-field"
             placeholder="Search Group Code..."
             value={filterName}
             onChange={(e) => handleFilterByName(e)}
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">
+                <InputAdornment position="start" className="search-icon-adornment">
                   <Iconify
                     icon="eva:search-fill"
+                     className="search-icon"
                     sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
                   />
                 </InputAdornment>
@@ -183,7 +184,9 @@ export default function ChitEstimateView() {
             }}
             sx={{ '& .MuiInputBase-input': { padding: '8px',  },
               '& .MuiInputAdornment-root': { padding: '8px',  },
-            }} />
+            }} 
+            
+            />
           <TextField select size="small" value={ActiveFilter} onChange={(e) => handleFilterByActive(e)}>
             {options.map((option) => (
               <MenuItem key={option.value} value={option.value}>
@@ -221,7 +224,7 @@ export default function ChitEstimateView() {
                         <TableRow hover tabIndex={-1} role="checkbox">
                           <TableCell>{row.groupno}</TableCell>
                           <TableCell align="right">{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
-                          <TableCell>{row.duration}</TableCell>
+                          <TableCell className='duration'>{row.duration}</TableCell>
                           <TableCell>{row.auction_mode}</TableCell>
                           <TableCell align="right">
                             <IconButton onClick={() => handleOpenScreen(row)} sx={{ cursor: 'pointer' }}>

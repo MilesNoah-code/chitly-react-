@@ -224,14 +224,16 @@ export default function ChitReceiptView() {
             </DemoContainer>
           </LocalizationProvider>
           <TextField
+           className="search-text-field"
             placeholder="Search..."
             value={filterName}
             onChange={(e) => handleFilterByName(e)}
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">
+                <InputAdornment position="start" className="search-icon-adornment">
                   <Iconify
                     icon="eva:search-fill"
+                    className="search-icon"
                     sx={{ ml: 0, width: 20, height: 20, color: 'text.disabled' }}
                   
                    />

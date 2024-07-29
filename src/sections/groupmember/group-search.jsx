@@ -38,14 +38,16 @@ export default function GroupSearch({ groupList }) {
           InputProps={{
             ...params.InputProps,
             startAdornment: (
-              <InputAdornment position="start">
+              <InputAdornment position="start" className="search-icon-adornment">
                 <Iconify
+                 className="search-icon"
                   icon="eva:search-fill"
                   sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
                 />
               </InputAdornment>
             ),
           }}
+          className="search-text-field"
         />
       )}
     />

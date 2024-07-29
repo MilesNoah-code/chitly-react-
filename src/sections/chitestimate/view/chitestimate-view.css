@@ -25,13 +25,29 @@
     width: 14%;
   }
   .chitestimate-view-screen .duration-column{
-    width: 9%;
+    width: 30%;
+    padding-left: 65px;
+  }
+  .chitestimate-view-screen .duration{
+    padding-left: 65px;
   }
   .chitestimate-view-screen .auction-column{
     width: 16%;
     
   }
+  .chitestimate-view-screen .search-text-field .MuiInputBase-input {
+    padding: 8px;
+  }
   
+  .chitestimate-view-screen .search-icon-adornment {
+    margin-right: -8px; 
+  }
+  
+  .chitestimate-view-screen  .search-icon {
+    margin-left: -12px; 
+    width: 20px;
+    height: 20px;
+  }
   @media(max-width:768px){
     .chitestimate-view-screen  .mbl-view{
       display: flex;

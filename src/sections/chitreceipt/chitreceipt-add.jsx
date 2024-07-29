@@ -806,9 +806,11 @@ export default function AddChitReceiptPage() {
                                                         onChange={HandleDateChange}
                                                         format="DD-MM-YYYY"
                                                         sx={{
+                                                         
                                                             '& .MuiInputBase-input': {
                                                                 padding: '8px',
-                                                                fontSize: '14px'
+                                                                fontSize: '14px',
+                                                                
                                                             },
                                                             '& .MuiInputAdornment-root': {
                                                                 padding: '8px',
@@ -846,13 +848,17 @@ export default function AddChitReceiptPage() {
                                                 renderInput={(params) => <TextField {...params} label={screen === "view" ? GroupNoSearch.data : ""}
                                                     error={!!GroupNoSearch.error}
                                                 />}
-                                                sx={{
-                                                    '& .MuiAutocomplete-root  .MuiTextField-root': {
-                                                        padding: '8px',
-                                                        backgroundColor: '#ccc',
-                                                        fontSize: '14px',
-                                                    }
-                                                }}
+                                                  sx={{
+                                                            pointerEvents: 'auto',
+                                                            '& .MuiInputBase-input': {
+                                                                padding: '8px',
+                                                                fontSize: '14px'
+                                                            },
+                                                            '& .MuiInputAdornment-root': {
+                                                                padding: '8px',
+                                                            },
+                                                        }} 
+                                             
                                             />
 
                                         </Stack>
@@ -876,11 +882,12 @@ export default function AddChitReceiptPage() {
                                                 value={MemberName.data}
                                                 onChange={(e) => ChitReceiptTextValidate(e, "MemberName")}
                                                 sx={{
-                                                    '& .MuiInputBase-input': {
+                                                        '& .MuiInputBase-input': {
                                                         padding: '8px',
                                                         fontSize: '14px',
-                                                    }
-                                                }}
+                                                         backgroundColor: 'rgb(244 244 244)'
+                                                        }
+                                                        }}
                                                 error={!!MemberName.error} />
                                         </Stack>
                                         {/* <div className='error_txt'>{MemberName.error}</div> */}
@@ -904,6 +911,7 @@ export default function AddChitReceiptPage() {
                                                     '& .MuiInputBase-input': {
                                                         padding: '8px',
                                                         fontSize: '14px',
+                                                         backgroundColor: 'rgb(244 244 244)'
                                                     }
                                                 }}
                                                 error={!!ReceiptNo.error} />
@@ -931,6 +939,7 @@ export default function AddChitReceiptPage() {
                                                     '& .MuiInputBase-input': {
                                                         padding: '8px',
                                                         fontSize: '14px',
+                                                         backgroundColor: 'rgb(244 244 244)'
                                                     }
                                                 }}
                                                 error={!!AuctionMode.error} />
@@ -956,6 +965,7 @@ export default function AddChitReceiptPage() {
                                                     '& .MuiInputBase-input': {
                                                         padding: '8px',
                                                         fontSize: '14px',
+                                                         backgroundColor: 'rgb(244 244 244)'
                                                     }
                                                 }}
                                                 error={!!TicketNo.error} />
@@ -983,6 +993,7 @@ export default function AddChitReceiptPage() {
                                                     '& .MuiInputBase-input': {
                                                         padding: '8px',
                                                         fontSize: '14px',
+                                                         backgroundColor: 'rgb(244 244 244)'
                                                     }
                                                 }}
                                                 error={!!AccountNo.error} />
@@ -1008,6 +1019,7 @@ export default function AddChitReceiptPage() {
                                                     '& .MuiInputBase-input': {
                                                         padding: '8px',
                                                         fontSize: '14px',
+                                                         backgroundColor: 'rgb(244 244 244)'
                                                     }
                                                 }}
                                                 error={!!Duration.error} />
@@ -1035,6 +1047,7 @@ export default function AddChitReceiptPage() {
                                                     '& .MuiInputBase-input': {
                                                         padding: '8px',
                                                         fontSize: '14px',
+                                                         backgroundColor: 'rgb(244 244 244)'
                                                     }
                                                 }}
                                                 error={!!InstFrom.error} />
@@ -1060,6 +1073,7 @@ export default function AddChitReceiptPage() {
                                                     '& .MuiInputBase-input': {
                                                         padding: '8px',
                                                         fontSize: '14px',
+                                                         backgroundColor: 'rgb(244 244 244)'
                                                     }
                                                 }}
                                                 error={!!InstTo.error} />
@@ -1088,6 +1102,7 @@ export default function AddChitReceiptPage() {
                                                     '& .MuiInputBase-input': {
                                                         padding: '8px',
                                                         fontSize: '14px',
+                                                         backgroundColor: 'rgb(244 244 244)'
                                                     }
                                                 }}
                                                 error={!!Values.error} />
@@ -1145,15 +1160,16 @@ export default function AddChitReceiptPage() {
                         <Divider sx={{ mt: 0.5, mb: 1 }} />
                         <Stack mt={1} ml={2} mr={1} direction="row" alignItems="center" gap="10px" >
                             <TextField
+
                                 placeholder="Member Name..."
                                 value={filterName}
                                 onChange={(e) => HandleFilterMemberName(e)}
                                 InputProps={{
                                     startAdornment: (
-                                        <InputAdornment position="start">
+                                        <InputAdornment position="start"sx={{mr:-1}} >
                                             <Iconify
                                                 icon="eva:search-fill"
-                                                sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
+                                                sx={{ ml: -1.5, width: 20, height: 20, color: 'text.disabled' }}
                                             />
                                         </InputAdornment>),
                                 }}
@@ -1172,10 +1188,10 @@ export default function AddChitReceiptPage() {
                                 onChange={(e) => HandleFilterTicketNo(e)}
                                 InputProps={{
                                     startAdornment: (
-                                        <InputAdornment position="start">
+                                        <InputAdornment position="start" sx={{mr:-1}}>
                                             <Iconify
                                                 icon="eva:search-fill"
-                                                sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
+                                                sx={{ ml: -1.5, width: 20, height: 20, color: 'text.disabled' }}
                                             />
                                         </InputAdornment>),
                                 }}

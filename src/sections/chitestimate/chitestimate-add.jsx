@@ -1045,7 +1045,7 @@ export default function AddChitEstimatePage() {
 
                 <Box component="form"
                     sx={{ '& .MuiTextField-root': {} }} noValidate autoComplete="off">
-                    <Stack direction='column'>
+                    <Stack direction='column' className="fill-color">
                         <Stack direction='row' spacing={1} alignItems='center' gap='20px' justifyContent="flex-start" sx={{ m: 3, mb: 2 }} className='estimate-box'>
                             <div className='estimate-grp'>
                                 <Stack direction='column'>
@@ -1059,7 +1059,17 @@ export default function AddChitEstimatePage() {
                                             disabled
                                             value={GroupNo.data}
                                             onChange={(e) => ChitEstimateTextValidate(e, "GroupNo")}
-                                            sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }}
+                                           sx={{
+                                            '& .MuiInputBase-input': {
+                                            padding: '8px',
+                                            fontSize: '14px',
+                                            },
+                                            '& .MuiInputBase-input.Mui-disabled': {
+                                            color: '#000', 
+                                            '-webkit-text-fill-color': '#000', 
+                                            opacity: 1, 
+                                            },
+                                            }}
                                             error= {!!GroupNo.error}/>
                                     </Stack>
                                     {/* <div className='error_txt'>{GroupNo.error}</div> */}
@@ -1077,7 +1087,18 @@ export default function AddChitEstimatePage() {
                                             disabled
                                             value={ForemanPrDue.data}
                                             onChange={(e) => ChitEstimateTextValidate(e, "ForemanPrDue")}
-                                            sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }}
+                                           sx={{
+                                            '& .MuiInputBase-input': {
+                                            padding: '8px',
+                                            fontSize: '14px',
+                                            },
+                                            '& .MuiInputBase-input.Mui-disabled': {
+                                            color: '#000', 
+                                            '-webkit-text-fill-color': '#000', 
+                                            opacity: 1, 
+                                            },
+                                            }}
+    
                                             error= {!!ForemanPrDue.error} />
                                     </Stack>
                                     {/* <div className='error_txt'>{ForemanPrDue.error}</div> */}
@@ -1095,7 +1116,17 @@ export default function AddChitEstimatePage() {
                                             disabled
                                             value={Amount.data}
                                             onChange={(e) => ChitEstimateTextValidate(e, "Amount")}
-                                            sx={{ '& .MuiInputBase-input': { padding: '8px', ontSize: '14px', } }} 
+                                           sx={{
+                                            '& .MuiInputBase-input': {
+                                            padding: '8px',
+                                            fontSize: '14px',
+                                            },
+                                            '& .MuiInputBase-input.Mui-disabled': {
+                                            color: '#000', 
+                                            '-webkit-text-fill-color': '#000', 
+                                            opacity: 1, 
+                                            },
+                                            }}
                                             error= {!!Amount.error}/>
                                     </Stack>
                                     {/* <div className='error_txt'>{Amount.error}</div> */}
@@ -1113,7 +1144,17 @@ export default function AddChitEstimatePage() {
                                             disabled
                                             value={Dividend.data}
                                             onChange={(e) => ChitEstimateTextValidate(e, "Dividend")}
-                                            sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} 
+                                           sx={{
+                                            '& .MuiInputBase-input': {
+                                            padding: '8px',
+                                            fontSize: '14px',
+                                            },
+                                            '& .MuiInputBase-input.Mui-disabled': {
+                                            color: '#000', 
+                                            '-webkit-text-fill-color': '#000', 
+                                            opacity: 1, 
+                                            },
+                                            }} 
                                             error= {!!Dividend.error}/>
                                     </Stack>
                                     {/* <div  className='error_txt'>{Dividend.error}</div> */}
@@ -1131,7 +1172,17 @@ export default function AddChitEstimatePage() {
                                             disabled
                                             value={Duration.data}
                                             onChange={(e) => ChitEstimateTextValidate(e, "Duration")}
-                                            sx={{ '& .MuiInputBase-input': { padding: '8px', fontSize: '14px', } }} 
+                                           sx={{
+                                            '& .MuiInputBase-input': {
+                                            padding: '8px',
+                                            fontSize: '14px',
+                                            },
+                                            '& .MuiInputBase-input.Mui-disabled': {
+                                            color: '#000', 
+                                            '-webkit-text-fill-color': '#000', 
+                                            opacity: 1, 
+                                            },
+                                            }}
                                             error= {!!Duration.error}/>
                                     </Stack>
                                     {/* <div className='error_txt'>{Duration.error}</div> */}
@@ -1182,7 +1233,7 @@ export default function AddChitEstimatePage() {
                                                                     )}
                                                                     sx={{
                                                                         '& .MuiInputBase-input': {
-                                                                            padding: '2px', fontSize: '12px',
+                                                                            padding: '2px', fontSize: '12px',paddingLeft:'10px'
 
                                                                         },
                                                                         '& .MuiOutlinedInput-root': {
@@ -1539,15 +1590,17 @@ export default function AddChitEstimatePage() {
 
                         <Stack mt={1} ml={2} mr={1} direction="row" alignItems="center" gap='10px'>
                             <TextField
+                             className="search-text-field"
                                 placeholder="Member Name..."
                                 value={FilterName}
                                 onChange={(e) => HandleFilterMemberName(e)}
                                 InputProps={{
                                     startAdornment: (
-                                        <InputAdornment position="start">
+                                        <InputAdornment position="start" className="search-icon-adornment" sx={{mr:-1}}>
                                             <Iconify
+                                             className="search-icon"
                                                 icon="eva:search-fill"
-                                                sx={{ ml: 1, mt: 1, mb: 1, width: 16, height: 20, color: 'text.disabled' }}
+                                                sx={{ ml: -1.5, mt: 1, mb: 1, width: 16, height: 20, color: 'text.disabled' }}
                                             />
                                         </InputAdornment>
                                     ),
@@ -1563,15 +1616,17 @@ export default function AddChitEstimatePage() {
                                 }}
                             />
                             <TextField
+                              className="search-text-field"
                                 placeholder="Ticket No..."
                                 value={filterTicketNo}
                                 onChange={(e) => HandleFilterTicketNo(e)}
                                 InputProps={{
                                     startAdornment: (
-                                        <InputAdornment position="start">
+                                        <InputAdornment position="start" className="search-icon-adornment" sx={{mr:-1}}>
                                             <Iconify
+                                             className="search-icon"
                                                 icon="eva:search-fill"
-                                                sx={{ ml: 1, width: 16, height: 20, color: 'text.disabled' }}
+                                                sx={{ ml: -1.5, width: 16, height: 20, color: 'text.disabled' }}
                                             />
                                         </InputAdornment>
                                     ),

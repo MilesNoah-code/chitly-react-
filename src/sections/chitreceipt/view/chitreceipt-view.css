@@ -23,6 +23,19 @@
   margin-right: 35px;
   margin-left: 35px;
 }
+.chitreceipt-list .search-text-field .MuiInputBase-input {
+  padding: 8px;
+}
+
+.chitreceipt-list .search-icon-adornment {
+  margin-right: -8px; 
+}
+
+.chitreceipt-list  .search-icon {
+  margin-left: -12px; 
+  width: 20px;
+  height: 20px;
+}
   @media(max-width:768px){
     .chitreceipt-list .custom-button{
       font-size: 14px;

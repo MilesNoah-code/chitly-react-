@@ -23,6 +23,19 @@
   margin-left: 35px;
   margin-right: 35px;
 }
+.chitpayment-list .search-text-field .MuiInputBase-input {
+  padding: 8px;
+}
+
+.chitpayment-list .search-icon-adornment {
+  margin-right: -8px; 
+}
+
+.chitpayment-list  .search-icon {
+  margin-left: -12px; 
+  width: 20px;
+  height: 20px;
+}
   @media(max-width:768px){
     .chitpayment-list  .mbl-view{
       display: flex;

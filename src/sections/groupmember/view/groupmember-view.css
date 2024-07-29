@@ -12,7 +12,19 @@
   box-shadow: 0px 2px 4px -1px rgba(145, 158, 171, 0.2), 0px 4px 5px 0px rgba(145, 158, 171, 0.14), 0px 1px 10px 0px rgba(145, 158, 171, 0.12);
 }
 
+.groupmem-list .search-text-field .MuiInputBase-input {
+  padding: 8px;
+}
 
+.groupmem-list .search-icon-adornment {
+  margin-right: -8px; 
+}
+
+.groupmem-list  .search-icon {
+  margin-left: -12px; 
+  width: 20px;
+  height: 20px;
+}
 .groupmem-list .input-box {
   width: 100%;
 }

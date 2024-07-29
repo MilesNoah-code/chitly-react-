@@ -224,6 +224,7 @@ export default function ChitPaymentView() {
             </DemoContainer>
           </LocalizationProvider>
           <TextField
+           className="search-text-field"
             placeholder="Search..."
          
             value={filterName}
@@ -231,8 +232,9 @@ export default function ChitPaymentView() {
             disabled={ChitPaymentLoading}
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">
+                <InputAdornment position="start" className="search-icon-adornment">
                   <Iconify
+                   className="search-icon"
                     icon="eva:search-fill"
                     sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
                   />

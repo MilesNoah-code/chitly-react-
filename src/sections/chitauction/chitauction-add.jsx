@@ -1922,7 +1922,7 @@ export default function AddChitAuctionPage() {
                                                                                         }} />
                                                                                 </Stack>
                                                                             </TableCell>
-                                                                            <TableCell>{row.action === "delete" &&
+                                                                            <TableCell align='right'>{row.action === "delete" &&
                                                                                 <IconButton onClick={() => HandleListDelete(index)} sx={{ cursor: 'pointer' }}>
                                                                                     <Iconify icon="streamline:delete-1-solid" sx={{ width: 12, height: 12 }} />
                                                                                 </IconButton>}
@@ -2350,33 +2350,36 @@ export default function AddChitAuctionPage() {
                             </Grid>
                             <Stack direction='column' alignItems='flex-start' gap='10px' sx={{ mt: 1, mb: 3, ml: 2 }}>
                                 <Stack direction='row' className="btn-mbl">
-                                    <Button sx={{ mr: 2, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
+                                    <Button sx={{ mr: 2, cursor: 'pointer' }} variant="contained" className='custom-button one-show' onClick={Loading ? null : HandleSubmitClick}>
                                         {Loading
                                             ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                                             : ("Submit")}
                                     </Button>
-                                    <Button variant="contained" sx={{
+                                    <Button variant="contained" className='two-show   reset_btn'sx={{
                                         mr: 2, cursor: 'pointer',
                                         backgroundColor: '#e9e9e9',
                                         color: '#7e8299',
+                                         borderRadius:'5px',
                                         '&:hover': {
                                             backgroundColor: '#cccccc',
                                         },
                                     }} onClick={HandleResetClick}>
                                         Reset
-                                    </Button>
-                                    {(SelectAuctionList !== undefined && Object.keys(SelectAuctionList).length > 0) && <Button sx={{ mr: 2, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleAddMemberClick}>
+                                    </Button >
+                                    {(SelectAuctionList !== undefined && Object.keys(SelectAuctionList).length > 0) && <Button sx={{ mr: 2, cursor: 'pointer' }} variant="contained" className='custom-button three-show' onClick={HandleAddMemberClick}>
                                         Add Member
                                     </Button>}
-                                    {(SelectAuctionList !== undefined && Object.keys(SelectAuctionList).length > 0) && <Button sx={{ mr: 2, cursor: 'pointer' }} variant="contained" className='custom-button' onClick={HandleShowEstimateClick}>
+                                    {(SelectAuctionList !== undefined && Object.keys(SelectAuctionList).length > 0) && <Button sx={{ mr: 2, cursor: 'pointer' }} variant="contained" className='custom-button four-show' onClick={HandleShowEstimateClick}>
                                         Show Estimate
                                     </Button>}
-                                    <Button variant="contained" sx={{
+                                    <Button variant="contained" className='five-show delete_btn' sx={{
                                         mr: 2, cursor: 'pointer',
                                         backgroundColor: '#d32f2f',
+                                         borderRadius:'5px',
                                         color: 'white',
                                         '&:hover': {
                                             backgroundColor: '#b71c1c',
+                                           
                                         },
 
                                     }} onClick={() => HandleDeleteClick("delete")}>

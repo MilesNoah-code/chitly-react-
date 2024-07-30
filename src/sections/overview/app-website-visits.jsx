@@ -34,6 +34,20 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
           color: '#333',
         },
       },
+      responsive: [
+        {
+          breakpoint: 600, // Apply styles for screens smaller than 600px
+          options: {
+            xaxis: {
+              labels: {
+                style: {
+                  fontSize: '10px', // Font size for mobile
+                },
+              },
+            },
+          },
+        },
+      ],
       labels: {
         style: {
           fontSize: '14px',
@@ -57,6 +71,7 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
           colors: '#333',
         },
       },
+
     },
     tooltip: {
       shared: true,

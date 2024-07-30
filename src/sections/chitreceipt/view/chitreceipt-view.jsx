@@ -178,7 +178,7 @@ export default function ChitReceiptView() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
       <Typography variant="h6" sx={{ fontWeight:'600'}}>Chit Receipt List</Typography>
         <Button variant="contained" className='custom-button'  onClick={HandleAddChitReceiptClick}>
-          Add Chit Receipt
+          Add New
         </Button>
       </Stack>
       <Card>

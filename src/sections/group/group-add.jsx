@@ -522,7 +522,7 @@ export default function AddGroupPage() {
                                               error={!!EMDue.error} />
                                       
                                     </Stack>
-                                    <div className='error_txt'>{EMDue.error}</div> 
+                                    {/* <div className='error_txt'>{EMDue.error}</div> */}
                                 </Stack>
                             </div>
                         </Stack>

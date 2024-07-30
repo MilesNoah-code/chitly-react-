@@ -149,6 +149,10 @@ height: 10px;
   margin-left: 35px;
   margin-right: 35px;
 }
+.member-add-screen .img-box {
+  width: 135px ;
+  height: 135px ;
+}
 /* .dialog .MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
   font-size: 13px !important;
   padding: 9.5px 14px !important; 
@@ -210,6 +214,8 @@ height: 10px;
   }
   .radio-label{
     font-size: 0.9rem !important;
+    width: 80%;
+    height:80%;
   }
  }
  @media (min-width:451px) and (max-width:899px){
@@ -344,7 +350,16 @@ height: 10px;
   .member-add-screen .radio-box .radio-control1.MuiFormControlLabel-root {
     margin-left: 15px;
   }
-
+  .member-add-screen .boxing{
+    width: 45%;
+  }
+  .member-add-screen .img-box {
+  width: 115px !important;
+  height: 115px !important;
+}
+.member-add-screen .btn-click {
+  top: -40%;
+}
 }
 
 @media screen and (max-width: 1404px) and (min-width: 1300px) {
@@ -726,6 +741,11 @@ height: 10px;
   }
   .member-add-screen .radio-box .radio-gr.MuiFormControlLabel-root {
     margin-left: 34px;
+  }
+  .member-add-screen .lab-radio .MuiSvgIcon-root {
+    font-size: 1.5rem;
+    width: 15px;
+    height: 19px;
   }
 }
 

@@ -155,7 +155,7 @@ export default function GroupView() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
         <Typography variant="h6" sx={{fontWeight:'600'}}>Group List</Typography>
         <Button variant="contained" className='custom-button'  onClick={HandleAddGroupClick} sx={{ cursor: 'pointer' }}>
-          Add Group
+          Add New
         </Button>
       </Stack>
       <Card>

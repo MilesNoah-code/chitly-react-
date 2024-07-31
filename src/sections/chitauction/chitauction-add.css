@@ -139,6 +139,11 @@ margin: 7px 16px;
     margin-left: 22px;
 }
 }  */
+.chitauction-add-screen .one-show { order: 1; }
+.chitauction-add-screen .two-show { order: 2; }
+.chitauction-add-screen .three-show { order: 3; }
+.chitauction-add-screen .four-show { order: 4; }
+.chitauction-add-screen .five-show { order: 5; }
 @media screen and (max-width: 768px) {
   .chitauction-add-screen .auction-grp .box-d .MuiStack-root>.MuiTextField-root {
     margin-top: 5px;
@@ -210,10 +215,17 @@ margin: 7px 16px;
 }
 
 @media (min-width:360px) and (max-width:540px) {
+  .chitauction-add-screen .one-show { order: 3; }
+  .chitauction-add-screen .two-show { order: 4; }
+  .chitauction-add-screen .three-show { order: 1; } 
+  .chitauction-add-screen .four-show { order: 2; }  
+  .chitauction-add-screen .five-show { order: 5; } 
+  
+ 
   .chitauction-add-screen .btn-mbl{
     display: flex;
     flex-wrap: wrap !important;
-    gap: 10px;
+    gap: 15px;
   }
   .chitauction-add-screen .btn-close {
     right: -1px;
@@ -232,7 +244,11 @@ margin: 7px 16px;
 
   .chitauction-add-screen  .custom-button {
     font-size: 14px;
-    
+    margin-right: 0px;
+  }
+  .chitauction-add-screen .reset_btn,
+  .chitauction-add-screen .delete_btn{
+    margin-right: 0px;
   }
 }
 

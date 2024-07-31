@@ -32,7 +32,8 @@ export default function AppNewsUpdate({ title, subheader, list, ...other }) {
       <Divider sx={{ borderStyle: 'dashed' }} />
 
       <Box sx={{ p: 2, textAlign: 'right' }}>
-        <Button
+        <Button 
+        className="custom-button"
           size="small"
           color="inherit"
           endIcon={<Iconify icon="eva:arrow-ios-forward-fill" />}

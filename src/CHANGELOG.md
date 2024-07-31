@@ -1,4 +1,10 @@
 3.4.23
+Date : 31/07/2024
+Type : Bug fix
+Description :  
+        1.demo ui review changes --> chit aution mobile view button alignment over all screen button hover issue fixed
+----------------------------------------------------------------
+3.4.23
 Date : 29/07/2024
 Type : Bug fix
 Description :  

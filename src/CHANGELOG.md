@@ -1,4 +1,4 @@
-3.4.23
+3.4.24
 Date : 31/07/2024
 Type : Bug fix
 Description :  

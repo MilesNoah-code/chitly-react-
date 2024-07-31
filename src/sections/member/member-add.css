@@ -45,20 +45,6 @@ border-radius: 5px;
   position: relative;
   margin-top: 20px;
 }
-
-.member-add-screen .member-add-screen .btn-click {
-  position: absolute;
-  right: -21px;
-  top: -47px !important;
-  border-radius: 50% !important;
-  background-color: transparent;
-  border: 1px solid #eee;
-  padding: 7px !important;
-  cursor: pointer;
-  min-width: 30px !important;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
 .member-add-screen .alert-msg {
   display: flex;
   align-items: center;
@@ -131,8 +117,8 @@ height: 10px;
 }
 .member-add-screen .btn-click{
   position: absolute;
-    top: -28%;
-    right: -12%;
+    top: -35%;
+    right: -15%;
     border-radius: 50%;
     background-color: #f1eeee;
     min-width: 25px; 
@@ -149,10 +135,26 @@ height: 10px;
   margin-left: 35px;
   margin-right: 35px;
 }
+.member-add-screen .img-box {
+  width: 135px ;
+  height: 135px ;
+}
 /* .dialog .MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
   font-size: 13px !important;
   padding: 9.5px 14px !important; 
 } */
+ @media (min-width:430px) and (max-width:768px){
+  .member-add-screen .btn-click{
+    position: absolute;
+      top: -35%;
+      right: -8%;
+ }
+ .member-add-screen .image-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+}
  @media screen and (max-width:350px){
   .member-add-screen{
     margin-left: 15px !important;
@@ -210,6 +212,8 @@ height: 10px;
   }
   .radio-label{
     font-size: 0.9rem !important;
+    width: 80%;
+    height:80%;
   }
  }
  @media (min-width:451px) and (max-width:899px){
@@ -328,7 +332,11 @@ height: 10px;
     margin-left: 15px !important;
     
   }
-
+  .member-add-screen .image-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .member-add-screen .radio-box .radio-control3.MuiFormControlLabel-root {
     margin-left: 15px;
   }
@@ -344,7 +352,16 @@ height: 10px;
   .member-add-screen .radio-box .radio-control1.MuiFormControlLabel-root {
     margin-left: 15px;
   }
-
+  .member-add-screen .boxing{
+    width: 45%;
+  }
+  .member-add-screen .img-box {
+  width: 115px !important;
+  height: 115px !important;
+}
+.member-add-screen .btn-click {
+  top: -40%;
+}
 }
 
 @media screen and (max-width: 1404px) and (min-width: 1300px) {
@@ -726,6 +743,11 @@ height: 10px;
   }
   .member-add-screen .radio-box .radio-gr.MuiFormControlLabel-root {
     margin-left: 34px;
+  }
+  .member-add-screen .lab-radio .MuiSvgIcon-root {
+    font-size: 1.5rem;
+    width: 15px;
+    height: 19px;
   }
 }
 

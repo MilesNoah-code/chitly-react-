@@ -130,7 +130,7 @@
 }
   .chitreceipt-add-screen  .receipt-box {
     flex-direction: column !important;
-  width: 91%;
+  width: 90%;
   margin: 3px 10px;
     align-items: inherit;
     gap: 0px;
@@ -283,11 +283,11 @@
 @media(max-width:390px){
   .chitreceipt-add-screen .receipt-grp {
  
-    margin-left: 4px !important;
+    margin-left: 8px !important;
 }
 .chitreceipt-add-screen .receipt-grp1 {
  
-  margin-left: 4px !important;
+  margin-left: 8px !important;
 }
 .chitreceipt-add-screen .grp-mbl {
   margin-left: 8px !important;

@@ -1564,9 +1564,9 @@ export default function AddChitEstimatePage() {
             </Card>
             <Dialog
                 open={GroupMemberListAlert}
-                // fullWidth
-                maxWidth='md'
-                sx={{ display: 'flex', justifyContent: 'center', flex: 1, }}
+                 fullWidth
+                maxWidth='sm'
+            
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description" >
                 <Card 
@@ -1644,11 +1644,11 @@ export default function AddChitEstimatePage() {
                             />
 
                         </Stack>
-                        <Box sx={{ flexGrow: 1, overflowY: 'auto', mt: 0.5 }}>
+                      
                             <Scrollbar style={{ maxHeight: '70vh' }}>
-                                <div style={{ marginLeft: '15px', marginRight: '15px' }}>
-                                    <TableContainer sx={{ overflow: '', mt: 2 }}>
-                                        <Table sx={{ minWidth: 500 }} stickyHeader>
+                                <div style={{ marginLeft: '15px', marginRight: '15px' ,marginBottom:'15px',marginTop:'15px'}}>
+                                    <TableContainer sx={{overflow: 'unset'}}>
+                                        <Table sx={{ minWidth:500 }} stickyHeader>
                                             <TableRow hover tabIndex={-1}>
                                                 <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
                                                 <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Account No</TableCell>
@@ -1691,7 +1691,7 @@ export default function AddChitEstimatePage() {
                                     onRowsPerPageChange={handleChangeRowsPerPage}
                                     sx={{ borderTop: '1px solid #e0e0e0' }} />}
                             </Scrollbar>
-                        </Box>
+                       
                     </Stack>
                 </Card>
             </Dialog>

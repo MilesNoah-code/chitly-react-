@@ -169,7 +169,7 @@ export default function NotificationsPopover() {
         <Divider sx={{ borderStyle: 'dashed' }} />
 
         <Box sx={{ p: 1 }}>
-          <Button fullWidth disableRipple>
+          <Button className="custom-button" fullWidth disableRipple>
             View All
           </Button>
         </Box>

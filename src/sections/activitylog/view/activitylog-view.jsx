@@ -189,7 +189,7 @@ export default function ActivityLogView() {
               <TableContainer sx={{ overflow: 'unset' }}>
                 <Table sx={{ minWidth: 800 }}>
                   <TableRow hover tabIndex={-1}>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Created On</TableCell>
+                    <TableCell className="create-cell" sx={{ background: '#edf4fe', color: '#1877f2', }}>Created On</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Created By</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Description</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Type</TableCell>

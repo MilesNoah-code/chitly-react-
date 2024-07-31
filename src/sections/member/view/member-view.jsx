@@ -155,7 +155,7 @@ export default function MemberView() {
         <Typography variant="h6" sx={{fontWeight:'600'}}>Member List</Typography>
 
         <Button variant="contained" className='custom-button' onClick={HandleAddMemberClick} sx={{ cursor: 'pointer' }}>
-          Add Member
+          Add New
         </Button>
       </Stack>
       <Card>

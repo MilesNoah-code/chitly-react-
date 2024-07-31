@@ -84,12 +84,32 @@ h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
 }
 @media (max-width:768px){
     .MuiPaper-root-MuiCard-root{
-        border-radius: 10px !important;
+        border-radius: 8px !important;
     }
     .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation0.MuiCard-root.css-9swohl-MuiPaper-root-MuiCard-root {
-        border-radius: 10px !important;
+        border-radius: 8px !important;
     }
-    /* .MuiTablePagination-root {
+     .MuiTablePagination-root {
         overflow: unset !important;
-    } */
+    } 
+    .MuiTablePagination-root .css-q7fr3t-MuiInputBase-root-MuiTablePagination-select {
+        margin-right: 3px !important;
+    }
+    .MuiToolbar-root-MuiTablePagination-toolbar .MuiTablePagination-actions {
+        margin-left: 3px  !important;
+    }
+    .MuiTablePagination-root .MuiToolbar-root-MuiTablePagination-toolbar{
+        padding-right: 0px !important;
+        padding-left: 0px !important;
+    }
+}
+@media (min-width:360px) and (max-width:540px){
+    .css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar{
+        padding-left: 0px !important;
+    }
+      .apexcharts-text tspan {
+       
+        font-size: 10px !important; 
+       
+      }  
 }

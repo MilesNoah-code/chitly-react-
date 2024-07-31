@@ -1553,7 +1553,7 @@ export default function AddChitEstimatePage() {
                 {ChitEstimateLoading || ChitEstimateMemberLoading
                     ? null 
                 : <Stack direction='column' className='sub-button' >
-                    <Button variant="contained" className='custom-button  submit-button ' onClick={Loading ? null : HandleSubmitClick}>
+                    <Button variant="contained" className='custom-button' onClick={Loading ? null : HandleSubmitClick}>
                         {Loading
                             ? (<img src="/assets/images/img/white_loading.gif" alt="Loading" style={{ width: 30, height: 30, }} />)
                             : ("Submit")}

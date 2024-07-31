@@ -37,7 +37,7 @@ export default function AnalyticsOrderTimeline({ title, subheader, list, ...othe
         ))}
       </Timeline>
       <Stack alignItems="center" justifyContent="center">
-        <Button sx={{ height: 40, width: 120, }} variant="contained" onClick={() => navigate('/ActivityLog/list')}>
+        <Button className="custom-button" sx={{ height: 40, width: 120, }} variant="contained" onClick={() => navigate('/ActivityLog/list')}>
           View All
         </Button>
       </Stack>

@@ -178,7 +178,7 @@ export default function ChitPaymentView() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
         <Typography variant="h6" sx={{ fontWeight:'600'}}>Chit Payment List</Typography>
         <Button variant="contained" className='custom-button' onClick={HandleAddChitPaymentClick}>
-          Add Chit Payment
+          Add New
         </Button>
       </Stack>
       <Card>

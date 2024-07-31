@@ -2764,7 +2764,7 @@ export default function AddMemberPage() {
                                                 <Typography variant="subtitle1" sx={{ ml: 2, mr: 2, mt: 2, mb: '0px' }}>
                                                     Living in Rented House/Own House <span style={{ color: 'red' }}> *</span>
                                                 </Typography>
-                                                <Stack direction='row' sx={{ ml: 2, }}>
+                                                <Stack direction='row' sx={{ ml: 2, }} className='lab-radio'>
                                                     <RadioGroup className='radio-btn'
                                                         aria-labelledby="demo-radio-buttons-group-label"
                                                         defaultValue="female"
@@ -2826,7 +2826,7 @@ export default function AddMemberPage() {
                                                     : <Stack direction='column' sx={{ ml: 2 }} key={row.id} className='boxing'>
                                                         {row.path
                                                             ? <Stack direction='row' sx={{ ml: 0 }} className='image-top'>
-                                                                <div className='img-box' style={{ width: 170, height: 170 }}>
+                                                                <div className='img-box'>
                                                                     <img src={`${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${row.path}`} alt="Loading" style={{ width: '100% ', height: '100% ' }} />
                                                                 </div>
                                                                 {screen === "view"

@@ -25,6 +25,9 @@
       align-items: normal;
       gap: 10px;
     }
+    .activity-screen .create-cell{
+      width:16% !important;
+    }
     .activity-screen{
       margin-left: 15px !important;
       margin-right: 15px !important;

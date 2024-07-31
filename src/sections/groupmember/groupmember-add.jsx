@@ -965,10 +965,10 @@ export default function AddGroupMemberPage() {
                                 onChange={(e) => handleFilterByName(e)}
                                 InputProps={{
                                     startAdornment: (
-                                        <InputAdornment position="start">
+                                        <InputAdornment position="start" sx={{mr:-1}}>
                                             <Iconify
                                                 icon="eva:search-fill"
-                                                sx={{ ml: 1, width: 20, height: 20, color: 'text.disabled' }}
+                                                sx={{ ml: -1.5, width: 20, height: 20, color: 'text.disabled' }}
                                             />
                                         </InputAdornment>
                                     ),

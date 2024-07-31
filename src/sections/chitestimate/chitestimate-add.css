@@ -226,11 +226,6 @@ border: 0.5px solid #ccc;
     left: 10px;
   }
   
-  .chitestimate-add-screen .submit-button {
-    position: absolute;  
-    left: 0;
-  }
-  
   
 }
 @media(min-width:390px) and (max-width:540px){

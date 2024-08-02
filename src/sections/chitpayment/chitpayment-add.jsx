@@ -1369,19 +1369,12 @@ export default function AddChitPaymentPage() {
                 // sx={{ display: 'flex', justifyContent: 'center', flex: 1, }}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                sx={{
-                    "& .MuiDialog-container": {
-                        "& .MuiPaper-root": {
-                            width: "100%",
-                            maxWidth: "700px",  // Set your width here
-                        },
-                    },
-                }}>
+             >
                 <Card>
-                    <Stack sx={{ mr: 2 }}>
-                        <Stack ml={1} mr={1} direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
+                    <Stack pr={2} pl={2}>
+                        <Stack  direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
                             <Stack direction='column'>
-                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 1 }}>
+                                <Typography variant="subtitle1" sx={{ mt: 2, pl: 1 }}>
                                     Group Member list
                                 </Typography>
                             </Stack>
@@ -1394,7 +1387,7 @@ export default function AddChitPaymentPage() {
                             </IconButton>
                         </Stack>
                         <Divider sx={{ mt: 2, mb: 1 }} />
-                        <Stack mt={1} ml={2} mr={1} direction="row" alignItems="center" >
+                        <Stack mt={1} mb={2} direction="row" alignItems="center" >
                             <TextField
                          className="search-text-field"
                                 placeholder="Group Code..."
@@ -1448,9 +1441,9 @@ export default function AddChitPaymentPage() {
                             />
                         </Stack>
                         <Scrollbar style={{ maxHeight: '70vh' }}>
-                            <div style={{ paddingLeft: 2, paddingRight: 2 }}>
-                                <TableContainer sx={{ mt: 2, mb: 2, ml: 2, mr: 2 }}>
-                                    <Table stickyHeader>
+                            <div>
+                                <TableContainer sx={{overflow: 'unset'}}>
+                                    <Table sx={{ minWidth:500 }} stickyHeader>
                                         <TableRow hover tabIndex={-1}>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group No</TableCell>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>

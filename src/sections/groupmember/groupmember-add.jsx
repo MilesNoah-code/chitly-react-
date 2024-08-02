@@ -654,19 +654,19 @@ export default function AddGroupMemberPage() {
                                                                 <TableCell sx={{ width: '65%' }}>{row.memberName}</TableCell>
                                                                 <TableCell sx={{ width: '10%', alignItems: 'center', justifyContent: 'center' }}>
                                                                     {row.tktno === "1" &&
-                                                                        (row.address !== 0 && (<div style={{ display: 'flex', justifyContent: 'center', }}>
+                                                                        (row.address !== 0 && (<div style={{ display: 'flex', justifyContent: 'flex-end', }}>
                                                                         <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); HandleGroupMemberEditClick(event, row, index)}}>
                                                                                 <Iconify icon="eva:edit-fill" />
                                                                             </IconButton>
                                                                         </div>))}
                                                                     {row.tktno !== "1" &&
                                                                         (row.action === "add"
-                                                                            ? <div style={{ display: 'flex', justifyContent: 'center', }}>
+                                                                            ? <div style={{ display: 'flex', justifyContent: 'flex-end', }}>
                                                                             <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); HandleGroupMemberClick(event, row, index, "3")}}>
                                                                                     <Iconify icon="icon-park-solid:add-one" />
                                                                                 </IconButton>
                                                                               </div>
-                                                                        : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                                                        : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
                                                                             {(row.groupAddressId === "" || row.groupAddressId === null || row.groupAddressId === "0" || row.groupAddressId === 0
                                                                                 || (row.primary_id && String(row.primary_id).includes('empty_'))) && 
                                                                                 (<IconButton sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); HandleGroupMemberEditClick(event, row, index)}}>

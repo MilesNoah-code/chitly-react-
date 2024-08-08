@@ -109,26 +109,26 @@ export default function ChitPaymentTableRow({
         ? <Stack style={{ alignItems: 'center', backgroundColor: 'red', flex: 1 }} mt={5}>
           <ErrorLayout screen={ErrorScreen} />
         </Stack>
-        : <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
+        : <TableRow hover tabIndex={-1} role="checkbox" selected={selected} className='row_table_box'>
           <TableCell padding="checkbox" style={{ display: 'none' }}>
             <Checkbox disableRipple checked={selected} onChange={handleClick} />
           </TableCell>
-          <TableCell sx={{ ml: 2 }}>{item.date != null && item.date !== "" ? dayjs(item.date).format('DD-MM-YYYY') : ""}</TableCell>
-          <TableCell>{item.receiptno != null && item.receiptno !== "" ? Math.round(item.receiptno) : ""}</TableCell>
-          <TableCell component="th" scope="row" >
+          <TableCell data-label="Date" className='date-cell' sx={{ ml: 2 }}>{item.date != null && item.date !== "" ? dayjs(item.date).format('DD-MM-YYYY') : ""}</TableCell>
+          <TableCell data-label="Receipt No"  className='receipt-cell'>{item.receiptno != null && item.receiptno !== "" ? Math.round(item.receiptno) : ""}</TableCell>
+          <TableCell data-label="Group No"  className='group-cell' component="th" scope="row" >
             <Stack direction="row" alignItems="center" >
               <Typography variant="subtitle2" noWrap>
                 {item.groupno}
               </Typography>
             </Stack>
           </TableCell>
-          <TableCell>{item.membername}</TableCell>
-          <TableCell>{item.tktno}</TableCell>
-          <TableCell>{item.installment_no}</TableCell>
-          <TableCell align="right">{item.debit_value != null && item.debit_value !== "" ? formatNumber(Math.round(item.debit_value)) : ""}</TableCell>
+          <TableCell data-label="Member Name"  className='member-cell' >{item.membername}</TableCell>
+          <TableCell data-label="Ticket No"  className='ticket-cell' >{item.tktno}</TableCell>
+          <TableCell data-label="Inst No"  className='inst-cell' >{item.installment_no}</TableCell>
+          <TableCell data-label="Debit" className="debit" align="right">{item.debit_value != null && item.debit_value !== "" ? formatNumber(Math.round(item.debit_value)) : ""}</TableCell>
 
-          <TableCell align="right">
-            <IconButton onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>
+          <TableCell  className="MuiTableCell-root action" align="right">
+            <IconButton className='action_btn' onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>
               <Iconify icon="eva:more-vertical-fill" />
             </IconButton>
           </TableCell>

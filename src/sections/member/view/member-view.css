@@ -52,3 +52,122 @@
     }
    
   }
+
+ /* Mobile View*/
+
+
+ /* Mobile View */
+@media screen and (max-width: 768px) {
+  .mem-list .action-btn-mem{
+    position: absolute !important;
+    top: -136px !important;
+    right: -165px !important;
+  }
+  .member-name{
+    margin-left: 5px !important;
+  }
+  .mem-list {
+    display: grid;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .mem-list .MuiTable-root{
+    min-width:280px !important;
+  }
+  .mem-list .head-table {
+    display: none !important; /* Hide table header on mobile */
+  }
+  .mem-list .mt-span-cell{
+    display: inline-block;
+    margin-top:  5px;
+  }
+  .mem-list .action{
+  text-align: left !important;
+  display: inline-table !important;
+}
+.css-9mwnm-MuiAvatar-root, 
+.css-1kgdhtw-MuiAvatar-root{
+  width:33px !important;
+  height:33px !important;
+}
+.mem-list .MuiTableRow-root {
+    display: block;
+
+    padding: 15px 10px;
+    background: #fff;
+    box-shadow: 0 2px 4px #0000001a;
+    border: 1px solid #e7e7e7; 
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap!important;
+  }
+  .mem-list .member-cell,
+  .mem-list .mobile-cell
+{
+  margin-left: 0px !important;
+  width: 55% !important;
+}
+.mem-list .action
+{
+  width: 49%  !important;
+}
+
+.mem-list .status-cell,
+.mem-list .acc-cell
+{
+  width: 20% !important;
+}
+.mem-list  .MuiTableCell-root {
+    display: block;
+    padding: 15px 0;
+    position: relative;
+
+  }
+  .mem-list .MuiTableCell-root{
+  border-bottom: 1px solid transparent !important;
+} 
+  .mem-list  .MuiTableCell-root::before {
+    content: attr(data-label) ": ";
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: -13px;
+    width: 50%;
+    padding-right: 10px;
+    white-space: nowrap;
+    margin-top: 5px;
+  }
+  .mem-list .MuiTableCell-root:not(.action)::before {
+    content: attr(data-label) " ";
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: -13px;
+    width: 50%;
+    padding-right: 10px;
+    white-space: nowrap;
+    margin-top: 5px;
+  }
+
+  .mem-list  .MuiTableCell-root.action::before {
+    content: none;
+  }
+  .mem-list  .row_table_box{
+    position: relative;
+    padding-top:20px;
+    padding-bottom: 0;
+  }
+  .mem-list .avatar-name{
+    padding-top:3px;
+  }
+ 
+ 
+}
+@media (max-width:360px){
+
+  .mem-list  .MuiTable-root {
+        min-width: 240px !important;
+    }
+}

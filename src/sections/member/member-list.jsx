@@ -148,25 +148,25 @@ export default function MemberTableRow({
         ? <Stack style={{ alignItems: 'center', backgroundColor: 'red', flex: 1 }} mt={5}>
           <ErrorLayout screen={ErrorScreen} />
         </Stack>
-        : <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
+        : <TableRow hover tabIndex={-1} role="checkbox" selected={selected} className='row_table_box'>
           <TableCell padding="checkbox" style={{ display: 'none' }}>
             <Checkbox disableRipple checked={selected} onChange={handleClick} />
           </TableCell>
-          <TableCell component="th" scope="row" >
-            <Stack direction="row" alignItems="center" spacing={2} marginLeft={0}>
-              <Avatar alt={item.name} src={`${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${item.mapped_photo}`} >{item.name[0]}</Avatar>
-              <Typography variant="subtitle2" noWrap>
+          <TableCell component="th" scope="row" data-label="Member Name" className="member-cell">
+            <Stack direction="row" alignItems="center" spacing={2} marginLeft={0} className="avatar-cell">
+              <Avatar alt={item.name} src={`${ImageUrl.STORAGE_NAME}${ImageUrl.BUCKET_NAME}/${item.mapped_photo}`} ><span className="avatar-name">{item.name[0]}</span></Avatar>
+              <Typography variant="subtitle2" noWrap className="member-name">
                 {item.name}
               </Typography>
             </Stack>
           </TableCell>
-          <TableCell>{item.id}</TableCell>
-          <TableCell>{item.mapped_phone}</TableCell>
-          <TableCell>
-            <Label color={(item.status === 'banned' && 'error') || 'success'}>{item.status}</Label>
+          <TableCell data-label="Acc No" className="acc-cell"><span className="mt-span-cell">{item.id}</span></TableCell>
+          <TableCell  data-label="Mobile Number" className="mobile-cell"><span className="mt-span-cell">{item.mapped_phone}</span></TableCell>
+          <TableCell  data-label="Status" className="status-cell">
+          <span className="mt-span-cell"> <Label color={(item.status === 'banned' && 'error') || 'success'}>{item.status}</Label></span>
           </TableCell>
-          <TableCell align="right">
-            <IconButton onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>
+          <TableCell align="right" className="MuiTableCell-root action">
+            <IconButton className="action-btn-mem" onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>
               <Iconify icon="eva:more-vertical-fill" />
             </IconButton>
           </TableCell>

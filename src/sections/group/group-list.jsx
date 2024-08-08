@@ -148,23 +148,23 @@ export default function GroupTableRow({
         ? <Stack style={{ alignItems: 'center', backgroundColor: 'red', flex: 1 }} mt={5}>
           <ErrorLayout screen={ErrorScreen} />
         </Stack>
-        : <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
+        : <TableRow hover tabIndex={-1} role="checkbox" selected={selected} className='row_table_box'>
           <TableCell padding="checkbox" style={{ display: 'none' }}>
             <Checkbox disableRipple checked={selected} onChange={handleClick} />
           </TableCell>
-          <TableCell sx={{ ml: 2 }}>{item.id}</TableCell>
-          <TableCell component="th" scope="row" >
+          <TableCell sx={{ ml: 2 }} data-label="Group Id" className ='group-id'>{item.id}</TableCell>
+          <TableCell component="th" scope="row" data-label="Group Name" className ='group-name'>
             <Stack direction="row" alignItems="center" >
               <Typography variant="subtitle2" noWrap>
                 {item.groupno}
               </Typography>
             </Stack>
           </TableCell>
-          <TableCell>{item.duration}</TableCell>
-          <TableCell>{item.auction_mode}</TableCell>
-          <TableCell align='right'>{item.amount != null && item.amount !== "" ? formatNumber(Math.round(item.amount)) : ""}</TableCell>
-          <TableCell align="right">
-            <IconButton onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>
+          <TableCell  data-label="Duration" className ='duration' >{item.duration}</TableCell>
+          <TableCell  data-label="Auction Mode" className ='auction-mode'>{item.auction_mode}</TableCell>
+          <TableCell align='right'  data-label="Amount" className ='amount'>{item.amount != null && item.amount !== "" ? formatNumber(Math.round(item.amount)) : ""}</TableCell>
+          <TableCell align="right" className="MuiTableCell-root action">
+            <IconButton className="action-btn-mem" onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>
               <Iconify icon="eva:more-vertical-fill" />
             </IconButton>
           </TableCell>

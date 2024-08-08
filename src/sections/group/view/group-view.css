@@ -45,3 +45,106 @@
     }
    
   }
+
+  /*mobile view*/
+
+
+  @media screen and (max-width: 768px) {
+    .group-list .action-btn-mem{
+      position: absolute;
+      top: -309px;
+      right: -5px;
+        }
+    .group-list {
+      display: grid;
+      gap: 10px;
+      padding: 10px;
+    }
+    .group-list .MuiTable-root{
+      min-width:280px !important;
+    }
+    .group-list .head-table {
+      display: none !important; /* Hide table header on mobile */
+    }
+ 
+  .group-list .action{
+    text-align: left !important;
+  }
+    .group-list .MuiTableRow-root {
+      display: block;
+  
+      padding: 15px 10px;
+      background: #fff;
+      box-shadow: 0 2px 4px #0000001a;
+      border: 1px solid #e7e7e7; 
+      margin-bottom: 10px;
+      border-radius: 8px;
+      display: flex;
+      flex-wrap: wrap!important;
+    }
+  .group-list .group-id,
+  .group-list .duration,
+  .group-list .amount
+  {
+    margin-left: 0px !important;
+    width: 30% !important;
+    text-align: left !important;
+  }
+ 
+ 
+  .group-list .group-name,
+  .group-list .auction-mode,
+  .group-list .action
+  {
+    width: 70% !important;
+    text-align: left !important;
+  }
+  .group-list .MuiTableCell-root {
+      display: block;
+      padding: 15px 0;
+      position: relative;
+  
+    }
+  .group-list .MuiTableCell-root{
+    border-bottom: 1px solid transparent !important;
+  } 
+  .group-list .MuiTableCell-root::before {
+      content: attr(data-label) ": ";
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+      top: -13px;
+      width: 50%;
+      padding-right: 10px;
+      white-space: nowrap;
+      margin-top: 5px;
+    }
+    .group-list .MuiTableCell-root:not(.action)::before {
+      content: attr(data-label) " ";
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+      top: -13px;
+      width: 50%;
+      padding-right: 10px;
+      white-space: nowrap;
+      margin-top: 5px;
+    }
+  
+    .group-list .MuiTableCell-root.action::before {
+      content: none;
+    }
+    .group-list .row_table_box{
+      position: relative;
+      padding-top: 20px !important;
+        padding-bottom: 0  !important;
+    }
+   
+    
+  }
+  @media (max-width:360px){
+  
+    .group-list .MuiTable-root {
+          min-width: 240px !important;
+      }
+  }

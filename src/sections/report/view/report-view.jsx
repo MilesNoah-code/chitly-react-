@@ -228,8 +228,8 @@ export default function ReportView() {
                                 : <Stack>
                                     <Scrollbar>
                                         <TableContainer sx={{ overflow: 'unset' }}>
-                                            <Table sx={{ minWidth: 800 }}>
-                                                <TableRow hover tabIndex={-1}>
+                                            <Table sx={{ minWidth: 800 }} className='rpt-table'>
+                                                <TableRow hover tabIndex={-1} className='head-table'>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>S.No</TableCell>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Customer Name</TableCell>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Acc No</TableCell>
@@ -242,12 +242,24 @@ export default function ReportView() {
                                                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                                         .map((row, index) => (
                                                             <TableRow hover tabIndex={-1} role="checkbox">
-                                                                <TableCell>{(index + 1)}</TableCell>
-                                                                <TableCell>{row.memberName}</TableCell>
-                                                                <TableCell>{row.memberId}</TableCell>
-                                                                <TableCell>{row.groupno}</TableCell>
-                                                                <TableCell>{row.tktno}</TableCell>
-                                                                <TableCell align='right'>{row.chitAmount != null && row.chitAmount !== "" ? formatNumber(Math.round(row.chitAmount)) : ""}</TableCell>
+                                                                <TableCell data-label="S.No" className='table-col1'>
+                                                                    <div>{index + 1}</div>
+                                                                </TableCell>
+                                                                <TableCell data-label="Customer Name" className='table-col2'>
+                                                                    <div>{row.memberName}</div>
+                                                                </TableCell>
+                                                                <TableCell data-label="Acc No" className='table-col1'>
+                                                                    <div>{row.memberId}</div>
+                                                                </TableCell>
+                                                                <TableCell data-label="Group No" className='table-col2'>
+                                                                    <div>{row.groupno}</div>
+                                                                </TableCell>
+                                                                <TableCell data-label="Ticket No" className='table-col1'>
+                                                                    <div>{row.tktno}</div>
+                                                                </TableCell>
+                                                                <TableCell data-label="Total Amount" align='right' className='table-col2 last_cell'>
+                                                                    <div>{row.chitAmount != null && row.chitAmount !== "" ? formatNumber(Math.round(row.chitAmount)) : ""}</div>
+                                                                </TableCell>
                                                             </TableRow>
                                                         ))}
                                                     <TableEmptyRows
@@ -259,14 +271,19 @@ export default function ReportView() {
                                             </Table>
                                         </TableContainer>
                                     </Scrollbar>
-                                    {PayableReportList.length > 0 && <TablePagination
-                                        page={page}
-                                        component="div"
-                                        count={TotalCount}
-                                        rowsPerPage={rowsPerPage}
-                                        onPageChange={handleChangePage}
-                                        rowsPerPageOptions={[15, 30, 50]}
-                                        onRowsPerPageChange={(e) => handleChangeRowsPerPage(e, "PayableReportList")} />}
+                                    {PayableReportList.length > 0 && (
+                                        <TablePagination
+                                            page={page}
+                                            component="div"
+                                            className='pagination_cell'
+                                            count={TotalCount}
+                                            rowsPerPage={rowsPerPage}
+                                            onPageChange={handleChangePage}
+                                            rowsPerPageOptions={[15, 30, 50]}
+                                            onRowsPerPageChange={(e) => handleChangeRowsPerPage(e, "PayableReportList")}
+                                            labelRowsPerPage={window.innerWidth <= 768 ? "Items per page:" : "Rows per page:"}
+                                        />
+                                    )}
                                 </Stack>}
                                 
                         </TabPanel>
@@ -297,31 +314,45 @@ export default function ReportView() {
                                 : <Stack>
                                     <Scrollbar>
                                         <TableContainer sx={{ overflow: 'unset' }}>
-                                            <Table sx={{ minWidth: 800 }}>
-                                                <TableRow hover tabIndex={-1}>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>S.No</TableCell>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Customer Name</TableCell>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Acc No</TableCell>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group No</TableCell>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Ticket No</TableCell>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Amount Pending</TableCell>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
+                                            <Table sx={{ minWidth: 800 }} className='rpt-table'>
+                                                <TableRow hover tabIndex={-1} className='head-table'>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2' }}>S.No</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2' }}>Customer Name</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2' }}>Acc No</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2' }}>Group No</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2' }}>Ticket No</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2' }} align='right'>Amount Pending</TableCell>
+                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2' }} align='right'>Action</TableCell>
                                                 </TableRow>
                                                 <TableBody>
                                                     {ReceivableReportList
                                                         .slice(page1 * rowsPerPage1, page1 * rowsPerPage1 + rowsPerPage1)
                                                         .map((row, index) => (
-                                                            <TableRow hover tabIndex={-1} role="checkbox">
-                                                                <TableCell>{(index + 1)}</TableCell>
-                                                                <TableCell>{row.memberName}</TableCell>
-                                                                <TableCell>{row.memberId}</TableCell>
-                                                                <TableCell>{row.groupNo}</TableCell>
-                                                                <TableCell>{row.tktno}</TableCell>
-                                                                <TableCell align='right'>{row.arrears != null && row.arrears !== "" ? formatNumber(Math.round(row.arrears)) : ""}</TableCell>
-                                                                <TableCell align='right'>
-                                                                    <IconButton onClick={() => { setInstallmentDetailList(row.detail); setInstallmentDetailListAlert(true); }} sx={{ cursor: 'pointer' }}>
-                                                                        <Iconify icon="eva:eye-fill" />
-                                                                    </IconButton>
+                                                            <TableRow hover tabIndex={-1} role="checkbox" key={index}>
+                                                                <TableCell data-label="S.No" className='table-col1'>
+                                                                    <div>{index + 1}</div>
+                                                                </TableCell>
+                                                                <TableCell data-label="Customer Name" className='table-col2'>
+                                                                    <div>{row.memberName}</div>
+                                                                </TableCell>
+                                                                <TableCell data-label="Acc No" className='table-col1'>
+                                                                    <div>{row.memberId}</div>
+                                                                </TableCell>
+                                                                <TableCell data-label="Group No" className='table-col2'>
+                                                                    <div>{row.groupNo}</div>
+                                                                </TableCell>
+                                                                <TableCell data-label="Ticket No" className='table-col1'>
+                                                                    <div>{row.tktno}</div>
+                                                                </TableCell>
+                                                                <TableCell data-label="Amount Pending" align='right' className='table-col2 last_cell'>
+                                                                    <div>{row.arrears != null && row.arrears !== "" ? formatNumber(Math.round(row.arrears)) : ""}</div>
+                                                                </TableCell>
+                                                                <TableCell align='right' className='action_btn'>
+                                                                    <div>
+                                                                        <IconButton onClick={() => { setInstallmentDetailList(row.detail); setInstallmentDetailListAlert(true); }} sx={{ cursor: 'pointer' }}>
+                                                                            <Iconify icon="eva:eye-fill" />
+                                                                        </IconButton>
+                                                                    </div>
                                                                 </TableCell>
                                                             </TableRow>
                                                         ))}
@@ -359,6 +390,7 @@ export default function ReportView() {
                 </Alert>
             </Snackbar>
             <Dialog
+                className='report-view'
                 open={InstallmentDetailListAlert}
                 fullWidth  // Set fullWidth to false to control width manually
                 maxWidth="sm"      // Set maxWidth to limit the width
@@ -385,16 +417,20 @@ export default function ReportView() {
                         <Scrollbar style={{ maxHeight: '70vh' , width:'100%'}}>
                         <div className='' style={{margin:'15px'}}>
                             <TableContainer sx={{ overflow: 'unset',mt: 1  }}>
-                                <Table  stickyHeader>
-                                    <TableRow hover tabIndex={-1}>
-                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Installment No</TableCell>
-                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align="right">Amount</TableCell>
+                                <Table stickyHeader className='rpt-table'>
+                                    <TableRow hover tabIndex={-1} className='head-table'>
+                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2' }}>Inst. No</TableCell>
+                                        <TableCell sx={{ background: '#edf4fe', color: '#1877f2' }} align="right">Amount</TableCell>
                                     </TableRow>
                                     <TableBody>
                                         {InstallmentDetailList.map((row, index) => (
-                                            <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }}>
-                                                <TableCell>{row.installno}</TableCell>
-                                                <TableCell align="right">{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
+                                            <TableRow hover tabIndex={-1} role="checkbox" key={index} sx={{ cursor: 'pointer' }}>
+                                                <TableCell data-label="Inst. No" className='table-col'>
+                                                    <div>{row.installno}</div>
+                                                </TableCell>
+                                                <TableCell data-label="Amount" align='right' className='table-col last_cell'>
+                                                    <div>{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</div>
+                                                </TableCell>
                                             </TableRow>
                                         ))}
                                         <TableEmptyRows

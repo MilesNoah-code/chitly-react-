@@ -1,53 +1,208 @@
-.actionlist-screen .custom-button{
+.auctionlist-screen .custom-button{
   color: #FFFFFF;
   background-color: #1877F2;
   box-shadow: 0px 3px 1px -2px rgba(145, 158, 171, 0.2), 0px 2px 2px 0px rgba(145, 158, 171, 0.14), 0px 1px 5px 0px rgba(145, 158, 171, 0.12);
- font-size: 15px;
- border-radius: 5px;
-  
+  font-size: 15px;
+  border-radius: 5px;
+
 }
-.custom-button:hover{
+
+.auctionlist-screen .custom-button:hover{
   text-decoration: none;
   background-color: #0C44AE;
   box-shadow: 0px 2px 4px -1px rgba(145, 158, 171, 0.2), 0px 4px 5px 0px rgba(145, 158, 171, 0.14), 0px 1px 10px 0px rgba(145, 158, 171, 0.12);
 }
-.actionlist-screen .search-text-field .MuiInputBase-input {
+
+.auctionlist-screen .search-text-field .MuiInputBase-input{
   padding: 8px;
 }
 
-.actionlist-screen .search-icon-adornment {
-  margin-right: -8px; 
+.auctionlist-screen .search-icon-adornment{
+  margin-right: -8px;
 }
 
-.actionlist-screen .search-icon {
-  margin-left: -12px; 
+.auctionlist-screen .search-icon{
+  margin-left: -12px;
   width: 20px;
   height: 20px;
 }
+
 .auctionlist-screen .MuiTableCell-root.status-cell{
   padding-left: 50px !important;
   width: 30%;
 }
-.auctionlist-screen .duration-cell{
 
-  width: 30%;
+/* .auctionlist-screen .duration-cell {
+ width: 20%;
+} */
+.auctionlist-screen .amount-cell{
+ width: 15%;
 }
-.actionlist-screen{
+
+.auctionlist-screen{
   margin-left: 35px;
   margin-right: 35px;
 }
-.actionlist-screen .input-box{
-    width: 100%;
+
+.auctionlist-screen .input-box{
+  width: 100%;
+}
+
+@media(max-width:768px){
+.auctionlist-screen .mbl-view{
+    display: flex;
+    flex-direction: column;
+    align-items: normal;
+    gap: 10px;
   }
-  @media(max-width:768px){
-    .mbl-view{
-      display: flex;
-      flex-direction: column;
-      align-items: normal;
-      gap: 10px;
-    }
-    .actionlist-screen{
-      margin-left: 15px !important;
-      margin-right: 15px !important;
-    }
+
+.auctionlist-screen{
+    margin-left: 15px !important;
+    margin-right: 15px !important;
   }
+}
+
+@media(max-width:547px){
+.auctionlist-screen{
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+  }
+}
+
+/* Mobile View */
+
+
+/* Mobile View */
+@media screen and (max-width: 768px){
+.auctionlist-screen{
+    display: grid;
+    gap: 10px;
+    padding: 10px;
+  }
+
+ .auctionlist-screen .MuiTable-root{
+    min-width: 280px !important;
+  }
+
+ .auctionlist-screen .head-table{
+    display: none !important;
+    /* Hide table header on mobile */
+  }
+  .auctionlist-screen .MuiTableCell-root.status-cell{
+    padding-left:0!important;
+    }
+ .auctionlist-screen .MuiTableCell-root.amount-cell{
+  text-align: left!important;  
+    }
+  .auctionlist-screen .chitauction-action{
+    text-align: left!important;
+  }
+
+ .auctionlist-screen .MuiTableRow-root{
+    display: block;
+    padding: 15px 10px 0 10px;
+    background: #fff;
+    box-shadow: 0 2px 4px #0000001a;
+    border: 1px solid #e7e7e7;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap !important;
+  }
+ .auctionlist-screen .groupno-cell,
+ .auctionlist-screen .duration-cell,
+ .auctionlist-screen .auction-cell,
+ .auctionlist-screen .amount-cell,
+ .auctionlist-screen .status-cell,
+ .auctionlist-screen .chitauction-action{
+    width: 49% !important;
+  }
+
+ .auctionlist-screen .MuiTableCell-root{
+    display: block;
+    padding: 15px 0;
+    position: relative;
+
+  }
+
+ .auctionlist-screen .MuiTableCell-root{
+    border-bottom: 1px solid transparent !important;
+  }
+
+ .auctionlist-screen .MuiTableCell-root::before{
+    content: attr(data-label) ": ";
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: -13px;
+    width: 50%;
+    padding-right: 10px;
+    white-space: nowrap;
+    margin-top: 10px!important;
+  }
+
+ .auctionlist-screen .MuiTableCell-root:not(.chitauction-action)::before{
+    content: attr(data-label) " ";
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: -13px;
+    width: 50%;
+    padding-right: 10px;
+    white-space: nowrap;
+    margin-top: 5px;
+  }
+
+ .auctionlist-screen .MuiTableCell-root.chitauction-action::before{
+    content: none;
+  }
+
+ .auctionlist-screen .row_table_box{
+    position: relative;
+  }
+
+ .auctionlist-screen .MuiIconButton-root.chitauction-action_btn{
+    position: absolute;
+    top: -120px;
+    right: -10px;
+    padding-top: 12px;
+    margin-top: 4px;
+  }
+}
+@media (max-width:380px){
+  .auctionlist-screen .MuiTable-root{
+      min-width: 180px !important;
+  }
+  .auctionlist-screen .groupno-cell,
+  .auctionlist-screen .auction-cell,
+  .auctionlist-screen .status-cell{
+    width: 58% !important;
+  }
+  
+ .auctionlist-screen .duration-cell,
+ .auctionlist-screen .amount-cell, 
+.auctionlist-screen .chitauction-action{
+  width: 40% !important;
+  }
+
+  .auctionlist-screen .groupno-cell,
+ .auctionlist-screen .duration-cell,
+ .auctionlist-screen .auction-cell,
+ .auctionlist-screen .amount-cell,
+ .auctionlist-screen .status-cell,
+ .auctionlist-screen .chitauction-action{
+   font-size: 12px;
+  }
+  .auctionlist-screen .chitauction-pencil-icon{
+    width: 18px;
+    height: 18px;
+  }
+  .auctionlist-screen .MuiIconButton-root.chitauction-action_btn{
+    position: absolute;
+    top: -120px;
+    right: -12px;
+    margin-top: 6px;
+  }
+
+}
+

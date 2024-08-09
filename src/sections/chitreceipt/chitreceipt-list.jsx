@@ -112,28 +112,27 @@ export default function ChitReceiptTableRow({
         ? <Stack style={{ alignItems: 'center', backgroundColor: 'red', flex: 1 }} mt={5}>
           <ErrorLayout screen={ErrorScreen} />
         </Stack>
-        : <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
+        : <TableRow hover tabIndex={-1} role="checkbox" selected={selected} className='row_table_box'>
           <TableCell padding="checkbox" style={{ display: 'none' }}>
             <Checkbox disableRipple checked={selected} onChange={handleClick} />
           </TableCell>
-          <TableCell sx={{ ml: 2 }}>{item.date != null && item.date !== "" ? dayjs(item.date).format('DD-MM-YYYY') : ""}</TableCell>
-          <TableCell>{item.receiptno != null && item.receiptno !== "" ? Math.round(item.receiptno) : ""}</TableCell>
-          <TableCell component="th" scope="row" >
+          <TableCell data-label="Date" className='chit-receipt-date-cell' sx={{ ml: 2 }}>{item.date != null && item.date !== "" ? dayjs(item.date).format('DD-MM-YYYY') : ""}</TableCell>
+          <TableCell data-label="Receipt No" className='chit-receipt-receiptno-cell'>{item.receiptno != null && item.receiptno !== "" ? Math.round(item.receiptno) : ""}</TableCell>
+          <TableCell component="th" scope="row" data-label="Group No" className='chit-receipt-groupno-cell' >
             <Stack direction="row" alignItems="center" >
-              <Typography variant="subtitle2" noWrap>
+              <Typography variant="subtitle2" className='chitreceipt-grpno' noWrap>
                 {item.groupno}
               </Typography>
             </Stack>
           </TableCell>
-          <TableCell>{item.membername}</TableCell>
+          <TableCell data-label="Member Name" className='chit-receipt-membername-cell'>{item.membername}</TableCell>
+          <TableCell data-label="Ticket No" className='chit-receipt-ticketno-cell'>{item.tktno}</TableCell>
+          <TableCell data-label="Inst No" className='chit-receipt-instno-cell'>{item.installfrom}  - {item.installto}</TableCell>
+          <TableCell data-label="Credit Amount" className='chit-receipt-creditamount-cell' align="right">{item.credit_value != null && item.credit_value !== "" ? formatNumber(Math.round(item.credit_value)) : ""}</TableCell>
 
-          <TableCell>{item.tktno}</TableCell>
-          <TableCell>{item.installfrom}  - {item.installto}</TableCell>
-          <TableCell align="right">{item.credit_value != null && item.credit_value !== "" ? formatNumber(Math.round(item.credit_value)) : ""}</TableCell>
-
-          <TableCell align="right">
-            <IconButton onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>
-              <Iconify icon="eva:more-vertical-fill" />
+          <TableCell className="MuiTableCell-root chitreceipt-list-action" align="right">
+            <IconButton className='chitreceipt-list-action_btn' onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>
+              <Iconify icon="eva:more-vertical-fill" className="dot-icon" />
             </IconButton>
           </TableCell>
         </TableRow>}

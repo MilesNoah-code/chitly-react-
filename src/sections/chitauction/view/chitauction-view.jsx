@@ -79,7 +79,7 @@ export default function ChitAuctionView() {
       })
   }
 
-  
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -130,17 +130,17 @@ export default function ChitAuctionView() {
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
   return (
-    <div  className='actionlist-screen'>
+    <div className='auctionlist-screen'>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
-      <Typography variant="h6" sx={{ fontWeight:'600'}}>Chit Auction List</Typography>
-        <Button variant="contained" className='custom-button' sx={{ display: 'none' }}  onClick={HandleAddChitAuctionClick}>
+        <Typography variant="h6" sx={{ fontWeight: '600' }}>Chit Auction List</Typography>
+        <Button variant="contained" className='custom-button' sx={{ display: 'none' }} onClick={HandleAddChitAuctionClick}>
           Add Chit Auction
         </Button>
       </Stack>
       <Card>
         <Stack m={3} direction="row" alignItems="center" gap='40px' className='mbl-view'>
           <TextField
-           className="search-text-field"
+            className="search-text-field"
             placeholder="Search Group Code..."
             value={filterName}
             onChange={(e) => handleFilterByName(e)}
@@ -157,13 +157,13 @@ export default function ChitAuctionView() {
             }}
             sx={{
               '& .MuiInputBase-input': {
-                padding: '8px', 
+                padding: '8px',
               },
               '& .MuiInputAdornment-root': {
-                padding: '8px', 
+                padding: '8px',
               },
             }}
-            
+
           />
         </Stack>
         {ChitAuctionLoading
@@ -174,27 +174,27 @@ export default function ChitAuctionView() {
             <Scrollbar>
               <TableContainer sx={{ overflow: 'unset' }}>
                 <Table sx={{ minWidth: 800 }}>
-                  <TableRow hover tabIndex={-1}>
-                    <TableCell sx={{ width:'10%',background: '#edf4fe', color: '#1877f2', }}>Group Code</TableCell>
-                    <TableCell className='duration-cell' sx={{  width:'10%',background: '#edf4fe', color: '#1877f2', }}>Duration</TableCell>
-                    <TableCell className='auction-cell' sx={{width:'10%', background: '#edf4fe', color: '#1877f2', }}>Auction Mode</TableCell>
-                    <TableCell className='amount-cell' sx={{ width:'20%',background: '#edf4fe', color: '#1877f2', }} align='right'>Amount</TableCell>
-                    <TableCell className='status-cell' sx={{ width:'20%',background: '#edf4fe', color: '#1877f2', paddingLeft: '70px !important',}} >Status</TableCell>
-                    <TableCell sx={{ width:'10%', background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
+                  <TableRow className='head-table' hover tabIndex={-1}>
+                    <TableCell sx={{ width: '10%', background: '#edf4fe', color: '#1877f2', }}>Group Code</TableCell>
+                    <TableCell className='duration-cell' sx={{ width: '10%', background: '#edf4fe', color: '#1877f2', }}>Duration</TableCell>
+                    <TableCell className='auction-cell' sx={{ width: '10%', background: '#edf4fe', color: '#1877f2', }}>Auction Mode</TableCell>
+                    <TableCell className='amount-cell' sx={{ width: '20%', background: '#edf4fe', color: '#1877f2', }} align='right'>Amount</TableCell>
+                    <TableCell className='status-cell' sx={{ width: '20%', background: '#edf4fe', color: '#1877f2', paddingLeft: '70px !important', }} >Status</TableCell>
+                    <TableCell className="action" sx={{ width: '10%', background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
                   </TableRow>
                   <TableBody>
                     {ChitAuctionList
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => (
-                        <TableRow hover tabIndex={-1} role="checkbox">
-                          <TableCell  sx={{  width:'10%'}}>{row.groupno}</TableCell>
-                          <TableCell   sx={{  width:'10%'}} className='duration-cell'>{row.duration}</TableCell>
-                          <TableCell  sx={{  width:'10%'}} className='auction-cell'>{row.auction_mode}</TableCell>
-                          <TableCell  sx={{  width:'20%'}} className='amount-cell' align="right">{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
-                          <TableCell  sx={{  width:'20%',paddingLeft: '70px !important',}} className='status-cell'>{row.status}</TableCell>
-                          <TableCell  sx={{  width:'10%'}} align="right">
-                            <IconButton onClick={() => handleOpenScreen(row)} sx={{ cursor: 'pointer' }}>
-                              <Iconify icon="eva:edit-fill" />
+                        <TableRow hover tabIndex={-1} role="checkbox" className='row_table_box'>
+                          <TableCell data-label="Group Code" className='groupno-cell' sx={{ width: '20%' }}>{row.groupno}</TableCell>
+                          <TableCell sx={{ width: '10%' }} data-label="Duration" className='duration-cell'>{row.duration}</TableCell>
+                          <TableCell sx={{ width: '15%' }} data-label="Auction Mode" className='auction-cell'>{row.auction_mode}</TableCell>
+                          <TableCell sx={{ width: '10%' }} data-label="Amount" className='amount-cell' align="right">{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
+                          <TableCell sx={{ width: '20%', paddingLeft: '70px !important', }} data-label="Status" className='status-cell'>{row.status}</TableCell>
+                          <TableCell className="MuiTableCell-root chitauction-action" sx={{ width: '10%' }} align="right">
+                            <IconButton className='chitauction-action_btn' onClick={() => handleOpenScreen(row)} sx={{ cursor: 'pointer' }}>
+                              <Iconify icon="eva:edit-fill" className="chitauction-pencil-icon" />
                             </IconButton>
                           </TableCell>
                         </TableRow>
@@ -219,7 +219,7 @@ export default function ChitAuctionView() {
             />}
           </Stack>}
       </Card>
-      <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose} 
+      <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
         <Alert
           onClose={HandleAlertClose}

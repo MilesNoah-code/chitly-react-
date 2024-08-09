@@ -174,7 +174,7 @@ export default function ReportView() {
         navigate('/'); 
     }
 
-    const formatNumber = (number) => new Intl.NumberFormat('en-IN').format(number);
+    const formatNumber = (number) => new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2, }).format(number);
 
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 

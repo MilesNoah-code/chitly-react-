@@ -69,6 +69,7 @@
  
   .group-list .action{
     text-align: left !important;
+    display: inline-table !important;
   }
     .group-list .MuiTableRow-root {
       display: block;
@@ -87,7 +88,7 @@
   .group-list .amount
   {
     margin-left: 0px !important;
-    width: 30% !important;
+    width: 35% !important;
     text-align: left !important;
   }
  
@@ -96,7 +97,7 @@
   .group-list .auction-mode,
   .group-list .action
   {
-    width: 70% !important;
+    width: 60% !important;
     text-align: left !important;
   }
   .group-list .MuiTableCell-root {
@@ -142,9 +143,9 @@
    
     
   }
-  @media (max-width:360px){
+  @media (max-width:380px){
   
     .group-list .MuiTable-root {
-          min-width: 240px !important;
+          min-width: 200px !important;
       }
-  }
+  } 

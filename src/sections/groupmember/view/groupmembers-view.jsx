@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import Card from '@mui/material/Card';
-import Stack from '@mui/material/Stack';
+import Stack from '@mui/material/Stack'; 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
@@ -165,13 +165,13 @@ export default function GroupMemberView() {
             <Scrollbar>
               <TableContainer sx={{ overflow: 'unset' }}>
                 <Table sx={{ minWidth: 800 }}>
-                  <TableRow hover tabIndex={-1}>
+                  <TableRow className='head-table' hover tabIndex={-1}>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group Id</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group Name</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Duration</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Auction Mode</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right' >Amount</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
+                    <TableCell className="action" sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
                   </TableRow>
                   <TableBody>
                     {GroupMemberList

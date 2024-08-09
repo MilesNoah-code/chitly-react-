@@ -15,7 +15,7 @@ export default function GroupMemberTableRow({
   selected,
   handleClick,
   item,
-}) {
+}) { 
 
   const navigate = useNavigate();
 
@@ -31,23 +31,23 @@ export default function GroupMemberTableRow({
   const formatNumber = (number) => new Intl.NumberFormat('en-IN').format(number);
 
   return (
-    <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
+    <TableRow hover tabIndex={-1} role="checkbox" selected={selected} className='row_table_box'>
       <TableCell padding="checkbox" style={{ display: 'none' }}>
         <Checkbox disableRipple checked={selected} onChange={handleClick} />
       </TableCell>
-      <TableCell sx={{ ml: 2 }}>{item.id}</TableCell>
-      <TableCell component="th" scope="row" >
+      <TableCell data-label="Group Id" className="group-id" sx={{ ml: 2 }}>{item.id}</TableCell>
+      <TableCell component="th" scope="row" data-label="Group Name" className="group-name">
         <Stack direction="row" alignItems="center" >
           <Typography variant="subtitle2" noWrap>
             {item.groupno}
           </Typography>
         </Stack>
       </TableCell>
-      <TableCell>{item.duration}</TableCell>
-      <TableCell>{item.auction_mode}</TableCell>
-      <TableCell align="right">{item.amount != null && item.amount !== "" ? formatNumber(Math.round(item.amount)) : ""}</TableCell>
-      <TableCell align="right">
-        <IconButton onClick={HandleSelectEdit} sx={{ cursor: 'pointer' }}>
+      <TableCell data-label="Duration" className="duration">{item.duration}</TableCell>
+      <TableCell data-label="Auction Mode" className="action-mode">{item.auction_mode}</TableCell>
+      <TableCell data-label="Amount" className="amount" align="right">{item.amount != null && item.amount !== "" ? formatNumber(Math.round(item.amount)) : ""}</TableCell>
+      <TableCell align="right" className="MuiTableCell-root action">
+        <IconButton className="action-btn-mem" onClick={HandleSelectEdit} sx={{ cursor: 'pointer' }}>
           <Iconify icon="eva:edit-fill" />
         </IconButton>
       </TableCell>

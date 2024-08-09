@@ -63,3 +63,112 @@
       margin-right: 15px !important;
     }
   }
+
+/*mobile view*/
+
+
+@media screen and (max-width: 768px) {
+    .chitestimate-view-screen .action-btn-mem{
+    position: absolute;
+    top: -120px;
+    right: 0px;
+      }
+    .chitestimate-view-screen {
+    display: grid;
+    gap: 10px;
+    padding: 10px;
+  }
+    .chitestimate-view-screen .MuiTable-root{
+    min-width:280px !important;
+  }
+    .chitestimate-view-screen .head-table {
+    display: none !important; /* Hide table header on mobile */
+  }
+
+  .chitestimate-view-screen .action{
+  text-align: left !important;
+  display: inline-table !important;
+}
+    .chitestimate-view-screen .MuiTableRow-root {
+    display: block;
+
+    padding: 15px 10px;
+    background: #fff;
+    box-shadow: 0 2px 4px #0000001a;
+    border: 1px solid #e7e7e7; 
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap!important;
+  }
+
+  .chitestimate-view-screen .group-name,
+  .chitestimate-view-screen .duration,
+  .chitestimate-view-screen .action{
+    width: 49% !important;
+  }
+  
+  
+  .chitestimate-view-screen .auction-mode,
+  .chitestimate-view-screen .amount
+  {
+    width: 49% !important;
+    text-align: left  !important;
+  }
+  .chitestimate-view-screen .action{
+    width:100% !important;
+  }
+  .chitestimate-view-screen .MuiTableCell-root {
+    display: block;
+    padding: 15px 0;
+    position: relative;
+
+  }
+  .chitestimate-view-screen .MuiTableCell-root{
+  border-bottom: 1px solid transparent !important;
+} 
+  .chitestimate-view-screen .MuiTableCell-root::before {
+    content: attr(data-label) ": ";
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: -13px;
+    width: 50%;
+    padding-right: 10px;
+    white-space: nowrap;
+    margin-top: 5px;
+  }
+    .chitestimate-view-screen .MuiTableCell-root:not(.action)::before {
+    content: attr(data-label) " ";
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: -13px;
+    width: 50%;
+    padding-right: 10px;
+    white-space: nowrap;
+    margin-top: 5px;
+  }
+
+    .chitestimate-view-screen .MuiTableCell-root.action::before {
+    content: none;
+  }
+    .chitestimate-view-screen .row_table_box{
+    position: relative;
+    padding-top: 20px !important;
+      padding-bottom: 0  !important;
+  }
+ 
+  
+}
+@media (max-width:380px){
+
+    .chitestimate-view-screen .MuiTable-root {
+        min-width: 200px !important;
+    }
+} 
+
+
+
+
+  

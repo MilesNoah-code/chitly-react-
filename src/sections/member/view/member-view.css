@@ -61,7 +61,7 @@
   .mem-list .action-btn-mem{
     position: absolute !important;
     top: -136px !important;
-    right: -165px !important;
+    right: -110% !important;
   }
   .member-name{
     margin-left: 5px !important;
@@ -165,9 +165,9 @@
  
  
 }
-@media (max-width:360px){
+@media (max-width:380px){
 
   .mem-list  .MuiTable-root {
-        min-width: 240px !important;
+        min-width: 200px !important;
     }
 }

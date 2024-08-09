@@ -204,12 +204,12 @@ export default function MemberView() {
               <div className="table-container" >
                 <TableContainer sx={{ overflow: 'unset' }}>
                   <Table sx={{ minWidth: 800 }}>
-                    <TableRow hover tabIndex={-1}>
+                    <TableRow hover tabIndex={-1} className='head-table'>
                       <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
                       <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Acc No</TableCell>
                       <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Mobile Number</TableCell>
                       <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Status</TableCell>
-                      <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
+                      <TableCell className="action" sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
                     </TableRow>
                     <TableBody>
                       {MemberList

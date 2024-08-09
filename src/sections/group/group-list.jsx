@@ -10,7 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import TableCell from '@mui/material/TableCell';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import { Alert, Button, Dialog, Snackbar, DialogTitle, DialogActions } from '@mui/material';
+import { Alert, Button, Dialog, Snackbar, DialogTitle, DialogActions } from '@mui/material'; 
 
 import { DeleteHeader, PutHeaderWithoutParams } from 'src/hooks/AxiosApiFetch';
 
@@ -160,7 +160,7 @@ export default function GroupTableRow({
               </Typography>
             </Stack>
           </TableCell>
-          <TableCell  data-label="Duration" className ='duration' >{item.duration}</TableCell>
+          <TableCell data-label="Duration" className ='duration' >{item.duration}</TableCell>
           <TableCell  data-label="Auction Mode" className ='auction-mode'>{item.auction_mode}</TableCell>
           <TableCell align='right'  data-label="Amount" className ='amount'>{item.amount != null && item.amount !== "" ? formatNumber(Math.round(item.amount)) : ""}</TableCell>
           <TableCell align="right" className="MuiTableCell-root action">

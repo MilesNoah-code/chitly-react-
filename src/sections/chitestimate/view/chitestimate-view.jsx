@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+ 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
@@ -24,6 +24,7 @@ import './chitestimate-view.css';
 import TableNoData from '../../member/table-no-data';
 import ErrorLayout from '../../../Error/ErrorLayout';
 import TableEmptyRows from '../../member/table-empty-rows';
+
 
 export default function ChitEstimateView() {
 
@@ -81,7 +82,7 @@ export default function ChitEstimateView() {
       })
   }
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (event, newPage) => { 
     setPage(newPage);
   };
 
@@ -157,7 +158,7 @@ export default function ChitEstimateView() {
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
   return (
-    <div  className='chitestimate-view-screen'>
+    <div className='chitestimate-view-screen'>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={2} mt={2} >
         <Typography variant="h6" sx={{ fontWeight:'600'}}>Chit Estimate List</Typography>
         <Button variant="contained" className='custom-button' sx={{ display: 'none' }}  onClick={HandleAddChitEstimateClick}>
@@ -210,24 +211,24 @@ export default function ChitEstimateView() {
             <Scrollbar>
               <TableContainer sx={{ overflow: 'unset' }}>
                 <Table sx={{ minWidth: 800 }}>
-                  <TableRow hover tabIndex={-1}>
+                  <TableRow hover tabIndex={-1} className='head-table'>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} className='groupcode-column'>Group Code</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} className='amount-column' align='right'>Amount</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} className='duration-column'>Duration</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} className='auction-column'>Auction Mode</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} className='action-column' align='right'>Action</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} className='action-column action' align='right'>Action</TableCell>
                   </TableRow>
                   <TableBody>
                     {ChitEstimateList
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => (
-                        <TableRow hover tabIndex={-1} role="checkbox">
-                          <TableCell>{row.groupno}</TableCell>
-                          <TableCell align="right">{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
-                          <TableCell className='duration'>{row.duration}</TableCell>
-                          <TableCell>{row.auction_mode}</TableCell>
-                          <TableCell align="right">
-                            <IconButton onClick={() => handleOpenScreen(row)} sx={{ cursor: 'pointer' }}>
+                        <TableRow className='row_table_box'  hover tabIndex={-1} role="checkbox">
+                          <TableCell data-label="Group Code" className ='group-name'>{row.groupno}</TableCell>
+                          <TableCell  data-label="Amount" className ='amount' align="right">{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
+                          <TableCell data-label="Duration" className ='duration' >{row.duration}</TableCell>
+                          <TableCell data-label="Auction Mode" className ='auction-mode'>{row.auction_mode}</TableCell>
+                          <TableCell  className="MuiTableCell-root action" align="right">
+                            <IconButton className="action-btn-mem" onClick={() => handleOpenScreen(row)} sx={{ cursor: 'pointer' }}>
                               <Iconify icon="eva:edit-fill" />
                             </IconButton>
                           </TableCell>

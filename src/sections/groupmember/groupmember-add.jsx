@@ -383,8 +383,11 @@ export default function AddGroupMemberPage() {
         }
     };
 
+
     const handleClick = (event, item) => {
-        const selectedIndex = selected.indexOf(item.name);
+        
+
+            const selectedIndex = selected.indexOf(item.name);
         let newSelected = [];
         if (selectedIndex === -1) {
             newSelected = newSelected.concat(selected, item.name);
@@ -425,8 +428,9 @@ export default function AddGroupMemberPage() {
             setAlertFrom("save_alert");
             HandleAlertShow();
         } */
+        
     };
-
+   
     const handleFilterByName = (event) => {
         setPage(0);
         setTotalCount(0);
@@ -636,44 +640,47 @@ export default function AddGroupMemberPage() {
                         </Stack>
                         : <Stack direction='column'>
                             <Grid className='grid-UI' container spacing={2}>
-                                <Grid className='table-grid' item xs={12} md={5}>
+                                <Grid className='table-grid group-member-list-add' item xs={12} md={5}>
                                     <Scrollbar>
                                     <div className="table-lt">
                                         <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
-                                            <Table className="grp-tab" sx={{ minWidth: 350 }}>
-                                                <TableRow hover tabIndex={-1}>
-                                                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Tkt No</TableCell>
+                                            <Table className="grp-tab " sx={{ minWidth: 350 }}>
+                                                <TableRow className="head-table" hover tabIndex={-1}>
+                                                    <TableCell  sx={{ background: '#edf4fe', color: '#1877f2', }}>Tkt No</TableCell>
                                                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
-                                                    <TableCell className="action-cloumn" sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
+                                                    <TableCell className="action-cloumn action" sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
                                                 </TableRow>
                                                 <TableBody>
                                                     {GroupMemberList
                                                         .map((row, index) => (
-                                                            <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); HandleGroupMemberClick(event, row, index, "2")}} >
-                                                                <TableCell sx={{ width: '25%' }}>{row.tktno}</TableCell>
-                                                                <TableCell sx={{ width: '65%' }}>{row.memberName}</TableCell>
-                                                                <TableCell sx={{ width: '10%', alignItems: 'center', justifyContent: 'center' }}>
+                                                            <TableRow className='row_table_box' hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); HandleGroupMemberClick(event, row, index, "2")}} >
+                                                                <TableCell data-label="Tkt No" className='member-tkt-cell-add' sx={{ width: '25%' }}>{row.tktno}</TableCell>
+                                                                <TableCell data-label="Name" className='member-name-cell-add' sx={{ width: '65%' }}>{row.memberName}</TableCell>
+                                                                <TableCell  className="MuiTableCell-root action" sx={{ width: '10%', alignItems: 'center', justifyContent: 'center' }}>
                                                                     {row.tktno === "1" &&
-                                                                        (row.address !== 0 && (<div style={{ display: 'flex', justifyContent: 'flex-end', }}>
-                                                                        <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); HandleGroupMemberEditClick(event, row, index)}}>
+
+                                                                        (row.address !== 0 && (<div style={{ display: 'flex', justifyContent: 'center', }}>
+                                                                        <IconButton className="action-btn-mem" sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); HandleGroupMemberEditClick(event, row, index)}}>
+
                                                                                 <Iconify icon="eva:edit-fill" />
                                                                             </IconButton>
                                                                         </div>))}
                                                                     {row.tktno !== "1" &&
                                                                         (row.action === "add"
-                                                                            ? <div style={{ display: 'flex', justifyContent: 'flex-end', }}>
-                                                                            <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); HandleGroupMemberClick(event, row, index, "3")}}>
+
+                                                                            ? <div style={{ display: 'flex', justifyContent: 'center', }}>
+                                                                            <IconButton className="action-btn-mem" sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); HandleGroupMemberClick(event, row, index, "3")}}>
                                                                                     <Iconify icon="icon-park-solid:add-one" />
                                                                                 </IconButton>
                                                                               </div>
-                                                                        : <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
+                                                                        : <div className="group-add-member-icons" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                                                                             {(row.groupAddressId === "" || row.groupAddressId === null || row.groupAddressId === "0" || row.groupAddressId === 0
                                                                                 || (row.primary_id && String(row.primary_id).includes('empty_'))) && 
-                                                                                (<IconButton sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); HandleGroupMemberEditClick(event, row, index)}}>
+                                                                                (<IconButton className="group-add-member-edit" sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); HandleGroupMemberEditClick(event, row, index)}}>
                                                                                             <Iconify icon="eva:edit-fill" />
                                                                                         </IconButton>
                                                                                     )}
-                                                                                    <IconButton sx={{ cursor: 'pointer' }} onClick={(event) => HandleGroupMemberClick(event, row, index, "delete")}>
+                                                                                    <IconButton className="group-add-member-trash" sx={{ cursor: 'pointer' }} onClick={(event) => HandleGroupMemberClick(event, row, index, "delete")}>
                                                                                         <Iconify icon="eva:trash-2-outline" />
                                                                                     </IconButton>
                                                                                 </div>) }
@@ -985,12 +992,14 @@ export default function AddGroupMemberPage() {
                             />
                           
                         </Stack>
-                        <Box sx={{ flexGrow: 1,  mt: 0.3}}>
-                            <Scrollbar className='grpmember-popup-scrollbar' style={{ maxHeight: '70vh'}}>
-                            <div className='grpmember-scroll-below-div' style={{ marginLeft: '15px', marginRight: '15px' ,marginBottom:'15px',marginTop:'15px'}}>
+
+                        <Box sx={{ flexGrow: 1,  mt: 0.3}} className="group-member-list-add">
+                            <Scrollbar  style={{ maxHeight: '70vh'}}>
+                            <div style={{ marginLeft: '15px', marginRight: '15px' ,marginBottom:'15px',marginTop:'15px'}}>
                                 <TableContainer sx={{ overflow: 'unset'  }}>
-                                    <Table className='grpmember-popup-table'  sx={{ minWidth: 500 }} stickyHeader>
-                                        <TableRow className='grpmember-popup-tablehead' hover tabIndex={-1}>
+                                    <Table sx={{ minWidth: 500 }} stickyHeader >
+                                        <TableRow  className='head-table' hover tabIndex={-1}>
+
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Acc No</TableCell>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Mobile Number</TableCell>
@@ -1008,7 +1017,8 @@ export default function AddGroupMemberPage() {
                                                         <GroupMemberTableRow
                                                             key={row.id}
                                                             selected={selected.indexOf(row.name) !== -1}
-                                                            handleClick={(event) => handleClick(event, row)}
+                                                            handleClickItem={(event) => handleClickItem(event, row)}
+                                                            handleClickButton={(event) =>handleClickButton(event, row)}
                                                             item={row} />))}
                                                 <TableEmptyRows
                                                     height={77}
@@ -1020,6 +1030,7 @@ export default function AddGroupMemberPage() {
                                 </div>
                           
                         {MemberList.length > 0 && <TablePagination
+                            className='group-member-list-pagination'
                             page={page}
                             component="div"
                             count={TotalCount}

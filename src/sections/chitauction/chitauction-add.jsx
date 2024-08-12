@@ -2551,7 +2551,7 @@ export default function AddChitAuctionPage() {
             </Dialog>
             <Dialog
                 open={AddMemberListAlert}
-                fullWidth={600}
+                fullWidth
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description" >
                 <Card>
@@ -2619,11 +2619,11 @@ export default function AddChitAuctionPage() {
                                 }} />
 
                         </Stack>
-                        <Scrollbar style={{ maxHeight: '70vh' }}>
+                        <Scrollbar className="chitaction-add-member-section" style={{ maxHeight: '70vh' }}>
                             <div style={{ marginLeft: '15px', marginRight: '15px', marginBottom: '15px' }}>
                                 <TableContainer sx={{ overflow: 'unset', mt: 2 }}>
                                     <Table sx={{ minWidth: 530 }} stickyHeader>
-                                        <TableRow hover tabIndex={-1}>
+                                        <TableRow className="head-table" hover tabIndex={-1}>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Account No</TableCell>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Tkt No</TableCell>
@@ -2640,12 +2640,13 @@ export default function AddChitAuctionPage() {
                                                         const checkIdExists = id => ChitAuctionMemberList.some(items => items.memberid === id);
                                                         const checkTktnoExists = tktno => ChitAuctionMemberList.some(items => String(items.tktno) === tktno);
                                                         return (
-                                                            <TableRow hover={!(row.prizedOrNot === "Prized")} tabIndex={-1} role="checkbox"
-                                                                className={(row.prizedOrNot === "Prized" || (checkIdExists(row.memberid) && checkTktnoExists(row.tktno))) && 'rowExists'}
-                                                                onClick={(event) => handleClick(event, row, "", index)} sx={{ cursor: 'pointer' }}>
-                                                                <TableCell>{row.mem_name}</TableCell>
-                                                                <TableCell>{row.memberid}</TableCell>
-                                                                <TableCell>{row.tktno}</TableCell>
+                                                            <TableRow  hover={!(row.prizedOrNot === "Prized")} tabIndex={-1} role="checkbox"
+                                                                className={ `${(row.prizedOrNot === "Prized" || (checkIdExists(row.memberid) && checkTktnoExists(row.tktno))) && 'rowExists'}  row_table_box`}
+                                                                onClick={window.innerWidth >= 768 ? (event) => handleClick(event, row, "", index) : undefined } sx={{ cursor: 'pointer' }}>
+                                                                <TableCell data-label="Name" className='member-name-cell-add'>{row.mem_name}</TableCell>
+                                                                <TableCell  data-label="Acc No" className='member-acc-cell-add'>{row.memberid}</TableCell>
+                                                                <TableCell  data-label="Tkt No" className='member-tkt-cell-add'>{row.tktno}</TableCell>
+                                                                <TableCell className="member-add-button-cell"> <Button className="member-add-button-cell-text" variant="contained"  onClick={window.innerWidth < 768 ? (event) => handleClick(event, row, "", index) : undefined}>Add</Button> </TableCell>
                                                             </TableRow>)
                                                     })}
                                                 <TableEmptyRows
@@ -2658,6 +2659,7 @@ export default function AddChitAuctionPage() {
                             </div>
                             {ChitAuctionAddMemberList.length > 0 &&
                                 <TablePagination
+                                 className='group-member-list-pagination'
                                     sx={{ mb: 3 }}
                                     page={dialogPage}
                                     component="div"

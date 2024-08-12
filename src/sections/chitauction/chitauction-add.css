@@ -282,3 +282,122 @@ margin: 7px 16px;
 .chitauction-add-screen .MuiTableCell-root {
   padding: 6px !important;
 }
+
+
+
+/* mobile screen */
+.chitaction-add-member-section .member-add-button-cell{
+  padding:0 !important;
+  display:none;
+}
+
+@media screen and (max-width: 768px) {
+
+
+  .chitaction-add-member-section {
+    display: grid;
+    gap: 10px;
+    padding: 10px;
+  }
+  .chitaction-add-member-section .MuiTable-root{
+    min-width:280px !important;
+  }
+  .chitaction-add-member-section .head-table {
+    display: none !important; /* Hide table header on mobile */
+  }
+
+
+  .chitaction-add-member-section .MuiTableRow-root {
+    display: block;
+
+    padding: 15px 10px;
+    background: #fff;
+    box-shadow: 0 2px 4px #0000001a;
+    border: 1px solid #e7e7e7; 
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap!important;
+  }
+  .chitaction-add-member-section .member-name-cell-add,
+  .chitaction-add-member-section .member-tkt-cell-add
+{
+  margin-left: 0px !important;
+  width: 50% !important;
+  text-align: left !important;
+}
+.chitaction-add-member-section .member-acc-cell-add{
+  width:40% !important;
+  text-align: left !important;
+}
+
+
+.chitaction-add-member-section .MuiTableCell-root {
+    display: block;
+    padding: 15px 0;
+    position: relative;
+
+  }
+.chitaction-add-member-section .MuiTableCell-root{
+  border-bottom: 1px solid transparent !important;
+} 
+.chitaction-add-member-section .MuiTableCell-root::before {
+    content: attr(data-label) ": ";
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: -13px;
+    width: 50%;
+    padding-right: 10px;
+    white-space: nowrap;
+    margin-top: 5px;
+  }
+  .chitaction-add-member-section .MuiTableCell-root:not(.action)::before {
+    content: attr(data-label) " ";
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: -13px;
+    width: 50%;
+    padding-right: 10px;
+    white-space: nowrap;
+    margin-top: 5px;
+  }
+  .chitaction-add-member-section .group-member-list-pagination{
+    position: relative;
+    top: -14px;
+  }
+
+  .chitaction-add-member-section .MuiTableCell-root.action::before {
+    content: none;
+  }
+  .chitaction-add-member-section .row_table_box{
+    position: relative;
+    padding-top: 20px !important;
+      padding-bottom: 0  !important;
+  }
+  .chitaction-add-member-section .member-add-button-cell{
+    padding:0 !important;
+    display:block;
+  }
+
+
+}
+@media (max-width:500px){
+  .chitaction-add-member-section .MuiTableCell-root {
+    font-size:13px !important;
+  }
+  .chitaction-add-member-section .MuiTableCell-root::before{
+    font-size:13px !important;
+  }
+  .chitaction-add-member-section .member-add-button-cell-text{
+    font-size: 13px !important;
+    height: 30px;
+  }
+}
+@media (max-width:380px){
+
+  .chitaction-add-member-section .MuiTable-root {
+        min-width: 200px !important;
+    }
+} 

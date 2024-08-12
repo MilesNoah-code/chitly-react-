@@ -383,8 +383,8 @@ export default function AddGroupMemberPage() {
         }
     };
 
-    const handleClickItem = (event, item) => {
-        if(window.innerWidth > 768){
+    const handleClick = (event, item) => {
+        
             const selectedIndex = selected.indexOf(item.name);
         let newSelected = [];
         if (selectedIndex === -1) {
@@ -426,54 +426,9 @@ export default function AddGroupMemberPage() {
             setAlertFrom("save_alert");
             HandleAlertShow();
         } */
-        }
+        
     };
-    const handleClickButton = (event, item) => {
-        if(window.innerWidth < 768){
-            const selectedIndex = selected.indexOf(item.name);
-        let newSelected = [];
-        if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, item.name);
-        } else if (selectedIndex === 0) {
-            newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
-            newSelected = newSelected.concat(selected.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelected = newSelected.concat(
-                selected.slice(0, selectedIndex),
-                selected.slice(selectedIndex + 1)
-            );
-        }
-        setSelected(newSelected);
-        // console.log("handle_item", item);
-        // const checkIdExists = id => GroupMemberList.some(items => items.memberId === id);
-        const updatedGroupMemberList = [...GroupMemberList];
-        if (SelectedIndex >= 0 && SelectedIndex < updatedGroupMemberList.length) {
-            const updatedItem = {
-                ...updatedGroupMemberList[SelectedIndex],
-                ...item,
-                memberName: item.name,
-                memberId: item.id,
-                memdob: item.dob,
-                action: "edit"
-            };
-            setTicketNoClick(updatedItem.tktno);
-            console.log(updatedItem)
-            updatedGroupMemberList[SelectedIndex] = updatedItem;
-            setGroupMemberList(updatedGroupMemberList);
-            setDetailLoading(true);
-            setGroupMemberId('');
-            GetAddressView(item.id, updatedItem, "");
-        }
-        setMemberListAlert(false);
-        /* if (checkIdExists(item.id)) {
-            setAlertMessage("Already this member is added");
-            setAlertFrom("save_alert");
-            HandleAlertShow();
-        } */
-        }
-    };
-
+   
     const handleFilterByName = (event) => {
         setPage(0);
         setTotalCount(0);
@@ -1059,8 +1014,7 @@ export default function AddGroupMemberPage() {
                                                         <GroupMemberTableRow
                                                             key={row.id}
                                                             selected={selected.indexOf(row.name) !== -1}
-                                                            handleClickItem={(event) => handleClickItem(event, row)}
-                                                            handleClickButton={(event) =>handleClickButton(event, row)}
+                                                            handleClick={(event) => handleClick(event, row)}
                                                             item={row} />))}
                                                 <TableEmptyRows
                                                     height={77}

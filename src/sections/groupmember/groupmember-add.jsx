@@ -941,8 +941,8 @@ export default function AddGroupMemberPage() {
                 sx={{ justifyContent: 'center', }}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description" >
-                <Card>      
-                    <Stack>
+                <Card className='groupmember-screen-popup'>      
+                    <Stack className='grpmember-screen-popup-card-stack'>
                            <Stack ml={1} mr={1} pb={1}direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
                             <Stack direction='column'>
                                 <Typography variant="subtitle1" sx={{ mt: 2, ml: 1 }}>
@@ -958,7 +958,7 @@ export default function AddGroupMemberPage() {
                             </IconButton>
                         </Stack>
                         <Divider sx={{ mt: 0.5, mb:1}}/>
-                        <Stack mt={1} ml={2} mr={1} direction="row" alignItems="center">
+                        <Stack className='grp-member-popup-inputstack' mt={1} ml={2} mr={1} direction="row" alignItems="center">
                             <TextField
                                 placeholder="Member Name..."
                                 value={filterName}
@@ -986,11 +986,11 @@ export default function AddGroupMemberPage() {
                           
                         </Stack>
                         <Box sx={{ flexGrow: 1,  mt: 0.3}}>
-                            <Scrollbar  style={{ maxHeight: '70vh'}}>
-                            <div style={{ marginLeft: '15px', marginRight: '15px' ,marginBottom:'15px',marginTop:'15px'}}>
+                            <Scrollbar className='grpmember-popup-scrollbar' style={{ maxHeight: '70vh'}}>
+                            <div className='grpmember-scroll-below-div' style={{ marginLeft: '15px', marginRight: '15px' ,marginBottom:'15px',marginTop:'15px'}}>
                                 <TableContainer sx={{ overflow: 'unset'  }}>
-                                    <Table sx={{ minWidth: 500 }} stickyHeader>
-                                        <TableRow hover tabIndex={-1}>
+                                    <Table className='grpmember-popup-table'  sx={{ minWidth: 500 }} stickyHeader>
+                                        <TableRow className='grpmember-popup-tablehead' hover tabIndex={-1}>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Acc No</TableCell>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Mobile Number</TableCell>

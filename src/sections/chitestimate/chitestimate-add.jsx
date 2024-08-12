@@ -1564,15 +1564,11 @@ export default function AddChitEstimatePage() {
             </Card>
             <Dialog
                 open={GroupMemberListAlert}
-                 fullWidth
-                maxWidth='sm'
-            
+                 fullWidth            
                 aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description" >
-                <Card 
-                // sx={{ maxWidth: '900px' }}
-                >
-                    <Stack>
+                aria-describedby="alert-dialog-description" >              
+                <Card className='chitestimate-popup-card'>
+                    <Stack >
                         <Stack ml={1} mr={1} pb={1} direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
                             <Stack direction='column'>
                                 <Typography variant="subtitle1" sx={{ mt: 2, ml: 1 }} stick>
@@ -1588,7 +1584,7 @@ export default function AddChitEstimatePage() {
                         </Stack>
                         <Divider sx={{ mt: 1, mb: 1 }}  />
 
-                        <Stack mt={1} ml={2} mr={1} direction="row" alignItems="center" gap='10px'>
+                        <Stack className='popup-input-stackfield chit-estimate-add' mt={1} ml={2} mr={1} direction="row" alignItems="center" gap='10px'>
                             <TextField
                              className="search-text-field"
                                 placeholder="Member Name..."
@@ -1616,7 +1612,7 @@ export default function AddChitEstimatePage() {
                                 }}
                             />
                             <TextField
-                              className="search-text-field"
+                              className="search-text-field input-2"
                                 placeholder="Ticket No..."
                                 value={filterTicketNo}
                                 onChange={(e) => HandleFilterTicketNo(e)}
@@ -1645,11 +1641,11 @@ export default function AddChitEstimatePage() {
 
                         </Stack>
                       
-                            <Scrollbar style={{ maxHeight: '70vh' }}>
+                            <Scrollbar className='chitestimate-table-scrollbar-div' style={{ maxHeight: '70vh' }}>
                                 <div style={{ marginLeft: '15px', marginRight: '15px' ,marginBottom:'15px',marginTop:'15px'}}>
                                     <TableContainer sx={{overflow: 'unset'}}>
-                                        <Table sx={{ minWidth:500 }} stickyHeader>
-                                            <TableRow hover tabIndex={-1}>
+                                        <Table className='chitestimate-add-table' stickyHeader>
+                                            <TableRow className='chitestimate-add-headrow' hover tabIndex={-1}>
                                                 <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
                                                 <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Account No</TableCell>
                                                 <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Ticket No</TableCell>
@@ -1667,11 +1663,13 @@ export default function AddChitEstimatePage() {
                                                             const checkTktnoExists = tktno => ChitEstimateMemberList.some(items => String(items.ticket_no) === tktno);
                                                             return (
                                                                 <TableRow hover={!checkIdExists(row.memberId) || !checkTktnoExists(row.tktno)} tabIndex={-1} role="checkbox" selected={selected.indexOf(row.name) !== -1}
-                                                                    className={(checkIdExists(row.memberId) && checkTktnoExists(row.tktno)) && 'rowExists'} onClick={(event) => handleClick(event, row)}>
-                                                                    <TableCell>{row.memberName}</TableCell>
-                                                                    <TableCell>{row.memberId}</TableCell>
-                                                                    <TableCell>{row.tktno}</TableCell>
+                                                                className={`chitestimate-popup-row ${checkIdExists(row.memberId) && checkTktnoExists(row.tktno) ? "rowExists" : ""}`}
+                                                                onClick={(event) => handleClick(event, row)} >
+                                                                    <TableCell data-label="Member Name" className='chitestimate-popup-membername-cell'>{row.memberName}</TableCell>
+                                                                    <TableCell data-label="Account No" className='chitestimate-popup-memberid-cell'>{row.memberId}</TableCell>
+                                                                    <TableCell data-label="Ticket No" className='chitestimate-popup-tktno-cell'>{row.tktno}</TableCell>
                                                                 </TableRow>)
+
                                                         })}
                                                     <TableEmptyRows
                                                         height={77}

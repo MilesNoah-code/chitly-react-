@@ -165,6 +165,9 @@ padding-top:0px !important ;
   margin-left: 35px;
   margin-right: 35px;
 }
+ .chitpayment-card .chitpayment-add-button-cell{
+  display:none;
+}
 @media (max-width:991px) {
   .chitpayment-add-screen  .box-one {
     max-width: 100% !important;
@@ -349,6 +352,7 @@ margin-left: 0px;
   display: flex;
   flex-wrap: wrap!important;
 }
+
 .chitpayment-card .MuiTableCell-root.chitpayment-popup-groupno-cell,
 .chitpayment-card .MuiTableCell-root.chitpayment-popup-membername-cell,
 .chitpayment-card .MuiTableCell-root.chitpayment-popup-memberid-cell,
@@ -357,6 +361,11 @@ margin-left: 0px;
 .chitpayment-card .MuiTableCell-root.chitpayment-popup-installno-cell{
   width: 49% !important;
   border-bottom: none;
+}
+.chitpayment-card .chitpayment-add-button-cell{
+  display:block;
+  width: 49%;
+  padding: 0;
 }
 .chitpayment-add-table .MuiTableCell-root{
   display: block;
@@ -378,6 +387,11 @@ margin-left: 0px;
   padding-right: 10px;
   white-space: nowrap;
   margin-top: 10px !important;
+}
+}
+@media (max-width:500px){
+  .chitpayment-card .chitpayment-add-button-cell-text{
+  font-size:11px !important;
 }
 }
 @media (max-width:360px){

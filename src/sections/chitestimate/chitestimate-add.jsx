@@ -1668,6 +1668,7 @@ export default function AddChitEstimatePage() {
                                                                     <TableCell data-label="Member Name" className='chitestimate-popup-membername-cell'>{row.memberName}</TableCell>
                                                                     <TableCell data-label="Account No" className='chitestimate-popup-memberid-cell'>{row.memberId}</TableCell>
                                                                     <TableCell data-label="Ticket No" className='chitestimate-popup-tktno-cell'>{row.tktno}</TableCell>
+                                                                    <TableCell className="chitestimate-add-button-cell"> <Button className="chitestimate-add-button-cell-text" variant="contained" >Add</Button> </TableCell>
                                                                 </TableRow>)
 
                                                         })}

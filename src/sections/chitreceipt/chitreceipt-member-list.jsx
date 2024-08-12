@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 
-import { Avatar } from '@mui/material';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
+import { Avatar, Button } from '@mui/material';
 import TableCell from '@mui/material/TableCell';
 
 export default function ChitReceiptMemberTableRow({
@@ -27,7 +27,7 @@ export default function ChitReceiptMemberTableRow({
           ? <Avatar alt='Loading' className='paidmember-icon' src='/assets/images/img/green_tick.png' sx={{ width: 20, height: 20 }} />
           : <Avatar alt='Loading' className='paidmember-icon' src='/assets/images/img/pending.png' sx={{ width: 20, height: 20 }} />}
       </TableCell>
-    
+      <TableCell className="chitreceipt-add-button-cell"> <Button className="chitreceipt-add-button-cell-text" variant="contained" >Add</Button> </TableCell>
     </TableRow>
   );
 }

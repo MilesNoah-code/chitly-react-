@@ -79,10 +79,11 @@
 .chitreceipt-add-screen .MuiAutocomplete-root .MuiAutocomplete-input{
   font-size: 15px !important;
 }
-
-
 .chitreceipt-add-screen .with-reduce{
   width:100px
+}
+.chitreceipt-popup-card .chitreceipt-add-button-cell{
+  display:none;
 }
 @media screen and (max-width: 768px) {
   .chitreceipt-add-screen  h6.MuiTypography-root{
@@ -377,6 +378,12 @@
   width: 40% !important;
   border-bottom: none;
 }
+.chitreceipt-popup-card .chitreceipt-add-button-cell{
+  display:block;
+  width: 40% !important;
+  border-bottom: none;
+  padding: 0 !important;
+}
 
 
 .chitreceiptadd-popup-table .MuiTableCell-root{
@@ -421,7 +428,7 @@ position: absolute;
 top:0;
 right:3%;
   }
-}
+ }
 @media (max-width:400px){
   .chitreceiptadd-popup-table .MuiTableCell-root{
     font-size: 12px;
@@ -443,7 +450,11 @@ right:3%;
   margin-top: 5px !important;
 }
 }
-
+@media (max-width:500px){
+.chitreceipt-popup-card .chitreceipt-add-button-cell-text{
+  font-size:11px !important;
+}
+}
 @media (max-width:400px){
   .chitreceipt-popup-table.MuiTable-root{
         min-width: 100px !important;

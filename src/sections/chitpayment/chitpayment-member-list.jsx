@@ -1,9 +1,11 @@
 import dayjs from 'dayjs';
 import PropTypes from 'prop-types';
 
+import { Button } from '@mui/material';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
+
 
 export default function ChitPaymentMemberTableRow({
   key,
@@ -23,6 +25,7 @@ export default function ChitPaymentMemberTableRow({
       <TableCell data-label="Auction Date" className='chitpayment-popup-auctiondate-cell'>{item.auctiondate != null && item.auctiondate !== "" ? dayjs(item.auctiondate).format('DD-MM-YYYY') : ""}</TableCell>
       <TableCell data-label="Ticket. No" className='chitpayment-popup-tktno-cell'>{item.tktno}</TableCell>
       <TableCell data-label="Install. No" className='chitpayment-popup-installno-cell'>{item.installno}</TableCell>
+      <TableCell className="chitpayment-add-button-cell"> <Button className="chitpayment-add-button-cell-text" variant="contained" >Add</Button> </TableCell>
     </TableRow>
   );
 }

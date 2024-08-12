@@ -15,6 +15,7 @@ import { Box, Stack, Alert, Button, Dialog, Portal, Divider, ListItem, Snackbar,
 
 import { GetHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 
+import { LogOutMethod } from 'src/utils/format-number';
 import { CHIT_RECEIPT_SAVE, REACT_APP_HOST_URL, CHIT_RECEIPT_DETAIL, CHIT_GET_RECEIPT_NUMBER, CHIT_RECEIPT_PAID_UNPAID_LIST, CHIT_RECEPT_PENDING_GROUP_LIST, } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
@@ -177,9 +178,13 @@ export default function AddChitReceiptPage() {
                         error: ""
                     });
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -205,9 +210,13 @@ export default function AddChitReceiptPage() {
                 if (json.success) {
                     setPendingGroupList(json.list);
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -235,9 +244,13 @@ export default function AddChitReceiptPage() {
                     setMemberList(json.unPaidMembers);
                     setPaidMemberList(json.paidMembers);
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -264,9 +277,13 @@ export default function AddChitReceiptPage() {
                         error: ""
                     });
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -327,9 +344,13 @@ export default function AddChitReceiptPage() {
                         setAlertFrom("success");
                         HandleAlertShow();
                     } else if (json.success === false) {
-                        setAlertMessage(json.message);
-                        setAlertFrom("failed");
-                        HandleAlertShow();
+                        if (json.code === 2 || json.code === "2") {
+                            LogOutMethod(navigate);
+                        } else {
+                            setAlertMessage(json.message);
+                            setAlertFrom("failed");
+                            HandleAlertShow();
+                        }
                     } else {
                         setErrorAlert(true);
                         setErrorScreen("network");

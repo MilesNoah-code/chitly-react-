@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -6,6 +7,7 @@ import { Alert, Stack, Snackbar } from '@mui/material';
 
 import { GetHeader, } from 'src/hooks/AxiosApiFetch';
 
+import { LogOutMethod } from 'src/utils/format-number';
 import { DASHBOARD_COUNT, ACTIVITY_LOG_LIST, REACT_APP_HOST_URL, CUSTOMER_COUNT_BASED_GROUP } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
@@ -28,6 +30,7 @@ export default function AppView() {
   const [ActivityLogListLoading, setActivityLogListLoading] = useState(false);
   const [CustomerCountBasedGroupList, setCustomerCountBasedGroupList] = useState([]);
   const [CustomerCountBasedGroupListLoading, setCustomerCountBasedGroupListLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     GetDashBoardCount();
@@ -48,9 +51,13 @@ export default function AppView() {
         if (json.success) {
           setDashBoardCount(json);
         } else if (json.success === false) {
-          setAlertMessage(json.message);
-          setAlertFrom("failed");
-          HandleAlertShow();
+          if (json.code === 2 || json.code === "2") {
+            LogOutMethod(navigate);
+          } else {
+            setAlertMessage(json.message);
+            setAlertFrom("failed");
+            HandleAlertShow();
+          }
         } else {
           setErrorAlert(true);
           setErrorScreen("network");
@@ -76,9 +83,13 @@ export default function AppView() {
         if (json.success) {
           setActivityLogList(json.list);
         } else if (json.success === false) {
-          setAlertMessage(json.message);
-          setAlertFrom("failed");
-          HandleAlertShow();
+          if (json.code === 2 || json.code === "2") {
+            LogOutMethod(navigate);
+          } else {
+            setAlertMessage(json.message);
+            setAlertFrom("failed");
+            HandleAlertShow();
+          }
         } else {
           setErrorAlert(true);
           setErrorScreen("network");
@@ -104,9 +115,13 @@ export default function AppView() {
         if (json.success) {
           setCustomerCountBasedGroupList(json.list);
         } else if (json.success === false) {
-          setAlertMessage(json.message);
-          setAlertFrom("failed");
-          HandleAlertShow();
+          if (json.code === 2 || json.code === "2") {
+            LogOutMethod(navigate);
+          } else {
+            setAlertMessage(json.message);
+            setAlertFrom("failed");
+            HandleAlertShow();
+          }
         } else {
           setErrorAlert(true);
           setErrorScreen("network");

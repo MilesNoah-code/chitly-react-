@@ -15,6 +15,7 @@ import { Alert, Button, Dialog, Snackbar, DialogTitle, DialogActions } from '@mu
 
 import { DeleteHeader } from 'src/hooks/AxiosApiFetch';
 
+import { LogOutMethod } from 'src/utils/format-number';
 import { REACT_APP_HOST_URL, CHIT_PAYMENT_DELETE } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
@@ -49,9 +50,13 @@ export default function ChitPaymentTableRow({
           setAlertFrom("success");
           HandleAlertShow();
         } else if (json.success === false) {
-          setAlertMessage(json.message);
-          setAlertFrom("failed");
-          HandleAlertShow();
+          if (json.code === 2 || json.code === "2") {
+            LogOutMethod(navigate);
+          } else {
+            setAlertMessage(json.message);
+            setAlertFrom("failed");
+            HandleAlertShow();
+          }
         } else {
           setErrorAlert(true);
           setErrorScreen("network");

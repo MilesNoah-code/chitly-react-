@@ -16,6 +16,7 @@ import { Box, Grid, Alert, Stack, Button, Dialog, styled,Portal, Divider, Snackb
 
 import { GetHeader, PutHeader, PostHeader, DeleteHeader, } from 'src/hooks/AxiosApiFetch';
 
+import { LogOutMethod } from 'src/utils/format-number';
 import { MEMBER_VIEW, GROUP_MEMBER_LIST, CHIT_ESTIMATE_SAVE, REACT_APP_HOST_URL, CHIT_ESTIMATE_LIST, STANDING_INSTRUCTION, CHIT_ESTIMATE_UPDATE, CHIT_ESTIMATE_DELETE, CHIT_ESTIMATE_MEMBER_LIST, CHIT_ESTIMATE_MEMBER_SAVE } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
@@ -165,9 +166,13 @@ export default function AddChitEstimatePage() {
                     // console.log(completeList);
                     setChitEstimateList(completeList);
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -240,9 +245,13 @@ export default function AddChitEstimatePage() {
                     }
                 } else if (json.success === false) {
                     setChitEstimateMemberLoading(false);
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setChitEstimateMemberLoading(false);
                     setErrorAlert(true);
@@ -268,9 +277,13 @@ export default function AddChitEstimatePage() {
                     GetMemberView(json.list.id, datas)
                 } else if (json.success === false) {
                     setChitEstimateMemberLoading(false);
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setChitEstimateMemberLoading(false);
                     setErrorAlert(true);
@@ -315,9 +328,13 @@ export default function AddChitEstimatePage() {
                         setChitEstimateMemberList(updatedList);
                     }
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -347,9 +364,13 @@ export default function AddChitEstimatePage() {
                     setGroupMemberList([...GroupMemberList, ...json.list]);
                 } else if (json.success === false) {
                     setGroupMemberListAlert(false);
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setGroupMemberListAlert(false);
                     setErrorAlert(true);
@@ -399,9 +420,13 @@ export default function AddChitEstimatePage() {
                         setAlertFrom("success");
                         HandleAlertShow();
                     } else if (json.success === false) {
-                        setAlertMessage(json.message);
-                        setAlertFrom("failed");
-                        HandleAlertShow();
+                        if (json.code === 2 || json.code === "2") {
+                            LogOutMethod(navigate);
+                        } else {
+                            setAlertMessage(json.message);
+                            setAlertFrom("failed");
+                            HandleAlertShow();
+                        }
                     } else {
                         setErrorAlert(true);
                         setErrorScreen("network");
@@ -451,9 +476,13 @@ export default function AddChitEstimatePage() {
                         HandleAlertShow();
                     }
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -493,9 +522,13 @@ export default function AddChitEstimatePage() {
                     setAlertFrom("success");
                     HandleAlertShow();
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -522,9 +555,13 @@ export default function AddChitEstimatePage() {
                     setAlertFrom("success");
                     HandleAlertShow();
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");

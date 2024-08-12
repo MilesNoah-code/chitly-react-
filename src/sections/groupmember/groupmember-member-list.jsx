@@ -18,7 +18,7 @@ export default function GroupMemberTableRow({
   return (
     <TableRow  className='row_table_box' hover tabIndex={-1} role="checkbox" selected={selected} onClick={window.innerWidth >= 768 ? handleClick() : undefined}  sx={{ cursor: 'pointer',  }}>
       <TableCell padding="checkbox" style={{ display: 'none' }}>
-        <Checkbox disableRipple checked={selected} onChange={handleClick} />
+        <Checkbox disableRipple checked={selected} onChange={handleClickItem} />
       </TableCell>
       <TableCell component="th" scope="row" data-label="Name" className='member-name-cell'>{item.name}</TableCell>
       <TableCell data-label="Mobile Number" className='member-mobile-cell'>{item.mapped_phone}</TableCell>

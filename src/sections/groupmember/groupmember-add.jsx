@@ -383,8 +383,10 @@ export default function AddGroupMemberPage() {
         }
     };
 
+
     const handleClick = (event, item) => {
         
+
             const selectedIndex = selected.indexOf(item.name);
         let newSelected = [];
         if (selectedIndex === -1) {
@@ -672,7 +674,6 @@ export default function AddGroupMemberPage() {
                                                                                 </IconButton>
                                                                               </div>
                                                                         : <div className="group-add-member-icons" style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-
                                                                             {(row.groupAddressId === "" || row.groupAddressId === null || row.groupAddressId === "0" || row.groupAddressId === 0
                                                                                 || (row.primary_id && String(row.primary_id).includes('empty_'))) && 
                                                                                 (<IconButton className="group-add-member-edit" sx={{ cursor: 'pointer' }} onClick={(event) => { event.stopPropagation(); HandleGroupMemberEditClick(event, row, index)}}>
@@ -1014,7 +1015,8 @@ export default function AddGroupMemberPage() {
                                                         <GroupMemberTableRow
                                                             key={row.id}
                                                             selected={selected.indexOf(row.name) !== -1}
-                                                            handleClick={(event) => handleClick(event, row)}
+                                                            handleClickItem={(event) => handleClickItem(event, row)}
+                                                            handleClickButton={(event) =>handleClickButton(event, row)}
                                                             item={row} />))}
                                                 <TableEmptyRows
                                                     height={77}

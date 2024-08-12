@@ -1,3 +1,9 @@
+3.5.24
+Date : 12/08/2024
+Type : changes
+Description :  
+        1.All Screen all CRUD apis code param condition based logout changes
+----------------------------------------------------------------
 3.4.24
 Date : 31/07/2024
 Type : Bug fix

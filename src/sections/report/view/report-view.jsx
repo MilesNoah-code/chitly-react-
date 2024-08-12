@@ -9,6 +9,7 @@ import { Box, Tab, Stack, Alert, Table, Button, Dialog, Divider ,Snackbar, Table
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
 
+import { LogOutMethod } from 'src/utils/format-number';
 import { REACT_APP_HOST_URL, PAYABLE_REPORT_LIST, RECEIVABLE_REPORT_LIST } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
@@ -72,9 +73,13 @@ export default function ReportView() {
                     setTotalCount(json.total);
                     setPayableReportList([...PayableReportList, ...json.list]);
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -103,9 +108,13 @@ export default function ReportView() {
                     setTotalCount1(json.total);
                     setReceivableReportList([...ReceivableReportList, ...json.list]);
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");

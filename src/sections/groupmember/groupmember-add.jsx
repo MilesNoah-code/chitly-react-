@@ -13,6 +13,7 @@ import { Box, Grid, Stack, Alert, Button, Dialog, Divider, Snackbar, Typography,
 
 import { GetHeader, PostHeader, DeleteHeader, } from 'src/hooks/AxiosApiFetch';
 
+import { LogOutMethod } from 'src/utils/format-number';
 import { MEMBER_LIST, ADDRESS_DETAIL, GROUP_MEMBER_LIST, GROUP_MEMBER_SAVE, REACT_APP_HOST_URL, GROUP_MEMBER_DELETE } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
@@ -130,9 +131,13 @@ export default function AddGroupMemberPage() {
                     setGroupMemberList(newList);
                     
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -182,9 +187,13 @@ export default function AddGroupMemberPage() {
                         } */
                     }
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -215,9 +224,13 @@ export default function AddGroupMemberPage() {
                     setTotalCount(json.total);
                     setMemberList([...MemberList, ...json.list]);
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -256,9 +269,13 @@ export default function AddGroupMemberPage() {
                         setMemberDetail(memberDetails);
                     }
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -316,9 +333,13 @@ export default function AddGroupMemberPage() {
                         setAlertFrom("success");
                         HandleAlertShow();
                     } else if (json.success === false) {
-                        setAlertMessage(json.message);
-                        setAlertFrom("failed");
-                        HandleAlertShow();
+                        if (json.code === 2 || json.code === "2") {
+                            LogOutMethod(navigate);
+                        } else {
+                            setAlertMessage(json.message);
+                            setAlertFrom("failed");
+                            HandleAlertShow();
+                        }
                     } else {
                         setErrorAlert(true);
                         setErrorScreen("network");
@@ -345,9 +366,13 @@ export default function AddGroupMemberPage() {
                     setAlertFrom("success");
                     HandleAlertShow();
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -16,6 +17,7 @@ import { useRouter } from 'src/routes/hooks';
 import { GetHeader, PostHeader } from 'src/hooks/AxiosApiFetch';
 
 import { isValidEmail } from 'src/utils/Validator';
+import { LogOutMethod } from 'src/utils/format-number';
 import { LOGIN_URL, IMAGE_DISPLAY_URL, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import { bgGradient } from 'src/theme/css';
@@ -38,6 +40,17 @@ export default function LoginView() {
   const [UsernameError, setUsernameError] = useState("");
   const [PasswordError, setPasswordError] = useState("");
   const [Loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleBackButton = (event) => {
+      event.preventDefault();
+    };
+    window.addEventListener('popstate', handleBackButton);
+    return () => {
+      window.removeEventListener('popstate', handleBackButton);
+    };
+  }, []);
 
   const Params = {
     "username": UserName,
@@ -65,13 +78,16 @@ export default function LoginView() {
             // router.push('/dashboard');
             GetImageUrl(json.apiToken)
           } else if (json.success === false) {
-            
             setLoading(false);
-            const password = "password";
-            if (json.message.toLowerCase().includes(password.toLowerCase())) {
-              setPasswordError(json.message);
+            if (json.code === 2 || json.code === "2") {
+              LogOutMethod(navigate);
             } else {
-              setUsernameError(json.message);
+              const password = "password";
+              if (json.message.toLowerCase().includes(password.toLowerCase())) {
+                setPasswordError(json.message);
+              } else {
+                setUsernameError(json.message);
+              }
             }
           } else{
             setLoading(false);
@@ -99,6 +115,10 @@ export default function LoginView() {
             JSON.stringify(json)
           );
           router.push('/dashboard');
+        } else if (json.success === false){
+          if (json.code === 2 || json.code === "2") {
+            LogOutMethod(navigate);
+          }
         }
       })
       .catch((error) => {

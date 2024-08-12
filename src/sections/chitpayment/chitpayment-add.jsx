@@ -1373,7 +1373,7 @@ export default function AddChitPaymentPage() {
                     "& .MuiDialog-container": {
                         "& .MuiPaper-root": {
                             width: "100%",
-                            maxWidth: "700px",  // Set your width here
+                            // maxWidth: "700px",  
                         },
                     },
                 }}>

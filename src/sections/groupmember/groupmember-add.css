@@ -52,9 +52,6 @@ border-radius: 5px;
 /* .con{
     padding: 20px;
   } */
-
-
-
   .groupmember-add-screen .alert-msg {
   display: flex;
   align-items: center;
@@ -62,11 +59,9 @@ border-radius: 5px;
   font-size: 18px;
   padding: 10px;
 }
-
 .groupmember-add-screen .Muipopper-root {
   background-color: #ccc !important;
 }
-
 .groupmember-add-screen h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
   font-size: 15px;
 
@@ -96,40 +91,31 @@ border-radius: 5px;
   .groupmember-add-screen .table-grid {
     width: 100%;
   }
-
   .groupmember-add-screen .grid-UI {
     display: flex;
     flex-direction: column;
   }
-
   .groupmember-add-screen .grid-UI table {
     width: 100%;
   }
-
   .groupmember-add-screen .alert-msg {
     padding: 10px 15px 10px 15px;
     font-size: 15px;
   }
-
   .groupmember-add-screen  .grp-label {
     width: calc(97% - 0px) !important;
   }
-
-
   .groupmember-add-screen .member-box .css-mxq89r-MuiTypography-root {
     margin-left: 16px !important;
     font-size: 13px;
   }
-
   .groupmember-add-screen .box-grp .input-box1 {
     width: calc(100% - 0px) !important;
   }
-
   .groupmember-add-screen .con {
     padding: 10px;
   }
 }
-
 @media (min-width:769px) and (max-width:894px) {
   .groupmember-add-screen .box-grp {
     flex: 1 0 48%;
@@ -137,25 +123,19 @@ border-radius: 5px;
     flex-wrap: wrap;
   }
 }
-
 @media (min-width:370px) and (max-width:540px) {
   .groupmember-add-screen .btn-close {
     right: -1px;
     top: -2px;
   }
-
   .groupmember-add-screen .btn-close img {
     width: 14px !important;
     height: 14px !important;
   }
-
   .groupmember-add-screen  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
     font-size: 15px;
-
   }
-
-
-  .groupmember-add-screen .custom-button {
+.groupmember-add-screen .custom-button {
     font-size: 14px;
     margin-top: 10px;
     margin-right: 0px;
@@ -172,7 +152,6 @@ border-radius: 5px;
     margin-left: 0px !important;
   }
 }
-
 @media (min-width:320px) and (max-width:430px) {
   .groupmember-add-screen .box-grp {
     flex: 1 0 100%;
@@ -180,13 +159,13 @@ border-radius: 5px;
     height: auto;
     margin-left: 0px !important;
   }
-
   .groupmember-add-screen  .member-box {
     flex-direction: column !important;
     width: 100% !important;
     align-items: inherit;
   }
 }
+
 
 
 
@@ -312,3 +291,4 @@ border-radius: 5px;
         min-width: 200px !important;
     }
 } 
+

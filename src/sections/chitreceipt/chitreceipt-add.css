@@ -346,7 +346,7 @@
   }
   
   .chitreceipt-popup-card .chitreceipt-popup-table.MuiTable-root{
-    min-width:180px !important;
+    min-width:100px !important;
   }
   .chitreceipt-popup-card .MuiTableRow-root.chitreceipt-addlist-popup-head-table{
     display: none !important; /* Hide table header on mobile */
@@ -446,7 +446,7 @@ right:3%;
 
 @media (max-width:400px){
   .chitreceipt-popup-table.MuiTable-root{
-        min-width: 180px !important;
+        min-width: 100px !important;
     }
 }
 @media (max-width:360px){

@@ -265,7 +265,7 @@ export default function ChitReceiptView() {
             <Scrollbar>
               <TableContainer sx={{ overflow: 'unset' }}>
                 <Table sx={{ minWidth: 800 }}>
-                  <TableRow hover tabIndex={-1}>
+                  <TableRow className='head-table' hover tabIndex={-1}>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Date</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Receipt No</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group No</TableCell>
@@ -273,7 +273,7 @@ export default function ChitReceiptView() {
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Ticket No</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Inst No</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Credit Amount</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
+                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} className="action" align='right'>Action</TableCell>
                   </TableRow>
                   <TableBody>
                     {ChitReceiptList

@@ -266,15 +266,15 @@ export default function ChitPaymentView() {
             <Scrollbar>
               <TableContainer sx={{ overflow: 'unset' }}>
                 <Table sx={{ minWidth: 800 }}>
-                  <TableRow hover tabIndex={-1}>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Date</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Receipt No</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group No</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Ticket No</TableCell>
+                  <TableRow className='head-table' hover tabIndex={-1}>
+                    <TableCell  sx={{ background: '#edf4fe', color: '#1877f2', }}>Date</TableCell>
+                    <TableCell  sx={{ background: '#edf4fe', color: '#1877f2', }}>Receipt No</TableCell>
+                    <TableCell  sx={{ background: '#edf4fe', color: '#1877f2', }}>Group No</TableCell>
+                    <TableCell  sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
+                    <TableCell  sx={{ background: '#edf4fe', color: '#1877f2', }}>Ticket No</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Inst No</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Debit</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
+                    <TableCell className="debit" sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Debit</TableCell>
+                    <TableCell  className="action" sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
                   </TableRow>
                   <TableBody>
                     {ChitPaymentList

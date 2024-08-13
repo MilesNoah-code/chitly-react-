@@ -31,7 +31,7 @@
   margin-right: -8px; 
 }
 
-.chitreceipt-list  .search-icon {
+.chitreceipt-list  .search-icon{
   margin-left: -12px; 
   width: 20px;
   height: 20px;
@@ -59,3 +59,138 @@
         scrollbar-width: none;
       }
     }  */
+    @media(max-width:547px){
+      .chitreceipt-list{
+        margin-left: 10px !important;
+        margin-right: 10px !important;
+      }
+    }
+  /* Mobile View */
+  
+    
+   /* Mobile View */
+  @media screen and (max-width: 768px){
+    .chitreceipt-list {
+      display: grid;
+      gap: 10px;
+      padding: 10px;
+    }
+    .chitreceipt-list .MuiTable-root{
+      min-width:280px !important;
+    }
+    .chitreceipt-list .head-table {
+      display: none !important; /* Hide table header on mobile */
+    }
+
+  .chitreceipt-list .chit-receipt-creditamount-cell{
+    text-align: left !important;
+  }
+    .chitreceipt-list .MuiTableRow-root{
+      display: block;
+      padding: 15px 10px 0 10px;
+      background: #fff;
+      box-shadow: 0 2px 4px #0000001a;
+      border: 1px solid #e7e7e7; 
+      margin-bottom: 10px;
+      border-radius: 8px;
+      display: flex;
+      flex-wrap: wrap!important;
+    }
+  .chitreceipt-list .chit-receipt-date-cell
+  {
+    margin-left: 0px !important;
+    width: 49% !important;
+  }
+  .chitreceipt-list .chit-receipt-receiptno-cell,
+  .chitreceipt-list .chit-receipt-groupno-cell,
+  .chitreceipt-list .chit-receipt-membername-cell,
+  .chitreceipt-list .chit-receipt-ticketno-cell,
+  .chitreceipt-list .chit-receipt-instno-cell,
+  .chitreceipt-list .chit-receipt-creditamount-cell{
+    width: 49% !important;
+  }
+
+    .chitreceipt-list .MuiTableCell-root{
+      display: block;
+      padding: 15px 0;
+      position: relative;
+     
+    }
+  .chitreceipt-list .MuiTableCell-root{
+    border-bottom: 1px solid transparent !important;
+  } 
+    .chitreceipt-list .MuiTableCell-root::before{
+      content: attr(data-label) ": ";
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+      top: -13px;
+      width: 50%;
+      padding-right: 10px;
+      white-space: nowrap;
+      margin-top: 10px !important;
+    }
+    .chitreceipt-list .MuiTableCell-root:not(.chitreceipt-list-action)::before{
+      content: attr(data-label) " ";
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+      top: -13px;
+      width: 50%;
+      padding-right: 10px;
+      white-space: nowrap;
+      margin-top: 5px;
+    }
+    
+    .chitreceipt-list .MuiTableCell-root.chitreceipt-list-action::before{
+      content: none;
+    }
+    .chitreceipt-list .row_table_box{
+      position: relative;
+    }
+  .chitreceipt-list .chitreceipt-list-action{
+  position: absolute;
+  top:-11px;
+  right:0;
+    }
+  }
+  .chitreceipt-list .chitreceipt-list-action .chitreceipt-list-action_btn{
+    /* padding: 0 8px; */
+  }
+  @media (max-width:400px){
+    .chitreceipt-list .chit-receipt-date-cell,
+    .chitreceipt-list .chit-receipt-receiptno-cell,
+    .chitreceipt-list .chit-receipt-groupno-cell,
+    .chitreceipt-list .chit-receipt-membername-cell,
+    .chitreceipt-list .chit-receipt-ticketno-cell,
+    .chitreceipt-list .chit-receipt-instno-cell,
+    .chitreceipt-list .chit-receipt-creditamount-cell{
+      /* width: 49% !important; */
+      font-size: 12px;
+    }  
+    .chitreceipt-list .chit-receipt-groupno-cell .chitreceipt-grpno{
+      font-size: 12px;
+    }
+    .chitreceipt-list .chitreceipt-list-action .chitreceipt-list-action_btn .dot-icon{ 
+      width: 18px;
+      height: 18px;
+  }
+  .chitreceipt-list .MuiTableCell-root::before{
+    content: attr(data-label) ": ";
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: -13px;
+    width: 50%;
+    padding-right: 10px;
+    white-space: nowrap;
+    margin-top: 5px !important;
+  }
+}
+ 
+  @media (max-width:380px){
+      .chitreceipt-list .MuiTable-root{
+          min-width: 180px !important;
+      }
+  }
+  

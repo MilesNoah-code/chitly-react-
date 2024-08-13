@@ -93,6 +93,10 @@ border: 0.5px solid #ccc;
   width: 20px;
   height: 20px;
 }
+.chitestimate-popup-card .MuiTableCell-root.chitestimate-add-button-cell{
+display: none;
+}
+
 @media (max-width:768px){
   .chitestimate-add-screen .table-one .MuiTableCell-root:nth-child(1) {
     font-size: 12px;
@@ -235,3 +239,106 @@ border: 0.5px solid #ccc;
     
   }
 }
+/* Mobile View */
+
+  
+ /* Mobile View */
+ @media(max-width:768px){
+  .chitestimate-popup-card .popup-input-stackfield.chit-estimate-add {
+   display: flex;
+   flex-direction: column;
+   align-items: normal;
+   gap: 10px;
+   margin: 8px 16px 0 16px;
+ }
+ .chitestimate-popup-card .input-2{
+  margin-left: 0;
+ }
+ .chitestimate-add-screen .chitestimate-popup-card{
+  margin-right: 15px !important;
+  margin-left: 15px !important;
+}
+.chitestimate-popup-card.chitestimate-table-scrollbar-div{
+  margin: 0 16px !important;
+}
+.chitestimate-popup-card .chitestimate-table-scrollbar-div{
+  max-height:70vh; /* desired max-height */
+  overflow-y: auto;  /* Allow scrolling */
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
+}
+.chitestimate-popup-card .chitestimate-table-scrollbar-div::-webkit-scrollbar {
+  display: none;
+}
+.chitestimate-popup-card .chitestimate-add-table {
+  display: grid;
+  gap: 10px;
+  /* padding: 10px;  */
+}
+.chitestimate-popup-card .chitpayment-add-table.MuiTable-root{
+  min-width:100px !important;
+}
+.chitestimate-popup-card .MuiTableRow-root.chitestimate-add-headrow{
+  display: none !important; /* Hide table header on mobile */
+}
+.chitestimate-popup-card .MuiTableRow-root.chitestimate-popup-row{
+  display: block;
+  padding: 15px 10px 0 10px;
+  background: #fff;
+  box-shadow: 0 2px 4px #0000001a;
+  border: 1px solid #e7e7e7; 
+  margin-bottom: 10px;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap!important;
+}
+.chitestimate-popup-card .MuiTableCell-root.chitestimate-popup-membername-cell,
+.chitestimate-popup-card .MuiTableCell-root.chitestimate-popup-tktno-cell{
+  width: 60% !important;
+  border-bottom: none;
+}
+.chitestimate-popup-card .MuiTableCell-root.chitestimate-popup-memberid-cell{
+  width: 40% !important;
+  border-bottom: none;
+}
+.chitestimate-popup-card .MuiTableCell-root.chitestimate-add-button-cell{
+  display: block;
+  width: 40% !important;
+  border-bottom: none;
+  padding: 0;
+  }
+  
+.chitestimate-popup-card .MuiTableCell-root{
+  display: block;
+  padding: 15px 0;
+  position: relative;
+ 
+}
+.chitestimate-popup-card .MuiTableCell-root{
+  border-bottom: 1px solid transparent !important;
+  font-size: 13px;
+} 
+.chitestimate-popup-card  .MuiTableCell-root::before{
+  content: attr(data-label) " ";
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  top: -13px;
+  width: 50%;
+  padding-right: 10px;
+  white-space: nowrap;
+  margin-top: 10px !important;
+}
+}
+@media (max-width:500px){
+.chitestimate-popup-card .chitestimate-add-button-cell-text{
+font-size: 11px;
+  }
+}
+@media (max-width:360px){
+  .chitestimate-popup-card .MuiTableCell-root{
+      font-size: 12px;
+    } 
+}
+
+ 

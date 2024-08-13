@@ -54,3 +54,106 @@
       margin-right: 10px !important;
     }
   }
+/* Mobile View */
+
+  
+ /* Mobile View */
+@media screen and (max-width: 768px) {
+  .chitpayment-list {
+    display: grid;
+    gap: 10px;
+    padding: 10px;
+  }
+  .chitpayment-list .MuiTable-root{
+    min-width:280px !important;
+  }
+  .chitpayment-list .head-table {
+    display: none !important; /* Hide table header on mobile */
+  }
+.chitpayment-list .debit{
+  text-align: left  !important;
+}
+.chitpayment-list .action{
+  text-align: left !important;
+}
+  .chitpayment-list .MuiTableRow-root {
+    display: block;
+
+    padding: 15px 10px;
+    background: #fff;
+    box-shadow: 0 2px 4px #0000001a;
+    border: 1px solid #e7e7e7; 
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap!important;
+  }
+.chitpayment-list .date-cell
+{
+  margin-left: 0px !important;
+  width: 49% !important;
+}
+.chitpayment-list .receipt-cell{
+  width: 49%  !important;
+}
+.chitpayment-list .group-cell,
+.chitpayment-list .member-cell,
+.chitpayment-list .ticket-cell,
+.chitpayment-list .inst-cell,
+.chitpayment-list .debit,
+.chitpayment-list .action{
+  width: 49% !important;
+}
+  .chitpayment-list .MuiTableCell-root {
+    display: block;
+    padding: 15px 0;
+    position: relative;
+   
+  }
+.chitpayment-list .MuiTableCell-root{
+  border-bottom: 1px solid transparent !important;
+} 
+  .chitpayment-list .MuiTableCell-root::before {
+    content: attr(data-label) ": ";
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: -13px;
+    width: 50%;
+    padding-right: 10px;
+    white-space: nowrap;
+    margin-top: 5px;
+  }
+  .chitpayment-list .MuiTableCell-root:not(.action)::before {
+    content: attr(data-label) " ";
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: -13px;
+    width: 50%;
+    padding-right: 10px;
+    white-space: nowrap;
+    margin-top: 5px;
+  }
+  
+  .chitpayment-list .MuiTableCell-root.action::before {
+    content: none;
+  }
+  .chitpayment-list .row_table_box{
+    position: relative;
+  }
+  .chitpayment-list .action_btn{
+position: absolute;
+top: -170px;
+right: 0;
+  }
+  .chitpayment-list .MuiTableCell-root {
+    /* padding-left: 42%; */
+  }
+}
+@media (max-width:360px){
+ 
+    .chitpayment-list .MuiTable-root {
+        min-width: 240px !important;
+    }
+}

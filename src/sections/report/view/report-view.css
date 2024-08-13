@@ -39,19 +39,126 @@
   width: 20px;
   height: 20px;
 }
-  @media(max-width:768px){
-    .report-view .custom-button{
-      font-size: 14px;
-    }
-    .report-view{
-      margin-left: 15px !important;
-      margin-right: 15px !important;
-    }
-    .report-view .mbl-view{
-      display: flex;
-      flex-direction: column;
-      align-items: normal;
-      gap: 10px;
-    }
-   
+
+ /* Mobile View */
+@media screen and (max-width: 768px) {
+  .report-view .custom-button{
+    font-size: 14px;
   }
+  .report-view{
+    margin-left: 15px !important;
+    margin-right: 15px !important;
+  }
+  .report-view .mbl-view{
+    display: flex;
+    flex-direction: column;
+    align-items: normal;
+    gap: 10px;
+    margin-right: 0px;
+  }
+  .report-view {
+    display: grid;
+    gap: 10px;
+  }
+  .report-view .MuiTabPanel-root{
+    padding: 15px;
+  }
+  .report-view .MuiTable-root{
+    min-width:280px !important;
+  }
+  .report-view .head-table {
+    display: none !important; /* Hide table header on mobile */
+  }
+  .report-view .debit{
+    text-align: left  !important;
+  }
+  .report-view .action{
+    text-align: left !important;
+  }
+  .report-view .MuiTableRow-root {
+    display: block;
+    padding: 22px 10px 0px 10px;
+    background: #fff;
+    box-shadow: 0 2px 4px #0000001a;
+    border: 1px solid #e7e7e7; 
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap!important;
+    position: relative;
+  }
+  .report-view .last_cell{
+    text-align: left;
+  }
+  .report-view .table-col{
+    width: 50%  !important;
+    font-size: 13px;
+  }
+  .report-view .table-col2{
+    width: 60%  !important;
+    font-size: 13px;
+  }
+  .report-view .table-col1{
+    width: 40% !important;
+    font-size: 13px;
+  }
+  .report-view .MuiPaper-root{
+    margin: 0;
+    width: 100%;
+  }
+  .report-view .MuiButtonBase-root img{
+    width: 12px !important;
+    height: 12px !important;
+  }
+  .report-view .MuiTableCell-root {
+    display: block;
+    padding: 15px 0;
+    position: relative;
+  }
+  .report-view .MuiTableCell-root{
+    border-bottom: 1px solid transparent !important;
+  } 
+  .report-view .MuiTableCell-root::before {
+    content: attr(data-label) ": ";
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: -13px;
+    width: 50%;
+    padding-right: 10px;
+    white-space: nowrap;
+    margin-top: 5px;
+  }
+  .report-view .MuiTableCell-root:not(.action)::before {
+    content: attr(data-label) " ";
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: -13px;
+    width: 50%;
+    padding-right: 10px;
+    white-space: nowrap;
+    margin-top: 5px;
+  }
+
+  .report-view .MuiTableCell-root.action::before {
+    content: none;
+  }
+  .report-view .row_table_box{
+    position: relative;
+  }
+  .report-view .action_btn{
+    position: absolute;
+    right: 0;
+    top: -10px;
+  }
+}
+
+@media (max-width:360px){
+    .report-view .MuiTable-root {
+        min-width: 240px !important;
+    }
+    .pagination_cell .MuiTablePagination-actions{
+      margin-left: 0px;
+    }
+}

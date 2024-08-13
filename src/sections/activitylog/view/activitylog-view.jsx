@@ -195,7 +195,7 @@ export default function ActivityLogView() {
             <Scrollbar>
               <TableContainer sx={{ overflow: 'unset' }}>
                 <Table sx={{ minWidth: 800 }}>
-                  <TableRow hover tabIndex={-1}>
+                  <TableRow className='activity-screen-head-table' hover tabIndex={-1}>
                     <TableCell className="create-cell" sx={{ background: '#edf4fe', color: '#1877f2', }}>Created On</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Created By</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Description</TableCell>
@@ -207,13 +207,13 @@ export default function ActivityLogView() {
                     {ActivityLogList
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => (
-                        <TableRow hover tabIndex={-1} role="checkbox">
-                          <TableCell>{row.created_on ? dayjs(row.created_on).format('DD-MM-YYYY') : ""}</TableCell>
-                          <TableCell>{row.username}</TableCell>
-                          <TableCell>{row.description}</TableCell>
-                          <TableCell>{row.type}</TableCell>
-                          <TableCell>{row.ref_type}</TableCell>
-                          <TableCell align='right'>{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
+                        <TableRow  className='row_table_box' hover tabIndex={-1} role="checkbox">
+                          <TableCell data-label="Created On" className='activity-screen-createdOn-cell'>{row.created_on ? dayjs(row.created_on).format('DD-MM-YYYY') : ""}</TableCell>
+                          <TableCell data-label="Created By" className='activity-screen-createdBy-cell'>{row.username}</TableCell>
+                          <TableCell data-label="Description" className='activity-screen-description-cell'>{row.description}</TableCell>
+                          <TableCell data-label="Type" className='activity-screen-type-cell'>{row.type}</TableCell>
+                          <TableCell data-label="Reference" className='activity-screen-reference-cell'>{row.ref_type}</TableCell>
+                          <TableCell data-label="Amount" className='activity-screen-amount-cell' align='right'>{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
                         </TableRow>
                       ))}
                     <TableEmptyRows

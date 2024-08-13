@@ -1156,14 +1156,14 @@ export default function AddChitReceiptPage() {
                     </Alert>
                 </Snackbar>
             </Portal>
-            <Dialog
+            <Dialog className='chitreceipt-popup-screen'
                 open={MemberListAlert}
                 fullWidth
                 maxWidth="md"
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description" >
-                <Card>
-                    <Stack>
+                <Card className='chitreceipt-popup-card'>
+                    <Stack className='chitreceiptadd-popup-table'>
                         <Stack ml={1} mr={1} pb={1} direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
                             <Stack direction='column'>
                                 <Typography variant="subtitle1" sx={{ mt: 2, ml: 1 }}>
@@ -1179,7 +1179,7 @@ export default function AddChitReceiptPage() {
                             </IconButton>
                         </Stack>
                         <Divider sx={{ mt: 0.5, mb: 1 }} />
-                        <Stack mt={1} ml={2} mr={1} direction="row" alignItems="center" gap="10px" >
+                        <Stack mt={1} ml={2} mr={1} className='popup-input-stack chit-receipt-add' direction="row" alignItems="center" gap="10px" >
                             <TextField
 
                                 placeholder="Member Name..."
@@ -1204,6 +1204,7 @@ export default function AddChitReceiptPage() {
                                     },
                                 }} />
                             <TextField
+                            className='popup-input-chit-add input-input'
                                 placeholder="Ticket No..."
                                 value={filterTicketNo}
                                 onChange={(e) => HandleFilterTicketNo(e)}
@@ -1227,11 +1228,11 @@ export default function AddChitReceiptPage() {
                                     },
                                 }} />
                         </Stack>
-                        <Scrollbar style={{ maxHeight: '70vh' }}>
+                        <Scrollbar className='chitreceipt-scrollbar' style={{ maxHeight: '70vh' }}>
                             <div style={{ marginLeft: '15px', marginRight: '15px', marginBottom: '15px' }}>
                                 <TableContainer sx={{ overflow: '', mt: 2 }}>
-                                    <Table sx={{ minWidth: 600 }} stickyHeader>
-                                        <TableRow hover tabIndex={-1}>
+                                    <Table sx={{ minWidth: 600 }} stickyHeader className='chitreceipt-popup-table'>
+                                        <TableRow className='chitreceipt-addlist-popup-head-table' hover tabIndex={-1}>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>
                                             <TableCell className='with-reduce' sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Id</TableCell>
                                             <TableCell className='with-reduce' sx={{ background: '#edf4fe', color: '#1877f2', }}>Tkt. No</TableCell>

@@ -52,9 +52,6 @@ border-radius: 5px;
 /* .con{
     padding: 20px;
   } */
-
-
-
   .groupmember-add-screen .alert-msg {
   display: flex;
   align-items: center;
@@ -62,11 +59,9 @@ border-radius: 5px;
   font-size: 18px;
   padding: 10px;
 }
-
 .groupmember-add-screen .Muipopper-root {
   background-color: #ccc !important;
 }
-
 .groupmember-add-screen h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
   font-size: 15px;
 
@@ -93,40 +88,31 @@ border-radius: 5px;
   .groupmember-add-screen .table-grid {
     width: 100%;
   }
-
   .groupmember-add-screen .grid-UI {
     display: flex;
     flex-direction: column;
   }
-
   .groupmember-add-screen .grid-UI table {
     width: 100%;
   }
-
   .groupmember-add-screen .alert-msg {
     padding: 10px 15px 10px 15px;
     font-size: 15px;
   }
-
   .groupmember-add-screen  .grp-label {
     width: calc(97% - 0px) !important;
   }
-
-
   .groupmember-add-screen .member-box .css-mxq89r-MuiTypography-root {
     margin-left: 16px !important;
     font-size: 13px;
   }
-
   .groupmember-add-screen .box-grp .input-box1 {
     width: calc(100% - 0px) !important;
   }
-
   .groupmember-add-screen .con {
     padding: 10px;
   }
 }
-
 @media (min-width:769px) and (max-width:894px) {
   .groupmember-add-screen .box-grp {
     flex: 1 0 48%;
@@ -134,25 +120,19 @@ border-radius: 5px;
     flex-wrap: wrap;
   }
 }
-
 @media (min-width:370px) and (max-width:540px) {
   .groupmember-add-screen .btn-close {
     right: -1px;
     top: -2px;
   }
-
   .groupmember-add-screen .btn-close img {
     width: 14px !important;
     height: 14px !important;
   }
-
   .groupmember-add-screen  h6.MuiTypography-root.MuiTypography-subtitle1.MuiTypography-root {
     font-size: 15px;
-
   }
-
-
-  .groupmember-add-screen .custom-button {
+.groupmember-add-screen .custom-button {
     font-size: 14px;
     margin-top: 10px;
     margin-right: 0px;
@@ -169,7 +149,6 @@ border-radius: 5px;
     margin-left: 0px !important;
   }
 }
-
 @media (min-width:320px) and (max-width:430px) {
   .groupmember-add-screen .box-grp {
     flex: 1 0 100%;
@@ -177,10 +156,102 @@ border-radius: 5px;
     height: auto;
     margin-left: 0px !important;
   }
-
   .groupmember-add-screen  .member-box {
     flex-direction: column !important;
     width: 100% !important;
     align-items: inherit;
   }
 }
+@media(max-width:768px){
+  .groupmember-screen-popup .grpmember-screen-popup-card-stack{
+    margin-right: 0 !important;
+  }
+  .groupmember-screen-popup .grp-member-popup-inputstack {
+   display: flex;
+   flex-direction: column;
+   align-items: normal;
+   gap: 10px;
+   margin: 8px 16px 0 16px;
+ }
+ .groupmember-screen-popup .grpmember-popup-scrollbar{
+  margin: 0 16px !important;
+}
+.groupmember-screen-popup .grpmember-popup-scrollbar{
+  max-height:70vh; /* desired max-height */
+  overflow-y: auto;  /* Allow scrolling */
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
+}
+.groupmember-screen-popup .grpmember-popup-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.groupmember-screen-popup .grpmember-scroll-below-div{
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+.groupmember-screen-popup .grpmember-popup-table {
+  display: grid;
+  gap: 10px;
+  /* padding: 10px;  */
+}
+.groupmember-screen-popup .grpmember-popup-table.MuiTable-root{
+  min-width:180px !important;
+}
+.groupmember-screen-popup .MuiTableRow-root.grpmember-popup-tablehead{
+  display: none !important; /* Hide table header on mobile */
+}
+.groupmember-screen-popup .MuiTableRow-root.grpmember-popup-tablerow{
+  display: block;
+  padding: 15px 10px 0 10px;
+  background: #fff;
+  box-shadow: 0 2px 4px #0000001a;
+  border: 1px solid #e7e7e7; 
+  /* margin: 0 16px 10px 16px; */
+  margin-bottom: 10px;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap!important;
+}
+.groupmember-screen-popup .MuiTableCell-root.grpmember-popup-membername-cell,
+.groupmember-screen-popup .MuiTableCell-root.grpmember-popup-mapped-phone-cell{
+  width: 60% !important;
+  border-bottom: none;
+}
+.groupmember-screen-popup .MuiTableCell-root.grpmember-popup-id-cell{
+  width: 40% !important;
+  border-bottom: none;
+}
+.groupmember-screen-popup .MuiTableCell-root{
+  display: block;
+  padding: 15px 0;
+  position: relative;
+ 
+}
+.groupmember-screen-popup .MuiTableCell-root{
+  border-bottom: 1px solid transparent !important;
+  font-size: 13px;
+} 
+.groupmember-screen-popup  .MuiTableCell-root::before{
+  content: attr(data-label) " ";
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  top: -13px;
+  width: 50%;
+  padding-right: 10px;
+  white-space: nowrap;
+  margin-top: 10px !important;
+}
+}
+@media (max-width:360px){
+.groupmember-screen-popup .MuiTableCell-root{
+        font-size: 12px;
+      } 
+.groupmember-screen-popup .MuiTableCell-root.grpmember-popup-membername-cell,
+.groupmember-screen-popup .MuiTableCell-root.grpmember-popup-mapped-phone-cell{
+        width: 70% !important;
+}     
+      .groupmember-screen-popup .MuiTableCell-root.grpmember-popup-id-cell{
+        width: 30% !important;
+      }
+  }

@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack';
 import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
-import MenuItem from '@mui/material/MenuItem';
+import MenuItem from '@mui/material/MenuItem'; 
 import TableCell from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 import { Alert, Button, Dialog, Snackbar, DialogTitle, DialogActions } from '@mui/material';
@@ -124,16 +124,16 @@ export default function ChitEstimateTableRow({
         ? <Stack style={{ alignItems: 'center', backgroundColor: 'red', flex: 1 }} mt={5}>
           <ErrorLayout screen={ErrorScreen} />
         </Stack>
-        : <TableRow hover tabIndex={-1} role="checkbox" selected={selected} onClick={handleClick}>
+        : <TableRow className='row_table_box' hover tabIndex={-1} role="checkbox" selected={selected} onClick={handleClick}>
           <TableCell padding="checkbox" style={{ display: 'none' }}>
             <Checkbox disableRipple checked={selected} onChange={handleClick} />
           </TableCell>
-          <TableCell>{item.groupno}</TableCell>
-          <TableCell>{item.amount != null && item.amount !== "" ? formatNumber(Math.round(item.amount)) : ""}</TableCell>
-          <TableCell>{item.installfrom}</TableCell>
-          <TableCell>{item.auction_mode}</TableCell>
-          <TableCell align="right">
-            <IconButton onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>
+          <TableCell data-label="Group Code" className ='group-name' >{item.groupno}</TableCell>
+          <TableCell data-label="Amount" className ='amount' align="right">{item.amount != null && item.amount !== "" ? formatNumber(Math.round(item.amount)) : ""}</TableCell>
+          <TableCell data-label="Duration" className ='duration'>{item.duration}</TableCell>
+          <TableCell data-label="Auction Mode" className ='auction-mode'>{item.auction_mode}</TableCell>
+          <TableCell align="right" className="MuiTableCell-root action">
+            <IconButton className="action-btn-mem" onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>
               <Iconify icon="eva:more-vertical-fill" />
             </IconButton>
           </TableCell>

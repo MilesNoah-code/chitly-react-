@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 
-import { Avatar } from '@mui/material';
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
+import { Avatar, Button } from '@mui/material';
 import TableCell from '@mui/material/TableCell';
 
 export default function ChitReceiptMemberTableRow({
@@ -13,21 +13,21 @@ export default function ChitReceiptMemberTableRow({
 }) {
 
   return (
-    <TableRow hover tabIndex={-1} role="checkbox" selected={selected} onClick={handleClick} sx={{ cursor: 'pointer' }}>
+    <TableRow className='chit-receipt-popup-row_table_box' hover tabIndex={-1} role="checkbox" selected={selected} onClick={handleClick} sx={{ cursor: 'pointer' }}>
       <TableCell padding="checkbox" style={{ display: 'none' }}>
         <Checkbox disableRipple checked={selected} onChange={handleClick} />
       </TableCell>
-      <TableCell>{item.name}</TableCell>
-      <TableCell>{item.member_id}</TableCell>
-      <TableCell>{ item.tktNo}</TableCell>
-      <TableCell>{item.fcno}</TableCell>
-      <TableCell>{ item.sms_phoneno }</TableCell>
-      <TableCell>
+      <TableCell data-label="Member Name" className='chit-receipt-popup-membername-cell'>{item.name}</TableCell>
+      <TableCell data-label="Member Id" className='chit-receipt-popup-memnerid-cell'>{item.member_id}</TableCell>
+      <TableCell data-label="Tkt. No" className='chit-receipt-popup-tktno-cell'>{ item.tktNo}</TableCell>
+      <TableCell data-label="F.Code" className='chit-receipt-popup-fcode-cell'>{item.fcno}</TableCell>
+      <TableCell data-label="Phone" className='chit-receipt-popup-phone-cell'>{ item.sms_phoneno }</TableCell>
+      <TableCell className='tick-pending'>
         {keyvalue === "paidmember"
-          ? <Avatar alt='Loading' src='/assets/images/img/green_tick.png' sx={{ width: 20, height: 20 }} />
-          : <Avatar alt='Loading' src='/assets/images/img/pending.png' sx={{ width: 20, height: 20 }} />}
+          ? <Avatar alt='Loading' className='paidmember-icon' src='/assets/images/img/green_tick.png' sx={{ width: 20, height: 20 }} />
+          : <Avatar alt='Loading' className='paidmember-icon' src='/assets/images/img/pending.png' sx={{ width: 20, height: 20 }} />}
       </TableCell>
-    
+      <TableCell className="chitreceipt-add-button-cell"> <Button className="chitreceipt-add-button-cell-text" variant="contained" >Add</Button> </TableCell>
     </TableRow>
   );
 }

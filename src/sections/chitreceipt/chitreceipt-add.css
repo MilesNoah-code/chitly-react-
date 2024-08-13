@@ -79,10 +79,11 @@
 .chitreceipt-add-screen .MuiAutocomplete-root .MuiAutocomplete-input{
   font-size: 15px !important;
 }
-
-
 .chitreceipt-add-screen .with-reduce{
   width:100px
+}
+.chitreceipt-popup-card .chitreceipt-add-button-cell{
+  display:none;
 }
 @media screen and (max-width: 768px) {
   .chitreceipt-add-screen  h6.MuiTypography-root{
@@ -293,4 +294,180 @@
   margin-left: 8px !important;
 }
 
+}
+/* mobile view */
+/* mobile view */
+@media(max-width:768px){
+ .chitreceipt-popup-card .popup-input-stack.chit-receipt-add{
+    display: flex;
+    flex-direction: column;
+    align-items: normal;
+    gap: 10px;
+    margin: 8px 16px 0 16px;
+  }
+.chitreceipt-popup-card  .chitreceiptadd-popup-table .MuiTableCell-root{
+    font-size: 13px;
+  }
+ .chitreceipt-popup-card .popup-input-chit-add.input-input{
+    margin-left: 0;
+  }
+  /* .chitreceipt-add-screen .chitreceipt-popup-card{
+    margin-right: 15px !important;
+    margin-left: 15px !important;
+  } */
+}
+  @media(max-width:547px){
+ .chitreceipt-popup-card{
+      margin-left: 10px !important;
+      margin-right: 10px !important;
+    }
+  .chitreceipt-popup-card .chitreceiptadd-popup-table .MuiTableCell-root{
+      font-size: 13px;
+    }
+  }
+/* Mobile View */
+
+  
+ /* Mobile View */
+ @media screen and (max-width: 768px){
+ .chitreceipt-popup-card .MuiStack-root.chitreceiptadd-popup-table  {
+    display: grid;
+    gap: 10px;
+    padding: 10px;
+   
+  }
+  .chitreceipt-popup-card .chitreceipt-scrollbar{
+    max-height:70vh; /* desired max-height */
+    overflow-y: auto;  /* Allow scrolling */
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+  }
+  .chitreceipt-popup-card .chitreceipt-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .chitreceipt-popup-card .chitreceipt-popup-table.MuiTable-root{
+    min-width:100px !important;
+  }
+  .chitreceipt-popup-card .MuiTableRow-root.chitreceipt-addlist-popup-head-table{
+    display: none !important; /* Hide table header on mobile */
+  }
+ .MuiTableRow-root.chit-receipt-popup-row_table_box{
+    display: block;
+    padding: 15px 10px 0 10px;
+    background: #fff;
+    box-shadow: 0 2px 4px #0000001a;
+    border: 1px solid #e7e7e7; 
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap!important;
+  }
+
+.MuiTableCell-root.chit-receipt-popup-membername-cell,
+.MuiTableCell-root.chit-receipt-popup-tktno-cell,
+.MuiTableCell-root.chit-receipt-popup-phone-cell
+{
+  width: 60% !important;
+  border-bottom: none;
+}
+
+.MuiTableCell-root.chit-receipt-popup-memnerid-cell,
+.MuiTableCell-root.chit-receipt-popup-fcode-cell
+{
+  width: 40% !important;
+  border-bottom: none;
+}
+.chitreceipt-popup-card .chitreceipt-add-button-cell{
+  display:block;
+  width: 40% !important;
+  border-bottom: none;
+  padding: 0 !important;
+}
+
+
+.chitreceiptadd-popup-table .MuiTableCell-root{
+    display: block;
+    padding: 15px 0;
+    position: relative;
+   
+  }
+.chitreceiptadd-popup-table  .MuiTableCell-root{
+  border-bottom: 1px solid transparent !important;
+} 
+ .chitreceiptadd-popup-table  .MuiTableCell-root::before{
+    content: attr(data-label) ": ";
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: -13px;
+    width: 50%;
+    padding-right: 10px;
+    white-space: nowrap;
+    margin-top: 10px !important;
+  }
+ .chitreceiptadd-popup-table .MuiTableCell-root:not(.tick-pending)::before{
+    content: attr(data-label) " ";
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: -13px;
+    width: 50%;
+    padding-right: 10px;
+    white-space: nowrap;
+    margin-top: 5px;
+  }
+  .chitreceiptadd-popup-table .MuiTableCell-root.tick-pending::before{
+    content: none;
+  }
+ .chit-receipt-popup-row_table_box.MuiTableRow-root  {
+    position: relative;
+  }
+.chitreceiptadd-popup-table  .tick-pending{
+position: absolute;
+top:0;
+right:3%;
+  }
+ }
+@media (max-width:400px){
+  .chitreceiptadd-popup-table .MuiTableCell-root{
+    font-size: 12px;
+  }
+  .chitreceiptadd-popup-table .MuiTableCell-root .paidmember-icon { 
+    width: 18px;
+    height: 18px;
+}
+
+.chitreceipt-list .MuiTableCell-root::before{
+  content: attr(data-label) ": ";
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  top: -13px;
+  width: 50%;
+  padding-right: 10px;
+  white-space: nowrap;
+  margin-top: 5px !important;
+}
+}
+@media (max-width:500px){
+.chitreceipt-popup-card .chitreceipt-add-button-cell-text{
+  font-size:11px !important;
+}
+}
+@media (max-width:400px){
+  .chitreceipt-popup-table.MuiTable-root{
+        min-width: 100px !important;
+    }
+}
+@media (max-width:360px){
+  .MuiTableCell-root.chit-receipt-popup-membername-cell,
+  .MuiTableCell-root.chit-receipt-popup-memnerid-cell,
+  .MuiTableCell-root.chit-receipt-popup-tktno-cell,
+  .MuiTableCell-root.chit-receipt-popup-fcode-cell,
+  .MuiTableCell-root.chit-receipt-popup-phone-cell
+  {
+    width: 100% !important;
+    border-bottom: none;
+  } 
 }

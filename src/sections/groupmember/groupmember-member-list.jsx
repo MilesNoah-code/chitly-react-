@@ -14,13 +14,13 @@ export default function GroupMemberTableRow({
   // const ImageUrl = JSON.parse(localStorage.getItem('imageUrl'));
 
   return (
-    <TableRow hover tabIndex={-1} role="checkbox" selected={selected} onClick={handleClick} sx={{ cursor: 'pointer',  }}>
+    <TableRow className='grpmember-popup-tablerow' hover tabIndex={-1} role="checkbox" selected={selected} onClick={handleClick} sx={{ cursor: 'pointer',  }}>
       <TableCell padding="checkbox" style={{ display: 'none' }}>
         <Checkbox disableRipple checked={selected} onChange={handleClick} />
       </TableCell>
-      <TableCell component="th" scope="row" >{item.name}</TableCell>
-      <TableCell>{item.id}</TableCell>
-      <TableCell>{item.mapped_phone}</TableCell>
+      <TableCell data-label="Member Name" className='grpmember-popup-membername-cell' component="th" scope="row" >{item.name}</TableCell>
+      <TableCell data-label="Acc No" className='grpmember-popup-id-cell'>{item.id}</TableCell>
+      <TableCell data-label="Mobile Number" className='grpmember-popup-mapped-phone-cell'>{item.mapped_phone}</TableCell>
     </TableRow>
   );
 }

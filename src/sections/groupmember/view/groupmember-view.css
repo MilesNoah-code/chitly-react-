@@ -4,7 +4,7 @@
   box-shadow: 0px 3px 1px -2px rgba(145, 158, 171, 0.2), 0px 2px 2px 0px rgba(145, 158, 171, 0.14), 0px 1px 5px 0px rgba(145, 158, 171, 0.12);
  font-size: 15px;
  
-  
+   
 }
 .groupmem-list .custom-button:hover{
   text-decoration: none;
@@ -45,3 +45,112 @@
   }
 
 }
+
+
+
+
+/*mobile view*/
+
+
+@media screen and (max-width: 768px) {
+  .groupmem-list .action-btn-mem{
+    position: absolute;
+    bottom: 138px;
+    right: -70%;
+      }
+  .groupmem-list {
+    display: grid;
+    gap: 10px;
+    padding: 10px;
+  }
+  .groupmem-list .MuiTable-root{
+    min-width:280px !important;
+  }
+  .groupmem-list .head-table {
+    display: none !important; /* Hide table header on mobile */
+  }
+
+.groupmem-list .action{
+  text-align: left !important;
+  display: inline-table !important;
+}
+  .groupmem-list .MuiTableRow-root {
+    display: block;
+
+    padding: 15px 10px;
+    background: #fff;
+    box-shadow: 0 2px 4px #0000001a;
+    border: 1px solid #e7e7e7; 
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    flex-wrap: wrap!important;
+  }
+.groupmem-list .group-id,
+.groupmem-list .duration
+{
+  margin-left: 0px !important;
+  width: 35% !important;
+  text-align: left !important;
+}
+.groupmem-list .amount{
+  width:100% !important;
+  text-align: left !important;
+}
+
+.groupmem-list .auction-mode,
+.groupmem-list .group-name,
+.groupmem-list .action
+{
+  width: 60% !important;
+  text-align: left !important;
+}
+.groupmem-list .MuiTableCell-root {
+    display: block;
+    padding: 15px 0;
+    position: relative;
+
+  }
+.groupmem-list .MuiTableCell-root{
+  border-bottom: 1px solid transparent !important;
+} 
+.groupmem-list .MuiTableCell-root::before {
+    content: attr(data-label) ": ";
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: -13px;
+    width: 50%;
+    padding-right: 10px;
+    white-space: nowrap;
+    margin-top: 5px;
+  }
+  .groupmem-list .MuiTableCell-root:not(.action)::before {
+    content: attr(data-label) " ";
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: -13px;
+    width: 50%;
+    padding-right: 10px;
+    white-space: nowrap;
+    margin-top: 5px;
+  }
+
+  .groupmem-list .MuiTableCell-root.action::before {
+    content: none;
+  }
+  .groupmem-list .row_table_box{
+    position: relative;
+    padding-top: 20px !important;
+      padding-bottom: 0  !important;
+  }
+ 
+  
+}
+@media (max-width:380px){
+
+  .groupmem-list .MuiTable-root {
+        min-width: 200px !important;
+    }
+} 

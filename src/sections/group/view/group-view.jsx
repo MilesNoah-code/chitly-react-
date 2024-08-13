@@ -11,7 +11,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import { Alert, MenuItem, Snackbar, TableRow, TableCell, TextField, InputAdornment } from '@mui/material';
 
-import { GetHeader } from 'src/hooks/AxiosApiFetch';
+import { GetHeader } from 'src/hooks/AxiosApiFetch'; 
 
 import { LogOutMethod } from 'src/utils/format-number';
 import { GROUP_LIST, REACT_APP_HOST_URL } from 'src/utils/api-constant';
@@ -207,13 +207,13 @@ export default function GroupView() {
             <Scrollbar>
               <TableContainer sx={{ overflow: 'unset' }}>
                 <Table sx={{ minWidth: 800 }}>
-                  <TableRow hover tabIndex={-1}>
+                  <TableRow className='head-table' hover tabIndex={-1}>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group Id</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group Name</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Duration</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Auction Mode</TableCell>
                     <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Amount</TableCell>
-                    <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
+                    <TableCell className="action" sx={{ background: '#edf4fe', color: '#1877f2', }} align='right'>Action</TableCell>
                   </TableRow>
                   <TableBody>
                     {GroupList

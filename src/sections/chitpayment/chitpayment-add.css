@@ -64,7 +64,7 @@ border-radius: 5px;
   position: relative;
 }
 .chitpayment-add-screen .pay-gp{
-  margin-top: 4px;
+  margin-top: -4px;
 }
 .chitpayment-add-screen .cancel-btn {
   position: absolute;
@@ -164,6 +164,9 @@ padding-top:0px !important ;
 .chitpayment-add-screen{
   margin-left: 35px;
   margin-right: 35px;
+}
+ .chitpayment-card .chitpayment-add-button-cell{
+  display:none;
 }
 @media (max-width:991px) {
   .chitpayment-add-screen  .box-one {
@@ -283,4 +286,116 @@ margin-left: 0px;
     margin-top: 5px;
     min-width: -webkit-fill-available !important;
   }
+}
+/* Mobile View */
+
+  
+ /* Mobile View */
+ @media(max-width:768px){
+  .chitpayment-card .chitpayment-card-stack{
+    margin-right: 0 !important;
+  }
+  .chitpayment-card .popup-input-stackfield.chit-payment-add {
+   display: flex;
+   flex-direction: column;
+   align-items: normal;
+   gap: 10px;
+   margin: 8px 16px 0 16px;
+ }
+ .chit-payment-add .input2-stack{
+  margin-left: 0;
+ }
+ .chitpayment-add-screen .chitpayment-card{
+  margin-right: 15px !important;
+  margin-left: 15px !important;
+}
+.chitpayment-card .chitpayment-table-scrollbar-div{
+  margin: 0 16px !important;
+}
+.chitpayment-card .chitpayment-table-scrollbar-div{
+  max-height:70vh; /* desired max-height */
+  overflow-y: auto;  /* Allow scrolling */
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
+}
+.chitpayment-card .chitpayment-table-scrollbar-div::-webkit-scrollbar {
+  display: none;
+}
+.chitpayment-card .chitpayment-popup-tableabove-div{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.chitpayment-card .chitpayment-tablecontainer-div{
+  margin-left: 0;
+  margin-right: 0; 
+}
+.chitpayment-card .chitpayment-add-table {
+  display: grid;
+  gap: 10px;
+  /* padding: 10px;  */
+}
+.chitpayment-card .chitpayment-add-table.MuiTable-root{
+  min-width:100px !important;
+}
+.chitpayment-card .MuiTableRow-root.chitpayment-add-headrow{
+  display: none !important; /* Hide table header on mobile */
+}
+.chitpayment-card .MuiTableRow-root.chitpayment-popup-row{
+  display: block;
+  padding: 15px 10px 0 10px;
+  background: #fff;
+  box-shadow: 0 2px 4px #0000001a;
+  border: 1px solid #e7e7e7; 
+  /* margin: 0 16px 10px 16px; */
+  margin-bottom: 10px;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap!important;
+}
+
+.chitpayment-card .MuiTableCell-root.chitpayment-popup-groupno-cell,
+.chitpayment-card .MuiTableCell-root.chitpayment-popup-membername-cell,
+.chitpayment-card .MuiTableCell-root.chitpayment-popup-memberid-cell,
+.chitpayment-card .MuiTableCell-root.chitpayment-popup-auctiondate-cell,
+.chitpayment-card .MuiTableCell-root.chitpayment-popup-tktno-cell,
+.chitpayment-card .MuiTableCell-root.chitpayment-popup-installno-cell{
+  width: 49% !important;
+  border-bottom: none;
+}
+.chitpayment-card .chitpayment-add-button-cell{
+  display:block;
+  width: 49%;
+  padding: 0;
+}
+.chitpayment-add-table .MuiTableCell-root{
+  display: block;
+  padding: 15px 0;
+  position: relative;
+ 
+}
+.chitpayment-add-table .MuiTableCell-root{
+  border-bottom: 1px solid transparent !important;
+  font-size: 13px;
+} 
+.chitpayment-add-table  .MuiTableCell-root::before{
+  content: attr(data-label) " ";
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  top: -13px;
+  width: 50%;
+  padding-right: 10px;
+  white-space: nowrap;
+  margin-top: 10px !important;
+}
+}
+@media (max-width:500px){
+  .chitpayment-card .chitpayment-add-button-cell-text{
+  font-size:11px !important;
+}
+}
+@media (max-width:360px){
+.chitpayment-add-table .MuiTableCell-root{
+      font-size: 12px;
+    } 
 }

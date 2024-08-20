@@ -103,6 +103,12 @@ export default function AccountPopover() {
           localStorage.removeItem("apiToken");
           localStorage.removeItem( "userDetails");
           navigate('/login');
+        } else if (json.success === false) {
+          if (json.code === 2 || json.code === "2") {
+            localStorage.removeItem("apiToken");
+            localStorage.removeItem("userDetails");
+            navigate('/login');
+          }
         }
       })
       .catch((error) => {

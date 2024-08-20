@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 import { useState, useEffect } from 'react';
+import {useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -16,6 +17,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
 
+import { LogOutMethod } from 'src/utils/format-number';
 import { ACTIVITY_LOG_LIST, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import Scrollbar from 'src/components/scrollbar';
@@ -48,6 +50,7 @@ export default function ActivityLogView() {
     data: null,
     searchdata: "",
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
     setTotalCount(0);
@@ -71,9 +74,13 @@ export default function ActivityLogView() {
           setTotalCount(json.total);
           setActivityLogList([...ActivityLogList, ...json.list]);
         } else if (json.success === false) {
-          setAlertMessage(json.message);
-          setAlertFrom("failed");
-          HandleAlertShow();
+          if (json.code === 2 || json.code === "2") {
+            LogOutMethod(navigate);
+          } else {
+            setAlertMessage(json.message);
+            setAlertFrom("failed");
+            HandleAlertShow();
+          }
         } else {
           setErrorAlert(true);
           setErrorScreen("network");

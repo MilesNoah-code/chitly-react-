@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
@@ -7,13 +7,13 @@ import Divider from '@mui/material/Divider';
 import Popover from '@mui/material/Popover';
 import { alpha } from '@mui/material/styles';
 import MenuItem from '@mui/material/MenuItem';
-import { Stack, Dialog } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import { Stack, Alert, Dialog, Snackbar } from '@mui/material';
 
-import { PostHeader } from 'src/hooks/AxiosApiFetch';
+import { GetHeader, PostHeader } from 'src/hooks/AxiosApiFetch';
 
-import { LOGOUT_URL, REACT_APP_HOST_URL } from 'src/utils/api-constant';
+import { LOGOUT_URL, CURRENT_USER, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import './account-popover.css';
 
@@ -28,13 +28,17 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
-  const UserDetail = JSON.parse(localStorage.getItem('userDetails'));
+  // const UserDetail = JSON.parse(localStorage.getItem('userDetails'));
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
   const Session = localStorage.getItem('apiToken');
   const navigate = useNavigate();
   const [Loading, setLoading] = useState(false);
+  const [AlertOpen, setAlertOpen] = useState(false);
+  const [AlertMessage, setAlertMessage] = useState('');
+  const [AlertFrom, setAlertFrom] = useState('');
+  const [UserDetail, setUserDetail] = useState({});
 
   const handleClose = (option) => {
     setOpen(null);
@@ -44,6 +48,46 @@ export default function AccountPopover() {
       navigate('/');
     }
   };
+
+  useEffect(() => {
+    GetUserDetail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const GetUserDetail = () => {
+    const url = `${REACT_APP_HOST_URL}${CURRENT_USER}`;
+    console.log(JSON.parse(Session) + url);
+    fetch(url, GetHeader(JSON.parse(Session)))
+      .then((response) => response.json())
+      .then((json) => {
+        // console.log(JSON.stringify(json));
+        if (json.success) {
+          setUserDetail(json.userDetails);
+        } else if (json.success === false) {
+          if (json.code === 2 || json.code === "2") {
+            LogOutMethod();
+          } else {
+            setAlertMessage(json.message);
+            setAlertFrom("failed");
+            HandleAlertShow();
+          }
+        }
+      })
+      .catch((error) => {
+        // console.log(error);
+      })
+  };
+
+  const HandleAlertShow = () => {
+    setAlertOpen(true);
+  };
+
+  const HandleAlertClose = () => {
+    setAlertOpen(false);
+    if (AlertFrom === "success") {
+      window.location.reload();
+    }
+  }
 
   const LogOutMethod = () => {
     setOpen(null);
@@ -94,7 +138,7 @@ export default function AccountPopover() {
             border: (theme) => `solid 2px ${theme.palette.background.default}`,
           }}
         >
-          {UserDetail.first_name[0]}
+          {Object.keys(UserDetail).length > 0 ? UserDetail.first_name.charAt(0) : ''}
         </Avatar>
       </IconButton>
 
@@ -141,6 +185,16 @@ export default function AccountPopover() {
           Logout
         </MenuItem>
       </Popover>
+      <Snackbar open={AlertOpen} autoHideDuration={1000} onClose={HandleAlertClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ mt: '60px' }}>
+        <Alert
+          onClose={HandleAlertClose}
+          severity={AlertFrom === "failed" ? "error" : "success"}
+          variant="filled"
+          sx={{ width: '100%' }} >
+          {AlertMessage}
+        </Alert>
+      </Snackbar>
       <Dialog
         open={Loading}
         onClose={() => setLoading(false)}

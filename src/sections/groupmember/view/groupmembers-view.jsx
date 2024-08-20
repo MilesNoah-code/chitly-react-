@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -11,6 +12,7 @@ import { Alert, Snackbar, TableRow, TableCell, TextField, InputAdornment } from 
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
 
+import { LogOutMethod } from 'src/utils/format-number';
 import { GROUP_LIST, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import Iconify from 'src/components/iconify';
@@ -39,6 +41,7 @@ export default function GroupMemberView() {
   const [ErrorAlert, setErrorAlert] = useState(false);
   const [ErrorScreen, setErrorScreen] = useState('');
   const [TotalCount, setTotalCount] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setTotalCount(0);
@@ -62,9 +65,13 @@ export default function GroupMemberView() {
           setTotalCount(json.total);
           setGroupMemberList([...GroupMemberList, ...json.list]);
         } else if (json.success === false) {
-          setAlertMessage(json.message);
-          setAlertFrom("failed");
-          HandleAlertShow();
+          if (json.code === 2 || json.code === "2") {
+            LogOutMethod(navigate);
+          } else {
+            setAlertMessage(json.message);
+            setAlertFrom("failed");
+            HandleAlertShow();
+          }
         } else {
           setErrorAlert(true);
           setErrorScreen("network");

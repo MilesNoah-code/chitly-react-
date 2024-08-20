@@ -9,6 +9,7 @@ import { Box, Tab, Stack, Alert, Table, Button, Dialog, Divider ,Snackbar, Table
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
 
+import { LogOutMethod } from 'src/utils/format-number';
 import { REACT_APP_HOST_URL, PAYABLE_REPORT_LIST, RECEIVABLE_REPORT_LIST } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
@@ -72,9 +73,13 @@ export default function ReportView() {
                     setTotalCount(json.total);
                     setPayableReportList([...PayableReportList, ...json.list]);
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -103,9 +108,13 @@ export default function ReportView() {
                     setTotalCount1(json.total);
                     setReceivableReportList([...ReceivableReportList, ...json.list]);
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -174,7 +183,7 @@ export default function ReportView() {
         navigate('/'); 
     }
 
-    const formatNumber = (number) => new Intl.NumberFormat('en-IN').format(number);
+    const formatNumber = (number) => new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2, }).format(number);
 
     if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
@@ -247,7 +256,7 @@ export default function ReportView() {
                                                                 <TableCell>{row.memberId}</TableCell>
                                                                 <TableCell>{row.groupno}</TableCell>
                                                                 <TableCell>{row.tktno}</TableCell>
-                                                                <TableCell align='right'>{row.chitAmount != null && row.chitAmount !== "" ? formatNumber(Math.round(row.chitAmount)) : ""}</TableCell>
+                                                                <TableCell align='right'>{row.chitAmount != null && row.chitAmount !== "" ? formatNumber(row.chitAmount) : ""}</TableCell>
                                                             </TableRow>
                                                         ))}
                                                     <TableEmptyRows
@@ -317,7 +326,7 @@ export default function ReportView() {
                                                                 <TableCell>{row.memberId}</TableCell>
                                                                 <TableCell>{row.groupNo}</TableCell>
                                                                 <TableCell>{row.tktno}</TableCell>
-                                                                <TableCell align='right'>{row.arrears != null && row.arrears !== "" ? formatNumber(Math.round(row.arrears)) : ""}</TableCell>
+                                                                <TableCell align='right'>{row.arrears != null && row.arrears !== "" ? formatNumber(row.arrears) : ""}</TableCell>
                                                                 <TableCell align='right'>
                                                                     <IconButton onClick={() => { setInstallmentDetailList(row.detail); setInstallmentDetailListAlert(true); }} sx={{ cursor: 'pointer' }}>
                                                                         <Iconify icon="eva:eye-fill" />
@@ -394,7 +403,7 @@ export default function ReportView() {
                                         {InstallmentDetailList.map((row, index) => (
                                             <TableRow hover tabIndex={-1} role="checkbox" sx={{ cursor: 'pointer' }}>
                                                 <TableCell>{row.installno}</TableCell>
-                                                <TableCell align="right">{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
+                                                <TableCell align="right">{row.amount != null && row.amount !== "" ? formatNumber(row.amount) : ""}</TableCell>
                                             </TableRow>
                                         ))}
                                         <TableEmptyRows

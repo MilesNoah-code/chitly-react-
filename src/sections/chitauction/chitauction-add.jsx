@@ -18,6 +18,7 @@ import { Box, Grid, Stack, Alert, Button, Dialog, styled, Portal, Divider, Snack
 
 import { GetHeader, PutHeader, PostHeader, DeleteHeader, } from 'src/hooks/AxiosApiFetch';
 
+import { LogOutMethod } from 'src/utils/format-number';
 import { CHIT_AUCTION_SAVE, CHIT_AUCTION_LIST, CHIT_PAYMENT_LIST, CHIT_RECEIPT_LIST, GROUP_MEMBER_LIST, REACT_APP_HOST_URL, CHIT_AUCTION_UPDATE, STANDING_INSTRUCTION, 
     CHIT_AUCTION_MEMBER_LIST, CHIT_AUCTION_ENTRY_DELETE, CHIT_PAYMENT_CHIT_PARAMETERS, ESTIMATE_LIST_BASED_INSTALL_TKT, CHIT_AUCTION_MAPPED_UNMAPPED_MEMBER, } from 'src/utils/api-constant';
 
@@ -293,9 +294,13 @@ export default function AddChitAuctionPage() {
                     } */
                     setChitAuctionList(completeList);
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -330,9 +335,13 @@ export default function AddChitAuctionPage() {
                     }
                 } else if (json.success === false) {
                     setChitAuctionMemberListLoading(false);
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                         setAlertMessage(json.message);
+                         setAlertFrom("failed");
+                         HandleAlertShow();
+                    }
                 } else {
                     setChitAuctionMemberListLoading(false);
                     setErrorAlert(true);
@@ -423,9 +432,13 @@ export default function AddChitAuctionPage() {
                         HandleResetClick();
                     }
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -453,9 +466,13 @@ export default function AddChitAuctionPage() {
                     });
                     setChitEstimateList(json.list);
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -479,9 +496,13 @@ export default function AddChitAuctionPage() {
                 if (json.success) {
                     setChitPaymentListTotal(json.total);
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -505,9 +526,13 @@ export default function AddChitAuctionPage() {
                 if (json.success) {
                     setChitReceiptListTotal(json.total);
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -533,9 +558,13 @@ export default function AddChitAuctionPage() {
                         setChitParameter(json.list);
                     }
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -599,9 +628,13 @@ export default function AddChitAuctionPage() {
                         }
                     }
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -629,9 +662,13 @@ export default function AddChitAuctionPage() {
                     setTotalCount(json.total)
                     console.log('total:', json.total)
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -722,9 +759,13 @@ export default function AddChitAuctionPage() {
                         setAlertFrom("success");
                         HandleAlertShow();
                     } else if (json.success === false) {
-                        setAlertMessage(json.message);
-                        setAlertFrom("failed");
-                        HandleAlertShow();
+                        if (json.code === 2 || json.code === "2") {
+                            LogOutMethod(navigate);
+                        } else {
+                            setAlertMessage(json.message);
+                            setAlertFrom("failed");
+                            HandleAlertShow();
+                        }
                     } else {
                         setErrorAlert(true);
                         setErrorScreen("network");
@@ -809,9 +850,13 @@ export default function AddChitAuctionPage() {
                         setAlertFrom("success");
                         HandleAlertShow();
                     } else if (json.success === false) {
-                        setAlertMessage(json.message);
-                        setAlertFrom("failed");
-                        HandleAlertShow();
+                        if (json.code === 2 || json.code === "2") {
+                            LogOutMethod(navigate);
+                        } else {
+                            setAlertMessage(json.message);
+                            setAlertFrom("failed");
+                            HandleAlertShow();
+                        }
                     } else {
                         setErrorAlert(true);
                         setErrorScreen("network");
@@ -842,9 +887,13 @@ export default function AddChitAuctionPage() {
                     setAlertFrom("success");
                     HandleAlertShow();
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");

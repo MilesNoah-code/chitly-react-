@@ -16,6 +16,7 @@ import { Box, Grid, Stack, Alert, Button, Dialog, Portal, Divider, Snackbar, Tab
 
 import { GetHeader, PostHeader, } from 'src/hooks/AxiosApiFetch';
 
+import { LogOutMethod } from 'src/utils/format-number';
 import { CHIT_PAYMENT_SAVE, REACT_APP_HOST_URL, CHIT_PAYMENT_DETAIL, REQ_CHIT_PARAMETERS, CHIT_PAYMENT_LEDGER_LIST, CHIT_PAYMENT_RECEIPT_NUMBER, CHIT_PAYMENT_UNPAID_GROUP_LIST, } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
@@ -183,9 +184,13 @@ export default function AddChitPaymentPage() {
                         error: ""
                     });
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -216,9 +221,13 @@ export default function AddChitPaymentPage() {
                     setTotalCount(json.total);
                     setUnPaidGroupList(json.list)
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -245,9 +254,13 @@ export default function AddChitPaymentPage() {
                         error: ""
                     });
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -313,9 +326,13 @@ export default function AddChitPaymentPage() {
                         }
                     }
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -343,9 +360,13 @@ export default function AddChitPaymentPage() {
                     setLedgerTotalCount(json.total);
                     setLedgerList([...LedgerList, ...json.list]);
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -408,9 +429,13 @@ export default function AddChitPaymentPage() {
                         setAlertFrom("success");
                         HandleAlertShow();
                     } else if (json.success === false) {
-                        setAlertMessage(json.message);
-                        setAlertFrom("failed");
-                        HandleAlertShow();
+                        if (json.code === 2 || json.code === "2") {
+                            LogOutMethod(navigate);
+                        } else {
+                            setAlertMessage(json.message);
+                            setAlertFrom("failed");
+                            HandleAlertShow();
+                        }
                     } else {
                         setErrorAlert(true);
                         setErrorScreen("network");
@@ -1369,19 +1394,12 @@ export default function AddChitPaymentPage() {
                 // sx={{ display: 'flex', justifyContent: 'center', flex: 1, }}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                sx={{
-                    "& .MuiDialog-container": {
-                        "& .MuiPaper-root": {
-                            width: "100%",
-                            maxWidth: "700px",  // Set your width here
-                        },
-                    },
-                }}>
+             >
                 <Card>
-                    <Stack sx={{ mr: 2 }}>
-                        <Stack ml={1} mr={1} direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
+                    <Stack pr={2} pl={2}>
+                        <Stack  direction="row" alignItems="center" sx={{ alignItems: 'center' }}>
                             <Stack direction='column'>
-                                <Typography variant="subtitle1" sx={{ mt: 2, ml: 1 }}>
+                                <Typography variant="subtitle1" sx={{ mt: 2, pl: 1 }}>
                                     Group Member list
                                 </Typography>
                             </Stack>
@@ -1394,7 +1412,7 @@ export default function AddChitPaymentPage() {
                             </IconButton>
                         </Stack>
                         <Divider sx={{ mt: 2, mb: 1 }} />
-                        <Stack mt={1} ml={2} mr={1} direction="row" alignItems="center" >
+                        <Stack mt={1} mb={2} direction="row" alignItems="center" >
                             <TextField
                          className="search-text-field"
                                 placeholder="Group Code..."
@@ -1448,9 +1466,9 @@ export default function AddChitPaymentPage() {
                             />
                         </Stack>
                         <Scrollbar style={{ maxHeight: '70vh' }}>
-                            <div style={{ paddingLeft: 2, paddingRight: 2 }}>
-                                <TableContainer sx={{ mt: 2, mb: 2, ml: 2, mr: 2 }}>
-                                    <Table stickyHeader>
+                            <div>
+                                <TableContainer sx={{overflow: 'unset'}}>
+                                    <Table sx={{ minWidth:500 }} stickyHeader>
                                         <TableRow hover tabIndex={-1}>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Group No</TableCell>
                                             <TableCell sx={{ background: '#edf4fe', color: '#1877f2', }}>Member Name</TableCell>

@@ -1,5 +1,9 @@
 import numeral from 'numeral';
 
+import { PostHeader } from 'src/hooks/AxiosApiFetch';
+
+import { LOGOUT_URL, REACT_APP_HOST_URL } from 'src/utils/api-constant';
+
 // ----------------------------------------------------------------------
 
 export function fNumber(number) {
@@ -34,4 +38,24 @@ function result(format, key = '.00') {
   const isInteger = format.includes(key);
 
   return isInteger ? format.replace(key, '') : format;
+}
+
+export function LogOutMethod(navigate){
+  const Session = localStorage.getItem('apiToken');
+  const url = `${REACT_APP_HOST_URL}${LOGOUT_URL}`;
+  console.log(JSON.parse(Session) + url)
+  fetch(url, PostHeader(JSON.parse(Session), ''))
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(JSON.stringify(json));
+      if (json.success) {
+        localStorage.removeItem("apiToken");
+        localStorage.removeItem("userDetails");
+        navigate('/login');
+      }
+      // navigate('/login');
+    })
+    .catch((error) => {
+      // console.log(error);
+    })
 }

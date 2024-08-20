@@ -15,6 +15,7 @@ import { Box, Tab, Radio, Stack, Alert, Button, Portal, Dialog, MenuItem, Snackb
 import { GetHeader, PutHeader, PostHeader, DeleteHeader, PostImageHeader } from 'src/hooks/AxiosApiFetch';
 
 import { isValidEmail } from 'src/utils/Validator';
+import { LogOutMethod } from 'src/utils/format-number';
 import { MEMBER_ADD, STATE_LIST, MEMBER_VIEW, COUNTRY_LIST, MEMBER_UPDATE, MEMBER_MEDIA_LIST, MEMBER_MEDIA_SAVE, REACT_APP_HOST_URL, MEMBER_ADDRESS_SAVE, MEMBER_IMAGE_UPLOAD,
     MEMBER_MEDIA_DELETE, MEMBER_ADDRESS_UPDATE, MEMBER_BANK_DETAIL_SAVE, MEMBER_BANK_DETAIL_UPDATE, MEMBER_EDUCATION_DETAIL_SAVE,
     MEMBER_OCCUPATION_DETAIL_SAVE, MEMBER_EDUCATION_DETAIL_UPDATE, MEMBER_OCCUPATION_DETAIL_UPDATE,
@@ -451,9 +452,13 @@ export default function AddMemberPage() {
                         GetCountryList()
                     }
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -577,9 +582,13 @@ export default function AddMemberPage() {
                         }
                         HandleAlertShow();
                     } else if (json.success === false) {
-                        setAlertMessage(json.message);
-                        setAlertFrom("failed");
-                        HandleAlertShow();
+                        if (json.code === 2 || json.code === "2") {
+                            LogOutMethod(navigate);
+                        } else {
+                            setAlertMessage(json.message);
+                            setAlertFrom("failed");
+                            HandleAlertShow();
+                        }
                     } else {
                         setErrorAlert(true);
                         setErrorScreen("network");
@@ -628,9 +637,13 @@ export default function AddMemberPage() {
                         setAlertFrom("success");
                         HandleAlertShow();
                     } else if (json.success === false) {
-                        setAlertMessage(json.message);
-                        setAlertFrom("failed");
-                        HandleAlertShow();
+                        if (json.code === 2 || json.code === "2") {
+                            LogOutMethod(navigate);
+                        } else {
+                            setAlertMessage(json.message);
+                            setAlertFrom("failed");
+                            HandleAlertShow();
+                        }
                     } else {
                         setErrorAlert(true);
                         setErrorScreen("network");
@@ -666,9 +679,13 @@ export default function AddMemberPage() {
                     setMediaList(json.list);
                 } else if (json.success === false) {
                     setProfileUploadLoading(false);
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setProfileUploadLoading(false);
                     setErrorAlert(true);
@@ -716,9 +733,13 @@ export default function AddMemberPage() {
                             });
                         }
                     } else if (json.success === false) {
-                        setAlertMessage(json.message);
-                        setAlertFrom("failed");
-                        HandleAlertShow();
+                        if (json.code === 2 || json.code === "2") {
+                            LogOutMethod(navigate);
+                        } else {
+                            setAlertMessage(json.message);
+                            setAlertFrom("failed");
+                            HandleAlertShow();
+                        }
                     } else {
                         setErrorAlert(true);
                         setErrorScreen("network");
@@ -810,9 +831,13 @@ export default function AddMemberPage() {
                         setScreenRefresh(0);
                         GetMediaList("", "");
                     } else if (json.success === false) {
-                        setAlertMessage(json.message);
-                        setAlertFrom("failed");
-                        HandleAlertShow();
+                        if (json.code === 2 || json.code === "2") {
+                            LogOutMethod(navigate);
+                        } else {
+                            setAlertMessage(json.message);
+                            setAlertFrom("failed");
+                            HandleAlertShow();
+                        }
                     } else {
                         setErrorAlert(true);
                         setErrorScreen("network");
@@ -846,9 +871,13 @@ export default function AddMemberPage() {
                     }
                 } else if (json.success === false) {
                     setProfileUploadLoading(false);
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setProfileUploadLoading(false);
                     setErrorAlert(true);
@@ -879,9 +908,13 @@ export default function AddMemberPage() {
                         });
                     } */
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");
@@ -911,9 +944,13 @@ export default function AddMemberPage() {
                     }
                     GetStateList(json.list[0].country_name);
                 } else if (json.success === false) {
-                    setAlertMessage(json.message);
-                    setAlertFrom("failed");
-                    HandleAlertShow();
+                    if (json.code === 2 || json.code === "2") {
+                        LogOutMethod(navigate);
+                    } else {
+                        setAlertMessage(json.message);
+                        setAlertFrom("failed");
+                        HandleAlertShow();
+                    }
                 } else {
                     setErrorAlert(true);
                     setErrorScreen("network");

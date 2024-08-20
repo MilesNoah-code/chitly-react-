@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -16,7 +16,11 @@ import ListItemButton from '@mui/material/ListItemButton';
 
 import { RouterLink } from 'src/routes/components';
 
+import { GetHeader } from 'src/hooks/AxiosApiFetch';
 import { useResponsive } from 'src/hooks/use-responsive';
+
+import { LogOutMethod } from 'src/utils/format-number';
+import { CURRENT_USER, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import { bgBlur } from 'src/theme/css';
 
@@ -32,10 +36,38 @@ import AccountPopover from './common/account-popover';
 export default function DashboardLayout({ children }) {
   const themes = useTheme();
   const upLg = useResponsive('up', 'lg');
-  const UserDetail = JSON.parse(localStorage.getItem('userDetails'));
+  // const UserDetail = JSON.parse(localStorage.getItem('userDetails'));
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false); // Changed state name for clarity
   const lgUp = useResponsive('up', 'lg');
+  const Session = localStorage.getItem('apiToken');
+  const [UserDetail, setUserDetail] = useState({});
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    GetUserDetail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const GetUserDetail = () => {
+    const url = `${REACT_APP_HOST_URL}${CURRENT_USER}`;
+    console.log(JSON.parse(Session) + url);
+    fetch(url, GetHeader(JSON.parse(Session)))
+      .then((response) => response.json())
+      .then((json) => {
+        // console.log(JSON.stringify(json));
+        if (json.success) {
+          setUserDetail(json.userDetails);
+        } else if (json.success === false) {
+          if (json.code === 2|| json.code === "2"){
+            LogOutMethod(navigate);
+          }
+        }
+      })
+      .catch((error) => {
+        // console.log(error);
+      })
+  };
 
   const handleMouseEnter = () => {
     if (!isClicked) {
@@ -60,12 +92,12 @@ export default function DashboardLayout({ children }) {
         bgcolor: (theme) => isClicked || isHovered ? alpha(theme.palette.grey[500], 0.12) : alpha(theme.palette.grey[500], 0),
       }} >
       <Avatar
-        src={UserDetail.photoURL}
-        alt={UserDetail.first_name}
+        src={UserDetail ? UserDetail.photoURL : ''}
+        alt={UserDetail ? UserDetail.first_name : ''}
         sx={{
           ...(isClicked || isHovered && {  width: 40, height: 40, }),
         }} >
-        {UserDetail.first_name[0]}
+        {Object.keys(UserDetail).length > 0 ? UserDetail.first_name.charAt(0) : ''}
       </Avatar>
 
       <Box sx={{ ml: 2, flexDirection: 'row' }}>

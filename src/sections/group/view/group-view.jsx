@@ -13,6 +13,7 @@ import { Alert, MenuItem, Snackbar, TableRow, TableCell, TextField, InputAdornme
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
 
+import { LogOutMethod } from 'src/utils/format-number';
 import { GROUP_LIST, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import Iconify from 'src/components/iconify';
@@ -66,9 +67,14 @@ export default function GroupView() {
           setTotalCount(json.total);
           setGroupList([...GroupList, ...json.list]);
         } else if (json.success === false) {
-          setAlertMessage(json.message);
-          setAlertFrom("failed");
-          HandleAlertShow();
+          if (json.code === 2 || json.code === "2") {
+            LogOutMethod(navigate);
+          } else {
+            setAlertMessage(json.message);
+            setAlertFrom("failed");
+            HandleAlertShow();
+          }
+          
         } else {
           setErrorAlert(true);
           setErrorScreen("network");

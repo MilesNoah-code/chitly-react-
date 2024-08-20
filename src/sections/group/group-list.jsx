@@ -14,6 +14,7 @@ import { Alert, Button, Dialog, Snackbar, DialogTitle, DialogActions } from '@mu
 
 import { DeleteHeader, PutHeaderWithoutParams } from 'src/hooks/AxiosApiFetch';
 
+import { LogOutMethod } from 'src/utils/format-number';
 import { GROUP_DELETE, GROUP_ACTIVATE, REACT_APP_HOST_URL } from 'src/utils/api-constant';
 
 import ErrorLayout from 'src/Error/ErrorLayout';
@@ -48,9 +49,13 @@ export default function GroupTableRow({
           setAlertFrom("success");
           HandleAlertShow();
         } else if (json.success === false) {
-          setAlertMessage(json.message);
-          setAlertFrom("failed");
-          HandleAlertShow();
+          if (json.code === 2 || json.code === "2") {
+            LogOutMethod(navigate);
+          } else {
+            setAlertMessage(json.message);
+            setAlertFrom("failed");
+            HandleAlertShow();
+          }
         } else {
           setErrorAlert(true);
           setErrorScreen("network");
@@ -75,9 +80,13 @@ export default function GroupTableRow({
           setAlertFrom("success");
           HandleAlertShow();
         } else if (json.success === false) {
-          setAlertMessage(json.message);
-          setAlertFrom("failed");
-          HandleAlertShow();
+          if (json.code === 2 || json.code === "2") {
+            LogOutMethod(navigate);
+          } else {
+            setAlertMessage(json.message);
+            setAlertFrom("failed");
+            HandleAlertShow();
+          }
         } else {
           setErrorAlert(true);
           setErrorScreen("network");

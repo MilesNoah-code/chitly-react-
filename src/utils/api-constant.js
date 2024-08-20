@@ -73,3 +73,4 @@ export const CHIT_AUCTION_MEMBER_LIST = "api/auctionMemberDetail/listAll?isActiv
 export const CHIT_AUCTION_ENTRY_DELETE = "api/auction/delete/";
 export const ESTIMATE_LIST_BASED_INSTALL_TKT = "api/chitEstimate/listBasedInstAndTkt?";
 export const GROUP_MEMBER_DELETE = "api/groupMember/delete/";
+export const CURRENT_USER = "api/currentUser";

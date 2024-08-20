@@ -1,4 +1,4 @@
-3.5.24
+3.5.0
 Date : 12/08/2024
 Type : changes
 Description :  

@@ -37,6 +37,15 @@ export default function ChitEstimateTableRow({
   const [ErrorAlert, setErrorAlert] = useState(false);
   const [ErrorScreen, setErrorScreen] = useState('network');
 
+  const handleOpenScreen = (row) => {
+    navigate(`/chitestimate/add`, {
+      state: {
+        screen: 'add',
+        data: row,
+      },
+    });
+  };
+
   const ChitEstimateDeleteMethod = (id) => {
     const url = `${REACT_APP_HOST_URL}${CHIT_ESTIMATE_DELETE}${id}`;
     console.log(url);
@@ -65,9 +74,9 @@ export default function ChitEstimateTableRow({
       })
   }
 
-  const handleOpenMenu = (event) => {
-    setOpen(event.currentTarget);
-  };
+  // const handleOpenMenu = (event) => {
+  //   setOpen(event.currentTarget);
+  // };
 
   const HandleSelectMenu = (from) => {
     console.log(item)
@@ -128,8 +137,8 @@ export default function ChitEstimateTableRow({
           <TableCell data-label="Duration" className ='duration'>{item.duration}</TableCell>
           <TableCell data-label="Auction Mode" className ='auction-mode'>{item.auction_mode}</TableCell>
           <TableCell align="right" className="MuiTableCell-root action">
-            <IconButton className="action-btn-mem" onClick={handleOpenMenu} sx={{ cursor: 'pointer' }}>
-              <Iconify icon="eva:more-vertical-fill" />
+            <IconButton className="action-btn-mem" onClick={() => handleOpenScreen(item)} sx={{ cursor: 'pointer' }}>
+              <Iconify icon="eva:edit-fill" />
             </IconButton>
           </TableCell>
         </TableRow>}

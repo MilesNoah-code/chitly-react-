@@ -9,7 +9,7 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-import { Alert, Snackbar, MenuItem, TableRow, TableCell, TextField, IconButton, InputAdornment } from '@mui/material';
+import { Alert, Snackbar, MenuItem, TableRow, TableCell, TextField,  InputAdornment } from '@mui/material';
 
 import { GetHeader } from 'src/hooks/AxiosApiFetch';
 
@@ -21,10 +21,10 @@ import Scrollbar from 'src/components/scrollbar';
 import { emptyRows } from 'src/sections/member/utils';
 
 import './chitestimate-view.css';
+import GroupTableRow from '../chitestimate-list';
 import TableNoData from '../../member/table-no-data';
 import ErrorLayout from '../../../Error/ErrorLayout';
 import TableEmptyRows from '../../member/table-empty-rows';
-
 
 export default function ChitEstimateView() {
 
@@ -144,16 +144,9 @@ export default function ChitEstimateView() {
     setAlertOpen(false);
   };
 
-  const handleOpenScreen = (row) => {
-    navigate(`/chitestimate/add`, {
-      state: {
-        screen: 'add',
-        data: row,
-      },
-    });
-  };
 
-  const formatNumber = (number) => new Intl.NumberFormat('en-IN').format(number);
+
+ 
 
   if (ErrorAlert) return <ErrorLayout screen={ErrorScreen} />
 
@@ -222,17 +215,10 @@ export default function ChitEstimateView() {
                     {ChitEstimateList
                       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                       .map((row) => (
-                        <TableRow className='row_table_box'  hover tabIndex={-1} role="checkbox">
-                          <TableCell data-label="Group Code" className ='group-name'>{row.groupno}</TableCell>
-                          <TableCell  data-label="Amount" className ='amount' align="right">{row.amount != null && row.amount !== "" ? formatNumber(Math.round(row.amount)) : ""}</TableCell>
-                          <TableCell data-label="Duration" className ='duration' >{row.duration}</TableCell>
-                          <TableCell data-label="Auction Mode" className ='auction-mode'>{row.auction_mode}</TableCell>
-                          <TableCell  className="MuiTableCell-root action" align="right">
-                            <IconButton className="action-btn-mem" onClick={() => handleOpenScreen(row)} sx={{ cursor: 'pointer' }}>
-                              <Iconify icon="eva:edit-fill" />
-                            </IconButton>
-                          </TableCell>
-                        </TableRow>
+                     <GroupTableRow 
+                     key={row.id}
+                     item={row}
+                     />
                       ))}
                     <TableEmptyRows
                       height={77}
@@ -267,4 +253,7 @@ export default function ChitEstimateView() {
     </div>
   );
 }
+
+
+
 

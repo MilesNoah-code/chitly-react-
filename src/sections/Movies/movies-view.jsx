@@ -49,22 +49,6 @@ export default function MovieView() {
           Back{' '}
         </Button>
       </Stack>{' '}
-      {/* <Stack spacing={2} direction="row"  sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width:"50%",
-            ml:'auto',
-            mr:'auto'
-          }}>
-            <div>
-            <p><span>Movie Name:</span> {data.Title}</p>
-            <p><span>Year:</span> {data.Year}</p>
-            <p><span>Genre:</span> {data.Genre}</p>
-            <p><span>Director:</span> {data.Director}</p>
-            <p><span>Actors:</span> {data.Actors}</p>
-            <Button onClick = {()=>goBack()}>Back</Button>
-            </div>
-         </Stack> */}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 600 }}>
           <TableHead>

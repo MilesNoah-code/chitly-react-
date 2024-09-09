@@ -24,12 +24,12 @@ export default function Movie() {
   const [open, setOpen] = useState(null);
   const [selectItem, setSelectItem] = useState({});
   const [isdelete, setIsDelete] = useState(true);
-
+  const {contextMovies, setContextMovies} = useContext(MovieContext);
    
   const navigate = useNavigate();
 
   useEffect(() => {
-    const moviesArr = JSON.parse(localStorage.getItem('movies')) || [];
+    const moviesArr = contextMovies || [];
     setMovies(moviesArr);
   }, []);
 
@@ -63,8 +63,8 @@ export default function Movie() {
       });
     } else if (action === 'delete') {
       const newMovies = movies.filter((data) => data.id !== item.id);
-      setMovieArr(newMovies)
-      setMovies(movieArr);
+     
+      setMovies(newMovies);
       setMessage('Movie Has Been Deleted');
       setIsSuccess(true);
       setAlert(true);
@@ -78,12 +78,12 @@ export default function Movie() {
   const filterByName = (text) => {
     const curText = text || '';
     if (curText.length > 0) {
-      const newArr = JSON.parse(localStorage.getItem('movies')).filter((item) =>
+      const newArr = contextMovies.filter((item) =>
         item.Title.toLowerCase().includes(curText.toLowerCase())
       );
       setMovies(newArr);
     } else {
-      setMovies(JSON.parse(localStorage.getItem('movies')));
+      setMovies(contextMovies);
     }
   };
   const handleOpenMenu = (item, event) => {

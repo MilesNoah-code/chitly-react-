@@ -28,12 +28,11 @@ export default function MovieEdit() {
   });
   const [curScreen, setCurScreen] = useState('');
   const [disableButton, setDisableButton] = useState(false);
-  const {movieArr, setMovieArr} = useContext(MovieContext)
-  console.log(movieArr, "edit")
+  const {contextMovies, setContextMovies} = useContext(MovieContext);
 
 
   useEffect(() => {
-    const moviesArr = JSON.parse(localStorage.getItem('movies')) || [];
+    const moviesArr = contextMovies || [];
     setMovies(moviesArr);
   }, []);
 
@@ -109,7 +108,7 @@ export default function MovieEdit() {
         movies.push(curItem);
       }
 
-      localStorage.setItem('movies', JSON.stringify(movies));
+      setContextMovies(movies)
       setMovies(movies);
       navigate('/movies');
     }

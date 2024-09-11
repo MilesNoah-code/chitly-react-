@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useContext } from 'react';
+import { UserContext } from 'src/context/UserContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
@@ -30,12 +31,15 @@ import { emptyRows } from '../member/utils';
 import TableNoData from '../member/table-no-data';
 import TableEmptyRows from '../member/table-empty-rows';
 
+
 export default function AddChitEstimatePage() {
 
     const navigate = useNavigate();
     const location = useLocation();
+    const {token, setToken} = useContext(UserContext)
+
     const { screen, data } = location.state || {};
-    const Session = localStorage.getItem('apiToken');
+    const Session = token;
     const [GroupNo, setGroupNo] = useState({
         data: data && data.groupno ? data.groupno : "",
         error: ""

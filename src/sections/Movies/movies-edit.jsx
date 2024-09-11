@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
-import { Button, Typography } from '@mui/material';
+import { Button, Typography,Avatar  } from '@mui/material';
 
 import Iconify from 'src/components/iconify';
 import {MovieContext} from '../../context/MoviesContext'
@@ -16,6 +16,7 @@ export default function MovieEdit() {
   const [genere, setGenere] = useState('');
   const [director, setDirector] = useState('');
   const [actor, setActors] = useState([]);
+  const [img, setImg] = useState("");
   const [curActor, setCurActor] = useState('');
   const [item, setItem] = useState(null);
   const [movies, setMovies] = useState([]);
@@ -29,6 +30,20 @@ export default function MovieEdit() {
   const [curScreen, setCurScreen] = useState('');
   const [disableButton, setDisableButton] = useState(false);
   const {contextMovies, setContextMovies} = useContext(MovieContext);
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+
+    if(file){
+      const reader  =  new FileReader();
+      reader.onload = function(event){
+         setImg(event.target.result)
+      }
+      reader.readAsDataURL(file);
+    }
+  };
 
 
   useEffect(() => {
@@ -99,11 +114,13 @@ export default function MovieEdit() {
         actor: curActor,
         Director: director,
         Actors: actor,
+        image:img
       };
 
       if (curScreen === 'edit') {
         const index = movies.findIndex((movie) => movie.id === item.id);
         movies[index] = curItem;
+        console.log(movies[index])
       } else {
         movies.push(curItem);
       }
@@ -118,6 +135,7 @@ export default function MovieEdit() {
     const { screen, data } = location.state || {};
     setCurScreen(screen);
     setItem(data || null);
+    console.log(data)
     if (data) {
       setName(data.Title);
       setYear(data.Year);
@@ -125,6 +143,7 @@ export default function MovieEdit() {
       setDirector(data.Director);
       setCurActor(data.actor);
       setActors(data.Actors || []);
+      setImg(data.image)
     }
   }, [location.state]);
 
@@ -222,6 +241,7 @@ export default function MovieEdit() {
         borderRadius: '7px',
       }}
     >
+       
       <Stack spacing={4}>
         <Stack direction="row" spacing={2} justifyContent="space-between">
           <Typography align="left" sx={{ fontSize: '25px', mb: '10px', fontWeight: 'bold' }}>
@@ -232,7 +252,33 @@ export default function MovieEdit() {
             Back{' '}
           </Button>
         </Stack>
-        <Stack direction="row" spacing="50px" width="100%">
+         <Stack direction="row" spacing={3} justifyContent="center" alignItems="center">
+          <Stack width="20%"  spacing={2} >
+         
+          <Avatar 
+  sx={{ 
+    width: '80%', 
+    height: 'auto', 
+    aspectRatio: '1',
+    backgroundColor:!img &&  '#f0f0f0', 
+    color:'grey',
+    display: 'flex', 
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '24px', 
+    textAlign:'center',
+    lineHeight:"35px"
+  }} 
+  alt={name} 
+  src={img} 
+  variant="square"
+>
+  {!img && name} {/* Only show name text if no image is provided */}
+</Avatar>
+   
+          </Stack>
+          <Stack width="80%"  spacing={4} >
+          <Stack direction="row" spacing="50px" width="100%">
           <TextField
             label="Title"
             id="movie-title"
@@ -287,6 +333,29 @@ export default function MovieEdit() {
             disabled="true"
             // helperText={errors.genre}
           />
+           <Stack direction="row" spacing={3} alignItems="center">
+          <div>
+          <input
+        accept="image/*"
+        style={{ display: 'none' }} t
+        id="file-upload"
+        type="file"
+        onChange={(e)=>handleFileChange(e)}
+      />
+      <label htmlFor="file-upload">
+        <Button variant="contained" component="span">
+        {curScreen === 'add' ? 'Add File' : 'Edit File'}
+        </Button>
+      </label>
+          </div>
+
+      {selectedFile && <p> {selectedFile.name}</p>}
+    </Stack>
+           
+          </Stack>
+             
+
+         </Stack>
         </Stack>
         {actor.length > 0 && (
           <Stack direction="row" spacing="50px" width="100%">

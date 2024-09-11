@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useContext } from 'react';
+import { UserContext } from 'src/context/UserContext';
 import {useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
@@ -31,9 +32,10 @@ import TableEmptyRows from '../../member/table-empty-rows';
 
 export default function ActivityLogView() {
 
+  const {token, setToken} = useContext(UserContext)
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(15);
-  const Session = localStorage.getItem('apiToken');
+  const Session = token;
   const [ActivityLogList, setActivityLogList] = useState([]);
   const [ActivityLogLoading, setActivityLogLoading] = useState(true);
   const [AlertOpen, setAlertOpen] = useState(false);

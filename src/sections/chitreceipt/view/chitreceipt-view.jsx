@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useContext } from 'react';
+import { UserContext } from 'src/context/UserContext';
 import { useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
@@ -35,11 +36,12 @@ import TableEmptyRows from '../../member/table-empty-rows';
 export default function ChitReceiptView() {
 
   const navigate = useNavigate();
+  const {token, setToken} = useContext(UserContext)
   const [page, setPage] = useState(0);
   const [selected, setSelected] = useState([]);
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(15);
-  const Session = localStorage.getItem('apiToken');
+  const Session = token;
   const [ChitReceiptList, setChitReceiptList] = useState([]);
   const [ChitReceiptLoading, setChitReceiptLoading] = useState(true);
   const [AlertOpen, setAlertOpen] = useState(false);

@@ -1,6 +1,8 @@
 import dayjs from 'dayjs';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect,useContext } from 'react';
+import { UserContext } from 'src/context/UserContext';
 
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
@@ -37,8 +39,9 @@ export default function AddChitAuctionPage() {
 
     const navigate = useNavigate();
     const location = useLocation();
+    const {token, setToken} = useContext(UserContext)
     const { screen, data } = location.state || {};
-    const Session = localStorage.getItem('apiToken');
+    const Session = token;
     const [GroupNo, setGroupNo] = useState({
         data: data && data.groupno ? data.groupno : "",
         error: ""

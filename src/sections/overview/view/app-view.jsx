@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useContext } from 'react';
+import { UserContext } from 'src/context/UserContext';
 import { useNavigate } from 'react-router-dom';
 
 import Container from '@mui/material/Container';
@@ -17,8 +18,8 @@ import AppWebsiteVisits from '../app-website-visits';
 import AppWidgetSummary from '../app-widget-summary';
 
 export default function AppView() {
-
-  const Session = localStorage.getItem('apiToken');
+  const {token, setToken} = useContext(UserContext)
+  const Session = token;
   const [AlertOpen, setAlertOpen] = useState(false);
   const [AlertMessage, setAlertMessage] = useState('');
   const [AlertFrom, setAlertFrom] = useState('');

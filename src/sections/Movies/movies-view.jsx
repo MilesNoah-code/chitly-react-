@@ -11,6 +11,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
+import Avatar from '@mui/material/Avatar'
 
 export default function MovieView() {
   const location = useLocation();
@@ -49,6 +50,34 @@ export default function MovieView() {
           Back{' '}
         </Button>
       </Stack>{' '}
+      <Stack width="200px"  spacing={2} sx={{ display: 'flex', 
+    alignItems: 'center',
+    justifyContent: 'center',}}>
+         
+          <Avatar
+           
+  sx={{ 
+    width: '80%', 
+    height: 'auto', 
+    aspectRatio: '1',
+    backgroundColor:!data.img &&  '#f0f0f0', 
+    color:'grey',
+    display: 'flex', 
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '14px', 
+    textAlign:'center',
+    lineHeight:"25px",
+    alignSelf:"center"
+  }} 
+  alt={data.Title} 
+  src={data.img} 
+  variant="square"
+>
+  {!data.img && data.Title} {/* Only show name text if no image is provided */}
+</Avatar>
+   
+          </Stack>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 600 }}>
           <TableHead>

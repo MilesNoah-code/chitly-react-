@@ -1,5 +1,6 @@
 
 import { useState, useEffect,useContext } from 'react';
+import { UserContext } from 'src/context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { useRouter } from 'src/routes/hooks';
 
@@ -21,7 +22,8 @@ import { GetHeader, PostHeader } from 'src/hooks/AxiosApiFetch';
 
 import { LogOutMethod } from 'src/utils/format-number';
 
-import { UserContext } from 'src/context/UserContext';
+
+
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -40,7 +42,10 @@ export default function Login() {
     }
 
     useEffect(() => {
-      if (localStorage.getItem('apiToken')) {
+      const userdetails = localStorage.getItem("userDetails")
+
+      const isSessionAvailable = userdetails !== null;
+      if (isSessionAvailable) {
         router.push('/dashboard');
       } else {
         setLoadingAuthCheck(false); 
@@ -75,10 +80,8 @@ export default function Login() {
                     setLoading(false);
                     if (json.success) {
                         setLoading(false);
-                        localStorage.setItem(
-                            "apiToken",
-                            JSON.stringify(json.apiToken)
-                        );
+                    // "dfghTFGYHugtdhfy567hbdsjhv"
+                        setToken(JSON.stringify(json.apiToken))
                         
                         localStorage.setItem(
                             "userDetails",

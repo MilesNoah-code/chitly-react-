@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import styled from '@emotion/styled';
-import { useState, useEffect, } from 'react';
+import { useState, useEffect,useContext } from 'react';
+import { UserContext } from 'src/context/UserContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
@@ -30,8 +31,9 @@ export default function AddMemberPage() {
 
     const navigate = useNavigate();
     const location = useLocation();
+    const {token, setToken} = useContext(UserContext)
     const { screen, data } = location.state || {};
-    const Session = localStorage.getItem('apiToken');
+    const Session = token;
 
     const Prefix = [{ value: "MR", data: "Mr" }, { value: "MRS", data: "Mrs" }, { value: "MS", data: "Ms" }, { value: "M/s", data: "M/s" }, { value: "Master", data: "Master" }];
     const RelationShipPrefix = [{ value: "S/O", data: "S/o" }, { value: "D/O", data: "D/o" }, { value: "W/O", data: "W/o" }, { value: "C/O", data: "C/O" },];

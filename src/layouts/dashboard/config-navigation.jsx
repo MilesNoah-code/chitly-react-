@@ -32,6 +32,26 @@ const navConfig = [
     ]
   },
   {
+    title: 'movies',
+    path: '/movies',
+    icon: icon('ic_analytics'),
+    subItems: [
+      {
+        path: 'movies/view/:movieId',
+        title: 'View Movie'
+      },
+      {
+         path: 'movies/edit/:movieId',
+        title: 'edit Movie'
+      },
+      {
+         path: 'movies/add',
+         title: 'Add Movie'
+
+      }
+    ]
+  },
+  {
     title: 'Groups',
     path: '/group/list',
     icon: icon('group'),

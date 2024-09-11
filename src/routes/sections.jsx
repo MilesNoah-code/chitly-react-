@@ -23,6 +23,9 @@ const ChitAuctionAddPage = lazy(() => import('src/sections/chitauction/chitaucti
 const ActivityLogPage = lazy(() => import('src/pages/activitylog'));
 const GroupMemberAddPage = lazy(() => import('src/sections/groupmember/groupmember-add'));
 const ReportPage = lazy(() => import('src/pages/report'));
+const MoviePage = lazy(()=>import('src/pages/movies'))
+const MovieViewPage = lazy(()=>import('src/sections/Movies/movies-view'))
+const MovieEditPage = lazy(()=>import('src/sections/Movies/movies-edit'))
 
 function Router() {
   const isSessionAvailable = localStorage.getItem('apiToken') !== null;
@@ -79,6 +82,10 @@ function Router() {
         <Route path="chitauction/add" element={<ChitAuctionAddPage />} />
         <Route path="report/list" element={<ReportPage />} />
         <Route path="ActivityLog/list" element={<ActivityLogPage />} />
+        <Route path="movies" element={<MoviePage />}/>
+        <Route path="movies/add" element={<MovieEditPage />}/>
+        <Route path="movies/view/:movieId" element={<MovieViewPage />}/>
+        <Route path="movies/edit/:movieId?" element={<MovieEditPage />}/>
       </Route>
 
       <Route path="login" element={<LoginPage />} />

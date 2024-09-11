@@ -89,6 +89,7 @@ export default function AddGroupMemberPage() {
     const GetGroupMemberList = () => {
         // const memberId = '';
         setGroupMemberLoading(true);
+        
         const url = `${REACT_APP_HOST_URL}${GROUP_MEMBER_LIST}&id=&groupId=${data?.id ? data.id : ""}`;
         // console.log(JSON.parse(Session) + url);
         fetch(url, GetHeader(JSON.parse(Session)))
@@ -170,7 +171,7 @@ export default function AddGroupMemberPage() {
                             setGroupMemberId(json.list[0].id);
                         }
                     } else {
-                        setGroupMemberId('');
+                        setGroupMemberId(    '');
                     }
                     // console.log("from", from);
                     if (from === 4 || from === 3){

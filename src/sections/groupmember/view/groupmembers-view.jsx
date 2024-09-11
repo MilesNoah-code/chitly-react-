@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useContext } from 'react';
+import { UserContext } from 'src/context/UserContext';
 import { useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
@@ -32,7 +33,8 @@ export default function GroupMemberView() {
   const [selected, setSelected] = useState([]);
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(15);
-  const Session = localStorage.getItem('apiToken');
+  const {token, setToken} = useContext(UserContext)
+  const Session = token;
   const [GroupMemberList, setGroupMemberList] = useState([]);
   const [GroupMemberListLoading, setGroupMemberListLoading] = useState(true);
   const [AlertOpen, setAlertOpen] = useState(false);

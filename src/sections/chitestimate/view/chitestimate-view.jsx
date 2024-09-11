@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useContext } from 'react';
+import { UserContext } from 'src/context/UserContext';
 import { useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
@@ -30,9 +31,10 @@ export default function ChitEstimateView() {
 
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
+  const {token, setToken} = useContext(UserContext)
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(15);
-  const Session = localStorage.getItem('apiToken');
+  const Session = token;
   const [ChitEstimateList, setChitEstimateList] = useState([]);
   const [ChitEstimateLoading, setChitEstimateLoading] = useState(true);
   const [AlertOpen, setAlertOpen] = useState(false);

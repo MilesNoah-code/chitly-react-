@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 
-import { LoginView } from 'src/sections/login';
+import { Login } from 'src/sections/login';
 
 // ----------------------------------------------------------------------
 
@@ -11,7 +11,7 @@ export default function LoginPage() {
         <title> Login | Chitly </title>
       </Helmet>
 
-      <LoginView />
+      <Login />
     </>
   );
 }

@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useContext } from 'react';
+import { UserContext } from 'src/context/UserContext';
 import { useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
@@ -27,12 +28,13 @@ import ErrorLayout from '../../../Error/ErrorLayout';
 import TableEmptyRows from '../../member/table-empty-rows';
 
 export default function ChitAuctionView() {
-
+  const {token, setToken} = useContext(UserContext)
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(15);
-  const Session = localStorage.getItem('apiToken');
+  const Session = token;
+
   const [ChitAuctionList, setChitAuctionList] = useState([]);
   const [ChitAuctionLoading, setChitAuctionLoading] = useState(true);
   const [AlertOpen, setAlertOpen] = useState(false);
@@ -41,6 +43,7 @@ export default function ChitAuctionView() {
   const [ErrorAlert, setErrorAlert] = useState(false);
   const [ErrorScreen, setErrorScreen] = useState('');
   const [TotalCount, setTotalCount] = useState(0);
+
 
   useEffect(() => {
     setTotalCount(0);

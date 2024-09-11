@@ -1,3 +1,6 @@
+import {useContext} from 'react';
+import { UserContext } from 'src/context/UserContext';
+
 import numeral from 'numeral';
 
 import { PostHeader } from 'src/hooks/AxiosApiFetch';
@@ -41,7 +44,8 @@ function result(format, key = '.00') {
 }
 
 export function LogOutMethod(navigate){
-  const Session = localStorage.getItem('apiToken');
+  const {token, setToken} = useContext(UserContext)
+  const Session = token;
   const url = `${REACT_APP_HOST_URL}${LOGOUT_URL}`;
   console.log(JSON.parse(Session) + url)
   fetch(url, PostHeader(JSON.parse(Session), ''))
@@ -49,12 +53,12 @@ export function LogOutMethod(navigate){
     .then((json) => {
       console.log(JSON.stringify(json));
       if (json.success) {
-        localStorage.removeItem("apiToken");
+        setToken("")
         localStorage.removeItem("userDetails");
         navigate('/login');
       } else if (json.success === false) {
         if (json.code === 2 || json.code === "2") {
-          localStorage.removeItem("apiToken");
+          setToken("")
           localStorage.removeItem("userDetails");
           navigate('/login');
         }

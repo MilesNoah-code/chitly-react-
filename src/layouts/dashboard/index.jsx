@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useContext } from 'react';
+import { UserContext } from 'src/context/UserContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
@@ -34,13 +35,14 @@ import navConfig from './config-navigation';
 import AccountPopover from './common/account-popover';
 
 export default function DashboardLayout({ children }) {
+  const {token, setToken} = useContext(UserContext)
   const themes = useTheme();
   const upLg = useResponsive('up', 'lg');
   // const UserDetail = JSON.parse(localStorage.getItem('userDetails'));
   const [isHovered, setIsHovered] = useState(false);
   const [isClicked, setIsClicked] = useState(false); // Changed state name for clarity
   const lgUp = useResponsive('up', 'lg');
-  const Session = localStorage.getItem('apiToken');
+  const Session = token;
   const [UserDetail, setUserDetail] = useState({});
   const navigate = useNavigate();
 

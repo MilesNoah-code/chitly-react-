@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useContext } from 'react';
+import { UserContext } from 'src/context/UserContext';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
@@ -36,8 +37,9 @@ export default function AddChitPaymentPage() {
 
     const navigate = useNavigate();
     const location = useLocation();
+    const {token, setToken} = useContext(UserContext)
     const { screen, data } = location.state || {};
-    const Session = localStorage.getItem('apiToken');
+    const Session = token;
     const [ReceiptNo, setReceiptNo] = useState({
         data: "",
         error: ""

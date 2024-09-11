@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState,useContext } from 'react';
+import { UserContext } from 'src/context/UserContext';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
@@ -29,8 +30,9 @@ export default function ChitEstimateTableRow({
   item,
 }) {
   const [open, setOpen] = useState(null);
+  const {token, setToken} = useContext(UserContext)
   const navigate = useNavigate();
-  const Session = localStorage.getItem('apiToken');
+  const Session = token;
   const [ConfirmAlert, setConfirmAlert] = useState(false);
   const [AlertOpen, setAlertOpen] = useState(false);
   const [AlertMessage, setAlertMessage] = useState('');

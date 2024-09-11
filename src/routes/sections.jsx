@@ -1,5 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { Route, Routes, Outlet, Navigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserContext } from 'src/context/UserContext';
 
 import DashboardLayout from 'src/layouts/dashboard';
 
@@ -28,7 +30,10 @@ const MovieViewPage = lazy(()=>import('src/sections/Movies/movies-view'))
 const MovieEditPage = lazy(()=>import('src/sections/Movies/movies-edit'))
 
 function Router() {
-  const isSessionAvailable = localStorage.getItem('apiToken') !== null;
+  const {token, setToken} = useContext(UserContext)
+  const userdetails = localStorage.getItem("userDetails")
+
+  const isSessionAvailable = userdetails !== null;
 
   return (
     <Routes>

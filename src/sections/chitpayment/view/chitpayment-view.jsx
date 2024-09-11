@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
-import { useState, useEffect } from 'react';
+import { useState, useEffect,useContext } from 'react';
+import { UserContext } from 'src/context/UserContext';
 import { useNavigate } from 'react-router-dom';
 
 import Card from '@mui/material/Card';
@@ -36,10 +37,11 @@ export default function ChitPaymentView() {
 
   const navigate = useNavigate();
   const [page, setPage] = useState(0);
+  const {token, setToken} = useContext(UserContext)
   const [selected, setSelected] = useState([]);
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(15);
-  const Session = localStorage.getItem('apiToken');
+  const Session = token;
   const [ChitPaymentList, setChitPaymentList] = useState([]);
   const [ChitPaymentLoading, setChitPaymentLoading] = useState(true);
   const [AlertOpen, setAlertOpen] = useState(false);

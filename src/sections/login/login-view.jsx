@@ -65,7 +65,6 @@ export default function LoginView() {
       fetch(url, PostHeader('', Params))
         .then((response) => response.json())
         .then((json) => {
-          // console.log(JSON.stringify(json));
           if (json.success) {
             localStorage.setItem(
               "apiToken",
